@@ -11,7 +11,7 @@ public class EditProfileAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(data);
+//		runAsync(data);
 
 	}
 

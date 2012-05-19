@@ -33,19 +33,19 @@ public class VatItemListAction extends Action {
 
 	@Override
 	public void run() {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
-				VatItemsListView view = new VatItemsListView();
-				MainFinanceWindow.getViewManager().showView(view, null, false,
-						VatItemListAction.this);
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
+//				VatItemsListView view = new VatItemsListView();
+//				MainFinanceWindow.getViewManager().showView(view, null, false,
+//						VatItemListAction.this);
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			public void onCreated() {

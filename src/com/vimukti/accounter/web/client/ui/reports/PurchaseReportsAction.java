@@ -26,38 +26,38 @@ public class PurchaseReportsAction extends Action {
 
 	@Override
 	public void run() {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
-				AbstractReportView report = null;
-				switch (type) {
-				case TYPE_VENDOR_SUMMARY:
-					report = new PurchaseByVendorSummaryReport();
-					break;
-				case TYPE_VENDOR_DETAIL:
-					report = new PurchaseByVendorDetailReport();
-					break;
-				case TYPE_ITEM_SUMMARY:
-					report = new PurchaseByItemSummaryReport();
-					break;
-				case TYPE_ITEM_DETAIL:
-					report = new PurchaseByItemDetailReport();
-					break;
-				case TYPE_PO_REPORT:
-					report = new PurchaseOrderReport();
-					break;
-				}
-				if (report != null) {
-					MainFinanceWindow.getViewManager().showView(report, data,
-							isDependent, PurchaseReportsAction.this);
-				}
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
+//				AbstractReportView report = null;
+//				switch (type) {
+//				case TYPE_VENDOR_SUMMARY:
+//					report = new PurchaseByVendorSummaryReport();
+//					break;
+//				case TYPE_VENDOR_DETAIL:
+//					report = new PurchaseByVendorDetailReport();
+//					break;
+//				case TYPE_ITEM_SUMMARY:
+//					report = new PurchaseByItemSummaryReport();
+//					break;
+//				case TYPE_ITEM_DETAIL:
+//					report = new PurchaseByItemDetailReport();
+//					break;
+//				case TYPE_PO_REPORT:
+//					report = new PurchaseOrderReport();
+//					break;
+//				}
+//				if (report != null) {
+//					MainFinanceWindow.getViewManager().showView(report, data,
+//							isDependent, PurchaseReportsAction.this);
+//				}
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 	}
 
 	@Override

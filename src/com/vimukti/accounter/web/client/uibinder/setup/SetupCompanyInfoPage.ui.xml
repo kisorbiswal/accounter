@@ -2,147 +2,82 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
 	<g:FlowPanel ui:field="mainViewPanel">
-		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
+		<g:Label styleName="setup_label" ui:field="headerLabel"
+			styleName="setup_header_label" />
 		<g:FlowPanel ui:field="viewPanel">
-			<g:Label ui:field="AccounterInfo"></g:Label>
-			<g:Grid ui:field="companyInfoField" styleName="company_Info_table">
-				<g:row>
-					<g:customCell>
-						<g:Label width="" height="" ui:field="displayNameLabel" />
-					</g:customCell>
-					<g:customCell>
-						<g:TextBox ui:field="companyName" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label height="" width="" ui:field="legalNameLabel" />
-					</g:customCell>
-					<g:customCell>
-						<g:TextBox ui:field="legalName" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label />
-					</g:customCell>
-					<g:customCell>
-						<g:Label wordWrap="true" ui:field="LegalForm"></g:Label>
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label ui:field="taxIDLabel" />
-					</g:customCell>
-					<g:customCell>
-						<g:TextBox ui:field="taxId" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label />
-					</g:customCell>
-					<g:customCell>
-						<g:Label wordWrap="true" ui:field="EIN"></g:Label>
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label ui:field="countryLabel" />
-					</g:customCell>
-					<g:customCell>
-						<g:ListBox ui:field="country" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label ui:field="stateLabel" />
-					</g:customCell>
-					<g:customCell>
-						<g:ListBox ui:field="stateListBox" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label ui:field="streetAdreess1Label" />
-					</g:customCell>
-					<g:customCell>
-						<g:TextBox ui:field="streetAddress1" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label ui:field="streetAddress2Label" />
-					</g:customCell>
-					<g:customCell>
-						<g:TextBox ui:field="streetAdress2" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label ui:field="cityLabel" />
-					</g:customCell>
-					<g:customCell>
-						<g:TextBox ui:field="cityTextBox" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label ui:field="zipLabel" />
-					</g:customCell>
-					<g:customCell>
-						<g:TextBox ui:field="zip" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label ui:field="phoneLabel" />
-					</g:customCell>
-					<g:customCell>
-						<g:TextBox ui:field="phone" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label ui:field="faxLabel" />
-					</g:customCell>
-					<g:customCell>
-						<g:TextBox ui:field="fax" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label />
-					</g:customCell>
-					<g:customCell>
-						<g:Label wordWrap="true" ui:field="useFormat"></g:Label>
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label ui:field="emailAdressLabel" />
-					</g:customCell>
-					<g:customCell>
-						<g:TextBox ui:field="emailAddress" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label ui:field="webSiteLabel" />
-					</g:customCell>
-					<g:customCell>
-						<g:TextBox ui:field="webSite" />
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label ui:field="timezone" />
-					</g:customCell>
-					<g:customCell>
-						<g:ListBox ui:field="timezoneslistbox" />
-					</g:customCell>
-				</g:row>
-			</g:Grid>
+			<g:Label styleName="setup_label" ui:field="AccounterInfo"></g:Label>
+			<g:FlowPanel ui:field="companyInfoField" styleName="company_Info_table">
+				<g:FlowPanel styleName="display-name-panel">
+					<g:Label styleName="setup_label" width="" height=""
+						ui:field="displayNameLabel" />
+					<g:TextBox styleName="setup_textbox" ui:field="companyName" />
+				</g:FlowPanel>
+				<g:FlowPanel styleName="legal-name-panel">
+					<g:Label styleName="setup_label" height="" width=""
+						ui:field="legalNameLabel" />
+					<g:TextBox styleName="setup_textbox" ui:field="legalName" />
+				</g:FlowPanel>
+				<g:FlowPanel styleName="legal-form-panel">
+					<g:Label styleName="setup_label" />
+					<g:Label styleName="setup_label" wordWrap="true" ui:field="LegalForm"></g:Label>
+				</g:FlowPanel>
+				<g:FlowPanel styleName="tax-id-panel">
+					<g:Label styleName="setup_label" ui:field="taxIDLabel" />
+					<g:TextBox styleName="setup_textbox" ui:field="taxId" />
+				</g:FlowPanel>
+				<g:FlowPanel styleName="ein-panel">
+					<g:Label styleName="setup_label" />
+					<g:Label styleName="setup_label" wordWrap="true" ui:field="EIN"></g:Label>
+				</g:FlowPanel>
+				<g:FlowPanel styleName="country-panel">
+					<g:Label styleName="setup_label" ui:field="countryLabel" />
+					<g:ListBox styleName="setup_listbox" ui:field="country" />
+				</g:FlowPanel>
+				<g:FlowPanel styleName="state-panel">
+					<g:Label styleName="setup_label" ui:field="stateLabel" />
+					<g:ListBox styleName="setup_listbox" ui:field="stateListBox" />
+				</g:FlowPanel>
+				<g:FlowPanel styleName="street-address-one-panel">
+					<g:Label styleName="setup_label" ui:field="streetAdreess1Label" />
+					<g:TextBox styleName="setup_textbox" ui:field="streetAddress1" />
+				</g:FlowPanel>
+				<g:FlowPanel styleName="street-address-two-panel">
+					<g:Label styleName="setup_label" ui:field="streetAddress2Label" />
+					<g:TextBox styleName="setup_textbox" ui:field="streetAdress2" />
+				</g:FlowPanel>
+				<g:FlowPanel styleName="city-panel">
+					<g:Label styleName="setup_label" ui:field="cityLabel" />
+					<g:TextBox styleName="setup_textbox" ui:field="cityTextBox" />
+				</g:FlowPanel>
+				<g:FlowPanel styleName="zip-panel">
+					<g:Label styleName="setup_label" ui:field="zipLabel" />
+					<g:TextBox styleName="setup_textbox" ui:field="zip" />
+				</g:FlowPanel>
+				<g:FlowPanel styleName="phone-panel">
+					<g:Label styleName="setup_label" ui:field="phoneLabel" />
+					<g:TextBox styleName="setup_textbox" ui:field="phone" />
+				</g:FlowPanel>
+				<g:FlowPanel styleName="fax-panel">
+					<g:Label styleName="setup_label" ui:field="faxLabel" />
+					<g:TextBox styleName="setup_textbox" ui:field="fax" />
+				</g:FlowPanel>
+				<g:FlowPanel styleName="format-panel">
+					<g:Label styleName="setup_label" />
+					<g:Label styleName="setup_label" wordWrap="true" ui:field="useFormat"></g:Label>
+				</g:FlowPanel>
+				<g:FlowPanel styleName="email-panel">
+					<g:Label styleName="setup_label" ui:field="emailAdressLabel" />
+					<g:TextBox styleName="setup_textbox" ui:field="emailAddress" />
+				</g:FlowPanel>
+				<g:FlowPanel styleName="website-panel">
+					<g:Label styleName="setup_label" ui:field="webSiteLabel" />
+					<g:TextBox styleName="setup_textbox" ui:field="webSite" />
+				</g:FlowPanel>
+				<g:FlowPanel styleName="timezone-panel">
+					<g:Label styleName="setup_label" ui:field="timezone" />
+					<g:ListBox styleName="setup_listbox" ui:field="timezoneslistbox" />
+				</g:FlowPanel>
+			</g:FlowPanel>
 		</g:FlowPanel>
 	</g:FlowPanel>
 </ui:UiBinder> 

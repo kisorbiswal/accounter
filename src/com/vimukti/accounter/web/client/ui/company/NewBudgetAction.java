@@ -31,29 +31,29 @@ public class NewBudgetAction extends Action<ClientBudget> {
 	@Override
 	public void run() {
 
-		if (listData != null) {
-			runAsync(listData);
-		} else {
-			runAsync(data, isDependent);
-		}
+//		if (listData != null) {
+//			runAsync(listData);
+//		} else {
+//			runAsync(data, isDependent);
+//		}
 	}
 
 	private void runAsync(final List<ClientBudget> listData) {
 
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 					NewBudgetCellTableView view = new NewBudgetCellTableView(listData);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewBudgetAction.this);
 				
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override
@@ -68,20 +68,20 @@ public class NewBudgetAction extends Action<ClientBudget> {
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				NewBudgetCellTableView view = new NewBudgetCellTableView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewBudgetAction.this);
 				
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

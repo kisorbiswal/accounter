@@ -53,13 +53,13 @@ public class NewItemAction extends Action<ClientItem> {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 	}
 
 	public void runAsync(final ClientItem data, final Boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				ClientCompany company = Accounter.getCompany();
 				boolean sellServices = company.getPreferences()
 						.isSellServices();
@@ -130,13 +130,13 @@ public class NewItemAction extends Action<ClientItem> {
 
 				}
 
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 		//
 		// @Override

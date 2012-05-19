@@ -2,34 +2,30 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<g:FlowPanel ui:field="mainViewPanel">
-		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
+		<g:Label styleName="setup_label" ui:field="headerLabel"
+			styleName="setup_header_label" />
 		<g:FlowPanel ui:field="viewPanel" styleName="setupstartpagepanel">
-			<g:Label ui:field="setupInfo" wordWrap="true" styleName="setup_Info"></g:Label>
+			<g:Label styleName="setup_label" ui:field="setupInfo"
+				wordWrap="true" styleName="setup_Info"></g:Label>
 			<g:FlowPanel>
-				<g:Grid styleName="skip_setup">
-					<g:row>
-						<g:customCell>
-							<g:Label ui:field="skipSetupInfo" wordWrap="true"></g:Label>
-						</g:customCell>
-					</g:row>
-					<g:row>
-						<g:customCell>
-							<g:Button ui:field="skipButton"></g:Button>
-						</g:customCell>
-					</g:row>
-				</g:Grid>
-				<g:Grid styleName="start_setup">
-					<g:row>
-						<g:customCell>
-							<g:Label ui:field="startSetupInfo" wordWrap="true"></g:Label>
-						</g:customCell>
-					</g:row>
-					<g:row>
-						<g:customCell>
-							<g:Button ui:field="startButton"></g:Button>
-						</g:customCell>
-					</g:row>
-				</g:Grid>
+				<g:FlowPanel styleName="skip_setup">
+					<g:FlowPanel>
+						<g:Label styleName="setup_label" ui:field="skipSetupInfo"
+							wordWrap="true"></g:Label>
+					</g:FlowPanel>
+					<g:FlowPanel>
+						<g:Button ui:field="skipButton"></g:Button>
+					</g:FlowPanel>
+				</g:FlowPanel>
+				<g:FlowPanel styleName="start_setup">
+					<g:FlowPanel>
+						<g:Label styleName="setup_label" ui:field="startSetupInfo"
+							wordWrap="true"></g:Label>
+					</g:FlowPanel>
+					<g:FlowPanel>
+						<g:Button ui:field="startButton"></g:Button>
+					</g:FlowPanel>
+				</g:FlowPanel>
 			</g:FlowPanel>
 			<g:Button ui:field="cancelBtn" />
 		</g:FlowPanel>

@@ -15,7 +15,7 @@ public class InventoryTransactionHistoryListAction extends Action {
 	}
 
 	public void run() {
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 
 	}
 

@@ -21,23 +21,23 @@ public class UploadCSVFileDialogAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(isDependent, data);
+//		runAsync(isDependent, data);
 	}
 
 	private void runAsync(final boolean isDependent, final Object data) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				UploadCSVFileDialog dialog = new UploadCSVFileDialog();
 				dialog.center();
 				
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

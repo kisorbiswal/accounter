@@ -32,62 +32,62 @@ public class TAXReportsAction extends Action {
 
 	@Override
 	public void run() {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
-				AbstractReportView abReport = null;
-
-				switch (type) {
-				case TYPE_TAX_ITEM_DETAIL:
-					TaxItemDetailReportView tidreport = new TaxItemDetailReportView();
-					tidreport.setTaxReturnId(id);
-					tidreport.setIsFromReports(isFromReports);
-					MainFinanceWindow.getViewManager().showView(tidreport,
-							data, isDependent, TAXReportsAction.this);
-					break;
-				case TYPE_TAX_ITEM_EXCEPTION:
-					TAXitemExceptionReport tieReport = new TAXitemExceptionReport();
-					tieReport.setTaxReturnId(id);
-					MainFinanceWindow.getViewManager().showView(tieReport,
-							data, isDependent, TAXReportsAction.this);
-					if (taxReturn != null) {
-						TaxAgencyStartDateEndDateToolbar toolbar = (TaxAgencyStartDateEndDateToolbar) tieReport.toolbar;
-						toolbar.setFromDate(new ClientFinanceDate(taxReturn
-								.getPeriodStartDate()));
-						toolbar.setToDate(new ClientFinanceDate(taxReturn
-								.getPeriodEndDate()));
-						ClientTAXAgency taxAgency = Accounter.getCompany()
-								.getTaxAgency(taxReturn.getTAXAgency());
-						toolbar.taxAgencyCombo.select(taxAgency);
-						toolbar.selectedAgency = taxAgency;
-					}
-					break;
-				case TYPE_TAX_ITEM_SUMMARY:
-					abReport = new VATItemSummaryReport();
-					break;
-				case TYPE_TDS_ACKOWLEDGEMENT:
-					abReport = new TDSAcknowledgmentsReportView();
-					break;
-				case TYPE_SALES_TAX_LIABILITY:
-					abReport = new SalesTaxLiabilityReport();
-					break;
-				case TYPE_TRANSACTION_DETAIL_BY_TAX_ITEM:
-					abReport = new TransactionDetailByTaxItemReport();
-					break;
-				}
-
-				if (abReport != null) {
-					MainFinanceWindow.getViewManager().showView(abReport, data,
-							isDependent, TAXReportsAction.this);
-				}
-
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
+//				AbstractReportView abReport = null;
+//
+//				switch (type) {
+//				case TYPE_TAX_ITEM_DETAIL:
+//					TaxItemDetailReportView tidreport = new TaxItemDetailReportView();
+//					tidreport.setTaxReturnId(id);
+//					tidreport.setIsFromReports(isFromReports);
+//					MainFinanceWindow.getViewManager().showView(tidreport,
+//							data, isDependent, TAXReportsAction.this);
+//					break;
+//				case TYPE_TAX_ITEM_EXCEPTION:
+//					TAXitemExceptionReport tieReport = new TAXitemExceptionReport();
+//					tieReport.setTaxReturnId(id);
+//					MainFinanceWindow.getViewManager().showView(tieReport,
+//							data, isDependent, TAXReportsAction.this);
+//					if (taxReturn != null) {
+//						TaxAgencyStartDateEndDateToolbar toolbar = (TaxAgencyStartDateEndDateToolbar) tieReport.toolbar;
+//						toolbar.setFromDate(new ClientFinanceDate(taxReturn
+//								.getPeriodStartDate()));
+//						toolbar.setToDate(new ClientFinanceDate(taxReturn
+//								.getPeriodEndDate()));
+//						ClientTAXAgency taxAgency = Accounter.getCompany()
+//								.getTaxAgency(taxReturn.getTAXAgency());
+//						toolbar.taxAgencyCombo.select(taxAgency);
+//						toolbar.selectedAgency = taxAgency;
+//					}
+//					break;
+//				case TYPE_TAX_ITEM_SUMMARY:
+//					abReport = new VATItemSummaryReport();
+//					break;
+//				case TYPE_TDS_ACKOWLEDGEMENT:
+//					abReport = new TDSAcknowledgmentsReportView();
+//					break;
+//				case TYPE_SALES_TAX_LIABILITY:
+//					abReport = new SalesTaxLiabilityReport();
+//					break;
+//				case TYPE_TRANSACTION_DETAIL_BY_TAX_ITEM:
+//					abReport = new TransactionDetailByTaxItemReport();
+//					break;
+//				}
+//
+//				if (abReport != null) {
+//					MainFinanceWindow.getViewManager().showView(abReport, data,
+//							isDependent, TAXReportsAction.this);
+//				}
+//
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 	}
 
 	@Override

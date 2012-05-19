@@ -2,7 +2,8 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<g:FlowPanel ui:field="mainViewPanel">
-		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
+		<g:Label styleName="setup_label" ui:field="headerLabel"
+			styleName="setup_header_label" />
 		<g:FlowPanel ui:field="viewPanel">
 			<g:FlowPanel styleName="estimate_stmt_acc">
 				<g:RadioButton name="tdsGroup" ui:field="tdsYes"

@@ -24,14 +24,14 @@ public class PreferencesAction extends Action {
 	@Override
 	public void run() {
 
-		try {
-			PreferenceSettingsView page = new PreferenceSettingsView();
-			MainFinanceWindow.getViewManager().showView(page, null, true,
-					PreferencesAction.this);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Accounter.showError(messages.failedToLoadCompanyPreferences());
-		}
+//		try {
+//			PreferenceSettingsView page = new PreferenceSettingsView();
+//			MainFinanceWindow.getViewManager().showView(page, null, true,
+//					PreferencesAction.this);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			Accounter.showError(messages.failedToLoadCompanyPreferences());
+//		}
 
 	}
 

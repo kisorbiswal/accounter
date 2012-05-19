@@ -25,16 +25,16 @@ public class CompanyHomeAction extends Action {
 
 	@Override
 	public void run() {
-		if (Accounter.isIpadApp()) {
-			IPadDashBoard view = new IPadDashBoard();
-			MainFinanceWindow.getViewManager()
-					.showView(view, null, false, this);
-		} else {
-			DashBoardView view = (DashBoardView) GWT
-					.create(DashBoardView.class);
-			MainFinanceWindow.getViewManager()
-					.showView(view, null, false, this);
-		}
+//		if (Accounter.isIpadApp()) {
+//			IPadDashBoard view = new IPadDashBoard();
+//			MainFinanceWindow.getViewManager()
+//					.showView(view, null, false, this);
+//		} else {
+//			DashBoardView view = (DashBoardView) GWT
+//					.create(DashBoardView.class);
+//			MainFinanceWindow.getViewManager()
+//					.showView(view, null, false, this);
+//		}
 
 	}
 

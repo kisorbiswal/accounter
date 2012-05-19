@@ -19,20 +19,20 @@ public class TDSVendorsListAction extends Action {
 
 	@Override
 	public void run() {
-		final boolean isTdsView = isTDSView;
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
-				TDSVendorsListView view = new TDSVendorsListView(isTdsView);
-				MainFinanceWindow.getViewManager().showView(view, null, false,
-						TDSVendorsListAction.this);
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//		final boolean isTdsView = isTDSView;
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
+//				TDSVendorsListView view = new TDSVendorsListView(isTdsView);
+//				MainFinanceWindow.getViewManager().showView(view, null, false,
+//						TDSVendorsListAction.this);
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 		//
 		// public void onCreated() {

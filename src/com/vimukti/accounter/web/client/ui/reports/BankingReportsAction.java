@@ -25,35 +25,35 @@ public class BankingReportsAction extends Action {
 	@Override
 	public void run() {
 
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
-				AbstractReportView report = null;
-				switch (type) {
-				case TYPE_MISSING_CHECKS:
-					report = new MissingChecksReport();
-					break;
-				case TYPE_RECONCILIATION_DESCEPANCY:
-					report = new ReconciliationDiscrepancyReport();
-					break;
-				case TYPE_DEPOSIT_DETAIL:
-					report = new BankDepositDetailReport();
-					break;
-				case TYPE_CHECK_DETAIL:
-					report = new BankCheckDetailReport();
-					break;
-				}
-				if (report != null) {
-					MainFinanceWindow.getViewManager().showView(report, data,
-							isDependent, BankingReportsAction.this);
-				}
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
+//				AbstractReportView report = null;
+//				switch (type) {
+//				case TYPE_MISSING_CHECKS:
+//					report = new MissingChecksReport();
+//					break;
+//				case TYPE_RECONCILIATION_DESCEPANCY:
+//					report = new ReconciliationDiscrepancyReport();
+//					break;
+//				case TYPE_DEPOSIT_DETAIL:
+//					report = new BankDepositDetailReport();
+//					break;
+//				case TYPE_CHECK_DETAIL:
+//					report = new BankCheckDetailReport();
+//					break;
+//				}
+//				if (report != null) {
+//					MainFinanceWindow.getViewManager().showView(report, data,
+//							isDependent, BankingReportsAction.this);
+//				}
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 	}
 
 	@Override

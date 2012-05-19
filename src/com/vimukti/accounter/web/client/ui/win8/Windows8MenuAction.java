@@ -14,9 +14,9 @@ public class Windows8MenuAction extends Action {
 
 	@Override
 	public void run() {
-		Windows8MenuView view = new Windows8MenuView();
-		MainFinanceWindow.getViewManager().showView(view, data, isDependent,
-				Windows8MenuAction.this);
+//		Windows8MenuView view = new Windows8MenuView();
+//		MainFinanceWindow.getViewManager().showView(view, data, isDependent,
+//				Windows8MenuAction.this);
 	}
 
 	@Override

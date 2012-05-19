@@ -34,7 +34,7 @@ public class PaypalTransactionListAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 	}
 
 	public ImageResource getBigImage() {

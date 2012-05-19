@@ -32,24 +32,24 @@ public class NewTAXAgencyAction extends Action<ClientTAXAgency> {
 	@Override
 	public void run() {
 
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 	}
 
 	private void runAsync(final Object data, final boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				TAXAgencyView view = new TAXAgencyView();
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewTAXAgencyAction.this);
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

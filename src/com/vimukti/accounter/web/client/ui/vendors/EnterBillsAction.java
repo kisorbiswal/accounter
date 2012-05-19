@@ -25,26 +25,26 @@ public class EnterBillsAction extends Action<ClientEnterBill> {
 	@Override
 	public void run() {
 
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 
 	}
 
 	private void runAsync(final Object data, final boolean isEditable) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				VendorBillView view = VendorBillView.getInstance();
 
 				// UIUtils.setCanvas(view, getViewConfiguration());
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isEditable, EnterBillsAction.this);
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			public void onCreated() {

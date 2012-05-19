@@ -30,27 +30,27 @@ public class StatementImportViewAction extends Action<List<String[]>> {
 
 	@Override
 	public void run() {
-		runAsync(data);
+//		runAsync(data);
 
 	}
 
 	private void runAsync(final Object data) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				StatementImportOptionView importOptionView = new StatementImportOptionView(accountId);
 				importOptionView.setImportStatementData(importedData);
 				MainFinanceWindow.getViewManager().showView(importOptionView,
 						new ClientStatement(), false,
 						StatementImportViewAction.this);
 				
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			public void onCreated() {

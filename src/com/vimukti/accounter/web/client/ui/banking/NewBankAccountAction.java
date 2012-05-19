@@ -25,7 +25,7 @@ public class NewBankAccountAction extends Action<ClientBankAccount> {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

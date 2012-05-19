@@ -30,14 +30,14 @@ public class InventoryAssemblyAction extends Action<ClientInventoryAssembly> {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 	}
 
 	private void runAsync(final ClientInventoryAssembly data,
 			final boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				InventoryAssemblyView view = new InventoryAssemblyView();
 				view.setItemName(itemname);
 				MainFinanceWindow.getViewManager().showView(view, data,
@@ -46,13 +46,13 @@ public class InventoryAssemblyAction extends Action<ClientInventoryAssembly> {
 					view.onEdit();
 				}
 				
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

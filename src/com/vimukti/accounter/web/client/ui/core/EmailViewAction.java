@@ -14,7 +14,7 @@ public class EmailViewAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(data, id, isDependent);
+//		runAsync(data, id, isDependent);
 
 	}
 

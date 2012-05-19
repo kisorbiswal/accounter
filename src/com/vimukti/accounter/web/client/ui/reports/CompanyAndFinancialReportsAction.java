@@ -52,81 +52,81 @@ public class CompanyAndFinancialReportsAction extends Action {
 	@Override
 	public void run() {
 
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
-				AbstractReportView report = null;
-
-				switch (type) {
-				case TYPE_BALANCE_SHEET:
-					report = new BalanceSheetReport();
-					break;
-				case TYPE_CASH_FLOW:
-					report = new CashFlowStatementReport();
-					break;
-				case TYPE_TRAIL_BALANCE:
-					report = new TrialBalanceReport();
-					break;
-				case TYPE_TRANSACTION_DETAIL_BY_ACCOUNT:
-					report = new TransactionDetailByAccountReport();
-					break;
-				case TYPE_GENERAL_LEDGER:
-					report = new GeneralLedgerReport();
-					break;
-				case TYPE_EXPENSE:
-					ExpenseReport eReport = new ExpenseReport();
-					if (data != null && data instanceof ExpenseList) {
-						eReport.setType(((ExpenseList) data)
-								.getTransactionType());
-					}
-					report = eReport;
-					break;
-				case TYPE_AUTOMATIC_TRANSACTIONS:
-					report = new AutomaticTransactionsReport();
-					break;
-				case TYPE_REALISED_LOSS_AND_GAIN:
-					report = new RealisedExchangeLossesAndGainsReport();
-					break;
-				case TYPE_UNREALISED_LOSS_AND_GAIN:
-					UnRealisedExchangeLossesAndGainsReport urlgReport = new UnRealisedExchangeLossesAndGainsReport();
-					urlgReport.setExchangeRates((HashMap<Long, Double>) data);
-					urlgReport.setEnteredDate(enteredDate);
-					report = urlgReport;
-					break;
-				case TYPE_EXCHANGE_RATES:
-					EnterExchangeRatesDialog dialog = new EnterExchangeRatesDialog(isFromReportsHome());
-					dialog.center();
-					break;
-				case TYPE_PROFIT_AND_LOSS:
-					report = new ProfitAndLossReport();
-					break;
-				case TYPE_RECONCILIATIONS:
-					report = new ReconcilationsReport();
-					break;
-				case TYPE_RECONCILIATION_DETAIL_BY_ACCOUNT:
-					report = new RecincilationDetailsByAccountReport(accountID);
-					break;
-				case TYPE_SALES_LIABILITY:
-					report = new SalesTaxLiabilityReport();
-					break;
-				case TYPE_TRANSACTION_DETAIL_BY_TAX_ITEM:
-					report = new TransactionDetailByTaxItemReport();
-					break;
-				case TYPE_INCOME_BY_CUSTOMER_DETAIL:
-					report = new IncomeByCustomerDetailReport();
-				}
-
-				if (report != null) {
-					MainFinanceWindow.getViewManager().showView(report, data,
-							isDependent, CompanyAndFinancialReportsAction.this);
-				}
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
+//				AbstractReportView report = null;
+//
+//				switch (type) {
+//				case TYPE_BALANCE_SHEET:
+//					report = new BalanceSheetReport();
+//					break;
+//				case TYPE_CASH_FLOW:
+//					report = new CashFlowStatementReport();
+//					break;
+//				case TYPE_TRAIL_BALANCE:
+//					report = new TrialBalanceReport();
+//					break;
+//				case TYPE_TRANSACTION_DETAIL_BY_ACCOUNT:
+//					report = new TransactionDetailByAccountReport();
+//					break;
+//				case TYPE_GENERAL_LEDGER:
+//					report = new GeneralLedgerReport();
+//					break;
+//				case TYPE_EXPENSE:
+//					ExpenseReport eReport = new ExpenseReport();
+//					if (data != null && data instanceof ExpenseList) {
+//						eReport.setType(((ExpenseList) data)
+//								.getTransactionType());
+//					}
+//					report = eReport;
+//					break;
+//				case TYPE_AUTOMATIC_TRANSACTIONS:
+//					report = new AutomaticTransactionsReport();
+//					break;
+//				case TYPE_REALISED_LOSS_AND_GAIN:
+//					report = new RealisedExchangeLossesAndGainsReport();
+//					break;
+//				case TYPE_UNREALISED_LOSS_AND_GAIN:
+//					UnRealisedExchangeLossesAndGainsReport urlgReport = new UnRealisedExchangeLossesAndGainsReport();
+//					urlgReport.setExchangeRates((HashMap<Long, Double>) data);
+//					urlgReport.setEnteredDate(enteredDate);
+//					report = urlgReport;
+//					break;
+//				case TYPE_EXCHANGE_RATES:
+//					EnterExchangeRatesDialog dialog = new EnterExchangeRatesDialog(isFromReportsHome());
+//					dialog.center();
+//					break;
+//				case TYPE_PROFIT_AND_LOSS:
+//					report = new ProfitAndLossReport();
+//					break;
+//				case TYPE_RECONCILIATIONS:
+//					report = new ReconcilationsReport();
+//					break;
+//				case TYPE_RECONCILIATION_DETAIL_BY_ACCOUNT:
+//					report = new RecincilationDetailsByAccountReport(accountID);
+//					break;
+//				case TYPE_SALES_LIABILITY:
+//					report = new SalesTaxLiabilityReport();
+//					break;
+//				case TYPE_TRANSACTION_DETAIL_BY_TAX_ITEM:
+//					report = new TransactionDetailByTaxItemReport();
+//					break;
+//				case TYPE_INCOME_BY_CUSTOMER_DETAIL:
+//					report = new IncomeByCustomerDetailReport();
+//				}
+//
+//				if (report != null) {
+//					MainFinanceWindow.getViewManager().showView(report, data,
+//							isDependent, CompanyAndFinancialReportsAction.this);
+//				}
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 
 	}
 

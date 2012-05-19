@@ -35,25 +35,25 @@ public class PayTAXAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 
 	}
 
 	private void runAsync(final Object data, final Boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				PayTAXView view = new PayTAXView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, PayTAXAction.this);
 
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 		//
 		// public void onCreated() {

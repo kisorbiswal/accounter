@@ -28,9 +28,9 @@ public class ItemsAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				ItemListView view = new ItemListView();
 				view.setCatageoryType(getCatagory());
 				// if (getCatagory().equals(Global.get().vendor())) {
@@ -51,13 +51,13 @@ public class ItemsAction extends Action {
 						isDependent, ItemsAction.this);
 
 				
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override
@@ -70,7 +70,7 @@ public class ItemsAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 	}
 
 	@Override
