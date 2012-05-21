@@ -877,13 +877,14 @@ public class AccounterWindowsHomeServiceImpl extends
 	@Override
 	public CompanyAndFeatures getCompany(Long companyId)
 			throws AccounterException {
-		getThreadLocalRequest().getSession()
-				.setAttribute(COMPANY_ID, companyId);
+		
 		String loginEmail = (String) getThreadLocalRequest().getSession()
 				.getAttribute(EMAIL_ID);
 		Client client = getClient(loginEmail);
 		CompanyAndFeatures comFeatures = new CompanyAndFeatures();
 
+		HttpSession httpSession = getThreadLocalRequest().getSession();
+		
 		if (companyId == null || companyId == 0) {
 			comFeatures.setClientCompany(null);
 
@@ -894,9 +895,16 @@ public class AccounterWindowsHomeServiceImpl extends
 				list.remove(Features.ENCRYPTION);
 			}
 			comFeatures.setFeatures(list);
+			
+			httpSession.setAttribute(CREATE, "true");
+			httpSession.removeAttribute(COMPANY_ID);
+			
 			return comFeatures;
 		} else {
 
+			
+			httpSession.setAttribute(COMPANY_ID, companyId);
+			
 			FinanceTool tool = new FinanceTool();
 			Company company = tool.getCompany(companyId);
 			ClientCompany clientCompany = tool.getCompanyManager()
