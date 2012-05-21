@@ -215,8 +215,9 @@ public class CreateEmployeeCommand extends AbstractCommand {
 				return "employeeList";
 			}
 			long numberFromString = getNumberFromString(string);
-			employee = (ClientEmployee) CommandUtils.getServerObjectById(
-					numberFromString, AccounterCoreType.EMPLOYEE);
+			employee = (ClientEmployee) CommandUtils.getClientObjectById(
+					numberFromString, AccounterCoreType.EMPLOYEE,
+					getCompanyId());
 			if (employee == null) {
 				return "employeeList" + string;
 			}
@@ -369,8 +370,8 @@ public class CreateEmployeeCommand extends AbstractCommand {
 			}
 		}
 		employee.setGender(genderType);
-
-		return super.onCompleteProcess(context);
+		create(employee, context);
+		return null;
 	}
 
 	private int getReasonType() {

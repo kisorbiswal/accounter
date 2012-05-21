@@ -487,8 +487,9 @@ public class CreatePayHeadCommand extends AbstractCommand {
 				return "payheadList";
 			}
 			long numberFromString = getNumberFromString(string);
-			payHead = (ClientPayHead) CommandUtils.getServerObjectById(
-					numberFromString, AccounterCoreType.PAY_HEAD);
+			payHead = (ClientPayHead) CommandUtils.getClientObjectById(
+					numberFromString, AccounterCoreType.PAY_HEAD,
+					getCompanyId());
 			if (payHead == null) {
 				return "payheadList" + string;
 			}

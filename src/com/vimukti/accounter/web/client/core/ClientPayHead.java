@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ClientPayHead implements IAccounterCore {
 
@@ -220,19 +219,19 @@ public class ClientPayHead implements IAccounterCore {
 	public static String getCalculationType(int type) {
 		switch (type) {
 		case CALCULATION_TYPE_ON_ATTENDANCE:
-			return Accounter.getMessages().attendance();
+			return Global.get().messages().attendance();
 
 		case CALCULATION_TYPE_AS_COMPUTED_VALUE:
-			return Accounter.getMessages().asComputedValue();
+			return Global.get().messages().asComputedValue();
 
 		case CALCULATION_TYPE_FLAT_RATE:
-			return Accounter.getMessages().flatRate();
+			return Global.get().messages().flatRate();
 
 		case CALCULATION_TYPE_ON_PRODUCTION:
-			return Accounter.getMessages().production();
+			return Global.get().messages().production();
 
 		case CALCULATION_TYPE_AS_USER_DEFINED:
-			return Accounter.getMessages().asUserDefined();
+			return Global.get().messages().asUserDefined();
 
 		default:
 			return null;
