@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ClientAttendanceOrProductionType implements IAccounterCore {
 
@@ -99,7 +99,7 @@ public class ClientAttendanceOrProductionType implements IAccounterCore {
 	}
 
 	public static String getTypeName(int type) {
-		AccounterMessages messages = Accounter.getMessages();
+		AccounterMessages messages = Global.get().messages();
 		switch (type) {
 		case TYPE_LEAVE_WITH_PAY:
 			return messages.leaveWithPay();

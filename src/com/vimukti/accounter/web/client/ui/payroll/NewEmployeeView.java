@@ -371,6 +371,7 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		activeOrInactive.setEnabled(!isInViewMode());
 
 		reasonCombo = new SelectCombo(messages2.reasonForInactive());
+		reasonCombo.setRequired(true);
 		reasonCombo.setEnabled(!isInViewMode());
 		listOfReaons = new ArrayList<String>();
 		for (int i = 0; i < reasons.length; i++) {

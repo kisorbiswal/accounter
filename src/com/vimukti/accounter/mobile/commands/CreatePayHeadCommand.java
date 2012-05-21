@@ -3,20 +3,30 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.AttendanceOrProductionType;
+import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AttendanceOrProductionTypeRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
+import com.vimukti.accounter.mobile.requirements.PayHeadRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
+import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
+import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.core.PaginationList;
-import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 public class CreatePayHeadCommand extends AbstractCommand {
 
@@ -31,8 +41,9 @@ public class CreatePayHeadCommand extends AbstractCommand {
 	private static final String PER_DAY_CALCULATION_BASIS = "perdayCalculationBasis";
 	private static final String CALCULATION_PERIOD = "calculationPeriod";
 	private static final String PRODUCTION_TYPE = "productionType";
+	private static final String COMPUTE_ON = "computeOn";
 
-	String[] types = { getMessages().earningsForEmployees(),
+	private String[] types = { getMessages().earningsForEmployees(),
 			getMessages().deductionsForEmployees(),
 			getMessages().employeesStatutoryDeductions(),
 			getMessages().employeesStatutoryContributions(),
@@ -40,51 +51,58 @@ public class CreatePayHeadCommand extends AbstractCommand {
 			getMessages().loansAndAdvances(),
 			getMessages().reimbursmentsToEmployees() };
 
-	String[] calType = { getMessages().attendance(),
+	private String[] calType = { getMessages().attendance(),
 			getMessages().asComputedValue(), getMessages().flatRate(),
 			getMessages().production() };
+
+	private String[] calPeriod = { getMessages().days(), getMessages().weeks(),
+			getMessages().months() };
+
+	private String[] perDayCalculations = {
+			getMessages().asPerCalendarPeriod(), getMessages().days30(),
+			getMessages().userDefinedCalendar() };
+
+	private String[] computationTypes = { getMessages().onDeductionTotal(),
+			getMessages().onEarningTotal(), getMessages().onSubTotal() };
 
 	String[] attendanceTypes = { getMessages().otherPayhead(),
 			getMessages().onEarningTotal(), getMessages().onSubTotal(),
 			getMessages().rate() };
 
-	String[] perDayCalculations = { getMessages().asPerCalendarPeriod(),
-			getMessages().days30(), getMessages().userDefinedCalendar() };
-
-	String[] calPeriod = { getMessages().days(), getMessages().weeks(),
-			getMessages().months() };
-
 	private ClientPayHead payHead;
-	private List<String> payHeadTypesList;
-	private List<String> calculationTypesList;
-	private List<String> attendanceTypesList;
-	private List<String> perDayCalTypesList;
-	private List<String> calPeriodTypesList;
+	private List<String> payHeadTypesList = new ArrayList<String>();
+	private List<String> calculationTypesList = new ArrayList<String>();
+	private List<String> attendanceTypesList = new ArrayList<String>();
+	private List<String> perDayCalTypesList = new ArrayList<String>();
+	private List<String> calPeriodTypesList = new ArrayList<String>();
+	private List<String> computationTypeList = new ArrayList<String>();
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+		initEarningDeductionList();
+		initPayHeads();
+		initCalculationTypes();
+		for (int i = 0; i < computationTypes.length; i++) {
+			computationTypeList.add(computationTypes[i]);
+		}
+
 		list.add(new NameRequirement(PAY_HEAD_NAME, getMessages().pleaseEnter(
 				getMessages().payhead()), getMessages().payhead(), false, true) {
 			@Override
 			public void setValue(Object value) {
 				if (CreatePayHeadCommand.this.isPayHeadExists((String) value)) {
 					addFirstMessage(getMessages().alreadyExist());
-					addFirstMessage(getMessages().pleaseEnter(
-							getMessages().payhead()));
 					return;
 				}
+				addFirstMessage(getMessages().pleaseEnter(
+						getMessages().payhead()));
 				super.setValue(value);
 			}
 		});
 
 		list.add(new NameRequirement(PAY_HEAD_SLIPNAME, getMessages()
 				.pleaseEnter(getMessages().paySlipName()), getMessages()
-				.paySlipName(), false, true) {
-			@Override
-			public void setValue(Object value) {
-				super.setValue(value);
-			}
-		});
+				.paySlipName(), false, true));
 
 		list.add(new StringListRequirement(PAY_HEAD_TYPE, getMessages()
 				.pleaseEnter(getMessages().payHeadType()), getMessages()
@@ -102,7 +120,7 @@ public class CreatePayHeadCommand extends AbstractCommand {
 
 			@Override
 			protected List<String> getLists(Context context) {
-				return getPayHeadTypes();
+				return payHeadTypesList;
 			}
 
 			@Override
@@ -176,7 +194,7 @@ public class CreatePayHeadCommand extends AbstractCommand {
 
 			@Override
 			protected List<String> getLists(Context context) {
-				return getCalculationTypes();
+				return calculationTypesList;
 			}
 
 			@Override
@@ -214,7 +232,7 @@ public class CreatePayHeadCommand extends AbstractCommand {
 
 			@Override
 			protected List<String> getLists(Context context) {
-				return getEarningDeductionList();
+				return attendanceTypesList;
 			}
 
 			@Override
@@ -223,9 +241,7 @@ public class CreatePayHeadCommand extends AbstractCommand {
 			}
 		});
 
-		list.add(new StringListRequirement(PAY_HEADS, getMessages()
-				.pleaseEnter(getMessages().payhead()), getMessages().payhead(),
-				true, true, null) {
+		list.add(new PayHeadRequirement(PAY_HEADS) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -250,8 +266,8 @@ public class CreatePayHeadCommand extends AbstractCommand {
 			}
 
 			@Override
-			protected List<String> getLists(Context context) {
-				return getpayHeadslist(context);
+			protected List<PayHead> getLists(Context context) {
+				return getpayHeadslist();
 			}
 
 			@Override
@@ -338,9 +354,9 @@ public class CreatePayHeadCommand extends AbstractCommand {
 			}
 		});
 
-		list.add(new StringListRequirement(PRODUCTION_TYPE, getMessages()
-				.pleaseEnter(getMessages().productionType()), getMessages()
-				.productionType(), true, true, null) {
+		list.add(new AttendanceOrProductionTypeRequirement(PRODUCTION_TYPE,
+				getMessages().pleaseSelect(getMessages().productionType()),
+				getMessages().productionType()) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -364,10 +380,36 @@ public class CreatePayHeadCommand extends AbstractCommand {
 				return getMessages().pleaseSelect(
 						getMessages().productionType());
 			}
+		});
+
+		list.add(new StringListRequirement(COMPUTE_ON, getMessages()
+				.pleaseEnter(getMessages().computedOn()), getMessages()
+				.computedOn(), true, true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				String value = get(CALCULATION_TYPE).getValue();
+				if (value.equals(getMessages().asComputedValue())) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().computedOn());
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(getMessages().computedOn());
+			}
 
 			@Override
 			protected List<String> getLists(Context context) {
-				return getCalculationPeriodTypes();
+				return computationTypeList;
 			}
 
 			@Override
@@ -394,62 +436,169 @@ public class CreatePayHeadCommand extends AbstractCommand {
 		return perDayCalTypesList;
 	}
 
-	protected List<String> getpayHeadslist(Context context) {
-		PaginationList<ClientPayHead> payheadsList = null;
-		try {
-			payheadsList = new FinanceTool().getPayrollManager()
-					.getPayheadsList(0, 0, context.getCompany().getID());
-		} catch (AccounterException e) {
-			e.printStackTrace();
-		}
-		List<String> list = new ArrayList<String>();
-		for (ClientPayHead clientPayHead : payheadsList) {
-			list.add(clientPayHead.getName());
-		}
-		return list;
+	protected List<PayHead> getpayHeadslist() {
+		List<PayHead> payheadsList = new ArrayList<PayHead>();
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("list.Payhead").setEntity(
+				"company", getCompany());
+		payheadsList = query.list();
+		return payheadsList;
 	}
 
-	protected List<String> getEarningDeductionList() {
+	private void initEarningDeductionList() {
 		attendanceTypesList = new ArrayList<String>();
 		for (String string : attendanceTypes) {
 			attendanceTypesList.add(string);
 		}
-		return attendanceTypesList;
 	}
 
-	protected List<String> getCalculationTypes() {
+	private void initCalculationTypes() {
 		calculationTypesList = new ArrayList<String>();
 		for (String string : calType) {
 			calculationTypesList.add(string);
 		}
-		return calculationTypesList;
 	}
 
-	protected List<String> getPayHeadTypes() {
+	private void initPayHeads() {
 		payHeadTypesList = new ArrayList<String>();
 		for (String string : types) {
 			payHeadTypesList.add(string);
 		}
-		return payHeadTypesList;
 	}
 
 	protected boolean isPayHeadExists(String value) {
+		List<PayHead> getpayHeadslist = getpayHeadslist();
+		for (PayHead payHead : getpayHeadslist) {
+			if (this.payHead.getID() != payHead.getID()
+					&& payHead.getName().equals(value)) {
+				return true;
+			}
+		}
 		return false;
 	}
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				addFirstMessage(context, getMessages()
+						.selectATransactionToUpdate(getMessages().invoice()));
+				return "payheadList";
+			}
+			long numberFromString = getNumberFromString(string);
+			payHead = (ClientPayHead) CommandUtils.getServerObjectById(
+					numberFromString, AccounterCoreType.PAY_HEAD);
+			if (payHead == null) {
+				return "payheadList" + string;
+			}
+			setValues();
+		} else {
+			payHead = new ClientPayHead();
+		}
 		return null;
+	}
+
+	private void setValues() {
+		get(PAY_HEAD_NAME).setValue(payHead.getName());
+		get(PAY_HEAD_TYPE).setValue(
+				ClientPayHead.getPayHeadType(payHead.getType()));
+		get(PAY_HEAD_SLIPNAME).setValue(payHead.getNameToAppearInPaySlip());
+		get(EXPENSE_ACCOUNT).setValue(
+				getServerObject(Account.class, payHead.getExpenseAccount()));
+		get(AFFECT_NET_SALARY).setValue(payHead.isAffectNetSalary());
+		get(CALCULATION_TYPE).setValue(
+				ClientPayHead.getCalculationType(payHead.getCalculationType()));
+
+		String calType = ClientPayHead.getCalculationType(payHead
+				.getCalculationType());
+		if (calType.equals(getMessages().attendance())
+				|| calType.equals(getMessages().production())) {
+			ClientAttendancePayHead attendance = (ClientAttendancePayHead) payHead;
+			get(PRODUCTION_TYPE).setValue(
+					getServerObject(AttendanceOrProductionType.class,
+							attendance.getProductionType()));
+			String attendanceType = ClientAttendancePayHead
+					.getAttendanceType(attendance.getAttendanceType());
+			get(EARNING_DEDUCTION_ON).setValue(attendanceType);
+
+			if (attendance.getAttendanceType() == ClientAttendancePayHead.PAY_HEAD) {
+				get(PAY_HEADS)
+						.setValue(
+								getServerObject(PayHead.class,
+										attendance.getPayhead()));
+			}
+
+			get(CALCULATION_PERIOD).setValue(
+					getCalculationPeriod(attendance.getCalculationPeriod()));
+			get(PER_DAY_CALCULATION_BASIS).setValue(
+					getPerdayCalculationBasis(attendance
+							.getPerDayCalculationBasis()));
+
+		} else if (calType.equals(getMessages().asComputedValue())) {
+			ClientComputionPayHead computation = (ClientComputionPayHead) payHead;
+
+			get(CALCULATION_PERIOD).setValue(
+					getCalculationPeriod(computation.getCalculationPeriod()));
+			String compType = computationTypeList.get(computation
+					.getComputationType() - 1);
+			get(COMPUTE_ON).setValue(compType);
+			if (compType.equals(getMessages().onSpecifiedFormula())) {
+				// TODO
+			}
+
+		} else if (calType.equals(getMessages().flatRate())) {
+			ClientFlatRatePayHead flatrate = (ClientFlatRatePayHead) payHead;
+
+			get(CALCULATION_PERIOD).setValue(
+					getCalculationPeriod(flatrate.getCalculationPeriod()));
+		}
+	}
+
+	private String getPerdayCalculationBasis(int perDayCalculationBasis) {
+		switch (perDayCalculationBasis) {
+		case ClientAttendancePayHead.PER_DAY_CALCULATION_AS_PER_CALANDAR_PERIOD:
+			return getMessages().asPerCalendarPeriod();
+
+		case ClientAttendancePayHead.PER_DAY_CALCULATION_30_DAYS:
+			return getMessages().days30();
+
+		case ClientAttendancePayHead.PER_DAY_CALCULATION_USER_DEFINED_CALANDAR:
+			return getMessages().userDefindCalendar();
+
+		default:
+			return null;
+		}
+	}
+
+	private String getCalculationPeriod(int calculationPeriod) {
+		switch (calculationPeriod) {
+		case ClientPayHead.CALCULATION_PERIOD_DAYS:
+			return getMessages().days();
+
+		case ClientPayHead.CALCULATION_PERIOD_MONTHS:
+			return getMessages().months();
+
+		case ClientPayHead.CALCULATION_PERIOD_WEEKS:
+			return getMessages().weeks();
+
+		default:
+			return null;
+		}
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getMessages().creating(getMessages().payhead());
+		return payHead.getID() == 0 ? getMessages().creating(
+				getMessages().payhead()) : getMessages().updating(
+				getMessages().payhead());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getMessages().payhead());
+		return payHead.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().payhead()) : getMessages().readyToUpdate(
+				getMessages().payhead());
 	}
 
 	@Override
@@ -460,17 +609,81 @@ public class CreatePayHeadCommand extends AbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return getMessages().createSuccessfully(getMessages().payhead());
+		return payHead.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().payhead()) : getMessages().updateSuccessfully(
+				getMessages().payhead());
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected Result onCompleteProcess(Context context) {
+		String selectedValue = get(CALCULATION_TYPE).getValue();
+		if (selectedValue == null) {
+			return new Result(getMessages().pleaseSelect(
+					getMessages().calculationType()));
+		}
+		if (selectedValue.equals(getMessages().attendance())
+				|| selectedValue.equals(getMessages().production())) {
+			ClientAttendancePayHead payhead = new ClientAttendancePayHead();
+			payhead.setAttendanceType(attendanceTypesList.indexOf(get(
+					EARNING_DEDUCTION_ON).getValue()) + 1);
+			String attendanceType = ClientAttendancePayHead
+					.getAttendanceType(payhead.getAttendanceType());
+
+			if (attendanceType.equals(getMessages().otherPayhead())) {
+				payhead.setPayhead(((PayHead) get(PAY_HEADS).getValue())
+						.getID());
+			}
+			payhead.setID(payhead.getID());
+			if (selectedValue.equals(getMessages().attendance())) {
+				String period = get(CALCULATION_PERIOD).getValue();
+				payhead.setCalculationPeriod(calPeriodTypesList.indexOf(period) + 1);
+				String perDayBasis = get(PER_DAY_CALCULATION_BASIS).getValue();
+				payhead.setPerDayCalculationBasis(perDayCalTypesList
+						.indexOf(perDayBasis) + 1);
+			}
+
+			if (selectedValue.equals(getMessages().production())) {
+				AttendanceOrProductionType productionType = get(PRODUCTION_TYPE)
+						.getValue();
+				payhead.setProductionType(productionType.getID());
+				payhead.setPerDayCalculationBasis(ClientAttendancePayHead.PER_DAY_CALCULATION_AS_PER_CALANDAR_PERIOD);
+			}
+			this.payHead = payhead;
+
+		} else if (selectedValue.equals(getMessages().asComputedValue())) {
+			ClientComputionPayHead payhead = new ClientComputionPayHead();
+			payhead.setID(this.payHead.getID());
+			String period = get(CALCULATION_PERIOD).getValue();
+			payhead.setCalculationPeriod(calPeriodTypesList.indexOf(period) + 1);
+			String computeOn = get(COMPUTE_ON).getValue();
+			payhead.setComputationType(computationTypeList.indexOf(computeOn) + 1);
+			this.payHead = payhead;
+		} else if (selectedValue.equals(getMessages().flatRate())) {
+			ClientFlatRatePayHead payHead = new ClientFlatRatePayHead();
+			payHead.setID(this.payHead.getID());
+			String period = get(CALCULATION_PERIOD).getValue();
+			payHead.setCalculationPeriod(calPeriodTypesList.indexOf(period) + 1);
+			this.payHead = payHead;
+		}
+
+		payHead.setName((String) get(PAY_HEAD_NAME).getValue());
+		String payHeadType = get(PAY_HEAD_TYPE).getValue();
+		payHead.setType(payHeadTypesList.indexOf(payHeadType) + 1);
+		String calType = get(CALCULATION_TYPE).getValue();
+		payHead.setCalculationType(calculationTypesList.indexOf(calType) + 1);
+		payHead.setRoundingMethod(1);
+		payHead.setNameToAppearInPaySlip((String) get(PAY_HEAD_SLIPNAME)
+				.getValue());
+		Boolean isEffect = get(AFFECT_NET_SALARY).getValue();
+		payHead.setAffectNetSalary(isEffect);
+		Account account = get(EXPENSE_ACCOUNT).getValue();
+		payHead.setExpenseAccount(account.getID());
+		create(payHead, context);
 		return null;
 	}
 }

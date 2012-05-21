@@ -22,12 +22,14 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.OperationContext;
 
 public abstract class AbstractCommand extends AbstractBaseCommand {
 	public static final String FIRST_MESSAGE = "firstMessage";
 	private AccounterMessages messages;
+	private AccounterMessages2 messages2;
 	protected static final String AMOUNTS_INCLUDE_TAX = "Amounts Include tax";
 	// protected static final String COUNTRY = "country";
 	protected static final String PHONE = "phone";
@@ -49,12 +51,17 @@ public abstract class AbstractCommand extends AbstractBaseCommand {
 	@Override
 	public void init() {
 		messages = Global.get().messages();
+		messages2 = Global.get().messages2();
 		super.init();
 	}
 
 	@Override
 	public AccounterMessages getMessages() {
 		return messages;
+	}
+
+	public AccounterMessages2 getMessages2() {
+		return messages2;
 	}
 
 	protected void create(IAccounterCore coreObject, Context context) {

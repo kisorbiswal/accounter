@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -239,7 +240,7 @@ public class ClientPayHead implements IAccounterCore {
 	}
 
 	public static String getPayHeadType(int type) {
-		AccounterMessages messages = Accounter.getMessages();
+		AccounterMessages messages = Global.get().messages();
 		switch (type) {
 		case TYPE_EARNINGS_FOR_EMPLOYEES:
 			return messages.earningsForEmployees();
@@ -271,7 +272,7 @@ public class ClientPayHead implements IAccounterCore {
 	}
 
 	public static String getCalculationPeriod(int type) {
-		AccounterMessages messages = Accounter.getMessages();
+		AccounterMessages messages = Global.get().messages();
 		switch (type) {
 		case CALCULATION_PERIOD_DAYS:
 			return messages.days();

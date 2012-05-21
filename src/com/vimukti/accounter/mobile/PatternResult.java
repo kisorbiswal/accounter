@@ -5,6 +5,7 @@ package com.vimukti.accounter.mobile;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
@@ -13,6 +14,7 @@ import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.mobile.store.Output;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.server.countries.UnitedKingdom;
 import com.vimukti.accounter.web.server.util.ICountryPreferences;
@@ -78,7 +80,8 @@ public class PatternResult extends Result {
 		ClientCompanyPreferences preferences = CompanyPreferenceThreadLocal
 				.get();
 		User user = AccounterThreadLocal.get();
-
+		Set<String> features = user.getClient().getClientSubscription()
+				.getSubscription().getFeatures();
 		boolean sellServices = preferences.isSellServices();
 		boolean sellProducts = preferences.isSellProducts();
 
@@ -122,6 +125,8 @@ public class PatternResult extends Result {
 		} else if (condition.equals("assemblyItem")) {
 			return sellProducts && sellServices
 					&& preferences.isInventoryEnabled();
+		} else if (condition.equals("payrollEnabled")) {
+			return features.contains(Features.PAY_ROLL);
 		}
 		return true;
 	}
