@@ -93,7 +93,7 @@
 		name="newFixedAsset">
 		<alias>updateFixedAsset</alias>
 	</command>
-	
+
 	<command clazz="com.vimukti.accounter.mobile.commands.MergeItemsCommand"
 		name="mergeItems"></command>
 
@@ -280,7 +280,8 @@
 		<alias>purchaseByVendorSummaryReport</alias>
 	</command>
 
-	<command clazz="com.vimukti.accounter.mobile.commands.reports.PurchaseOpenOrderReportCommand" 
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.reports.PurchaseOpenOrderReportCommand"
 		name="purchaseOrderReport">
 	</command>
 
@@ -307,7 +308,8 @@
 		name="salesByItemSummary">
 	</command>
 
-	<command clazz="com.vimukti.accounter.mobile.commands.reports.SalesOpenOrderReportCommand" 
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.reports.SalesOpenOrderReportCommand"
 		name="salesOrderReport">
 	</command>
 
@@ -1306,5 +1308,7 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.CreatePayHeadCommand"
 		name="newPayHead">
 	</command>
-	
+	<command clazz="com.vimukti.accounter.mobile.commands.EmployeeListCommand"
+		name="employeeList">
+	</command>
 </commands>
