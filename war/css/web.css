@@ -8385,3 +8385,6 @@ table.no_records tr td {
 .employeecombo .customComboItem{
 	padding-left: 5px;
 }
+#inventory-valuation-summary .formItem input{
+	width: 150px;
+}

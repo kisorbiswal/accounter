@@ -12,6 +12,7 @@ public class InventoryValutionSummaryReport extends
 	private long warehouseId = 0;
 
 	public InventoryValutionSummaryReport() {
+		this.getElement().setId("inventory-valuation-summary");
 		this.serverReport = new InventoryValutionSummaryServerReport(this);
 	}
 
