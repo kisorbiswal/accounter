@@ -17,7 +17,7 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 		this.getElement().setId("ChalanDetailsListGrid");
 		this.fromTransactionCenter = fromTransactionCenter;
 		if (fromTransactionCenter) {
-			this.setWidth("745px");
+			this.setWidth("760px");
 		}
 	}
 

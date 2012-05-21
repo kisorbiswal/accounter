@@ -20,7 +20,6 @@ public class ChalanDetailsListView extends
 	private boolean fromTransactionCenter;
 
 	public ChalanDetailsListView(boolean fromTransactionCenter) {
-		this.getElement().setId("ChalanDetailsListView");
 		this.fromTransactionCenter = fromTransactionCenter;
 	}
 
