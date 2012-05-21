@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -94,12 +95,9 @@ public abstract class TransactionJournalEntryTable extends
 
 					@Override
 					public boolean filter(ClientAccount e) {
-						if (e.getCurrency() == Accounter.getCompany()
-								.getPrimaryCurrency().getID()) {
-							return true;
-						}
-						return false;
+						return true;
 					}
+
 				}, null);
 
 		this.addColumn(new ComboColumn<ClientTransactionItem, IAccounterCore>() {
@@ -112,6 +110,18 @@ public abstract class TransactionJournalEntryTable extends
 			@Override
 			protected void setValue(ClientTransactionItem row,
 					IAccounterCore newValue) {
+				// MultiCurrency supporting
+				ClientCurrency transactionCurrency = currencyProvider
+						.getTransactionCurrency();
+				ClientAccount account = Accounter.getCompany().getAccount(
+						newValue.getID());
+				if (account.getCurrency() != transactionCurrency.getID()
+						&& account.getCurrency() != Accounter.getCompany()
+								.getPrimaryCurrency().getID()) {
+					Accounter
+							.showError("Should have the select accounts must be in base Currency or transaction Currency");
+				}
+
 				row.setAccount(newValue.getID());
 				if (row.getLineTotal() == null) {
 					row.setLineTotal(new Double(0));
@@ -138,7 +148,7 @@ public abstract class TransactionJournalEntryTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionItem row) {
-				return messages.Account()+" : "+getValue(row);
+				return messages.Account() + " : " + getValue(row);
 			}
 
 			@Override
@@ -171,7 +181,7 @@ public abstract class TransactionJournalEntryTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionItem row) {
-				return messages.memo()+" : "+getValue(row);
+				return messages.memo() + " : " + getValue(row);
 			}
 
 			@Override
@@ -212,7 +222,7 @@ public abstract class TransactionJournalEntryTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionItem row) {
-				return messages.debit()+" : "+getValue(row);
+				return messages.debit() + " : " + getValue(row);
 			}
 
 			@Override
@@ -253,7 +263,7 @@ public abstract class TransactionJournalEntryTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionItem row) {
-				return messages.credit()+" : "+getValue(row);
+				return messages.credit() + " : " + getValue(row);
 			}
 
 			@Override

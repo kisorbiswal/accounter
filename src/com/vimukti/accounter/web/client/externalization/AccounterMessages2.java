@@ -44,4 +44,8 @@ public interface AccounterMessages2 extends Messages {
 	public String transactionListFor(String customer);
 
 	public String confirmEmail();
+
+	public String debitTotalColonSymbol(String symbol);
+
+	public String creditTotalColonSymbol(String symbol);
 }

@@ -43,8 +43,9 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 		case 2:
 			return obj.getMemo() != null ? obj.getMemo() : "";
 		case 3:
-			return DataUtils.amountAsStringWithCurrency(obj.getTotal(),
-					getCompany().getPrimaryCurrency());
+			return DataUtils.amountAsStringWithCurrency(
+					obj.getTotal() * obj.getCurrencyFactor(), getCompany()
+							.getPrimaryCurrency());
 		case 4:
 			if (!obj.isVoid())
 				return Accounter.getFinanceImages().notvoid();

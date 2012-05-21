@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -50,6 +51,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 import com.vimukti.accounter.web.client.ui.widgets.AddButton;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 
 public class JournalEntryView extends
 		AbstractTransactionBaseView<ClientJournalEntry> implements
@@ -57,7 +60,7 @@ public class JournalEntryView extends
 
 	private TransactionJournalEntryTable grid;
 	double debit, credit;
-
+	CurrencyComboWidget currencyCombo;
 	Label lab1;
 	DynamicForm memoForm, totalForm, dateForm;
 	TextItem jourNoText;
@@ -246,6 +249,11 @@ public class JournalEntryView extends
 			transaction.setCreditTotal(grid.getTotalCredittotal());
 			transaction.setTotal(grid.getTotalDebittotal());
 		}
+		if (isMultiCurrencyEnabled()) {
+			transaction
+					.setCurrency(currencyCombo.getSelectedCurrency().getID());
+		}
+		transaction.setCurrencyFactor(currencyCombo.getCurrencyFactor());
 	}
 
 	private void initMemo(ClientJournalEntry journalEntry) {
@@ -266,6 +274,29 @@ public class JournalEntryView extends
 
 	}
 
+	protected CurrencyComboWidget createCurrencyComboWidget() {
+		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
+		ClientCurrency baseCurrency = getCompany().getPrimaryCurrency();
+
+		CurrencyComboWidget widget = new CurrencyComboWidget(currenciesList,
+				baseCurrency);
+		widget.setListener(new CurrencyChangeListener() {
+
+			@Override
+			public void currencyChanged(ClientCurrency currency, double factor) {
+				setCurrency(currency);
+				setCurrencyFactor(factor);
+				deditTotalText.setTitle(messages2
+						.debitTotalColonSymbol(currency.getSymbol()));
+				creditTotalText.setTitle(messages2
+						.creditTotalColonSymbol(currency.getSymbol()));
+
+			}
+		});
+		widget.setEnabled(!isInViewMode());
+		return widget;
+	}
+
 	@Override
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
@@ -273,6 +304,8 @@ public class JournalEntryView extends
 		lab1 = new Label(messages.journalEntry());
 		lab1.removeStyleName("gwt-Label");
 		lab1.addStyleName("label-title");
+		currencyCombo = createCurrencyComboWidget();
+		currencyCombo.setEnabled(!isInViewMode());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		jourNoText = new TextItem(messages.no(), "jourNoText");
@@ -320,15 +353,9 @@ public class JournalEntryView extends
 		dateForm.setStyleName("datenumber-panel");
 
 		locationCombo = createLocationCombo();
-		if (locationTrackingEnabled)
-			dateForm.add(transactionDateItem, jourNoText, locationCombo);
-		else
-			dateForm.add(transactionDateItem, jourNoText);
+		dateForm.add(transactionDateItem, jourNoText);
 
 		classListCombo = createAccounterClassListCombo();
-		if (getPreferences().isClassTrackingEnabled()) {
-			dateForm.add(classListCombo);
-		}
 
 		StyledPanel datepannel = new StyledPanel("datepannel");
 		// datepannel.setWidth("100%");
@@ -340,7 +367,9 @@ public class JournalEntryView extends
 		memoForm.add(memoText);
 		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		deditTotalText = new AmountLabel(messages.debitTotalColon());
+		deditTotalText = new AmountLabel(
+				messages2.debitTotalColonSymbol(getCompany()
+						.getPrimaryCurrency().getSymbol()));
 		// deditTotalText.setWidth("180px");
 		((Label) deditTotalText.getMainWidget())
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -348,7 +377,9 @@ public class JournalEntryView extends
 				+ "0.00");
 		deditTotalText.setEnabled(false);
 
-		creditTotalText = new AmountLabel(messages.creditTotalColon());
+		creditTotalText = new AmountLabel(
+				messages2.creditTotalColonSymbol(getCompany()
+						.getPrimaryCurrency().getSymbol()));
 		// creditTotalText.setWidth("180px");
 		((Label) creditTotalText.getMainWidget())
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -386,12 +417,28 @@ public class JournalEntryView extends
 
 		}
 		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
+
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
+		if (getPreferences().isClassTrackingEnabled()) {
+			rightVLay.add(classListCombo);
+		}
+		if (locationTrackingEnabled) {
+			rightVLay.add(locationCombo);
+		}
 		verticalPanel.add(datepannel);
+		if (isMultiCurrencyEnabled())
+			leftVLay.add(currencyCombo);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		topHLay.add(leftVLay);
+		topHLay.add(rightVLay);
+
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(verticalPanel);
+		mainVLay.add(topHLay);
 		mainVLay.add(gridPanel);
 		mainVLay.add(bottomPanel);
 		// mainVLay.add(labelPane);
@@ -412,6 +459,13 @@ public class JournalEntryView extends
 			jourNoText.setValue(transaction.getNumber());
 			transactionDateItem.setEnteredDate(transaction.getDate());
 			// grid.setVoucherNumber(transaction.getNumber());
+			if (transaction.getCurrency() != 0) {
+				ClientCurrency selectCurrency = getCompany().getCurrency(
+						transaction.getCurrency());
+				currencyCombo.setSelectedCurrency(selectCurrency);
+				currencyCombo
+						.setCurrencyFactor(transaction.getCurrencyFactor());
+			}
 
 			List<ClientTransactionItem> entries = transaction
 					.getTransactionItems();
@@ -537,6 +591,7 @@ public class JournalEntryView extends
 			locationCombo.setEnabled(!isInViewMode());
 		if (isTrackClass())
 			classListCombo.setEnabled(!isInViewMode());
+		currencyCombo.setEnabled(!isInViewMode());
 	}
 
 	@Override
