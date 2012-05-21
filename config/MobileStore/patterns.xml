@@ -30,6 +30,7 @@
 			<command title="Vendor" />
 			<command title="banking" />
 			<command if="inventoryEnabled" title="inventory" />
+			<command title="payroll" />
 			<command title="settings" />
 			<command title="reports" />
 			<command title="logout" />
@@ -636,5 +637,12 @@
 		</outputs>
 	</pattern>
 
+	<pattern login="true">
+		<input>payroll</input>
+		<outputs>
+			<command title="newPayHead" />
+		</outputs>
+	</pattern>
+	
 </patterns>
 

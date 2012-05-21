@@ -1303,4 +1303,8 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.DepriciationCommand"
 		name="depreciation">
 	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.CreatePayHeadCommand"
+		name="newPayHead">
+	</command>
+	
 </commands>
