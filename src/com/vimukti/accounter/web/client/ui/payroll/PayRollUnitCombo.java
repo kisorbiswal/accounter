@@ -66,6 +66,7 @@ public class PayRollUnitCombo extends CustomCombo<ClientPayrollUnit> {
 
 		isAddNew = true;
 		PayRollActions action = PayRollActions.newPayRollUnitAction();
+		action.setFromEmployeeView(true);
 		action.setCallback(new ActionCallback<ClientPayrollUnit>() {
 
 			@Override
