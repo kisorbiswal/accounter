@@ -92,7 +92,7 @@ public class CreatePayStructureCommand extends AbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new EmployeeAndEmployeeGroupRequirement(EMPLOYEE,
 				getMessages().pleaseSelect(getMessages().employeeOrGroup()),
-				getMessages().employeeOrGroup()));
+				getMessages().employeeOrGroup(), null));
 
 		list.add(new PayStructureTableRequirement(STRUCTURE_TABLE,
 				getMessages().pleaseSelect(getMessages().item()), getMessages()

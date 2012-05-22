@@ -42,7 +42,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientBox;
-import com.vimukti.accounter.web.client.core.ClientComputaionFormulaFunction;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
 import com.vimukti.accounter.web.client.core.ClientEmployeePaymentDetails;
@@ -86,7 +85,12 @@ public class Manager {
 						HibernateUtil.getCurrentSession());
 		if (!(clonedObject instanceof Transaction)
 				|| !(((Transaction) clonedObject).getSaveStatus() == Transaction.STATUS_DRAFT)) {
-			clonedObject.selfValidate();
+			boolean isCreate = serverObject.getID() == 0;
+			if (isCreate) {
+				clonedObject.selfValidate();
+			} else {
+				serverObject.selfValidate();
+			}
 		}
 		return serverObject.canEdit(clonedObject, false);
 

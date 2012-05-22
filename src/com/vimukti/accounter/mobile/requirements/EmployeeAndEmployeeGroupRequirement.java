@@ -18,8 +18,9 @@ public class EmployeeAndEmployeeGroupRequirement extends
 		ListRequirement<PayStructureDestination> {
 
 	public EmployeeAndEmployeeGroupRequirement(String requirementName,
-			String enterString, String recordName) {
-		super(requirementName, enterString, recordName, false, true, null);
+			String enterString, String recordName,
+			ChangeListner<PayStructureDestination> listener) {
+		super(requirementName, enterString, recordName, false, true, listener);
 	}
 
 	@Override
