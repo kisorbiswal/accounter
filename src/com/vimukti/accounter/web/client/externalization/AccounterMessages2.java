@@ -43,9 +43,21 @@ public interface AccounterMessages2 extends Messages {
 
 	public String transactionListFor(String customer);
 
+	public String updatePayHead();
+
 	public String confirmEmail();
 
 	public String debitTotalColonSymbol(String symbol);
 
 	public String creditTotalColonSymbol(String symbol);
+
+	public String createPayrollUnit();
+
+	public String updatePayrollUnit();
+
+	public String createPayStructure();
+
+	public String updatePayStructure();
+
+	public String payrollReports();
 }

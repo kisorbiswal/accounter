@@ -2656,7 +2656,7 @@ public class FinanceTool {
 								+ brandingTheme.getQuoteTemplateName();
 					}
 					fileName = "Quote_" + estimate.getNumber();
-				} else if (estimate.getEstimateType() == Estimate.TYPE_SALES_ORDER) {
+				} else if (estimate.getEstimateType() == Estimate.SALES_ORDER) {
 					salesOrderPdf = new SalesOrderPdfGeneration(estimate,
 							company, brandingTheme);
 
@@ -5229,8 +5229,9 @@ public class FinanceTool {
 		Account account = (Account) session.get(Account.class, accountID);
 		String paypalToken = account.getPaypalToken();
 		String paypalSecretkey = account.getPaypalSecretkey();
-		
-		PaypalTransactionDetails paypalTransactionDetails = new PaypalTransactionDetails(transactionID,paypalToken,paypalSecretkey);
+
+		PaypalTransactionDetails paypalTransactionDetails = new PaypalTransactionDetails(
+				transactionID, paypalToken, paypalSecretkey);
 		try {
 			paypalTransactionDetails.createHeader();
 		} catch (JSONException e) {
@@ -5239,7 +5240,6 @@ public class FinanceTool {
 			e.printStackTrace();
 		}
 		paypalTransactionDetails.getTransactionDetails();
-		
 
 	}
 

@@ -647,9 +647,13 @@
 	
 	
 	<pattern login="true">
-		<input>"payrollLists"</input>
+		<input>payrollLists</input>
 		<outputs>
 			<command title="employeeList" />
+			<command title="payheadList" />
+			<command title="payrollUnitList" />
+			<command title="payStructureList"/>
+			<command title="attendanceOrProductionTypeList"/>
 		</outputs>
 	</pattern>
 </patterns>

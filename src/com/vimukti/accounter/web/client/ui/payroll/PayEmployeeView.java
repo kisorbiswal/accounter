@@ -175,6 +175,8 @@ public class PayEmployeeView extends
 			if (employee == 0) {
 				employee = data.getEmployeeGroup();
 			}
+			table.setAllRows(transaction.getTransactionPayEmployee());
+			table.selectAllRows(true);
 			employeeCombo.setEmpGroup(employee, data.getEmployee() != 0);
 			bankAccountCombo.setComboItem(getCompany().getAccount(
 					transaction.getPayAccount()));

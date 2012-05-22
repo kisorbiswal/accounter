@@ -1307,8 +1307,21 @@
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.CreatePayHeadCommand"
 		name="newPayHead">
+		<alias>updatePayHead</alias>
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.EmployeeListCommand"
 		name="employeeList">
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.PayheadListCommand"
+		name="payheadList">
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.PayrollUnitListCommand"
+		name="payrollUnitList">
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.PayStructureListCommand"
+		name="payStructureList">
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.AttendanceOrProductionListCommand"
+		name="attendanceOrProductionTypeList">
 	</command>
 </commands>
