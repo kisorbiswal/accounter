@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -72,16 +71,7 @@ public class EmployeeListCommand extends AbstractCommand {
 
 			@Override
 			protected String onSelection(ClientEmployee value) {
-				if (value.getType() == Payee.TYPE_CUSTOMER) {
-					return "updateCustomer " + value.getName();
-				} else if (value.getType() == Payee.TYPE_VENDOR) {
-					return "updateVendor " + value.getName();
-				} else if (value.getType() == Payee.TYPE_TAX_AGENCY) {
-					return "updateTAXAgency " + value.getName();
-				} else if (value.getType() == Payee.TYPE_EMPLOYEE) {
-					return "updateEmplyee " + value.getName();
-				}
-				return "";
+				return "updateEmployee #" + value.getID();
 			}
 
 			@Override

@@ -102,7 +102,7 @@ public class PayheadSummaryCommand extends
 	}
 
 	protected String addCommandOnRecordClick(PayHeadSummary selection) {
-		return "payHeadDetailReport ," + selection.getPayHeadName();
+		return "payHeadDetailReport #" + selection.getPayHead();
 	}
 
 	@Override

@@ -35,7 +35,7 @@ public class CreatePayStructureCommand extends AbstractCommand {
 			long numberFromString = getNumberFromString(string);
 			payStructure = (ClientPayStructure) CommandUtils
 					.getClientObjectById(numberFromString,
-							AccounterCoreType.EMPLOYEE, getCompanyId());
+							AccounterCoreType.PAY_STRUCTURE, getCompanyId());
 			if (payStructure == null) {
 				return "payStructureList" + string;
 			}
@@ -96,7 +96,7 @@ public class CreatePayStructureCommand extends AbstractCommand {
 
 		list.add(new PayStructureTableRequirement(STRUCTURE_TABLE,
 				getMessages().pleaseSelect(getMessages().item()), getMessages()
-						.payStructure() + " " + getMessages().item(), false,
+						.payStructure() + " " + getMessages().item(), true,
 				false, true));
 	}
 

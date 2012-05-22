@@ -14,7 +14,6 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
-import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 
 public class CreateAttendanceOrProductionTypeCommand extends AbstractCommand {
 
@@ -54,7 +53,9 @@ public class CreateAttendanceOrProductionTypeCommand extends AbstractCommand {
 
 	private void setValues() {
 		get(ATT_OR_PRO_TYPE).setValue(attOrProType.getName());
-		get(LEAVE_TYPE).setValue(attOrProType.getType());
+		get(LEAVE_TYPE).setValue(
+				ClientAttendanceOrProductionType.getTypeName(attOrProType
+						.getType()));
 		get(PAY_ROLL_UNIT).setValue(
 				getServerObject(PayrollUnit.class, attOrProType.getUnit()));
 	}
@@ -62,26 +63,28 @@ public class CreateAttendanceOrProductionTypeCommand extends AbstractCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return attOrProType.getID() == 0 ? getMessages().creating(
-				getMessages().payrollUnit()) : getMessages().updating(
-				getMessages().payrollUnit());
+				getMessages().attendanceOrProductionType()) : getMessages()
+				.updating(getMessages().attendanceOrProductionType());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		return attOrProType.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().payrollUnit()) : getMessages().readyToUpdate(
-				getMessages().payrollUnit());
+				getMessages().attendanceOrProductionType()) : getMessages()
+				.readyToUpdate(getMessages().attendanceOrProductionType());
 	}
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		leaveTypes.add(getMessages().productionType());
+		leaveTypes.add(getMessages().userDefindCalendar());
 	}
 
 	@Override
 	public String getSuccessMessage() {
 		return attOrProType.getID() == 0 ? getMessages().createSuccessfully(
-				getMessages().payrollUnit()) : getMessages()
-				.updateSuccessfully(getMessages().payrollUnit());
+				getMessages().attendanceOrProductionType()) : getMessages()
+				.updateSuccessfully(getMessages().attendanceOrProductionType());
 	}
 
 	@Override
@@ -91,14 +94,13 @@ public class CreateAttendanceOrProductionTypeCommand extends AbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		leaveTypes.add(getMessages().productionType());
-		leaveTypes.add(getMessages().userDefindCalendar());
-		list.add(new StringRequirement(ATT_OR_PRO_TYPE, getMessages().pleaseEnter(
-				getMessages().symbol()), getMessages().symbol(), false, true));
+		list.add(new StringRequirement(ATT_OR_PRO_TYPE, getMessages()
+				.pleaseEnter(getMessages().name()), getMessages().name(),
+				false, true));
 
 		list.add(new StringListRequirement(LEAVE_TYPE, getMessages()
-				.pleaseSelect(getMessages().formalName()), getMessages()
-				.formalName(), false, true, null) {
+				.pleaseSelect(getMessages().attendanceOrProductionType()),
+				getMessages().attendanceOrProductionType(), false, true, null) {
 
 			@Override
 			protected String getEmptyString() {
@@ -107,12 +109,14 @@ public class CreateAttendanceOrProductionTypeCommand extends AbstractCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages().hasSelected(getMessages().formalName());
+				return getMessages().hasSelected(
+						getMessages().attendanceOrProductionType());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect(getMessages().formalName());
+				return getMessages().pleaseSelect(
+						getMessages().attendanceOrProductionType());
 			}
 
 			@Override
@@ -148,7 +152,7 @@ public class CreateAttendanceOrProductionTypeCommand extends AbstractCommand {
 		if (attOrProType.getType() != ClientAttendanceOrProductionType.TYPE_PRODUCTION) {
 			attOrProType.setPeriodType(ClientPayHead.CALCULATION_PERIOD_DAYS);
 		} else {
-			ClientPayrollUnit selectedValue = get(PAY_ROLL_UNIT).getValue();
+			PayrollUnit selectedValue = get(PAY_ROLL_UNIT).getValue();
 			if (selectedValue != null) {
 				attOrProType.setUnit(selectedValue.getID());
 			}

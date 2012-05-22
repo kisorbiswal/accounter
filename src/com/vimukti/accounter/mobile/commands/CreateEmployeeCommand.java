@@ -13,6 +13,7 @@ import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -50,17 +51,6 @@ public class CreateEmployeeCommand extends AbstractCommand {
 
 	private ClientEmployee employee;
 
-	String[] reasons = { getMessages2().gotNewJobOffer(),
-			getMessages2().quitWithOutAjob(),
-			getMessages2().lackofPerformance(),
-			getMessages2().disputesbetweenCoworkers(),
-			getMessages2().nosatisfactionwithJob(),
-			getMessages2().notenoughHours(), getMessages2().jobwasTemporary(),
-			getMessages2().contractended(), getMessages2().workwasSeasonal(),
-			getMessages2().betteropportunity(), getMessages2().seekinggrowth(),
-			getMessages2().careerchange(), getMessages2().returnedtoSchool(),
-			getMessages2().relocated(), getMessages2().raisedaFamily(),
-			getMessages().other() };
 	private ArrayList<String> listOfReaons;
 
 	@Override
@@ -130,11 +120,32 @@ public class CreateEmployeeCommand extends AbstractCommand {
 
 		list.add(new DateRequirement(LAST_WORKING_DAY, getMessages()
 				.pleaseSelect(getMessages2().lastDate()), getMessages2()
-				.lastDate(), true, true));
+				.lastDate(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				Boolean isActive = CreateEmployeeCommand.this.get(ACTIVE)
+						.getValue();
+				if (!isActive) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
 
 		list.add(new StringListRequirement(INACTIVE_REASON, getMessages()
 				.pleaseSelect(getMessages2().reasonForInactive()),
 				getMessages2().reasonForInactive(), false, true, null) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				Boolean isActive = CreateEmployeeCommand.this.get(ACTIVE)
+						.getValue();
+				if (!isActive) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 
 			@Override
 			protected String getSetMessage() {
@@ -195,6 +206,19 @@ public class CreateEmployeeCommand extends AbstractCommand {
 	}
 
 	private void initReasons() {
+		String[] reasons = { getMessages2().gotNewJobOffer(),
+				getMessages2().quitWithOutAjob(),
+				getMessages2().lackofPerformance(),
+				getMessages2().disputesbetweenCoworkers(),
+				getMessages2().nosatisfactionwithJob(),
+				getMessages2().notenoughHours(),
+				getMessages2().jobwasTemporary(),
+				getMessages2().contractended(),
+				getMessages2().workwasSeasonal(),
+				getMessages2().betteropportunity(),
+				getMessages2().seekinggrowth(), getMessages2().careerchange(),
+				getMessages2().returnedtoSchool(), getMessages2().relocated(),
+				getMessages2().raisedaFamily(), getMessages().other() };
 		listOfReaons = new ArrayList<String>();
 		for (int i = 0; i < reasons.length; i++) {
 			listOfReaons.add(reasons[i]);
@@ -271,7 +295,8 @@ public class CreateEmployeeCommand extends AbstractCommand {
 		get(BANK_BRANCH).setValue(employee.getBankBranch());
 		get(BANK_NAME).setValue(employee.getBankName());
 		if (employee.getReasonType() != -1) {
-			get(INACTIVE_REASON).setValue(reasons[employee.getReasonType()]);
+			get(INACTIVE_REASON).setValue(
+					listOfReaons.get(employee.getReasonType()));
 		}
 
 		get(LAST_WORKING_DAY).setValue(
@@ -298,6 +323,7 @@ public class CreateEmployeeCommand extends AbstractCommand {
 		get(DATE_OF_HIRE).setDefaultValue(new ClientFinanceDate());
 		get(LAST_WORKING_DAY).setDefaultValue(new ClientFinanceDate());
 		get(DATE_OF_BIRTH).setDefaultValue(new ClientFinanceDate());
+		get(ACTIVE).setValue(true);
 	}
 
 	@Override

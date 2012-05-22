@@ -87,7 +87,7 @@ public class PaySlipSummaryReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(PaySlipSummary selection) {
-		return "paySlipDetail ," + selection.getName();
+		return "payslipDetail #" + selection.getEmployeeId();
 	}
 
 }

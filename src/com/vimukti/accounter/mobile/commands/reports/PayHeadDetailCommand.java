@@ -134,6 +134,12 @@ public class PayHeadDetailCommand extends
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		String string = context.getString();
+		if (string != null && !string.isEmpty()) {
+			long numberFromString = getNumberFromString(string);
+			get(PAY_HEAD).setValue(
+					(getServerObject(PayHead.class, numberFromString)));
+		}
 		return null;
 	}
 

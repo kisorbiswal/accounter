@@ -55,7 +55,7 @@ public class PayheadListCommand extends AbstractCommand {
 
 			@Override
 			protected String onSelection(PayHead value) {
-				return "updatePayhead " + value.getID();
+				return "updatePayhead #" + value.getID();
 			}
 
 			@Override
@@ -118,7 +118,7 @@ public class PayheadListCommand extends AbstractCommand {
 	}
 
 	protected void setCreateCommand(CommandList list) {
-		list.add("");
+		list.add("newPayHead");
 	}
 
 	protected Record createRecord(PayHead value) {

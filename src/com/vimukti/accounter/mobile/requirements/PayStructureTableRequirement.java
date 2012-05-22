@@ -49,6 +49,11 @@ public class PayStructureTableRequirement extends
 			protected List<PayHead> getLists(Context context) {
 				return PayStructureTableRequirement.this.getPayHeads();
 			}
+
+			@Override
+			public String getRecordName() {
+				return getMessages().payhead();
+			}
 		});
 
 		list.add(new CurrencyAmountRequirement(RATE, getMessages().pleaseEnter(
@@ -133,7 +138,7 @@ public class PayStructureTableRequirement extends
 
 	@Override
 	protected List<ClientPayStructureItem> getList() {
-		return null;
+		return new ArrayList<ClientPayStructureItem>();
 	}
 
 	@Override
@@ -141,19 +146,24 @@ public class PayStructureTableRequirement extends
 		Record record = new Record(t);
 		record.add(getMessages().effectiveFrom(),
 				new ClientFinanceDate(t.getEffectiveFrom()));
-		record.add(getMessages().payhead(), t.getClientPayHead().getName());
-		record.add(getMessages().rate(), t.getRate());
 		PayHead payHead = (PayHead) CommandUtils.getServerObjectById(
 				t.getPayHead(), AccounterCoreType.PAY_HEAD);
+		record.add(getMessages().payhead(), payHead.getName());
+		record.add(getMessages().rate(), t.getRate());
+		Session currentSession = HibernateUtil.getCurrentSession();
 		int type = 0;
 		if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
-			AttendancePayHead payhead = ((AttendancePayHead) payHead);
+
+			AttendancePayHead payhead = (AttendancePayHead) currentSession.get(
+					AttendancePayHead.class, payHead.getID());
 			type = payhead.getCalculationPeriod();
 		} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
-			ComputionPayHead payhead = ((ComputionPayHead) payHead);
+			ComputionPayHead payhead = (ComputionPayHead) currentSession.get(
+					ComputionPayHead.class, payHead.getID());
 			type = payhead.getCalculationPeriod();
 		} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_FLAT_RATE) {
-			FlatRatePayHead payhead = ((FlatRatePayHead) payHead);
+			FlatRatePayHead payhead = (FlatRatePayHead) currentSession.get(
+					FlatRatePayHead.class, payHead.getID());
 			type = payhead.getCalculationPeriod();
 		}
 		record.add(getMessages().calculationPeriod(),

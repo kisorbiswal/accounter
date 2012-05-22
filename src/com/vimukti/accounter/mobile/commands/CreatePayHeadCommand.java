@@ -43,32 +43,6 @@ public class CreatePayHeadCommand extends AbstractCommand {
 	private static final String PRODUCTION_TYPE = "productionType";
 	private static final String COMPUTE_ON = "computeOn";
 
-	private String[] types = { getMessages().earningsForEmployees(),
-			getMessages().deductionsForEmployees(),
-			getMessages().employeesStatutoryDeductions(),
-			getMessages().employeesStatutoryContributions(),
-			getMessages().employeesOtherCharges(), getMessages().bonus(),
-			getMessages().loansAndAdvances(),
-			getMessages().reimbursmentsToEmployees() };
-
-	private String[] calType = { getMessages().attendance(),
-			getMessages().asComputedValue(), getMessages().flatRate(),
-			getMessages().production() };
-
-	private String[] calPeriod = { getMessages().days(), getMessages().weeks(),
-			getMessages().months() };
-
-	private String[] perDayCalculations = {
-			getMessages().asPerCalendarPeriod(), getMessages().days30(),
-			getMessages().userDefinedCalendar() };
-
-	private String[] computationTypes = { getMessages().onDeductionTotal(),
-			getMessages().onEarningTotal(), getMessages().onSubTotal() };
-
-	String[] attendanceTypes = { getMessages().otherPayhead(),
-			getMessages().onEarningTotal(), getMessages().onSubTotal(),
-			getMessages().rate() };
-
 	private ClientPayHead payHead;
 	private List<String> payHeadTypesList = new ArrayList<String>();
 	private List<String> calculationTypesList = new ArrayList<String>();
@@ -79,15 +53,8 @@ public class CreatePayHeadCommand extends AbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		initEarningDeductionList();
-		initPayHeads();
-		initCalculationTypes();
-		for (int i = 0; i < computationTypes.length; i++) {
-			computationTypeList.add(computationTypes[i]);
-		}
-
 		list.add(new NameRequirement(PAY_HEAD_NAME, getMessages().pleaseEnter(
-				getMessages().payhead()), getMessages().payhead(), false, true) {
+				getMessages().name()), getMessages().name(), false, true) {
 			@Override
 			public void setValue(Object value) {
 				if (CreatePayHeadCommand.this.isPayHeadExists((String) value)) {
@@ -102,11 +69,11 @@ public class CreatePayHeadCommand extends AbstractCommand {
 
 		list.add(new NameRequirement(PAY_HEAD_SLIPNAME, getMessages()
 				.pleaseEnter(getMessages().paySlipName()), getMessages()
-				.paySlipName(), false, true));
+				.paySlipName(), true, true));
 
 		list.add(new StringListRequirement(PAY_HEAD_TYPE, getMessages()
 				.pleaseEnter(getMessages().payHeadType()), getMessages()
-				.payHeadType(), true, true, null) {
+				.payHeadType(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -178,7 +145,7 @@ public class CreatePayHeadCommand extends AbstractCommand {
 
 		list.add(new StringListRequirement(CALCULATION_TYPE, getMessages()
 				.pleaseEnter(getMessages().calculationType()), getMessages()
-				.calculationType(), true, true, null) {
+				.calculationType(), false, true, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -205,7 +172,7 @@ public class CreatePayHeadCommand extends AbstractCommand {
 
 		list.add(new StringListRequirement(EARNING_DEDUCTION_ON, getMessages()
 				.pleaseEnter(getMessages().deductionOn()), getMessages()
-				.deductionOn(), true, true, null) {
+				.deductionOn(), false, true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -247,7 +214,7 @@ public class CreatePayHeadCommand extends AbstractCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				String value = get(EARNING_DEDUCTION_ON).getValue();
-				if (value.equals(getMessages().otherPayhead())) {
+				if (value != null && value.equals(getMessages().otherPayhead())) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -279,7 +246,7 @@ public class CreatePayHeadCommand extends AbstractCommand {
 		list.add(new StringListRequirement(PER_DAY_CALCULATION_BASIS,
 				getMessages().pleaseEnter(
 						getMessages().perDayCalculationBasis()), getMessages()
-						.perDayCalculationBasis(), true, false, null) {
+						.perDayCalculationBasis(), false, false, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -317,7 +284,7 @@ public class CreatePayHeadCommand extends AbstractCommand {
 
 		list.add(new StringListRequirement(CALCULATION_PERIOD, getMessages()
 				.pleaseEnter(getMessages().calculationPeriod()), getMessages()
-				.calculationPeriod(), true, true, null) {
+				.calculationPeriod(), false, true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -384,7 +351,7 @@ public class CreatePayHeadCommand extends AbstractCommand {
 
 		list.add(new StringListRequirement(COMPUTE_ON, getMessages()
 				.pleaseEnter(getMessages().computedOn()), getMessages()
-				.computedOn(), true, true, null) {
+				.computedOn(), false, true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -420,7 +387,17 @@ public class CreatePayHeadCommand extends AbstractCommand {
 
 	}
 
+	private void initComputationType() {
+		String[] computationTypes = { getMessages().onDeductionTotal(),
+				getMessages().onEarningTotal(), getMessages().onSubTotal() };
+		for (int i = 0; i < computationTypes.length; i++) {
+			computationTypeList.add(computationTypes[i]);
+		}
+	}
+
 	protected List<String> getCalculationPeriodTypes() {
+		String[] calPeriod = { getMessages().days(), getMessages().weeks(),
+				getMessages().months() };
 		calPeriodTypesList = new ArrayList<String>();
 		for (String string : calPeriod) {
 			calPeriodTypesList.add(string);
@@ -429,6 +406,8 @@ public class CreatePayHeadCommand extends AbstractCommand {
 	}
 
 	protected List<String> getPerDayCalculationTypes() {
+		String[] perDayCalculations = { getMessages().asPerCalendarPeriod(),
+				getMessages().days30(), getMessages().userDefinedCalendar() };
 		perDayCalTypesList = new ArrayList<String>();
 		for (String string : perDayCalculations) {
 			perDayCalTypesList.add(string);
@@ -446,6 +425,9 @@ public class CreatePayHeadCommand extends AbstractCommand {
 	}
 
 	private void initEarningDeductionList() {
+		String[] attendanceTypes = { getMessages().otherPayhead(),
+				getMessages().onEarningTotal(), getMessages().onSubTotal(),
+				getMessages().rate() };
 		attendanceTypesList = new ArrayList<String>();
 		for (String string : attendanceTypes) {
 			attendanceTypesList.add(string);
@@ -453,6 +435,8 @@ public class CreatePayHeadCommand extends AbstractCommand {
 	}
 
 	private void initCalculationTypes() {
+		String[] calType = { getMessages().attendance(),
+				getMessages().flatRate(), getMessages().production() };
 		calculationTypesList = new ArrayList<String>();
 		for (String string : calType) {
 			calculationTypesList.add(string);
@@ -460,6 +444,13 @@ public class CreatePayHeadCommand extends AbstractCommand {
 	}
 
 	private void initPayHeads() {
+		String[] types = { getMessages().earningsForEmployees(),
+				getMessages().deductionsForEmployees(),
+				getMessages().employeesStatutoryDeductions(),
+				getMessages().employeesStatutoryContributions(),
+				getMessages().employeesOtherCharges(), getMessages().bonus(),
+				getMessages().loansAndAdvances(),
+				getMessages().reimbursmentsToEmployees() };
 		payHeadTypesList = new ArrayList<String>();
 		for (String string : types) {
 			payHeadTypesList.add(string);
@@ -604,8 +595,11 @@ public class CreatePayHeadCommand extends AbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(CALCULATION_TYPE).setDefaultValue(getMessages().attendance());
-		get(EARNING_DEDUCTION_ON).setDefaultValue(getMessages().otherPayhead());
+		initEarningDeductionList();
+		initPayHeads();
+		initCalculationTypes();
+		initComputationType();
+		get(AFFECT_NET_SALARY).setDefaultValue(true);
 	}
 
 	@Override

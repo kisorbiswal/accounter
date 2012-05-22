@@ -30,7 +30,7 @@
 			<command title="Vendor" />
 			<command title="banking" />
 			<command if="inventoryEnabled" title="inventory" />
-			<command title="payroll" />
+			<command if="payrollEnabled" title="payroll" />
 			<command title="settings" />
 			<command title="reports" />
 			<command title="logout" />
@@ -637,19 +637,27 @@
 		</outputs>
 	</pattern>
 
-	<pattern login="true">
+	<pattern login="true" if="payrollEnabled">
 		<input>payroll</input>
 		<outputs>
+			<command title="newEmployee"></command>
+			<command title="newEmployeeGroup"></command>
 			<command title="newPayHead" />
+			<command title="newPayrollUnit"></command>
+			<command title="newPayStructure"></command>
+			<command title="newPayrun"></command>
+			<command title="newPayEmployee"></command>
+			<command title="newAttOrProductionType"></command>
 			<command title="payrollLists" />			
 		</outputs>
 	</pattern>
 	
 	
-	<pattern login="true">
+	<pattern login="true" if="payrollEnabled">
 		<input>payrollLists</input>
 		<outputs>
 			<command title="employeeList" />
+			<command title="employeeGroupList" />
 			<command title="payheadList" />
 			<command title="payrollUnitList" />
 			<command title="payStructureList"/>

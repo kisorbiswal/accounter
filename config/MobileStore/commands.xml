@@ -1325,6 +1325,8 @@
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.AttendanceOrProductionListCommand"
 		name="attendanceOrProductionTypeList">
+	</command>
+	
 	<command clazz="com.vimukti.accounter.mobile.commands.reports.PayheadSummaryCommand"
 		name="payHeadSummaryReport">
 	</command>
@@ -1336,5 +1338,29 @@
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.reports.PaySlipDetailReportCommand"
 		name="payslipDetail">
+	</command>>
+	<command clazz="com.vimukti.accounter.mobile.commands.CreateEmployeeCommand"
+		name="newEmployee">
+		<alias>updateEmployee</alias>
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.CreateEmployeeGroupCommand"
+		name="newEmployeeGroup">
+		<alias>updateEmployeeGroup</alias>
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.CreatePayEmployeeCommand"
+		name="newPayEmployee">
+		<alias>updatePayEmployee</alias>
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.CreatePayStructureCommand"
+		name="newPayStructure">
+		<alias>updatePayStructure</alias>
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.CreatePayRollUnitCommand"
+		name="newPayrollUnit">
+		<alias>updatePayrollUnit</alias>
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.CreateAttendanceOrProductionTypeCommand"
+		name="newAttOrProductionType">
+		<alias>updateAttOrProductionType</alias>
 	</command>
 </commands>

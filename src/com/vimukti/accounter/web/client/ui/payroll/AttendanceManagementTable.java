@@ -210,11 +210,4 @@ public class AttendanceManagementTable extends
 		this.items = items;
 	}
 
-	public List<ClientAttendanceManagementItem> getRows() {
-		for (ClientAttendanceManagementItem item : getAllRows()) {
-			for (ClientAttendanceOrProductionItem att : item.getAttendanceOrProductionItems()) {
-			} 
-		}
-		return null;
-	}
 }

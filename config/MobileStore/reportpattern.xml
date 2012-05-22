@@ -13,11 +13,13 @@
 		</outputs>
 	</pattern>
 
-<pattern login="true">
+	<pattern login="true" if="payrollEnabled">
 		<input>payrollReports</input>
 		<outputs>
 			<command title="paySlipSummary" />
 			<command title="payslipDetail" />
+			<command title="payHeadSummaryReport" />
+			<command title="payHeadDetailReport" />
 		</outputs>
 	</pattern>
 	<pattern login="true">

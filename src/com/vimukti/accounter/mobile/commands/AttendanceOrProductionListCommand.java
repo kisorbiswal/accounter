@@ -56,7 +56,7 @@ public class AttendanceOrProductionListCommand extends AbstractCommand {
 
 			@Override
 			protected String onSelection(AttendanceOrProductionType value) {
-				return "updatePayrollUnit " + value.getID();
+				return "updateAttOrProductionType #" + value.getID();
 			}
 
 			@Override
@@ -120,7 +120,7 @@ public class AttendanceOrProductionListCommand extends AbstractCommand {
 	}
 
 	protected void setCreateCommand(CommandList list) {
-		list.add("createAttendanceOrProductionType");
+		list.add("newAttOrProductionType");
 	}
 
 	protected Record createRecord(AttendanceOrProductionType value) {

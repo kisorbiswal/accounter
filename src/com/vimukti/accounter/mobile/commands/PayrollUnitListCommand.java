@@ -55,7 +55,7 @@ public class PayrollUnitListCommand extends AbstractCommand {
 
 			@Override
 			protected String onSelection(PayrollUnit value) {
-				return "updatePayrollUnit " + value.getID();
+				return "updatePayrollUnit #" + value.getID();
 			}
 
 			@Override

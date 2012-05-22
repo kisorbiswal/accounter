@@ -76,7 +76,7 @@ public class CreateEmployeeGroupCommand extends AbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new StringRequirement(NAME, getMessages().pleaseEnter(
-				getMessages().symbol()), getMessages().symbol(), false, true));
+				getMessages().name()), getMessages().name(), false, true));
 	}
 
 	@Override

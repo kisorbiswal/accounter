@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ClientAttendancePayHead extends ClientPayHead {
 
@@ -87,7 +87,7 @@ public class ClientAttendancePayHead extends ClientPayHead {
 	}
 
 	public static String getAttendanceType(int attendanceType) {
-		AccounterMessages messages = Accounter.getMessages();
+		AccounterMessages messages = Global.get().messages();
 		switch (attendanceType) {
 		case ATTENDANCE_ON_PAYHEAD:
 			return messages.otherPayhead();

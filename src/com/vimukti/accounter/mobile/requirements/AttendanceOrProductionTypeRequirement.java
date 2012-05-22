@@ -67,7 +67,7 @@ public class AttendanceOrProductionTypeRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add("newAttendanceOrProductionType");
+		list.add("newAttOrProductionType");
 	}
 
 	@Override

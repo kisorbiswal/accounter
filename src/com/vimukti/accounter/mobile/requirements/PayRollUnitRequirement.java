@@ -31,19 +31,22 @@ public class PayRollUnitRequirement extends ListRequirement<PayrollUnit> {
 	@Override
 	protected Record createRecord(PayrollUnit value) {
 		Record record = new Record(value);
-		record.add(getMessages().unitName(),
-				value == null ? "" : value.getName());
+		record.add(
+				getMessages().unitName(),
+				value == null ? "" : value.getSymbol() + " "
+						+ value.getFormalname());
 		return record;
 	}
 
 	@Override
 	protected String getDisplayValue(PayrollUnit value) {
-		return value == null ? "" : value.getName();
+		return value == null ? "" : value.getSymbol() + " "
+				+ value.getFormalname();
 	}
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add("newPayRollUnit");
+		list.add("newPayrollUnit");
 	}
 
 	@Override

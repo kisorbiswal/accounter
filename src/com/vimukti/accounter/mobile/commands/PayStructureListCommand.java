@@ -53,7 +53,7 @@ public class PayStructureListCommand extends AbstractCommand {
 
 			@Override
 			protected String onSelection(ClientPayStructureList value) {
-				return "updatePayStructure " + value.getID();
+				return "updatePayStructure #" + value.getId();
 			}
 
 			@Override
@@ -116,6 +116,6 @@ public class PayStructureListCommand extends AbstractCommand {
 	}
 
 	protected void setCreateCommand(CommandList list) {
-		list.add("createPayStructure");
+		list.add("newPayStructure");
 	}
 }
