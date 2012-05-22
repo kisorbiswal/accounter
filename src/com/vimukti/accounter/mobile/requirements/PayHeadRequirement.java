@@ -1,8 +1,16 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.mobile.CommandList;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 
 public abstract class PayHeadRequirement extends ListRequirement<PayHead> {
@@ -16,6 +24,16 @@ public abstract class PayHeadRequirement extends ListRequirement<PayHead> {
 	@Override
 	protected String getEmptyString() {
 		return getMessages().youDontHaveAny(getMessages().payheadList());
+	}
+
+	@Override
+	protected List<PayHead> getLists(Context context) {
+		List<PayHead> payheadsList = new ArrayList<PayHead>();
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("list.Payhead").setEntity(
+				"company", getCompany());
+		payheadsList = query.list();
+		return payheadsList;
 	}
 
 	@Override

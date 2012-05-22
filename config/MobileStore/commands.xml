@@ -273,6 +273,8 @@
 		<alias>purchaseByVednorDetailReport</alias>
 		<alias>purchaseByVendorDetail</alias>
 	</command>
+	
+	
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.reports.PurchaseBySupplierSummaryReportCommand"
@@ -1323,5 +1325,10 @@
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.AttendanceOrProductionListCommand"
 		name="attendanceOrProductionTypeList">
+	<command clazz="com.vimukti.accounter.mobile.commands.reports.PayheadSummaryCommand"
+		name="payHeadSummaryReport">
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.reports.PayHeadDetailCommand"
+		name="payHeadDetailReport">
 	</command>
 </commands>

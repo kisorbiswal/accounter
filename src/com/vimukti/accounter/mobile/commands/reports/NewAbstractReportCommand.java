@@ -31,6 +31,8 @@ public abstract class NewAbstractReportCommand<T> extends AbstractCommand {
 	protected static final String RECORDS = "records";
 	protected static final String ENDING_DATE = "Ending Date";
 	protected static final String CUSTOMER = "Customer";
+	protected static final String PAY_HEAD = "Payhead";
+	protected static final String EMPLOYEE = "Employee";
 	private String previousSelectedRange;
 
 	protected List<ResultList> categories = new ArrayList<ResultList>();
