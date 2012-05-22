@@ -1324,4 +1324,10 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.AttendanceOrProductionListCommand"
 		name="attendanceOrProductionTypeList">
 	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.reports.PaySlipSummaryReportCommand"
+		name="paySlipSummary">
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.reports.PaySlipDetailReportCommand"
+		name="payslipDetail">
+	</command>
 </commands>
