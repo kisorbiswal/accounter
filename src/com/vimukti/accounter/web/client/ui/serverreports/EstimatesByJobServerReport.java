@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.EstimatesByJob;
@@ -102,7 +104,12 @@ public class EstimatesByJobServerReport extends
 		case 2:
 			return getDateByCompanyType(record.getEstimateDate());
 		case 3:
-			return Utility.getTransactionName(record.getTransactionType());
+			int transactionType = record.getTransactionType();
+			if (transactionType != Transaction.TYPE_ESTIMATE) {
+				return Utility.getTransactionName(transactionType);
+			} else {
+				return getEstimateNameByType(record.getEstimateType());
+			}
 		case 4:
 			return record.getNum();
 		case 5:
@@ -111,6 +118,22 @@ public class EstimatesByJobServerReport extends
 			return record.getAmount();
 		}
 		return null;
+	}
+
+	private String getEstimateNameByType(int estimateType) {
+		String estimateName = messages.quote();
+		switch (estimateType) {
+		case ClientEstimate.CHARGES:
+			estimateName = messages.charge();
+			break;
+		case ClientEstimate.CREDITS:
+			estimateName = messages.credit();
+			break;
+		case ClientEstimate.SALES_ORDER:
+			estimateName = messages.salesOrder();
+			break;
+		}
+		return estimateName;
 	}
 
 	@Override

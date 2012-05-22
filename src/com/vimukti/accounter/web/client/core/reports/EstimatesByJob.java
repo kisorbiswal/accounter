@@ -33,6 +33,8 @@ public class EstimatesByJob extends BaseReport implements IsSerializable,
 
 	private long jobId;
 
+	private int estimateType;
+
 	public String getCustomerName() {
 		return customerName;
 	}
@@ -105,4 +107,11 @@ public class EstimatesByJob extends BaseReport implements IsSerializable,
 		this.num = num;
 	}
 
+	public int getEstimateType() {
+		return estimateType;
+	}
+
+	public void setEstimateType(int estimateType) {
+		this.estimateType = estimateType;
+	}
 }
