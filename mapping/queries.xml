@@ -2410,4 +2410,9 @@
 			set customer.id=:toID
 			where customer.id=:fromID
 	</query>	
+	<query name="getReminders">
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.Reminder r
+		where r.company.id=:companyId order by r.transactionDate
+	</query>
 </hibernate-mapping>
