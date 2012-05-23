@@ -966,6 +966,23 @@ public class WriteChequeView extends
 				}
 				WriteChequeView.this.updateNonEditableItems();
 			}
+
+			@Override
+			protected boolean isAccountAllowed(ClientAccount account) {
+				if (account.getType() != ClientAccount.TYPE_CASH
+						&& account.getType() != ClientAccount.TYPE_BANK
+						&& account.getType() != ClientAccount.TYPE_CREDIT_CARD
+						&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+						&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+						&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+						&& account.getType() != ClientAccount.TYPE_INCOME
+						&& account.getType() != ClientAccount.TYPE_OTHER_INCOME) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
 		};
 
 		transactionVendorAccountTable.setEnabled(!isInViewMode());
@@ -1516,7 +1533,8 @@ public class WriteChequeView extends
 		}
 		netAmount.setTitle(messages.currencyNetAmount(formalName));
 		netAmount.setCurrency(currencyWidget.getSelectedCurrency());
-		unassignedAmount.setTitle(messages.unassignedAmountWithCurrencyName(formalName));
+		unassignedAmount.setTitle(messages
+				.unassignedAmountWithCurrencyName(formalName));
 		unassignedAmount.setCurrency(currencyWidget.getSelectedCurrency());
 	}
 

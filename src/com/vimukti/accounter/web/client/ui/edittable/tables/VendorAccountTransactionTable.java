@@ -112,23 +112,8 @@ public abstract class VendorAccountTransactionTable extends
 					@Override
 					public boolean filter(ClientAccount account) {
 
-						if (account.getType() != ClientAccount.TYPE_CASH
-								&& account.getType() != ClientAccount.TYPE_BANK
-								&& account.getType() != ClientAccount.TYPE_CREDIT_CARD
-								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
-								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
-								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-								&& account.getType() != ClientAccount.TYPE_INCOME
-								&& account.getType() != ClientAccount.TYPE_OTHER_INCOME
-								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
-								&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-								&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
-								&& account.getType() != ClientAccount.TYPE_EQUITY
-								&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY) {
-							return true;
-						} else {
-							return false;
-						}
+						return VendorAccountTransactionTable.this
+								.isAccountAllowed(account);
 					}
 				};
 
@@ -367,7 +352,7 @@ public abstract class VendorAccountTransactionTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionItem row) {
-				return "Job"+getValue(row);
+				return "Job" + getValue(row);
 			}
 
 			@Override
@@ -434,6 +419,26 @@ public abstract class VendorAccountTransactionTable extends
 		}
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
+	}
+
+	protected boolean isAccountAllowed(ClientAccount account) {
+		if (account.getType() != ClientAccount.TYPE_CASH
+				&& account.getType() != ClientAccount.TYPE_BANK
+				&& account.getType() != ClientAccount.TYPE_CREDIT_CARD
+				&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
+				&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+				&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
+				&& account.getType() != ClientAccount.TYPE_INCOME
+				&& account.getType() != ClientAccount.TYPE_OTHER_INCOME
+				&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_ASSET
+				&& account.getType() != ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+				&& account.getType() != ClientAccount.TYPE_OTHER_ASSET
+				&& account.getType() != ClientAccount.TYPE_EQUITY
+				&& account.getType() != ClientAccount.TYPE_LONG_TERM_LIABILITY) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	protected boolean isTrackJob() {
