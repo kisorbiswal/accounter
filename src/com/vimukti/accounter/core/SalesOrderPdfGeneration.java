@@ -110,8 +110,6 @@ public class SalesOrderPdfGeneration {
 			Address shippAdress = salesOrder.getShippingAdress();
 			if (shippAdress != null) {
 				i.setShipTo(shippAdress);
-				// i.shipTo.setShip_customerName(invoice.getCustomer().getName()
-				// .trim());
 				i.shipTo.setAddress1(forNullValue(shippAdress.getAddress1()));
 				i.shipTo.setStreet(forNullValue(shippAdress.getStreet()));
 				i.shipTo.setCity(forNullValue(shippAdress.getCity()));
@@ -153,8 +151,8 @@ public class SalesOrderPdfGeneration {
 			List<TransactionItem> transactionItems = salesOrder
 					.getTransactionItems();
 
-			double currencyFactor = salesOrder.getCurrencyFactor();
 			String symbol = salesOrder.getCurrency().getSymbol();
+
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
 
@@ -184,15 +182,15 @@ public class SalesOrderPdfGeneration {
 				}
 
 				String unitPrice = Utility.decimalConversation(
-						item.getUnitPrice() / currencyFactor, "");
+						item.getUnitPrice(), "");
 				String totalPrice = Utility.decimalConversation(
-						item.getLineTotal() / currencyFactor, "");
+						item.getLineTotal(), "");
 
 				Double vaTfraction = item.getVATfraction();
 				String vatAmount = " ";
 				if (vaTfraction != null) {
 					vatAmount = Utility.decimalConversation(
-							item.getVATfraction() / currencyFactor, "");
+							item.getVATfraction(), "");
 				}
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
