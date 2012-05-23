@@ -60,4 +60,8 @@ public interface AccounterMessages2 extends Messages {
 	public String updatePayStructure();
 
 	public String payrollReports();
+
+	public String manageLicense();
+
+	public String licenseManagement();
 }

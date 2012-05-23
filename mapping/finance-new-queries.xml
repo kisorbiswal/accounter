@@ -400,5 +400,43 @@
 		<query-param name="companyId" type="long" />
 		select password_HInt from company where id=:companyId
 	</sql-query>
-
+	
+	<sql-query name="insertAllFeatures">
+		insert into features values(3,'create company');
+		insert into features values(3,'brnading theme0');
+		insert into features values(3,'history');
+		insert into features values(3,'user activity');
+		insert into features values(3,'class');
+		insert into features values(3,'location');
+		insert into features values(3,'attachments');
+		insert into features values(3,'billable exenses');
+		insert into features values(3,'credtis and charges');
+		insert into features values(3,'merging');
+		insert into features values(3,'job costing');
+		insert into features values(3,'encryption');
+		insert into features values(3,'invite users');
+		insert into features values(3,'inventory');
+		insert into features values(3,'extra reports');
+		insert into features values(3,'multi currency');
+		insert into features values(3,'salse order');
+		insert into features values(3,'purchase order');
+		insert into features values(3,'recurring transactions');
+		insert into features values(3,'drafts');
+		insert into features values(3,'dash board widgets');
+		insert into features values(3,'BUDGET');
+		insert into features values(3,'transactions');
+		insert into features values(3,'fixed asset');
+		insert into features values(3,'import');
+		insert into features values(3,'transaction navigation');
+		insert into features values(3,'historical unitprices');
+		insert into features values(3,'import bank statements');
+		insert into features values(3,'pay roll');
+	</sql-query>
+	
+	
+	<query name="getLicensesOf">
+		<query-param name="emailId" type="String" />
+		from com.vimukti.accounter.core.License ls  where ls.client.emailId=:emailId
+	</query>
+	
 </hibernate-mapping>

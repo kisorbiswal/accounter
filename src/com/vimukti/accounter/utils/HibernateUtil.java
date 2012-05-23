@@ -6,6 +6,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.dialect.EncryptedStringType;
 import org.hibernate.proxy.HibernateProxy;
 
+import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.setup.server.DatabaseManager;
+
 public class HibernateUtil {
 
 	static ThreadLocal<Session> threadLocalSession = new ThreadLocal<Session>();
@@ -27,6 +30,13 @@ public class HibernateUtil {
 	}
 
 	private static SessionFactory buildSessionFactory() {
+		if (ServerConfiguration.isDesktopApp()) {
+			try {
+				DatabaseManager.getInstance().loadDbConfig();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		Configuration config = new Configuration();
 		config.getTypeResolver().registerTypeOverride(
 				EncryptedStringType.INSTANCE);

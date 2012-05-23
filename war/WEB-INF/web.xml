@@ -727,7 +727,7 @@
 		<servlet-name>adminserviceimpl</servlet-name>
 		<url-pattern>/do/admin/crud/rpc/service</url-pattern>
 	</servlet-mapping>
-
+	
 	<servlet>
 		<servlet-name>adminlogout</servlet-name>
 		<servlet-class>com.vimukti.accounter.admin.server.AdminLogoutServlet
@@ -1045,4 +1045,78 @@
 		<servlet-name>freeTrailServlet </servlet-name>
 		<url-pattern>/main/freetrail </url-pattern>
 	</servlet-mapping>
+	
+	<listener>
+    	<listener-class>com.vimukti.accounter.listeners.ServicesStartUpListener</listener-class>
+	</listener>
+	
+	<listener>
+    	<listener-class>com.vimukti.accounter.listeners.StartUpListener</listener-class>
+	</listener>
+	
+	
+	<servlet>
+		<servlet-name>setupserviceimpl</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.setup.server.SetupServiceImpl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>setupserviceimpl</servlet-name>
+		<url-pattern>/do/setup/service</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>setupservlet</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.setup.server.AccounterSetupServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>setupservlet</servlet-name>
+		<url-pattern>/desk/setup</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	<servlet>
+		<servlet-name>desktopStartup
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.DesktopStartupServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>desktopStartup </servlet-name>
+		<url-pattern>/desk/startup</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>desktopStartupComplete
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.StartupCompletedServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>desktopStartupComplete </servlet-name>
+		<url-pattern>/desk/startupcomplete</url-pattern>
+	</servlet-mapping>
+	
+		<servlet>
+		<servlet-name>manageLicense
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.ManageLicenseServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>manageLicense </servlet-name>
+		<url-pattern>/main/managelicense</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	
+	
 </web-app>

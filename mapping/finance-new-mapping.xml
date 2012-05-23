@@ -247,4 +247,29 @@
 	</class>
 
 
+	<class name="Property" table="PROPERTY">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="value" column="VALUE" />
+	</class>
+	
+	<class name="License" table="LICENSE">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="client" column="CLIENT_ID" class="Client"
+			not-null="true">
+		</many-to-one>
+		<property name="licenseText" column="LICENSE_TEXT" type="text"/>
+		<property name="serverId" column="SERVER_ID"/>
+		<property name="organisation" column="ORGANISATION"/>
+		<property name="expiresOn" column="EXPIRES_ON"/>
+		
+		<property name="createdOn" column="CREATED_ON"/>
+		<property name="purchasedOn" column="PURCHASED_ON"/>
+		<property name="isActive" column="IS_ACTIVE"/>
+		<property name="version" column="VERSION"/>
+	</class>
+
 </hibernate-mapping>

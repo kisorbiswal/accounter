@@ -29,6 +29,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.UTF8Control;
@@ -55,12 +56,12 @@ public class OpenCompanyServlet extends BaseServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		String header = request.getHeader(USER_AGENT);
-		if (header != null)
+		if (header != null) {
 			if (!SupportedBrowsers.check(header)) {
 				dispatch(request, response, SUPPORTED_BROWSERS_URL);
 				return;
 			}
-
+		}
 		String url = request.getRequestURI().toString();
 		String isTouch = (String) request.getSession().getAttribute(IS_TOUCH);
 		request.setAttribute(IS_TOUCH, isTouch == null ? "false" : isTouch);
@@ -123,7 +124,7 @@ public class OpenCompanyServlet extends BaseServlet {
 							.getClientSubscription().getSubscription()
 							.getFeatures());
 					RequestDispatcher dispatcher = getServletContext()
-							.getRequestDispatcher("/WEB-INF/Accounter.jsp");
+							.getRequestDispatcher(getAccountView());
 					dispatcher.forward(request, response);
 					return;
 				} else {
@@ -201,7 +202,7 @@ public class OpenCompanyServlet extends BaseServlet {
 				// .getClientSubscription().getId());
 				// }
 				RequestDispatcher dispatcher = getServletContext()
-						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
+						.getRequestDispatcher(getAccountView());
 				dispatcher.forward(request, response);
 			} finally {
 			}
@@ -309,4 +310,11 @@ public class OpenCompanyServlet extends BaseServlet {
 	// cometSession);
 	// }
 
+	private String getAccountView() {
+		if (ServerConfiguration.isDesktopApp()) {
+			return "/WEB-INF/Accounter_desk.jsp";
+		} else {
+			return "/WEB-INF/Accounter.jsp";
+		}
+	}
 }

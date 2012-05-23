@@ -44,6 +44,8 @@ public class CompaniesServlet extends BaseServlet {
 
 	private String companiedListView = "/WEB-INF/companylist.jsp";
 
+	private String companyListViewForApp = "/WEB-INF/companylist_desk.jsp";
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -146,7 +148,11 @@ public class CompaniesServlet extends BaseServlet {
 			req.setAttribute("message", Global.get().messages()
 					.yourCompanyHasBeenLocked());
 		}
-		dispatch(req, resp, companiedListView);
+		if (ServerConfiguration.isDesktopApp()) {
+			dispatch(req, resp, companyListViewForApp);
+		} else {
+			dispatch(req, resp, companiedListView);
+		}
 	}
 
 	private List<Object[]> getCompaniesToEncrypt(Set<User> users) {
