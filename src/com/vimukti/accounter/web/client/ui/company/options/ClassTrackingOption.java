@@ -69,9 +69,9 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 				+ " : " + messages.onePerDetailLineclassTrackingDescription(),
 				"organisation_comment");
 
-		oneperdetaillineRadioButton = new RadioButton(messages.classes(),
-				messages.onepertransaction());
 		onepertransactionRadioButton = new RadioButton(messages.classes(),
+				messages.onepertransaction());
+		oneperdetaillineRadioButton = new RadioButton(messages.classes(),
 				messages.oneperdetailline());
 
 		StyledPanel radioPanel = new StyledPanel("radio-panel");
@@ -101,11 +101,8 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 	public void onSave() {
 		getCompanyPreferences().setClassTrackingEnabled(
 				trackClassCheckBox.getValue());
-		if (oneperdetaillineRadioButton.getValue()) {
-			getCompanyPreferences().setClassPerDetailLine(true);
-		} else {
-			getCompanyPreferences().setClassPerDetailLine(false);
-		}
+		getCompanyPreferences().setClassPerDetailLine(
+				oneperdetaillineRadioButton.getValue());
 
 	}
 
