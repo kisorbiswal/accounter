@@ -3004,6 +3004,7 @@
 		<return-scalar column="NUMBER" type="encryptedstring" />
 		<return-scalar column="MEMO" type="encryptedstring" />
 		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="ESTIMATETYPE" type="int" />
 		
 		<![CDATA[
 				SELECT P.NAME                      AS CUSTOMER_NAME,
@@ -3014,7 +3015,8 @@
 				       T.T_DATE                    AS TR_DATE,
 				       T.NUMBER                    AS NUMBER,
 				       T.MEMO                      AS MEMO,
-				       T.TOTAL * T.CURRENCY_FACTOR AS TOTAL
+				       T.TOTAL * T.CURRENCY_FACTOR AS TOTAL,
+				       E.ESTIMATETYPE			   AS ESTIMATETYPE
 				FROM   ESTIMATE E
 				       LEFT OUTER JOIN TRANSACTION T
 				         ON T.ID = E.ID

@@ -3923,6 +3923,7 @@ public class ReportManager extends Manager {
 			estimatesByJob.setNum((String) objects[6]);
 			estimatesByJob.setMemo((String) objects[7]);
 			estimatesByJob.setAmount((Double) objects[8]);
+			estimatesByJob.setEstimateType((Integer) objects[9]);
 			estimatesByJobs.add(estimatesByJob);
 		}
 		return estimatesByJobs;
