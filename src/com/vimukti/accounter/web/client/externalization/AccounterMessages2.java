@@ -68,4 +68,6 @@ public interface AccounterMessages2 extends Messages {
 	public String purchaseLicense();
 
 	public String licenseKey();
+
+	public String licenseExpired();
 }

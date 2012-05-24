@@ -10,9 +10,9 @@ public interface ISetupService extends RemoteService {
 
 	Boolean saveDBConnection(DatabaseConnection conn) throws Exception;
 
-	String getRandomServerID();
+	String getServerID();
 
-	boolean verifyLicense(String serverID, String license);
+	boolean verifyLicense(String serverID, String licenseText) throws Exception;
 
 	boolean saveAccountDetails(AccountDetails accountDetails) throws Exception;
 

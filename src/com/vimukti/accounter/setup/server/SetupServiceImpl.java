@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -24,10 +25,12 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.EU;
+import com.vimukti.accounter.core.License;
 import com.vimukti.accounter.core.Property;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.encryption.Encrypter;
+import com.vimukti.accounter.license.LicenseManager;
 import com.vimukti.accounter.main.MessageLoader;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.setup.client.ISetupService;
@@ -102,9 +105,9 @@ public class SetupServiceImpl extends RemoteServiceServlet implements
 		Transaction transaction = session.beginTransaction();
 		try {
 			Property pagePro = (Property) session.get(Property.class,
-					Property.SETUP_PAGE_ID);
+					Property.SETUP_PAGE);
 			if (pagePro == null) {
-				pagePro = new Property(Property.SETUP_PAGE_ID, pageNo);
+				pagePro = new Property(Property.SETUP_PAGE, pageNo);
 			} else {
 				pagePro.setValue(pageNo + "");
 			}
@@ -148,13 +151,50 @@ public class SetupServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public String getRandomServerID() {
+	public String getServerID() {
+		Session session = HibernateUtil.getCurrentSession();
+		Property prop = (Property) session.get(Property.class,
+				Property.SERVER_ID);
+		if (prop != null) {
+			return prop.getValue();
+		}
+		String randomSID = getRandomSID();
+		Transaction transaction = session.getTransaction();
+		try {
+			Property serverIdProp = new Property(Property.SERVER_ID, randomSID);
+			session.save(serverIdProp);
+			transaction.commit();
+		} catch (Exception e) {
+			transaction.rollback();
+		}
+		return randomSID;
+	}
+
+	private String getRandomSID() {
 		DefaultSIDManager sidManger = new DefaultSIDManager();
 		return sidManger.generateSID();
 	}
 
 	@Override
-	public boolean verifyLicense(String serverID, String license) {
+	public boolean verifyLicense(String serverID, String licenseString)
+			throws Exception {
+
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			License license = new LicenseManager().doDecode(licenseString);
+			String dbServerID = getServerID();
+			if (!serverID.equals(license.getServerId())
+					|| !serverID.equals(dbServerID) || !license.isValid()) {
+				throw new Exception("Invalid License");
+			}
+			session.save(license);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+			throw new Exception(e);
+		}
 		completePage(2);
 		return true;
 	}
@@ -171,9 +211,37 @@ public class SetupServiceImpl extends RemoteServiceServlet implements
 		Transaction transaction = null;
 		try {
 			initServer();
+
+			Property serverIDProp = (Property) session.get(Property.class,
+					Property.SERVER_ID);
+
+			if (serverIDProp == null) {
+				throw new Exception("License Not yet configured");
+			}
+
+			Query query = session.getNamedQuery("getLicenseByServerID")
+					.setParameter("serverID", serverIDProp.getValue());
+			List<License> list = query.list();
+			if (list.isEmpty()) {
+				throw new Exception("License Not yet configured");
+			}
+			License activeLicense = null;
+			for (License license : list) {
+				if (license.isValid()) {
+					activeLicense = license;
+					break;
+				}
+			}
+			if (activeLicense == null) {
+				throw new Exception("Invalid License.");
+			}
+
 			transaction = session.beginTransaction();
 			Client client = getClient(accountDetails);
 			session.save(client);
+
+			activeLicense.setClient(client);
+			session.saveOrUpdate(activeLicense);
 
 			HttpServletRequest request = getThreadLocalRequest();
 

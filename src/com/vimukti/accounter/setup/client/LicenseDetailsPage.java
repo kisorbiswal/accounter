@@ -15,20 +15,19 @@ public class LicenseDetailsPage extends AbstractPage {
 
 	public LicenseDetailsPage() {
 		super();
-		SetupHome.getSetupService().getRandomServerID(
-				new AsyncCallback<String>() {
+		SetupHome.getSetupService().getServerID(new AsyncCallback<String>() {
 
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
 
-					}
+			}
 
-					@Override
-					public void onSuccess(String result) {
-						serverIDLabel.setHTML("<b>" + result + "</b>");
-					}
-				});
+			@Override
+			public void onSuccess(String result) {
+				serverIDLabel.setHTML("<b>" + result + "</b>");
+			}
+		});
 	}
 
 	@Override
@@ -41,8 +40,8 @@ public class LicenseDetailsPage extends AbstractPage {
 
 		table.setWidget(0, 0, createTitle("Server ID"));
 		table.setWidget(0, 1, serverIDLabel);
-		table.setWidget(1, 0, createTitle("License Key", true));
-		table.setWidget(1, 1, licenseKey);
+		table.setWidget(2, 0, createTitle("License Key", true));
+		table.setWidget(2, 1, licenseKey);
 
 		table.getCellFormatter().setVerticalAlignment(1, 0,
 				HasVerticalAlignment.ALIGN_TOP);
@@ -65,6 +64,7 @@ public class LicenseDetailsPage extends AbstractPage {
 		if (text == null || text.trim().isEmpty()) {
 			result.addError(licenseKey, "Please enter license key");
 		}
+
 	}
 
 	@Override

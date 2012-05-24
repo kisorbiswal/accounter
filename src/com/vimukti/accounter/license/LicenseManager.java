@@ -8,10 +8,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyFactory;
@@ -26,15 +24,12 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Date;
-import java.util.Properties;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
-import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.License;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.StringUtils;
@@ -80,7 +75,10 @@ public class LicenseManager {
 		return false;
 	}
 
-	public Properties doDecode(String licenseString) {
+	public License doDecode(String licenseString) {
+		if (!canDecode(licenseString)) {
+			throw new LicenseException("Invalid License");
+		}
 		String encodedLicenseTextAndHash = getLicenseContent(StringUtils
 				.removeWhiteSpaces(licenseString));
 		byte[] zippedLicenseBytes = checkAndGetLicenseText(encodedLicenseTextAndHash);
@@ -149,11 +147,9 @@ public class LicenseManager {
 		return licenseText;
 	}
 
-	private Properties loadLicenseConfiguration(Reader text) {
+	private License loadLicenseConfiguration(Reader text) {
 		try {
-			Properties props = new Properties();
-			new PropertiesPersister().load(props, text);
-			return props;
+			return new PropertiesPersister().load(text);
 		} catch (IOException e) {
 			throw new LicenseException("Could NOT load properties from reader",
 					e);
@@ -166,7 +162,8 @@ public class LicenseManager {
 		byte[] licenseText = null;
 		byte[] hash;
 		try {
-			licenseText = Zip.compressBytes(getLicenseData(license));
+			licenseText = Zip.compressBytes(new PropertiesPersister()
+					.getLicenseAsString(license));
 		} catch (UnsupportedEncodingException e) {
 			throw new LicenseException(e);
 		} catch (IOException e) {
@@ -189,43 +186,6 @@ public class LicenseManager {
 		String packLicense = packLicense(licenseText, hash);
 
 		return new LicensePair(licenseText, hash, packLicense);
-	}
-
-	private String getLicenseData(License license) throws IOException {
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		OutputStreamWriter writter = new OutputStreamWriter(out,
-				Charset.forName("UTF-8"));
-		Client client = license.getClient();
-		writter.write(getProperty("ContactName", client.getFullName()));
-		writter.write(getProperty("ContactEmail", client.getEmailId()));
-		writter.write(getProperty("Email", client.getEmailId()));
-		writter.write(getProperty("ServerID", license.getServerId()));
-		writter.write(getProperty("Organisation", license.getOrganisation()));
-		writter.write(getProperty("ExpiresOn", license.getExpiresOn()));
-		writter.write(getProperty("PurchaseDate", license.getPurchasedOn()));
-		writter.write(getProperty("IsActive", license.isActive()));
-		writter.write(getProperty("NoOfUsers", license.getNoOfUsers()));
-		out.flush();
-		out.close();
-		writter.flush();
-		writter.close();
-		return new String(out.toByteArray(), "UTF-8");
-	}
-
-	private String getProperty(String propName, String propValue) {
-		return propName + "=" + propValue;
-	}
-
-	private String getProperty(String propName, boolean propValue) {
-		return propName + "=" + propValue;
-	}
-
-	private String getProperty(String propName, Number propValue) {
-		return propName + "=" + propValue;
-	}
-
-	private String getProperty(String propName, Date propValue) {
-		return propName + "=" + propValue.getTime();
 	}
 
 	public static String packLicense(byte[] text, byte[] hash)

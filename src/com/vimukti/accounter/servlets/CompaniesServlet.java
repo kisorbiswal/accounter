@@ -12,12 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
+import com.vimukti.accounter.core.License;
 import com.vimukti.accounter.core.SupportedUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -45,6 +47,7 @@ public class CompaniesServlet extends BaseServlet {
 	private String companiedListView = "/WEB-INF/companylist.jsp";
 
 	private String companyListViewForApp = "/WEB-INF/companylist_desk.jsp";
+	private static final String licenseExpired = "/WEB-INF/licenseExpired.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -149,10 +152,30 @@ public class CompaniesServlet extends BaseServlet {
 					.yourCompanyHasBeenLocked());
 		}
 		if (ServerConfiguration.isDesktopApp()) {
-			dispatch(req, resp, companyListViewForApp);
+			checkLicense(req, resp);
 		} else {
 			dispatch(req, resp, companiedListView);
 		}
+	}
+
+	private void checkLicense(HttpServletRequest req, HttpServletResponse resp) {
+		HttpSession httpSession = req.getSession();
+		String emailID = (String) httpSession.getAttribute(EMAIL_ID);
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getLicensesOf").setParameter(
+				"emailId", emailID);
+		List<License> list = query.list();
+		if (list.isEmpty()) {
+			dispatch(req, resp, licenseExpired);
+			return;
+		}
+		for (License license : list) {
+			if (license.isActive() && !license.isValid()) {
+				dispatch(req, resp, licenseExpired);
+				return;
+			}
+		}
+		dispatch(req, resp, companyListViewForApp);
 	}
 
 	private List<Object[]> getCompaniesToEncrypt(Set<User> users) {

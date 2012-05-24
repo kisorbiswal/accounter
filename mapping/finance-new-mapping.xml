@@ -265,11 +265,10 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="client" column="CLIENT_ID" class="Client"
-			not-null="true">
+		<many-to-one name="client" column="CLIENT_ID" class="Client">
 		</many-to-one>
-		<property name="licenseText" column="LICENSE_TEXT" type="text"/>
-		<property name="serverId" column="SERVER_ID"/>
+		<property name="licenseText" column="LICENSE_TEXT" type="text" not-null="true"/>
+		<property name="serverId" column="SERVER_ID" not-null="true"/>
 		<property name="organisation" column="ORGANISATION"/>
 		<property name="expiresOn" column="EXPIRES_ON"/>
 		

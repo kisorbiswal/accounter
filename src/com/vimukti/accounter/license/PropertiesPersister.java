@@ -2,27 +2,44 @@ package com.vimukti.accounter.license;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.License;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.StringUtils;
 
 public class PropertiesPersister {
-	public void load(Properties props, InputStream is) throws IOException {
-		props.load(is);
-	}
+
+	private static final String CONTACT_NAME = "ContactName";
+	private static final String EMAIL = "Email";
+	private static final String SERVER_ID = "ServerID";
+	private static final String ORGANISATION = "Organisation";
+	private static final String EXPIRES_ON = "ExpiresOn";
+	private static final String PURCHASE_DATE = "PurchaseDate";
+	private static final String IS_ACTIVE = "IsActive";
+	private static final String NO_OF_USERS = "NoOfUsers";
+	private static final String LICENSE_TEXT = "licenseText";
 
 	public void load(Properties props, Reader reader) throws IOException {
 		BufferedReader in = new BufferedReader(reader);
+		StringBuffer licenseText = new StringBuffer();
 		while (true) {
 			String line = in.readLine();
 			if (line == null) {
+				props.put(LICENSE_TEXT, licenseText);
 				return;
 			}
 			line = StringUtils.trimLeadingWhitespace(line);
@@ -49,6 +66,7 @@ public class PropertiesPersister {
 							.substring(separatorIndex + 1) : "";
 					key = StringUtils.trimTrailingWhitespace(key);
 					value = StringUtils.trimLeadingWhitespace(value);
+					licenseText.append(line);
 					props.put(unescape(key), unescape(value));
 				}
 			}
@@ -144,6 +162,82 @@ public class PropertiesPersister {
 			}
 		}
 		return outBuffer.toString();
+	}
+
+	public License load(Reader reader) throws IOException {
+		Properties props = new Properties();
+		load(props, reader);
+		License license = new License();
+		String emailID = props.getProperty(EMAIL);
+		license.setClient(getClient(emailID));
+		license.setServerId(props.getProperty(SERVER_ID));
+		license.setOrganisation(props.getProperty(ORGANISATION));
+		license.setExpiresOn(toDate(props.getProperty(EXPIRES_ON)));
+		license.setNoOfUsers(toNumber(props.getProperty(NO_OF_USERS)));
+		license.setPurchasedOn(toDate(props.getProperty(PURCHASE_DATE)));
+		license.setLicenseText(props.getProperty(LICENSE_TEXT));
+		return license;
+	}
+
+	private Client getClient(String emailId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
+		namedQuery.setParameter("emailId", emailId);
+		Client client = (Client) namedQuery.uniqueResult();
+		return client;
+	}
+
+	private int toNumber(String property) {
+		try {
+			return Integer.parseInt(property);
+		} catch (NumberFormatException e) {
+		}
+		return 1;
+	}
+
+	private Date toDate(String mills) {
+		try {
+			long timeMills = Long.parseLong(mills);
+			return new Date(timeMills);
+		} catch (NumberFormatException e) {
+		}
+		return null;
+	}
+
+	public String getLicenseAsString(License license) throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		OutputStreamWriter writter = new OutputStreamWriter(out,
+				Charset.forName("UTF-8"));
+		Client client = license.getClient();
+		writter.write(getProperty(CONTACT_NAME, client.getFullName()));
+		writter.write(getProperty(EMAIL, client.getEmailId()));
+		writter.write(getProperty(SERVER_ID, license.getServerId()));
+		writter.write(getProperty(ORGANISATION, license.getOrganisation()));
+		writter.write(getProperty(EXPIRES_ON, license.getExpiresOn()));
+		writter.write(getProperty(PURCHASE_DATE, license.getPurchasedOn()));
+		writter.write(getProperty(IS_ACTIVE, license.isActive()));
+		writter.write(getProperty(NO_OF_USERS, license.getNoOfUsers()));
+		out.flush();
+		out.close();
+		writter.flush();
+		writter.close();
+		return new String(out.toByteArray(), "UTF-8");
+	}
+
+	private String getProperty(String propName, String propValue) {
+		return propName + "=" + propValue;
+	}
+
+	private String getProperty(String propName, boolean propValue) {
+		return propName + "=" + propValue;
+	}
+
+	private String getProperty(String propName, Number propValue) {
+		return propName + "=" + propValue;
+	}
+
+	private String getProperty(String propName, Date propValue) {
+		return propName + "=" + propValue.getTime();
 	}
 
 }

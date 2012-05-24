@@ -26,6 +26,8 @@ public class StartupCompletedServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private static final String SETUP_URL = "/desk/setup";
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -33,20 +35,20 @@ public class StartupCompletedServlet extends HttpServlet {
 		if (DatabaseManager.isDBConfigured()) {
 			Session session = HibernateUtil.openSession();
 			Property prop = (Property) session.get(Property.class,
-					Property.SETUP_PAGE_ID);
+					Property.SETUP_PAGE);
 			if (prop == null) {
-				redirectURL = "/desk/setup";
+				redirectURL = SETUP_URL;
 			} else {
 				String value = prop.getValue();
 				if (value.equals("3")) {
 					redirectURL = "/login";
 				} else {
-					redirectURL = "/desk/setup?page=" + value;
+					redirectURL = SETUP_URL + "?page=" + value;
 				}
 			}
 
 		} else {
-			redirectURL = "/desk/setup";
+			redirectURL = SETUP_URL;
 		}
 		resp.sendRedirect(redirectURL);
 	}

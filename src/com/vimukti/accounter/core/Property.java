@@ -9,7 +9,10 @@ public class Property implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static final long SETUP_PAGE_ID = 1l;
+	/** IDs of Properties */
+	public static final long SETUP_PAGE = 1001;
+
+	public static final long SERVER_ID = 1002;
 
 	private long id;
 
@@ -24,7 +27,7 @@ public class Property implements Serializable {
 		this.value = value;
 	}
 
-	public Property(long id, int value) {
+	public Property(long id, Number value) {
 		this(id, value + "");
 	}
 

@@ -187,4 +187,11 @@ public class License implements IAccounterServerCore {
 		this.noOfUsers = noOfUsers;
 	}
 
+	public boolean isValid() {
+		if (!isActive()) {
+			return false;
+		}
+		return getExpiresOn().before(new Date());
+	}
+
 }

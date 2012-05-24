@@ -12,9 +12,9 @@ public interface ISetupServiceAsync {
 	void saveDBConnection(DatabaseConnection conn,
 			AsyncCallback<Boolean> callback);
 
-	public void getRandomServerID(AsyncCallback<String> callback);
+	public void getServerID(AsyncCallback<String> callback);
 
-	public void verifyLicense(String serverID, String license,
+	public void verifyLicense(String serverID, String licenseText,
 			AsyncCallback<Boolean> callback);
 
 	public void saveAccountDetails(AccountDetails accountDetails,
