@@ -66,6 +66,13 @@
 			class="com.vimukti.accounter.core.ClientSubscription" lazy="false"
 			cascade="save-update" column="CLIENT_SUBSCRIPTION">
 		</many-to-one>
+		
+		<many-to-one name="licensePurchase"
+			class="com.vimukti.accounter.core.LicensePurchase"
+			cascade="save-update" column="LICENSE_PURCHASE">
+		</many-to-one>
+		
+		
 	</class>
 
 	<class name="ClientSubscription" table="CLIENT_SUBSCRIPTION">
@@ -266,10 +273,24 @@
 		<property name="organisation" column="ORGANISATION"/>
 		<property name="expiresOn" column="EXPIRES_ON"/>
 		
-		<property name="createdOn" column="CREATED_ON"/>
 		<property name="purchasedOn" column="PURCHASED_ON"/>
 		<property name="isActive" column="IS_ACTIVE"/>
 		<property name="version" column="VERSION"/>
+		<property name="noOfUsers" column="NO_OF_USERS"/>
 	</class>
+	
+	<class name="LicensePurchase" table="LICENSE_PURCHASE">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="client" column="CLIENT_ID" class="Client"
+			not-null="true">
+		</many-to-one>
+		<property name="type" column="TYPE"/>
+		<property name="paypalSubscriptionID" column="PAYPAL_SUB_ID"/>
+		<property name="purchaseDate" column="PURCHASE_DATE"/>
+		<property name="expiredDate" column="EXPIRED_DATE"/>
+	</class>
+	
 
 </hibernate-mapping>

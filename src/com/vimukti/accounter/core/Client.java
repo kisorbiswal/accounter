@@ -36,6 +36,7 @@ public class Client {
 	private ClientSubscription clientSubscription;
 	private byte[] passwordRecoveryKey;
 	private boolean isPremiumTrailDone;
+	private LicensePurchase licensePurchase;
 
 	// NEW FILEDS
 
@@ -403,6 +404,21 @@ public class Client {
 
 	public void setPremiumTrailDone(boolean isPremiumTrailDone) {
 		this.isPremiumTrailDone = isPremiumTrailDone;
+	}
+
+	/**
+	 * @return the licensePurchase
+	 */
+	public LicensePurchase getLicensePurchase() {
+		return licensePurchase;
+	}
+
+	/**
+	 * @param licensePurchase
+	 *            the licensePurchase to set
+	 */
+	public void setLicensePurchase(LicensePurchase licensePurchase) {
+		this.licensePurchase = licensePurchase;
 	}
 
 }

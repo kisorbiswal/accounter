@@ -2,6 +2,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="i18n" uri="/WEB-INF/i18n.tld"%>
 <%@ include file="./scripts.jsp" %>
 <html>
@@ -19,7 +20,7 @@
 		<% }else{%>
 		<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
 		<% }%>
-		<link type="text/css" href="../css/setupcss.css?version=<%= version%>" rel="stylesheet" />
+		<link type="text/css" href="../css/setup.css?version=<%= version%>" rel="stylesheet" />
   </head>
   
   <script type="text/javascript">
@@ -59,6 +60,28 @@
 	  		<h4>Organization Name</h4>
 	  		<input name="orgName" type="text"></input>
 	  	</div>
+	  	<c:if test="${purchaseType!=null}">
+	  	<div>
+	  		<h4>License Type</h4>
+	  		<select name="licenseType">
+				<option value="-1">Free License</option>
+				<c:choose>
+					<c:when test="${purchaseType==1}">
+						<option value="${purchaseType}">One user yearly</option>
+					</c:when>
+					<c:when test="${purchaseType==2}">
+						<option value="${purchaseType}">2 users yearly</option>
+					</c:when>
+					<c:when test="${purchaseType==3}">
+						<option value="${purchaseType}">5 users yearly</option>
+					</c:when>
+					<c:when test="${purchaseType==4}">
+						<option value="${purchaseType}">Unlimited users yearly</option>
+					</c:when>
+		   		</c:choose>
+			</select>
+	  	</div>
+	  	</c:if>
 	  	<input type="submit" value="Generate License" />
   		<input type="button" onClick="showList()" value="Cancel" />
   		</form>
@@ -68,6 +91,7 @@
   	<div>
   	<h2>Evaluations</h2>
   	<a href="/main/managelicense?gen=true">New Evalution License</a>
+  	<a href="/main/purchaseLicense">Purchase License</a>
   	</div>
   	<table class="licenses">
   		<tr>
@@ -86,12 +110,11 @@
 		   		<div>${license.organisation}</div>
 			</td>
 			<td>
-		   		<div>${license.expiresOn}</div>
+		   		<div><fmt:formatDate value="${license.expiresOn}" pattern="dd, MMM yyyy HH:mm"/></div>
 			</td>
 			<td>
 		   		<div>
 		   			<textarea onClick="select_all(this);" class="licenseText" rows='7' cols='85'>${license.licenseText}</textarea>
-		   			
 		   		</div>
 			</td>
 			</tr>
@@ -99,7 +122,6 @@
 	    </c:if>
   	</table>
   	</div>
-  	
   	
   	</div>
   <body>

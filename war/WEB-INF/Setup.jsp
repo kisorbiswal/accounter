@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta content="IE=100" http-equiv="X-UA-Compatible">
-    <link type="text/css" href="../css/setupcss.css" rel="stylesheet" />
+    <link type="text/css" href="../css/setup.css" rel="stylesheet" />
     <% String pageNo = (String)request.getAttribute( "pageNo" ); %>
     <title>Accounter Setup</title>   
   </head>

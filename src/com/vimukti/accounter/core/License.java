@@ -13,6 +13,10 @@ public class License implements IAccounterServerCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private long id;
+
+	private int version;
+
 	private Client client;
 
 	private String serverId;
@@ -23,15 +27,11 @@ public class License implements IAccounterServerCore {
 
 	private String licenseText;
 
-	private Date createdOn = new Date();
-
-	private Date purchasedOn = new Date();
+	private Date purchasedOn;
 
 	private boolean isActive;
 
-	private long id;
-
-	private int version;
+	private int noOfUsers;
 
 	/**
 	 * @return the client
@@ -109,21 +109,6 @@ public class License implements IAccounterServerCore {
 	}
 
 	/**
-	 * @return the createdOn
-	 */
-	public Date getCreatedOn() {
-		return createdOn;
-	}
-
-	/**
-	 * @param createdOn
-	 *            the createdOn to set
-	 */
-	public void setCreatedOn(Date createdOn) {
-		this.createdOn = createdOn;
-	}
-
-	/**
 	 * @return the purchasedOn
 	 */
 	public Date getPurchasedOn() {
@@ -185,6 +170,21 @@ public class License implements IAccounterServerCore {
 	public void selfValidate() throws AccounterException {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * @return the noOfUsers
+	 */
+	public int getNoOfUsers() {
+		return noOfUsers;
+	}
+
+	/**
+	 * @param noOfUsers
+	 *            the noOfUsers to set
+	 */
+	public void setNoOfUsers(int noOfUsers) {
+		this.noOfUsers = noOfUsers;
 	}
 
 }

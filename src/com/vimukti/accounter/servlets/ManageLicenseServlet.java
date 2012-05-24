@@ -2,6 +2,7 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.License;
+import com.vimukti.accounter.core.LicensePurchase;
 import com.vimukti.accounter.license.LicenseManager;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -31,13 +33,13 @@ public class ManageLicenseServlet extends BaseServlet {
 			throws ServletException, IOException {
 		String emailId = (String) req.getSession().getAttribute(EMAIL_ID);
 		if (emailId == null) {
-			resp.sendRedirect(LOGIN_URL);
+			resp.sendRedirect(LOGIN_URL + "?destination=" + MANAGE_LICENSE);
 			return;
 		}
 
 		Client client = getClient(emailId);
 		if (client == null) {
-			resp.sendRedirect(LOGIN_URL);
+			resp.sendRedirect(LOGIN_URL + "?destination=" + MANAGE_LICENSE);
 			return;
 		}
 		String parameter = req.getParameter("gen");
@@ -54,6 +56,11 @@ public class ManageLicenseServlet extends BaseServlet {
 
 		req.setAttribute("fullName", client.getFullName());
 
+		if (client.getLicensePurchase() != null) {
+			LicensePurchase purchase = client.getLicensePurchase();
+			req.setAttribute("purchaseType", purchase.getType());
+		}
+
 		dispatch(req, resp, view);
 	}
 
@@ -62,28 +69,65 @@ public class ManageLicenseServlet extends BaseServlet {
 			throws ServletException, IOException {
 		String emailId = (String) req.getSession().getAttribute(EMAIL_ID);
 		if (emailId == null) {
-			resp.sendRedirect(LOGIN_URL);
+			resp.sendRedirect(LOGIN_URL + "?destination=" + MANAGE_LICENSE);
+			return;
+		}
+
+		Client client = getClient(emailId);
+		if (client == null) {
+			resp.sendRedirect(LOGIN_URL + "?destination=" + MANAGE_LICENSE);
 			return;
 		}
 
 		String organisationName = req.getParameter("orgName");
 		String serverID = req.getParameter("serverID");
+		String licenseTypeStr = req.getParameter("licenseType");
+		int licenseType = -1;
+		try {
+			licenseType = Integer.parseInt(licenseTypeStr);
+		} catch (NumberFormatException e) {
+		}
+		int noOfOusers;
+		switch (licenseType) {
+		case LicensePurchase.TYPE_TWO_USER:
+			noOfOusers = 2;
+			break;
+		case LicensePurchase.TYPE_FIVE_USER:
+			noOfOusers = 5;
+			break;
+		case LicensePurchase.TYPE_UNLIMITED_USER:
+			noOfOusers = -1;
 
-		License license = new License();
-		license.setClient(getClient(emailId));
-		license.setServerId(serverID);
-		license.setOrganisation(organisationName);
-		Calendar instance = Calendar.getInstance();
-		instance.add(Calendar.MONTH, 1);
-		license.setExpiresOn(instance.getTime());
-
-		LicenseManager licenseManager = new LicenseManager();
-		license.setLicenseText(licenseManager.generateLicense(license));
-
+			noOfOusers = 1;
+		default:
+			noOfOusers = 1;
+			break;
+		}
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {
+			License license = new License();
+			license.setClient(getClient(emailId));
+			license.setServerId(serverID);
+			license.setOrganisation(organisationName);
+			Calendar instance = Calendar.getInstance();
+			if (licenseType == -1) {
+				instance.add(Calendar.MONTH, 1);
+			} else {
+				LicensePurchase licensePurchase = client.getLicensePurchase();
+				client.setLicensePurchase(null);
+				session.delete(licensePurchase);
+				instance.add(Calendar.MONTH, 12);
+			}
+			license.setExpiresOn(instance.getTime());
+			license.setNoOfUsers(noOfOusers);
+			license.setPurchasedOn(new Date());
+
+			LicenseManager licenseManager = new LicenseManager();
+			license.setLicenseText(licenseManager.generateLicense(license));
+
 			session.saveOrUpdate(license);
+			session.saveOrUpdate(client);
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -7,8 +7,6 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,17 +25,12 @@ import com.paypal.sdk.core.nvp.NVPEncoder;
 import com.paypal.sdk.profiles.APIProfile;
 import com.paypal.sdk.profiles.ProfileFactory;
 import com.paypal.sdk.services.NVPCallerServices;
-import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientPaypalDetails;
-import com.vimukti.accounter.core.ClientSubscription;
-import com.vimukti.accounter.core.Subscription;
-import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.services.SubscryptionTool;
 import com.vimukti.accounter.utils.HibernateUtil;
 
-public class PayPalIPINServlet extends BaseServlet {
-	Logger log = Logger.getLogger(PayPalIPINServlet.class);
+public abstract class PayPalIPNServlet extends BaseServlet {
+	Logger log = Logger.getLogger(PayPalIPNServlet.class);
 	private String apiUserName;
 	private String apiPassword;
 	private String apiSignature;
@@ -99,11 +92,11 @@ public class PayPalIPINServlet extends BaseServlet {
 					sendInfo("Your process is not completed", req, resp);
 				} else {
 					if (transactionType.equals("subscr_cancel")) {
-						removeClientSubscription(emailId);
+						deletePayment(emailId);
 					} else {
 						log.info("Payment completed with Status - "
 								+ paymentStatus);
-						upgradeClient(params, emailId);
+						createPayment(emailId, params);
 					}
 				}
 			} else {
@@ -119,6 +112,11 @@ public class PayPalIPINServlet extends BaseServlet {
 
 		log.info("---------------------- PAYPAL PAYMENT ENDED -------------------------");
 	}
+
+	protected abstract void deletePayment(String emailId);
+
+	protected abstract void createPayment(String emailId,
+			Map<String, String> params);
 
 	/**
 	 * Verifies the Paypal Request
@@ -161,126 +159,7 @@ public class PayPalIPINServlet extends BaseServlet {
 		return verificationResp;
 	}
 
-	private void removeClientSubscription(String emailId) {
-		log.info("Removing Client Subscription for" + emailId);
-		Session session = HibernateUtil.getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		try {
-			Client client = getClient(emailId);
-			client.getClientSubscription().setSubscription(
-					Subscription.getInstance(Subscription.FREE_CLIENT));
-			client.getClientSubscription().setPremiumType(0);
-			session.saveOrUpdate(client);
-			transaction.commit();
-		} catch (Exception e) {
-			log.error("Exception while Removing Subscription : ", e);
-			transaction.rollback();
-		}
-		log.info("Removed Client Subscription !!");
-	}
-
-	/**
-	 * Upgrades the Client to Subscription
-	 * 
-	 * @param params
-	 * @param emailId
-	 */
-	private void upgradeClient(Map<String, String> params, String emailId) {
-		log.info("Upgrading Client, Email - " + emailId + ". Params - "
-				+ params);
-		String type = params.get("option_selection1");
-		log.info("Subscription type:" + type);
-		int paymentType = 0;
-		int durationType = 4;
-		Date expiredDate = new Date();
-		if (type.equals("One user monthly")) {
-			paymentType = ClientSubscription.ONE_USER;
-			durationType = ClientSubscription.MONTHLY_USER;
-			expiredDate = getNextMonthDate(1);
-		} else if (type.equals("One user yearly")) {
-			paymentType = ClientSubscription.ONE_USER;
-			durationType = ClientSubscription.YEARLY_USER;
-			expiredDate = getNextMonthDate(12);
-		} else if (type.equals("2 users monthly")) {
-			paymentType = ClientSubscription.TWO_USERS;
-			durationType = ClientSubscription.MONTHLY_USER;
-			expiredDate = getNextMonthDate(1);
-		} else if (type.equals("2 users yearly")) {
-			paymentType = ClientSubscription.TWO_USERS;
-			durationType = ClientSubscription.YEARLY_USER;
-			expiredDate = getNextMonthDate(12);
-		} else if (type.equals("5 users monthly")) {
-			paymentType = ClientSubscription.FIVE_USERS;
-			durationType = ClientSubscription.MONTHLY_USER;
-			expiredDate = getNextMonthDate(1);
-		} else if (type.equals("5 users yearly")) {
-			paymentType = ClientSubscription.FIVE_USERS;
-			durationType = ClientSubscription.YEARLY_USER;
-			expiredDate = getNextMonthDate(12);
-		} else if (type.equals("Unlimited Users monthly")) {
-			paymentType = ClientSubscription.UNLIMITED_USERS;
-			durationType = ClientSubscription.MONTHLY_USER;
-			expiredDate = getNextMonthDate(1);
-		} else if (type.equals("Unlimited Users yearly")) {
-			paymentType = ClientSubscription.UNLIMITED_USERS;
-			durationType = ClientSubscription.YEARLY_USER;
-			expiredDate = getNextMonthDate(12);
-		}
-		Session session = HibernateUtil.getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		Client client = getClient(emailId);
-		String previousSubId = null;
-
-		try {
-			ClientSubscription clientSubscription = client
-					.getClientSubscription();
-			clientSubscription.getMembers().add(emailId);
-			if (clientSubscription.getPremiumType() != ClientSubscription.TRIAL_USER
-					&& clientSubscription.getPremiumType() > paymentType) {
-				clientSubscription.setGracePeriodDate(SubscryptionTool
-						.getGracePeriodDate());
-			} else {
-				clientSubscription.setGracePeriodDate(null);
-			}
-			clientSubscription.setPremiumType(paymentType);
-			clientSubscription.setDurationType(durationType);
-			clientSubscription.setExpiredDate(expiredDate);
-			clientSubscription.setSubscription(Subscription
-					.getInstance(Subscription.PREMIUM_USER));
-			String paypalSubscriptionProfileId = client.getClientSubscription()
-					.getPaypalSubscriptionProfileId();
-			if (paypalSubscriptionProfileId != null
-					&& !paypalSubscriptionProfileId.trim().isEmpty()) {
-				previousSubId = paypalSubscriptionProfileId;
-			}
-			clientSubscription.setPaypalSubscriptionProfileId(params
-					.get("subscr_id"));
-			session.saveOrUpdate(clientSubscription);
-			transaction.commit();
-		} catch (Exception e) {
-			log.error("Exception While Upgrading the Client : " + e);
-			transaction.rollback();
-		}
-		log.info("Client Upgraded Successfully !!");
-		try {
-			UsersMailSendar.sendMailToSubscribedUser(client);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		final String previousSubId2 = previousSubId;
-		if (previousSubId != null && !previousSubId.trim().isEmpty()) {
-			new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					cancelPreviousSubscription(previousSubId2);
-
-				}
-			}).start();
-		}
-	}
-
-	private void cancelPreviousSubscription(String previousSubId) {
+	protected void cancelPreviousSubscription(String previousSubId) {
 		NVPCallerServices caller = null;
 		NVPEncoder encoder = new NVPEncoder();
 		NVPDecoder decoder = new NVPDecoder();
@@ -338,12 +217,6 @@ public class PayPalIPINServlet extends BaseServlet {
 				.println("///////////***************************paypal cancel request// :"
 						+ decoder.get("ACK"));
 
-	}
-
-	private Date getNextMonthDate(int months) {
-		Calendar instance = Calendar.getInstance();
-		instance.add(Calendar.MONTH, months);
-		return instance.getTime();
 	}
 
 	/**

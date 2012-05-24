@@ -858,14 +858,14 @@
 		<url-pattern>/main/subscription/thankyou</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>PayPalIPINServlet
+		<servlet-name>SubscriptionIPNServlet
 		</servlet-name>
 		<servlet-class>
-			com.vimukti.accounter.servlets.PayPalIPINServlet
+			com.vimukti.accounter.servlets.SubscriptionIPNServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>PayPalIPINServlet </servlet-name>
+		<servlet-name>SubscriptionIPNServlet</servlet-name>
 		<url-pattern>/main/subscription/ipn</url-pattern>
 	</servlet-mapping>
 
@@ -1103,7 +1103,7 @@
 		<url-pattern>/desk/startupcomplete</url-pattern>
 	</servlet-mapping>
 	
-		<servlet>
+	<servlet>
 		<servlet-name>manageLicense
 		</servlet-name>
 		<servlet-class>
@@ -1115,7 +1115,29 @@
 		<url-pattern>/main/managelicense</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>purchaseLicense
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.PurchaseLicenseServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>purchaseLicense </servlet-name>
+		<url-pattern>/main/purchaseLicense</url-pattern>
+	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>PurchaseLicenseIPNServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.PurchaseLicenseIPNServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PurchaseLicenseIPNServlet </servlet-name>
+		<url-pattern>/main/license/ipn</url-pattern>
+	</servlet-mapping>
 	
 	
 	

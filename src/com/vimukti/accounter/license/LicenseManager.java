@@ -199,12 +199,12 @@ public class LicenseManager {
 		writter.write(getProperty("ContactName", client.getFullName()));
 		writter.write(getProperty("ContactEmail", client.getEmailId()));
 		writter.write(getProperty("Email", client.getEmailId()));
-		writter.write(getProperty("CreatedDate", license.getCreatedOn()));
 		writter.write(getProperty("ServerID", license.getServerId()));
 		writter.write(getProperty("Organisation", license.getOrganisation()));
 		writter.write(getProperty("ExpiresOn", license.getExpiresOn()));
 		writter.write(getProperty("PurchaseDate", license.getPurchasedOn()));
 		writter.write(getProperty("IsActive", license.isActive()));
+		writter.write(getProperty("NoOfUsers", license.getNoOfUsers()));
 		out.flush();
 		out.close();
 		writter.flush();
@@ -220,8 +220,12 @@ public class LicenseManager {
 		return propName + "=" + propValue;
 	}
 
-	private String getProperty(String propName, Date propValue) {
+	private String getProperty(String propName, Number propValue) {
 		return propName + "=" + propValue;
+	}
+
+	private String getProperty(String propName, Date propValue) {
+		return propName + "=" + propValue.getTime();
 	}
 
 	public static String packLicense(byte[] text, byte[] hash)
