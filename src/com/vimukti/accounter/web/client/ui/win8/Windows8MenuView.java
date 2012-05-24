@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.util.Countries;
@@ -663,7 +664,9 @@ public class Windows8MenuView extends BaseView {
 	private StyledPanel getCompanyMenu(String company2) {
 
 		StyledPanel companyMenuBar = new StyledPanel("companyMenuBar");
-		companyMenuBar.add(new Label(company2));
+		Label companynamelabel = new Label(company2);
+		companynamelabel.setStyleName("menuName");
+		companyMenuBar.add(companynamelabel);
 
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
@@ -983,6 +986,10 @@ public class Windows8MenuView extends BaseView {
 	@Override
 	public void setFocus() {
 
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
 	}
 
 }

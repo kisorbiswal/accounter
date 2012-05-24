@@ -122,9 +122,6 @@ public class SignUpPanel extends FlowPanel {
 
 		StyledPanel centerPanel = new StyledPanel("centerPanel");
 
-		centerPanel.add(new HTML("<h2>" + Accounter.getMessages().signUp()
-				+ "</h2>"));
-		centerPanel.add(errorlLabel);
 		signupForm = new DynamicForm("signupForm");
 		signupForm.add(firstname, lastname, emailid, confirmMailid, password,
 				confirmPassword, phone, countrySelect);
@@ -136,6 +133,9 @@ public class SignUpPanel extends FlowPanel {
 		centerPanel.add(cancelButton);
 
 		add(stylPanel);
+		add(new HTML("<h2>" + Accounter.getMessages().signUp()
+				+ "</h2>"));
+		add(errorlLabel);
 		add(centerPanel);
 		add(stylPanel);
 
