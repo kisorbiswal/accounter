@@ -130,7 +130,7 @@ public class NewClientAttendanceOrProductionDialog extends
 		// attendanceOrProductionType.add(messages.leaveWithPay());
 		// attendanceOrProductionType.add(messages.leaveWithoutPay());
 		attendanceOrProductionType.add(messages.productionType());
-		attendanceOrProductionType.add(messages.userDefindCalendar());
+		attendanceOrProductionType.add(messages.userDefinedCalendar());
 		return attendanceOrProductionType;
 	}
 
