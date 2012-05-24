@@ -29,7 +29,7 @@ public class JettyServer {
 				securityHandler, null, null);
 
 		webappcontext.setContextPath("/");
-		LocalConnector wsConnector=new LocalConnector();
+		LocalConnector wsConnector = new LocalConnector();
 		webappcontext.setAttribute("wsConnector", wsConnector);
 		// webappcontext.setWar("webapp");
 
@@ -40,7 +40,7 @@ public class JettyServer {
 
 		webappcontext.setBaseResource(resource);
 
-		jettyServer.setConnectors(new Connector[] { connector,wsConnector });
+		jettyServer.setConnectors(new Connector[] { connector, wsConnector });
 		webappcontext.setClassLoader(JettyServer.class.getClassLoader());
 
 		webappcontext.setAttribute("documentDomain",
@@ -120,6 +120,7 @@ public class JettyServer {
 			System.exit(0);
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.exit(0);
 		}
 	}
 

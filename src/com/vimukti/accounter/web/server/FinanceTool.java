@@ -1762,29 +1762,29 @@ public class FinanceTool {
 
 	public static void createViews() {
 		Session session = HibernateUtil.getCurrentSession();
+		session.getNamedQuery("createTransactionHistoryView").executeUpdate();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		session.getNamedQuery("createSalesPurchasesView").executeUpdate();
-		session.getNamedQuery("createTransactionHistoryView").executeUpdate();
-		session.getNamedQuery("createDeleteCompanyFunction").executeUpdate();
+		// session.getNamedQuery("createDeleteCompanyFunction").executeUpdate();
 		session.getNamedQuery("createInventoryPurchaseHistory").executeUpdate();
 		session.getNamedQuery("getInventoryHistoryView").executeUpdate();
 		session.getNamedQuery("JobsTransactionsView").executeUpdate();
-		session.getNamedQuery("createSubscriptionFunction").executeUpdate();
-		session.getNamedQuery("transactionsCreatedCountTrigger")
-				.executeUpdate();
-		session.getNamedQuery("companiesCountTrigger").executeUpdate();
-		session.getNamedQuery("lastClientUpDateTrigger").executeUpdate();
-		session.getNamedQuery("changedPasswordCountTrigger").executeUpdate();
-		session.getNamedQuery("noOfUsersPerCompanyCountTrigger")
-				.executeUpdate();
-		session.getNamedQuery("noOfTRansactionPerCompanyCountTrigger")
-				.executeUpdate();
-		session.getNamedQuery("clientUpdateTrigger").executeUpdate();
-		session.getNamedQuery("userInsertTrigger").executeUpdate();
-		session.getNamedQuery("transactionsUpdateCountTrigger").executeUpdate();
-		session.getNamedQuery("updateAccounterClassPathTrigger")
-				.executeUpdate();
-		session.getNamedQuery("updateItemPathTrigger").executeUpdate();
+		// session.getNamedQuery("createSubscriptionFunction").executeUpdate();
+		// session.getNamedQuery("transactionsCreatedCountTrigger")
+		// .executeUpdate();
+		// session.getNamedQuery("companiesCountTrigger").executeUpdate();
+		// session.getNamedQuery("lastClientUpDateTrigger").executeUpdate();
+		// session.getNamedQuery("changedPasswordCountTrigger").executeUpdate();
+		// session.getNamedQuery("noOfUsersPerCompanyCountTrigger")
+		// .executeUpdate();
+		// session.getNamedQuery("noOfTRansactionPerCompanyCountTrigger")
+		// .executeUpdate();
+		// session.getNamedQuery("clientUpdateTrigger").executeUpdate();
+		// session.getNamedQuery("userInsertTrigger").executeUpdate();
+		// session.getNamedQuery("transactionsUpdateCountTrigger").executeUpdate();
+		// session.getNamedQuery("updateAccounterClassPathTrigger")
+		// .executeUpdate();
+		// session.getNamedQuery("updateItemPathTrigger").executeUpdate();
 
 		transaction.commit();
 	}

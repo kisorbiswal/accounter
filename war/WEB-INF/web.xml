@@ -1045,6 +1045,17 @@
 		<servlet-name>freeTrailServlet </servlet-name>
 		<url-pattern>/main/freetrail </url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>licenseInfoServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.LicenseInfoServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>licenseInfoServlet </servlet-name>
+		<url-pattern>/main/licenseInfo</url-pattern>
+	</servlet-mapping>
 	
 	<listener>
     	<listener-class>com.vimukti.accounter.listeners.ServicesStartUpListener</listener-class>

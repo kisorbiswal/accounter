@@ -1438,3 +1438,47 @@ color: #28757D;
 .or td {
     border-bottom: 1px dotted gray;
 }
+.main-class{
+   width:900px;
+   margin:0 auto;
+   border:1px solid #ccc;
+   padding:15px;
+   border-collapse: collapse;
+}
+.main-class #licenseContainer{
+   border-collapse: collapse;
+   width: 100%;
+}
+.main-class #licenseContainer .under-line td{
+   padding:5px;
+}
+.main-class #licenseContainer td input[type=submit]{
+   margin-top:10px;
+}
+#licenseContainer .under-line{
+   border-bottom: 1px solid #ccc;
+}
+#licenseInfo .main-class{
+   width:900px;
+   margin:0 auto;
+   border:1px solid #ccc;
+   padding:15px;
+   border-collapse: collapse;
+}
+.main-class #licenseContainer{
+   border-collapse: collapse;
+   width: 100%;
+}
+.main-class #licenseContainer .under-line td{
+   padding:5px;
+}
+.main-class #licenseContainer td input[type=submit]{
+   margin-top:10px;
+}
+#licenseContainer .under-line{
+   border-bottom: 1px solid #ccc;
+}
+#licenseInfo h1{
+	margin: 0 auto;
+    width: 932px;
+}

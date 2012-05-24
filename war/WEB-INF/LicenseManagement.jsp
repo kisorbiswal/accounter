@@ -36,7 +36,7 @@
   	function showList(){
   		$('#generate').css('visibility', 'hidden');
   		$('#licensesList').css('visibility', 'visible');
-  	};
+  	};/
   	
   	function select_all(textarea){
   		textarea.select();
