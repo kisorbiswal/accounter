@@ -4819,10 +4819,10 @@
 				       INVENTORY_PURCHASE IP
 				       JOIN TRANSACTION_ITEM TRI
 				         ON TRI.ID = IP.TRANSACTION_ITEM_ID
-				         WHERE
+				         AND 
 				         TRI.ID
 				         =
-				         T.ID)
+				         TI.ID)
 				         WHEN ( T.T_TYPE IN ( 15, 6 ) ) THEN AT.AMOUNT
 				         ELSE 0
 				       END        AS CREDIT

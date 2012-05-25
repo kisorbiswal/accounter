@@ -394,7 +394,8 @@ public class SalesPerson extends CreatableObject implements
 
 		Set<SalesPerson> salesPersons = getCompany().getSalesPersons();
 		for (SalesPerson salesPerson : salesPersons) {
-			if (salesPerson.getFirstName().equalsIgnoreCase(getFirstName())) {
+			if (salesPerson.getFirstName().equalsIgnoreCase(getFirstName())
+					&& salesPerson.getID() != getID()) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
 								.get().messages().name());

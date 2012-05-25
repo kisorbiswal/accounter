@@ -191,6 +191,13 @@ public class EmailView extends AbstractBaseView<ClientTransaction> {
 							selectedValue);
 					emailBody.setValue(selectedValue.getEmailBody());
 				}
+				dialog.setCallback(new ActionCallback<ClientEmailTemplate>() {
+
+					@Override
+					public void actionResult(ClientEmailTemplate result) {
+						emailBody.setValue(result.getEmailBody());
+					}
+				});
 				dialog.show();
 			}
 		});

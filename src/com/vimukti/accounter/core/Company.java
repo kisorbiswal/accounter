@@ -15,7 +15,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientEmailTemplate;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
@@ -323,7 +322,7 @@ public class Company implements IAccounterServerCore {
 
 	private Set<EmailAccount> emailAccounts = new HashSet<EmailAccount>();
 
-	private Set<ClientEmailTemplate> emailTemplates = new HashSet<ClientEmailTemplate>();
+	private Set<EmailTemplate> emailTemplates = new HashSet<EmailTemplate>();
 
 	String bankAccountNo;
 
@@ -1722,11 +1721,11 @@ public class Company implements IAccounterServerCore {
 		this.invoiceEmailBody = invoiceEmailBody;
 	}
 
-	public Set<ClientEmailTemplate> getEmailTemplates() {
+	public Set<EmailTemplate> getEmailTemplates() {
 		return emailTemplates;
 	}
 
-	public void setEmailTemplates(Set<ClientEmailTemplate> emailTemplates) {
+	public void setEmailTemplates(Set<EmailTemplate> emailTemplates) {
 		this.emailTemplates = emailTemplates;
 	}
 

@@ -2422,6 +2422,7 @@
 		<property name="emailTemplateName" type="encryptedstring"
 			column="EMAIL_TEMPLATE_NAME"></property>
 		<property name="emailBody" type="encryptedstring" column="EMAIL_BODY"></property>
+		<property name="version" column="VERSION" />
 	</class>
 	
 	<class name="PaypalTransation" table="PAYPAL_TRANSACTION">

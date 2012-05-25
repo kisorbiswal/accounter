@@ -15,7 +15,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientEmailTemplate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -130,11 +129,11 @@ public class EmailTemplate extends CreatableObject implements
 					Global.get().messages().emailSentToYou());
 		}
 
-		Set<ClientEmailTemplate> emailTemplates = getCompany()
-				.getEmailTemplates();
-		for (ClientEmailTemplate clientEmailTemplate : emailTemplates) {
-			if (clientEmailTemplate.getName().equalsIgnoreCase(
-					getEmailTemplateName())) {
+		Set<EmailTemplate> emailTemplates = getCompany().getEmailTemplates();
+		for (EmailTemplate emailTemplate : emailTemplates) {
+			if (emailTemplate.getName()
+					.equalsIgnoreCase(getEmailTemplateName())
+					&& emailTemplate.getID() != getID()) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_NULL, Global.get()
 								.messages().email()
@@ -142,5 +141,4 @@ public class EmailTemplate extends CreatableObject implements
 			}
 		}
 	}
-
 }
