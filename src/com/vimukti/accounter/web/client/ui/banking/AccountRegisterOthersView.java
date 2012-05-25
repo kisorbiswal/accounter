@@ -128,7 +128,7 @@ public class AccountRegisterOthersView extends
 		grid.removeLoadingImage();
 		grid.setRecords(result);
 		Window.scrollTo(0, 0);
-		updateRecordsCount(result.getStart(), result.size(),
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
 	}
 
