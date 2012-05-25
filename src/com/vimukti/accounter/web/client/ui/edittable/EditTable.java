@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -157,6 +158,10 @@ public abstract class EditTable<R> extends FlowPanel {
 			initColumns();
 		}
 		impl.setcolumnsCreated(true);
+	}
+
+	public IsWidget getWidget(int rowIndex, int colIndex) {
+		return impl.getWidget(rowIndex, colIndex);
 	}
 
 }

@@ -27,17 +27,13 @@ public abstract class EditColumn<R> {
 	 * @return
 	 */
 	public abstract int getWidth();
-	
-	
+
 	public abstract String getValueAsString(R row);
-	
+
 	public abstract int insertNewLineNumber();
 
 	public IsWidget getHeader() {
-		if (columnHeader == null) {
-			columnHeader = new Label(getColumnName());
-		}
-		return columnHeader;
+		return new Label(getColumnName());
 	}
 
 	protected String getColumnName() {
@@ -47,7 +43,6 @@ public abstract class EditColumn<R> {
 	public abstract void render(IsWidget widget, RenderContext<R> context);
 
 	public abstract IsWidget getWidget(RenderContext<R> context);
-	
 
 	public EditTable<R> getTable() {
 		return table;

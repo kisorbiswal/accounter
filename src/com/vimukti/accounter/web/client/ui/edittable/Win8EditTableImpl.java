@@ -4,47 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
-public class EditTableImpl<R> {
+public class Win8EditTableImpl<R> extends EditTableImpl<R> {
 
 	protected AccounterMessages messages = Global.get().messages();
 	private ArrayList<ArrayList<EditColumn<R>>> columns = new ArrayList<ArrayList<EditColumn<R>>>();
 
 	private List<R> rows = new ArrayList<R>();
 	private boolean isEnabled = true;
-	private boolean columnsCreated;
 	private int numOfRowsPerObject;
-	FlexTable table;
-	private CellFormatter cellFormatter;
-	private RowFormatter rowFormatter;
-	private FlexCellFormatter flexCellFormatter;
-	protected EditTable wrapper;
+	FlowPanel table;
 
-	public EditTableImpl() {
+	public Win8EditTableImpl() {
 	}
 
+	@Override
 	public void init(EditTable wrapper, int numOfRowsPerObject) {
 		this.wrapper = wrapper;
 		this.numOfRowsPerObject = numOfRowsPerObject;
-		this.wrapper.addStyleName("editTable");
+		this.wrapper.addStyleName("win8EditTable");
 
-		table = new FlexTable();
-		cellFormatter = table.getCellFormatter();
-		rowFormatter = table.getRowFormatter();
-		flexCellFormatter = table.getFlexCellFormatter();
-		for (int x = 0; x < numOfRowsPerObject; x++) {
-			rowFormatter.addStyleName(x, "editheader");
-		}
-
+		table = new FlowPanel();
 		this.wrapper.add(table);
 
 		for (int x = 0; x < numOfRowsPerObject; x++) {
@@ -53,24 +38,7 @@ public class EditTableImpl<R> {
 
 	}
 
-	public void addColumn(EditColumn<R> column) {
-
-		addColumn(column, 0);
-	}
-
-	public void addColumn(EditColumn<R> column, int rowIndex) {
-		columns.get(rowIndex).add(column);
-		int index = columns.get(rowIndex).size() - 1;
-		column.setTable(this.wrapper);
-		table.setWidget(rowIndex, index, column.getHeader());
-		flexCellFormatter.setColSpan(rowIndex, index, column.getColumnSpan());
-		// Set width
-		int width = column.getWidth();
-		if (width != -1) {
-			cellFormatter.setWidth(rowIndex, index, width + "px");
-		}
-	}
-
+	@Override
 	public void setEnabled(boolean isEnabled) {
 		if (this.isEnabled != isEnabled) {
 			this.isEnabled = isEnabled;
@@ -86,30 +54,30 @@ public class EditTableImpl<R> {
 	 * 
 	 * @param row
 	 */
+	@Override
 	public void update(R row) {
 		int index = rows.indexOf(row) * numOfRowsPerObject;
-		index += numOfRowsPerObject;// for header
 		RenderContext<R> context = new RenderContext<R>(row);
 		context.setDesable(!isEnabled);
 		for (int x = 0; x < columns.size(); x++) {
 			ArrayList<EditColumn<R>> list = columns.get(x);
 			for (int y = 0; y < list.size(); y++) {
 				EditColumn<R> column = list.get(y);
-				IsWidget widget = table.getWidget(index, y);
+				IsWidget widget = getWidget(index, y);
 				column.render(widget, context);
 			}
 			index++;
 		}
 	}
 
+	@Override
 	public void updateFromGUI(R row) {
 		int index = rows.indexOf(row) * numOfRowsPerObject;
-		index += numOfRowsPerObject;// for header
 		for (int x = 0; x < columns.size(); x++) {
 			ArrayList<EditColumn<R>> list = columns.get(x);
 			for (int y = 0; y < list.size(); y++) {
 				EditColumn<R> column = list.get(y);
-				IsWidget widget = table.getWidget(index, y);
+				IsWidget widget = getWidget(index, y);
 				column.updateFromGUI(widget, row);
 			}
 			index++;
@@ -121,11 +89,14 @@ public class EditTableImpl<R> {
 	 * 
 	 * @param row
 	 */
+	@Override
 	public void add(R row) {
 		this.wrapper.createColumns();
-		clearEmptyMessageIfPresent();
-		rows.add(row);
+		clearEmptyMessage();
 		int index = rows.size() * numOfRowsPerObject;
+		FlowPanel rowWiget = new FlowPanel();
+		table.insert(rowWiget, index);
+		rows.add(row);
 		RenderContext<R> context = new RenderContext<R>(row);
 		context.setDesable(!isEnabled);
 		for (int x = 0; x < columns.size(); x++) {
@@ -133,22 +104,22 @@ public class EditTableImpl<R> {
 			for (int y = 0; y < list.size(); y++) {
 				EditColumn<R> column = list.get(y);
 				IsWidget widget = column.getWidget(context);
-				table.setWidget(index, y, widget);
-				flexCellFormatter.setColSpan(index, y, column.getColumnSpan());
+				setWidget(index, y * 2, column.getHeader());
+				setWidget(index, (y * 2) + 1, widget);
 				column.render(widget, context);
 			}
 			index++;
 		}
 	}
 
-	private void clearEmptyMessageIfPresent() {
+	private void clearEmptyMessage() {
 		if (rows.size() == 0) {
-			if (table.getRowFormatter() != null) {
-				this.table.getRowFormatter().removeStyleName(
-						numOfRowsPerObject, "norecord-empty-message");
-				this.table.removeStyleName("no_records");
+			if (table.getWidgetCount() > numOfRowsPerObject) {
+				removeStyleName(numOfRowsPerObject, "norecord-empty-message");
 			}
+			this.table.removeStyleName("no_records");
 		}
+
 	}
 
 	/**
@@ -156,14 +127,14 @@ public class EditTableImpl<R> {
 	 * 
 	 * @param row
 	 */
+	@Override
 	public void delete(R row) {
 		int index = rows.indexOf(row);
 		rows.remove(row);
 		if (index != -1) {
-			index += 1;// For header
 			index *= numOfRowsPerObject;
 			for (int x = 0; x < numOfRowsPerObject; x++) {
-				table.removeRow(index);
+				removeRow(index);
 			}
 		}
 	}
@@ -173,6 +144,7 @@ public class EditTableImpl<R> {
 	 * 
 	 * @return
 	 */
+	@Override
 	public List<R> getAllRows() {
 		return new ArrayList<R>(rows);
 	}
@@ -180,15 +152,17 @@ public class EditTableImpl<R> {
 	/**
 	 * Remove all rows from table
 	 */
+	@Override
 	public void clear() {
-		for (int x = 1; x <= rows.size(); x++) {
-			for (int y = 1; y <= numOfRowsPerObject; y++) {
-				table.removeRow(y);
+		for (int x = 0; x <= rows.size(); x++) {
+			for (int y = 0; y < numOfRowsPerObject; y++) {
+				removeRow(numOfRowsPerObject);
 			}
 		}
 		rows.clear();
 	}
 
+	@Override
 	public void setAllRows(List<R> rows) {
 		clear();
 		if (rows == null) {
@@ -200,18 +174,20 @@ public class EditTableImpl<R> {
 
 	}
 
+	@Override
 	public void addRows(List<R> rows) {
 		for (R row : rows) {
 			add(row);
 		}
 	}
 
+	@Override
 	public List<R> getSelectedRecords(int colInd) {
 		List<R> selected = new ArrayList<R>();
 		for (int x = 0; x < rows.size(); x++) {
 			for (int y = 0; y < numOfRowsPerObject; y++) {
-				int index = (x + 1) * numOfRowsPerObject;
-				IsWidget widget = table.getWidget(index + y, colInd);
+				int index = (x) * numOfRowsPerObject;
+				IsWidget widget = getWidget(index + y, colInd);
 				if (widget instanceof CheckBox) {
 					CheckBox checkedWidget = (CheckBox) widget;
 					if (checkedWidget.getValue()) {
@@ -226,19 +202,21 @@ public class EditTableImpl<R> {
 		return selected;
 	}
 
+	@Override
 	public void checkColumn(int row, int colInd, boolean isChecked) {
-		int index = (row + 1) * numOfRowsPerObject;
-		IsWidget widget = table.getWidget(index, colInd);
+		int index = (row) * numOfRowsPerObject;
+		IsWidget widget = getWidget(index, colInd);
 		if (widget instanceof CheckBox) {
 			CheckBox checkedWidget = (CheckBox) widget;
 			checkedWidget.setValue(isChecked);
 		}
 	}
 
+	@Override
 	public boolean isChecked(R row, int colInd) {
 		int x = getAllRows().indexOf(row);
-		int index = (x + 1) * numOfRowsPerObject;
-		IsWidget widget = table.getWidget(index, colInd);
+		int index = (x) * numOfRowsPerObject;
+		IsWidget widget = getWidget(index, colInd);
 		if (widget instanceof CheckBox) {
 			CheckBox checkedWidget = (CheckBox) widget;
 			return checkedWidget.getValue();
@@ -246,45 +224,71 @@ public class EditTableImpl<R> {
 		return false;
 	}
 
+	@Override
 	public boolean isDisabled() {
 		return !isEnabled;
 	}
 
+	@Override
 	protected void onDelete(R obj) {
 
 	}
+
+	// @Override
+	// protected void onAttach() {
+	// createColumns();
+	// if (rows == null || rows.isEmpty()) {
+	// addEmptyMessage(messages.noRecordsToShow());
+	// }
+	// super.onAttach();
+	// }
+	//
+	// @Override
+	// protected void createColumns() {
+	// if (!columnsCreated) {
+	// initColumns();
+	// }
+	// columnsCreated = true;
+	// }
 
 	private void updateHeaderState(boolean isDisable) {
 		for (int x = 0; x < columns.size(); x++) {
 			ArrayList<EditColumn<R>> list = columns.get(x);
 			for (int y = 0; y < list.size(); y++) {
-				Widget widget = table.getWidget(x, y);
+				Widget widget = getWidget(x, y);
 				if (widget instanceof CheckBox) {
-					((CheckBox) widget).setEnabled(isDisable);
+					((CheckBox) widget).setEnabled(!isDisable);
 				}
 			}
 		}
 	}
 
+	@Override
 	public List<EditColumn<R>> getColumns() {
 		return getColumns(0);
 	}
 
+	@Override
 	public List<EditColumn<R>> getColumns(int row) {
 		return columns.get(row);
 	}
 
+	@Override
 	public void reDraw() {
 		clear();
-		columnsCreated = false;
 		for (ArrayList<EditColumn<R>> list : columns) {
 			list.clear();
 		}
-		table.removeAllRows();
+		removeAllRows();
 
 		this.wrapper.createColumns();
 	}
 
+	private void removeAllRows() {
+		table.clear();
+	}
+
+	@Override
 	public void updateColumnHeaders() {
 		for (int x = 0; x < columns.size(); x++) {
 			ArrayList<EditColumn<R>> list = columns.get(x);
@@ -294,16 +298,19 @@ public class EditTableImpl<R> {
 		}
 	}
 
+	@Override
 	public void addEmptyMessage(String emptyMessage) {
-		this.table.setWidget(numOfRowsPerObject, 0, new Label(emptyMessage));
-		this.table.addStyleName("no_records");
-		flexCellFormatter.setColSpan(numOfRowsPerObject, 0,
-				columns.size() <= 0 ? 0 : columns.get(0).size());
+		// setWidget(numOfRowsPerObject, 0, new Label(emptyMessage));
+		// if (table.getWidgetCount() != 0)
+		// setStyleName(numOfRowsPerObject, "norecord-empty-message");
+		// this.table.addStyleName("no_records");
+		// setColSpan(numOfRowsPerObject, 0, columns.size() <= 0 ? 0 : columns
+		// .get(0).size());
 	}
 
+	@Override
 	public Widget getWidget(R row, EditColumn<R> column) {
 		int rowIndex = rows.indexOf(row);
-		rowIndex++;// for header
 		rowIndex *= numOfRowsPerObject;
 
 		int columnIndex = -1;
@@ -316,48 +323,31 @@ public class EditTableImpl<R> {
 		if (columnIndex == -1) {
 			return null;
 		}
-		return table.getWidget(rowIndex, columnIndex);
+		return getWidget(rowIndex, columnIndex);
 	}
 
-	public void addEmptyRowAtLast() {
+	@Override
+	public void addColumn(EditColumn<R> column, int rowIndex) {
+		columns.get(rowIndex).add(column);
+		column.setTable(this.wrapper);
 	}
 
-	public List<R> getRows() {
-		return rows;
-	}
-
-	public boolean iscolumnsCreated() {
-		return columnsCreated;
-	}
-
-	public void setcolumnsCreated(boolean b) {
-		columnsCreated = b;
-	}
-
-	// @Override
-	// protected void onAttach() {
-	// createColumns();
-	// if (getRows() == null || getRows().isEmpty()) {
-	// addEmptyMessage(messages.noRecordsToShow());
-	// }
-	// super.onAttach();
-	// }
-	//
-	// protected void createColumns() {
-	// if (!iscolumnsCreated()) {
-	// initColumns();
-	// }
-	// setcolumnsCreated(true);
-	// }
-
-	protected void initColumns() {
-	}
-
-	protected boolean isInViewMode() {
-		return false;
-	}
-
+	@Override
 	public Widget getWidget(int rowIndex, int colIndex) {
-		return table.getWidget(rowIndex, colIndex);
+		FlowPanel widget = (FlowPanel) table.getWidget(rowIndex);
+		return widget.getWidget((colIndex * 2) + 1);
+	}
+
+	private void setWidget(int row, int col, IsWidget widget) {
+		FlowPanel rowWiget = (FlowPanel) table.getWidget(row);
+		rowWiget.add(widget);
+	}
+
+	private void removeStyleName(int rowIndex, String string) {
+		table.getWidget(rowIndex).removeStyleName(string);
+	}
+
+	private void removeRow(int rowIndex) {
+		table.remove(rowIndex);
 	}
 }

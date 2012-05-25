@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -49,14 +48,6 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 	protected void configure(TextBoxBase textBox) {
 		super.configure(textBox);
 		textBox.addStyleName("amount");
-	}
-
-	@Override
-	public void setTable(EditTable<T> table) {
-		super.setTable(table);
-		FlexTable flexTable = (FlexTable) table.getWidget(0);
-		flexTable.getCellFormatter().addStyleName(0, flexTable.getCellCount(0),
-				"amount");
 	}
 
 	protected String getColumnNameWithCurrency(String name) {

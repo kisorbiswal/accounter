@@ -161,5 +161,10 @@
 			class="com.vimukti.accounter.web.client.ui.edittable.EditTableImpl" />
 		<when-property-is name="tablet.user.agent" value="ipad" />
 	</replace-with> -->
-
+	<replace-with
+		class="com.vimukti.accounter.web.client.ui.edittable.Win8EditTableImpl">
+		<when-type-is
+			class="com.vimukti.accounter.web.client.ui.edittable.EditTableImpl" />
+		<when-property-is name="tablet.user.agent" value="ie10" />
+	</replace-with>
 </module>
