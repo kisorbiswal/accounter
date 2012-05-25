@@ -154,11 +154,7 @@ public class Win8EditTableImpl<R> extends EditTableImpl<R> {
 	 */
 	@Override
 	public void clear() {
-		for (int x = 0; x <= rows.size(); x++) {
-			for (int y = 0; y < numOfRowsPerObject; y++) {
-				removeRow(numOfRowsPerObject);
-			}
-		}
+		table.clear();
 		rows.clear();
 	}
 
