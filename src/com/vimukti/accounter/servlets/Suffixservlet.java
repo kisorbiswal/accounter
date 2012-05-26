@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerLocal;
 
 public class Suffixservlet extends HttpServlet {
@@ -22,12 +21,6 @@ public class Suffixservlet extends HttpServlet {
 				ServerLocal.get().equals(new Locale("ar", "", "")));
 
 		String requestURI = request.getRequestURI();
-
-		if (ServerConfiguration.isDesktopApp()
-				&& requestURI.equals("/site/home")) {
-			response.sendRedirect("/desk/startup");
-			return;
-		}
 
 		if (!(requestURI.contains(".css") || requestURI.contains("."))) {
 			request.getRequestDispatcher(

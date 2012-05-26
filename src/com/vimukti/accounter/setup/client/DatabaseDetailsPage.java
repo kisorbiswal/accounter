@@ -101,7 +101,6 @@ public class DatabaseDetailsPage extends AbstractPage {
 		final ListBox dbTypes = new ListBox();
 		dbTypes.addItem("-- Select Database Type --");
 		dbTypes.addItem("PostgreSQL");
-		dbTypes.addItem("H2");
 		dbTypes.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -134,12 +133,14 @@ public class DatabaseDetailsPage extends AbstractPage {
 		for (int index = 1; index < table.getRowCount(); index++) {
 			rowFormatter.setVisible(index, true);
 		}
+		setupHome.showOrHideTestConnection(true);
 	}
 
 	protected void hideExternal() {
 		for (int index = 1; index < table.getRowCount(); index++) {
 			rowFormatter.setVisible(index, false);
 		}
+		setupHome.showOrHideTestConnection(false);
 	}
 
 	@Override
@@ -187,6 +188,7 @@ public class DatabaseDetailsPage extends AbstractPage {
 
 					@Override
 					public void onSuccess(Boolean result) {
+						setupHome.showOrHideTestConnection(!internal.getValue());
 						callback.onSuccess(result);
 					}
 
@@ -198,6 +200,9 @@ public class DatabaseDetailsPage extends AbstractPage {
 	}
 
 	public DatabaseConnection getDatabaseDetails() {
+		if (internal.getValue()) {
+			return null;
+		}
 		DatabaseConnection details = new DatabaseConnection();
 		details.setDbType(dbTypes.getSelectedIndex());
 		details.setDbName(dbText.getText());

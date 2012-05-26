@@ -23,9 +23,9 @@ public class ServerMain extends Main {
 		ServerConfiguration.init(configFile);
 		initLogger();
 
-		if (ServerConfiguration.isDesktopApp()) {
-			openInBrowser();
-		}
+		// if (ServerConfiguration.isDesktopApp()) {
+		// openInBrowser();
+		// }
 
 		JettyServer.start(ServerConfiguration.getMainServerPort());
 		JettyServer.jettyServer.join();

@@ -1,4 +1,4 @@
-<project name="accounter" basedir="." default="yguard">
+<project name="accounter" basedir="." default="setupandclean">
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="libs/ant-contrib.jar" />
 	<taskdef name="yguard" classname="com.yworks.yguard.YGuardTask" classpath="libs/yguard.jar"/>
 	<property name="src.dir" value="./src" />
@@ -195,7 +195,7 @@
 		</copy>
 		<copy todir="${setup.dir}/windows">
 			<fileset dir="wrapper">
-				<include name="*.bat" />
+				<exclude name="*.bat"/>
 			</fileset>
 		</copy>
 		<copy todir="${setup.dir}/windows/lib/">
@@ -270,7 +270,8 @@
       </yguard>
     </target>
 
-	<target name="clean-setup" depends="clean,setup,yguard" />
+	<target name="clean-setup" depends="clean,setup" />
+	<target name="clean-setup-obf" depends="clean,setup,yguard" />
 	<target name="setupandclean" depends="clean-setup,linux-setup-tar,win-setup" />
 	
 </project>

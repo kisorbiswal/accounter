@@ -269,7 +269,12 @@ public class NewLoginServlet extends BaseServlet {
 				}
 			} finally {
 			}
-			redirectExternal(request, response, COMPANIES_URL);
+			String destUrl = request.getParameter(PARAM_DESTINATION);
+			if (destUrl == null || destUrl.isEmpty()) {
+				redirectExternal(request, response, COMPANIES_URL);
+			} else {
+				redirectExternal(request, response, COMPANIES_URL);
+			}
 
 		} else {
 
@@ -353,6 +358,8 @@ public class NewLoginServlet extends BaseServlet {
 		Object attribute = request.getParameter(PARAM_DESTINATION);
 		request.setAttribute(PARAM_DESTINATION, attribute);
 		request.setAttribute("news", news);
+		HttpSession session = request.getSession();
+		session.setAttribute(PARAM_DESTINATION, attribute);
 		dispatch(request, response, LOGIN_VIEW);
 
 		return;

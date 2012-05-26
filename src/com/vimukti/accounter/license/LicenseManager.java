@@ -84,7 +84,9 @@ public class LicenseManager {
 		byte[] zippedLicenseBytes = checkAndGetLicenseText(encodedLicenseTextAndHash);
 		Reader licenseText = unzipText(zippedLicenseBytes);
 
-		return loadLicenseConfiguration(licenseText);
+		License license = loadLicenseConfiguration(licenseText);
+		license.setLicenseText(licenseString);
+		return license;
 	}
 
 	private Reader unzipText(byte[] licenseText) {

@@ -7,11 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.core.Property;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.setup.server.DatabaseManager;
-import com.vimukti.accounter.utils.HibernateUtil;
 
 /**
  * It will be used for only Desktop Application
@@ -33,17 +30,14 @@ public class StartupCompletedServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String redirectURL = null;
 		if (DatabaseManager.isDBConfigured()) {
-			Session session = HibernateUtil.openSession();
-			Property prop = (Property) session.get(Property.class,
-					Property.SETUP_PAGE);
-			if (prop == null) {
-				redirectURL = SETUP_URL;
+			if (ServerConfiguration.isSetupCompleted()) {
+				redirectURL = "/login";
 			} else {
-				String value = prop.getValue();
-				if (value.equals("3")) {
-					redirectURL = "/login";
+				String page = ServerConfiguration.getSetupStatus();
+				if (page != null) {
+					redirectURL = SETUP_URL + "?page=" + page;
 				} else {
-					redirectURL = SETUP_URL + "?page=" + value;
+					redirectURL = SETUP_URL;
 				}
 			}
 

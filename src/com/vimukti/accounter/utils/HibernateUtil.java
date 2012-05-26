@@ -40,8 +40,37 @@ public class HibernateUtil {
 		Configuration config = new Configuration();
 		config.getTypeResolver().registerTypeOverride(
 				EncryptedStringType.INSTANCE);
+		addMapping(config);
 		config.configure();
 		return config.buildSessionFactory();
+	}
+
+	private static void addMapping(Configuration config) {
+		config.addResource("mapping/common/finance-admin-mapping.xml");
+		config.addResource("mapping/common/finance-mapping.xml");
+		config.addResource("mapping/common/finance-new-mapping.xml");
+		config.addResource("mapping/common/finance-transactions.xml");
+		config.addResource("mapping/common/finance-translate-mapping.xml");
+
+		if (!ServerConfiguration.isDesktopApp()) {
+			loadFiles(config, DatabaseManager.POSTGRESQL);
+		} else {
+			String dbType = DatabaseManager.getInstance().getDbType();
+			loadFiles(config, dbType);
+		}
+
+	}
+
+	private static void loadFiles(Configuration config, String dbType) {
+		config.addResource("mapping/" + dbType + "/queries.xml");
+		config.addResource("mapping/" + dbType + "/finance-query.xml");
+		config.addResource("mapping/" + dbType + "/finance-hql.xml");
+		config.addResource("mapping/" + dbType + "/finance-reports.xml");
+		config.addResource("mapping/" + dbType + "/finance-new-queries.xml");
+		config.addResource("mapping/" + dbType + "/finance-search.xml");
+		config.addResource("mapping/" + dbType + "/finance-migration.xml");
+		config.addResource("mapping/" + dbType + "/finance-triggers.xml");
+		config.addResource("mapping/" + dbType + "/finance-payroll.xml");
 	}
 
 	public static Session getCurrentSession() {

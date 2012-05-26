@@ -41,7 +41,11 @@ public class LicenseDetailsPage extends AbstractPage {
 		table.setWidget(0, 0, createTitle("Server ID"));
 		table.setWidget(0, 1, serverIDLabel);
 		table.setWidget(2, 0, createTitle("License Key", true));
-		table.setWidget(2, 1, licenseKey);
+		table.setWidget(
+				2,
+				1,
+				addTag(licenseKey,
+						"If you are a new user, you can <a target='_blank' href='http://www.accounterlive.com/main/managelicense?gen=true'>generate an license key.</a> <br/> Or, if you have already one, <a target='_blank' href='http://www.accounterlive.com/main/managelicense'>you can retrieve it.</a>"));
 
 		table.getCellFormatter().setVerticalAlignment(1, 0,
 				HasVerticalAlignment.ALIGN_TOP);

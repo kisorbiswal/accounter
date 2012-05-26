@@ -255,9 +255,7 @@
 
 
 	<class name="Property" table="PROPERTY">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
+		<id name="id" column="ID"/>
 		<property name="value" column="VALUE" />
 	</class>
 	

@@ -14,6 +14,7 @@ public class DatabaseConnection implements IsSerializable, Serializable {
 	public static final int DB_TYPE_POSTGRES = 1;
 	public static final int DB_TYPE_H2 = 2;
 	public static final int DB_TYPE_MYSQL = 3;
+	public static final int DB_TYPE_ORACLE = 4;
 
 	private int dbType;
 

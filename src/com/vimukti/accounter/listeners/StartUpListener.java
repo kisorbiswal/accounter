@@ -15,6 +15,7 @@ import javax.servlet.ServletContextListener;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.Property;
 import com.vimukti.accounter.core.ServerMaintanance;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.encryption.Encrypter;
@@ -89,6 +90,12 @@ public class StartUpListener implements ServletContextListener {
 
 								loadSubscriptionFeatures();
 
+								Property prop = (Property) session.get(
+										Property.class, Property.SETUP_PAGE);
+								ServerConfiguration
+										.setSeupStatus(prop != null ? prop
+												.getValue() : "0");
+
 							} finally {
 								session.close();
 							}
@@ -97,6 +104,7 @@ public class StartUpListener implements ServletContextListener {
 					}
 					ServerConfiguration.completeStartup();
 				} catch (Exception e) {
+					e.printStackTrace();
 				}
 
 			}

@@ -191,7 +191,7 @@ public class License implements IAccounterServerCore {
 		if (!isActive()) {
 			return false;
 		}
-		return getExpiresOn().before(new Date());
+		return getExpiresOn().after(new Date());
 	}
 
 }

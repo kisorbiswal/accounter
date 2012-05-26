@@ -439,4 +439,14 @@
 		from com.vimukti.accounter.core.License ls  where ls.client.emailId=:emailId
 	</query>
 	
+	<query name="getLicenseByServerID">
+		<query-param name="serverId" type="String" />
+		from com.vimukti.accounter.core.License ls  where ls.serverId=:serverId
+	</query>
+	
+	<query name="getActiveLicenseOfClient">
+		<query-param name="client" type="Client" />
+		from com.vimukti.accounter.core.License ls  where ls.client=:client and ls.isActive=true
+	</query>
+	
 </hibernate-mapping>

@@ -24,6 +24,10 @@ public class AccounterSetupServlet extends HttpServlet {
 			resp.sendRedirect("/desk/startup");
 			return;
 		}
+		if (ServerConfiguration.isSetupCompleted()) {
+			resp.sendRedirect("/login");
+			return;
+		}
 		String pageNo = req.getParameter("page");
 		if (pageNo == null) {
 			pageNo = "0";

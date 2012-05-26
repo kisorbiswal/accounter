@@ -7,6 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -23,7 +27,22 @@ public class DatabaseManager {
 
 	public static final String DB_FILE = "dbconfig.xml";
 
+	public static final String POSTGRESQL = "postgresql";
+	public static final String H2 = "h2";
+	public static final String MYSQL = "mysql";
+	public static final String ORACLE = "oracle";
+
 	private static DatabaseManager manager = null;
+
+	public class DbConfig {
+		String type;
+		String url;
+		String driver;
+		String dialect;
+		String username;
+		String password;
+		String schema;
+	}
 
 	public static DatabaseManager getInstance() {
 		if (manager == null) {
@@ -38,6 +57,14 @@ public class DatabaseManager {
 		}
 		File file = new File(ServerConfiguration.getAttachmentsDir(), DB_FILE);
 		return file.exists();
+	}
+
+	public void deleteDBConfig() {
+		String attachmentsDir = ServerConfiguration.getAttachmentsDir();
+		File dbConfig = new File(attachmentsDir, DB_FILE);
+		if (dbConfig != null) {
+			dbConfig.deleteOnExit();
+		}
 	}
 
 	public void saveDBConnection(DatabaseConnection conn) throws IOException {
@@ -58,7 +85,6 @@ public class DatabaseManager {
 		config.username = conn.getUsername();
 		config.password = conn.getPassword();
 		config.schema = conn.getSchema();
-		config.poolsize = 15;
 		XStream xStream = getXStream();
 		String xml = xStream.toXML(config);
 
@@ -69,21 +95,41 @@ public class DatabaseManager {
 	}
 
 	public void loadDbConfig() throws FileNotFoundException {
-		String attachmentsDir = ServerConfiguration.getAttachmentsDir();
-		File dbConfig = new File(attachmentsDir, "dbconfig.xml");
-		if (!dbConfig.exists()) {
+
+		DbConfig config = getDbConfig();
+		if (config == null) {
 			return;
 		}
-		BufferedReader reader = new BufferedReader(new FileReader(dbConfig));
-		XStream xStream = getXStream();
-		DbConfig config = (DbConfig) xStream.fromXML(reader);
-
 		System.setProperty("db.driver", config.driver);
 		System.setProperty("db.url", config.url);
 		System.setProperty("db.user", config.username);
 		System.setProperty("db.pass", config.password);
 		System.setProperty("dialect", config.dialect);
 
+	}
+
+	public DbConfig getDbConfig() {
+		String attachmentsDir = ServerConfiguration.getAttachmentsDir();
+		File dbConfig = new File(attachmentsDir, DB_FILE);
+		if (!dbConfig.exists()) {
+			return null;
+		}
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(dbConfig));
+			XStream xStream = getXStream();
+			DbConfig config = (DbConfig) xStream.fromXML(reader);
+			return config;
+		} catch (FileNotFoundException e) {
+			return null;
+		}
+	}
+
+	public String getDbType() {
+		DbConfig dbConfig = getDbConfig();
+		if (dbConfig != null) {
+			return dbConfig.type;
+		}
+		return null;
 	}
 
 	private XStream getXStream() {
@@ -99,11 +145,11 @@ public class DatabaseManager {
 	private String getDbNameByType(int dbType) {
 		switch (dbType) {
 		case DatabaseConnection.DB_TYPE_POSTGRES:
-			return "postgresql";
+			return POSTGRESQL;
 		case DatabaseConnection.DB_TYPE_MYSQL:
-			return "mysql";
+			return MYSQL;
 		case DatabaseConnection.DB_TYPE_H2:
-			return "h2";
+			return H2;
 		}
 		return "";
 	}
@@ -114,6 +160,10 @@ public class DatabaseManager {
 			return "org.postgresql.Driver";
 		case DatabaseConnection.DB_TYPE_MYSQL:
 			return "com.mysql.jdbc.Driver";
+		case DatabaseConnection.DB_TYPE_H2:
+			return "org.h2.Driver";
+		case DatabaseConnection.DB_TYPE_ORACLE:
+			return "oracle.jdbc.driver.OracleDriver";
 		}
 		return "";
 	}
@@ -126,17 +176,8 @@ public class DatabaseManager {
 		case DatabaseConnection.DB_TYPE_MYSQL:
 			return "jdbc:mysql://" + conn.getHostname() + ":" + conn.getPort()
 					+ "/" + conn.getDbName();
-		}
-		return "";
-	}
-
-	public String getURLWithoutDB(DatabaseConnection conn) {
-		switch (conn.getDbType()) {
-		case DatabaseConnection.DB_TYPE_POSTGRES:
-			return "jdbc:postgresql://" + conn.getHostname() + ":"
-					+ conn.getPort();
-		case DatabaseConnection.DB_TYPE_MYSQL:
-			return "jdbc:mysql://" + conn.getHostname() + ":" + conn.getPort();
+		case DatabaseConnection.DB_TYPE_H2:
+			return "jdbc:h2:" + conn.getDbName();
 		}
 		return "";
 	}
@@ -153,15 +194,77 @@ public class DatabaseManager {
 		return "";
 	}
 
-	class DbConfig {
-		String type;
-		String url;
-		String driver;
-		String dialect;
-		String username;
-		String password;
-		String schema;
-		int poolsize;
+	public void checkConnection(DatabaseConnection connDetail) throws Exception {
+		Connection connection = null;
+		try {
+			try {
+				Class.forName(getDriver(connDetail.getDbType()));
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+				throw new Exception(
+						"Connection refused. Check that the hostname and port are correct");
+			}
+
+			connection = DriverManager.getConnection(getURL(connDetail),
+					connDetail.getUsername(), connDetail.getPassword());
+			if (connection == null) {
+				throw new Exception("Cann't connect to database");
+			}
+
+			String selecttables = getSelectTablesCommand(connDetail);
+			if (selecttables != null) {
+				Statement statement = connection.createStatement();
+				statement.execute(selecttables);
+				ResultSet resultSet = statement.getResultSet();
+				while (resultSet.next()) {
+					long noOfTable = resultSet.getLong("count");
+					if (noOfTable > 0) {
+						throw new Exception("Database is not Empty");
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e);
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+		}
+
+	}
+
+	private String getSelectTablesCommand(DatabaseConnection conn) {
+		switch (conn.getDbType()) {
+		case DatabaseConnection.DB_TYPE_POSTGRES:
+			return "select count(*) from pg_stat_user_tables WHERE schemaname='"
+					+ conn.getSchema() + "'";
+		case DatabaseConnection.DB_TYPE_H2:
+			return "SELECT count(*) as count FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = SCHEMA()";
+		default:
+			break;
+		}
+		return null;
+	}
+
+	public DatabaseConnection getInternalDBConnection() throws IOException {
+		DatabaseConnection conn = new DatabaseConnection();
+		String attachmentsDir = ServerConfiguration.getAttachmentsDir();
+		File file = new File(attachmentsDir, "db");
+		if (!file.exists()) {
+			file.mkdir();
+		} else {
+			if (file.listFiles() != null) {
+				for (File child : file.listFiles()) {
+					child.delete();
+				}
+			}
+		}
+		conn.setDbName(file.getPath() + File.separator + "accounter");
+		conn.setUsername("sa");
+		conn.setPassword("");
+		conn.setDbType(DatabaseConnection.DB_TYPE_H2);
+		return conn;
 	}
 
 }

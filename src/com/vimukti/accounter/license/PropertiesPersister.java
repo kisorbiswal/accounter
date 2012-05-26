@@ -31,15 +31,13 @@ public class PropertiesPersister {
 	private static final String PURCHASE_DATE = "PurchaseDate";
 	private static final String IS_ACTIVE = "IsActive";
 	private static final String NO_OF_USERS = "NoOfUsers";
-	private static final String LICENSE_TEXT = "licenseText";
 
 	public void load(Properties props, Reader reader) throws IOException {
 		BufferedReader in = new BufferedReader(reader);
-		StringBuffer licenseText = new StringBuffer();
+
 		while (true) {
 			String line = in.readLine();
 			if (line == null) {
-				props.put(LICENSE_TEXT, licenseText);
 				return;
 			}
 			line = StringUtils.trimLeadingWhitespace(line);
@@ -66,7 +64,6 @@ public class PropertiesPersister {
 							.substring(separatorIndex + 1) : "";
 					key = StringUtils.trimTrailingWhitespace(key);
 					value = StringUtils.trimLeadingWhitespace(value);
-					licenseText.append(line);
 					props.put(unescape(key), unescape(value));
 				}
 			}
@@ -175,8 +172,12 @@ public class PropertiesPersister {
 		license.setExpiresOn(toDate(props.getProperty(EXPIRES_ON)));
 		license.setNoOfUsers(toNumber(props.getProperty(NO_OF_USERS)));
 		license.setPurchasedOn(toDate(props.getProperty(PURCHASE_DATE)));
-		license.setLicenseText(props.getProperty(LICENSE_TEXT));
+		license.setActive(toBool(props.getProperty(IS_ACTIVE)));
 		return license;
+	}
+
+	private boolean toBool(String bool) {
+		return Boolean.parseBoolean(bool);
 	}
 
 	private Client getClient(String emailId) {
@@ -206,17 +207,25 @@ public class PropertiesPersister {
 
 	public String getLicenseAsString(License license) throws IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		OutputStreamWriter writter = new OutputStreamWriter(out,
-				Charset.forName("UTF-8"));
+		BufferedWriter writter = new BufferedWriter(new OutputStreamWriter(out,
+				Charset.forName("UTF-8")));
 		Client client = license.getClient();
 		writter.write(getProperty(CONTACT_NAME, client.getFullName()));
+		writter.newLine();
 		writter.write(getProperty(EMAIL, client.getEmailId()));
+		writter.newLine();
 		writter.write(getProperty(SERVER_ID, license.getServerId()));
+		writter.newLine();
 		writter.write(getProperty(ORGANISATION, license.getOrganisation()));
+		writter.newLine();
 		writter.write(getProperty(EXPIRES_ON, license.getExpiresOn()));
+		writter.newLine();
 		writter.write(getProperty(PURCHASE_DATE, license.getPurchasedOn()));
+		writter.newLine();
 		writter.write(getProperty(IS_ACTIVE, license.isActive()));
+		writter.newLine();
 		writter.write(getProperty(NO_OF_USERS, license.getNoOfUsers()));
+		writter.newLine();
 		out.flush();
 		out.close();
 		writter.flush();

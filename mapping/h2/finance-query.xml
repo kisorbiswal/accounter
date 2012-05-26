@@ -11242,8 +11242,8 @@
 				               left join transaction t2
 				                 ON at.transaction_id = t2.id
 				               left join transaction_item ti2
-				                 ON ti.TYPE = 1
-				                    AND ti2.transaction_id = t2.id
+				                 ON ti2.transaction_id = t2.id
+				                    AND ti2.TYPE = 1
 				               left join item it2
 				                 ON it2.TYPE IN ( 2, 4 )
 				                    AND it2.id = ti2.item_id
@@ -11271,9 +11271,9 @@
 				       un.TYPE                                     AS unit
 				FROM   item it
 				       left join transaction_item ti
-				         ON it.TYPE IN ( 2, 4 )
+				         ON ti.item_id = it.id
 				         AND ti.TYPE = 1
-				            AND ti.item_id = it.id
+				            AND it.TYPE IN ( 2, 4 )
 				       left join transaction t
 				         ON ti.transaction_id = t.id
 				       left join invoice i
@@ -12064,21 +12064,21 @@
 				WHERE  r.stopped = false
 				       AND r.recurring_type != 2
 				       AND ( ( Cast(
-				       				To_char(Cast(
+				       				to_char(DATEADD('HOUR',Cast(
 				       						Trim(Substr(Cast(c.timezone AS TEXT), 4, 5)) AS
-				                                 INTERVAL
+				                                 INTEGER
 				                   			)
-				                            + Now() AT TIME ZONE 'GMT', 'YYYYMMDD')
+				                            , CURRENT_TIMESTAMP()), 'YYYYMMDD')
 				                    AS  BIGINT
 				                    ) >
 				                     r.next_schedule_on - r.days_before_remind )
-				              OR ( To_char(Cast(
+				              OR ( to_char(DATEADD('HOUR', Cast(
 				              					Trim(Substr(Cast(c.timezone AS TEXT), 4, 5)) AS
-				                                INTERVAL
-				                                ) +
-				                                 Now() AT TIME ZONE 'GMT', 'YYYYMMDD') = Cast(
+				                                INTEGER
+				                                ) ,
+				                                 CURRENT_TIMESTAMP()), 'YYYYMMDD') = Cast(
 				                       r.next_schedule_on AS TEXT) ) )
-				ORDER  BY r.next_schedule_on    
+				ORDER  BY r.next_schedule_on       
 		]]>
 	</sql-query>
 

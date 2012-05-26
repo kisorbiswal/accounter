@@ -70,6 +70,7 @@
 }
 .tag {
     font-size: 12px;
+    color: graytext;
 }
 
  #licensesList div h2{
@@ -130,4 +131,17 @@
 .license-purchase{
 	 margin: 7em auto;
 	 width: 450px;
+}
+
+.tag a{
+	color: #1166CC !important;
+    text-decoration: none;
+}
+
+.licenseLogout{
+	text-align: right;
+}
+
+.licenseLogout a{
+	color: #2299CC;
 }

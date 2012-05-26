@@ -11,7 +11,7 @@
  </head>
  <body id="licenseInfo">
     <h1>License</h1>
-    <c:if ${errorMsg != null} >
+    <c:if test="${errorMsg != null}" >
  		<div class="error-mesg-class">
  	       ${errorMsg}
  		</div> 
@@ -45,11 +45,11 @@
 					<tr class="under-line">
 						<td>User Limit</td>
 						<c:choose >
-							<c:when ${license.noOfUsers != -1}>
-							 <td style="bold-ele"> ${license.noOfUsers}</td>
+							<c:when test="${license.noOfUsers != -1}">
+								 <td style="bold-ele"> ${license.noOfUsers}</td>
 							 </c:when>
 							 <c:otherwise>
-							 <td style="bold-ele">Unlimited</td>
+								 <td style="bold-ele">Unlimited</td>
 							</c:otherwise>
 						</c:choose>
 
@@ -64,13 +64,16 @@
 					<td align="left">License:</td>
 					</tr>
 					<tr class="under-line">
+						<td colspan="2"  valign="top" align="center" >
 						<form action="/main/licenseInfo" method="post">
-						<td colspan="2"  valign="top" align="center" ><textarea name="licensekey" cols=50 rows=5></textarea></td>	
-					</tr> 
-					<tr>
-						<td><input type="submit" value="Add"/></td>
-					</tr>
+							<div>
+								<textarea name="licensekey" cols=50 rows=5></textarea>
+								<div style="width: 400px; text-align: left;"><input type="submit" value="Add"/></div>
+							</div>
 						</form>
+						</td>
+					</tr> 
+						
 				</td>
 			</tr>
 		</table>

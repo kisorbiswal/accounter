@@ -5,16 +5,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Query;
@@ -32,6 +31,7 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.encryption.Encrypter;
 import com.vimukti.accounter.license.LicenseManager;
 import com.vimukti.accounter.main.MessageLoader;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.setup.client.ISetupService;
 import com.vimukti.accounter.setup.client.core.AccountDetails;
@@ -54,46 +54,48 @@ public class SetupServiceImpl extends RemoteServiceServlet implements
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public String testDBConnection(DatabaseConnection dbConnDetails)
-			throws Exception {
-		return checkDBConnection(dbConnDetails);
+	protected void service(HttpServletRequest arg0, HttpServletResponse arg1)
+			throws ServletException, IOException {
+		if (!DatabaseManager.isDBConfigured()) {
+			super.service(arg0, arg1);
+			return;
+		}
+		Session session = HibernateUtil.openSession();
+		try {
+
+			super.service(arg0, arg1);
+		} finally {
+			session.close();
+		}
 	}
 
-	private String checkDBConnection(DatabaseConnection dbConnDetails)
+	@Override
+	public String testDBConnection(DatabaseConnection dbConnDetails)
 			throws Exception {
-
-		getConnection(dbConnDetails);
+		DatabaseManager.getInstance().checkConnection(dbConnDetails);
 
 		return "Testing of database connection was successful !";
-
 	}
 
 	@Override
 	public Boolean saveDBConnection(DatabaseConnection conn) throws Exception {
-		Connection connection = getConnection(conn);
-		if (connection == null) {
-			return false;
+		DatabaseManager instance = DatabaseManager.getInstance();
+		if (conn == null) {
+			conn = instance.getInternalDBConnection();
 		}
-
-		connection = DriverManager.getConnection(DatabaseManager.getInstance()
-				.getURLWithoutDB(conn), conn.getUsername(), conn.getPassword());
-
+		instance.checkConnection(conn);
+		Session session = null;
 		try {
-			String dropCmd = "DROP DATABASE " + conn.getDbName();
-			Statement statement = connection.createStatement();
-			statement.execute(dropCmd);
-
-			String createCmd = "CREATE DATABASE " + conn.getDbName();
-			statement.execute(createCmd);
-
-			DatabaseManager.getInstance().saveDBConnection(conn);
+			instance.saveDBConnection(conn);
+			session = HibernateUtil.openSession();
 			completePage(1);
 		} catch (Exception e) {
 			e.printStackTrace();
+			instance.deleteDBConfig();
 			throw new Exception(e);
 		} finally {
-			if (connection != null) {
-				connection.close();
+			if (session != null) {
+				session.close();
 			}
 		}
 
@@ -101,7 +103,7 @@ public class SetupServiceImpl extends RemoteServiceServlet implements
 	}
 
 	private void completePage(int pageNo) {
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			Property pagePro = (Property) session.get(Property.class,
@@ -113,41 +115,11 @@ public class SetupServiceImpl extends RemoteServiceServlet implements
 			}
 			session.saveOrUpdate(pagePro);
 			transaction.commit();
+			ServerConfiguration.setSeupStatus(pageNo + "");
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();
 		}
-	}
-
-	private Connection getConnection(DatabaseConnection dbConnDetails)
-			throws Exception {
-		DatabaseManager instance = DatabaseManager.getInstance();
-		Connection connection = null;
-		try {
-			try {
-				Class.forName(instance.getDriver(dbConnDetails.getDbType()));
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-				throw new Exception(
-						"Connection refused. Check that the hostname and port are correct");
-			}
-
-			connection = DriverManager.getConnection(
-					instance.getURL(dbConnDetails),
-					dbConnDetails.getUsername(), dbConnDetails.getPassword());
-			if (connection == null) {
-				throw new Exception("Cann't connect to database");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception(e);
-		} finally {
-			if (connection != null) {
-				connection.close();
-			}
-		}
-
-		return connection;
 	}
 
 	@Override
@@ -158,19 +130,20 @@ public class SetupServiceImpl extends RemoteServiceServlet implements
 		if (prop != null) {
 			return prop.getValue();
 		}
-		String randomSID = getRandomSID();
-		Transaction transaction = session.getTransaction();
+		String randomSID = generateRandomSID();
+		Transaction transaction = session.beginTransaction();
 		try {
 			Property serverIdProp = new Property(Property.SERVER_ID, randomSID);
 			session.save(serverIdProp);
 			transaction.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
 			transaction.rollback();
 		}
 		return randomSID;
 	}
 
-	private String getRandomSID() {
+	private String generateRandomSID() {
 		DefaultSIDManager sidManger = new DefaultSIDManager();
 		return sidManger.generateSID();
 	}
@@ -206,8 +179,7 @@ public class SetupServiceImpl extends RemoteServiceServlet implements
 			throw new Exception(Global.get().messages()
 					.incorrectEmailOrPassWord());
 		}
-
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = null;
 		try {
 			initServer();
@@ -220,7 +192,7 @@ public class SetupServiceImpl extends RemoteServiceServlet implements
 			}
 
 			Query query = session.getNamedQuery("getLicenseByServerID")
-					.setParameter("serverID", serverIDProp.getValue());
+					.setParameter("serverId", serverIDProp.getValue());
 			List<License> list = query.list();
 			if (list.isEmpty()) {
 				throw new Exception("License Not yet configured");
@@ -260,10 +232,6 @@ public class SetupServiceImpl extends RemoteServiceServlet implements
 				transaction.rollback();
 			}
 			throw new Exception(e);
-		} finally {
-			if (session != null && session.isOpen()) {
-				session.close();
-			}
 		}
 		completePage(3);
 		return true;

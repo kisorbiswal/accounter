@@ -24,7 +24,7 @@ public class Property implements Serializable {
 
 	public Property(long id, String value) {
 		this.id = id;
-		this.value = value;
+		this.value = value.trim();
 	}
 
 	public Property(long id, Number value) {

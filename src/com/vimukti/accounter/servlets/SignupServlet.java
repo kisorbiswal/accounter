@@ -36,10 +36,10 @@ public class SignupServlet extends BaseServlet {
 
 		String header2 = req.getHeader("User-Agent");
 		boolean contains = header2.contains("iPad");
-		if(contains){
+		if (contains) {
 			req.setAttribute("ipad", contains);
 		}
-		
+
 		dispatch(req, resp, view);
 
 	}
@@ -128,7 +128,14 @@ public class SignupServlet extends BaseServlet {
 					 * "?message=" + ACT_FROM_SIGNUP; redirectExternal(req,
 					 * resp, ACTIVATION_URL + message);
 					 */
-					redirectExternal(req, resp, COMPANIES_URL);
+					String paramDest = (String) session
+							.getAttribute(PARAM_DESTINATION);
+					if (paramDest != null) {
+						redirectExternal(req, resp, paramDest);
+						session.removeAttribute(paramDest);
+					} else {
+						redirectExternal(req, resp, COMPANIES_URL);
+					}
 					transaction.commit();
 				} else {
 					req.setAttribute("errormessage", Global.get().messages()
@@ -189,8 +196,14 @@ public class SignupServlet extends BaseServlet {
 				 * 
 				 * redirectExternal(req, resp, ACTIVATION_URL + message);
 				 */
-
-				redirectExternal(req, resp, COMPANIES_URL);
+				String paramDest = (String) session
+						.getAttribute(PARAM_DESTINATION);
+				if (paramDest != null) {
+					redirectExternal(req, resp, paramDest);
+					session.removeAttribute(paramDest);
+				} else {
+					redirectExternal(req, resp, COMPANIES_URL);
+				}
 				transaction.commit();
 				try {
 					NewLoginServlet.createD2(req, emailId, password);

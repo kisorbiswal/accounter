@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class AbstractPage extends VerticalPanel {
 
 	public static final int MAX_PAGES = 3;
+	protected SetupHome setupHome;
 
 	public AbstractPage() {
 		setStyleName("page");
@@ -46,7 +47,7 @@ public abstract class AbstractPage extends VerticalPanel {
 		}
 	}
 
-	public static AbstractPage pageByNo(int currentPage) {
+	public static AbstractPage pageByNo(SetupHome home, int currentPage) {
 		AbstractPage page = null;
 		switch (currentPage) {
 		case 1:
@@ -62,10 +63,12 @@ public abstract class AbstractPage extends VerticalPanel {
 			break;
 		}
 		if (page != null) {
+			page.setupHome = home;
 			HTML html = new HTML(page.getPageTitle());
 			html.setStyleName("pageTitle");
 			page.add(html);
 			page.add(page.createControls());
+
 		}
 		return page;
 	}

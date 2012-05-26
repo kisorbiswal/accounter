@@ -55,6 +55,8 @@ public class ServerConfiguration {
 	private static String livePaypalapiSignature;
 	private static boolean isDesktopApp;
 	private static boolean isStartUpCompleted;
+	private static boolean isSetupCompleted;
+	private static String setupStatus;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -455,4 +457,17 @@ public class ServerConfiguration {
 	public static String getLicenseAlias() {
 		return "vimukti";
 	}
+
+	public static boolean isSetupCompleted() {
+		return setupStatus != null && setupStatus.equals("3");
+	}
+
+	public static void setSeupStatus(String value) {
+		setupStatus = value;
+	}
+
+	public static String getSetupStatus() {
+		return setupStatus;
+	}
+
 }

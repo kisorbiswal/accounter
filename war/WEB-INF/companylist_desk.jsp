@@ -109,7 +109,7 @@
 	      <c:choose>
 				<c:when test="<%= isPaid %>">
 				<td>
-			       <a href="/main/managelicense"><i18n:i18n msg='manageLicense'/></a>
+			       <a target="_blank" href="/main/licenseInfo"><i18n:i18n msg='manageLicense'/></a>
 				</td>
 				</c:when>
 				<c:otherwise>
@@ -143,4 +143,5 @@
    </div>
 </div>
   </body>
+  <%@ include file="./scripts_desk.jsp" %>
 </html>

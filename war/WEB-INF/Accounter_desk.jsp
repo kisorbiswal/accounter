@@ -343,4 +343,5 @@
         
  
  </body>
+ <%@ include file="./scripts_desk.jsp" %>
 </html>

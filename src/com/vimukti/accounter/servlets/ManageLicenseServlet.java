@@ -107,6 +107,7 @@ public class ManageLicenseServlet extends BaseServlet {
 		Transaction transaction = session.beginTransaction();
 		try {
 			License license = new License();
+			license.setActive(true);
 			license.setClient(getClient(emailId));
 			license.setServerId(serverID);
 			license.setOrganisation(organisationName);

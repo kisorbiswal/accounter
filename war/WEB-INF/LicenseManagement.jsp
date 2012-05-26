@@ -36,7 +36,7 @@
   	function showList(){
   		$('#generate').css('visibility', 'hidden');
   		$('#licensesList').css('visibility', 'visible');
-  	};/
+  	};
   	
   	function select_all(textarea){
   		textarea.select();
@@ -44,7 +44,9 @@
   </script>
   <body>
   <div class="licenseBody">
-  	
+  	<div class="licenseLogout">
+  		<a href="/main/logout">Logout</a>
+  	</div>
   	<div class="heading">
   		<h2>Welcome</h2>
   		    <p>Hey ${fullName}, welcome to the Accounter license management portal. You can manage your licensed below.</p>

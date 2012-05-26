@@ -177,8 +177,7 @@ public class SetupHome implements EntryPoint {
 
 	protected void changePage(int pageNo) {
 		clearErrors();
-		this.curreenctPage = AbstractPage.pageByNo(pageNo);
-		testConnection.setVisible(curreenctPage.isFirstPage());
+		this.curreenctPage = AbstractPage.pageByNo(this, pageNo);
 		if (curreenctPage.isLastPage()) {
 			nextBtn.setText("Finish");
 		}
@@ -193,6 +192,10 @@ public class SetupHome implements EntryPoint {
 					.setServiceEntryPoint(SETUP_ENTRY_POINT);
 		}
 		return setupService;
+	}
+
+	public void showOrHideTestConnection(boolean isShow) {
+		testConnection.setVisible(isShow);
 	}
 
 	native void redirect(String url)

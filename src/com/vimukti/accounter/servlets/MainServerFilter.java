@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.setup.server.DatabaseManager;
 
 /**
  * @author Prasanna Kumar G
@@ -31,11 +32,27 @@ public class MainServerFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest arg0, ServletResponse arg1,
 			FilterChain arg2) throws IOException, ServletException {
-		if (!ServerConfiguration.getCurrentServerDomain().equals(
-				ServerConfiguration.getMainServerDomain())) {
-			((HttpServletResponse) arg1)
-					.sendRedirect(buildMainServerURL(((HttpServletRequest) arg0)
-							.getServletPath()));
+		HttpServletRequest request = (HttpServletRequest) arg0;
+		HttpServletResponse response = (HttpServletResponse) arg1;
+		String requestURI = request.getRequestURI();
+		if (requestURI.endsWith(".js") || requestURI.endsWith(".css")
+				|| requestURI.endsWith(".jpg") || requestURI.endsWith(".png")
+				|| requestURI.endsWith(".html")) {
+			arg2.doFilter(arg0, arg1);
+			return;
+		}
+		if (ServerConfiguration.isDesktopApp()
+				&& !ServerConfiguration.isSetupCompleted()
+				&& !requestURI.contains("/desk/startup")
+				&& !requestURI.contains("/setup")) {
+			if (!ServerConfiguration.isStartUpCompleted()) {
+				response.sendRedirect("/desk/startup");
+			} else if (!DatabaseManager.isDBConfigured()
+					|| !ServerConfiguration.isSetupCompleted()) {
+				response.sendRedirect("/desk/startupcomplete");
+			} else {
+				arg2.doFilter(arg0, arg1);
+			}
 		} else {
 			arg2.doFilter(arg0, arg1);
 		}

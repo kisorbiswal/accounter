@@ -149,7 +149,10 @@ public class H2Dialect extends Dialect {
 				Hibernate.STRING));
 		registerFunction("left", new StandardSQLFunction("left",
 				Hibernate.STRING));
-		// registerFunction("length", new StandardSQLFunction("length",
+
+		registerFunction("to_char", new StandardSQLFunction("to_char")); // registerFunction("length",
+																			// new
+																			// StandardSQLFunction("length",
 		// Hibernate.INTEGER));
 		// registerFunction("locate", new StandardSQLFunction("locate",
 		// Hibernate.INTEGER));

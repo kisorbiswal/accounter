@@ -61,26 +61,26 @@
 		</property>
 		<!-- <mapping resource="hibernate.xml" /> -->
 		<!-- mapping resource=""/ -->
-		<mapping resource="mapping/queries.xml" />
+		<!-- <mapping resource="mapping/queries.xml" />
 		<mapping resource="mapping/usermanagment.xml" />
 
 		<mapping resource="mapping/finance-admin-mapping.xml" />
 
-		<!-- Mappings for Finance Module -->
+		Mappings for Finance Module
 
 		<mapping resource="mapping/finance-mapping.xml" />
 		<mapping resource="mapping/finance-transactions.xml" />
 		<mapping resource="mapping/finance-query.xml" />
 		<mapping resource="mapping/finance-hql.xml" />
 		<mapping resource="mapping/finance-reports.xml" />
-		<!-- <mapping resource="mapping/finance-views.xml" /> -->
+		<mapping resource="mapping/finance-views.xml" />
 		<mapping resource="mapping/finance-new-mapping.xml" />
 		<mapping resource="mapping/finance-new-queries.xml" />
 		<mapping resource="mapping/finance-translate-mapping.xml" />
 		<mapping resource="mapping/finance-search.xml" />
 		<mapping resource="mapping/finance-migration.xml" />
 		<mapping resource="mapping/finance-triggers.xml" />
-		<mapping resource="mapping/finance-payroll.xml" />
+		<mapping resource="mapping/finance-payroll.xml" /> -->
 
 
 	</session-factory>
