@@ -6,7 +6,6 @@ import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.impl.CldrImpl;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
@@ -96,18 +95,17 @@ public abstract class BizDecorPanel extends FlowPanel {
 		configImage = new Image(Accounter.getFinanceImages().portletSettings());
 		gotoLabel = new HTML();
 
-		FlexTable titleTable = new FlexTable();
-		titleTable.setWidget(0, 0, TC);
-		titleTable.setWidget(0, 1, gotoLabel);
+		FlowPanel titleTable = new FlowPanel();
+		titleTable.add(gotoLabel);
 
 		if (canConfigure()) {
-			titleTable.setWidget(0, 2, configImage);
+			titleTable.add(configImage);
 			configImage.getElement().getParentElement()
 					.addClassName("portlet_config_button");
 		}
 		gotoLabel.getElement().getParentElement().addClassName("go-to-link");
 		if (canClose()) {
-			titleTable.setWidget(0, 3, closeImage);
+			titleTable.add(closeImage);
 			closeImage.getElement().getParentElement()
 					.addClassName("portlet_close_button");
 
@@ -120,6 +118,7 @@ public abstract class BizDecorPanel extends FlowPanel {
 
 		StyledPanel firstRow = new StyledPanel("firstRow");
 		firstRow.add(TL);
+		firstRow.add(TC);
 		firstRow.add(titleTable);
 		firstRow.add(TR);
 		return firstRow;

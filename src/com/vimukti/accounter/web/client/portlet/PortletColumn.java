@@ -3,17 +3,16 @@ package com.vimukti.accounter.web.client.portlet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Portlet;
 
-public class PortletColumn extends VerticalPanel {
+public class PortletColumn extends FlowPanel {
 
 	private int index;
 	private List<Portlet> portlets = new ArrayList<Portlet>();
 
 	public PortletColumn(int columnIndex) {
-		this.setSpacing(5);
 		this.index = columnIndex;
 		this.addStyleName("portletColumn");
 	}

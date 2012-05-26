@@ -416,7 +416,6 @@ html,body {
 }
 
 .portletColumn {
-	float: left;
 	width: 100%;
 }
 
@@ -439,8 +438,10 @@ html,body {
 }
 
 .biz-decor-panel {
-	width: 100%;
-	margin-bottom: 10px;
+	display: inline-block;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    width: 450px;
 }
 
 #JournalEntryView .datenumber-panel {
@@ -2657,6 +2658,10 @@ table.no_records .norecord-empty-message td {
 	color: white;
 	padding: 3px 0px 5px 5px;
 	border-radius: 5px 5px 0 0;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	 width: 99%;
 }
 
 .biz-decor-panel .vPanel {
@@ -2713,6 +2718,8 @@ table.no_records .norecord-empty-message td {
 .panel-title {
 	text-transform: uppercase;
 	font-weight: bold;
+	width:50%;
+	-moz-box-flex: 1;
 }
 
 .biz-decor-panel .vPanel .portlet-body .vPanel {
@@ -4578,6 +4585,15 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 #PortletPage .firstRow .go-to-link {
 	text-align: right;
 	padding-bottom: 2px;
+	 -moz-box-align: end;
+	 -webkit-box-align: end;
+	 box-align: end;
+    -moz-box-pack: end;
+     -webkit-box-pack: end;
+     box-pack: end;
+    display: -moz-box;
+	display: -webkit-box;
+	display: box;
 }
 
 #CashPurchaseView .bottompanel .form .tax_combo .gwt-Label {
@@ -5467,7 +5483,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 .portlet-body {
 	overflow-y: auto;
 	position: relative;
-	height: auto;
+	height: 300px;
 	margin-top: 10px;
 }
 
@@ -7329,6 +7345,7 @@ textarea[disabled] {
 
 #PortletPage .portletPagePanel {
 	width: 100%;
+	border-spacing: 10px;
 }
 
 #PortletPage .portletPagePanel .portlet_column_parent {

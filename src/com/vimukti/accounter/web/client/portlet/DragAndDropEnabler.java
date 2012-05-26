@@ -7,8 +7,8 @@ import com.allen_sauer.gwt.dnd.client.DragHandler;
 import com.allen_sauer.gwt.dnd.client.DragStartEvent;
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.VetoDragException;
-import com.allen_sauer.gwt.dnd.client.drop.VerticalPanelDropController;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.allen_sauer.gwt.dnd.client.drop.FlowPanelDropController;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DragAndDropEnabler implements DragHandler {
@@ -24,8 +24,8 @@ public class DragAndDropEnabler implements DragHandler {
 	}
 
 	public void enable() {
-		for (VerticalPanel column : input.columns) {
-			VerticalPanelDropController dropController = new VerticalPanelDropController(
+		for (FlowPanel column : input.columns) {
+			FlowPanelDropController dropController = new FlowPanelDropController(
 					column);
 			dragController.registerDropController(dropController);
 		}

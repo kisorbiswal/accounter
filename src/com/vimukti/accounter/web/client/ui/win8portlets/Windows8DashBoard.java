@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
 import com.vimukti.accounter.web.client.ui.company.CustomerCentreAction;
 import com.vimukti.accounter.web.client.ui.company.NewJournalEntryAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.customers.NewInvoiceAction;
 import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
@@ -38,7 +39,6 @@ public class Windows8DashBoard extends BaseHomeView {
 
 	private PortletPage page;
 	private StyledPanel mainPanel;
-	private StyledPanel portletsPanel;
 	private StyledPanel quicklinksPanel;
 	private Map<String, String> quickLinksMap;
 	private Button moreButton;
@@ -49,7 +49,7 @@ public class Windows8DashBoard extends BaseHomeView {
 
 	@Override
 	public void init() {
-		super.add(new HTML("<h2>" + Accounter.getMessages().dashBoard() + ""));
+		super.add(new HTML("<h2>" + Global.get().messages().dashBoard() + ""));
 		// super.init();
 		add(createControl());
 
@@ -59,8 +59,6 @@ public class Windows8DashBoard extends BaseHomeView {
 		mainPanel = new StyledPanel("dashBoard");
 		page = new PortletPage(PortletPage.DASHBOARD);
 		quicklinksPanel = new StyledPanel("quickLinks-panel");
-
-		portletsPanel = new StyledPanel("portlets-panel");
 
 		createQuickLinksPanel();
 
@@ -72,12 +70,12 @@ public class Windows8DashBoard extends BaseHomeView {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				// ActionFactory.getAccounterMenuAction().run(null, false);
+				ActionFactory.getWindows8MenuAction().run(null, false);
 			}
 		});
 		quicklinksPanel.add(moreButton);
 		// TODO add portlets to windows8
-		// portletsPanel.add(page);
+		mainPanel.add(page);
 		// mainPanel.add(portletsPanel);
 
 		mainPanel.add(quicklinksPanel);
