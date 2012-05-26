@@ -444,11 +444,17 @@ public class Accounter implements EntryPoint {
 
 	static native void removeLoadingImage() /*-{
 		var parent = $wnd.document.getElementById('loadingWrapper');
-		parent.style.visibility = 'hidden';
+		if (parent) {
+			parent.style.visibility = 'hidden';
+		}
 		var footer = $wnd.document.getElementById('mainFooter');
 		var appVersions = $wnd.document.getElementById('appVersions');
-		footer.style.visibility = 'visible';
-		appVersions.style.visibility = 'visible';
+		if (footer) {
+			footer.style.visibility = 'visible';
+		}
+		if (appVersions) {
+			appVersions.style.visibility = 'visible';
+		}
 	}-*/;
 
 	/**

@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui.win8;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -13,6 +15,8 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
+import com.vimukti.accounter.web.client.ui.ImageButton;
+import com.vimukti.accounter.web.client.ui.Menu;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -89,6 +93,12 @@ public class Windows8MenuView extends BaseView {
 
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
+
+	private boolean isJobTrackingEnabled;
+
+	private boolean isMulticurrencyEnabled;
+
+	private StyledPanel mainMenuPanel;
 
 	@Override
 	public void init() {
@@ -169,6 +179,12 @@ public class Windows8MenuView extends BaseView {
 
 		this.countryOrRegion = preferences.getTradingAddress()
 				.getCountryOrRegion();
+
+		this.iswareHouseEnabled = preferences.iswareHouseEnabled();
+
+		this.isClassTracking = preferences.isClassTrackingEnabled();
+
+		this.isJobTrackingEnabled = preferences.isJobTrackingEnabled();
 
 		getMenu();
 	}
@@ -253,7 +269,7 @@ public class Windows8MenuView extends BaseView {
 
 	private void getMenu() {
 
-		StyledPanel mainMenuPanel = new StyledPanel("mainMenu");
+		mainMenuPanel = new StyledPanel("mainMenu");
 
 		mainMenuPanel.add(getCompanyMenu(messages.company()));
 
@@ -273,7 +289,9 @@ public class Windows8MenuView extends BaseView {
 			mainMenuPanel.add(getInventoryMenu(messages.inventory()));
 		}
 
-		// this.addMenu(getFixedAssetsMenu(messages.fixedAssets()));
+		if (hasPermission(Features.PAY_ROLL)) {
+			this.add(getPayrollMenu(messages.payroll()));
+		}
 
 		if (canViewReports) {
 			mainMenuPanel.add(getReportMenu(messages.reports()));
@@ -285,6 +303,63 @@ public class Windows8MenuView extends BaseView {
 		this.add(mainMenuPanel);
 		addStyleName("mainMenuView");
 
+	}
+
+	private StyledPanel getPayrollMenu(String payroll) {
+		StyledPanel payrollMenu = new StyledPanel("payrollMenu");
+
+		Label reportsLabel = new Label(payroll);
+		reportsLabel.setStyleName("menuName");
+		payrollMenu.add(reportsLabel);
+
+		DynamicForm payrollForm = new DynamicForm("menuForm");
+
+		W8MenuItem employeeItem = new W8MenuItem(messages.employee(), "",
+				HistoryTokens.NEWEMPLOYEE);
+		payrollForm.add(employeeItem);
+
+		W8MenuItem employeeGroupItem = new W8MenuItem(messages.employeeGroup(),
+				"", HistoryTokens.NEWEMPLOYEEGROUP);
+		payrollForm.add(employeeGroupItem);
+
+		W8MenuItem payheadItem = new W8MenuItem(messages.payhead(), "",
+				HistoryTokens.NEWPAYHEAD);
+		payrollForm.add(payheadItem);
+
+		W8MenuItem payStructureItem = new W8MenuItem(messages.payStructure(),
+				"", HistoryTokens.NEW_PAYSTRUCTURE);
+		payrollForm.add(payStructureItem);
+
+		W8MenuItem employeeListItem = new W8MenuItem(messages.employeeList(),
+				"", HistoryTokens.EMPLOYEELIST);
+		payrollForm.add(employeeListItem);
+
+		W8MenuItem employeeGroupListItem = new W8MenuItem(
+				messages.employeeGroupList(), "",
+				HistoryTokens.EMPLOYEEGROUPLIST);
+		payrollForm.add(employeeGroupListItem);
+
+		W8MenuItem payheadListItem = new W8MenuItem(messages.payheadList(), "",
+				HistoryTokens.PAYHEADLIST);
+		payrollForm.add(payheadListItem);
+
+		W8MenuItem attProductionTypeListItem = new W8MenuItem(
+				messages.attendanceOrProductionTypeList(), "",
+				HistoryTokens.ATTENDANCE_PRODUCTION_TYPE_LIST);
+		payrollForm.add(attProductionTypeListItem);
+
+		W8MenuItem payrollUnitListItem = new W8MenuItem(
+				messages.payrollUnitList(), "", HistoryTokens.PAYROLLUNITLIST);
+		payrollForm.add(payrollUnitListItem);
+
+		W8MenuItem payStructureListItem = new W8MenuItem(
+				messages.payStructureList(), "",
+				HistoryTokens.PAY_STRUCTURE_LIST);
+		payrollForm.add(payStructureListItem);
+
+		payrollMenu.add(payrollForm);
+
+		return payrollMenu;
 	}
 
 	private StyledPanel getSettingsMenu(String settings) {
@@ -327,9 +402,862 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	private StyledPanel getReportMenu(String reports) {
+
 		StyledPanel reportMenu = new StyledPanel("reportMenu");
 
+		Label reportsLabel = new Label(reports);
+		reportsLabel.setStyleName("menuName");
+		reportMenu.add(reportsLabel);
+
+		W8MenuItem reportHomeItem = new W8MenuItem(messages.reportsHome(), "",
+				HistoryTokens.REPORTHOME);
+		reportMenu.add(reportHomeItem);
+
+		StyledPanel companyAndFinancialMenu = getCompanyAndFinancialMenu(messages
+				.companyAndFinance());
+		reportMenu.add(companyAndFinancialMenu);
+
+		StyledPanel customerAndReceivableMenu = getCustomersAndReceivableMenu(messages
+				.customersAndReceivable(Global.get().Customers()));
+		reportMenu.add(customerAndReceivableMenu);
+
+		if (hasPermission(Features.EXTRA_REPORTS)) {
+			StyledPanel salesMenu = getSalesMenu(messages.sales());
+			reportMenu.add(salesMenu);
+		}
+
+		StyledPanel vendorAndPayablesMenu = getVendorAndPayablesMenu(messages
+				.vendorsAndPayables(Global.get().Vendors()));
+		reportMenu.add(vendorAndPayablesMenu);
+
+		if (hasPermission(Features.EXTRA_REPORTS)) {
+			StyledPanel purchaseMenu = getPurchaseMenu(messages.purchase());
+			reportMenu.add(purchaseMenu);
+		}
+
+		if (hasPermission(Features.BUDGET)
+				&& hasPermission(Features.EXTRA_REPORTS)) {
+			StyledPanel budgetMenu = getBudgetSubMenus(messages.budget());
+			reportMenu.add(budgetMenu);
+		}
+
+		if (isTrackTax) {
+			StyledPanel vatReportMenu = getVATReportMenu(messages.tax());
+			reportMenu.add(vatReportMenu);
+		}
+
+		if (hasPermission(Features.FIXED_ASSET)
+				&& hasPermission(Features.EXTRA_REPORTS)) {
+			StyledPanel fixedAssetReportMenu = getFixedAssetReportSubMenu(messages
+					.fixedAsset());
+			reportMenu.add(fixedAssetReportMenu);
+		}
+		if (isInventoryEnabled && hasPermission(Features.EXTRA_REPORTS)) {
+			StyledPanel inventoryReportMenu = getInventoryReportMenu(messages
+					.inventory());
+			reportMenu.add(inventoryReportMenu);
+		}
+
+		if (hasPermission(Features.EXTRA_REPORTS)) {
+			StyledPanel bankingReportMenu = getBankingReportMenu(messages
+					.banking());
+			reportMenu.add(bankingReportMenu);
+		}
+
+		if (isJobTrackingEnabled) {
+			StyledPanel jobReportMenu = getJobReportMenu(messages.job());
+			reportMenu.add(jobReportMenu);
+		}
+
+		if (hasPermission(Features.PAY_ROLL)) {
+			StyledPanel payrollReportMenu = getPayrollReportMenu(messages
+					.payroll());
+			reportMenu.add(payrollReportMenu);
+		}
+
 		return reportMenu;
+	}
+
+	private StyledPanel getPayrollReportMenu(String payroll) {
+		StyledPanel payrollBar = new StyledPanel("payrollreportmenu");
+
+		Label reportsLabel = new Label(payroll);
+		reportsLabel.setStyleName("subMenuName");
+		payrollBar.add(reportsLabel);
+
+		reportsLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		payrollBar.add(backButton);
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem payslipSummary = new W8MenuItem(messages.paySlipSummary(),
+				"", HistoryTokens.PAYSLIP_SUMMARY);
+		menuForm.add(payslipSummary);
+
+		W8MenuItem payslipDetail = new W8MenuItem(messages.payslipDetail(), "",
+				HistoryTokens.PAYSLIP_DETAIL_REPORT);
+		menuForm.add(payslipDetail);
+
+		W8MenuItem paysheet = new W8MenuItem(messages.paySheet(), "",
+				HistoryTokens.PAYSHEET_REPORT);
+		menuForm.add(paysheet);
+
+		W8MenuItem payheadSummary = new W8MenuItem(
+				messages.payHeadSummaryReport(), "",
+				HistoryTokens.PAY_HEAD_SUMMMARY_REPORT);
+		menuForm.add(payheadSummary);
+
+		W8MenuItem payheadDetail = new W8MenuItem(
+				messages.payHeadDetailReport(), "",
+				HistoryTokens.PAY_HEAD_DETAIL_REPORT);
+		menuForm.add(payheadDetail);
+
+		payrollBar.add(menuForm);
+
+		return payrollBar;
+	}
+
+	private StyledPanel getJobReportMenu(String job) {
+		StyledPanel jobBar = new StyledPanel("jobreportmenu");
+
+		Label reportsLabel = new Label(job);
+		reportsLabel.setStyleName("subMenuName");
+		jobBar.add(reportsLabel);
+
+		reportsLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		jobBar.add(backButton);
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem profitAndLoss = new W8MenuItem(
+				messages.profitAndLossByJob(), "",
+				HistoryTokens.PROFITANDLOSSBYJOBS);
+		menuForm.add(profitAndLoss);
+
+		W8MenuItem estimatesByJob = new W8MenuItem(messages.estimatesbyJob(),
+				"", HistoryTokens.ESTIMATEBYJOB);
+		menuForm.add(estimatesByJob);
+
+		W8MenuItem unbilledCostsByJob = new W8MenuItem(
+				messages.unbilledCostsByJob(), "",
+				HistoryTokens.UNBILLED_COSTS_BY_JOB);
+		menuForm.add(unbilledCostsByJob);
+
+		W8MenuItem jobProfitabilitySummary = new W8MenuItem(
+				messages.jobProfitabilitySummary(), "",
+				HistoryTokens.JOB_PROFITABILITY_SUMMARY_REPORT);
+		menuForm.add(jobProfitabilitySummary);
+
+		W8MenuItem jobProfitabilityDetail = new W8MenuItem(
+				messages.jobProfitabilityDetail(), "",
+				HistoryTokens.JOB_PROFITABILITY_DETAIL);
+		menuForm.add(jobProfitabilityDetail);
+
+		jobBar.add(menuForm);
+
+		return jobBar;
+	}
+
+	private StyledPanel getBankingReportMenu(String banking) {
+		StyledPanel bankingBar = new StyledPanel("bankingreportmenu");
+
+		Label reportsLabel = new Label(banking);
+		reportsLabel.setStyleName("subMenuName");
+		bankingBar.add(reportsLabel);
+
+		reportsLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		bankingBar.add(backButton);
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem missingChecks = new W8MenuItem(messages.missingchecks(), "",
+				HistoryTokens.MISSION_CHECKS);
+		menuForm.add(missingChecks);
+
+		W8MenuItem reconciliationDiscrepancy = new W8MenuItem(
+				messages.reconcilationDiscrepany(), "",
+				HistoryTokens.RECONCILIATION_DISCREPANCY);
+		menuForm.add(reconciliationDiscrepancy);
+
+		W8MenuItem depositDetail = new W8MenuItem(messages.depositDetail(), "",
+				HistoryTokens.BANK_DEPOSIT_DETAIL_REPORT);
+		menuForm.add(depositDetail);
+
+		W8MenuItem checkDetail = new W8MenuItem(messages.checkDetail(), "",
+				HistoryTokens.BANK_CHECK_DETAIL_REPORT);
+		menuForm.add(checkDetail);
+
+		bankingBar.add(menuForm);
+
+		return bankingBar;
+	}
+
+	private StyledPanel getInventoryReportMenu(String inventory) {
+		StyledPanel inventoryBar = new StyledPanel("inventoryreportmenu");
+
+		Label reportsLabel = new Label(inventory);
+		reportsLabel.setStyleName("subMenuName");
+		inventoryBar.add(reportsLabel);
+
+		reportsLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		inventoryBar.add(backButton);
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem inventoryValuationSummary = new W8MenuItem(
+				messages.inventoryValutionSummary(), "",
+				HistoryTokens.INVENTORY_VALUATION_SUMMARY);
+		menuForm.add(inventoryValuationSummary);
+
+		W8MenuItem inventoryValuationDetails = new W8MenuItem(
+				messages.inventoryValuationDetails(), "",
+				HistoryTokens.INVENTORY_VALUATION_DETAIL_REPORT);
+		menuForm.add(inventoryValuationDetails);
+
+		W8MenuItem inventoryStockStatus = new W8MenuItem(
+				messages.inventoryStockStatusByItem(), "",
+				HistoryTokens.INVENTORY_STOCK_STATUS_BY_ITEM_REPORT);
+		menuForm.add(inventoryStockStatus);
+
+		W8MenuItem inventorySSByVendor = new W8MenuItem(
+				messages.inventoryStockStatusByVendor(), "",
+				HistoryTokens.INVENTORY_STOCK_STATUS_BY_VENDOR_REPORT);
+		menuForm.add(inventorySSByVendor);
+
+		W8MenuItem inventoryDetails = new W8MenuItem(
+				messages.inventoryDetails(), "",
+				HistoryTokens.INVENTORY_DETAILS);
+		menuForm.add(inventoryDetails);
+
+		inventoryBar.add(menuForm);
+		return inventoryBar;
+	}
+
+	private StyledPanel getFixedAssetReportSubMenu(String fixedAsset) {
+		StyledPanel fixedAssetBar = new StyledPanel("fixedreportmenu");
+
+		Label reportsLabel = new Label(fixedAsset);
+		reportsLabel.setStyleName("subMenuName");
+		fixedAssetBar.add(reportsLabel);
+
+		reportsLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		fixedAssetBar.add(backButton);
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem depreciation = new W8MenuItem(messages.depreciationReport(),
+				"", HistoryTokens.DEPRECIATIONSHEDULE);
+		menuForm.add(depreciation);
+
+		fixedAssetBar.add(menuForm);
+		return fixedAssetBar;
+	}
+
+	private StyledPanel getVATReportMenu(String tax) {
+		StyledPanel taxBar = new StyledPanel("taxreportmenu");
+
+		Label reportsLabel = new Label(tax);
+		reportsLabel.setStyleName("subMenuName");
+		taxBar.add(reportsLabel);
+
+		reportsLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		taxBar.add(backButton);
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		if (countryOrRegion.equals(Countries.UNITED_KINGDOM)) {
+
+			W8MenuItem priorVatReturns = new W8MenuItem(
+					messages.priorVATReturns(), "",
+					HistoryTokens.PRIORVATRETURN);
+			menuForm.add(priorVatReturns);
+
+			W8MenuItem vatDetail = new W8MenuItem(messages.vatDetail(), "",
+					HistoryTokens.VATDETAIL);
+			menuForm.add(vatDetail);
+
+			W8MenuItem vat100 = new W8MenuItem(messages.vat100(), "",
+					HistoryTokens.VAT100);
+			menuForm.add(vat100);
+
+			W8MenuItem uncategorisedVatAmounts = new W8MenuItem(
+					messages.uncategorisedVATAmounts(), "",
+					HistoryTokens.UNCATEGORISEDVATAMOUNT);
+			menuForm.add(uncategorisedVatAmounts);
+
+			W8MenuItem ecSalesList = new W8MenuItem(messages.ecSalesList(), "",
+					HistoryTokens.ECSALESLIST);
+			menuForm.add(ecSalesList);
+
+		} else {
+			W8MenuItem taxItemDetailReport = new W8MenuItem(
+					messages.taxItemDetailReport(), "",
+					HistoryTokens.TAXITEMDETAIL);
+			menuForm.add(taxItemDetailReport);
+
+			if (hasPermission(Features.EXTRA_REPORTS)) {
+				W8MenuItem taxItemExceptionalDetail = new W8MenuItem(
+						messages.taxItemExceptionDetailReport(), "",
+						HistoryTokens.TAXITEMEXCEPTIONDETAILS);
+				menuForm.add(taxItemExceptionalDetail);
+			}
+		}
+		W8MenuItem vatItemSummary = new W8MenuItem(messages.vatItemSummary(),
+				"", HistoryTokens.VATITEMSUMMARY);
+		menuForm.add(vatItemSummary);
+
+		if (countryOrRegion.equals(Countries.INDIA)) {
+			if (tdsEnabled) {
+				W8MenuItem tdsAck = new W8MenuItem(
+						messages.tdsAcknowledgmentsReport(), "",
+						HistoryTokens.TDS_ACK_REPORT);
+				menuForm.add(tdsAck);
+			}
+		}
+
+		taxBar.add(menuForm);
+		return taxBar;
+	}
+
+	private StyledPanel getBudgetSubMenus(String budget) {
+		StyledPanel budgetBar = new StyledPanel("budgetreportmenu");
+
+		Label reportsLabel = new Label(budget);
+		reportsLabel.setStyleName("subMenuName");
+		budgetBar.add(reportsLabel);
+
+		reportsLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		budgetBar.add(backButton);
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem budgetOverview = new W8MenuItem(messages.budgetOverview(),
+				"", HistoryTokens.BUDGETREPORTOVERVIEW);
+		menuForm.add(budgetOverview);
+
+		W8MenuItem budgetvsActuals = new W8MenuItem(messages.budgetvsActuals(),
+				"", HistoryTokens.BUDGETVSACTUALS);
+		menuForm.add(budgetvsActuals);
+
+		budgetBar.add(menuForm);
+
+		return budgetBar;
+	}
+
+	private StyledPanel getPurchaseMenu(String purchase) {
+		StyledPanel purchaseMenuBar = new StyledPanel("purchasereportmenu");
+
+		Label reportsLabel = new Label(purchase);
+		reportsLabel.setStyleName("subMenuName");
+		purchaseMenuBar.add(reportsLabel);
+
+		reportsLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		purchaseMenuBar.add(backButton);
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem purByVendSummary = new W8MenuItem(
+				messages.purchaseByVendorSummary(Global.get().Vendor()), "",
+				HistoryTokens.PURCHASEBYVENDORSUMMARY);
+		menuForm.add(purByVendSummary);
+
+		W8MenuItem purByVendorDetail = new W8MenuItem(
+				messages.purchaseByVendorDetail(Global.get().Vendor()), "",
+				HistoryTokens.PURCHASEBYVENDORDETAIL);
+		menuForm.add(purByVendorDetail);
+
+		W8MenuItem purByItemSummary = new W8MenuItem(
+				messages.purchaseByItemSummary(), "",
+				HistoryTokens.PURCHASEBYITEMSUMMARY);
+		menuForm.add(purByItemSummary);
+
+		W8MenuItem purByItemDetail = new W8MenuItem(
+				messages.purchaseByItemDetail(), "",
+				HistoryTokens.PURCHASEBYITEMDETAIL);
+		menuForm.add(purByItemDetail);
+
+		if (isPurchaseOrderEnabled) {
+			W8MenuItem purchaseOrder = new W8MenuItem(
+					messages.purchaseOrderReport(), "",
+					HistoryTokens.PURCHASEORDERREPORT);
+			menuForm.add(purchaseOrder);
+
+		}
+		if (isClassTracking) {
+			W8MenuItem purByClassSummary = new W8MenuItem(
+					messages.purchasesbyClassSummary(), "",
+					HistoryTokens.PURCHASESBYCLASSSUMMARY);
+			menuForm.add(purByClassSummary);
+
+			W8MenuItem purByClassDetail = new W8MenuItem(
+					messages.purchasesbyClassDetail(), "",
+					HistoryTokens.PURCHASESBYCLASSDETAIL);
+			menuForm.add(purByClassDetail);
+		}
+
+		if (isLocationTracking) {
+			W8MenuItem purByLocationSummary = new W8MenuItem(
+					messages.purchasesbyLocationSummary(Global.get().Location()),
+					"", HistoryTokens.PURCHASESBYLOCATIONSUMMARY);
+			menuForm.add(purByLocationSummary);
+
+			W8MenuItem purByLocationDetail = new W8MenuItem(
+					messages.purchasesbyLocationDetail(Global.get().Location()),
+					"", HistoryTokens.PURCHASESBYLOCATIONDETAIL);
+			menuForm.add(purByLocationDetail);
+		}
+
+		purchaseMenuBar.add(menuForm);
+
+		return purchaseMenuBar;
+	}
+
+	private StyledPanel getVendorAndPayablesMenu(String vendorsAndPayables) {
+
+		StyledPanel vendorPayablesBar = new StyledPanel("vendorAndPayablesMenu");
+
+		Label reportsLabel = new Label(vendorsAndPayables);
+		reportsLabel.setStyleName("subMenuName");
+		vendorPayablesBar.add(reportsLabel);
+
+		reportsLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		vendorPayablesBar.add(backButton);
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem apAgeingSummary = new W8MenuItem(messages.apAgeingSummary(),
+				"", HistoryTokens.APAGINGSUMMARY);
+		menuForm.add(apAgeingSummary);
+
+		W8MenuItem apAgeingDetail = new W8MenuItem(messages.apAgeingDetail(),
+				"", HistoryTokens.APAGINGDETAIL);
+		menuForm.add(apAgeingDetail);
+
+		if (hasPermission(Features.EXTRA_REPORTS)) {
+			W8MenuItem vendorStatement = new W8MenuItem(
+					messages.payeeStatement(Global.get().Vendors()), "",
+					HistoryTokens.VENDORSTATEMENT);
+			menuForm.add(vendorStatement);
+		}
+		W8MenuItem purByLocationDetail = new W8MenuItem(
+				messages.payeeTransactionHistory(Global.get().Vendor()), "",
+				HistoryTokens.PURCHASESBYLOCATIONDETAIL);
+		menuForm.add(purByLocationDetail);
+
+		vendorPayablesBar.add(menuForm);
+
+		return vendorPayablesBar;
+	}
+
+	private StyledPanel getSalesMenu(String sales) {
+		StyledPanel salesBar = new StyledPanel("salesMenu");
+
+		Label reportsLabel = new Label(sales);
+		reportsLabel.setStyleName("subMenuName");
+		salesBar.add(reportsLabel);
+
+		reportsLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		salesBar.add(backButton);
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem salesByCustomerSummary = new W8MenuItem(
+				messages.salesByCustomerSummary(Global.get().Customer()), "",
+				HistoryTokens.SALESBYCUSTOMERSUMMARY);
+		menuForm.add(salesByCustomerSummary);
+
+		W8MenuItem salesByCustomerDetail = new W8MenuItem(
+				messages.salesByCustomerDetail(Global.get().Customer()), "",
+				HistoryTokens.SALESBYCUSTOMERDETAIL);
+		menuForm.add(salesByCustomerDetail);
+
+		W8MenuItem salesByItemSummary = new W8MenuItem(
+				messages.salesByItemSummary(), "",
+				HistoryTokens.SALESBYITEMSUMMARY);
+		menuForm.add(salesByItemSummary);
+
+		W8MenuItem salesByItemDetail = new W8MenuItem(
+				messages.salesByItemDetail(), "",
+				HistoryTokens.SALESBYITEMDETAIL);
+		menuForm.add(salesByItemDetail);
+
+		if (isSalesOrderEnabled) {
+			W8MenuItem salesorderReport = new W8MenuItem(
+					messages.salesOrderReport(), "",
+					HistoryTokens.SALESORDERREPORT);
+			menuForm.add(salesorderReport);
+		}
+		if (isLocationTrackingEnabled) {
+			W8MenuItem salesByLocationSummary = new W8MenuItem(
+					messages.salesByLocationSummary(Global.get().Location()),
+					"", HistoryTokens.SALESBYLOCATIONSUMMARY);
+			menuForm.add(salesByLocationSummary);
+
+			W8MenuItem salesByLocationDetail = new W8MenuItem(
+					messages.getSalesByLocationDetails(Global.get().Location()),
+					"", HistoryTokens.SALESBYLOCATIONDETAILS);
+			menuForm.add(salesByLocationDetail);
+		}
+
+		if (isClassTrackingEnabled) {
+			W8MenuItem salesByClassSummary = new W8MenuItem(
+					messages.salesByClassSummary(), "",
+					HistoryTokens.SALESBYCLASSSUMMARY);
+			menuForm.add(salesByClassSummary);
+
+			W8MenuItem salesByClassDetail = new W8MenuItem(
+					messages.salesByClassDetails(), "",
+					HistoryTokens.SALESBYCLASSDETAILS);
+			menuForm.add(salesByClassDetail);
+		}
+		salesBar.add(menuForm);
+
+		return salesBar;
+	}
+
+	private StyledPanel getCustomersAndReceivableMenu(
+			String customersAndReceivable) {
+		StyledPanel customersReceivableBar = new StyledPanel(
+				"customersAndReceivableMenu");
+
+		Label reportsLabel = new Label(customersAndReceivable);
+		reportsLabel.setStyleName("subMenuName");
+		customersReceivableBar.add(reportsLabel);
+
+		reportsLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		customersReceivableBar.add(backButton);
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem arAgeingSummary = new W8MenuItem(messages.arAgeingSummary(),
+				"", HistoryTokens.ARAGINGSUMMARY);
+		menuForm.add(arAgeingSummary);
+
+		W8MenuItem arAgeingDetail = new W8MenuItem(messages.arAgeingDetail(),
+				"", HistoryTokens.ARAGINGDETAIL);
+		menuForm.add(arAgeingDetail);
+
+		if (hasPermission(Features.EXTRA_REPORTS)) {
+			W8MenuItem customerStatement = new W8MenuItem(
+					messages.payeeStatement(Global.get().Customers()), "",
+					HistoryTokens.CUSTOMERSTATEMENT);
+			menuForm.add(customerStatement);
+
+		}
+
+		W8MenuItem cusTransactionHistory = new W8MenuItem(
+				messages.payeeTransactionHistory(Global.get().Customer()), "",
+				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
+		menuForm.add(cusTransactionHistory);
+
+		customersReceivableBar.add(menuForm);
+
+		return customersReceivableBar;
+	}
+
+	private StyledPanel getCompanyAndFinancialMenu(String companyAndFinance) {
+		StyledPanel companyFinancialBar = new StyledPanel(
+				"companyAndFinancialMenu");
+
+		Label reportsLabel = new Label(companyAndFinance);
+		reportsLabel.setStyleName("subMenuName");
+		companyFinancialBar.add(reportsLabel);
+
+		reportsLabel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				event.preventDefault();
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				event.preventDefault();
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		companyFinancialBar.add(backButton);
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem profitAndLoss = new W8MenuItem(messages.profitAndLoss(), "",
+				HistoryTokens.PROFITANDLOSS);
+		menuForm.add(profitAndLoss);
+
+		W8MenuItem balanceSheet = new W8MenuItem(messages.balanceSheet(), "",
+				HistoryTokens.BALANCESHEET);
+		menuForm.add(balanceSheet);
+
+		W8MenuItem cashFlow = new W8MenuItem(messages.cashFlowReport(), "",
+				HistoryTokens.CASHFLOWREPORT);
+		menuForm.add(cashFlow);
+
+		W8MenuItem trailBalance = new W8MenuItem(messages.trialBalance(), "",
+				HistoryTokens.TRIALBALANCE);
+		menuForm.add(trailBalance);
+
+		W8MenuItem transDetailByAcc = new W8MenuItem(
+				messages.transactionDetailByAccount(), "",
+				HistoryTokens.TRANSACTIONDETAILBYACCOUNT);
+		menuForm.add(transDetailByAcc);
+
+		W8MenuItem incomeByCusDetail = new W8MenuItem(
+				messages2.incomeByCustomerDetail(Global.get().Customer()), "",
+				HistoryTokens.INCOMEBYCUSTOMERDETAIL);
+		menuForm.add(incomeByCusDetail);
+
+		W8MenuItem generalLedger = new W8MenuItem(
+				messages.generalLedgerReport(), "", HistoryTokens.GENERALLEDGER);
+		menuForm.add(generalLedger);
+
+		W8MenuItem expenseReport = new W8MenuItem(messages.expenseReport(), "",
+				HistoryTokens.EXPENSEREPORT);
+		menuForm.add(expenseReport);
+
+		if (hasPermission(Features.RECURRING_TRANSACTIONS)) {
+			W8MenuItem automaticTrans = new W8MenuItem(
+					messages.automaticTransactions(), "",
+					HistoryTokens.AUTOMATICTRANSACTIONS);
+			menuForm.add(automaticTrans);
+		}
+
+		if (isTaxTracking) {
+			W8MenuItem salesTaxLiability = new W8MenuItem(
+					messages.salesTaxLiability(), "",
+					HistoryTokens.SALESTAXLIABILITY);
+			menuForm.add(salesTaxLiability);
+
+			W8MenuItem transDetailByTaxItem = new W8MenuItem(
+					messages.transactionDetailByTaxItem(), "",
+					HistoryTokens.TRANSACTIONDETAILBYTAXITEM);
+			menuForm.add(transDetailByTaxItem);
+		}
+		if (isLocationTrackingEnabled) {
+			W8MenuItem profitLossByLocation = new W8MenuItem(
+					messages.profitAndLossByLocation(Global.get().Location()),
+					"", HistoryTokens.PROFITANDLOSSBYLOCATION);
+			menuForm.add(profitLossByLocation);
+		}
+		if (isClassTrackingEnabled) {
+			W8MenuItem profitAndLossByClass = new W8MenuItem(
+					messages.profitAndLossbyClass(), "",
+					HistoryTokens.PROFITANDLOSSBYCLASS);
+			menuForm.add(profitAndLossByClass);
+		}
+
+		W8MenuItem reconciliationReport = new W8MenuItem(
+				messages.reconciliationsReport(), "",
+				HistoryTokens.RECONCILATION_LIST);
+		menuForm.add(reconciliationReport);
+
+		if (isMulticurrencyEnabled) {
+			W8MenuItem realisedExcLossGains = new W8MenuItem(
+					messages.realisedExchangeLossesAndGains(), "",
+					HistoryTokens.REALISED_EXCHANGE_LOSSES_AND_GAINS);
+			menuForm.add(realisedExcLossGains);
+
+			W8MenuItem unrealisedExcLossGains = new W8MenuItem(
+					messages.unRealisedExchangeLossesAndGains(), "",
+					HistoryTokens.UNREALISED_EXCHANGE_LOSSES_AND_GAINS);
+			menuForm.add(unrealisedExcLossGains);
+		}
+		companyFinancialBar.add(menuForm);
+
+		return companyFinancialBar;
 	}
 
 	private StyledPanel getInventoryMenu(String inventory) {
@@ -532,51 +1460,30 @@ public class Windows8MenuView extends BaseView {
 	private StyledPanel getVATMenu(String tax) {
 
 		StyledPanel vatmenu = new StyledPanel("vatmenu");
-		vatmenu.add(new Label(tax));
+
+		Label customerLabel = new Label(tax);
+		customerLabel.setStyleName("menuName");
+		vatmenu.add(customerLabel);
 
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
 		if (canDoInvoiceAndBillTransactions) {
-			StyledPanel vatNews = new StyledPanel("vatNews");
-			vatNews.add(new Label(messages.new1()));
-
-			DynamicForm submenuForm = new DynamicForm("submenuForm");
 
 			W8MenuItem newTaxItem = new W8MenuItem(messages.newTaxItem(), "",
 					HistoryTokens.NEWTAXITEM);
-			submenuForm.add(newTaxItem);
+			menuForm.add(newTaxItem);
 
 			W8MenuItem newTaxCode = new W8MenuItem(messages.newTaxCode(), "",
 					HistoryTokens.NEWVATCODE);
-			submenuForm.add(newTaxCode);
+			menuForm.add(newTaxCode);
 
 			W8MenuItem newTAXAgency = new W8MenuItem(messages.newTAXAgency(),
 					"", HistoryTokens.NEWTAXAGENCY);
-			submenuForm.add(newTAXAgency);
+			menuForm.add(newTAXAgency);
 
-			vatNews.add(submenuForm);
-
-			menuForm.add(vatNews);
-		}
-
-		if (canDoInvoiceAndBillTransactions) {
-			W8MenuItem taxAdjustment = new W8MenuItem(messages.taxAdjustment(),
-					"", HistoryTokens.TAXADJUSTMENT);
-			menuForm.add(taxAdjustment);
-
-			W8MenuItem fileTAX = new W8MenuItem(messages.fileTAX(), "",
-					HistoryTokens.FILETAX);
-			menuForm.add(fileTAX);
 		}
 
 		if (canDoManageAccounts) {
-			W8MenuItem payTax = new W8MenuItem(messages.payTax(), "",
-					HistoryTokens.PAYTAX);
-			menuForm.add(payTax);
-
-			W8MenuItem tAXRefund = new W8MenuItem(messages.tAXRefund(), "",
-					HistoryTokens.TAXREFUND);
-			menuForm.add(tAXRefund);
 
 			W8MenuItem taxHistory = new W8MenuItem(messages.taxHistory(), "",
 					HistoryTokens.TAXHISTORY);
@@ -617,7 +1524,30 @@ public class Windows8MenuView extends BaseView {
 	private StyledPanel getForm16AMenu(String tds) {
 
 		StyledPanel form16menu = new StyledPanel("tds");
-		form16menu.add(new Label(tds));
+
+		Label label = new Label(tds);
+		label.setStyleName("subMenuName");
+		form16menu.add(label);
+
+		label.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		form16menu.add(backButton);
 
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
@@ -644,7 +1574,30 @@ public class Windows8MenuView extends BaseView {
 	private StyledPanel getDeductorMasterMenu(String deducatorMaster) {
 
 		StyledPanel eductorMasterMenu = new StyledPanel("deducatorMaster");
-		eductorMasterMenu.add(new Label(deducatorMaster));
+
+		Label label = new Label(deducatorMaster);
+		label.setStyleName("subMenuName");
+		eductorMasterMenu.add(label);
+
+		label.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		eductorMasterMenu.add(backButton);
 
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
@@ -736,7 +1689,30 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getCompanyListMenu(String companyLists) {
 		StyledPanel companyListMenuBar = new StyledPanel("companyListMenuBar");
-		companyListMenuBar.add(new Label(companyLists));
+
+		Label label = new Label(companyLists);
+		label.setStyleName("subMenuName");
+		companyListMenuBar.add(label);
+
+		label.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		companyListMenuBar.add(backButton);
 
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
@@ -791,7 +1767,30 @@ public class Windows8MenuView extends BaseView {
 
 		StyledPanel mergeAccountsMenuBar = new StyledPanel(
 				"mergeAccountsMenuBar");
-		mergeAccountsMenuBar.add(new Label(mergeAccounts));
+
+		Label label = new Label(mergeAccounts);
+		label.setStyleName("subMenuName");
+		mergeAccountsMenuBar.add(label);
+
+		label.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		mergeAccountsMenuBar.add(backButton);
 
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
@@ -819,7 +1818,30 @@ public class Windows8MenuView extends BaseView {
 	private StyledPanel getFixedAssetsMenu(String fixedAssets) {
 
 		StyledPanel fixedAssetMenu = new StyledPanel("fixedAssetMenu");
-		fixedAssetMenu.add(new Label(fixedAssets));
+
+		Label label = new Label(fixedAssets);
+		label.setStyleName("subMenuName");
+		fixedAssetMenu.add(label);
+
+		label.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+		fixedAssetMenu.add(backButton);
 
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
@@ -853,7 +1875,32 @@ public class Windows8MenuView extends BaseView {
 
 		StyledPanel manageSupportListMenuBar = new StyledPanel(
 				"manageSupportListMenuBar");
-		manageSupportListMenuBar.add(new Label(manageSupportLists));
+
+		Label label = new Label(manageSupportLists);
+		label.setStyleName("subMenuName");
+		manageSupportListMenuBar.add(label);
+
+		label.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				event.preventDefault();
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+
+		manageSupportListMenuBar.add(backButton);
 
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
@@ -921,7 +1968,30 @@ public class Windows8MenuView extends BaseView {
 	private StyledPanel getSalesTaxSubmenu(String itemTax) {
 
 		StyledPanel salesTaxMenuBar = new StyledPanel("salesTaxMenuBar");
-		salesTaxMenuBar.add(new Label(itemTax));
+		Label label = new Label(itemTax);
+		label.addStyleName("subMenuName");
+		salesTaxMenuBar.add(label);
+
+		label.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				mainMenuPanel.addStyleName("subMenu");
+			}
+		});
+
+		final ImageButton backButton = new ImageButton(null);
+		backButton.setStyleName("subMenuBack");
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				backButton.addStyleName("subMenuBack_click");
+				mainMenuPanel.removeStyleName("subMenu");
+			}
+		});
+
+		salesTaxMenuBar.add(backButton);
 
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
@@ -961,6 +2031,7 @@ public class Windows8MenuView extends BaseView {
 					"", HistoryTokens.NEWTAXAGENCY);
 			menuForm.add(newTAXAgency);
 		}
+		salesTaxMenuBar.add(menuForm);
 		return salesTaxMenuBar;
 	}
 
