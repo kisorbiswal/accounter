@@ -100,6 +100,12 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel mainMenuPanel;
 
+	private StyledPanel companyMenuBar;
+
+	private StyledPanel reportMenu;
+
+	private StyledPanel vatmenu;
+
 	@Override
 	public void init() {
 		super.init();
@@ -306,7 +312,7 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	private StyledPanel getPayrollMenu(String payroll) {
-		StyledPanel payrollMenu = new StyledPanel("payrollMenu");
+		StyledPanel payrollMenu = new StyledPanel("menu_parent");
 
 		Label reportsLabel = new Label(payroll);
 		reportsLabel.setStyleName("menuName");
@@ -363,7 +369,7 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	private StyledPanel getSettingsMenu(String settings) {
-		StyledPanel settingsMenuForm = new StyledPanel("settingsMenuForm");
+		StyledPanel settingsMenuForm = new StyledPanel("menu_parent");
 
 		DynamicForm settingdListForm = new DynamicForm("settingdListForm");
 
@@ -403,7 +409,7 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getReportMenu(String reports) {
 
-		StyledPanel reportMenu = new StyledPanel("reportMenu");
+		reportMenu = new StyledPanel("menu_parent");
 
 		Label reportsLabel = new Label(reports);
 		reportsLabel.setStyleName("menuName");
@@ -479,7 +485,8 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	private StyledPanel getPayrollReportMenu(String payroll) {
-		StyledPanel payrollBar = new StyledPanel("payrollreportmenu");
+		final StyledPanel payrollBar = new StyledPanel("payrollreportmenu");
+		payrollBar.addStyleName("submenu_parent");
 
 		Label reportsLabel = new Label(payroll);
 		reportsLabel.setStyleName("subMenuName");
@@ -490,6 +497,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent_clicked");
+				payrollBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -501,6 +510,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent");
+				payrollBar.removeStyleName("submenu_clicked");
 			}
 		});
 		payrollBar.add(backButton);
@@ -535,7 +546,8 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	private StyledPanel getJobReportMenu(String job) {
-		StyledPanel jobBar = new StyledPanel("jobreportmenu");
+		final StyledPanel jobBar = new StyledPanel("jobreportmenu");
+		jobBar.addStyleName("submenu_parent");
 
 		Label reportsLabel = new Label(job);
 		reportsLabel.setStyleName("subMenuName");
@@ -546,6 +558,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent_clicked");
+				jobBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -557,6 +571,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent");
+				jobBar.removeStyleName("submenu_clicked");
 			}
 		});
 		jobBar.add(backButton);
@@ -593,7 +609,8 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	private StyledPanel getBankingReportMenu(String banking) {
-		StyledPanel bankingBar = new StyledPanel("bankingreportmenu");
+		final StyledPanel bankingBar = new StyledPanel("bankingreportmenu");
+		bankingBar.addStyleName("submenu_parent");
 
 		Label reportsLabel = new Label(banking);
 		reportsLabel.setStyleName("subMenuName");
@@ -604,6 +621,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent_clicked");
+				bankingBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -614,7 +633,9 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
+				reportMenu.setStyleName("menu_parent");
 				mainMenuPanel.removeStyleName("subMenu");
+				bankingBar.removeStyleName("submenu_clicked");
 			}
 		});
 		bankingBar.add(backButton);
@@ -644,7 +665,8 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	private StyledPanel getInventoryReportMenu(String inventory) {
-		StyledPanel inventoryBar = new StyledPanel("inventoryreportmenu");
+		final StyledPanel inventoryBar = new StyledPanel("inventoryreportmenu");
+		inventoryBar.addStyleName("submenu_parent");
 
 		Label reportsLabel = new Label(inventory);
 		reportsLabel.setStyleName("subMenuName");
@@ -655,6 +677,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent_clicked");
+				inventoryBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -666,6 +690,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent");
+				inventoryBar.removeStyleName("submenu_clicked");
 			}
 		});
 		inventoryBar.add(backButton);
@@ -702,7 +728,8 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	private StyledPanel getFixedAssetReportSubMenu(String fixedAsset) {
-		StyledPanel fixedAssetBar = new StyledPanel("fixedreportmenu");
+		final StyledPanel fixedAssetBar = new StyledPanel("fixedreportmenu");
+		fixedAssetBar.addStyleName("submenu_parent");
 
 		Label reportsLabel = new Label(fixedAsset);
 		reportsLabel.setStyleName("subMenuName");
@@ -713,6 +740,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				fixedAssetBar.addStyleName("submenu_clicked");
+				reportMenu.setStyleName("menu_parent_clicked");
 			}
 		});
 
@@ -724,6 +753,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent");
+				fixedAssetBar.removeStyleName("submenu_clicked");
 			}
 		});
 		fixedAssetBar.add(backButton);
@@ -739,7 +770,8 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	private StyledPanel getVATReportMenu(String tax) {
-		StyledPanel taxBar = new StyledPanel("taxreportmenu");
+		final StyledPanel taxBar = new StyledPanel("taxreportmenu");
+		taxBar.addStyleName("submenu_parent");
 
 		Label reportsLabel = new Label(tax);
 		reportsLabel.setStyleName("subMenuName");
@@ -750,6 +782,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent_clicked");
+				taxBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -761,6 +795,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent");
+				taxBar.removeStyleName("submenu_clicked");
 			}
 		});
 		taxBar.add(backButton);
@@ -822,7 +858,8 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	private StyledPanel getBudgetSubMenus(String budget) {
-		StyledPanel budgetBar = new StyledPanel("budgetreportmenu");
+		final StyledPanel budgetBar = new StyledPanel("budgetreportmenu");
+		budgetBar.addStyleName("submenu_parent");
 
 		Label reportsLabel = new Label(budget);
 		reportsLabel.setStyleName("subMenuName");
@@ -833,6 +870,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent_clicked");
+				budgetBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -844,6 +883,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent");
+				budgetBar.removeStyleName("submenu_clicked");
 			}
 		});
 		budgetBar.add(backButton);
@@ -864,7 +905,9 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	private StyledPanel getPurchaseMenu(String purchase) {
-		StyledPanel purchaseMenuBar = new StyledPanel("purchasereportmenu");
+		final StyledPanel purchaseMenuBar = new StyledPanel(
+				"purchasereportmenu");
+		purchaseMenuBar.addStyleName("submenu_parent");
 
 		Label reportsLabel = new Label(purchase);
 		reportsLabel.setStyleName("subMenuName");
@@ -875,6 +918,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent_clicked");
+				purchaseMenuBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -886,6 +931,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent");
+				purchaseMenuBar.removeStyleName("submenu_clicked");
 			}
 		});
 		purchaseMenuBar.add(backButton);
@@ -950,7 +997,9 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getVendorAndPayablesMenu(String vendorsAndPayables) {
 
-		StyledPanel vendorPayablesBar = new StyledPanel("vendorAndPayablesMenu");
+		final StyledPanel vendorPayablesBar = new StyledPanel(
+				"vendorAndPayablesMenu");
+		vendorPayablesBar.addStyleName("submenu_parent");
 
 		Label reportsLabel = new Label(vendorsAndPayables);
 		reportsLabel.setStyleName("subMenuName");
@@ -961,6 +1010,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent_clicked");
+				vendorPayablesBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -972,6 +1023,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent");
+				vendorPayablesBar.removeStyleName("submenu_clicked");
 			}
 		});
 		vendorPayablesBar.add(backButton);
@@ -1003,7 +1056,8 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	private StyledPanel getSalesMenu(String sales) {
-		StyledPanel salesBar = new StyledPanel("salesMenu");
+		final StyledPanel salesBar = new StyledPanel("salesMenu");
+		salesBar.addStyleName("submenu_parent");
 
 		Label reportsLabel = new Label(sales);
 		reportsLabel.setStyleName("subMenuName");
@@ -1014,6 +1068,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent_clicked");
+				salesBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -1025,6 +1081,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent");
+				salesBar.removeStyleName("submenu_clicked");
 			}
 		});
 		salesBar.add(backButton);
@@ -1087,8 +1145,9 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getCustomersAndReceivableMenu(
 			String customersAndReceivable) {
-		StyledPanel customersReceivableBar = new StyledPanel(
+		final StyledPanel customersReceivableBar = new StyledPanel(
 				"customersAndReceivableMenu");
+		customersReceivableBar.addStyleName("submenu_parent");
 
 		Label reportsLabel = new Label(customersAndReceivable);
 		reportsLabel.setStyleName("subMenuName");
@@ -1099,6 +1158,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent_clicked");
+				customersReceivableBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -1110,6 +1171,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent");
+				customersReceivableBar.removeStyleName("submenu_clicked");
 			}
 		});
 		customersReceivableBar.add(backButton);
@@ -1143,8 +1206,9 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	private StyledPanel getCompanyAndFinancialMenu(String companyAndFinance) {
-		StyledPanel companyFinancialBar = new StyledPanel(
+		final StyledPanel companyFinancialBar = new StyledPanel(
 				"companyAndFinancialMenu");
+		companyFinancialBar.addStyleName("submenu_parent");
 
 		Label reportsLabel = new Label(companyAndFinance);
 		reportsLabel.setStyleName("subMenuName");
@@ -1156,6 +1220,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
 				mainMenuPanel.addStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent_clicked");
+				companyFinancialBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -1168,6 +1234,8 @@ public class Windows8MenuView extends BaseView {
 				event.preventDefault();
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				reportMenu.setStyleName("menu_parent");
+				companyFinancialBar.removeStyleName("submenu_clicked");
 			}
 		});
 		companyFinancialBar.add(backButton);
@@ -1262,7 +1330,7 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getInventoryMenu(String inventory) {
 
-		StyledPanel inventoryMenuForm = new StyledPanel("inventoryMenuForm");
+		StyledPanel inventoryMenuForm = new StyledPanel("menu_parent");
 
 		DynamicForm inventoryListForm = new DynamicForm("inventoryListForm");
 
@@ -1296,7 +1364,7 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getBankingMenu(String banking) {
 
-		StyledPanel bankingMenuForm = new StyledPanel("bankingMenuForm");
+		StyledPanel bankingMenuForm = new StyledPanel("menu_parent");
 
 		DynamicForm bankingListForm = new DynamicForm("bankingListForm");
 
@@ -1329,7 +1397,7 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getVendorMenu(String vendor) {
 
-		StyledPanel vendorMenuForm = new StyledPanel("vendorMenuForm");
+		StyledPanel vendorMenuForm = new StyledPanel("menu_parent");
 
 		DynamicForm vendorListForm = new DynamicForm("vendorListForm");
 
@@ -1401,7 +1469,7 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getCustomerMenu(String customer) {
 
-		StyledPanel customerMenuForm = new StyledPanel("customerMenuForm");
+		StyledPanel customerMenuForm = new StyledPanel("menu_parent");
 
 		Label customerLabel = new Label(customer);
 		customerLabel.setStyleName("menuName");
@@ -1459,7 +1527,7 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getVATMenu(String tax) {
 
-		StyledPanel vatmenu = new StyledPanel("vatmenu");
+		vatmenu = new StyledPanel("menu_parent");
 
 		Label customerLabel = new Label(tax);
 		customerLabel.setStyleName("menuName");
@@ -1523,7 +1591,8 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getForm16AMenu(String tds) {
 
-		StyledPanel form16menu = new StyledPanel("tds");
+		final StyledPanel form16menu = new StyledPanel("tds");
+		form16menu.addStyleName("submenu_parent");
 
 		Label label = new Label(tds);
 		label.setStyleName("subMenuName");
@@ -1534,6 +1603,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				companyMenuBar.setStyleName("menu_parent_clicked");
+				form16menu.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -1545,6 +1616,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				companyMenuBar.setStyleName("menu_parent");
+				form16menu.removeStyleName("submenu_clicked");
 			}
 		});
 		form16menu.add(backButton);
@@ -1573,7 +1646,8 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getDeductorMasterMenu(String deducatorMaster) {
 
-		StyledPanel eductorMasterMenu = new StyledPanel("deducatorMaster");
+		final StyledPanel eductorMasterMenu = new StyledPanel("deducatorMaster");
+		eductorMasterMenu.addStyleName("submenu_parent");
 
 		Label label = new Label(deducatorMaster);
 		label.setStyleName("subMenuName");
@@ -1584,6 +1658,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				vatmenu.setStyleName("menu_parent_clicked");
+				eductorMasterMenu.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -1595,6 +1671,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				vatmenu.setStyleName("menu_parent");
+				eductorMasterMenu.removeStyleName("submenu_clicked");
 			}
 		});
 		eductorMasterMenu.add(backButton);
@@ -1616,7 +1694,7 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getCompanyMenu(String company2) {
 
-		StyledPanel companyMenuBar = new StyledPanel("companyMenuBar");
+		companyMenuBar = new StyledPanel("menu_parent");
 		Label companynamelabel = new Label(company2);
 		companynamelabel.setStyleName("menuName");
 		companyMenuBar.add(companynamelabel);
@@ -1688,7 +1766,9 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	private StyledPanel getCompanyListMenu(String companyLists) {
-		StyledPanel companyListMenuBar = new StyledPanel("companyListMenuBar");
+		final StyledPanel companyListMenuBar = new StyledPanel(
+				"companyListMenuBar");
+		companyListMenuBar.addStyleName("submenu_parent");
 
 		Label label = new Label(companyLists);
 		label.setStyleName("subMenuName");
@@ -1699,6 +1779,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				companyMenuBar.setStyleName("menu_parent_clicked");
+				companyListMenuBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -1710,6 +1792,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				companyMenuBar.setStyleName("menu_parent");
+				companyListMenuBar.removeStyleName("submenu_clicked");
 			}
 		});
 		companyListMenuBar.add(backButton);
@@ -1765,8 +1849,9 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getMergeSubMenu(String mergeAccounts) {
 
-		StyledPanel mergeAccountsMenuBar = new StyledPanel(
+		final StyledPanel mergeAccountsMenuBar = new StyledPanel(
 				"mergeAccountsMenuBar");
+		mergeAccountsMenuBar.addStyleName("submenu_parent");
 
 		Label label = new Label(mergeAccounts);
 		label.setStyleName("subMenuName");
@@ -1777,6 +1862,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				companyMenuBar.setStyleName("menu_parent_clicked");
+				mergeAccountsMenuBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -1787,7 +1874,9 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
+				companyMenuBar.setStyleName("menu_parent");
 				mainMenuPanel.removeStyleName("subMenu");
+				mergeAccountsMenuBar.removeStyleName("submenu_clicked");
 			}
 		});
 		mergeAccountsMenuBar.add(backButton);
@@ -1817,7 +1906,8 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getFixedAssetsMenu(String fixedAssets) {
 
-		StyledPanel fixedAssetMenu = new StyledPanel("fixedAssetMenu");
+		final StyledPanel fixedAssetMenu = new StyledPanel("fixedAssetMenu");
+		fixedAssetMenu.addStyleName("submenu_parent");
 
 		Label label = new Label(fixedAssets);
 		label.setStyleName("subMenuName");
@@ -1828,6 +1918,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				companyMenuBar.setStyleName("menu_parent_clicked");
+				fixedAssetMenu.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -1839,6 +1931,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				companyMenuBar.setStyleName("menu_parent");
+				fixedAssetMenu.removeStyleName("submenu_clicked");
 			}
 		});
 		fixedAssetMenu.add(backButton);
@@ -1873,8 +1967,9 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getManageSupportListSubmenu(String manageSupportLists) {
 
-		StyledPanel manageSupportListMenuBar = new StyledPanel(
+		final StyledPanel manageSupportListMenuBar = new StyledPanel(
 				"manageSupportListMenuBar");
+		manageSupportListMenuBar.addStyleName("submenu_parent");
 
 		Label label = new Label(manageSupportLists);
 		label.setStyleName("subMenuName");
@@ -1885,6 +1980,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				companyMenuBar.setStyleName("menu_parent_clicked");
+				manageSupportListMenuBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -1897,6 +1994,8 @@ public class Windows8MenuView extends BaseView {
 				event.preventDefault();
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				companyMenuBar.setStyleName("menu_parent");
+				manageSupportListMenuBar.removeStyleName("submenu_clicked");
 			}
 		});
 
@@ -1967,7 +2066,8 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel getSalesTaxSubmenu(String itemTax) {
 
-		StyledPanel salesTaxMenuBar = new StyledPanel("salesTaxMenuBar");
+		final StyledPanel salesTaxMenuBar = new StyledPanel("salesTaxMenuBar");
+		salesTaxMenuBar.addStyleName("submenu_parent");
 		Label label = new Label(itemTax);
 		label.addStyleName("subMenuName");
 		salesTaxMenuBar.add(label);
@@ -1977,6 +2077,8 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				mainMenuPanel.addStyleName("subMenu");
+				companyMenuBar.setStyleName("menu_parent_clicked");
+				salesTaxMenuBar.addStyleName("submenu_clicked");
 			}
 		});
 
@@ -1988,6 +2090,8 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
 				mainMenuPanel.removeStyleName("subMenu");
+				companyMenuBar.setStyleName("menu_parent");
+				salesTaxMenuBar.removeStyleName("submenu_clicked");
 			}
 		});
 

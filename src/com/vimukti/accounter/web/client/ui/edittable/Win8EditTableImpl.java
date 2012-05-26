@@ -30,6 +30,7 @@ public class Win8EditTableImpl<R> extends EditTableImpl<R> {
 		this.wrapper.addStyleName("win8EditTable");
 
 		table = new FlowPanel();
+		table.addStyleName("win8EditTableContainer");
 		this.wrapper.add(table);
 
 		for (int x = 0; x < numOfRowsPerObject; x++) {
@@ -95,6 +96,7 @@ public class Win8EditTableImpl<R> extends EditTableImpl<R> {
 		clearEmptyMessage();
 		int index = rows.size() * numOfRowsPerObject;
 		FlowPanel rowWiget = new FlowPanel();
+		rowWiget.addStyleName("win8editrowPanel");
 		table.insert(rowWiget, index);
 		rows.add(row);
 		RenderContext<R> context = new RenderContext<R>(row);

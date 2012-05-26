@@ -213,7 +213,7 @@ public class CustomerCreditMemoView extends
 			}
 		});
 
-		StyledPanel accountStyledPanel = new StyledPanel("accountStyledPanel");
+		StyledPanel accountStyledPanel = new StyledPanel("accountFlowPanel");
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
@@ -266,7 +266,7 @@ public class CustomerCreditMemoView extends
 			}
 		});
 		currencyWidget = createCurrencyFactorWidget();
-		StyledPanel itemsStyledPanel = new StyledPanel("itemsStyledPanel");
+		StyledPanel itemsStyledPanel = new StyledPanel("itemsFlowPanel");
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());

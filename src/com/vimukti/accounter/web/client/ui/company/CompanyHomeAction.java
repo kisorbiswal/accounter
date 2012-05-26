@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.ui.DashBoardView;
 import com.vimukti.accounter.web.client.ui.IPadDashBoard;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.win8portlets.Windows8DashBoard;
 
 public class CompanyHomeAction extends Action {
 
@@ -29,6 +30,10 @@ public class CompanyHomeAction extends Action {
 			IPadDashBoard view = new IPadDashBoard();
 			MainFinanceWindow.getViewManager()
 					.showView(view, null, false, this);
+		} else if (Accounter.isWin8App()) {
+			Windows8DashBoard dashBoard = new Windows8DashBoard();
+			MainFinanceWindow.getViewManager().showView(dashBoard, null, false,
+					this);
 		} else {
 			DashBoardView view = (DashBoardView) GWT
 					.create(DashBoardView.class);
