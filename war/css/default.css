@@ -137,7 +137,7 @@ body {
 	-ms-grid-column-align: center;
 	/* -ms-grid-row-align: center; */
 	width: 100%;
-	height:80%;
+	height:83%;
 	-ms-box-pack: center;
 	-ms-box-align: middle;
 	-ms-box-flex: 0;
@@ -551,7 +551,7 @@ input[type=text].date-field-textbox {
 .dashBoard {
 	height: 100%;
 	overflow-x: auto;
-	margin-left: 8%;
+	display: -ms-box;
 }
 
 .portlets-panel {
@@ -562,25 +562,33 @@ input[type=text].date-field-textbox {
 }
 
 .quickLinks-panel {
-	display: -ms-box;
-	-ms-box-orient: horizontal;
-	margin-left: 20px;
-	-ms-box-lines: multiple;
-	overflow-x: auto;
-	padding-bottom: 50px;
+	width:33%;
+	margin-left: 10px;
 }
-
-.quickLinks-panel a, #moreButton {
+#moreButton {
 	display: block;
 	background-color: #919191;
 	margin-top: 5px;
 	margin-right: 5px;
 	font-size: 27px;
-	padding: 17px 60px 15px;
-	width: 100px;
-	height: 50px;
+	width: 200px;
 	border: 1px solid black;
 	color: white;
+	padding: 15px 10px;
+}
+.quickLinks-panel a:hover{
+	background-color: gray;
+}
+.quickLinks-panel a {
+	display: inline-block;
+	background-color: #919191;
+	margin-top: 5px;
+	margin-right: 5px;
+	font-size: 20px;
+	width: 200px;
+	border: 1px solid black;
+	color: white;
+	padding: 15px 10px;
 }
 
 .subMenuView .mainMenu {
@@ -952,10 +960,6 @@ input[type=text].date-field-textbox {
 
 .portletColumn {
 	display: -ms-box;
-	-ms-box-lines: multiple;
-	width: 100%;
-	overflow: auto;
-	height: 100%;
 }
 
 #loginPanel h2 {
@@ -1946,10 +1950,6 @@ input[type=text].date-field-textbox {
 	margin-left: 30px;
 }
 
-#moreButton {
-	width: 222px;
-}
-
 #ChartOfAccountsListGrid .gridBody .panel {
 	background-color: #B6B6B6;
 	border-width: 1px;
@@ -2072,8 +2072,8 @@ select:hover{
 }
 .setup_panel .viewButtonPanel .view_panel,.setup_panel .company_Info_table,.setup_panel .setup_common_head,
 .setup_panel .industry_subindustry_panel,#companiesPanel .companies-list,#signUpPanel .centerPanel,
-.abstract_base_view .mainVLay,#InvoiceView .mainVLay,#InvoiceView .align-form,.portletPagePanel,
-.company_settings_panel,.subMenu .menu_parent_clicked{
+.abstract_base_view .mainVLay,#InvoiceView .mainVLay,#InvoiceView .align-form,
+.company_settings_panel{
 	display: -ms-box;
 	-ms-box-orient: vertical;
 	-ms-box-lines: multiple;
@@ -2229,11 +2229,14 @@ button{
 .menu_item_hover,.optionClicked{
 	color:#7DD1F5 !important;
 }
-.label-title{
+.label-title,.portlet_quicklinks .gwt-HTML h2{
 	position: absolute;
 	top:14%;
 	color: #F0991D;
-	font-size:20px;
+	font-size:23px;
+}
+.portlet_quicklinks .gwt-HTML h2{
+	top: 9% !important;
 }
 button#closeButton:hover,.subMenuBack:hover{
 	background-image: url("../images/22.png") !important;
@@ -2308,4 +2311,53 @@ input[type=text]:disabled,textarea:disabled{
 }
 .subMenuName{
 	background: url("../images/RightArrow.jpg") no-repeat scroll right center lightgrey;
+}
+.submenu_clicked .menuForm{
+	position: absolute;
+	left: 30%;
+	top: 22%;
+}
+.submenu_clicked .subMenuBack{
+	position: absolute;
+	left: 30%;
+	top: 16%;
+}
+.submenu_clicked .subMenuName{
+	background-color: #3D7416;
+	color:white;
+}
+.viewholder #PortletPage{
+	width:60%;
+	overflow-x: auto !important;
+	overflow-y: hidden !important;
+}
+.portlet_quicklinks{
+	height: 100%;
+}
+.portletPagePanel,.dashBoard .firstRow,.dashBoard .portlet_close_button{
+	display: -ms-box;
+}
+.dashBoard .firstRow{
+	background-color: #CDCFCC;
+	padding: 5px 0;
+}
+.biz-decor-panel{
+	border: 2px solid #ccc;
+	margin-right: 10px;
+	width:450px;
+}
+.biz-decor-panel .panel-title{
+	width:50%;
+	text-align:left;
+	margin-left: 2px;
+}
+.dashBoard .portlet_close_button{
+	-ms-box-pack: end;
+	width: 50%;
+}
+.portlet_close_button div,.portlet_close_button img{
+	margin-right: 5px;
+}
+.portlet_close_button div{
+	padding-bottom: 5px;
 }

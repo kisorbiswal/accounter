@@ -51,6 +51,7 @@ public class Windows8DashBoard extends BaseHomeView {
 	public void init() {
 		super.add(new HTML("<h2>" + Global.get().messages().dashBoard() + ""));
 		// super.init();
+		this.addStyleName("portlet_quicklinks");
 		add(createControl());
 
 	}

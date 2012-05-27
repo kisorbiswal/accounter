@@ -795,4 +795,8 @@ public class Accounter implements EntryPoint {
 	public static void setFeatures(Set<String> feature) {
 		features = feature;
 	}
+	
+	public static boolean isWin8App() {
+		return windowsService != null;
+	}
 }
