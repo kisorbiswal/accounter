@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -16,7 +17,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.ImageButton;
-import com.vimukti.accounter.web.client.ui.Menu;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -320,12 +320,13 @@ public class Windows8MenuView extends BaseView {
 
 		DynamicForm payrollForm = new DynamicForm("menuForm");
 
-		W8MenuItem employeeItem = new W8MenuItem(messages.employee(), "",
-				HistoryTokens.NEWEMPLOYEE);
+		W8MenuItem employeeItem = new W8MenuItem(messages.employee(),
+				"Create Employee for paying salary", HistoryTokens.NEWEMPLOYEE);
 		payrollForm.add(employeeItem);
 
 		W8MenuItem employeeGroupItem = new W8MenuItem(messages.employeeGroup(),
-				"", HistoryTokens.NEWEMPLOYEEGROUP);
+				"Create Employee group for grouping the employees",
+				HistoryTokens.NEWEMPLOYEEGROUP);
 		payrollForm.add(employeeGroupItem);
 
 		W8MenuItem payheadItem = new W8MenuItem(messages.payhead(), "",
@@ -337,11 +338,11 @@ public class Windows8MenuView extends BaseView {
 		payrollForm.add(payStructureItem);
 
 		W8MenuItem employeeListItem = new W8MenuItem(messages.employeeList(),
-				"", HistoryTokens.EMPLOYEELIST);
+				"List of employees", HistoryTokens.EMPLOYEELIST);
 		payrollForm.add(employeeListItem);
 
 		W8MenuItem employeeGroupListItem = new W8MenuItem(
-				messages.employeeGroupList(), "",
+				messages.employeeGroupList(), "List of employee groups",
 				HistoryTokens.EMPLOYEEGROUPLIST);
 		payrollForm.add(employeeGroupListItem);
 
@@ -350,16 +351,18 @@ public class Windows8MenuView extends BaseView {
 		payrollForm.add(payheadListItem);
 
 		W8MenuItem attProductionTypeListItem = new W8MenuItem(
-				messages.attendanceOrProductionTypeList(), "",
+				messages.attendanceOrProductionTypeList(),
+				"List of Attendance or Production Types",
 				HistoryTokens.ATTENDANCE_PRODUCTION_TYPE_LIST);
 		payrollForm.add(attProductionTypeListItem);
 
 		W8MenuItem payrollUnitListItem = new W8MenuItem(
-				messages.payrollUnitList(), "", HistoryTokens.PAYROLLUNITLIST);
+				messages.payrollUnitList(), "List of Payroll units",
+				HistoryTokens.PAYROLLUNITLIST);
 		payrollForm.add(payrollUnitListItem);
 
 		W8MenuItem payStructureListItem = new W8MenuItem(
-				messages.payStructureList(), "",
+				messages.payStructureList(), "List of Pay structures",
 				HistoryTokens.PAY_STRUCTURE_LIST);
 		payrollForm.add(payStructureListItem);
 
@@ -415,8 +418,8 @@ public class Windows8MenuView extends BaseView {
 		reportsLabel.setStyleName("menuName");
 		reportMenu.add(reportsLabel);
 
-		W8MenuItem reportHomeItem = new W8MenuItem(messages.reportsHome(), "",
-				HistoryTokens.REPORTHOME);
+		W8MenuItem reportHomeItem = new W8MenuItem(messages.reportsHome(),
+				"Open any report from this", HistoryTokens.REPORTHOME);
 		reportMenu.add(reportHomeItem);
 
 		StyledPanel companyAndFinancialMenu = getCompanyAndFinancialMenu(messages
@@ -496,6 +499,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(reportMenu);
+
 				mainMenuPanel.addStyleName("subMenu");
 				reportMenu.setStyleName("menu_parent_clicked");
 				payrollBar.addStyleName("submenu_clicked");
@@ -509,9 +514,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				reportMenu.setStyleName("menu_parent");
-				payrollBar.removeStyleName("submenu_clicked");
+				removeAllStyles(reportMenu);
 			}
 		});
 		payrollBar.add(backButton);
@@ -557,6 +560,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(reportMenu);
+
 				mainMenuPanel.addStyleName("subMenu");
 				reportMenu.setStyleName("menu_parent_clicked");
 				jobBar.addStyleName("submenu_clicked");
@@ -570,9 +575,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				reportMenu.setStyleName("menu_parent");
-				jobBar.removeStyleName("submenu_clicked");
+				removeAllStyles(reportMenu);
 			}
 		});
 		jobBar.add(backButton);
@@ -620,6 +623,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(reportMenu);
+
 				mainMenuPanel.addStyleName("subMenu");
 				reportMenu.setStyleName("menu_parent_clicked");
 				bankingBar.addStyleName("submenu_clicked");
@@ -633,9 +638,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				reportMenu.setStyleName("menu_parent");
-				mainMenuPanel.removeStyleName("subMenu");
-				bankingBar.removeStyleName("submenu_clicked");
+				removeAllStyles(reportMenu);
 			}
 		});
 		bankingBar.add(backButton);
@@ -676,6 +679,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(reportMenu);
+
 				mainMenuPanel.addStyleName("subMenu");
 				reportMenu.setStyleName("menu_parent_clicked");
 				inventoryBar.addStyleName("submenu_clicked");
@@ -689,9 +694,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				reportMenu.setStyleName("menu_parent");
-				inventoryBar.removeStyleName("submenu_clicked");
+				removeAllStyles(reportMenu);
 			}
 		});
 		inventoryBar.add(backButton);
@@ -739,6 +742,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(reportMenu);
+
 				mainMenuPanel.addStyleName("subMenu");
 				fixedAssetBar.addStyleName("submenu_clicked");
 				reportMenu.setStyleName("menu_parent_clicked");
@@ -752,9 +757,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				reportMenu.setStyleName("menu_parent");
-				fixedAssetBar.removeStyleName("submenu_clicked");
+				removeAllStyles(reportMenu);
 			}
 		});
 		fixedAssetBar.add(backButton);
@@ -781,6 +784,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(reportMenu);
+
 				mainMenuPanel.addStyleName("subMenu");
 				reportMenu.setStyleName("menu_parent_clicked");
 				taxBar.addStyleName("submenu_clicked");
@@ -794,9 +799,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				reportMenu.setStyleName("menu_parent");
-				taxBar.removeStyleName("submenu_clicked");
+				removeAllStyles(reportMenu);
 			}
 		});
 		taxBar.add(backButton);
@@ -869,6 +872,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(reportMenu);
+
 				mainMenuPanel.addStyleName("subMenu");
 				reportMenu.setStyleName("menu_parent_clicked");
 				budgetBar.addStyleName("submenu_clicked");
@@ -882,9 +887,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				reportMenu.setStyleName("menu_parent");
-				budgetBar.removeStyleName("submenu_clicked");
+				removeAllStyles(reportMenu);
 			}
 		});
 		budgetBar.add(backButton);
@@ -917,6 +920,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(reportMenu);
+
 				mainMenuPanel.addStyleName("subMenu");
 				reportMenu.setStyleName("menu_parent_clicked");
 				purchaseMenuBar.addStyleName("submenu_clicked");
@@ -930,9 +935,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				reportMenu.setStyleName("menu_parent");
-				purchaseMenuBar.removeStyleName("submenu_clicked");
+				removeAllStyles(reportMenu);
 			}
 		});
 		purchaseMenuBar.add(backButton);
@@ -940,22 +943,26 @@ public class Windows8MenuView extends BaseView {
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
 		W8MenuItem purByVendSummary = new W8MenuItem(
-				messages.purchaseByVendorSummary(Global.get().Vendor()), "",
+				messages.purchaseByVendorSummary(Global.get().Vendor()),
+				"Shows the purchases from and payments to your suppliers in a summarized form over a selected date range",
 				HistoryTokens.PURCHASEBYVENDORSUMMARY);
 		menuForm.add(purByVendSummary);
 
 		W8MenuItem purByVendorDetail = new W8MenuItem(
-				messages.purchaseByVendorDetail(Global.get().Vendor()), "",
+				messages.purchaseByVendorDetail(Global.get().Vendor()),
+				"Shows the purchases by vendor summary report in detail",
 				HistoryTokens.PURCHASEBYVENDORDETAIL);
 		menuForm.add(purByVendorDetail);
 
 		W8MenuItem purByItemSummary = new W8MenuItem(
-				messages.purchaseByItemSummary(), "",
+				messages.purchaseByItemSummary(),
+				"Shows the product purchases, grouped by item type, over a selected time range",
 				HistoryTokens.PURCHASEBYITEMSUMMARY);
 		menuForm.add(purByItemSummary);
 
 		W8MenuItem purByItemDetail = new W8MenuItem(
-				messages.purchaseByItemDetail(), "",
+				messages.purchaseByItemDetail(),
+				"Shows the purchases by item summary report in detail",
 				HistoryTokens.PURCHASEBYITEMDETAIL);
 		menuForm.add(purByItemDetail);
 
@@ -968,12 +975,14 @@ public class Windows8MenuView extends BaseView {
 		}
 		if (isClassTracking) {
 			W8MenuItem purByClassSummary = new W8MenuItem(
-					messages.purchasesbyClassSummary(), "",
+					messages.purchasesbyClassSummary(),
+					"Shows the product purchases, grouped by class, over a selected time range",
 					HistoryTokens.PURCHASESBYCLASSSUMMARY);
 			menuForm.add(purByClassSummary);
 
 			W8MenuItem purByClassDetail = new W8MenuItem(
-					messages.purchasesbyClassDetail(), "",
+					messages.purchasesbyClassDetail(),
+					"Shows the purchases by class summary report in detail",
 					HistoryTokens.PURCHASESBYCLASSDETAIL);
 			menuForm.add(purByClassDetail);
 		}
@@ -981,12 +990,14 @@ public class Windows8MenuView extends BaseView {
 		if (isLocationTracking) {
 			W8MenuItem purByLocationSummary = new W8MenuItem(
 					messages.purchasesbyLocationSummary(Global.get().Location()),
-					"", HistoryTokens.PURCHASESBYLOCATIONSUMMARY);
+					"Shows the product purchases, grouped by location, over a selected time range",
+					HistoryTokens.PURCHASESBYLOCATIONSUMMARY);
 			menuForm.add(purByLocationSummary);
 
 			W8MenuItem purByLocationDetail = new W8MenuItem(
 					messages.purchasesbyLocationDetail(Global.get().Location()),
-					"", HistoryTokens.PURCHASESBYLOCATIONDETAIL);
+					"Shows the purchases by location summary report in detail",
+					HistoryTokens.PURCHASESBYLOCATIONDETAIL);
 			menuForm.add(purByLocationDetail);
 		}
 
@@ -1009,6 +1020,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(reportMenu);
+
 				mainMenuPanel.addStyleName("subMenu");
 				reportMenu.setStyleName("menu_parent_clicked");
 				vendorPayablesBar.addStyleName("submenu_clicked");
@@ -1022,9 +1035,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				reportMenu.setStyleName("menu_parent");
-				vendorPayablesBar.removeStyleName("submenu_clicked");
+				removeAllStyles(reportMenu);
 			}
 		});
 		vendorPayablesBar.add(backButton);
@@ -1032,11 +1043,13 @@ public class Windows8MenuView extends BaseView {
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
 		W8MenuItem apAgeingSummary = new W8MenuItem(messages.apAgeingSummary(),
-				"", HistoryTokens.APAGINGSUMMARY);
+				"Shows vendor debts in a summarized, aged format",
+				HistoryTokens.APAGINGSUMMARY);
 		menuForm.add(apAgeingSummary);
 
 		W8MenuItem apAgeingDetail = new W8MenuItem(messages.apAgeingDetail(),
-				"", HistoryTokens.APAGINGDETAIL);
+				"Show A/P aging summary report in detail",
+				HistoryTokens.APAGINGDETAIL);
 		menuForm.add(apAgeingDetail);
 
 		if (hasPermission(Features.EXTRA_REPORTS)) {
@@ -1046,7 +1059,8 @@ public class Windows8MenuView extends BaseView {
 			menuForm.add(vendorStatement);
 		}
 		W8MenuItem purByLocationDetail = new W8MenuItem(
-				messages.payeeTransactionHistory(Global.get().Vendor()), "",
+				messages.payeeTransactionHistory(Global.get().Vendor()),
+				"Shows total purchases by location over a selected time range",
 				HistoryTokens.PURCHASESBYLOCATIONDETAIL);
 		menuForm.add(purByLocationDetail);
 
@@ -1067,6 +1081,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(reportMenu);
+
 				mainMenuPanel.addStyleName("subMenu");
 				reportMenu.setStyleName("menu_parent_clicked");
 				salesBar.addStyleName("submenu_clicked");
@@ -1080,9 +1096,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				reportMenu.setStyleName("menu_parent");
-				salesBar.removeStyleName("submenu_clicked");
+				removeAllStyles(reportMenu);
 			}
 		});
 		salesBar.add(backButton);
@@ -1090,22 +1104,26 @@ public class Windows8MenuView extends BaseView {
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
 		W8MenuItem salesByCustomerSummary = new W8MenuItem(
-				messages.salesByCustomerSummary(Global.get().Customer()), "",
+				messages.salesByCustomerSummary(Global.get().Customer()),
+				"Shows the total sales that were made to customers over a selected period of time",
 				HistoryTokens.SALESBYCUSTOMERSUMMARY);
 		menuForm.add(salesByCustomerSummary);
 
 		W8MenuItem salesByCustomerDetail = new W8MenuItem(
-				messages.salesByCustomerDetail(Global.get().Customer()), "",
+				messages.salesByCustomerDetail(Global.get().Customer()),
+				"Shows Sales by customer summary report in detail",
 				HistoryTokens.SALESBYCUSTOMERDETAIL);
 		menuForm.add(salesByCustomerDetail);
 
 		W8MenuItem salesByItemSummary = new W8MenuItem(
-				messages.salesByItemSummary(), "",
+				messages.salesByItemSummary(),
+				"Shows total sales by item over a selected time range",
 				HistoryTokens.SALESBYITEMSUMMARY);
 		menuForm.add(salesByItemSummary);
 
 		W8MenuItem salesByItemDetail = new W8MenuItem(
-				messages.salesByItemDetail(), "",
+				messages.salesByItemDetail(),
+				"Shows Sales by item summary report in detail",
 				HistoryTokens.SALESBYITEMDETAIL);
 		menuForm.add(salesByItemDetail);
 
@@ -1118,23 +1136,27 @@ public class Windows8MenuView extends BaseView {
 		if (isLocationTrackingEnabled) {
 			W8MenuItem salesByLocationSummary = new W8MenuItem(
 					messages.salesByLocationSummary(Global.get().Location()),
-					"", HistoryTokens.SALESBYLOCATIONSUMMARY);
+					"Shows total sales by location over a selected time range",
+					HistoryTokens.SALESBYLOCATIONSUMMARY);
 			menuForm.add(salesByLocationSummary);
 
 			W8MenuItem salesByLocationDetail = new W8MenuItem(
 					messages.getSalesByLocationDetails(Global.get().Location()),
-					"", HistoryTokens.SALESBYLOCATIONDETAILS);
+					"Shows Sales by location summary report in detail",
+					HistoryTokens.SALESBYLOCATIONDETAILS);
 			menuForm.add(salesByLocationDetail);
 		}
 
 		if (isClassTrackingEnabled) {
 			W8MenuItem salesByClassSummary = new W8MenuItem(
-					messages.salesByClassSummary(), "",
+					messages.salesByClassSummary(),
+					"Shows total sales by class over a selected time range",
 					HistoryTokens.SALESBYCLASSSUMMARY);
 			menuForm.add(salesByClassSummary);
 
 			W8MenuItem salesByClassDetail = new W8MenuItem(
-					messages.salesByClassDetails(), "",
+					messages.salesByClassDetails(),
+					"Shows Sales by location class report in detail",
 					HistoryTokens.SALESBYCLASSDETAILS);
 			menuForm.add(salesByClassDetail);
 		}
@@ -1157,6 +1179,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(reportMenu);
+
 				mainMenuPanel.addStyleName("subMenu");
 				reportMenu.setStyleName("menu_parent_clicked");
 				customersReceivableBar.addStyleName("submenu_clicked");
@@ -1170,9 +1194,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				reportMenu.setStyleName("menu_parent");
-				customersReceivableBar.removeStyleName("submenu_clicked");
+				removeAllStyles(reportMenu);
 			}
 		});
 		customersReceivableBar.add(backButton);
@@ -1180,23 +1202,27 @@ public class Windows8MenuView extends BaseView {
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
 		W8MenuItem arAgeingSummary = new W8MenuItem(messages.arAgeingSummary(),
-				"", HistoryTokens.ARAGINGSUMMARY);
+				"Shows all the amounts that customers owe to the company",
+				HistoryTokens.ARAGINGSUMMARY);
 		menuForm.add(arAgeingSummary);
 
 		W8MenuItem arAgeingDetail = new W8MenuItem(messages.arAgeingDetail(),
-				"", HistoryTokens.ARAGINGDETAIL);
+				"Shows A/R Aging Summary report in detail",
+				HistoryTokens.ARAGINGDETAIL);
 		menuForm.add(arAgeingDetail);
 
 		if (hasPermission(Features.EXTRA_REPORTS)) {
 			W8MenuItem customerStatement = new W8MenuItem(
-					messages.payeeStatement(Global.get().Customers()), "",
+					messages.payeeStatement(Global.get().Customers()),
+					"Details billed items to a customer including payment terms and aging information",
 					HistoryTokens.CUSTOMERSTATEMENT);
 			menuForm.add(customerStatement);
 
 		}
 
 		W8MenuItem cusTransactionHistory = new W8MenuItem(
-				messages.payeeTransactionHistory(Global.get().Customer()), "",
+				messages.payeeTransactionHistory(Global.get().Customer()),
+				"Shows all transactions with customers in a selected date range",
 				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
 		menuForm.add(cusTransactionHistory);
 
@@ -1218,7 +1244,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				event.preventDefault();
+				removeAllStyles(reportMenu);
+
 				mainMenuPanel.addStyleName("subMenu");
 				reportMenu.setStyleName("menu_parent_clicked");
 				companyFinancialBar.addStyleName("submenu_clicked");
@@ -1233,38 +1260,42 @@ public class Windows8MenuView extends BaseView {
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				reportMenu.setStyleName("menu_parent");
-				companyFinancialBar.removeStyleName("submenu_clicked");
+				removeAllStyles(reportMenu);
 			}
 		});
 		companyFinancialBar.add(backButton);
 
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
-		W8MenuItem profitAndLoss = new W8MenuItem(messages.profitAndLoss(), "",
+		W8MenuItem profitAndLoss = new W8MenuItem(messages.profitAndLoss(),
+				"Shows your company profit and loss",
 				HistoryTokens.PROFITANDLOSS);
 		menuForm.add(profitAndLoss);
 
-		W8MenuItem balanceSheet = new W8MenuItem(messages.balanceSheet(), "",
-				HistoryTokens.BALANCESHEET);
+		W8MenuItem balanceSheet = new W8MenuItem(messages.balanceSheet(),
+				"Shows your accounts balance", HistoryTokens.BALANCESHEET);
 		menuForm.add(balanceSheet);
 
-		W8MenuItem cashFlow = new W8MenuItem(messages.cashFlowReport(), "",
+		W8MenuItem cashFlow = new W8MenuItem(
+				messages.cashFlowReport(),
+				"shows how changes in balance sheet accounts and income affect cash and cash equivalents",
 				HistoryTokens.CASHFLOWREPORT);
 		menuForm.add(cashFlow);
 
-		W8MenuItem trailBalance = new W8MenuItem(messages.trialBalance(), "",
+		W8MenuItem trailBalance = new W8MenuItem(messages.trialBalance(),
+				"Aggregate of all debit and credit balances",
 				HistoryTokens.TRIALBALANCE);
 		menuForm.add(trailBalance);
 
 		W8MenuItem transDetailByAcc = new W8MenuItem(
-				messages.transactionDetailByAccount(), "",
+				messages.transactionDetailByAccount(),
+				"Contains detailed information about the activity that occurs in all the accounts over a period of time",
 				HistoryTokens.TRANSACTIONDETAILBYACCOUNT);
 		menuForm.add(transDetailByAcc);
 
 		W8MenuItem incomeByCusDetail = new W8MenuItem(
-				messages2.incomeByCustomerDetail(Global.get().Customer()), "",
+				messages2.incomeByCustomerDetail(Global.get().Customer()),
+				"Shows all income details by each customer",
 				HistoryTokens.INCOMEBYCUSTOMERDETAIL);
 		menuForm.add(incomeByCusDetail);
 
@@ -1272,8 +1303,8 @@ public class Windows8MenuView extends BaseView {
 				messages.generalLedgerReport(), "", HistoryTokens.GENERALLEDGER);
 		menuForm.add(generalLedger);
 
-		W8MenuItem expenseReport = new W8MenuItem(messages.expenseReport(), "",
-				HistoryTokens.EXPENSEREPORT);
+		W8MenuItem expenseReport = new W8MenuItem(messages.expenseReport(),
+				"Shows all expenses", HistoryTokens.EXPENSEREPORT);
 		menuForm.add(expenseReport);
 
 		if (hasPermission(Features.RECURRING_TRANSACTIONS)) {
@@ -1285,24 +1316,28 @@ public class Windows8MenuView extends BaseView {
 
 		if (isTaxTracking) {
 			W8MenuItem salesTaxLiability = new W8MenuItem(
-					messages.salesTaxLiability(), "",
+					messages.salesTaxLiability(),
+					"Shows the sales tax funds that are collected from customers and that are owed to each tax agency",
 					HistoryTokens.SALESTAXLIABILITY);
 			menuForm.add(salesTaxLiability);
 
 			W8MenuItem transDetailByTaxItem = new W8MenuItem(
-					messages.transactionDetailByTaxItem(), "",
+					messages.transactionDetailByTaxItem(),
+					"Shows transaction details per each tax item",
 					HistoryTokens.TRANSACTIONDETAILBYTAXITEM);
 			menuForm.add(transDetailByTaxItem);
 		}
 		if (isLocationTrackingEnabled) {
 			W8MenuItem profitLossByLocation = new W8MenuItem(
 					messages.profitAndLossByLocation(Global.get().Location()),
-					"", HistoryTokens.PROFITANDLOSSBYLOCATION);
+					"Shows profit and loss in each location",
+					HistoryTokens.PROFITANDLOSSBYLOCATION);
 			menuForm.add(profitLossByLocation);
 		}
 		if (isClassTrackingEnabled) {
 			W8MenuItem profitAndLossByClass = new W8MenuItem(
-					messages.profitAndLossbyClass(), "",
+					messages.profitAndLossbyClass(),
+					"Shows profit and loss per each class",
 					HistoryTokens.PROFITANDLOSSBYCLASS);
 			menuForm.add(profitAndLossByClass);
 		}
@@ -1326,6 +1361,16 @@ public class Windows8MenuView extends BaseView {
 		companyFinancialBar.add(menuForm);
 
 		return companyFinancialBar;
+	}
+
+	protected void removeAllStyles(StyledPanel menu) {
+		mainMenuPanel.removeStyleName("subMenu");
+		Element element = menu.getElement();
+		menu.setStyleName("menu_parent");
+		for (int i = 0; i < element.getChildCount(); i++) {
+			Element child = (Element) element.getChild(i);
+			child.removeClassName("submenu_clicked");
+		}
 	}
 
 	private StyledPanel getInventoryMenu(String inventory) {
@@ -1602,6 +1647,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(companyMenuBar);
+
 				mainMenuPanel.addStyleName("subMenu");
 				companyMenuBar.setStyleName("menu_parent_clicked");
 				form16menu.addStyleName("submenu_clicked");
@@ -1615,9 +1662,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				companyMenuBar.setStyleName("menu_parent");
-				form16menu.removeStyleName("submenu_clicked");
+				removeAllStyles(companyMenuBar);
 			}
 		});
 		form16menu.add(backButton);
@@ -1657,6 +1702,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(vatmenu);
+
 				mainMenuPanel.addStyleName("subMenu");
 				vatmenu.setStyleName("menu_parent_clicked");
 				eductorMasterMenu.addStyleName("submenu_clicked");
@@ -1670,9 +1717,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				vatmenu.setStyleName("menu_parent");
-				eductorMasterMenu.removeStyleName("submenu_clicked");
+				removeAllStyles(vatmenu);
 			}
 		});
 		eductorMasterMenu.add(backButton);
@@ -1699,69 +1744,66 @@ public class Windows8MenuView extends BaseView {
 		companynamelabel.setStyleName("menuName");
 		companyMenuBar.add(companynamelabel);
 
-		DynamicForm menuForm = new DynamicForm("menuForm");
-
 		W8MenuItem dashBoard = new W8MenuItem(messages.dashBoard(), "",
 				HistoryTokens.DASHBOARD);
-		menuForm.add(dashBoard);
+		companyMenuBar.add(dashBoard);
 
 		if (canDoManageAccounts) {
 			W8MenuItem journalEntry = new W8MenuItem(messages.journalEntry(),
 					"", HistoryTokens.NEWJOURNALENTRY);
-			menuForm.add(journalEntry);
+			companyMenuBar.add(journalEntry);
 
 		}
 		W8MenuItem transactionscenter = new W8MenuItem(
 				messages.transactionscenter(), "",
 				HistoryTokens.TRANSACTIONS_CENTER);
-		menuForm.add(transactionscenter);
+		companyMenuBar.add(transactionscenter);
 
 		if (canDoManageAccounts) {
 			W8MenuItem Account = new W8MenuItem(messages.Account(), "",
 					HistoryTokens.NEWACCOUNT);
-			menuForm.add(Account);
+			companyMenuBar.add(Account);
 		}
 
 		if (canChangeSettings) {
 			W8MenuItem companyPreferences = new W8MenuItem(
 					messages.companyPreferences(), "",
 					HistoryTokens.COMPANYPREFERENCES);
-			menuForm.add(companyPreferences);
+			companyMenuBar.add(companyPreferences);
 		}
 
 		if (canDoTaxTransactions) {
 			W8MenuItem budget = new W8MenuItem(messages.budget(), "",
 					HistoryTokens.BUDGET);
-			menuForm.add(budget);
+			companyMenuBar.add(budget);
 
 		}
 
 		if (canDoTaxTransactions && isTrackTax) {
-			menuForm.add(getSalesTaxSubmenu(messages.itemTax()));
+			companyMenuBar.add(getSalesTaxSubmenu(messages.itemTax()));
 
 		}
 		if (canChangeSettings) {
-			menuForm.add(getManageSupportListSubmenu(messages
+			companyMenuBar.add(getManageSupportListSubmenu(messages
 					.manageSupportLists()));
 		}
 
 		if (canDoTaxTransactions) {
-			menuForm.add(getFixedAssetsMenu(messages.fixedAssets()));
+			companyMenuBar.add(getFixedAssetsMenu(messages.fixedAssets()));
 
 			if (hasPermission(Features.MERGING)) {
-				menuForm.add(getMergeSubMenu(messages.mergeAccounts()));
+				companyMenuBar.add(getMergeSubMenu(messages.mergeAccounts()));
 			}
 		}
-		menuForm.add(getCompanyListMenu(messages.companyLists()));
+		companyMenuBar.add(getCompanyListMenu(messages.companyLists()));
 
 		if (countryOrRegion.equals(CountryPreferenceFactory.SINGAPORE)) {
 			W8MenuItem generateIrasAuditFile = new W8MenuItem(
 					messages.generateIrasAuditFile(), "",
 					HistoryTokens.GST_FILE);
-			menuForm.add(generateIrasAuditFile);
+			companyMenuBar.add(generateIrasAuditFile);
 		}
 
-		companyMenuBar.add(menuForm);
 		return companyMenuBar;
 	}
 
@@ -1778,6 +1820,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(companyMenuBar);
+
 				mainMenuPanel.addStyleName("subMenu");
 				companyMenuBar.setStyleName("menu_parent_clicked");
 				companyListMenuBar.addStyleName("submenu_clicked");
@@ -1791,9 +1835,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				companyMenuBar.setStyleName("menu_parent");
-				companyListMenuBar.removeStyleName("submenu_clicked");
+				removeAllStyles(companyMenuBar);
 			}
 		});
 		companyListMenuBar.add(backButton);
@@ -1861,6 +1903,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(companyMenuBar);
+
 				mainMenuPanel.addStyleName("subMenu");
 				companyMenuBar.setStyleName("menu_parent_clicked");
 				mergeAccountsMenuBar.addStyleName("submenu_clicked");
@@ -1874,9 +1918,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				companyMenuBar.setStyleName("menu_parent");
-				mainMenuPanel.removeStyleName("subMenu");
-				mergeAccountsMenuBar.removeStyleName("submenu_clicked");
+				removeAllStyles(companyMenuBar);
 			}
 		});
 		mergeAccountsMenuBar.add(backButton);
@@ -1917,6 +1959,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(companyMenuBar);
+
 				mainMenuPanel.addStyleName("subMenu");
 				companyMenuBar.setStyleName("menu_parent_clicked");
 				fixedAssetMenu.addStyleName("submenu_clicked");
@@ -1930,9 +1974,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				companyMenuBar.setStyleName("menu_parent");
-				fixedAssetMenu.removeStyleName("submenu_clicked");
+				removeAllStyles(companyMenuBar);
 			}
 		});
 		fixedAssetMenu.add(backButton);
@@ -1979,6 +2021,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(companyMenuBar);
+
 				mainMenuPanel.addStyleName("subMenu");
 				companyMenuBar.setStyleName("menu_parent_clicked");
 				manageSupportListMenuBar.addStyleName("submenu_clicked");
@@ -1991,11 +2035,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				event.preventDefault();
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				companyMenuBar.setStyleName("menu_parent");
-				manageSupportListMenuBar.removeStyleName("submenu_clicked");
+				removeAllStyles(companyMenuBar);
 			}
 		});
 
@@ -2076,6 +2117,8 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				removeAllStyles(companyMenuBar);
+
 				mainMenuPanel.addStyleName("subMenu");
 				companyMenuBar.setStyleName("menu_parent_clicked");
 				salesTaxMenuBar.addStyleName("submenu_clicked");
@@ -2089,9 +2132,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				mainMenuPanel.removeStyleName("subMenu");
-				companyMenuBar.setStyleName("menu_parent");
-				salesTaxMenuBar.removeStyleName("submenu_clicked");
+				removeAllStyles(companyMenuBar);
 			}
 		});
 
