@@ -1603,14 +1603,14 @@ public class FinanceTool {
 							: (Double) object[11]);
 					queryResult.add(accountRegister);
 				}
-				total = queryResult.size();
-
-				result.setTotalCount(total);
-				result.setStart(start);
-
+				total += queryResult.size();
 				AccountRegister ar = new AccountRegister();
 				ar.setAmount(balance == null ? 0 : balance);
-				result.add(0, ar);
+				if (result.isEmpty()) {
+					result.add(0, ar);
+				} else {
+					result.set(0, ar);
+				}
 
 				if (length < 0) {
 					result.addAll(queryResult);
@@ -1627,6 +1627,9 @@ public class FinanceTool {
 				}
 			}
 		}
+
+		result.setTotalCount(total);
+		result.setStart(start);
 		return result;
 	}
 
