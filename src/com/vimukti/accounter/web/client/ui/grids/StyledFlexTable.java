@@ -4,6 +4,7 @@ import com.google.gwt.dom.client.Node;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
@@ -49,7 +50,7 @@ public class StyledFlexTable extends GwtFlexTable {
 	public void setText(int row, int column, String text) {
 		Label label = new Label(text);
 		label.getElement().setClassName("gridElementLabel");
-		flexTable.add(label);
+		setWidget(row, column, label);
 	}
 
 	public int getRowCount() {
@@ -61,7 +62,9 @@ public class StyledFlexTable extends GwtFlexTable {
 	}
 
 	public void removeCell(int row, int col) {
-		flexTable.remove(col);
+		FlowPanel rowWiget = (FlowPanel) flexTable.getWidget(row);
+		rowWiget.remove(col * 2);
+		rowWiget.remove((col * 2) + 1);
 	}
 
 	public void removeAllRows() {
@@ -69,21 +72,43 @@ public class StyledFlexTable extends GwtFlexTable {
 	}
 
 	public void setWidget(int row, int column, Widget widget) {
-		flexTable.add(widget);
+		if (flexTable.getWidgetCount() > row) {
+			FlowPanel rowWiget = (FlowPanel) flexTable.getWidget(row);
+			String string = getCustomTable().getColumns()[column];
+			Label label = new Label(string);
+			label.addStyleName("header-label");
+			rowWiget.add(label);
+			rowWiget.add(widget);
+		} else {
+			FlowPanel rowWiget = new FlowPanel();
+			rowWiget.addStyleName("rowWidget");
+			String string = getCustomTable().getColumns()[column];
+			Label label = new Label(string);
+			label.addStyleName("header-label");
+			rowWiget.add(label);
+			flexTable.add(rowWiget);
+			rowWiget.add(widget);
+		}
 	}
 
 	public Widget getWidget(int row, int col) {
-		return flexTable.getWidget(col);
+		FlowPanel flowPanel = (FlowPanel) flexTable.getWidget(row);
+		return flowPanel.getWidget(col);
 	}
 
 	public void setHTML(int row, int column, String html) {
 		Label label = new Label(html);
 		label.getElement().setClassName("gridElementLabel");
-		flexTable.add(label);
+		setWidget(row, column, label);
 	}
 
 	public int getCellCount(int i) {
-		return flexTable.getWidgetCount();
+		int cellCount = 0;
+		for (int rowIndex = 0; rowIndex < flexTable.getWidgetCount(); rowIndex++) {
+			FlowPanel flowPanel = (FlowPanel) flexTable.getWidget(rowIndex);
+			cellCount += flowPanel.getWidgetCount();
+		}
+		return cellCount / 2;
 	}
 
 	public int getOffsetWidth() {
@@ -122,5 +147,10 @@ public class StyledFlexTable extends GwtFlexTable {
 	@Override
 	public void insertRow(int beforeRow) {
 
+	}
+
+	public void addEmptyMessage(String msg) {
+		flexTable.add(new Label(msg));
+		this.addStyleName("no_records");
 	}
 }

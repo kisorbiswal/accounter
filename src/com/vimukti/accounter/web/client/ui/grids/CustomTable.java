@@ -104,7 +104,7 @@ public abstract class CustomTable extends FlowPanel {
 	private void initGrid() {
 
 		this.body = (GwtFlexTable) GWT.create(GwtFlexTable.class);
-
+		this.body.setCustomTable(this);
 		this.body.setStyleName("gridBody");
 
 		// this.body.setWidth("100%");
@@ -138,6 +138,7 @@ public abstract class CustomTable extends FlowPanel {
 			});
 		}
 		this.header = (GwtFlexTable) GWT.create(GwtFlexTable.class);
+		this.header.setCustomTable(this);
 		// this.header.setWidth("100%");
 		CellFormatter headerCellFormater = this.header.getCellFormatter();
 
@@ -223,6 +224,7 @@ public abstract class CustomTable extends FlowPanel {
 		if (this.footer != null)
 			return;
 		this.footer = (GwtFlexTable) GWT.create(GwtFlexTable.class);
+		this.footer.setCustomTable(this);
 		for (int i = (isMultiSelectionEnable ? 1 : 0); i < nofCols; i++) {
 			this.footer.setText(0, i, " ");
 		}
@@ -608,8 +610,7 @@ public abstract class CustomTable extends FlowPanel {
 	}
 
 	public void addEmptyMessage(String msg) {
-		this.body.setText(0, 0, msg);
-		this.body.addStyleName("no_records");
+		this.body.addEmptyMessage(msg);
 	}
 
 	@Override

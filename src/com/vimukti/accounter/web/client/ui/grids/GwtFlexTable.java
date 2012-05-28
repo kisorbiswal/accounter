@@ -13,6 +13,8 @@ public class GwtFlexTable {
 
 	private FlexTable flexTable;
 
+	private CustomTable customTable;
+
 	public GwtFlexTable() {
 		flexTable = new FlexTable() {
 			@Override
@@ -130,6 +132,19 @@ public class GwtFlexTable {
 
 	public void insertRow(int beforeRow) {
 		flexTable.insertRow(beforeRow);
+	}
+
+	public CustomTable getCustomTable() {
+		return customTable;
+	}
+
+	public void setCustomTable(CustomTable customTable) {
+		this.customTable = customTable;
+	}
+
+	public void addEmptyMessage(String msg) {
+		setText(0, 0, msg);
+		this.addStyleName("no_records");
 	}
 
 }
