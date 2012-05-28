@@ -329,12 +329,13 @@ public class Windows8MenuView extends BaseView {
 				HistoryTokens.NEWEMPLOYEEGROUP);
 		payrollForm.add(employeeGroupItem);
 
-		W8MenuItem payheadItem = new W8MenuItem(messages.payhead(), "",
-				HistoryTokens.NEWPAYHEAD);
+		W8MenuItem payheadItem = new W8MenuItem(messages.payhead(),
+				"Create a new payhead here", HistoryTokens.NEWPAYHEAD);
 		payrollForm.add(payheadItem);
 
 		W8MenuItem payStructureItem = new W8MenuItem(messages.payStructure(),
-				"", HistoryTokens.NEW_PAYSTRUCTURE);
+				"Create a structure of how to pay the employees",
+				HistoryTokens.NEW_PAYSTRUCTURE);
 		payrollForm.add(payStructureItem);
 
 		W8MenuItem employeeListItem = new W8MenuItem(messages.employeeList(),
@@ -346,8 +347,8 @@ public class Windows8MenuView extends BaseView {
 				HistoryTokens.EMPLOYEEGROUPLIST);
 		payrollForm.add(employeeGroupListItem);
 
-		W8MenuItem payheadListItem = new W8MenuItem(messages.payheadList(), "",
-				HistoryTokens.PAYHEADLIST);
+		W8MenuItem payheadListItem = new W8MenuItem(messages.payheadList(),
+				"List of payheads", HistoryTokens.PAYHEADLIST);
 		payrollForm.add(payheadListItem);
 
 		W8MenuItem attProductionTypeListItem = new W8MenuItem(
@@ -521,25 +522,33 @@ public class Windows8MenuView extends BaseView {
 
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
-		W8MenuItem payslipSummary = new W8MenuItem(messages.paySlipSummary(),
-				"", HistoryTokens.PAYSLIP_SUMMARY);
+		W8MenuItem payslipSummary = new W8MenuItem(
+				messages.paySlipSummary(),
+				"Shows the payslip details of all the payments you have done for employees",
+				HistoryTokens.PAYSLIP_SUMMARY);
 		menuForm.add(payslipSummary);
 
-		W8MenuItem payslipDetail = new W8MenuItem(messages.payslipDetail(), "",
+		W8MenuItem payslipDetail = new W8MenuItem(
+				messages.payslipDetail(),
+				"Shows how much money the employee have earned and how much tax or insurance etc. has been taken out",
 				HistoryTokens.PAYSLIP_DETAIL_REPORT);
 		menuForm.add(payslipDetail);
 
-		W8MenuItem paysheet = new W8MenuItem(messages.paySheet(), "",
+		W8MenuItem paysheet = new W8MenuItem(
+				messages.paySheet(),
+				"Contains all earnings and deduction details for a given month or period",
 				HistoryTokens.PAYSHEET_REPORT);
 		menuForm.add(paysheet);
 
 		W8MenuItem payheadSummary = new W8MenuItem(
-				messages.payHeadSummaryReport(), "",
+				messages.payHeadSummaryReport(),
+				"Shows the amount you paid in particular period per each payhead",
 				HistoryTokens.PAY_HEAD_SUMMMARY_REPORT);
 		menuForm.add(payheadSummary);
 
 		W8MenuItem payheadDetail = new W8MenuItem(
-				messages.payHeadDetailReport(), "",
+				messages.payHeadDetailReport(),
+				"Shows payhead summary report in detail",
 				HistoryTokens.PAY_HEAD_DETAIL_REPORT);
 		menuForm.add(payheadDetail);
 
@@ -583,12 +592,14 @@ public class Windows8MenuView extends BaseView {
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
 		W8MenuItem profitAndLoss = new W8MenuItem(
-				messages.profitAndLossByJob(), "",
+				messages.profitAndLossByJob(),
+				"Shows profit and loss per each job in a particular period",
 				HistoryTokens.PROFITANDLOSSBYJOBS);
 		menuForm.add(profitAndLoss);
 
 		W8MenuItem estimatesByJob = new W8MenuItem(messages.estimatesbyJob(),
-				"", HistoryTokens.ESTIMATEBYJOB);
+				"Shows the estimates created per each job",
+				HistoryTokens.ESTIMATEBYJOB);
 		menuForm.add(estimatesByJob);
 
 		W8MenuItem unbilledCostsByJob = new W8MenuItem(
@@ -645,7 +656,8 @@ public class Windows8MenuView extends BaseView {
 
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
-		W8MenuItem missingChecks = new W8MenuItem(messages.missingchecks(), "",
+		W8MenuItem missingChecks = new W8MenuItem(messages.missingchecks(),
+				"Shows all recorded checks for a particular period of time",
 				HistoryTokens.MISSION_CHECKS);
 		menuForm.add(missingChecks);
 
@@ -654,11 +666,15 @@ public class Windows8MenuView extends BaseView {
 				HistoryTokens.RECONCILIATION_DISCREPANCY);
 		menuForm.add(reconciliationDiscrepancy);
 
-		W8MenuItem depositDetail = new W8MenuItem(messages.depositDetail(), "",
+		W8MenuItem depositDetail = new W8MenuItem(
+				messages.depositDetail(),
+				"Contains information about all deposits that were made to your bank accounts in a selected time period",
 				HistoryTokens.BANK_DEPOSIT_DETAIL_REPORT);
 		menuForm.add(depositDetail);
 
-		W8MenuItem checkDetail = new W8MenuItem(messages.checkDetail(), "",
+		W8MenuItem checkDetail = new W8MenuItem(
+				messages.checkDetail(),
+				"Contains information about all checks that are issued from your bank accounts in a designated time period",
 				HistoryTokens.BANK_CHECK_DETAIL_REPORT);
 		menuForm.add(checkDetail);
 
@@ -702,22 +718,26 @@ public class Windows8MenuView extends BaseView {
 		DynamicForm menuForm = new DynamicForm("menuForm");
 
 		W8MenuItem inventoryValuationSummary = new W8MenuItem(
-				messages.inventoryValutionSummary(), "",
+				messages.inventoryValutionSummary(),
+				"contains information that you can use to trace and analyze the transactions that affect each inventory item",
 				HistoryTokens.INVENTORY_VALUATION_SUMMARY);
 		menuForm.add(inventoryValuationSummary);
 
 		W8MenuItem inventoryValuationDetails = new W8MenuItem(
-				messages.inventoryValuationDetails(), "",
+				messages.inventoryValuationDetails(),
+				"Shows the inventory valuation summary report in detail",
 				HistoryTokens.INVENTORY_VALUATION_DETAIL_REPORT);
 		menuForm.add(inventoryValuationDetails);
 
 		W8MenuItem inventoryStockStatus = new W8MenuItem(
-				messages.inventoryStockStatusByItem(), "",
+				messages.inventoryStockStatusByItem(),
+				"Contains information about the stocking status of items in your inventory",
 				HistoryTokens.INVENTORY_STOCK_STATUS_BY_ITEM_REPORT);
 		menuForm.add(inventoryStockStatus);
 
 		W8MenuItem inventorySSByVendor = new W8MenuItem(
-				messages.inventoryStockStatusByVendor(), "",
+				messages.inventoryStockStatusByVendor(),
+				"Contains information about the stocking status of items in your inventory per each vendor",
 				HistoryTokens.INVENTORY_STOCK_STATUS_BY_VENDOR_REPORT);
 		menuForm.add(inventorySSByVendor);
 
@@ -832,7 +852,8 @@ public class Windows8MenuView extends BaseView {
 
 		} else {
 			W8MenuItem taxItemDetailReport = new W8MenuItem(
-					messages.taxItemDetailReport(), "",
+					messages.taxItemDetailReport(),
+					"Shows the transactions done per each tax item in a particular period",
 					HistoryTokens.TAXITEMDETAIL);
 			menuForm.add(taxItemDetailReport);
 
@@ -1416,10 +1437,10 @@ public class Windows8MenuView extends BaseView {
 		Label bankingLabel = new Label(banking);
 		bankingLabel.setStyleName("menuName");
 
-		W8MenuItem bankAccountItem = new W8MenuItem(messages.bankAccount(), "",
-				HistoryTokens.NEWBANKACCOUNT);
-		W8MenuItem writeCheckItem = new W8MenuItem(messages.writeCheck(), "",
-				HistoryTokens.WRITECHECK);
+		W8MenuItem bankAccountItem = new W8MenuItem(messages.bankAccount(),
+				"Create a new bank account here", HistoryTokens.NEWBANKACCOUNT);
+		W8MenuItem writeCheckItem = new W8MenuItem(messages.writeCheck(),
+				"Write a check here", HistoryTokens.WRITECHECK);
 		W8MenuItem depositAndTransfersItem = new W8MenuItem(
 				messages.depositTransferFunds(),
 				"Deposite or transfer funds in between your accounts.",
@@ -1478,15 +1499,16 @@ public class Windows8MenuView extends BaseView {
 		if (canDoInvoiceAndBillTransactions) {
 			if (isKeepTrackofBills) {
 				W8MenuItem enterBillItem = new W8MenuItem(messages.enterBill(),
-						"", HistoryTokens.ENTERBILL);
+						"Create a bill for items that you have purchased",
+						HistoryTokens.ENTERBILL);
 				vendorListForm.add(enterBillItem);
 			}
 		}
 
 		if (canDoPayBillAndReceivePayment) {
 			if (isKeepTrackofBills) {
-				W8MenuItem paybillItem = new W8MenuItem(messages.payBill(), "",
-						HistoryTokens.PAYBILL);
+				W8MenuItem paybillItem = new W8MenuItem(messages.payBill(),
+						"Pay the bills you have entered", HistoryTokens.PAYBILL);
 				W8MenuItem printChequeItem = new W8MenuItem(
 						messages.printCheque(), "", HistoryTokens.PRINTCHEQUE);
 
@@ -1501,7 +1523,9 @@ public class Windows8MenuView extends BaseView {
 		}
 		if (canDoInvoiceAndBillTransactions) {
 			W8MenuItem recordExpenseItem = new W8MenuItem(
-					messages.recordExpenses(), "", HistoryTokens.RECORDEXPENSES);
+					messages.recordExpenses(),
+					"Create a cash expense or credit card expense",
+					HistoryTokens.RECORDEXPENSES);
 
 			vendorListForm.add(recordExpenseItem);
 		}
@@ -1522,7 +1546,8 @@ public class Windows8MenuView extends BaseView {
 		DynamicForm customerForm = new DynamicForm("customerForm");
 
 		W8MenuItem customerCenterItem = new W8MenuItem(
-				messages.customerCentre(Global.get().Customer()), "",
+				messages.customerCentre(Global.get().Customer()),
+				"Contains information about all the transactions done per each customer",
 				HistoryTokens.CUSTOMERCENTRE);
 
 		customerForm.add(customerLabel);
@@ -1553,7 +1578,8 @@ public class Windows8MenuView extends BaseView {
 
 		if (canDoBanking || canDoManageAccounts) {
 			W8MenuItem cashSaleItem = new W8MenuItem(messages.newCashSale(),
-					"", HistoryTokens.NEWCASHSALE);
+					"Make a sale with payment method as cash",
+					HistoryTokens.NEWCASHSALE);
 			customerForm.add(cashSaleItem);
 		}
 
@@ -1755,13 +1781,13 @@ public class Windows8MenuView extends BaseView {
 
 		}
 		W8MenuItem transactionscenter = new W8MenuItem(
-				messages.transactionscenter(), "",
+				messages.transactionscenter(), "See all the transactions here",
 				HistoryTokens.TRANSACTIONS_CENTER);
 		companyMenuBar.add(transactionscenter);
 
 		if (canDoManageAccounts) {
-			W8MenuItem Account = new W8MenuItem(messages.Account(), "",
-					HistoryTokens.NEWACCOUNT);
+			W8MenuItem Account = new W8MenuItem(messages.Account(),
+					"Create a new account", HistoryTokens.NEWACCOUNT);
 			companyMenuBar.add(Account);
 		}
 
