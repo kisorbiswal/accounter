@@ -459,9 +459,9 @@ public class JournalEntryView extends
 			jourNoText.setValue(transaction.getNumber());
 			transactionDateItem.setEnteredDate(transaction.getDate());
 			// grid.setVoucherNumber(transaction.getNumber());
-			if (transaction.getCurrency() != 0) {
-				ClientCurrency selectCurrency = getCompany().getCurrency(
-						transaction.getCurrency());
+			ClientCurrency selectCurrency = getCompany().getCurrency(
+					transaction.getCurrency());
+			if (selectCurrency != null) {
 				currencyCombo.setSelectedCurrency(selectCurrency);
 				currencyCombo
 						.setCurrencyFactor(transaction.getCurrencyFactor());
@@ -473,7 +473,12 @@ public class JournalEntryView extends
 			grid.setAllRows(entries);
 			if (transaction.getMemo() != null)
 				memoText.setValue(transaction.getMemo());
+			deditTotalText.setTitle(messages2
+					.debitTotalColonSymbol(selectCurrency.getSymbol()));
+			creditTotalText.setTitle(messages2
+					.creditTotalColonSymbol(selectCurrency.getSymbol()));
 			updateTransaction();
+
 		} else {
 			setData(new ClientJournalEntry());
 		}
