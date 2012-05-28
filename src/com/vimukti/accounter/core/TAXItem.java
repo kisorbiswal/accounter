@@ -239,19 +239,14 @@ public class TAXItem extends TAXItemGroup {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().taxItem());
 		}
-		if (getTaxRate() == 0.0) {
-			throw new AccounterException(AccounterException.ERROR_PLEASE_ENTER,
-					Global.get().messages().taxRate());
-		} else {
 
-			if (DecimalUtil.isLessThan(getTaxRate(), 0)) {
-				throw new AccounterException(
-						AccounterException.ERROR_PERCENTAGE_LESSTHAN_0);
-			} else if (DecimalUtil.isGreaterThan(getTaxRate(), 100)) {
-				throw new AccounterException(
-						AccounterException.ERROR_PERCENTAGE_GRATER_100);
+		if (DecimalUtil.isLessThan(getTaxRate(), 0)) {
+			throw new AccounterException(
+					AccounterException.ERROR_PERCENTAGE_LESSTHAN_0);
+		} else if (DecimalUtil.isGreaterThan(getTaxRate(), 100)) {
+			throw new AccounterException(
+					AccounterException.ERROR_PERCENTAGE_GRATER_100);
 
-			}
 		}
 		if (getTaxAgency() == null) {
 			throw new AccounterException(
