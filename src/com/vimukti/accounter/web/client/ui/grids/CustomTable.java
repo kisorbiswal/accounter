@@ -196,8 +196,9 @@ public abstract class CustomTable extends FlowPanel {
 		}
 
 		this.header.setStyleName("gridHeader");
-		this.add(this.header.getPanel());
-
+		if (rowFormatter != null) {
+			this.add(this.header.getPanel());
+		}
 		if (this.header.getElement() != null) {
 			Element par = this.header.getElement().getParentElement().cast();
 			par.addClassName("gridHeaderParent");

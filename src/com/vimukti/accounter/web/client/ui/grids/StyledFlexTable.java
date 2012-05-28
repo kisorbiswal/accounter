@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -47,9 +48,16 @@ public class StyledFlexTable extends GwtFlexTable {
 		return null;
 	}
 
-	public void setText(int row, int column, String text) {
+	public void setText(final int row, final int column, String text) {
 		Label label = new Label(text);
 		label.getElement().setClassName("gridElementLabel");
+		label.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				getCustomTable().cellClicked(row, column);
+			}
+		});
 		setWidget(row, column, label);
 	}
 
@@ -96,9 +104,16 @@ public class StyledFlexTable extends GwtFlexTable {
 		return flowPanel.getWidget(col);
 	}
 
-	public void setHTML(int row, int column, String html) {
+	public void setHTML(final int row, final int column, String html) {
 		Label label = new Label(html);
 		label.getElement().setClassName("gridElementLabel");
+		label.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				getCustomTable().cellClicked(row, column);
+			}
+		});
 		setWidget(row, column, label);
 	}
 
