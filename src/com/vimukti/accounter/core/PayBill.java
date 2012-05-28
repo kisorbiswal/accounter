@@ -686,7 +686,7 @@ public class PayBill extends Transaction {
 					double diff = amount * currencyFactor - amountToUpdate;
 
 					e.add(getCompany().getExchangeLossOrGainAccount(), -diff, 1);
-					e.add(getVendor().getAccount(), diff, 1);
+					e.add(getCompany().getAccountsPayableAccount(), diff, 1);
 				}
 			}
 
