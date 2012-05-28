@@ -119,9 +119,8 @@ public abstract class TransactionJournalEntryTable extends
 						&& account.getCurrency() != Accounter.getCompany()
 								.getPrimaryCurrency().getID()) {
 					Accounter
-							.showError("Should have the select accounts must be in base Currency or transaction Currency");
+							.showError("Should have the selected accounts must be in base Currency or transaction Currency");
 				}
-
 				row.setAccount(newValue.getID());
 				if (row.getLineTotal() == null) {
 					row.setLineTotal(new Double(0));
@@ -295,6 +294,20 @@ public abstract class TransactionJournalEntryTable extends
 				}
 			}
 		}
+		for (ClientTransactionItem clientTransactionItem : entrylist) {
+			ClientCurrency transactionCurrency = currencyProvider
+					.getTransactionCurrency();
+			ClientAccount account = Accounter.getCompany().getAccount(
+					clientTransactionItem.getAccount());
+			if (account.getCurrency() != transactionCurrency.getID()
+					&& account.getCurrency() != Accounter.getCompany()
+							.getPrimaryCurrency().getID()) {
+				result.addError(
+						this,
+						"Should have the selected accounts must be in base Currency or transaction Currency");
+			}
+		}
+
 		for (ClientTransactionItem entry : entrylist) {
 			if (entry.isEmpty()) {
 				continue;
