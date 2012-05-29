@@ -20,7 +20,6 @@ String isTouch = (String)request.getAttribute( "isTouch" );
 	document.body.style.direction=(<%= isFeedbackRTL %>)?"rtl":"ltr";
 	}				
 });	
-});
 	var emailId="<%= emailId%>";
 	if(emailId=="null"){
 		emailId ="enter your email here"

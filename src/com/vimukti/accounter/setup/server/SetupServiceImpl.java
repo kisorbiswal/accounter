@@ -20,6 +20,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.google.gdata.util.common.util.Base64;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
@@ -52,6 +53,7 @@ public class SetupServiceImpl extends RemoteServiceServlet implements
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public static final String SECRET_KEY_COOKIE = "skc";
 
 	@Override
 	protected void service(HttpServletRequest arg0, HttpServletResponse arg1)
@@ -225,6 +227,8 @@ public class SetupServiceImpl extends RemoteServiceServlet implements
 
 			insertFeatures(session);
 
+			createD2(request, client.getEmailId(), client.getPassword());
+
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -235,6 +239,15 @@ public class SetupServiceImpl extends RemoteServiceServlet implements
 		}
 		completePage(3);
 		return true;
+	}
+
+	public static String createD2(HttpServletRequest request, String emailId,
+			String password) throws Exception {
+		byte[] d2 = EU.generateD2(password, emailId, request.getSession()
+				.getId());
+		String encode = Base64.encode(d2);
+		request.getSession().setAttribute(SECRET_KEY_COOKIE, encode);
+		return encode;
 	}
 
 	private void insertFeatures(Session session) {
