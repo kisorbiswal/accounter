@@ -37,6 +37,10 @@ public class TextItem extends FormItem<String> {
 		box.getElement().setAttribute("placeholder", text);
 	}
 
+	public static void removePlaceholder(TextBox box) {
+		box.getElement().removeAttribute("placeholder");
+	}
+
 	@Override
 	public void setTitle(String string) {
 		super.setTitle(string);
@@ -132,6 +136,7 @@ public class TextItem extends FormItem<String> {
 		if (!b) {
 			this.textBox.addStyleName("disable-TextField");
 			this.addStyleName("disable");
+			removePlaceholder(textBox);
 		} else {
 			this.textBox.removeStyleName("disable-TextField");
 			this.removeStyleName("disable");
