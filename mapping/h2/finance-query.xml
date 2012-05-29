@@ -1876,6 +1876,8 @@
 	<sql-query name="isCompanyAccount">
 		<query-param name="accountId" type="long" />
 		<query-param name="companyId" type="long" />
+		
+		<return-scalar column="IS_EXISTS" type="boolean" />
 		<![CDATA[
 			SELECT CASE WHEN (
 			:accountId IN (C.CASH_DISCOUNT_ACCOUNT,C.ACCOUNTS_RECEIVABLE_ID,C.ACCOUNTS_ROUND_ID,C.ACCOUNTS_PAYABLE_ID
@@ -8797,7 +8799,7 @@
 				WHERE  PB.TDS_TOTAL!=0
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
-				       AND TTI IS NULL  
+				       AND TTI.ID IS NULL  
 				]]>
 
 	</sql-query>
@@ -8825,7 +8827,7 @@
 				WHERE  RP.TDS_TOTAL!=0
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
-				       AND TTI IS NULL  
+				       AND TTI.ID IS NULL  
 				]]>
 
 	</sql-query>

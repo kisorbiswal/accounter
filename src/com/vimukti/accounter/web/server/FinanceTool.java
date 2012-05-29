@@ -4110,6 +4110,9 @@ public class FinanceTool {
 					"companyId", companyId);
 		}
 		List list = query.list();
+		if (list == null) {
+			return arrayList;
+		}
 		Iterator iterator = list.iterator();
 
 		// ArrayList<ClientTDSChalanDetail> chalanList = new

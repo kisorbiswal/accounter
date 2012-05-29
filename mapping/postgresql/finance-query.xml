@@ -8797,7 +8797,7 @@
 				WHERE  PB.TDS_TOTAL!=0
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
-				       AND TTI IS NULL  
+				       AND TTI.ID IS NULL  
 				]]>
 
 	</sql-query>
