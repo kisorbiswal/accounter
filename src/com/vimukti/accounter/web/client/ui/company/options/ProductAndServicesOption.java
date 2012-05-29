@@ -78,9 +78,9 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 		totalPanel = new StyledPanel("totalPanel");
 		totalPanel.add(headerLabel);
 		servicesOnlyText = new LabelItem(messages.products_labelonly() + " : "
-				+ messages.servicesOnly(), "servicesOnlyText");
+				+ messages.productsOnly(), "servicesOnlyText");
 		productsOnlyText = new LabelItem(messages.services_labelonly() + " : "
-				+ messages.productsOnly(), "productsOnlyText");
+				+ messages.servicesOnly(), "productsOnlyText");
 		bothText = new LabelItem(messages.bothservicesandProduct_labelonly()
 				+ " : " + messages.bothServicesandProducts(), "bothText");
 

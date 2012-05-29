@@ -88,8 +88,12 @@ public class DepositsTransfersListGrid extends
 			return obj.getInAccount() != null ? obj.getInAccount() : "";
 		case 3:
 			if (type == 0) {
-				return DataUtils.amountAsStringWithCurrency(obj.getAmount(),
-						getCompany().getCurrency(obj.getCurrency()));
+				return DataUtils.amountAsStringWithCurrency(
+						obj.getAmount() != null ? obj.getAmount() : 0,
+						getCompany().getCurrency(
+								obj.getCurrency() != 0 ? obj.getCurrency()
+										: getCompany().getPrimaryCurrency()
+												.getID()));
 			} else {
 				return obj.getFromAccount() != null ? obj.getFromAccount() : "";
 			}
@@ -98,8 +102,12 @@ public class DepositsTransfersListGrid extends
 				return Accounter.getFinanceImages().delete();
 
 			} else {
-				return DataUtils.amountAsStringWithCurrency(obj.getAmount(),
-						getCompany().getCurrency(obj.getCurrency()));
+				return DataUtils.amountAsStringWithCurrency(
+						obj.getAmount() != null ? obj.getAmount() : 0,
+						getCompany().getCurrency(
+								obj.getCurrency() != 0 ? obj.getCurrency()
+										: getCompany().getPrimaryCurrency()
+												.getID()));
 			}
 
 		case 5:
