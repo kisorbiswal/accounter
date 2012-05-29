@@ -173,6 +173,7 @@ public class ItemsDropDownTable extends AbstractDropDownTable<ClientItem> {
 	public void addNewItem(String text) {
 		NewItemAction action;
 		action = new NewItemAction(isForCustomer());
+		action.setFrmAnyView(true);
 		action.setCallback(new ActionCallback<ClientItem>() {
 
 			@Override

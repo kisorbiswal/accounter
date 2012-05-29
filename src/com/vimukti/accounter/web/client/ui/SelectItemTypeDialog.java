@@ -23,6 +23,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 	private DynamicForm typeForm;
 	private boolean isDependent = true;
 	private String itemname;
+	private boolean frmAnyView;
 
 	public SelectItemTypeDialog(boolean isGeneratedFromCustomer) {
 		super(messages.selectItemType(), messages.selectOneOfItem());
@@ -121,6 +122,23 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 		}
 
 		return true;
+	}
+
+	public boolean isFrmAnyView() {
+		return frmAnyView;
+	}
+
+	public void setFrmAnyView(boolean frmAnyView) {
+		this.frmAnyView = frmAnyView;
+	}
+
+	@Override
+	protected boolean onCancel() {
+		if (isFrmAnyView()) {
+			return true;
+		} else {
+			return super.onCancel();
+		}
 	}
 
 	public void setDependent(boolean isDependent) {

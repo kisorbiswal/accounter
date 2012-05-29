@@ -25,6 +25,7 @@ public class NewItemAction extends Action<ClientItem> {
 	private String itemName;
 	private boolean fromCompany;
 	private boolean isItemEditable;
+	private boolean frmAnyView;
 
 	public NewItemAction() {
 		super();
@@ -69,6 +70,7 @@ public class NewItemAction extends Action<ClientItem> {
 					if (type == 0 && data == null) {
 						SelectItemTypeDialog dialog = new SelectItemTypeDialog(
 								forCustomer);
+						dialog.setFrmAnyView(isFrmAnyView());
 						dialog.setDependent(isDependent);
 						dialog.setCallback(getCallback());
 						dialog.setItemname(itemName);
@@ -100,6 +102,7 @@ public class NewItemAction extends Action<ClientItem> {
 						if (type == 0 && data == null) {
 							SelectItemTypeDialog dialog = new SelectItemTypeDialog(
 									forCustomer);
+							dialog.setFrmAnyView(isFrmAnyView());
 							dialog.setDependent(isDependent);
 							dialog.setCallback(getCallback());
 							dialog.setItemname(itemName);
@@ -204,5 +207,13 @@ public class NewItemAction extends Action<ClientItem> {
 
 	public void setisItemEditable(boolean isItemViewEditable) {
 		this.isItemEditable = isItemViewEditable;
+	}
+
+	public boolean isFrmAnyView() {
+		return frmAnyView;
+	}
+
+	public void setFrmAnyView(boolean frmAnyView) {
+		this.frmAnyView = frmAnyView;
 	}
 }

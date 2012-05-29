@@ -89,6 +89,7 @@ public class ItemListView extends BaseListView<ClientItem> implements
 			} else {
 				action = new NewItemAction(false);
 			}
+			action.setFrmAnyView(true);
 			return action;
 		}
 	}
