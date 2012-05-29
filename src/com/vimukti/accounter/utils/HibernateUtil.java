@@ -51,6 +51,7 @@ public class HibernateUtil {
 		config.addResource("mapping/common/finance-new-mapping.xml");
 		config.addResource("mapping/common/finance-transactions.xml");
 		config.addResource("mapping/common/finance-translate-mapping.xml");
+		config.addResource("mapping/common/usermanagment.xml");
 
 		if (!ServerConfiguration.isDesktopApp()) {
 			loadFiles(config, DatabaseManager.POSTGRESQL);
