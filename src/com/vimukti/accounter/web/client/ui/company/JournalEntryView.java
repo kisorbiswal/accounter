@@ -459,26 +459,33 @@ public class JournalEntryView extends
 			jourNoText.setValue(transaction.getNumber());
 			transactionDateItem.setEnteredDate(transaction.getDate());
 			// grid.setVoucherNumber(transaction.getNumber());
-			ClientCurrency selectCurrency = getCompany().getCurrency(
-					transaction.getCurrency());
-			if (selectCurrency != null) {
-				currencyCombo.setSelectedCurrency(selectCurrency);
+			if (isMultiCurrencyEnabled()) {
+				if (transaction.getCurrency() > 0) {
+					this.currency = getCompany().getCurrency(
+							transaction.getCurrency());
+				} else {
+					this.currency = getCompany().getPreferences()
+							.getPrimaryCurrency();
+				}
+				this.currencyFactor = transaction.getCurrencyFactor();
+				if (this.currency != null) {
+					currencyCombo.setSelectedCurrency(currency);
+				}
 				currencyCombo
 						.setCurrencyFactor(transaction.getCurrencyFactor());
+				currencyCombo.setEnabled(!isInViewMode());
 			}
-
+			deditTotalText.setTitle(messages2.debitTotalColonSymbol(currency
+					.getSymbol()));
+			creditTotalText.setTitle(messages2.creditTotalColonSymbol(currency
+					.getSymbol()));
 			List<ClientTransactionItem> entries = transaction
 					.getTransactionItems();
 
 			grid.setAllRows(entries);
 			if (transaction.getMemo() != null)
 				memoText.setValue(transaction.getMemo());
-			deditTotalText.setTitle(messages2
-					.debitTotalColonSymbol(selectCurrency.getSymbol()));
-			creditTotalText.setTitle(messages2
-					.creditTotalColonSymbol(selectCurrency.getSymbol()));
 			updateTransaction();
-
 		} else {
 			setData(new ClientJournalEntry());
 		}
