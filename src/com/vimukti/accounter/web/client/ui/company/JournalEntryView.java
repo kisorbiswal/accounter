@@ -459,14 +459,26 @@ public class JournalEntryView extends
 			jourNoText.setValue(transaction.getNumber());
 			transactionDateItem.setEnteredDate(transaction.getDate());
 			// grid.setVoucherNumber(transaction.getNumber());
-			if (transaction.getCurrency() != 0) {
-				ClientCurrency selectCurrency = getCompany().getCurrency(
-						transaction.getCurrency());
-				currencyCombo.setSelectedCurrency(selectCurrency);
+			if (isMultiCurrencyEnabled()) {
+				if (transaction.getCurrency() > 0) {
+					this.currency = getCompany().getCurrency(
+							transaction.getCurrency());
+				} else {
+					this.currency = getCompany().getPreferences()
+							.getPrimaryCurrency();
+				}
+				this.currencyFactor = transaction.getCurrencyFactor();
+				if (this.currency != null) {
+					currencyCombo.setSelectedCurrency(currency);
+				}
 				currencyCombo
 						.setCurrencyFactor(transaction.getCurrencyFactor());
+				currencyCombo.setEnabled(!isInViewMode());
 			}
-
+			deditTotalText.setTitle(messages2.debitTotalColonSymbol(currency
+					.getSymbol()));
+			creditTotalText.setTitle(messages2.creditTotalColonSymbol(currency
+					.getSymbol()));
 			List<ClientTransactionItem> entries = transaction
 					.getTransactionItems();
 
