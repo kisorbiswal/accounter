@@ -535,13 +535,10 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						columnValue = obj.getPaymentNumber();
 						break;
 					case 2:
-						String transactionName = Utility.getTransactionName(obj
-								.getType());
 						String transactionStatus = Utility
 								.getTransactionStatus(obj.getType(),
 										obj.getStatus());
-						columnValue = transactionName + "" + "("
-								+ transactionStatus + ")";
+						columnValue = transactionStatus;
 						break;
 					case 3:
 						columnValue = Utility

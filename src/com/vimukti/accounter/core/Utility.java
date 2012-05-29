@@ -1076,6 +1076,7 @@ public class Utility {
 			break;
 
 		case Transaction.TYPE_PAY_BILL:
+		case Transaction.TYPE_VENDOR_PAYMENT:
 			switch (status) {
 			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
 				buffer.append(AccounterServerConstants.STATUS_NOT_ISSUED);
