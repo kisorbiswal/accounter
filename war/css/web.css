@@ -8424,3 +8424,7 @@ table.no_records tr td {
 #inventory-valuation-summary .formItem input{
 	width: 150px;
 }
+.checkBoxImpl .gwt-Label{
+	-moz-box-ordinal-group: 2;
+	padding-top: 3px;
+}

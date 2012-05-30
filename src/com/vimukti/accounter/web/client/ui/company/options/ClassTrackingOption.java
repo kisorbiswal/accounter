@@ -74,8 +74,6 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 		oneperdetaillineRadioButton = new RadioButton(messages.classes(),
 				messages.oneperdetailline());
 
-		StyledPanel radioPanel = new StyledPanel("radio-panel");
-
 		trackClassCheckBox.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -85,12 +83,10 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 			}
 		});
 
+		hidePanel.add(onepertransactionRadioButton);
 		hidePanel.add(oneperTransactionLabel);
+		hidePanel.add(oneperdetaillineRadioButton);
 		hidePanel.add(oneperdetaillineLabel);
-
-		radioPanel.add(oneperdetaillineRadioButton);
-		radioPanel.add(onepertransactionRadioButton);
-		hidePanel.add(radioPanel);
 
 		add(trackClassCheckBox);
 		add(classLabel);

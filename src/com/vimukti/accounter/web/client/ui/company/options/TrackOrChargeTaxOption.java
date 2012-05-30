@@ -3,14 +3,12 @@
  */
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
-import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 /**
  * @author vimukti2
@@ -27,8 +25,6 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 	LabelItem oneperdetaillineLabel;
 	LabelItem oneperTransactionLabel;
 
-	RadioGroupItem onepeTransactionRadioGroup;
-
 	CheckboxItem enableTaxCheckbox;
 	LabelItem enableTaxLabel;
 
@@ -36,6 +32,10 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 	LabelItem enableTDSdecs;
 
 	StyledPanel hidePanel;
+
+	RadioButton oneperTransactionRadioButton;
+
+	RadioButton oneperDetailLineRadioButton;
 
 	/**
 	 * Because this class has a default constructor, it can be used as a binder
@@ -56,10 +56,11 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 		trackCheckbox.setValue(getCompanyPreferences().isTrackTax());
 		hidePanel.setVisible(getCompanyPreferences().isTrackTax());
 		enableTaxCheckbox.setValue(getCompanyPreferences().isTrackPaidTax());
-		if (getCompanyPreferences().isTaxPerDetailLine())
-			onepeTransactionRadioGroup.setValue(messages.oneperdetailline());
-		else
-			onepeTransactionRadioGroup.setValue(messages.onepertransaction());
+		if (getCompanyPreferences().isTaxPerDetailLine()) {
+			oneperDetailLineRadioButton.setValue(true);
+		} else {
+			oneperTransactionRadioButton.setValue(true);
+		}
 
 		if (getCompany().getCountryPreferences().isTDSAvailable()) {
 			enableTaxTdsCheckbox.setValue(getCompanyPreferences()
@@ -81,13 +82,12 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 		oneperdetaillineLabel = new LabelItem(
 				messages.oneperDetailDescription(), "organisation_comment");
 
-		onepeTransactionRadioGroup = new RadioGroupItem();
-		onepeTransactionRadioGroup.setShowTitle(false);
-		onepeTransactionRadioGroup.setGroupName("onepeTransactionRadioGroup");
-		onepeTransactionRadioGroup.setValueMap(messages.onepertransaction(),
-				messages.oneperdetailline());
-		onepeTransactionRadioGroup
-				.setDefaultValue(messages.onepertransaction());
+		oneperTransactionRadioButton = new RadioButton(
+				messages.onepertransaction(), messages.onepertransaction());
+		oneperTransactionRadioButton.setValue(true);
+
+		oneperDetailLineRadioButton = new RadioButton(
+				messages.oneperdetailline(), messages.oneperdetailline());
 
 		enableTaxCheckbox = new CheckboxItem(messages.enableTracking(),
 				"enableTaxCheckbox");
@@ -116,9 +116,10 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 
 		hidePanel = new StyledPanel("trackTaxhidePanel");
 		hidePanel.add(taxItemTransactionLabel);
+		hidePanel.add(oneperTransactionRadioButton);
 		hidePanel.add(oneperTransactionLabel);
+		hidePanel.add(oneperDetailLineRadioButton);
 		hidePanel.add(oneperdetaillineLabel);
-		hidePanel.add(onepeTransactionRadioGroup);
 		hidePanel.add(enableTaxCheckbox);
 		hidePanel.add(enableTaxLabel);
 		hidePanel.add(enableTaxTdsCheckbox);
@@ -136,12 +137,13 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 	@Override
 	public void onSave() {
 		getCompanyPreferences().setTaxTrack(trackCheckbox.getValue());
-		if (onepeTransactionRadioGroup.getValue().equals(
-				messages.onepertransaction())) {
+
+		if (oneperTransactionRadioButton.getValue()) {
 			getCompanyPreferences().setTaxPerDetailLine(false);
 		} else {
 			getCompanyPreferences().setTaxPerDetailLine(true);
 		}
+
 		getCompanyPreferences().setTrackPaidTax(enableTaxCheckbox.getValue());
 		if (getCompany().getCountryPreferences().isTDSAvailable()) {
 			getCompanyPreferences()
