@@ -6636,9 +6636,10 @@
 				       LEFT JOIN CLIENT C
 				         ON C.ID = U.CLIENT_ID
 				       LEFT JOIN ESTIMATE E
-				         ON E.ID = T.ID AND E.ESTIMATETYPE NOT IN (4,5)
+				         ON E.ID = T.ID
 				WHERE  T.COMPANY_ID = :companyId
-				       AND T.SAVE_STATUS NOT IN ( 201, 202 )
+				       AND (CASE WHEN T.T_TYPE = 7 THEN E.ESTIMATETYPE NOT IN (4,5) 
+				       ELSE TRUE END) AND T.SAVE_STATUS NOT IN ( 201, 202 )
 				ORDER  BY T.CREATED_DATE DESC
 				LIMIT  :limit  
 				]]>

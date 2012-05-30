@@ -548,7 +548,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		computationTypeCombo.setEnabled(!isInViewMode());
 		attendanceTypeCombo.setEnabled(!isInViewMode());
 		perdayCalculationCombo.setEnabled(!isInViewMode());
-		calculationTypeCombo.setEnabled(!isInViewMode());
 		typeCombo.setEnabled(!isInViewMode());
 		calculationPeriodCombo.setEnabled(!isInViewMode());
 		payslipNameItem.setEnabled(!isInViewMode());
@@ -632,7 +631,12 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			payhead.setCalculationPeriod(calculationPeriodCombo
 					.getSelectedIndex() + 1);
 			payhead.setComputationType(computationTypeCombo.getSelectedIndex() + 1);
-			payhead.setFormulaFunctions(this.formulas);
+			if (computationTypeCombo.getSelectedValue().equals(
+					messages.onSpecifiedFormula())) {
+				payhead.setFormulaFunctions(this.formulas);
+			} else {
+				payhead.setFormulaFunctions(new ArrayList<ClientComputaionFormulaFunction>());
+			}
 			payhead.setSlabs(slabTable.getAllRows());
 			data = payhead;
 

@@ -47,6 +47,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 				if (getDeleteObject() == null) {
 					return;
 				}
+				enableEditRemoveButtons(false);
 				deleteObject(getDeleteObject());
 			}
 

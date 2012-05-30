@@ -229,12 +229,6 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
 								.get().messages().currencyFormalName());
 			}
-			if (currency.getSymbol().equalsIgnoreCase(getSymbol())
-					&& currency.getID() != getID()) {
-				throw new AccounterException(
-						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
-								.get().messages().currencySymbol());
-			}
 		}
 
 	}
