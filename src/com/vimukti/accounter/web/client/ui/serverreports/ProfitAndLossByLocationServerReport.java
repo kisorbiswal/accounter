@@ -75,7 +75,7 @@ public class ProfitAndLossByLocationServerReport extends
 			this.jobs = company.getJobs();
 			this.noColumns = jobs.size() + 2;
 		} else if (category_type == CLASS) {
-			// this.classes = getHeaderTitles(company.getAccounterClasses());
+			this.classes = getHeaderTitles(company);
 			this.noColumns = classes.size() + 2;
 		} else if (category_type == LOCATION) {
 			this.locations = company.getLocations();
@@ -83,11 +83,12 @@ public class ProfitAndLossByLocationServerReport extends
 		}
 	}
 
-	private ArrayList<String> getHeaderTitles(
-			ArrayList<ClientAccounterClass> classes) {
+	private ArrayList<ClientAccounterClass> getHeaderTitles(
+			ClientCompany company) {
 		ArrayList<ClientAccounterClass> accounterClasses = new ArrayList<ClientAccounterClass>(
-				classes);
-		ArrayList<String> reportHeaders = new ArrayList<String>();
+				company.getAccounterClasses());
+
+		ArrayList<ClientAccounterClass> reportHeaders = new ArrayList<ClientAccounterClass>();
 		// sort by depth
 		Collections.sort(accounterClasses,
 				new Comparator<ClientAccounterClass>() {
@@ -107,16 +108,22 @@ public class ProfitAndLossByLocationServerReport extends
 					&& previousparentID != 0) {
 				String concat = className.concat("-Other");
 				clientAccounterClass.setModifiedName(concat);
-				reportHeaders.add(concat);
-				reportHeaders.add(messages.total() + "(" + className + ")");
+				reportHeaders.add(clientAccounterClass);
+				ClientAccounterClass totalobj = new ClientAccounterClass();
+				totalobj.setModifiedName(messages.total() + "(" + className
+						+ ")");
+				reportHeaders.add(totalobj);
 				previousparentID = 0;
 			} else if (accounterClasses.size() - 1 == count) {
 				String concat = className.concat("-Other");
 				clientAccounterClass.setModifiedName(concat);
-				reportHeaders.add(concat);
-				reportHeaders.add(messages.total() + "(" + className + ")");
+				reportHeaders.add(clientAccounterClass);
+				ClientAccounterClass totalobj = new ClientAccounterClass();
+				totalobj.setModifiedName(messages.total() + "(" + className
+						+ ")");
+				reportHeaders.add(totalobj);
 			} else {
-				reportHeaders.add(clientAccounterClass.getClassName());
+				reportHeaders.add(clientAccounterClass);
 				previousparentID = clientAccounterClass.getParent();
 			}
 			count++;

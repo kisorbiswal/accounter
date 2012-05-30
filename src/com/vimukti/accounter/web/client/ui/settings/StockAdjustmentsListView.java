@@ -32,6 +32,11 @@ public class StockAdjustmentsListView extends
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
+		onPageChange(0, getPageSize());
+	}
+
+	@Override
+	protected void onPageChange(int start, int length) {
 		reloadRecords();
 	}
 
@@ -88,6 +93,11 @@ public class StockAdjustmentsListView extends
 			return;
 		}
 		start = (Integer) viewDate.get("start");
+	}
+
+	@Override
+	protected void filterList(String selectedValue) {
+		onPageChange(0, getPageSize());
 	}
 
 	@Override

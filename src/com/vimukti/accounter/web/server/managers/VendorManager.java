@@ -1481,6 +1481,12 @@ public class VendorManager extends PayeeManager {
 					.setLong("toID", toClientVendor.getID())
 					.setEntity("company", company).executeUpdate();
 
+			session.getNamedQuery(
+					"update.mergeVendor.vendorPrepayment.old.tonew")
+					.setLong("fromID", fromClientVendor.getID())
+					.setLong("toID", toClientVendor.getID())
+					.setEntity("company", company).executeUpdate();
+
 			session.getNamedQuery("update.mergeVendor.ItemReceipt.old.tonew")
 					.setLong("fromID", fromClientVendor.getID())
 					.setLong("toID", toClientVendor.getID())

@@ -307,6 +307,15 @@
 		where
 		vendor.id=:fromID and company=:company
 	</query>
+	
+	<query name="update.mergeVendor.vendorPrepayment.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.VendorPrePayment set vendor.id=:toID
+		where
+		vendor.id=:fromID and company=:company
+	</query>
 
 	<query name="update.mergeVendor.ItemReceipt.old.tonew">
 		<query-param name="fromID" type="long" />
