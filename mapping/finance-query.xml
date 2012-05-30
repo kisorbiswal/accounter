@@ -4209,6 +4209,7 @@
 				WHERE  P.TYPE = 1
 				       AND P.COMPANY_ID = :companyId
 				       AND P.IS_ACTIVE = :isActive
+				GROUP BY T.ID ,P.ID  
 				ORDER  BY P.NAME  
 				]]>
 
