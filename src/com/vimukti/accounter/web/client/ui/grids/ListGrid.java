@@ -235,8 +235,10 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 
 	public boolean isContinueToexecuteEvent(int row, int col) {
 		if (!isMultiSelectionEnable) {
-			rowFormatter.removeStyleName(currentRow, "selected");
-			rowFormatter.addStyleName(row, "selected");
+			if (rowFormatter != null) {
+				rowFormatter.removeStyleName(currentRow, "selected");
+				rowFormatter.addStyleName(row, "selected");
+			}
 		}
 
 		if (isEditEnable) {
@@ -695,7 +697,13 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				CheckBox box = ((CheckBox) event.getSource());
-				Object col = UIUtils.getKey(widgetsMap, box);
+				Object col = null;
+				if (cellFormatter != null) {
+					col = UIUtils.getKey(widgetsMap, box);
+				} else {
+					RowCell cellByWidget = getCellByWidget(checkBox);
+					col = cellByWidget.getCellIndex();
+				}
 				if (col != null)
 					editComplete(obj, box.getValue(), (Integer) col);
 			}

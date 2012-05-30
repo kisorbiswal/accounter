@@ -82,7 +82,8 @@ public class StyledFlexTable extends GwtFlexTable {
 	public void setWidget(int row, int column, Widget widget) {
 		if (flexTable.getWidgetCount() > row) {
 			FlowPanel rowWiget = (FlowPanel) flexTable.getWidget(row);
-			String string = getCustomTable().getColumns()[column];
+			String string = getCustomTable().getColumns()[getCustomTable().isMultiSelectionEnable ? column - 1
+					: column];
 			Label label = new Label(string);
 			label.addStyleName("header-label");
 			rowWiget.add(label);
@@ -101,7 +102,7 @@ public class StyledFlexTable extends GwtFlexTable {
 
 	public Widget getWidget(int row, int col) {
 		FlowPanel flowPanel = (FlowPanel) flexTable.getWidget(row);
-		return flowPanel.getWidget(col);
+		return flowPanel.getWidget((col * 2) + 1);
 	}
 
 	public void setHTML(final int row, final int column, String html) {

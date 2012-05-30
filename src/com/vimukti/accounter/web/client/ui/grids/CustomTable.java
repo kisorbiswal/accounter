@@ -154,8 +154,10 @@ public abstract class CustomTable extends FlowPanel {
 				}
 			});
 			this.header.setWidget(0, 0, headerChkbox);
-			headerCellFormater.getElement(0, 0)
-					.setClassName("header_check_box");
+			if (headerCellFormater != null) {
+				headerCellFormater.getElement(0, 0).setClassName(
+						"header_check_box");
+			}
 		}
 		if (isEnable) {
 			if (this.header.getFlexTable() != null) {
@@ -237,11 +239,13 @@ public abstract class CustomTable extends FlowPanel {
 
 	protected void initHeader() {
 		CellFormatter headerCellFormater = this.header.getCellFormatter();
-		for (int x = isMultiSelectionEnable ? 1 : 0; x < nofCols; x++) {
+		if (headerCellFormater != null) {
+			for (int x = isMultiSelectionEnable ? 1 : 0; x < nofCols; x++) {
 
-			this.header.setText(0, x,
-					getColumns()[isMultiSelectionEnable ? (x - 1) : x]);
-			headerCellFormater.addStyleName(0, x, "gridHeaderCell");
+				this.header.setText(0, x,
+						getColumns()[isMultiSelectionEnable ? (x - 1) : x]);
+				headerCellFormater.addStyleName(0, x, "gridHeaderCell");
+			}
 		}
 
 	}
@@ -519,11 +523,22 @@ public abstract class CustomTable extends FlowPanel {
 	}
 
 	protected RowCell getCellByWidget(Widget widget) {
-		Element td = DOM.getParent(widget.getElement());
-		Element tr = DOM.getParent(td);
-		Element parent = DOM.getParent(tr);
-		int row = DOM.getChildIndex(parent, tr);
-		int col = DOM.getChildIndex(tr, td);
+		int row = 0;
+		int col = 0;
+		if (body.getCellFormatter() == null) {
+			Element td = DOM.getParent(widget.getElement());
+			Element child = widget.getElement();
+			Element tr = DOM.getParent(td);
+			row = DOM.getChildIndex(tr, td);
+			col = DOM.getChildIndex(td, child);
+			col = (col / 2);
+		} else {
+			Element td = DOM.getParent(widget.getElement());
+			Element tr = DOM.getParent(td);
+			Element parent = DOM.getParent(tr);
+			row = DOM.getChildIndex(parent, tr);
+			col = DOM.getChildIndex(tr, td);
+		}
 		return new RowCell(row, col);
 	}
 
@@ -600,8 +615,10 @@ public abstract class CustomTable extends FlowPanel {
 				// table.getCellFormatter().getElement(row, 0)
 				// .setAttribute("width", "" + 25);
 				// else
-				table.getCellFormatter().getElement(row, 0)
-						.setAttribute("width", "" + 15);
+				if (table.getCellFormatter() != null) {
+					table.getCellFormatter().getElement(row, 0)
+							.setAttribute("width", "" + 15);
+				}
 			}
 
 		} catch (Exception e) {
