@@ -442,6 +442,7 @@ html,body {
     margin-bottom: 10px;
     margin-right: 10px;
     width: 450px;
+    vertical-align: top;
 }
 
 #JournalEntryView .datenumber-panel {
@@ -2375,7 +2376,7 @@ table.no_records .norecord-empty-message td {
 	border: 1px solid gray;
 	padding: 10px;
 	float: left;
-	width: 45%;
+	width: 43%;
 	margin: 50px 15px 10px;
 }
 
@@ -2393,7 +2394,7 @@ table.no_records .norecord-empty-message td {
 	border: 1px solid gray;
 	padding: 10px;
 	float: left;
-	width: 45%;
+	width: 43%;
 	margin: 50px 15px 10px;
 }
 
@@ -4594,6 +4595,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
     display: -moz-box;
 	display: -webkit-box;
 	display: box;
+	width: 50%;
 }
 
 #CashPurchaseView .bottompanel .form .tax_combo .gwt-Label {
@@ -5485,12 +5487,12 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	position: relative;
 	height: 300px;
 	margin-top: 10px;
+	overflow-x: hidden;
 }
 
 #BankingPortlet .portlet-body {
 	overflow-y: auto;
 	position: relative;
-	height: 270px;
 }
 
 .view_manager .rightPanel iframe {
@@ -8424,7 +8426,25 @@ table.no_records tr td {
 #inventory-valuation-summary .formItem input{
 	width: 150px;
 }
-.checkBoxImpl .gwt-Label{
+.company_Info_table .display-name-panel,.company_Info_table .legal-name-panel,.company_Info_table .legal-form-panel,.company_Info_table .tax-id-panel,
+.company_Info_table .ein-panel,.country-panel,.company_Info_table .state-panel,.company_Info_table .street-address-one-panel,
+.company_Info_table .street-address-two-panel,.company_Info_table .city-panel,.company_Info_table .zip-panel,.company_Info_table .phone-panel,
+.company_Info_table .fax-panel,.company_Info_table .format-panel,.company_Info_table .email-panel,.company_Info_table .website-panel,.company_Info_table .timezone-panel
+{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	margin: 5px;
+}
+.company_Info_table .setup_label{
+	width: 200px;
+}
+.select_grid{
+	margin-bottom: 10px;
+}
+.setup_check_box label{
+	padding-left: 5px;
+}.checkBoxImpl .gwt-Label{
 	-moz-box-ordinal-group: 2;
 	padding-top: 3px;
 }
