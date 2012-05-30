@@ -4085,10 +4085,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="companyId" type="long" />
-		<query-param name="openingBalance" type="encryptedString" />
-		<query-param name="creditors" type="encryptedString" />
-		<query-param name="debtors" type="encryptedString" />
-		<query-param name="multiple" type="encryptedString" />
+		<query-param name="openingBalance" type="string" />
 
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -4096,7 +4093,7 @@
 		<return-scalar column="TRANSACTION_AMOUNT" type="double" />
 		<return-scalar column="PAY_TO" type="encryptedstring" />
 		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
-		<return-scalar column="ACCOUNT" type="encryptedstring" />
+		<return-scalar column="ACCOUNT" type="int" />
 		<return-scalar column="MEMO" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="IS_VOIDED" type="boolean" />
@@ -4104,7 +4101,7 @@
 		<return-scalar column="CURRENCY_FACTOR" type="double" />
 		
 		<![CDATA[
-									SELECT T.CURRENCY        AS CURRENCY,
+						SELECT T.CURRENCY        AS CURRENCY,
 						       T.CURRENCY_FACTOR AS CURRENCY_FACTOR,
 						       T.T_DATE          AS TRANSACTION_DATE,
 						       T.T_TYPE		     AS TRANSACTION_TYPE,
@@ -4147,7 +4144,7 @@
 						       END               AS CHECK_NUMBER,
 						       CASE
 						         WHEN T.T_TYPE = 5
-						              AND A.ID != 2 THEN :debtors
+						              AND A.ID != 2 THEN 1
 						         WHEN T.T_TYPE = 12
 						              AND A.ID != 2
 						              AND A.ID = RP.ACCOUNT_ID
@@ -4156,16 +4153,16 @@
 						                   WHERE  TRP.DISCOUNT_ID IS NOT NULL
 						                          AND TRP.WRITE_OFF_ID IS NOT NULL
 						                          AND TRP.TRANSACTION_ID = AT.TRANSACTION_ID) = 0 THEN
-						         :debtors
+						         1
 						         WHEN T.T_TYPE = 25
-						              AND A.ID != 3 THEN :creditors
+						              AND A.ID != 3 THEN 2
 						         WHEN T.T_TYPE = 11
 						              AND A.ID != 3
 						              AND (SELECT COUNT(TPB.DISCOUNT_ID)
 						                   FROM   TRANSACTION_PAYBILL TPB
 						                   WHERE  TPB.TRANSACTION_ID = AT.TRANSACTION_ID
-						                          AND TPB.DISCOUNT_ID IS NOT NULL) = 0 THEN :creditors
-						         ELSE :multiple
+						                          AND TPB.DISCOUNT_ID IS NOT NULL) = 0 THEN 2
+						         ELSE 3
 						       END               AS ACCOUNT,
 						       T.MEMO            AS MEMO,
 						       T.ID              AS TRANSACTION_ID,
