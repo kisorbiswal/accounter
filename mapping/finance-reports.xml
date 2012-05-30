@@ -4847,7 +4847,7 @@
 				         ON P.ID = I.CUSTOMER_ID
 				             OR CS.CUSTOMER_ID = P.ID
 				             OR EB.VENDOR_ID = P.ID
-				             OR WC.CUSTOMER_ID = P.ID
+ 				             OR WC.CUSTOMER_ID = P.ID
 				             OR WC.VENDOR_ID = P.ID
 				             OR WC.TAX_AGENCY_ID = P.ID
 				       LEFT OUTER JOIN JOB J
@@ -4862,7 +4862,12 @@
 				                        FROM   CURRENCY C
 				                        WHERE  C.COMPANY_ID = T.COMPANY_ID)
 				       AND A.A_TYPE != 2
-				       AND ( CASE
+				       AND (CASE WHEN T.T_TYPE = 6 THEN
+				       EB.ID IN (SELECT ENTER_BILL_ID FROM ENTERBILL_ESTIMATES)
+				       WHEN T.T_TYPE = 15 THEN 
+				       (CASE WHEN WC.CUSTOMER_ID IS NOT NULL THEN TRUE ELSE
+				       WC.ID IN (SELECT WRITE_CHECKS_ID FROM WRITE_CHECKS_ESTIMATES) END)
+				       ELSE TRUE END) AND ( CASE
 				               WHEN IT.TYPE IN ( 2, 4 ) THEN A.ID != IT.ASSETS_ACCOUNT_ID
 				               ELSE TRUE
 				             END )
