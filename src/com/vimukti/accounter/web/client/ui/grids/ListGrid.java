@@ -1055,16 +1055,17 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	 * @param isDecending
 	 */
 	public void sort(final int index, final boolean isDecending) {
+		if (cellFormatter != null) {
+			Collections.sort(this.objects, new Comparator<T>() {
 
-		Collections.sort(this.objects, new Comparator<T>() {
-
-			@Override
-			public int compare(T o1, T o2) {
-				int ret = sort(o1, o2, index);
-				return isDecending ? (-1 * ret) : (ret);
-			}
-		});
-		recreateData();
+				@Override
+				public int compare(T o1, T o2) {
+					int ret = sort(o1, o2, index);
+					return isDecending ? (-1 * ret) : (ret);
+				}
+			});
+			recreateData();
+		}
 	}
 
 	private void recreateData() {
