@@ -49,9 +49,11 @@ import com.vimukti.accounter.core.CustomerCreditMemo;
 import com.vimukti.accounter.core.CustomerPaymentPdfGeneration;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
+import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.EnterBillPdfGeneration;
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.InvoicePDFTemplete;
@@ -60,6 +62,7 @@ import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.JournelEntryPdfGeneration;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PayBillPdfGeneration;
+import com.vimukti.accounter.core.PaySlipPdfGeneration;
 import com.vimukti.accounter.core.PrintTemplete;
 import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.PurchaseOrderPdfGeneration;
@@ -553,6 +556,17 @@ public class GeneratePDFservlet extends BaseServlet {
 									brandingTheme, isMultipleId, fileNames);
 						}
 
+						if (transactionType == 116) {
+							Employee employee = (Employee) financetool
+									.getManager().getServerObjectForid(
+											AccounterCoreType.EMPLOYEE,
+											Long.parseLong(ids[i]));
+							fileName = "PaySlip_" + employee.getNumber();
+							map = printEmployeePaySlip(employee,
+									getCompany(request), request, isMultipleId,
+									fileNames);
+						}
+
 					}
 
 				}
@@ -619,6 +633,7 @@ public class GeneratePDFservlet extends BaseServlet {
 				case Transaction.TYPE_VENDOR_PAYMENT:
 				case Transaction.TYPE_ENTER_BILL:
 				case Transaction.TYPE_PAY_BILL:
+				case 116:
 
 					if (isMultipleId) {// for merging multiple custom pdf
 										// documents
@@ -656,6 +671,52 @@ public class GeneratePDFservlet extends BaseServlet {
 			} catch (Exception e) {
 			}
 		}
+	}
+
+	private HashMap printEmployeePaySlip(Employee employee, Company company,
+			HttpServletRequest request, boolean isMultipleId,
+			List<String> fileNames) {
+		try {
+			String start = request.getParameter("startDate");
+			String end = request.getParameter("endDate");
+			FinanceDate startDate = new FinanceDate(start);
+			FinanceDate endDate = new FinanceDate(end);
+
+			PaySlipPdfGeneration generation = null;
+			String fileName = null;
+			String templeteName = "templetes" + File.separator + "payslip.odt";
+			fileName = "PaySlip_" + employee.getNumber();
+			generation = new PaySlipPdfGeneration(employee, company, startDate,
+					endDate);
+			InputStream in = new BufferedInputStream(new FileInputStream(
+					templeteName));
+			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
+					in, TemplateEngineKind.Velocity);
+			IContext context = report.createContext();
+			context = generation.assignValues(context, report);
+			FontFactory.setFontImp(new FontFactoryImpEx());
+			if (isMultipleId) {
+				Options options = Options.getTo(ConverterTypeTo.PDF).via(
+						ConverterTypeVia.ITEXT);
+
+				File file = File.createTempFile(fileName.replace(" ", ""),
+						".pdf");
+				java.io.FileOutputStream fos = new java.io.FileOutputStream(
+						file);
+				report.convert(context, options, fos);
+				fileNames.add(file.getAbsolutePath());
+
+			}
+
+			HashMap objects = new HashMap();
+			objects.put("context", context);
+			objects.put("report", report);
+			return objects;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	private ITemplate getReportTemplate(Company company,
@@ -715,7 +776,6 @@ public class GeneratePDFservlet extends BaseServlet {
 			if (typeStr != null) {
 				type = Integer.valueOf(typeStr);
 			}
-
 			FinanceTool financetool = new FinanceTool();
 			if (brandingThemeId != null) {
 				// If branding theme is valid, then check for isCustomFile.If

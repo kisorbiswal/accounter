@@ -672,6 +672,9 @@ public class PayrollManager extends Manager {
 			paySlipDetail.setAttendanceOrProductionType(object[6] == null ? 0
 					: (Integer) object[6]);
 			paySlipDetail.setUnitName((String) object[7]);
+			ClientFinanceDate financeDate = new ClientFinanceDate(
+					(Long) object[8]);
+			paySlipDetail.setPayDate(financeDate);
 			queryResult.add(paySlipDetail);
 		}
 
@@ -693,7 +696,9 @@ public class PayrollManager extends Manager {
 			paySlipDetail.setName((String) object[1]);
 			paySlipDetail.setAmount((Double) object[2]);
 			paySlipDetail.setType((Integer) object[3]);
-
+			ClientFinanceDate financeDate = new ClientFinanceDate(
+					(Long) object[4]);
+			paySlipDetail.setPayDate(financeDate);
 			queryResult.add(paySlipDetail);
 		}
 

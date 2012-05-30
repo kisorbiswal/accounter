@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.StringReportInput;
@@ -77,5 +78,17 @@ public class PaySlipSummaryReport extends AbstractReportView<PaySlipSummary> {
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
 		return map;
+	}
+
+	@Override
+	public void print() {
+		List<PaySlipSummary> records = this.serverReport.getRecords();
+		StringBuffer ids = new StringBuffer();
+		for (PaySlipSummary pay : records) {
+			String id = String.valueOf(pay.getEmployeeId());
+			ids = ids.append(id + ",");
+		}
+		UIUtils.downloadMultipleAttachment(ids.toString(), 116, toolbar
+				.getStartDate().toString(), toolbar.getEndDate().toString());
 	}
 }

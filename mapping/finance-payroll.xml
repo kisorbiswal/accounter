@@ -561,14 +561,15 @@
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="DATE" type="long" />
 		<![CDATA[
 			SELECT 	PH.ID AS PAY_HEAD_ID,
 					PH.NAME AS NAME,
 					SUM(EPC.RATE) AS AMOUNT,
 					CASE WHEN PH.TYPE IN(1,6,7,8) 
 						THEN 2
-						ELSE 3 END AS TYPE
-				
+						ELSE 3 END AS TYPE,
+					T.T_DATE AS DATE
 					FROM EMPLOYEE_PAYMENT_DETAILS EPD
 						LEFT JOIN PAYEE E ON E.ID = EPD.EMPLOYEE
 						LEFT JOIN EMPLOYEE_PAYHEAD_COMPONENT EPC ON EPC.EMPLOYEE_PAYMENT_DETAILS_ID = EPD.ID
@@ -579,7 +580,7 @@
 							E.COMPANY_ID = :companyId AND
 							T.T_DATE BETWEEN :start AND :end
 				
-					GROUP BY PH.ID,E.ID
+					GROUP BY PH.ID,E.ID,T.ID
 		]]>
 	</sql-query>
 
@@ -597,6 +598,7 @@
 		<return-scalar column="EMPLOYEE_ID" type="long" />
 		<return-scalar column="APT_TYPE" type="int" />
 		<return-scalar column="UNIT_NAME" type="encryptedstring" />
+		<return-scalar column="DATE" type="long" />
 		<![CDATA[
 			SELECT 	AMI.ID AS ATTENDANCE_ID,
 					CASE WHEN API IS NULL then 'Present'
@@ -611,7 +613,8 @@
 					1 AS TYPE,
 					P.ID AS EMPLOYEE_ID,
 					APT.TYPE AS APT_TYPE,
-					U.SYMBOL AS UNIT_NAME				
+					U.SYMBOL AS UNIT_NAME,
+					T.T_DATE AS DATE				
 					FROM PAY_RUN PR
 						LEFT JOIN TRANSACTION T ON T.ID=PR.ID
 						LEFT JOIN ATTENDANCE_MANAGEMENT_ITEM AMI ON AMI.ATTENDANCE_MANAGEMENT = PR.ID
@@ -623,7 +626,7 @@
 							P.COMPANY_ID = :companyId AND
 							AMI.ID IS NOT NULL AND
 							T.T_DATE BETWEEN :start AND :end				
-					GROUP BY PR.NOOF_WORKING_DAYS,AMI.ID,APT.ID,API.VALUE,P.ID,API.*,U.ID
+					GROUP BY PR.NOOF_WORKING_DAYS,AMI.ID,APT.ID,API.VALUE,P.ID,API.*,U.ID,T.ID
 		]]>
 	</sql-query>
 	<sql-query name="getTransactionPayEmployeeList">

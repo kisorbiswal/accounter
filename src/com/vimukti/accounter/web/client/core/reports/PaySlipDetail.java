@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.core.reports;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public class PaySlipDetail extends BaseReport implements IsSerializable,
 		Serializable {
@@ -20,6 +21,8 @@ public class PaySlipDetail extends BaseReport implements IsSerializable,
 	private long employeeId;
 	private int attendanceOrProductionType;
 	private String unitName;
+	private ClientFinanceDate payDate;
+
 	private int type;
 
 	public long getPayheadId() {
@@ -92,6 +95,14 @@ public class PaySlipDetail extends BaseReport implements IsSerializable,
 
 	public void setAttendanceOrProductionType(int attendanceOrProductionType) {
 		this.attendanceOrProductionType = attendanceOrProductionType;
+	}
+
+	public ClientFinanceDate getPayDate() {
+		return payDate;
+	}
+
+	public void setPayDate(ClientFinanceDate payDate) {
+		this.payDate = payDate;
 	}
 
 }

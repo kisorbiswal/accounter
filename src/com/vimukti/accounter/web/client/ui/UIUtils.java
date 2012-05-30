@@ -1622,6 +1622,21 @@ public class UIUtils {
 	}
 
 	public native static void downloadMultipleAttachment(String objectID,
+			int type, String startDate, String endDate)/*-{
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?multipleIds=" + objectID
+							+ "&type=" + type + "&startDate=" + startDate
+							+ "&endDate=" + endDate);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
+
+	public native static void downloadMultipleAttachment(String objectID,
 			int type, String brandingThemeId)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
@@ -1629,6 +1644,21 @@ public class UIUtils {
 					"/do/finance/generatePDFServlet?multipleIds=" + objectID
 							+ "&type=" + type + "&brandingThemeId="
 							+ brandingThemeId);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
+
+	public native static void downloadAttachment(String objectID, int type,
+			String startDate, String endDate)/*-{
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src",
+					"/do/finance/generatePDFServlet?objectId=" + objectID
+							+ "&type=" + type + "&startDate=" + startDate
+							+ "&endDate=" + endDate);
 			frame.style.visibility = "hidden";
 			document.body.appendChild(frame);
 		} catch (e) {
@@ -2063,15 +2093,15 @@ public class UIUtils {
 			alert(e);
 		}
 	}-*/;
-	
+
 	public native static void generatePaypalRecurringPermission()/*-{
-	try {
-		window.open("/main/paypalrecurringpermission",
-				"Paypal Recurring Permission",
-				"menubar=1,resizable=1,width=350,height=250")
-	} catch (e) {
-		alert(e);
-	}
+		try {
+			window.open("/main/paypalrecurringpermission",
+					"Paypal Recurring Permission",
+					"menubar=1,resizable=1,width=350,height=250")
+		} catch (e) {
+			alert(e);
+		}
 	}-*/;
 
 	public static String getpaymentMethodCheckBy_CompanyType(

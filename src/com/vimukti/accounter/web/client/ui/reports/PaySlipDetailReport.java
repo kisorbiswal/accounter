@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
-import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.PayHeadSummary;
 import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -97,9 +96,9 @@ public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 		long employeeId = employeeToolBar.getSelectedEmployee() == null ? data == null ? 0
 				: ((PaySlipDetail) data).getEmployeeId()
 				: employeeToolBar.getSelectedEmployee().getID();
-		UIUtils.generateReport(generationType, startDate.getDate(),
-				endDate.getDate(), REPORT_TYPE_PAYSLIP_DETAIL,
-				new NumberReportInput(employeeId));
+		UIUtils.downloadAttachment(String.valueOf(employeeId), 116,
+				employeeToolBar.getStartDate().toString(), employeeToolBar
+						.getEndDate().toString());
 	}
 
 	@Override
@@ -215,4 +214,5 @@ public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 
 		return information.toString();
 	}
+
 }
