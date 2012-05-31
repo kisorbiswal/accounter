@@ -157,7 +157,7 @@ body {
 
 .abstract_base_view {
 	overflow-x: auto;
-	height:100%;
+	height:101%;
 }
 
 .menu {
@@ -166,21 +166,14 @@ body {
 
 .mainMenu {
 	display: -ms-box;
-	-ms-box-lines: single;
-	-ms-scroll-rails: railed;
-	-ms-box-orient: horizontal;
-	margin-left: 1%;
-	overflow-x: auto;
-	overflow-y: hidden;
-	margin-right: 1%;
 }
 
 .menuItem,.subMenuName {
-	margin-bottom: 10px;
+	margin-bottom: 5px;
 	margin-right: 10px;
 	cursor: pointer;
 	border: 1px solid black;
-	padding: 5px;
+	padding: 3px;
 	border-top-left-radius: 0px;
 	border-top-right-radius: 0px;
 	border-bottom-right-radius: 0px;
@@ -345,6 +338,7 @@ body {
 	-ms-box-orient: horizontal;
 	-ms-box-align: middle;
 	-ms-box-pack: end;
+	margin-right: 100px;
 }
 #group1{
 	/* display: -ms-box;
@@ -464,16 +458,6 @@ button#closeButton {
 	display: none;
 }
 
-#CustomersListGrid .gridRow {
-	display: -ms-box;
-	-ms-box-align: before;
-	-ms-box-orient: vertical;
-	-ms-box-lines: multiple;
-	border-bottom: 2px solid #444;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	width: 100%;
-}
 
 #CustomersListGrid {
 	overflow-y: auto;
@@ -513,17 +497,6 @@ input[type=text].date-field-textbox {
 	margin-top: 20px;
 	height: 100%;
 	padding-left: 7%;
-}
-
-.grouped-buttons {
-}
-
-.details-Panel>div {
-	display: -ms-box;
-	-ms-box-pack: justify;
-}
-
-.details-Panel {
 }
 
 .gwt-DialogBox>div {
@@ -658,7 +631,7 @@ input[type=text].date-field-textbox {
 	margin-right: 40px;
 }
 
-#transactionsCenterView {
+#transactionsCenterView,#vendorCenterView .mainPanel {
 	height: 100%;
 }
 
@@ -748,7 +721,6 @@ input[type=text].date-field-textbox {
 }
 
 .header {
-	display: inline;
 	font-weight: bolder;
 	font-size: medium;
 }
@@ -803,25 +775,11 @@ input[type=text].date-field-textbox {
 	margin-top: 8px;
 }
 
-
-.customerCenter .panel {
+.customerCenter .customers_detail_panel,#vendorCenterView .customers_detail_panel {
 	display: -ms-box;
-}
-
-.customerCenter .panel .leftForm {
-	margin-left: 20px;
-	width: 30%;
-}
-
-.customerCenter .panel  .customers_detail_rightpanel {
-	margin-left: 50px;
-}
-
-.customerCenter .customers_detail_panel {
-	display: -ms-box;
-	font-size: 30px;
 	padding-top: 8px;
 	padding-bottom: 10px;
+	font-size: 20px;
 }
 
 #CustomerTransactionsHistoryGrid .gridBody {
@@ -943,8 +901,7 @@ input[type=text].date-field-textbox {
 }
 
 .report-toolbar {
-	display: -ms-box;
-	-ms-box-lines: multiple;
+	width: 90%;
 }
 
 .report-toolbar .report {
@@ -1031,15 +988,6 @@ input[type=text].date-field-textbox {
 	width: 20%;
 }
 
-#ChartOfAccountsListGrid .gridRow {
-	width: 300px;
-	display: -ms-box;
-	-ms-box-lines: multiple;
-	background-color: #EAEAEA;
-	border: 2px solid #FD6D09;
-	margin: 7px;
-	height: 300px;
-}
 
 .gridBodyContainer {
 	display: -ms-box;
@@ -1240,9 +1188,11 @@ input[type=text].date-field-textbox {
 }
 
 .organisation_comment {
-	color: white;
 	font-style: italic;
 	font-size: 12px;
+}
+.organisation_comment .gwt-Label{
+	width:300px;
 }
 
 #vendorcreditmemoview .mainHpanel {
@@ -1366,11 +1316,6 @@ input[type=text].date-field-textbox {
 /* .progress_panel_show .back_next_buttons {
 	display: -ms-box;
 } */
-
-.gridBody {
-	display: -ms-box;
-	-ms-box-lines: multiple;
-}
 
 #ChartOfAccountsListGrid .gridBody {
 	display: -ms-box;
@@ -1644,9 +1589,10 @@ input[type=text].date-field-textbox {
 	width: 229.5px;
 }
 
-.customerCenter .rightPanel {
+.customerCenter .rightPanel,#vendorCenterView .rightVpPanel {
 	width: 78%;
 }
+
 
 #exportButton {
 	background-color: #F1F1F1;
@@ -1694,27 +1640,6 @@ input[type=text].date-field-textbox {
 	margin-left: 11px;
 }
 
-#NewVATItemView .mainPanel,#NewTAXCodeView .mainVPanel {
-	width: 40%;
-	margin-left: 34%;
-	margin-top: 10%;
-}
-
-#WareHouseView .mainHLay {
-	width: 40%;
-	margin-left: 33%;
-	margin-top: 7%;
-}
-
-#inviteUser .vPanel {
-	margin-top: 3%;
-	margin-left: 30%;
-	width: 50%;
-}
-
-#editTableDelete {
-}
-
 #ChartOfAccountsListGrid .gridBody .emptyPanel {
 	background-color: #D6D6D6;
 	border: 1px solid black;
@@ -1723,9 +1648,6 @@ input[type=text].date-field-textbox {
 	margin-bottom: 10px;
 	margin-left: 10px;
 	padding-top: 10px;
-}
-
-#ChartOfAccountsView .Account {
 }
 
 #newAccountView .mainVLay {
@@ -1783,11 +1705,6 @@ input[type=text].date-field-textbox {
 #invoiceview .boldtext {
 	display: -ms-box;
 	-ms-box-orient: horizontal;
-}
-
-#customercreditmemoview .AmountLabel {
-	padding-top: 10px;
-	padding-bottom: 10px;
 }
 
 #quoteview .topHLay .rightVLay {
@@ -2072,19 +1989,23 @@ select:hover{
 }
 .setup_panel .viewButtonPanel .view_panel,.setup_panel .company_Info_table,.setup_panel .setup_common_head,
 .setup_panel .industry_subindustry_panel,#companiesPanel .companies-list,#signUpPanel .centerPanel,
-.abstract_base_view .mainVLay,#InvoiceView .mainVLay,#InvoiceView .align-form,
-.company_settings_panel{
+.abstract_base_view .mainVLay,#InvoiceView .mainVLay,#InvoiceView .align-form,#PreferenceSettingsView .preferences_page,
+.customerCenter .rightPanel,#vendorCenterView .rightVpPanel,#CheckPrintingSettingView .allPanel,.companyInfoPanel .CompanyInfoOption,
+#TDSDeductorDetailsView .panel1,#TDSDeductorDetailsView .panel1 .taxDynamicForm,#TDSResponsiblePersonDetailsView .horizontalPanel {
 	display: -ms-box;
 	-ms-box-orient: vertical;
 	-ms-box-lines: multiple;
 	height: 450px;
 	-ms-box-align: stretch;
 }
+
 .abstract_base_view .mainVLay,#InvoiceView .mainVLay,#InvoiceView .align-form,.portletPagePanel,
 .company_settings_panel,.mainMenuView .mainMenu,.win8EditTable,#customercreditmemoview .dislosurePanel,
 #customercreditmemoview .customerCreditMemoViewPanel,#customercreditmemoview .mainControlsPanel,
 .disclosurePanelcontent .accountFlowPanel,.disclosurePanelcontent .itemsFlowPanel,.disclosurePanelcontent,
-.subMenu .menu_parent_clicked{
+.subMenu .menu_parent_clicked,#PreferenceSettingsView .preferences_page,.customerCenter .rightPanel,
+#vendorCenterView .rightVpPanel,#TDSDeductorDetailsView .panel1,#TDSResponsiblePersonDetailsView .horizontalPanel,
+#TDSResponsiblePersonDetailsView .verticalPanel {
 	height: 100% !important;
 }
 #InvoiceView .align-form{
@@ -2098,8 +2019,13 @@ select:hover{
 	height:350px !important;
 }
 .progress_panel_show .view_panel,.setup_panel .setup_common_head,.abstract_base_view,.portletPagePanel,
-.abstract_base_view .mainVLay,.company_settings_panel{
+.abstract_base_view .mainVLay,#TDSDeductorDetailsView .panel1{
     overflow-x: auto;
+    overflow-y: hidden;
+    width:100%;
+}
+#PreferenceSettingsView .preferences_page{
+	overflow-x: auto;
     overflow-y: hidden;
     width:100%;
 }
@@ -2151,6 +2077,9 @@ label{
 .gwt-DialogBox .dialogTop .caption{
    display: -ms-box;
    -ms-box-pack:justify;	
+   padding: 3px 0;
+   background-color: #255403;
+   color: white;
 }
 .gwt-DialogBox .dialogTop .caption .imageStyledPanel img{
 	margin: 5px 5px 0 5px;
@@ -2221,17 +2150,21 @@ button{
 .tree_list_panel{
 	padding:5px 15px 5px 5px;
 	border-right: 1px solid #ccc;
+	margin-right: 15px;
+	overflow: auto;
+	height:100%;
 }
 .tree_list_panel a,#PreferenceSettingsView .Sub-tabs-panel a{
 	display: block;
 	margin-left:10px;
+	padding: 5px;
 }
 .menu_item_hover,.optionClicked{
 	color:#7DD1F5 !important;
 }
 .label-title,.portlet_quicklinks .gwt-HTML h2{
 	position: absolute;
-	top:14%;
+	top:12%;
 	color: #F0991D;
 	font-size:23px;
 }
@@ -2254,7 +2187,8 @@ button#searchButton:hover{
 }
 #InvoiceView .prodAndServiceHLay .boldtext,#CashSalesView .prodAndServiceHLay .boldtext,
 #VendorCreditMemoView .boldtext,#CashPurchaseView .boldtext,#CreditCardExpenseView .totForm,
-#CashExpenseView .boldtext,#writechequeview .boldtext,#MakeDepositView .textbold,#customercreditmemoview .boldtext{
+#CashExpenseView .boldtext,#writechequeview .boldtext,#MakeDepositView .textbold,#customercreditmemoview .boldtext,
+#JournalEntryView .textbold,#NewVendorPaymentView .hLay .tdsPanel .boldtext,#CreditCardExpenseView .boldtext{
 	display: -ms-box;
 	-ms-box-orient: vertical;
 	width:400px;
@@ -2284,11 +2218,11 @@ button#searchButton:hover{
 }
 .win8EditTable .win8editrowPanel{
 	border: 2px solid gray;
-	padding:10px;
+	padding:0 10px;
 	margin: 0 10px;
 }
 .disclosurePanelcontent .accountFlowPanel,.disclosurePanelcontent .itemsFlowPanel,#customercreditmemoview .customerCreditMemoViewPanel
-,#customercreditmemoview .dislosurePanel,.win8EditTable .win8EditTableContainer{
+,#customercreditmemoview .dislosurePanel,.win8EditTable .win8EditTableContainer,#PreferenceSettingsView .company_settings_panel{
 	display: -ms-box;
 }
 .win8EditTable .win8EditTableContainer{
@@ -2300,9 +2234,7 @@ input[type=text]:disabled,textarea:disabled{
 .button_bar button img{
 	margin: 2px 5px 0 0;
 }
-.subMenuName{
-	padding:10px 5px;
-}
+
 .mainMenu .submenu_parent .menuForm,.mainMenu .submenu_parent .subMenuBack,.subMenu .menu_parent{
 	display: none;
 }
@@ -2310,7 +2242,8 @@ input[type=text]:disabled,textarea:disabled{
 	display: block;
 }
 .subMenuName{
-	background: url("../images/RightArrow.jpg") no-repeat scroll right center lightgrey;
+	background: url("../images/RightArrow.png") no-repeat scroll right center lightgrey;
+	padding:10px 3px;
 }
 .submenu_clicked .menuForm{
 	position: absolute;
@@ -2354,10 +2287,197 @@ input[type=text]:disabled,textarea:disabled{
 .dashBoard .portlet_close_button{
 	-ms-box-pack: end;
 	width: 50%;
+	cursor: pointer;
 }
 .portlet_close_button div,.portlet_close_button img{
 	margin-right: 5px;
 }
 .portlet_close_button div{
 	padding-bottom: 5px;
+}
+#PreferenceSettingsView .titlesPanel,.Transactions_center #listPanel{
+	width:20%;
+	margin-right: 15px;
+}
+#PreferenceSettingsView .pre_scroll_table,.Transactions_center #TransactionsListView{
+	width: 78%;
+}
+#PreferenceSettingsView .Sub-tabs-panel a:hover,.tree_list_panel .menu_item_clicked,
+.tree_list_panel a:hover,#PreferenceSettingsView .Sub-tabs-panel .optionClicked{
+	background: #D3E8A3 !important;
+}
+#PreferenceSettingsView .preferences_option_title,.tree_list_panel .tree_menu {
+	color: white;
+	background: gray;
+	padding:5px;
+	margin: 10px 0;
+	font-weight: bold;
+	cursor: pointer;
+}
+#PreferenceSettingsView{
+	overflow: hidden;
+}
+#PreferenceSettingsView .companyInfoPanel .einDescPanel .gwt-Label,.companyInfoPanel .locationTrackDescPanel .gwt-Label{
+	width: 400px;
+}
+#PreferenceSettingsView label{
+	color:black
+}
+.submenu_clicked.companyAndFinancialMenu .menuForm,.gridBody{
+	display: -ms-box !important;
+	-ms-box-orient: vertical;
+	-ms-box-lines: multiple;
+	height: 450px;
+	-ms-box-align: stretch;
+}
+.preferences_page_parent{
+	height: 100%;
+}
+#vendorCenterView .mainPanel,.report-section{
+	display: -ms-box;
+}
+#vendorCenterView .leftVpPanel{
+	width: 21%;
+	margin-right: 15px;
+	border-right: 1px solid #ccc;
+}
+.report-section .report-left-panel{
+	width: 40%;
+}
+.report-section .report-left-panel a,.report-section .report-right-panel a{
+	display: block;
+	margin-left: 10px;
+	padding: 5px;
+}
+a:hover,.subMenuName:hover{
+	color: #16AFF0;
+}
+.recounciliation_grid table{
+	width: 100%;
+}
+#invoicebrandingview .mainPanel{
+	margin-top: 15px;
+}
+#invoicebrandingview .gwt-MenuBar-horizontal table,.gwt-MenuBarPopup .menuPopupMiddle .gwt-MenuItem{
+	background: gray;
+	color: white;
+	padding: 5px;
+	cursor: pointer;
+}
+#NewBrandingThemeView .rightBorder,#NewBrandingThemeView .mainLayoutPanel{
+	display: -ms-box;
+}
+#NewBrandingThemeView .check_radioPanel .rightBorder{
+	display: block !important;
+}
+#NewBrandingThemeView .rightBorder .textBoxPanel .allItems{
+	display: -ms-box;
+	-ms-box-align: stretch;
+	-ms-box-orient: vertical;
+	-ms-box-lines: multiple;
+	height:400px;
+}
+#inviteUser label{
+	color: black;
+}
+#writechequeview .vendorAccountFlowPanel,.portlet-body .dashboard_label{
+	display: -ms-box;
+}
+.portlet-body .dashboard_label{
+	-ms-box-pack:justify;
+}
+#VendorView .tabPanel,#VendorView .generalTab,#VendorView .fields-panel,
+#CustomerView .tabPanel,#CustomerView .generalTab,#CustomerView .fields-panel{
+	display:-ms-box;
+}
+.tabTitle{
+	font-size: 25px;
+}
+.mainMenuView{
+	height: 125% !important;
+	margin-top: -40px;
+}
+.detailsTab,#NewVendorPaymentView .hLay,#itemView .topHLay ,#itemView .topPanel2,
+#TAXAgencyView .mainVlay,#TAXAgencyView .topHLay{
+	display: -ms-box;
+}
+.gridBody .rowWidget{
+	border: 2px solid #ccc;
+	margin: 10px 10px 0 0;
+	padding:5px;
+	display: -ms-box;
+	-ms-box-pack: justify;
+}
+.gwt-PopupPanel table{
+	width: 100%;
+}
+.dialogMiddleLeft,.dialogMiddleRight,.dialogBottomLeft,.dialogBottomRight,.dialogTopLeft,.dialogTopRight{
+	width: 10px;
+	background-color: #255403;
+}
+.dialogBottomCenter{
+	height: 10px;
+	background-color: #255403;
+}
+.gwt-DialogBox table .bodyLayout{
+	padding: 10px;
+}
+.gwt-DialogBox table{
+	border-collapse: collapse;
+}
+#CashSalesView .topHLay .leftVLay,#CashSalesView .topHLay .rightVLay,#QuoteView .topHLay{
+	display: -ms-box;
+}
+#InvoiceView .topHLay .rightVLay .align-form{
+	display: -ms-box;
+	height:300px !important;
+	-ms-box-lines: multiple;
+	-ms-box-orient: vertical;
+}
+#CheckPrintingSettingView .allPanel .verticalPanel .chequeLeftScal{
+	width: 5px;
+}
+#CheckPrintingSettingView .allPanel .verticalPanel .chequeTopScal,#CheckPrintingSettingView .allPanel .verticalPanel .horizontalPanel{
+	display: -ms-box;
+}
+#CheckPrintingSettingView .allPanel .checkprintbox .allFields{
+	
+}
+.submenu_clicked .menuForm{
+	display: -ms-box !important;
+	-ms-box-orient: vertical;
+	-ms-box-lines: multiple;
+	height: 500px !important;
+	width: 45%;
+}
+.menu_parent{
+	display: -ms-box;
+	-ms-box-orient: vertical;
+	-ms-box-lines: multiple;
+	height: 100%;
+	width: auto;
+}
+.companyInfoPanel .CompanyInfoOption{
+	height: 500px !important
+}
+.manageBillsOweRadioButtonsPanel,.RadioGroupItem{
+	-ms-box-pack: start;
+}
+.estiamtesHiddenPanel span,.RadioGroupItem span{
+	display: block;
+}
+.inventorysuboption,.productAndServocehiddenPanel{
+	margin-left:40px;
+}
+.menu_parent:first-child{
+	height: 700px !important;
+}
+#JournalEntryView .gridPanel{
+	display: -ms-box;
+}
+#TDSDeductorDetailsView .panel2{
+	height: 100%;
+}
+#TDSDeductorDetailsView .panel1 .taxDynamicForm{
+	height: 550px !important;
 }

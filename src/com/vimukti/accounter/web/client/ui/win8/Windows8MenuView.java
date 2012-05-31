@@ -1383,14 +1383,12 @@ public class Windows8MenuView extends BaseView {
 				messages.stockAdjustments(), messages2.stockAdjustDesc(),
 				HistoryTokens.STOCKADJUSTMENTS);
 		W8MenuItem warehouseDetailsItem = new W8MenuItem("",
-				messages2.warehouseDetailDesc(),
-				HistoryTokens.WAREHOUSELIST);
+				messages2.warehouseDetailDesc(), HistoryTokens.WAREHOUSELIST);
 		W8MenuItem warehouseTransfersItem = new W8MenuItem("",
 				messages2.warehouseTransfDesc(),
 				HistoryTokens.WAREHOUSETRANSFERLIST);
 		W8MenuItem measurementItem = new W8MenuItem("Measurements",
-				messages2.measurementsListDesc(),
-				HistoryTokens.MEASUREMENTLIST);
+				messages2.measurementsListDesc(), HistoryTokens.MEASUREMENTLIST);
 
 		inventoryListForm.add(inventoryLabel);
 		inventoryListForm.add(stockAdjustmentsItem);
@@ -1418,12 +1416,10 @@ public class Windows8MenuView extends BaseView {
 		W8MenuItem writeCheckItem = new W8MenuItem(messages.writeCheck(),
 				messages2.writeCheckDesc(), HistoryTokens.WRITECHECK);
 		W8MenuItem depositAndTransfersItem = new W8MenuItem(
-				messages.depositTransferFunds(),
-				messages2.depositTrasDesc(),
+				messages.depositTransferFunds(), messages2.depositTrasDesc(),
 				HistoryTokens.DEPOSITETRANSFERFUNDS);
 		W8MenuItem reconciliationItem = new W8MenuItem(
-				messages.ReconciliationsList(),
-				messages2.reconciliationDesc(),
+				messages.ReconciliationsList(), messages2.reconciliationDesc(),
 				HistoryTokens.RECOUNCILATIONSLIST);
 
 		bankingListForm.add(bankAccountItem);
@@ -1456,8 +1452,7 @@ public class Windows8MenuView extends BaseView {
 				|| canDoManageAccounts) {
 			if (canDoBanking || canDoManageAccounts) {
 				W8MenuItem cashPurchaseItem = new W8MenuItem(
-						messages.newCashPurchase(),
-						messages2.cashPurcDesc(),
+						messages.newCashPurchase(), messages2.cashPurcDesc(),
 						HistoryTokens.NEWCASHPURCHASE);
 				vendorListForm.add(cashPurchaseItem);
 			}
@@ -1475,8 +1470,7 @@ public class Windows8MenuView extends BaseView {
 		if (canDoInvoiceAndBillTransactions) {
 			if (isKeepTrackofBills) {
 				W8MenuItem enterBillItem = new W8MenuItem(messages.enterBill(),
-						messages2.enterBillDesc(),
-						HistoryTokens.ENTERBILL);
+						messages2.enterBillDesc(), HistoryTokens.ENTERBILL);
 				vendorListForm.add(enterBillItem);
 			}
 		}
@@ -1499,8 +1493,7 @@ public class Windows8MenuView extends BaseView {
 		}
 		if (canDoInvoiceAndBillTransactions) {
 			W8MenuItem recordExpenseItem = new W8MenuItem(
-					messages.recordExpenses(),
-					messages2.recordExpensesDesc(),
+					messages.recordExpenses(), messages2.recordExpensesDesc(),
 					HistoryTokens.RECORDEXPENSES);
 
 			vendorListForm.add(recordExpenseItem);
@@ -1523,8 +1516,7 @@ public class Windows8MenuView extends BaseView {
 
 		W8MenuItem customerCenterItem = new W8MenuItem(
 				messages.customerCentre(Global.get().Customer()),
-				messages2.customerCentreDesc(),
-				HistoryTokens.CUSTOMERCENTRE);
+				messages2.customerCentreDesc(), HistoryTokens.CUSTOMERCENTRE);
 
 		customerForm.add(customerLabel);
 		customerForm.add(customerCenterItem);
@@ -1533,8 +1525,7 @@ public class Windows8MenuView extends BaseView {
 				|| canDoManageAccounts) {
 			if (isDoyouwantEstimates) {
 				W8MenuItem quoteItem = new W8MenuItem(messages.newQuote(),
-						messages2.quoteDesc(),
-						HistoryTokens.NEWQUOTE);
+						messages2.quoteDesc(), HistoryTokens.NEWQUOTE);
 				customerForm.add(quoteItem);
 			}
 
@@ -1554,16 +1545,14 @@ public class Windows8MenuView extends BaseView {
 
 		if (canDoBanking || canDoManageAccounts) {
 			W8MenuItem cashSaleItem = new W8MenuItem(messages.newCashSale(),
-					messages2.cashSaleDesc(),
-					HistoryTokens.NEWCASHSALE);
+					messages2.cashSaleDesc(), HistoryTokens.NEWCASHSALE);
 			customerForm.add(cashSaleItem);
 		}
 
 		if (canDoInvoiceAndBillTransactions) {
 			W8MenuItem customerCreditMemoItem = new W8MenuItem(
 					messages.customerCreditNote(Global.get().Customer()),
-					messages2.custCreditMemoDesc(),
-					HistoryTokens.NRECREDITNOTE);
+					messages2.custCreditMemoDesc(), HistoryTokens.NRECREDITNOTE);
 			customerForm.add(customerCreditMemoItem);
 		}
 		customerMenuForm.add(customerLabel);
@@ -1580,21 +1569,19 @@ public class Windows8MenuView extends BaseView {
 		customerLabel.setStyleName("menuName");
 		vatmenu.add(customerLabel);
 
-		DynamicForm menuForm = new DynamicForm("menuForm");
-
 		if (canDoInvoiceAndBillTransactions) {
 
 			W8MenuItem newTaxItem = new W8MenuItem(messages.newTaxItem(), "",
 					HistoryTokens.NEWTAXITEM);
-			menuForm.add(newTaxItem);
+			vatmenu.add(newTaxItem);
 
 			W8MenuItem newTaxCode = new W8MenuItem(messages.newTaxCode(), "",
 					HistoryTokens.NEWVATCODE);
-			menuForm.add(newTaxCode);
+			vatmenu.add(newTaxCode);
 
 			W8MenuItem newTAXAgency = new W8MenuItem(messages.newTAXAgency(),
 					"", HistoryTokens.NEWTAXAGENCY);
-			menuForm.add(newTAXAgency);
+			vatmenu.add(newTAXAgency);
 
 		}
 
@@ -1602,37 +1589,36 @@ public class Windows8MenuView extends BaseView {
 
 			W8MenuItem taxHistory = new W8MenuItem(messages.taxHistory(), "",
 					HistoryTokens.TAXHISTORY);
-			menuForm.add(taxHistory);
+			vatmenu.add(taxHistory);
 		}
 
 		if (getCompany().getCountry().equals(Countries.INDIA)) {
 			if (tdsEnabled) {
-				menuForm.add(getDeductorMasterMenu(messages.deducatorMaster()));
+				vatmenu.add(getDeductorMasterMenu(messages.deducatorMaster()));
 
-				menuForm.add(getForm16AMenu(messages.tds()));
+				vatmenu.add(getForm16AMenu(messages.tds()));
 			}
 		}
 		W8MenuItem taxItemsList = new W8MenuItem(messages.taxItemsList(), "",
 				HistoryTokens.VATITEMS);
-		menuForm.add(taxItemsList);
+		vatmenu.add(taxItemsList);
 
 		W8MenuItem taxCodesList = new W8MenuItem(messages.taxCodesList(), "",
 				HistoryTokens.VATCODES);
-		menuForm.add(taxCodesList);
+		vatmenu.add(taxCodesList);
 
 		W8MenuItem payeeList = new W8MenuItem(messages.payeeList(messages
 				.taxAgencies()), "", HistoryTokens.TAXAGENCYLIST);
-		menuForm.add(payeeList);
+		vatmenu.add(payeeList);
 
 		if (getCompany().getCountry().equals(Countries.INDIA)) {
 			if (tdsEnabled) {
 				W8MenuItem chalan = new W8MenuItem("Chalan Details List", "",
 						HistoryTokens.CHALANDETAILSLIST);
-				menuForm.add(chalan);
+				vatmenu.add(chalan);
 			}
 		}
 
-		vatmenu.add(menuForm);
 		return vatmenu;
 	}
 
@@ -1649,10 +1635,10 @@ public class Windows8MenuView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				removeAllStyles(companyMenuBar);
+				removeAllStyles(vatmenu);
 
 				mainMenuPanel.addStyleName("subMenu");
-				companyMenuBar.setStyleName("menu_parent_clicked");
+				vatmenu.setStyleName("menu_parent_clicked");
 				form16menu.addStyleName("submenu_clicked");
 			}
 		});
@@ -1664,7 +1650,7 @@ public class Windows8MenuView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				backButton.addStyleName("subMenuBack_click");
-				removeAllStyles(companyMenuBar);
+				removeAllStyles(vatmenu);
 			}
 		});
 		form16menu.add(backButton);
@@ -1849,11 +1835,11 @@ public class Windows8MenuView extends BaseView {
 					.Accounts()), "", HistoryTokens.ACCOUNTSLIST);
 			menuForm.add(payeeList);
 		}
-		if (canSeeBanking) {
-			W8MenuItem journalEntries = new W8MenuItem(
-					messages.journalEntries(), "", HistoryTokens.JOURNALENTRIES);
-			menuForm.add(journalEntries);
-		}
+		/*
+		 * if (canSeeBanking) { W8MenuItem journalEntries = new W8MenuItem(
+		 * messages.journalEntries(), "", HistoryTokens.JOURNALENTRIES);
+		 * menuForm.add(journalEntries); }
+		 */
 
 		if (canSeeInvoiceTransactions) {
 			W8MenuItem items = new W8MenuItem(messages.items(), "",

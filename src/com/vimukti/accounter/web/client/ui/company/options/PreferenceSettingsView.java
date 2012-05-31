@@ -119,6 +119,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		preferencePages.add(page);
 		subTabsPanels.get(j).add(createPageView(page));
 		pageDetailsPanel.add(page);
+		page.addStyleName("preferences_page");
+		page.getElement().getParentElement().addClassName("preferences_page_parent");
 
 	}
 
