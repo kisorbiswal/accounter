@@ -206,6 +206,19 @@ public class TAXReturn extends Transaction {
 
 	protected void calculateTAXAmounts() {
 		for (TAXReturnEntry entry : taxReturnEntries) {
+			if (entry.getTransaction() != null
+					&& (entry.getTransaction() instanceof TAXAdjustment)) {
+				TAXAdjustment taxAdjustment = (TAXAdjustment) entry
+						.getTransaction();
+				if ((taxAdjustment.getIncreaseVATLine() && taxAdjustment
+						.isSales())
+						|| (!taxAdjustment.getIncreaseVATLine() && !taxAdjustment
+								.isSales())) {
+					entry.setCategory(Transaction.CATEGORY_CUSTOMER);
+				} else {
+					entry.setCategory(Transaction.CATEGORY_VENDOR);
+				}
+			}
 			if (entry.getCategory() == Transaction.CATEGORY_CUSTOMER) {
 				salesTaxTotal += entry.getTaxAmount();
 			} else if (entry.getCategory() == Transaction.CATEGORY_VENDOR) {
