@@ -18,10 +18,17 @@ import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 	private ClientCurrency currency = getCompany().getPrimaryCurrency();
+	private boolean isGeneratedFromCus;
 
 	public ItemsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
 		this.getElement().setId("ItemsListGrid");
+	}
+
+	public ItemsListGrid(boolean isMultiSelectionEnable,
+			boolean isGeneratedFromCus) {
+		this(isMultiSelectionEnable);
+		this.isGeneratedFromCus = isGeneratedFromCus;
 	}
 
 	@Override
@@ -323,7 +330,8 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 				InventoryActions.newAssembly().run(
 						(ClientInventoryAssembly) obj, false);
 			} else {
-				NewItemAction itemAction = new NewItemAction(true);
+				NewItemAction itemAction = new NewItemAction(
+						ItemListView.isSalesType);
 				itemAction.setType(obj.getType());
 				itemAction.run(obj, false);
 			}

@@ -50,7 +50,6 @@ public class ItemsAction extends Action {
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, ItemsAction.this);
 
-				
 			}
 
 			public void onFailure(Throwable e) {
@@ -58,14 +57,14 @@ public class ItemsAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		// }
+		//
+		// });
 	}
 
 	@Override
@@ -85,14 +84,13 @@ public class ItemsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		ItemListView view = new ItemListView();
 		// view.setCatageoryType(getCatagory());
 		if (cat.equalsIgnoreCase(Global.get().vendor()))
 			return "vendorItems";
 		if (cat.equalsIgnoreCase(Global.get().customer()))
 			return "customerItems";
-		if (cat.equalsIgnoreCase(messages.bothCustomerAndVendor(Global
-				.get().Customer(), Global.get().Vendor())))
+		if (cat.equalsIgnoreCase(messages.bothCustomerAndVendor(Global.get()
+				.Customer(), Global.get().Vendor())))
 			return "allItems";
 		else
 			return "customerItems";
@@ -101,18 +99,18 @@ public class ItemsAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		ItemListView view = new ItemListView();
 		if (cat.equalsIgnoreCase(Global.get().vendor()))
 			return "vendorItems";
 		if (cat.equalsIgnoreCase(Global.get().customer()))
 			return "customerItems";
-		if (cat.equalsIgnoreCase(messages.bothCustomerAndVendor(Global
-				.get().Customer(), Global.get().Vendor())))
+		if (cat.equalsIgnoreCase(messages.bothCustomerAndVendor(Global.get()
+				.Customer(), Global.get().Vendor())))
 			return "allItems";
 		else
 			return "customerItems";
 
 	}
+
 	@Override
 	public String getCatagory() {
 		return cat;
