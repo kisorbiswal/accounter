@@ -146,7 +146,7 @@ public class InventoryUtils {
 		double totalAssetValue = onHandCost + newCost;
 		Quantity totalQuantity = onhandQty.add(newQty.convertToDefaultUnit());
 		if (!totalQuantity.isEmpty()) {
-			return totalAssetValue / totalQuantity.getValue();
+			return Math.abs(totalAssetValue / totalQuantity.getValue());
 		}
 		return averageCost;
 	}

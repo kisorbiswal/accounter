@@ -104,4 +104,8 @@
 		from com.vimukti.accounter.core.Item i where i.averageCost=0 and i.company=:company
 	</query>
 	
+	<query name="getInventoryOfAverageCostNegative">
+		<query-param name="company" type="company"/>
+		from com.vimukti.accounter.core.Item i where i.type in (2,4) and i.averageCost &lt; 0 and i.company=:company
+	</query>
 </hibernate-mapping>
