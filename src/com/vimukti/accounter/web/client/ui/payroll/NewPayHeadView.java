@@ -621,7 +621,9 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 				payhead.setProductionType(productionTypeCombo
 						.getSelectedValue().getID());
 				payhead.setPerDayCalculationBasis(ClientAttendancePayHead.PER_DAY_CALCULATION_AS_PER_CALANDAR_PERIOD);
-				payhead.setPayhead(payheadCombo.getSelectedValue().getID());
+				if (attendanceType.equals(messages.otherPayhead())) {
+					payhead.setPayhead(payheadCombo.getSelectedValue().getID());
+				}
 			}
 			data = payhead;
 
