@@ -158,6 +158,8 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 					&& !(this.paymentMethod
 							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+			} else {
+				this.status = STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 			}
 		}
 
@@ -176,6 +178,16 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 		if (this.isVoid() && !oldPayTAX.isVoid()) {
 			doVoidEffect(session, true);
 		} else {
+
+			if (!(this.paymentMethod
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK))
+					&& !(this.paymentMethod
+							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+			} else {
+				this.status = STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+			}
+
 			for (TransactionPayTAX transactoinPayTax : oldPayTAX.transactionPayTAX) {
 				transactoinPayTax.doVoidEffect(session);
 			}
@@ -329,6 +341,6 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 			}
 
 		}
-		
+
 	}
 }

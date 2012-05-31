@@ -275,8 +275,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
 			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-				printCheck.setEnabled(true);
-				checkNoText.setEnabled(true);
+				printCheck.setEnabled(!isInViewMode());
+				checkNoText.setEnabled(!isInViewMode());
 			} else {
 				// paymentMethodCombo.setComboItem(paymentMethod);
 				printCheck.setEnabled(false);
@@ -421,15 +421,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 					.getTotalBalanceInAccountCurrency());
 		}
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
-
-		if (transaction.getPaymentMethod() != null ? transaction
-				.getPaymentMethod().equals(messages.check()) : false) {
-			printCheck.setEnabled(!isInViewMode());
-			checkNoText.setEnabled(!isInViewMode());
-		} else {
-			printCheck.setEnabled(false);
-			checkNoText.setEnabled(false);
-		}
+		paymentMethodSelected(transaction.getPaymentMethod());
 
 		if (transaction.getCheckNumber() != null) {
 			if (transaction.getCheckNumber().equals(messages.toBePrinted())) {
@@ -756,6 +748,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		payFromAccCombo.setEnabled(!isInViewMode());
 		grid.setCanEdit(true);
 		grid.setEnabled(true);
+		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNoText.setValue(messages.toBePrinted());
 		}
