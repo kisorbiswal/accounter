@@ -8448,3 +8448,31 @@ table.no_records tr td {
 	-moz-box-ordinal-group: 2;
 	padding-top: 3px;
 }
+#pay-employee-view .memoTotalForm{
+	 -moz-box-orient: horizontal;
+     webkit-box-orient: horizontal;
+     box-orient: horizontal;
+    display: -webkit-box;
+	display: -moz-box;
+	display: box;
+    width: 100%;
+}
+#pay-employee-view .memoTotalForm .totalForm{
+    width: 50%;
+    -moz-box-flex: 1;
+     -moz-box-orient: vertical;
+     webkit-box-orient: vertical;
+     box-orient: vertical;
+    display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-pack: end;
+	-moz-box-pack: end;
+	box-pack: end;
+}
+#pay-employee-view .memoTotalForm .totalForm .AmountLabel{
+	-webkit-box-pack: end;
+	-moz-box-pack: end;
+	box-pack: end;
+	-moz-box-flex: 1;
+}

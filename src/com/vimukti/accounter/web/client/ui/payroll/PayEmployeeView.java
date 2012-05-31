@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientPayEmployee;
@@ -90,6 +91,14 @@ public class PayEmployeeView extends
 				});
 
 		bankAccountCombo = new BankAccountCombo(messages.payFrom());
+		bankAccountCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientAccount selectItem) {
+						bankAccountSelected(selectItem);
+					}
+				});
 		bankAccountCombo.setEnabled(!isInViewMode());
 		bankAccountCombo.setRequired(true);
 
@@ -106,8 +115,16 @@ public class PayEmployeeView extends
 
 		};
 		table.setEnabled(!isInViewMode());
+
+		currencyWidget = createCurrencyFactorWidget();
+
 		DynamicForm mainForm = new DynamicForm("main-form");
 		mainForm.add(employeeCombo, bankAccountCombo);
+
+		if (isMultiCurrencyEnabled()) {
+			dateNoForm.add(currencyWidget);
+		}
+
 		mainPanel.add(dateNoForm);
 		mainPanel.add(mainForm);
 		mainPanel.add(table);
@@ -115,22 +132,49 @@ public class PayEmployeeView extends
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setEnabled(!isInViewMode());
 
+		DynamicForm memoTotalForm = new DynamicForm("memoTotalForm");
+
 		DynamicForm memoForm = new DynamicForm("memoForm");
 
+		DynamicForm totalForm = new DynamicForm("bold");
+		totalForm.getElement().addClassName("totalForm");
 		transactionTotalBaseCurrencyText = new AmountLabel(
 				messages.currencyTotal(getCompany().getPreferences()
 						.getPrimaryCurrency().getFormalName()), getCompany()
 						.getPreferences().getPrimaryCurrency());
-		mainPanel.add(transactionTotalBaseCurrencyText);
 
+		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
+				.getPreferences().getPrimaryCurrency());
+
+		totalForm.add(transactionTotalBaseCurrencyText);
+		if (isMultiCurrencyEnabled()) {
+			totalForm.add(foreignCurrencyamountLabel);
+		}
+		memoTotalForm.add(memoForm);
+		memoTotalForm.add(totalForm);
 		memoForm.add(memoTextAreaItem);
 
-		mainPanel.add(memoForm);
+		mainPanel.add(memoTotalForm);
 
 		listforms.add(dateNoForm);
 		listforms.add(mainForm);
-
+		if (isMultiCurrencyEnabled()) {
+			if (!isInViewMode()) {
+				foreignCurrencyamountLabel.hide();
+			}
+		}
 		this.add(mainPanel);
+	}
+
+	protected void bankAccountSelected(ClientAccount selectItem) {
+		this.currency = getCompany().getCurrency(selectItem.getCurrency());
+		currencyWidget.setSelectedCurrencyFactorInWidget(currency,
+				transactionDateItem.getDate().getDate());
+		if (isMultiCurrencyEnabled()) {
+			super.setCurrency(currency);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
+			updateAmountsFromGUI();
+		}
 	}
 
 	protected void employeeSelected(ClientPayStructureDestination selectItem) {
@@ -183,7 +227,26 @@ public class PayEmployeeView extends
 			transactionNumber.setValue(transaction.getNumber());
 			transactionDateItem.setValue(transaction.getDate());
 			memoTextAreaItem.setValue(transaction.getMemo());
-			transactionTotalBaseCurrencyText.setAmount(transaction.getTotal());
+			transactionTotalBaseCurrencyText
+					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
+			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
+
+			if (isMultiCurrencyEnabled()) {
+				if (transaction.getCurrency() > 0) {
+					this.currency = getCompany().getCurrency(
+							transaction.getCurrency());
+				} else {
+					this.currency = getCompany().getPreferences()
+							.getPrimaryCurrency();
+				}
+				this.currencyFactor = transaction.getCurrencyFactor();
+				if (this.currency != null) {
+					currencyWidget.setSelectedCurrency(this.currency);
+				}
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
+				currencyWidget.setEnabled(!isInViewMode());
+			}
 		} else {
 			transaction = new ClientPayEmployee();
 		}
@@ -198,7 +261,10 @@ public class PayEmployeeView extends
 		for (ClientTransactionPayEmployee clientTransactionPayEmployee : selectedRecords) {
 			total += clientTransactionPayEmployee.getPayment();
 		}
-		transactionTotalBaseCurrencyText.setAmount(total);
+		transactionTotalBaseCurrencyText
+				.setAmount(getAmountInBaseCurrency(total));
+		foreignCurrencyamountLabel.setAmount(total);
+		modifyForeignCurrencyTotalWidget();
 	}
 
 	@Override
@@ -212,6 +278,7 @@ public class PayEmployeeView extends
 	@Override
 	public void updateAmountsFromGUI() {
 		this.table.updateAmountsFromGUI();
+		updateNonEditableItems();
 	}
 
 	@Override
@@ -246,9 +313,11 @@ public class PayEmployeeView extends
 		transaction.setPayAccount(bankAccountCombo.getSelectedValue().getID());
 		transaction.setDate(getTransactionDate().getDate());
 		transaction.setNumber(transactionNumber.getValue());
-		transaction.setCurrency(getCompany().getPrimaryCurrency().getID());
+		if (currency != null)
+			transaction.setCurrency(currency.getID());
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 		transaction.setMemo(memoTextAreaItem.getValue());
-		transaction.setTotal(transactionTotalBaseCurrencyText.getAmount());
+		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 		saveOrUpdate(transaction);
 	}
 
@@ -311,6 +380,7 @@ public class PayEmployeeView extends
 		memoTextAreaItem.setEnabled(!isInViewMode());
 		transactionNumber.setEnabled(!isInViewMode());
 		transactionDateItem.setEnabled(!isInViewMode());
+		currencyWidget.setEnabled(!isInViewMode());
 	}
 
 	@Override
@@ -321,5 +391,19 @@ public class PayEmployeeView extends
 	@Override
 	protected boolean canAddDraftButton() {
 		return false;
+	}
+
+	public void modifyForeignCurrencyTotalWidget() {
+		String formalName = currencyWidget.getSelectedCurrency()
+				.getFormalName();
+		if (currencyWidget.isShowFactorField()) {
+			foreignCurrencyamountLabel.hide();
+		} else {
+			foreignCurrencyamountLabel.show();
+			foreignCurrencyamountLabel.setTitle(messages
+					.currencyTotal(formalName));
+			foreignCurrencyamountLabel.setCurrency(currencyWidget
+					.getSelectedCurrency());
+		}
 	}
 }
