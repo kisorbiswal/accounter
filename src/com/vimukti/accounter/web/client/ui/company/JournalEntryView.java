@@ -474,11 +474,12 @@ public class JournalEntryView extends
 				currencyCombo
 						.setCurrencyFactor(transaction.getCurrencyFactor());
 				currencyCombo.setEnabled(!isInViewMode());
+				deditTotalText.setTitle(messages2
+						.debitTotalColonSymbol(currency.getSymbol()));
+				creditTotalText.setTitle(messages2
+						.creditTotalColonSymbol(currency.getSymbol()));
 			}
-			deditTotalText.setTitle(messages2.debitTotalColonSymbol(currency
-					.getSymbol()));
-			creditTotalText.setTitle(messages2.creditTotalColonSymbol(currency
-					.getSymbol()));
+
 			List<ClientTransactionItem> entries = transaction
 					.getTransactionItems();
 
