@@ -173,8 +173,9 @@ public class VendorBillView extends
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
 					if (!isDiscountPerDetailLine()) {
-						this.discountField.setPercentage(getdiscount(transaction
-								.getTransactionItems()));
+						this.discountField
+								.setPercentage(getdiscount(transaction
+										.getTransactionItems()));
 					}
 				}
 			}
@@ -772,7 +773,7 @@ public class VendorBillView extends
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
+		// topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 
@@ -984,7 +985,8 @@ public class VendorBillView extends
 		setAmountIncludeTAX();
 
 		if (isTrackDiscounts()) {
-			if (discountField.getPercentage() != 0.0 && transactionItems != null) {
+			if (discountField.getPercentage() != 0.0
+					&& transactionItems != null) {
 				for (ClientTransactionItem item : transactionItems) {
 					item.setDiscount(discountField.getPercentage());
 				}
@@ -1497,9 +1499,10 @@ public class VendorBillView extends
 	protected void updateDiscountValues() {
 
 		if (discountField.getPercentage() != null) {
-			vendorItemTransactionTable.setDiscount(discountField.getPercentage());
-			vendorAccountTransactionTable
-					.setDiscount(discountField.getPercentage());
+			vendorItemTransactionTable.setDiscount(discountField
+					.getPercentage());
+			vendorAccountTransactionTable.setDiscount(discountField
+					.getPercentage());
 		} else {
 			discountField.setPercentage(0d);
 		}

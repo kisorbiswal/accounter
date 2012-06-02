@@ -642,9 +642,9 @@ input[type=text].date-field-textbox {
 	margin-top: 10px;
 }
 
-.gridLayout {
+/* .gridLayout {
 	border-top-style: solid;
-}
+} */
 
 .datenumber-panel {
 	display: -ms-box;
@@ -1059,11 +1059,11 @@ input[type=text].date-field-textbox {
 	font-size: 13px;
 }
 
-#UsersListGrid .gridRow .firstname-value,#UsersListGrid .gridRow .lastname-value,#UsersListGrid .gridRow .userrole-value,#UsersListGrid .gridRow .emailid-value,#UsersListGrid .gridRow .status-value {
+/* #UsersListGrid .gridRow .firstname-value,#UsersListGrid .gridRow .lastname-value,#UsersListGrid .gridRow .userrole-value,#UsersListGrid .gridRow .emailid-value,#UsersListGrid .gridRow .status-value {
 	color: #FFA200;
 	font-size: 20px;
 	margin-left: 54px;
-}
+} */
 
 .disclosurePanelTitle {
 	font-weight: bold;
@@ -1991,7 +1991,8 @@ select:hover{
 .setup_panel .industry_subindustry_panel,#companiesPanel .companies-list,#signUpPanel .centerPanel,
 .abstract_base_view .mainVLay,#InvoiceView .mainVLay,#InvoiceView .align-form,#PreferenceSettingsView .preferences_page,
 .customerCenter .rightPanel,#vendorCenterView .rightVpPanel,#CheckPrintingSettingView .allPanel,.companyInfoPanel .CompanyInfoOption,
-#TDSDeductorDetailsView .panel1,#TDSDeductorDetailsView .panel1 .taxDynamicForm,#TDSResponsiblePersonDetailsView .horizontalPanel {
+#TDSDeductorDetailsView .panel1,#TDSDeductorDetailsView .panel1 .taxDynamicForm,#TDSResponsiblePersonDetailsView .horizontalPanel,
+#EmailView .mainPanel,#paybillview,#paybillview .gridLayout {
 	display: -ms-box;
 	-ms-box-orient: vertical;
 	-ms-box-lines: multiple;
@@ -2005,7 +2006,7 @@ select:hover{
 .disclosurePanelcontent .accountFlowPanel,.disclosurePanelcontent .itemsFlowPanel,.disclosurePanelcontent,
 .subMenu .menu_parent_clicked,#PreferenceSettingsView .preferences_page,.customerCenter .rightPanel,
 #vendorCenterView .rightVpPanel,#TDSDeductorDetailsView .panel1,#TDSResponsiblePersonDetailsView .horizontalPanel,
-#TDSResponsiblePersonDetailsView .verticalPanel {
+#TDSResponsiblePersonDetailsView .verticalPanel,#EmailView .mainPanel,#paybillview,#paybillview .gridLayout {
 	height: 100% !important;
 }
 #InvoiceView .align-form{
@@ -2019,7 +2020,7 @@ select:hover{
 	height:350px !important;
 }
 .progress_panel_show .view_panel,.setup_panel .setup_common_head,.abstract_base_view,.portletPagePanel,
-.abstract_base_view .mainVLay,#TDSDeductorDetailsView .panel1{
+.abstract_base_view .mainVLay,#TDSDeductorDetailsView .panel1,#EmailView .mainPanel{
     overflow-x: auto;
     overflow-y: hidden;
     width:100%;
@@ -2041,6 +2042,9 @@ select:hover{
 .setup_panel .view_panel .refer_panel .setup_label{
 	padding-top: 7px;
 	width: 100px;
+}
+.abstract_base_view label{
+	color:black;
 }
 label{
 	color:white;
@@ -2148,7 +2152,7 @@ button{
 	height:100%;
 }
 .tree_list_panel{
-	padding:5px 15px 5px 5px;
+	padding:5px 15px 0px 5px;
 	border-right: 1px solid #ccc;
 	margin-right: 15px;
 	overflow: auto;
@@ -2188,7 +2192,8 @@ button#searchButton:hover{
 #InvoiceView .prodAndServiceHLay .boldtext,#CashSalesView .prodAndServiceHLay .boldtext,
 #VendorCreditMemoView .boldtext,#CashPurchaseView .boldtext,#CreditCardExpenseView .totForm,
 #CashExpenseView .boldtext,#writechequeview .boldtext,#MakeDepositView .textbold,#customercreditmemoview .boldtext,
-#JournalEntryView .textbold,#NewVendorPaymentView .hLay .tdsPanel .boldtext,#CreditCardExpenseView .boldtext{
+#JournalEntryView .textbold,#NewVendorPaymentView .hLay .tdsPanel .boldtext,#CreditCardExpenseView .boldtext,
+#QuoteView .boldtext,#paybillview .unused-payments,#VendorBillView .boldtext{
 	display: -ms-box;
 	-ms-box-orient: vertical;
 	width:400px;
@@ -2196,7 +2201,6 @@ button#searchButton:hover{
 	bottom:5px;
 	font-weight:bold;
 	left:70px;
-	margin-bottom:15px;
 }
 .gwt-PopupPanel,.dropdownTable,#ItemsDropDownTable{
 	border: 1px solid gray;
@@ -2425,7 +2429,7 @@ a:hover,.subMenuName:hover{
 .gwt-DialogBox table{
 	border-collapse: collapse;
 }
-#CashSalesView .topHLay .leftVLay,#CashSalesView .topHLay .rightVLay,#QuoteView .topHLay{
+#CashSalesView .topHLay .leftVLay,#CashSalesView .topHLay .rightVLay{
 	display: -ms-box;
 }
 #InvoiceView .topHLay .rightVLay .align-form{
@@ -2437,7 +2441,8 @@ a:hover,.subMenuName:hover{
 #CheckPrintingSettingView .allPanel .verticalPanel .chequeLeftScal{
 	width: 5px;
 }
-#CheckPrintingSettingView .allPanel .verticalPanel .chequeTopScal,#CheckPrintingSettingView .allPanel .verticalPanel .horizontalPanel{
+#CheckPrintingSettingView .allPanel .verticalPanel .chequeTopScal,#CheckPrintingSettingView .allPanel .verticalPanel .horizontalPanel,
+#QuoteView .topHLay .leftVLay,#QuoteView .topHLay .rightVLay{
 	display: -ms-box;
 }
 #CheckPrintingSettingView .allPanel .checkprintbox .allFields{
@@ -2480,4 +2485,30 @@ a:hover,.subMenuName:hover{
 }
 #TDSDeductorDetailsView .panel1 .taxDynamicForm{
 	height: 550px !important;
+}
+.portletPage .fTablePortlet{
+	width: 100%;
+}
+.portletPage .fTablePortlet td:last-child{
+	text-align: right;
+}
+#group2,#group4,#group9{
+	position: absolute;
+	top: 10%;
+}
+#group2{
+	right: 20%;
+}
+#group4{
+	right: 26%;
+}
+#group9{
+	right: 0%;
+}
+#EmailView .emailBody textarea{
+	height: 200px;
+	width: 400px;
+}
+#UsersView table.gridBody{
+	border-collapse: collapse;
 }
