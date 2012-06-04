@@ -11239,34 +11239,6 @@
 				       p.NAME                                      AS payee_name,
 				       it.TYPE                                     AS item_type,
 				       it.reorder_point                            AS reorder_point,
-				       (SELECT SUM(at.amount) AS asset_value
-				        FROM   account_transaction at
-				               left join transaction t2
-				                 ON at.transaction_id = t2.id
-				               left join transaction_item ti2
-				                 ON ti.TYPE = 1
-				                    AND ti2.transaction_id = t2.id
-				               left join item it2
-				                 ON it2.TYPE IN ( 2, 4 )
-				                    AND it2.id = ti2.item_id
-				        WHERE  at.account_id = it2.assets_account_id
-				               AND at.company_id = it.company_id
-				               AND it2.company_id = it.company_id
-				               AND it2.id = it.id
-				        GROUP  BY it.id)                           AS asset_change,
-				       (SELECT SUM(at.amount) AS asset_value
-				        FROM   account_transaction at
-				               left join transaction t2
-				                 ON at.transaction_id = t2.id
-				               left join transaction_item ti2
-				                 ON ti2.TYPE = 1
-				                    AND ti2.transaction_id = t2.id
-				               left join item it2
-				                 ON it2.TYPE IN ( 2, 4 )
-				                    AND it2.id = ti2.item_id
-				        WHERE  at.account_id = it2.assets_account_id
-				               AND at.company_id = it.company_id
-				               AND it2.company_id = it.company_id) AS total_asset,
 				       it.purchase_description                     AS item_purchase_description,
 				       it.as_of_date                               AS asofdate,
 				       it.measurement                              AS item_measurement,
@@ -11378,6 +11350,39 @@
 				]]>
 
 	</sql-query>
+	
+	<sql-query name="getInventoryTotalAsset">
+		<query-param name="wareHouseId" type="long" />
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+
+		<return-scalar column="ASSET_TOTAL" type="double" />
+		
+		<![CDATA[
+				SELECT SUM(at.amount) AS ASSET_TOTAL
+				        FROM   account_transaction at
+				               left join transaction t2
+				                 ON at.transaction_id = t2.id
+				               left join transaction_item ti2
+				                 ON ti2.TYPE = 1
+				                    AND ti2.transaction_id = t2.id
+				               left join item it2
+				                 ON it2.TYPE IN ( 2, 4 )
+				                    AND it2.id = ti2.item_id
+				        WHERE  at.account_id = it2.assets_account_id
+				        	    AND  CASE WHEN 0!=:wareHouseId
+						            then it2.warehouse=:wareHouseId
+						            else
+						            true
+						            end
+				               AND at.company_id = :companyId
+				               AND it2.company_id = :companyId
+				               AND it2.AS_OF_DATE BETWEEN :fromDate AND :toDate
+				]]>
+
+	</sql-query>
+	
 
 	<sql-query name="getInventoryValutionSummary">
 		<query-param name="wareHouseId" type="long" />
@@ -11392,8 +11397,7 @@
 		<return-scalar column="COST" type="double" />
 		<return-scalar column="ITEM_SALE_PRICE" type="double" />
 		<return-scalar column="ITEM_ID" type="long" />
-		<return-scalar column="ASSET_TOTAL" type="double" />
-		<return-scalar column="ASSET_PERC" type="double" />
+		<return-scalar column="ASSET_VALUE" type="double" />
 		<return-scalar column="RETAIL_VALUE" type="double" />
 		<return-scalar column="TOTAL_RETAIL" type="double" />
 		
@@ -11404,13 +11408,34 @@
 				       V.UNIT AS ITEM_UNITS,
 				       I.AVERAGE_COST AS COST,
 				       ITEM_SALE_PRICE,
-				       ITEM_ID,
-				       ASSET_CHANGE                               AS ASSET_TOTAL,
-				       ( ASSET_CHANGE * 100 / ( V.TOTAL_ASSET ) ) AS ASSET_PERC,
+				       ITEM_ID,	
+				       S.ASSET_VALUE,
 				       (ITEM_SALE_PRICE * ITEM_TOTAL_QUANTITY)          AS RETAIL_VALUE,
 				       (SELECT SUM(SALES_PRICE*ON_HAND_QTY_VALUE) FROM ITEM WHERE TYPE IN (2,4)) AS TOTAL_RETAIL
 				FROM   INVENTORY_HISTORY_VIEW V
 				LEFT JOIN ITEM I ON I.ID = V.ITEM_ID
+				
+				LEFT JOIN (SELECT it2.id,SUM(at.amount) AS asset_value
+				        FROM   account_transaction at
+				               left join transaction t2
+				                 ON at.transaction_id = t2.id
+				               left join transaction_item ti2
+				                 ON ti2.TYPE = 1
+				                    AND ti2.transaction_id = t2.id
+				               left join item it2
+				                 ON it2.TYPE IN ( 2, 4 )
+				                    AND it2.id = ti2.item_id
+				        WHERE  at.account_id = it2.assets_account_id
+				        	    AND  CASE WHEN 0 != :wareHouseId
+						            then it2.warehouse = :wareHouseId
+						            else
+						            true
+						            end
+				               AND at.company_id = :companyId
+				               AND it2.company_id = :companyId
+				               AND it2.AS_OF_DATE BETWEEN :fromDate AND :toDate 
+				        GROUP  BY it2.id)  AS S ON S.ID = I.ID
+
 				WHERE  V.COMPANY = :companyId
 				       AND ( V.ASOFDATE BETWEEN :fromDate AND :toDate )
 				       AND  CASE WHEN 0!=:wareHouseId
@@ -11423,9 +11448,8 @@
 				          ITEM_TOTAL_QUANTITY,
 				          ITEM_UNITS,
 				          ITEM_SALE_PRICE,
-				          ASSET_CHANGE,
-				          TOTAL_ASSET,
-				          ITEM_PURCHASE_DESCRIPTION,V.UNIT,I.AVERAGE_COST;  
+						  S.ASSET_VALUE,
+				          ITEM_PURCHASE_DESCRIPTION,V.UNIT,I.AVERAGE_COST,I.COMPANY_ID;   
 				]]>
 
 	</sql-query>

@@ -488,6 +488,14 @@ public class InventoryManager extends Manager {
 			long wareHouseId, Long companyId, ClientFinanceDate start,
 			ClientFinanceDate end) {
 		Session session = HibernateUtil.getCurrentSession();
+
+		Query totalQuery = session.getNamedQuery("getInventoryTotalAsset")
+				.setParameter("wareHouseId", wareHouseId)
+				.setParameter("companyId", companyId)
+				.setParameter("fromDate", start.getDate())
+				.setParameter("toDate", end.getDate());
+		Double total = (Double) totalQuery.uniqueResult();
+
 		Query query = session.getNamedQuery("getInventoryValutionSummary")
 				.setParameter("wareHouseId", wareHouseId)
 				.setParameter("companyId", companyId)
@@ -507,11 +515,12 @@ public class InventoryManager extends Manager {
 			detail.setSalesPrice(next[5] != null ? (Double) next[5] : 0);
 			detail.setItemId(next[6] != null ? (Long) next[6] : 0);
 			detail.setAssetValue(next[7] != null ? (Double) next[7] : 0);
-			detail.setPerOfTotAsset(next[8] != null ? (Double) next[8] : 0);
-			detail.setRetailValue(next[9] != null ? (Double) next[9] : 0);
-			double totalRetail = next[10] != null ? (Double) next[10] : 0;
+			detail.setRetailValue(next[8] != null ? (Double) next[8] : 0);
+			double totalRetail = next[9] != null ? (Double) next[9] : 0;
 			detail.setPerOfTotRetail((detail.getRetailValue() * 100)
 					/ totalRetail);
+			detail.setPerOfTotAsset(detail.getAssetValue() != 0 ? ((detail
+					.getAssetValue() * 100) / total) : 0);
 			result.add(detail);
 		}
 		return result;
