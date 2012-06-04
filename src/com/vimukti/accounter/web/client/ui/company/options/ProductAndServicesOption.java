@@ -38,7 +38,6 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 
 	StyledPanel invetoryPanel;
 	StyledPanel hiddenPanel;
-	StyledPanel totalPanel;
 	StyledPanel subpanel;
 	SelectCombo inventorySchemeListBox;
 
@@ -75,8 +74,6 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 
 		headerLabel = new LabelItem(messages.whatDoYouSell(), "header");
 		// servicesOnlyText.setText(constants.whatDoYouSell());
-		totalPanel = new StyledPanel("totalPanel");
-		totalPanel.add(headerLabel);
 		servicesOnlyText = new LabelItem(messages.products_labelonly() + " : "
 				+ messages.productsOnly(), "servicesOnlyText");
 		productsOnlyText = new LabelItem(messages.services_labelonly() + " : "
@@ -128,9 +125,11 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 						} else if (selectItem.equals(messages
 								.products_labelonly())) {
 							invetoryPanel.setVisible(true);
+							hiddenPanel.setVisible(inventoryCheckBox.getValue());
 						} else if (selectItem.equals(messages
 								.bothservicesandProduct_labelonly())) {
 							invetoryPanel.setVisible(true);
+							hiddenPanel.setVisible(inventoryCheckBox.getValue());
 						}
 
 					}
@@ -153,7 +152,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 		invetoryPanel.add(inventoryCheckBox);
 		add(subpanel);
 		add(invetoryPanel);
-		add(hiddenPanel);
+		invetoryPanel.add(hiddenPanel);
 	}
 
 	@Override
@@ -202,35 +201,36 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	public void initData() {
 
 		boolean sellServices = getCompanyPreferences().isSellServices();
-		if (sellServices)
+		if (sellServices) {
 			servicesProductsTypeCombo
 					.setSelected(messages.services_labelonly());
+			invetoryPanel.setVisible(false);
+		}
+
 		boolean sellProducts = getCompanyPreferences().isSellProducts();
-		if (sellProducts)
+
+		if (sellProducts) {
 			servicesProductsTypeCombo
 					.setSelected(messages.products_labelonly());
-		if (sellServices && sellProducts)
+			invetoryPanel.setVisible(true);
+		}
+
+		if (sellServices && sellProducts) {
 			servicesProductsTypeCombo.setSelected(messages
 					.bothservicesandProduct_labelonly());
+			invetoryPanel.setVisible(true);
+		}
 
-		if (sellServices) {
-			totalPanel.setVisible(false);
-		}
-		if ((sellProducts && sellServices) || sellProducts) {
-			totalPanel.setVisible(true);
-		}
-		if (getCompanyPreferences().isInventoryEnabled()) {
-			inventoryCheckBox.setValue(true);
-			hiddenPanel.setVisible(true);
+		boolean inventoryEnabled = getCompanyPreferences().isInventoryEnabled();
+		hiddenPanel.setVisible(inventoryEnabled);
+		inventoryCheckBox.setValue(inventoryEnabled);
+		if (inventoryEnabled) {
 			warehousesCheckBox.setValue(getCompanyPreferences()
 					.iswareHouseEnabled());
 			unitsCheckBox.setValue(getCompanyPreferences().isUnitsEnabled());
 			// for set the inventory schema value to option
 			inventorySchemeListBox.setSelectedItem(getCompanyPreferences()
 					.getActiveInventoryScheme() - 1);
-
-		} else {
-			hiddenPanel.setVisible(false);
 		}
 	}
 

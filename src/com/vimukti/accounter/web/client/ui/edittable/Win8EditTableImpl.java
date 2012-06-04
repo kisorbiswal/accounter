@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -43,7 +44,6 @@ public class Win8EditTableImpl<R> extends EditTableImpl<R> {
 	public void setEnabled(boolean isEnabled) {
 		if (this.isEnabled != isEnabled) {
 			this.isEnabled = isEnabled;
-			updateHeaderState(isEnabled);
 			for (R r : rows) {
 				update(r);
 			}
@@ -106,7 +106,13 @@ public class Win8EditTableImpl<R> extends EditTableImpl<R> {
 			for (int y = 0; y < list.size(); y++) {
 				EditColumn<R> column = list.get(y);
 				IsWidget widget = column.getWidget(context);
-				setWidget(index, y * 2, column.getHeader());
+				IsWidget header = column.getHeader();
+
+				if (widget instanceof CheckBox) {
+					header = new Label();
+				}
+
+				setWidget(index, y * 2, header);
 				setWidget(index, (y * 2) + 1, widget);
 				column.render(widget, context);
 			}
@@ -250,15 +256,6 @@ public class Win8EditTableImpl<R> extends EditTableImpl<R> {
 	// }
 
 	private void updateHeaderState(boolean isDisable) {
-		for (int x = 0; x < columns.size(); x++) {
-			ArrayList<EditColumn<R>> list = columns.get(x);
-			for (int y = 0; y < list.size(); y++) {
-				Widget widget = getWidget(x, y);
-				if (widget instanceof CheckBox) {
-					((CheckBox) widget).setEnabled(!isDisable);
-				}
-			}
-		}
 	}
 
 	@Override

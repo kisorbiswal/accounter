@@ -62,8 +62,10 @@ public abstract class EditColumn<R> {
 	}
 
 	public void updateHeader() {
-		if (getColumnName().length() > 0)
+		if (getColumnName().length() > 0) {
+			getHeader();
 			columnHeader.setText(getColumnName());
+		}
 	}
 
 	public int getColumnSpan() {

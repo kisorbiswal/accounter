@@ -183,6 +183,7 @@ public class JournalEntryView extends
 		};
 		grid.setEnabled(!isInViewMode());
 		grid.getElement().getStyle().setMarginTop(10, Unit.PX);
+		addEmptRecords();
 	}
 
 	@Override
@@ -546,8 +547,9 @@ public class JournalEntryView extends
 		entry1.setType(ClientTransactionItem.TYPE_ACCOUNT);
 
 		grid.add(entry);
-		if (grid.getAllRows().size() < 2)
+		if (grid.getAllRows().size() < 2) {
 			grid.add(entry1);
+		}
 
 	}
 
