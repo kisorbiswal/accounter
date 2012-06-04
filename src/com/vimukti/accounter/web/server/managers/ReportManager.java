@@ -4437,8 +4437,6 @@ public class ReportManager extends Manager {
 				customerDetail
 						.setTransactionNumber((String) (object[3] != null ? object[3]
 								: ""));
-				customerDetail.setMemo((String) (object[4] != null ? object[4]
-						: ""));
 				customerDetail.setName((String) (object[5] != null ? object[5]
 						: ""));
 				customerDetail

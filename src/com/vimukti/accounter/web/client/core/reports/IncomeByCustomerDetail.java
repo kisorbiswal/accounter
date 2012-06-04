@@ -21,8 +21,6 @@ public class IncomeByCustomerDetail extends BaseReport implements
 
 	private String transactionNumber;
 
-	private String memo;
-
 	private String name;
 
 	private String jobName;
@@ -63,14 +61,6 @@ public class IncomeByCustomerDetail extends BaseReport implements
 
 	public void setTransactionNumber(String transactionNumber) {
 		this.transactionNumber = transactionNumber;
-	}
-
-	public String getMemo() {
-		return memo;
-	}
-
-	public void setMemo(String memo) {
-		this.memo = memo;
 	}
 
 	public String getName() {

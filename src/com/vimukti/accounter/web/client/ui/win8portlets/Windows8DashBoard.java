@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.banking.ReconciliationsListAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
-import com.vimukti.accounter.web.client.ui.company.CustomerCentreAction;
+import com.vimukti.accounter.web.client.ui.company.CustomersAction;
 import com.vimukti.accounter.web.client.ui.company.NewJournalEntryAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -93,7 +93,7 @@ public class Windows8DashBoard extends BaseHomeView {
 				new ExpensesAction("").getHistoryToken());
 
 		quickLinksMap.put(messages.payees(Global.get().Customers()),
-				new CustomerCentreAction().getHistoryToken());
+				new CustomersAction().getHistoryToken());
 
 		quickLinksMap.put(messages.writeCheck(),
 				new WriteChecksAction().getHistoryToken());

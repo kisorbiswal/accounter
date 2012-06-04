@@ -27,9 +27,9 @@ public class IncomeByCustomerDetailServerReport extends
 	public String[] getDynamicHeaders() {
 		return new String[] { Global.get().Customer(), getMessages().job(),
 				getMessages().type(), getMessages().date(),
-				getMessages().number(), getMessages().memo(),
-				getMessages().Account(), getMessages().credit(),
-				getMessages().debit(), getMessages().balance() };
+				getMessages().number(), getMessages().Account(),
+				getMessages().credit(), getMessages().debit(),
+				getMessages().balance() };
 	}
 
 	@Override
@@ -41,17 +41,17 @@ public class IncomeByCustomerDetailServerReport extends
 	public String[] getColunms() {
 		return new String[] { Global.get().Customer(), getMessages().job(),
 				getMessages().type(), getMessages().date(),
-				getMessages().number(), getMessages().memo(),
-				getMessages().Account(), getMessages().credit(),
-				getMessages().debit(), getMessages().balance() };
+				getMessages().number(), getMessages().Account(),
+				getMessages().credit(), getMessages().debit(),
+				getMessages().balance() };
 	}
 
 	@Override
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
 				COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE, COLUMN_TYPE_NUMBER,
-				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
+				COLUMN_TYPE_AMOUNT };
 	}
 
 	@Override
@@ -61,17 +61,17 @@ public class IncomeByCustomerDetailServerReport extends
 					new String[] { "" },
 					new String[] {
 							getMessages().reportTotal(Global.get().Customers()),
-							"", "" }, new int[] { 7, 8, 9 });
+							"", "" }, new int[] { 6, 7, 8 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			if (!sectionName.equals("")) {
 				addSection(new String[] { sectionName }, new String[] { "", "",
 						getMessages().reportTotal(sectionName) },
-						new int[] { 9 });
+						new int[] { 8 });
 			} else {
 				addSection(new String[] { sectionName }, new String[] { "", "",
 						getMessages().reportTotal(getMessages().other()) },
-						new int[] { 9 });
+						new int[] { 8 });
 			}
 			previousTotal = 0.0D;
 		} else if (sectionDepth == 2) {
@@ -86,11 +86,11 @@ public class IncomeByCustomerDetailServerReport extends
 								"",
 								getMessages().reportTotal(
 										getMessages().others()), "" },
-						new int[] { 7, 8 });
+						new int[] { 6, 7 });
 			} else {
 				addSection(new String[] { "", jobName }, new String[] { "", "",
 						"", "", getMessages().reportTotal(jobName), "" },
-						new int[] { 7, 8 });
+						new int[] { 6, 7 });
 			}
 			previousTotal = 0.0D;
 		} else if (sectionDepth == 3) {
@@ -118,11 +118,11 @@ public class IncomeByCustomerDetailServerReport extends
 
 	@Override
 	public void updateTotals(Object[] values) {
-		Double value = (Double) values[9];
-		values[9] = Double.valueOf(String.valueOf(values[8]))
-				- Double.valueOf(String.valueOf(values[7]));
+		Double value = (Double) values[8];
+		values[8] = Double.valueOf(String.valueOf(values[7]))
+				- Double.valueOf(String.valueOf(values[6]));
 		super.updateTotals(values);
-		values[9] = value;
+		values[8] = value;
 	}
 
 	@Override
@@ -139,14 +139,12 @@ public class IncomeByCustomerDetailServerReport extends
 		case 4:
 			return record.getTransactionNumber();
 		case 5:
-			return record.getMemo();
-		case 6:
 			return record.getAccountName();
-		case 7:
+		case 6:
 			return record.getCredit();
-		case 8:
+		case 7:
 			return record.getDebit();
-		case 9:
+		case 8:
 			double total = record.getDebit() - record.getCredit();
 			previousTotal = previousTotal + total;
 			return previousTotal;
@@ -163,24 +161,10 @@ public class IncomeByCustomerDetailServerReport extends
 
 	@Override
 	public int getColumnWidth(int index) {
-		if (index == 1)
-			return 100;
-		else if (index == 2)
-			return 100;
-		else if (index == 3)
-			return 100;
-		else if (index == 4)
+		if (index == 4) {
 			return 80;
-		else if (index == 5)
-			return 100;
-		else if (index == 6)
-			return 100;
-		else if (index == 7)
-			return 100;
-		else if (index == 8)
-			return 100;
-		else
-			return 80;
+		}
+		return 100;
 	}
 
 	@Override
