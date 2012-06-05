@@ -104,9 +104,9 @@ public class PrintInvoiceCommand extends AbstractCommand {
 							Global.get().Customer(), invoice.getNumber(),
 							invoice.getDate().toClientFinanceDate());
 					content = content.replaceAll("\n", "<br/>");
-					UsersMailSendar
-							.sendPdfMail(new File(createPdfFile), tradingName,
-									subject, content, account, emailId, ccAdd);
+					UsersMailSendar.sendPdfMail(new File(createPdfFile),
+							tradingName, subject, content, account, emailId,
+							ccAdd);
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {

@@ -3,19 +3,13 @@
  */
 package com.vimukti.accounter.web.server;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.NotSerializableException;
 import java.math.BigInteger;
-import java.nio.charset.Charset;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -59,8 +53,6 @@ import com.vimukti.accounter.core.Budget;
 import com.vimukti.accounter.core.BudgetItem;
 import com.vimukti.accounter.core.BuildAssembly;
 import com.vimukti.accounter.core.CashPurchase;
-import com.vimukti.accounter.core.CashSalePdfGeneration;
-import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CloneUtil2;
@@ -87,8 +79,6 @@ import com.vimukti.accounter.core.IRASPurchaseLineInfo;
 import com.vimukti.accounter.core.IRASSupplyLineInfo;
 import com.vimukti.accounter.core.InventoryPurchase;
 import com.vimukti.accounter.core.Invoice;
-import com.vimukti.accounter.core.InvoicePDFTemplete;
-import com.vimukti.accounter.core.InvoicePdfGeneration;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Job;
 import com.vimukti.accounter.core.JournalEntry;
@@ -104,18 +94,13 @@ import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaypalTransation;
 import com.vimukti.accounter.core.PortletConfiguration;
 import com.vimukti.accounter.core.PortletPageConfiguration;
-import com.vimukti.accounter.core.PrintTemplete;
 import com.vimukti.accounter.core.PurchaseOrder;
-import com.vimukti.accounter.core.PurchaseOrderPdfGeneration;
-import com.vimukti.accounter.core.QuotePdfGeneration;
-import com.vimukti.accounter.core.QuotePdfTemplate;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.ReconciliationItem;
 import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.Reminder;
-import com.vimukti.accounter.core.SalesOrderPdfGeneration;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.Statement;
 import com.vimukti.accounter.core.StockAdjustment;
@@ -152,7 +137,6 @@ import com.vimukti.accounter.server.imports.VendorImporter;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.servlets.PaypalTransactionDetails;
 import com.vimukti.accounter.servlets.PaypalTransactionSearch;
-import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.utils.SecureUtils;
@@ -210,6 +194,7 @@ import com.vimukti.accounter.web.server.managers.FixedAssestManager;
 import com.vimukti.accounter.web.server.managers.InventoryManager;
 import com.vimukti.accounter.web.server.managers.Manager;
 import com.vimukti.accounter.web.server.managers.PayrollManager;
+import com.vimukti.accounter.web.server.managers.PrintPDFManager;
 import com.vimukti.accounter.web.server.managers.PurchaseManager;
 import com.vimukti.accounter.web.server.managers.ReportManager;
 import com.vimukti.accounter.web.server.managers.SalesManager;
@@ -221,14 +206,6 @@ import com.vimukti.accounter.web.server.translate.Language;
 import com.vimukti.accounter.web.server.translate.LocalMessage;
 import com.vimukti.accounter.web.server.translate.Message;
 import com.vimukti.accounter.web.server.translate.Vote;
-
-import fr.opensagres.xdocreport.converter.ConverterTypeTo;
-import fr.opensagres.xdocreport.converter.ConverterTypeVia;
-import fr.opensagres.xdocreport.converter.Options;
-import fr.opensagres.xdocreport.document.IXDocReport;
-import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
-import fr.opensagres.xdocreport.template.IContext;
-import fr.opensagres.xdocreport.template.TemplateEngineKind;
 
 /**
  * @author Fernandez
@@ -2568,220 +2545,15 @@ public class FinanceTool {
 	 */
 	public String createPdfFile(long objectID, int type, long brandingThemeId,
 			long companyId) throws Exception {
-
-		Manager manager = getManager();
-		BrandingTheme brandingTheme = (BrandingTheme) manager
+		BrandingTheme brandingTheme = (BrandingTheme) getManager()
 				.getServerObjectForid(AccounterCoreType.BRANDINGTHEME,
 						brandingThemeId);
-
-		String fileName = "";
 		Company company = getCompany(companyId);
-		PrintTemplete printTemplete = null;
-		File file = null;
-		if (type == Transaction.TYPE_INVOICE) {
-			Invoice invoice = (Invoice) manager.getServerObjectForid(
-					AccounterCoreType.INVOICE, objectID);
-
-			if (brandingTheme.isCustomFile()) {
-				// for custom Branding Theme
-
-				InvoicePdfGeneration pdf = new InvoicePdfGeneration(invoice,
-						company, brandingTheme);
-
-				String templeteName = "";
-				if (brandingTheme.getInvoiceTempleteName().equalsIgnoreCase(
-						"Classic Template")) {
-					templeteName = "templetes" + File.separator
-							+ "InvoiceOdt.odt";
-				} else {
-					templeteName = ServerConfiguration.getAttachmentsDir()
-							+ "/" + company.getId() + "/" + "templateFiles"
-							+ "/" + brandingTheme.getID() + "/"
-							+ brandingTheme.getInvoiceTempleteName();
-				}
-				InputStream in = new BufferedInputStream(new FileInputStream(
-						templeteName));
-
-				IXDocReport report = XDocReportRegistry.getRegistry()
-						.loadReport(in, TemplateEngineKind.Velocity);
-				IContext context = report.createContext();
-				context = pdf.assignValues(context, report);
-
-				Options options = Options.getTo(ConverterTypeTo.PDF).via(
-						ConverterTypeVia.ITEXT);
-				fileName = "Invoice_" + invoice.getNumber();
-				file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
-				java.io.FileOutputStream fos = new java.io.FileOutputStream(
-						file);
-				report.convert(context, options, fos);
-
-			} else {
-				// for regular html branding theme
-				printTemplete = new InvoicePDFTemplete(invoice, brandingTheme,
-						company, brandingTheme.getInvoiceTempleteName());
-
-				fileName = printTemplete.getFileName();
-
-				String output = printTemplete.getPdfData();
-
-				java.io.InputStream inputStream = new ByteArrayInputStream(
-						output.getBytes("UTF-8"));
-
-				InputStreamReader reader = new InputStreamReader(inputStream,
-						Charset.forName("UTF-8"));
-				Converter converter = new Converter();
-				file = converter.getPdfFile(printTemplete, reader);
-			}
-			// UsersMailSendar.sendPdfMail(file, companyName, subject, content,
-			// senderEmail, toEmail, ccEmail);
-		} else if (type == Transaction.TYPE_ESTIMATE) {
-
-			Estimate estimate = (Estimate) manager.getServerObjectForid(
-					AccounterCoreType.ESTIMATE, objectID);
-
-			if (brandingTheme.isCustomFile()) {
-				// for custom Branding Theme
-				String templeteName = "";
-				QuotePdfGeneration quotePdf = null;
-				SalesOrderPdfGeneration salesOrderPdf = null;
-				if (estimate.getEstimateType() == Estimate.TYPE_ESTIMATE) {
-					quotePdf = new QuotePdfGeneration(estimate, company,
-							brandingTheme);
-
-					if (brandingTheme.getQuoteTemplateName().equalsIgnoreCase(
-							"Classic Template")) {
-						templeteName = "templetes" + File.separator
-								+ "QuoteDocx.docx";
-					} else {
-						templeteName = ServerConfiguration.getAttachmentsDir()
-								+ "/" + company.getId() + "/" + "templateFiles"
-								+ "/" + brandingTheme.getID() + "/"
-								+ brandingTheme.getQuoteTemplateName();
-					}
-					fileName = "Quote_" + estimate.getNumber();
-				} else if (estimate.getEstimateType() == Estimate.SALES_ORDER) {
-					salesOrderPdf = new SalesOrderPdfGeneration(estimate,
-							company, brandingTheme);
-
-					if (brandingTheme.getSalesOrderTemplateName()
-							.equalsIgnoreCase("Classic Template")) {
-						templeteName = "templetes" + File.separator
-								+ "SalesOrder.docx";
-					} else {
-						templeteName = ServerConfiguration.getAttachmentsDir()
-								+ "/" + company.getId() + "/" + "templateFiles"
-								+ "/" + brandingTheme.getID() + "/"
-								+ brandingTheme.getSalesOrderTemplateName();
-					}
-					fileName = "SalesOrder_" + estimate.getNumber();
-				}
-
-				InputStream in = new BufferedInputStream(new FileInputStream(
-						templeteName));
-
-				IXDocReport report = XDocReportRegistry.getRegistry()
-						.loadReport(in, TemplateEngineKind.Velocity);
-				IContext context = report.createContext();
-				if (quotePdf != null) {
-					context = quotePdf.assignValues(context, report);
-				} else if (salesOrderPdf != null) {
-					context = salesOrderPdf.assignValues(context, report);
-				}
-
-				Options options = Options.getTo(ConverterTypeTo.PDF).via(
-						ConverterTypeVia.ITEXT);
-
-				file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
-				java.io.FileOutputStream fos = new java.io.FileOutputStream(
-						file);
-				report.convert(context, options, fos);
-
-			} else {
-				// for regular html branding theme
-				printTemplete = new QuotePdfTemplate(estimate, brandingTheme,
-						company, "ClassicQuote");
-
-				fileName = printTemplete.getFileName();
-
-				String output = printTemplete.getPdfData();
-
-				java.io.InputStream inputStream = new ByteArrayInputStream(
-						output.getBytes("UTF-8"));
-
-				InputStreamReader reader = new InputStreamReader(inputStream,
-						Charset.forName("UTF-8"));
-				Converter converter = new Converter();
-				file = converter.getPdfFile(printTemplete, reader);
-			}
-		} else if (type == Transaction.TYPE_CASH_SALES) {
-
-			CashSales cashSale = (CashSales) manager.getServerObjectForid(
-					AccounterCoreType.CASHSALES, objectID);
-
-			CashSalePdfGeneration pdf = new CashSalePdfGeneration(cashSale,
-					company, brandingTheme);
-
-			String templeteName = "";
-			if (brandingTheme.getCashSaleTemplateName().equalsIgnoreCase(
-					"Classic Template")) {
-				templeteName = "templetes" + File.separator + "CashSaleOdt.odt";
-			} else {
-				templeteName = ServerConfiguration.getAttachmentsDir() + "/"
-						+ company.getId() + "/" + "templateFiles" + "/"
-						+ brandingTheme.getID() + "/"
-						+ brandingTheme.getCashSaleTemplateName();
-			}
-			InputStream in = new BufferedInputStream(new FileInputStream(
-					templeteName));
-
-			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
-					in, TemplateEngineKind.Velocity);
-			IContext context = report.createContext();
-			context = pdf.assignValues(context, report);
-
-			Options options = Options.getTo(ConverterTypeTo.PDF).via(
-					ConverterTypeVia.ITEXT);
-			fileName = "CashSale_" + cashSale.getNumber();
-			file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
-			java.io.FileOutputStream fos = new java.io.FileOutputStream(file);
-			report.convert(context, options, fos);
-		} else if (type == Transaction.TYPE_PURCHASE_ORDER) {
-
-			PurchaseOrder purchaseOrder = (PurchaseOrder) manager
-					.getServerObjectForid(AccounterCoreType.PURCHASEORDER,
-							objectID);
-
-			PurchaseOrderPdfGeneration pdf = new PurchaseOrderPdfGeneration(
-					purchaseOrder, company, brandingTheme);
-
-			String templeteName = "";
-			if (brandingTheme.getPurchaseOrderTemplateName().equalsIgnoreCase(
-					"Classic Template")) {
-				templeteName = "templetes" + File.separator
-						+ "PurchaseOrder.docx";
-			} else {
-				templeteName = ServerConfiguration.getAttachmentsDir() + "/"
-						+ company.getId() + "/" + "templateFiles" + "/"
-						+ brandingTheme.getID() + "/"
-						+ brandingTheme.getPurchaseOrderTemplateName();
-			}
-			InputStream in = new BufferedInputStream(new FileInputStream(
-					templeteName));
-
-			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
-					in, TemplateEngineKind.Velocity);
-			IContext context = report.createContext();
-			context = pdf.assignValues(context, report);
-
-			Options options = Options.getTo(ConverterTypeTo.PDF).via(
-					ConverterTypeVia.ITEXT);
-			fileName = "PurchaseOrder_" + purchaseOrder.getNumber();
-			file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
-			java.io.FileOutputStream fos = new java.io.FileOutputStream(file);
-			report.convert(context, options, fos);
+		if (company == null) {
+			return null;
 		}
-		return file.getPath();
-
+		return new PrintPDFManager().generatePDFFile(company, brandingTheme,
+				type, String.valueOf(objectID));
 	}
 
 	/**

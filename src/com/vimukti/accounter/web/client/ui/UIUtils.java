@@ -1738,10 +1738,27 @@ public class UIUtils {
 		}
 	}-*/;
 
-	public static void downloadAttachment(long objectID, int type,
+	public static void downloadAttachment(final long objectID, final int type,
 			long brandingThemeId) {
-		downloadAttachment(String.valueOf(objectID), type,
-				String.valueOf(brandingThemeId));
+		try {
+			Accounter.createHomeService().createPdfFile(objectID, type,
+					brandingThemeId, new AccounterAsyncCallback<String>() {
+
+						@Override
+						public void onException(AccounterException exception) {
+						}
+
+						@Override
+						public void onResultSuccess(String result) {
+							downloadFileFromTemp(
+									Utility.getTransactionName(type), result);
+						}
+					});
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		// downloadAttachment(String.valueOf(objectID), type,
+		// String.valueOf(brandingThemeId));
 	}
 
 	/**
@@ -1766,7 +1783,7 @@ public class UIUtils {
 	}-*/;
 
 	public static void downloadAttachment(long objectID, int type) {
-		downloadAttachment(String.valueOf(objectID), type);
+		downloadAttachment(objectID, type, 0);
 	}
 
 	public native static void downloadAttachment(String objectID, int type)/*-{
