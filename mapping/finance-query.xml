@@ -3981,8 +3981,14 @@
 				                        AND T1.SAVE_STATUS = 203
 				                        AND T1.STATUS!=3) = 0 THEN 0
 				           ELSE (SELECT CASE
-				                          WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE
+				                          WHEN T.T_TYPE = 8 THEN (SELECT 
+				                          							CASE WHEN CP IS NULL 
+				                          									THEN I1.BALANCE_DUE 
+				                          									ELSE  CASE WHEN CP.BALANCE = 0 THEN 0 ELSE -1*CP.BALANCE END 
+				                          									END
 				                                                  FROM   INVOICE I1
+										  									LEFT JOIN CREDITS_AND_PAYMENTS CP 
+										  									ON CP.ID= T.CREDITS_AND_PAYMENTS_ID
 				                                                  WHERE  I1.ID = T.ID)
 				                          WHEN T.T_TYPE = 4
 				                                OR T.T_TYPE = 29 THEN
@@ -4011,8 +4017,14 @@
 				                        AND T2.SAVE_STATUS = 203
 				                        AND T2.STATUS!=3) = 0 THEN 0
 				           ELSE (SELECT CASE
-				                          WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE
+				                          WHEN T.T_TYPE = 8 THEN (SELECT 
+				                          							CASE WHEN CP IS NULL 
+				                          									THEN I1.BALANCE_DUE 
+				                          									ELSE  CASE WHEN CP.BALANCE = 0 THEN 0 ELSE -1*CP.BALANCE END 
+				                          									END
 				                                                  FROM   INVOICE I1
+										  									LEFT JOIN CREDITS_AND_PAYMENTS CP 
+										  									ON CP.ID= T.CREDITS_AND_PAYMENTS_ID
 				                                                  WHERE  I1.ID = T.ID)
 				                          WHEN T.T_TYPE = 4
 				                                OR T.T_TYPE = 29 THEN
@@ -4042,8 +4054,14 @@
 				                        AND T3.SAVE_STATUS = 203
 				                        AND T3.STATUS!=3) = 0 THEN 0
 				           ELSE (SELECT CASE
-				                          WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE
+				                          WHEN T.T_TYPE = 8 THEN (SELECT 
+				                          							CASE WHEN CP IS NULL 
+				                          									THEN I1.BALANCE_DUE 
+				                          									ELSE  CASE WHEN CP.BALANCE = 0 THEN 0 ELSE -1*CP.BALANCE END 
+				                          									END
 				                                                  FROM   INVOICE I1
+										  									LEFT JOIN CREDITS_AND_PAYMENTS CP 
+										  									ON CP.ID= T.CREDITS_AND_PAYMENTS_ID
 				                                                  WHERE  I1.ID = T.ID)
 				                          WHEN T.T_TYPE = 4
 				                                OR T.T_TYPE = 29 THEN
@@ -4073,8 +4091,14 @@
 				                        AND T4.SAVE_STATUS = 203
 				                        AND T4.STATUS!=3) = 0 THEN 0
 				           ELSE (SELECT CASE
-				                          WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE
+				                          WHEN T.T_TYPE = 8 THEN (SELECT 
+				                          							CASE WHEN CP IS NULL 
+				                          									THEN I1.BALANCE_DUE 
+				                          									ELSE  CASE WHEN CP.BALANCE = 0 THEN 0 ELSE -1*CP.BALANCE END 
+				                          									END
 				                                                  FROM   INVOICE I1
+										  									LEFT JOIN CREDITS_AND_PAYMENTS CP 
+										  									ON CP.ID= T.CREDITS_AND_PAYMENTS_ID
 				                                                  WHERE  I1.ID = T.ID)
 				                          WHEN T.T_TYPE = 4
 				                                OR T.T_TYPE = 29 THEN
@@ -4104,8 +4128,14 @@
 				                        AND T5.SAVE_STATUS = 203
 				                        AND T5.STATUS!=3) = 0 THEN 0
 				           ELSE (SELECT CASE
-				                          WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE
+				                          WHEN T.T_TYPE = 8 THEN (SELECT 
+				                          							CASE WHEN CP IS NULL 
+				                          									THEN I1.BALANCE_DUE 
+				                          									ELSE  CASE WHEN CP.BALANCE = 0 THEN 0 ELSE -1*CP.BALANCE END 
+				                          									END
 				                                                  FROM   INVOICE I1
+										  									LEFT JOIN CREDITS_AND_PAYMENTS CP 
+										  									ON CP.ID= T.CREDITS_AND_PAYMENTS_ID
 				                                                  WHERE  I1.ID = T.ID)
 				                          WHEN T.T_TYPE = 4
 				                                OR T.T_TYPE = 29 THEN
@@ -4135,8 +4165,14 @@
 				                        AND T6.SAVE_STATUS = 203
 				                        AND T6.STATUS!=3) = 0 THEN 0
 				           ELSE (SELECT CASE
-				                          WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE
+				                          WHEN T.T_TYPE = 8 THEN (SELECT 
+				                          							CASE WHEN CP IS NULL 
+				                          									THEN I1.BALANCE_DUE 
+				                          									ELSE  CASE WHEN CP.BALANCE = 0 THEN 0 ELSE -1*CP.BALANCE END 
+				                          									END
 				                                                  FROM   INVOICE I1
+										  									LEFT JOIN CREDITS_AND_PAYMENTS CP 
+										  									ON CP.ID= T.CREDITS_AND_PAYMENTS_ID
 				                                                  WHERE  I1.ID = T.ID)
 				                          WHEN T.T_TYPE = 4
 				                                OR T.T_TYPE = 29 THEN
@@ -4163,8 +4199,14 @@
 				                        AND T7.SAVE_STATUS = 203
 				                        AND T7.STATUS!=3) = 0 THEN 0
 				           ELSE (SELECT CASE
-				                          WHEN T.T_TYPE = 8 THEN (SELECT I1.BALANCE_DUE
+				                          WHEN T.T_TYPE = 8 THEN (SELECT 
+				                          							CASE WHEN CP IS NULL 
+				                          									THEN I1.BALANCE_DUE 
+				                          									ELSE  CASE WHEN CP.BALANCE = 0 THEN 0 ELSE -1*CP.BALANCE END 
+				                          									END
 				                                                  FROM   INVOICE I1
+										  									LEFT JOIN CREDITS_AND_PAYMENTS CP 
+										  									ON CP.ID= T.CREDITS_AND_PAYMENTS_ID
 				                                                  WHERE  I1.ID = T.ID)
 				                          WHEN T.T_TYPE = 4
 				                                OR T.T_TYPE = 29 THEN
