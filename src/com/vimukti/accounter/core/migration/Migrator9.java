@@ -23,7 +23,7 @@ public class Migrator9 extends AbstractMigrator {
 				.setEntity("company", company);
 		List<Item> items = query.list();
 		for (Item item : items) {
-			double averageCost = InventoryUtils.getAverageCost(item.getID());
+			double averageCost = InventoryUtils.getAverageCost(item);
 			item.setAverageCost(averageCost);
 			getSession().saveOrUpdate(item);
 		}

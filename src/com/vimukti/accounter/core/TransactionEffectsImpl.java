@@ -300,4 +300,7 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 		}
 	}
 
+	public List<ItemUpdate> getNewIUs() {
+		return newIUs;
+	}
 }

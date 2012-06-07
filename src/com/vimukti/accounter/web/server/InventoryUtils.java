@@ -27,7 +27,7 @@ public class InventoryUtils {
 			int inventoryScheme = item.getActiveInventoryScheme();
 			List<InventoryDetails> purchases = getPurchases(itemID,
 					inventoryScheme);
-			// item.setAverageCost(getAverageCost(itemID));
+			item.setAverageCost(getAverageCost(item));
 			adjustSales(
 					item,
 					inventoryScheme == CompanyPreferences.INVENTORY_SCHME_AVERAGE,
@@ -123,13 +123,23 @@ public class InventoryUtils {
 		return details;
 	}
 
-	public static double getAverageCost(long itemID) {
+	public static double getAverageCost(Item item) {
+		long itemID = item.getID();
+
+		double unitFactor = item.getOnhandQty().getUnit().getFactor();
+
+		double defaultUnitFactor = item.getMeasurement().getDefaultUnit()
+				.getFactor();
+
 		Session session = HibernateUtil.getCurrentSession();
 		FlushMode flushMode = session.getFlushMode();
 		try {
 			session.setFlushMode(FlushMode.COMMIT);
 			Object result = session.getNamedQuery("getAverageCost.of.Item")
-					.setParameter("inventoryId", itemID).uniqueResult();
+					.setParameter("inventoryId", itemID)
+					.setParameter("unitFactor", unitFactor)
+					.setParameter("defaultUnitFactor", defaultUnitFactor)
+					.uniqueResult();
 			return result != null ? (Double) result : 0.00D;
 		} finally {
 			session.setFlushMode(flushMode);

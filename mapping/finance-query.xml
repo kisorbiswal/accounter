@@ -11216,13 +11216,16 @@
 
 	<sql-query name="getAverageCost.of.Item">
 		<query-param name="inventoryId" type="long" />
+		<query-param name="unitFactor" type="double" />
+		<query-param name="defaultUnitFactor" type="double" />
 
 		<return-scalar column="COST" type="double" />
 		
 		<![CDATA[
-				SELECT ( ( SUM(QUANTITY * UNIT_PRICE) ) / SUM((QUANTITY*UNIT_FACTOR)/DEFAULT_UNIT_FACTOR) ) AS COST
-				FROM   INVENTORY_PURCHASE_HISTORY_VIEW IHV
-				WHERE  IHV.ITEM_ID = :inventoryId  
+				SELECT ( Sum(unit_price * ( ( qty_value * :unitFactor ) / :defaultUnitFactor )) / 
+				         Sum((qty_value * :unitFactor ) / :defaultUnitFactor) ) AS cost 
+				FROM   item_update 		
+				WHERE  item = :inventoryId and qty_value > 0  
 				]]>
 
 	</sql-query>
@@ -11392,7 +11395,7 @@
 				]]>
 
 	</sql-query>
-	
+
 	<sql-query name="getInventoryTotalAsset">
 		<query-param name="wareHouseId" type="long" />
 		<query-param name="companyId" type="long" />
@@ -11424,7 +11427,7 @@
 				]]>
 
 	</sql-query>
-	
+
 
 	<sql-query name="getInventoryValutionSummary">
 		<query-param name="wareHouseId" type="long" />
@@ -12481,7 +12484,7 @@
 			
 			]]>
 	</sql-query>
-	
+
 	<sql-query name="canDeletePayEmployee">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
@@ -12503,5 +12506,5 @@
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-	
+
 </hibernate-mapping>

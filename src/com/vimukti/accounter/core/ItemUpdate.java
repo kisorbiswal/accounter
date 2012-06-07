@@ -100,9 +100,9 @@ public class ItemUpdate extends CreatableObject {
 	public boolean onSave(Session session) throws CallbackException {
 		setCompany(getTransaction().getCompany());
 
-		double averageCost = InventoryUtils.getAverageCost(getItem(),
-				getQuantity(), getUnitPrice());
-		getItem().setAverageCost(averageCost);
+		// double averageCost = InventoryUtils.getAverageCost(getItem(),
+		// getQuantity(), getUnitPrice());
+		// getItem().setAverageCost(averageCost);
 
 		Quantity onhandQty = getItem().getOnhandQty();
 		getItem().setOnhandQuantity(onhandQty.add(getQuantity()));

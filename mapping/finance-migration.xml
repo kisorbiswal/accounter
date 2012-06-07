@@ -98,7 +98,31 @@
 		from com.vimukti.accounter.core.TDSChalanDetail tc where
 		tc.company=:company
 	</query>
-	
+
+	<query name="get.all.Items">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Item i where i.company=:company
+	</query>
+
+	<sql-query name="get.all.inventory.items.transactions">
+		<query-param name="companyId" type="long" />
+		<return-scalar column="T_ID" type="long" />
+		<![CDATA[
+			SELECT t.id AS T_ID 
+			FROM   TRANSACTION t 
+			       LEFT JOIN transaction_item ti 
+			              ON ti.transaction_id = t.id 
+			       LEFT JOIN item i 
+			              ON i.id = ti.item_id 
+			WHERE  t.company_id = :companyId 
+			       AND t.save_status NOT IN ( 201, 202, 204 ) 
+			       AND ( i.type = 2 ) 
+			GROUP  BY t.id 
+			ORDER  BY t.t_type, 
+			          t.id 
+			]]>
+	</sql-query>
+
 	<query name="getItemsOfAverageCostZero">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Item i where i.averageCost=0 and i.company=:company
