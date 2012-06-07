@@ -1617,54 +1617,14 @@ public class UIUtils {
 
 	public static void downloadMultipleAttachment(String objectID, int type,
 			long brandingThemeId) {
-		downloadMultipleAttachment(objectID, type,
-				String.valueOf(brandingThemeId));
+		downLoadAttachement(objectID, type, brandingThemeId,
+				new ClientFinanceDate(), new ClientFinanceDate());
 	}
 
-	public native static void downloadMultipleAttachment(String objectID,
-			int type, String startDate, String endDate)/*-{
-		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src",
-					"/do/finance/generatePDFServlet?multipleIds=" + objectID
-							+ "&type=" + type + "&startDate=" + startDate
-							+ "&endDate=" + endDate);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
-		} catch (e) {
-			alert(e);
-		}
-	}-*/;
-
-	public native static void downloadMultipleAttachment(String objectID,
-			int type, String brandingThemeId)/*-{
-		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src",
-					"/do/finance/generatePDFServlet?multipleIds=" + objectID
-							+ "&type=" + type + "&brandingThemeId="
-							+ brandingThemeId);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
-		} catch (e) {
-			alert(e);
-		}
-	}-*/;
-
-	public native static void downloadAttachment(String objectID, int type,
-			String startDate, String endDate)/*-{
-		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src",
-					"/do/finance/generatePDFServlet?objectId=" + objectID
-							+ "&type=" + type + "&startDate=" + startDate
-							+ "&endDate=" + endDate);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
-		} catch (e) {
-			alert(e);
-		}
-	}-*/;
+	public static void downloadMultipleAttachment(String objectID, int type,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		downLoadAttachement(objectID, type, 0, startDate, endDate);
+	};
 
 	/**
 	 * Used to download Invoice and CreditNote custom template files
@@ -1738,66 +1698,40 @@ public class UIUtils {
 		}
 	}-*/;
 
-	public static void downloadAttachment(final long objectID, final int type,
+	public static void downloadAttachment(long objectID, final int type,
 			long brandingThemeId) {
+		downLoadAttachement(String.valueOf(objectID), type, brandingThemeId,
+				new ClientFinanceDate(), new ClientFinanceDate());
+		// downloadAttachment(String.valueOf(objectID), type,
+		// String.valueOf(brandingThemeId));
+	}
+
+	private static void downLoadAttachement(String objectID, final int type,
+			long brandingThemeId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		try {
 			Accounter.createHomeService().createPdfFile(objectID, type,
-					brandingThemeId, new AccounterAsyncCallback<String>() {
+					brandingThemeId, startDate, endDate,
+					new AccounterAsyncCallback<List<String>>() {
 
 						@Override
 						public void onException(AccounterException exception) {
 						}
 
 						@Override
-						public void onResultSuccess(String result) {
-							downloadFileFromTemp(
-									Utility.getTransactionName(type), result);
+						public void onResultSuccess(List<String> result) {
+							downloadFileFromTemp(result.get(1), result.get(0));
 						}
 					});
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
-		// downloadAttachment(String.valueOf(objectID), type,
-		// String.valueOf(brandingThemeId));
 	}
-
-	/**
-	 * This method is used for the pdf generation.The Require parameters are
-	 * object id and Type
-	 * 
-	 * @param brandingTheme
-	 */
-	public native static void downloadAttachment(String objectID, int type,
-			String brandingThemeId)/*-{
-		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src",
-					"/do/finance/generatePDFServlet?objectId=" + objectID
-							+ "&type=" + type + "&brandingThemeId="
-							+ brandingThemeId);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
-		} catch (e) {
-			alert(e);
-		}
-	}-*/;
 
 	public static void downloadAttachment(long objectID, int type) {
-		downloadAttachment(objectID, type, 0);
+		downLoadAttachement(String.valueOf(objectID), type, 0,
+				new ClientFinanceDate(), new ClientFinanceDate());
 	}
-
-	public native static void downloadAttachment(String objectID, int type)/*-{
-		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src",
-					"/do/finance/generatePDFServlet?objectId=" + objectID
-							+ "&type=" + type);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
-		} catch (e) {
-			alert(e);
-		}
-	}-*/;
 
 	/**
 	 * This method is used for the reports pdf generation. The Require
@@ -2080,26 +2014,6 @@ public class UIUtils {
 				|| (transaction.isTransferFund() && ((ClientTransferFund) transaction)
 						.getDepositIn() == accountId);
 	}
-
-	public static void generateBudgetReportPDF(int reportType, int BUDGET_TYPE) {
-
-		generateBudgetReportPDF(Integer.toString(reportType),
-				Integer.toString(BUDGET_TYPE));
-	}
-
-	public static native void generateBudgetReportPDF(String reportType,
-			String budgetType)/*-{
-		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src",
-					"/do/finance/generatePDFServlet?budgetType=" + budgetType
-							+ "&reportType=" + reportType);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
-		} catch (e) {
-			alert(e);
-		}
-	}-*/;
 
 	public native static void generatePaypalPermission(String id)/*-{
 		try {

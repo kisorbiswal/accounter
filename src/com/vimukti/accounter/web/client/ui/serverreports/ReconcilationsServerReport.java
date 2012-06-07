@@ -31,9 +31,9 @@ public class ReconcilationsServerReport extends
 
 	@Override
 	public int getColumnWidth(int index) {
-		if (index == 1)
+		if (index == 0)
 			return 160;
-		else if (index == 0)
+		else if (index == 1)
 			return 70;
 		else if (index == 2)
 			return 70;

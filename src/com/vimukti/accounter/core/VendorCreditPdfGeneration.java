@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -10,21 +11,17 @@ import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 
-public class VendorCreditPdfGeneration {
+public class VendorCreditPdfGeneration extends TransactionPDFGeneration {
 
-	private VendorCreditMemo creditMemo;
-	private Company company;
-
-	public VendorCreditPdfGeneration(VendorCreditMemo creditMemo,
-			Company company) {
-		this.company = company;
-		this.creditMemo = creditMemo;
+	public VendorCreditPdfGeneration(VendorCreditMemo creditMemo) {
+		super(creditMemo, null);
 	}
 
 	public IContext assignValues(IContext context, IXDocReport report) {
 
 		try {
-
+			VendorCreditMemo creditMemo = (VendorCreditMemo) getTransaction();
+			Company company = getCompany();
 			DummyVendorCredit i = new DummyVendorCredit();
 			i.setTitle(Global.get().Vendor() + " Credit Memo");
 			i.setVendorNBillingAddress(getBillingAddress());
@@ -118,7 +115,7 @@ public class VendorCreditPdfGeneration {
 
 			i.setMemo(creditMemo.getMemo());
 
-			i.setRegistrationAddress(getRegistrationAddress());
+			i.setRegistrationAddress(getRegisteredAddress());
 
 			context.put("credit", i);
 			context.put("item", itemList);
@@ -130,55 +127,13 @@ public class VendorCreditPdfGeneration {
 		return null;
 	}
 
-	private String getRegistrationAddress() {
-		String regestrationAddress = "";
-		Address reg = company.getRegisteredAddress();
-
-		if (reg != null)
-			regestrationAddress = ("Registered Address: " + reg.getAddress1()
-					+ forUnusedAddress(reg.getStreet(), true)
-					+ forUnusedAddress(reg.getCity(), true)
-					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true) + forNullValue(reg
-						.getCountryOrRegion())) + ".";
-
-		regestrationAddress = (company.getTradingName() + " "
-				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
-				.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
-				+ company.getRegistrationNumber()
-				: ""));
-
-		String phoneStr = forNullValue(company.getPreferences().getPhone());
-		if (phoneStr.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().phone() + " : " + phoneStr + ",";
-		}
-		String website = forNullValue(company.getPreferences().getWebSite());
-
-		if (website.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().webSite() + " : " + website;
-		}
-
-		return regestrationAddress;
-
-	}
-
 	private String getBillingAddress() {
 		// To get the selected contact name form Invoice
 		String cname = "";
-		String phone = "";
-		boolean hasPhone = false;
+		VendorCreditMemo creditMemo = (VendorCreditMemo) getTransaction();
 		Contact selectedContact = creditMemo.getContact();
 		if (selectedContact != null) {
 			cname = selectedContact.getName().trim();
-			if (selectedContact.getBusinessPhone().trim().length() > 0)
-				phone = selectedContact.getBusinessPhone();
-			if (phone.trim().length() > 0) {
-				// If phone variable has value, then only we need to display
-				// the text 'phone'
-				hasPhone = true;
-			}
 		}
 
 		String customerName = forUnusedAddress(
@@ -186,29 +141,6 @@ public class VendorCreditPdfGeneration {
 		StringBuffer contact = new StringBuffer();
 		contact = contact.append(forUnusedAddress(cname, false) + customerName);
 		return contact.toString();
-	}
-
-	public String forUnusedAddress(String add, boolean isFooter) {
-		if (isFooter) {
-			if (add != null && !add.equals(""))
-				return add + ", ";
-		} else {
-			if (add != null && !add.equals(""))
-				return add + "\n";
-		}
-		return "";
-	}
-
-	public String forNullValue(String value) {
-		return value != null ? value : "";
-	}
-
-	public String forZeroAmounts(String amount) {
-		String[] amt = amount.replace(".", "-").split("-");
-		if (amt[0].equals("0")) {
-			return "";
-		}
-		return amount;
 	}
 
 	public class DummyVendorCredit {
@@ -297,92 +229,13 @@ public class VendorCreditPdfGeneration {
 
 	}
 
-	public class ItemList {
-		private String name;
-		private String description;
-		private String quantity;
-		private String itemUnitPrice;
-		private String discount;
-		private String itemTotalPrice;
-		private String itemVatRate;
-		private String itemVatAmount;
+	@Override
+	public String getTemplateName() {
+		return "templetes" + File.separator + "VendorCreditOdt.odt";
+	}
 
-		ItemList(String name, String description, String quantity,
-				String itemUnitPrice, String discount, String itemTotalPrice,
-				String itemVatRate, String itemVatAmount) {
-			this.name = name;
-			this.description = description;
-			this.quantity = quantity;
-			this.itemUnitPrice = itemUnitPrice;
-			this.discount = discount;
-			this.itemTotalPrice = itemTotalPrice;
-			this.itemVatRate = itemVatRate;
-			this.itemVatAmount = itemVatAmount;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getDescription() {
-			return description;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
-
-		public String getQuantity() {
-			return quantity;
-		}
-
-		public void setQuantity(String quantity) {
-			this.quantity = quantity;
-		}
-
-		public String getItemUnitPrice() {
-			return itemUnitPrice;
-		}
-
-		public void setItemUnitPrice(String itemUnitPrice) {
-			this.itemUnitPrice = itemUnitPrice;
-		}
-
-		public String getDiscount() {
-			return discount;
-		}
-
-		public void setDiscount(String discount) {
-			this.discount = discount;
-		}
-
-		public String getItemTotalPrice() {
-			return itemTotalPrice;
-		}
-
-		public void setItemTotalPrice(String itemTotalPrice) {
-			this.itemTotalPrice = itemTotalPrice;
-		}
-
-		public String getItemVatRate() {
-			return itemVatRate;
-		}
-
-		public void setItemVatRate(String itemVatRate) {
-			this.itemVatRate = itemVatRate;
-		}
-
-		public String getItemVatAmount() {
-			return itemVatAmount;
-		}
-
-		public void setItemVatAmount(String itemVatAmount) {
-			this.itemVatAmount = itemVatAmount;
-		}
-
+	@Override
+	public String getFileName() {
+		return "CreditMemo_" + getTransaction().getNumber();
 	}
 }

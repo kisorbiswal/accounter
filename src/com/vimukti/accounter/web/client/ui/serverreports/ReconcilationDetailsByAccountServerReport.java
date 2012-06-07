@@ -55,15 +55,15 @@ public class ReconcilationDetailsByAccountServerReport extends
 		case 0:
 			return 100;
 		case 1:
-			return 75;
+			return 100;
 		case 3:
 			return 100;
 		case 4:
 			return 80;
 		case 5:
-			return 80;
+			return 100;
 		case 6:
-			return 80;
+			return 100;
 		default:
 			return -1;
 		}

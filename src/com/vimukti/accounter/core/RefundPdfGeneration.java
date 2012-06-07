@@ -1,23 +1,23 @@
 package com.vimukti.accounter.core;
 
+import java.io.File;
+
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.template.IContext;
 
-public class RefundPdfGeneration {
+public class RefundPdfGeneration extends TransactionPDFGeneration {
 
-	private final CustomerRefund refund;
-	private final Company company;
-
-	public RefundPdfGeneration(CustomerRefund refund, Company company) {
-		this.refund = refund;
-		this.company = company;
+	public RefundPdfGeneration(CustomerRefund refund) {
+		super(refund, null);
 	}
 
 	public IContext assignValues(IContext context, IXDocReport report) {
 		try {
+			CustomerRefund refund = (CustomerRefund) getTransaction();
+
 			CustomerRefundTemplate template = new CustomerRefundTemplate();
 
 			template.setTitle(Global.get().Customer() + " Refund");
@@ -47,6 +47,7 @@ public class RefundPdfGeneration {
 	}
 
 	private String getAddress() {
+		CustomerRefund refund = (CustomerRefund) getTransaction();
 		Address bill = refund.getAddress();
 		StringBuffer billAddress = new StringBuffer();
 		if (bill != null) {
@@ -64,55 +65,6 @@ public class RefundPdfGeneration {
 			}
 		}
 		return "";
-	}
-
-	public String forUnusedAddress(String add, boolean isFooter) {
-		if (isFooter) {
-			if (add != null && !add.equals(""))
-				return add + ", ";
-		} else {
-			if (add != null && !add.equals(""))
-				return add + "\n";
-		}
-		return "";
-	}
-
-	public String forNullValue(String value) {
-		return value != null ? value : "";
-	}
-
-	private String getRegisteredAddress() {
-		String regestrationAddress = "";
-		Address reg = company.getRegisteredAddress();
-
-		if (reg != null) {
-			regestrationAddress = (reg.getAddress1()
-					+ forUnusedAddress(reg.getStreet(), true)
-					+ forUnusedAddress(reg.getCity(), true)
-					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-					+ forNullValue(reg.getCountryOrRegion()) + ".");
-		} else {
-			regestrationAddress = (company.getTradingName() + " "
-					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
-					.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
-					+ company.getRegistrationNumber()
-					: ""));
-		}
-		String phoneStr = forNullValue(company.getPreferences().getPhone());
-		if (phoneStr.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().phone() + " : " + phoneStr + ",";
-		}
-		String website = forNullValue(company.getPreferences().getWebSite());
-
-		if (website.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().webSite() + " : " + website;
-		}
-
-		return regestrationAddress;
-
 	}
 
 	public class CustomerRefundTemplate {
@@ -228,18 +180,14 @@ public class RefundPdfGeneration {
 
 	}
 
-	private String forAddress(String address, boolean isFooter) {
-		if (address == null) {
-			return "";
-		}
-		if (address.trim().length() == 0) {
-			return "";
-		}
-		if (isFooter) {
-			return address + "." + "\n";
-		} else {
-			return address + "," + "\n";
-		}
+	@Override
+	public String getTemplateName() {
+		return "templetes" + File.separator + "RefundOdt.odt";
+	}
+
+	@Override
+	public String getFileName() {
+		return "Refund_" + getTransaction().getNumber();
 	}
 
 }

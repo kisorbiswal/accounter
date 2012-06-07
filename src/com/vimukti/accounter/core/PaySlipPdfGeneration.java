@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -13,25 +14,24 @@ import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 
-public class PaySlipPdfGeneration {
+public class PaySlipPdfGeneration extends TransactionPDFGeneration {
 
-	private Employee employee;
-	private Company company;
 	private FinanceDate startDate;
 	private FinanceDate endDate;
 	private LinkedHashMap<Integer, Address> allAddresses = new LinkedHashMap<Integer, Address>();
+	private Employee employee;
 
-	public PaySlipPdfGeneration(Employee employee, Company company,
-			FinanceDate startDate, FinanceDate endDate) {
-		this.company = company;
-		this.employee = employee;
+	public PaySlipPdfGeneration(Employee employee, FinanceDate startDate,
+			FinanceDate endDate) {
+		super(null, null);
 		this.startDate = startDate;
+		this.employee = employee;
 		this.endDate = endDate;
 	}
 
 	public IContext assignValues(IContext context, IXDocReport report) {
 		try {
-
+			Company company = employee.getCompany();
 			DummyEmployee i = new DummyEmployee();
 			String name = employee != null ? employee.getName() : "";
 			i.setName(name);
@@ -353,6 +353,16 @@ public class PaySlipPdfGeneration {
 			this.deductAmount = deductAmount;
 		}
 
+	}
+
+	@Override
+	public String getTemplateName() {
+		return "templetes" + File.separator + "payslip.odt";
+	}
+
+	@Override
+	public String getFileName() {
+		return "PaySlip_" + employee.getNumber();
 	}
 
 }

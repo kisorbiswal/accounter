@@ -183,8 +183,12 @@ public class TransactionDetailByAccountReport extends
 			String name2 = obj2.getName();
 			return name1.toLowerCase().compareTo(name2.toLowerCase());
 		case 2:
-			return obj1.getTransactionDate().compareTo(
-					obj2.getTransactionDate());
+			ClientFinanceDate date1 = obj1.getTransactionDate();
+			ClientFinanceDate date2 = obj2.getTransactionDate();
+			if (date1 != null && date2 != null) {
+				return date1.compareTo(date2);
+			}
+			break;
 		case 3:
 			return UIUtils.compareInt(obj1.getTransactionType(),
 					obj2.getTransactionType());

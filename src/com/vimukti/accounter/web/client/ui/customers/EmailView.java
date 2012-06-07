@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
+import java.util.List;
+
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -11,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 import com.vimukti.accounter.web.client.core.ClientEmailTemplate;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -77,21 +80,23 @@ public class EmailView extends AbstractBaseView<ClientTransaction> {
 
 	private void preparePdfFile() {
 
-		AsyncCallback<String> callback = new AsyncCallback<String>() {
+		AsyncCallback<List<String>> callback = new AsyncCallback<List<String>>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
 
 			}
 
-			public void onSuccess(String result) {
-				fileName = result.toString();
+			public void onSuccess(List<String> result) {
+				fileName = result.get(0).toString();
 			};
 		};
 
 		try {
-			Accounter.createHomeService().createPdfFile(transaction.getID(),
-					transaction.getType(), brandingThemeId, callback);
+			Accounter.createHomeService().createPdfFile(
+					String.valueOf(transaction.getID()), transaction.getType(),
+					brandingThemeId, new ClientFinanceDate(),
+					new ClientFinanceDate(), callback);
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}

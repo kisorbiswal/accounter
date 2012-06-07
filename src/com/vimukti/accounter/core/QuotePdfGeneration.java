@@ -23,17 +23,10 @@ import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
  * @author vimukti15
  * 
  */
-public class QuotePdfGeneration {
+public class QuotePdfGeneration extends TransactionPDFGeneration {
 
-	private Estimate estimate;
-	private Company company;
-	private BrandingTheme brandingTheme;
-
-	public QuotePdfGeneration(Estimate estimate, Company company,
-			BrandingTheme brandingTheme) {
-		this.estimate = estimate;
-		this.company = company;
-		this.brandingTheme = brandingTheme;
+	public QuotePdfGeneration(Estimate estimate, BrandingTheme brandingTheme) {
+		super(estimate, brandingTheme);
 
 	}
 
@@ -51,7 +44,9 @@ public class QuotePdfGeneration {
 			imgMetaData.addFieldAsImage("logo");
 			imgMetaData.addFieldAsImage("companyImg");
 			report.setFieldsMetadata(imgMetaData);
-
+			Estimate estimate = (Estimate) getTransaction();
+			BrandingTheme brandingTheme = getBrandingTheme();
+			Company company = getCompany();
 			// assigning the original values
 			DummyQuote qut = new DummyQuote();
 			String title = brandingTheme.getQuoteTitle() == null ? "Quote"
@@ -251,7 +246,7 @@ public class QuotePdfGeneration {
 				qut.regAddress.setZipOrPostalCode("");
 			}
 
-			qut.setRegistrationAddress(getRegistrationAddress());
+			qut.setRegistrationAddress(getRegisteredAddress());
 
 			context.put("logo", logo);
 			context.put("quote", qut);
@@ -264,46 +259,25 @@ public class QuotePdfGeneration {
 		return null;
 	}
 
-	private String getRegistrationAddress() {
-		String regestrationAddress = "";
-		Address reg = company.getRegisteredAddress();
-
-		if (reg != null)
-			regestrationAddress = ("Registered Address: " + reg.getAddress1()
-					+ forUnusedAddress(reg.getStreet(), true)
-					+ forUnusedAddress(reg.getCity(), true)
-					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-					+ forNullValue(reg.getCountryOrRegion()) + ".");
-
-		regestrationAddress = (company.getTradingName() + " "
-				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
-				.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
-				+ company.getRegistrationNumber()
-				: ""));
-		String phoneStr = forNullValue(company.getPreferences().getPhone());
-		if (phoneStr.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().phone() + " : " + phoneStr + ",";
+	private String getShippingAddress() {
+		// setting shipping address
+		String shipAddress = "";
+		Estimate estimate = (Estimate) getTransaction();
+		Address shpAdres = estimate.getShippingAdress();
+		if (shpAdres != null) {
+			shipAddress = forUnusedAddress(estimate.getCustomer().getName(),
+					false)
+					+ forUnusedAddress(shpAdres.getAddress1(), false)
+					+ forUnusedAddress(shpAdres.getStreet(), false)
+					+ forUnusedAddress(shpAdres.getCity(), false)
+					+ forUnusedAddress(shpAdres.getStateOrProvinence(), false)
+					+ forUnusedAddress(shpAdres.getZipOrPostalCode(), false)
+					+ forUnusedAddress(shpAdres.getCountryOrRegion(), false);
 		}
-		String website = forNullValue(company.getPreferences().getWebSite());
-
-		if (website.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().webSite() + " : " + website;
+		if (shipAddress.trim().length() > 0) {
+			return shipAddress;
 		}
-		return regestrationAddress;
-
-	}
-
-	public String getImage() {
-		StringBuffer original = new StringBuffer();
-
-		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ company.getId() + "/" + brandingTheme.getFileName());
-
-		return original.toString();
-
+		return "";
 	}
 
 	private String getBillingAddress() {
@@ -311,6 +285,7 @@ public class QuotePdfGeneration {
 		String cname = "";
 		String phone = "";
 		boolean hasPhone = false;
+		Estimate estimate = (Estimate) getTransaction();
 		Contact selectedContact = estimate.getContact();
 		if (selectedContact != null) {
 			cname = selectedContact.getName().trim();
@@ -355,49 +330,6 @@ public class QuotePdfGeneration {
 			return contact.toString();
 		}
 		return "";
-	}
-
-	private String getShippingAddress() {
-		// setting shipping address
-		String shipAddress = "";
-		Address shpAdres = estimate.getShippingAdress();
-		if (shpAdres != null) {
-			shipAddress = forUnusedAddress(estimate.getCustomer().getName(),
-					false)
-					+ forUnusedAddress(shpAdres.getAddress1(), false)
-					+ forUnusedAddress(shpAdres.getStreet(), false)
-					+ forUnusedAddress(shpAdres.getCity(), false)
-					+ forUnusedAddress(shpAdres.getStateOrProvinence(), false)
-					+ forUnusedAddress(shpAdres.getZipOrPostalCode(), false)
-					+ forUnusedAddress(shpAdres.getCountryOrRegion(), false);
-		}
-		if (shipAddress.trim().length() > 0) {
-			return shipAddress;
-		}
-		return "";
-	}
-
-	public String forUnusedAddress(String add, boolean isFooter) {
-		if (isFooter) {
-			if (add != null && !add.equals(""))
-				return add + ", ";
-		} else {
-			if (add != null && !add.equals(""))
-				return add + "\n";
-		}
-		return "";
-	}
-
-	public String forNullValue(String value) {
-		return value != null ? value : "";
-	}
-
-	public String forZeroAmounts(String amount) {
-		String[] amt = amount.replace(".", "-").split("-");
-		if (amt[0].equals("0")) {
-			return "";
-		}
-		return amount;
 	}
 
 	public class DummyQuote {
@@ -630,99 +562,10 @@ public class QuotePdfGeneration {
 
 	}
 
-	public class ItemList {
-		private String name;
-		private String description;
-		private String quantity;
-		private String itemUnitPrice;
-		private String discount;
-		private String itemTotalPrice;
-		private String itemVatRate;
-		private String itemVatAmount;
-
-		ItemList(String name, String description, String quantity,
-				String itemUnitPrice, String discount, String itemTotalPrice,
-				String itemVatRate, String itemVatAmount) {
-			this.name = name;
-			this.description = description;
-			this.quantity = quantity;
-			this.itemUnitPrice = itemUnitPrice;
-			this.discount = discount;
-			this.itemTotalPrice = itemTotalPrice;
-			this.itemVatRate = itemVatRate;
-			this.itemVatAmount = itemVatAmount;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getDescription() {
-			return description;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
-
-		public String getQuantity() {
-			return quantity;
-		}
-
-		public void setQuantity(String quantity) {
-			this.quantity = quantity;
-		}
-
-		public String getItemUnitPrice() {
-			return itemUnitPrice;
-		}
-
-		public void setItemUnitPrice(String itemUnitPrice) {
-			this.itemUnitPrice = itemUnitPrice;
-		}
-
-		public String getDiscount() {
-			return discount;
-		}
-
-		public void setDiscount(String discount) {
-			this.discount = discount;
-		}
-
-		public String getItemTotalPrice() {
-			return itemTotalPrice;
-		}
-
-		public void setItemTotalPrice(String itemTotalPrice) {
-			this.itemTotalPrice = itemTotalPrice;
-		}
-
-		public String getItemVatRate() {
-			return itemVatRate;
-		}
-
-		public void setItemVatRate(String itemVatRate) {
-			this.itemVatRate = itemVatRate;
-		}
-
-		public String getItemVatAmount() {
-			return itemVatAmount;
-		}
-
-		public void setItemVatAmount(String itemVatAmount) {
-			this.itemVatAmount = itemVatAmount;
-		}
-
-	}
-
 	/**
 	 * this method is used to get the Status String value based on int value
 	 */
-	private String getStatusString(int status) {
+	protected String getStatusString(int status) {
 		AccounterMessages messages = Global.get().messages();
 		switch (status) {
 		case ClientEstimate.STATUS_OPEN:
@@ -744,5 +587,24 @@ public class QuotePdfGeneration {
 			break;
 		}
 		return "";
+	}
+
+	@Override
+	public String getTemplateName() {
+		BrandingTheme brandingTheme = getBrandingTheme();
+		Company company = getCompany();
+		if (brandingTheme.getQuoteTemplateName().contains("Classic Template")) {
+			return "templetes" + File.separator + "QuoteDocx.docx";
+		} else {
+			return ServerConfiguration.getAttachmentsDir() + "/"
+					+ company.getId() + "/" + "templateFiles" + "/"
+					+ brandingTheme.getID() + "/"
+					+ brandingTheme.getQuoteTemplateName();
+		}
+	}
+
+	@Override
+	public String getFileName() {
+		return "Quote_" + getTransaction().getNumber();
 	}
 }

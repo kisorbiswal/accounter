@@ -1,30 +1,28 @@
 package com.vimukti.accounter.core;
 
+import java.io.File;
+
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.template.IContext;
 
-public class CustomerPaymentPdfGeneration {
+public class CustomerPaymentPdfGeneration extends TransactionPDFGeneration {
 
-	private final CustomerPrePayment prePayment;
-	private final Company company;
-
-	public CustomerPaymentPdfGeneration(CustomerPrePayment prePayment,
-			Company company) {
-		this.prePayment = prePayment;
-		this.company = company;
+	public CustomerPaymentPdfGeneration(CustomerPrePayment prePayment) {
+		super(prePayment, null);
 	}
 
 	public IContext assignValues(IContext context, IXDocReport report) {
 		try {
+			CustomerPrePayment prePayment = (CustomerPrePayment) getTransaction();
 			DummyPayment template = new DummyPayment();
 			template.setTitle(Global.get().Customer() + " Prepayment");
 			template.setName(prePayment.getCustomer().getName());
 			template.setNumber(prePayment.getNumber());
 			template.setCustomerNAddress(getAddress());
-			template.setRegisteredAddress(getRegistrationAddress());
+			template.setRegisteredAddress(getRegisteredAddress());
 			template.setDate(prePayment.getDate().toString());
 			template.setPayMethod(prePayment.getPaymentMethod());
 			template.setCheckNo(prePayment.getCheckNumber());
@@ -43,45 +41,11 @@ public class CustomerPaymentPdfGeneration {
 		return null;
 	}
 
-	private String getRegistrationAddress() {
-		String regestrationAddress = "";
-		Address reg = company.getRegisteredAddress();
-
-		if (reg != null) {
-			regestrationAddress = (reg.getAddress1()
-					+ forUnusedAddress(reg.getStreet(), true)
-					+ forUnusedAddress(reg.getCity(), true)
-					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-					+ forNullValue(reg.getCountryOrRegion()) + ".");
-		} else {
-			regestrationAddress = (company.getTradingName() + " , "
-					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
-					.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
-					+ company.getRegistrationNumber()
-					: ""));
-		}
-		String phoneStr = forNullValue(company.getPreferences().getPhone());
-		if (phoneStr.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().phone() + " : " + phoneStr + ",";
-		}
-		String website = forNullValue(company.getPreferences().getWebSite());
-
-		if (website.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().webSite() + " : " + website;
-		}
-
-		return regestrationAddress;
-
-	}
-
 	private String getAddress() {
 		// To get the selected contact name form Invoice
 		String phone = "";
 		boolean hasPhone = false;
-
+		CustomerPrePayment prePayment = (CustomerPrePayment) getTransaction();
 		Address bill = prePayment.getAddress();
 		String customerName = forUnusedAddress(prePayment.getCustomer()
 				.getName(), false);
@@ -105,29 +69,6 @@ public class CustomerPaymentPdfGeneration {
 			return customerName;
 		}
 		return "";
-	}
-
-	public String forUnusedAddress(String add, boolean isFooter) {
-		if (isFooter) {
-			if (add != null && !add.equals(""))
-				return add + ", ";
-		} else {
-			if (add != null && !add.equals(""))
-				return add + "\n";
-		}
-		return "";
-	}
-
-	public String forNullValue(String value) {
-		return value != null ? value : "";
-	}
-
-	public String forZeroAmounts(String amount) {
-		String[] amt = amount.replace(".", "-").split("-");
-		if (amt[0].equals("0")) {
-			return "";
-		}
-		return amount;
 	}
 
 	public class DummyPayment {
@@ -243,17 +184,13 @@ public class CustomerPaymentPdfGeneration {
 
 	}
 
-	private String forAddress(String address, boolean isFooter) {
-		if (address == null) {
-			return "";
-		}
-		if (address.trim().length() == 0) {
-			return "";
-		}
-		if (isFooter) {
-			return address + "." + "\n";
-		} else {
-			return address + "," + "\n";
-		}
+	@Override
+	public String getTemplateName() {
+		return "templetes" + File.separator + "CustomerPaymentOdt.odt";
+	}
+
+	@Override
+	public String getFileName() {
+		return "Prepayment_" + getTransaction().getNumber();
 	}
 }

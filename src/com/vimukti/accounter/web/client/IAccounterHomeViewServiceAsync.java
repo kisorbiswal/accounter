@@ -393,8 +393,9 @@ public interface IAccounterHomeViewServiceAsync {
 	public void sendTestMail(ClientEmailAccount sender, String recipient,
 			AsyncCallback<Boolean> callback);
 
-	public void createPdfFile(long objectID, int type, long brandingThemeId,
-			AsyncCallback<String> callback) throws AccounterException;
+	public void createPdfFile(String objectID, int type, long brandingThemeId,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			AsyncCallback<List<String>> callback) throws AccounterException;
 
 	public void getBudgetList(
 			AsyncCallback<PaginationList<ClientBudget>> callBack);

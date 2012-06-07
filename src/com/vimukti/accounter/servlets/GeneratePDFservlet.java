@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,7 +39,6 @@ import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.CCExpensePdfGeneration;
 import com.vimukti.accounter.core.CashExpensePdfGeneration;
 import com.vimukti.accounter.core.CashPurchase;
-import com.vimukti.accounter.core.CashPurchasePdfGeneration;
 import com.vimukti.accounter.core.CashSalePdfGeneration;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.Company;
@@ -76,6 +76,7 @@ import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.SalesOrderPdfGeneration;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.TransactionPDFGeneration;
 import com.vimukti.accounter.core.VendorCreditMemo;
 import com.vimukti.accounter.core.VendorCreditPdfGeneration;
 import com.vimukti.accounter.core.VendorPaymentPdfGeneration;
@@ -85,7 +86,6 @@ import com.vimukti.accounter.core.WriteCheckPdfGeneration;
 import com.vimukti.accounter.core.reports.generators.IReportGenerator;
 import com.vimukti.accounter.core.vat.IndianVATTemplate;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
@@ -557,12 +557,13 @@ public class GeneratePDFservlet extends BaseServlet {
 						}
 
 						if (transactionType == 116) {
-							Employee employee = (Employee) financetool
-									.getManager().getServerObjectForid(
+							Employee payrun = (Employee) financetool
+									.getManager()
+									.getServerObjectForid(
 											AccounterCoreType.EMPLOYEE,
 											Long.parseLong(ids[i]));
-							fileName = "PaySlip_" + employee.getNumber();
-							map = printEmployeePaySlip(employee,
+							fileName = "PaySlip_" + payrun.getNumber();
+							map = printEmployeePaySlip(payrun,
 									getCompany(request), request, isMultipleId,
 									fileNames);
 						}
@@ -686,8 +687,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			String fileName = null;
 			String templeteName = "templetes" + File.separator + "payslip.odt";
 			fileName = "PaySlip_" + employee.getNumber();
-			generation = new PaySlipPdfGeneration(employee, company, startDate,
-					endDate);
+			generation = new PaySlipPdfGeneration(employee, startDate, endDate);
 			InputStream in = new BufferedInputStream(new FileInputStream(
 					templeteName));
 			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
@@ -888,171 +888,74 @@ public class GeneratePDFservlet extends BaseServlet {
 			List<String> fileNames) {
 
 		try {
-
-			CreditNotePdfGeneration creditPdfGeneration = null;
-			InvoicePdfGeneration invoicePdfGeneration = null;
-			QuotePdfGeneration quotePdfGeneration = null;
-			CashSalePdfGeneration cashSalePdfGeneration = null;
-			ReceivePaymentPdfGeneration receivePaymentPdfGeneration = null;
-			RefundPdfGeneration refundPdfGeneration = null;
-			PurchaseOrderPdfGeneration purchaseOrderPdfGeneration = null;
-			SalesOrderPdfGeneration salesOrderPdfGeneration = null;
-			JournelEntryPdfGeneration journelEntryPdfGeneration = null;
-			CashPurchasePdfGeneration purchasePdfGeneration = null;
-			CustomerPaymentPdfGeneration customerPaymentPdfGeneration = null;
-			CCExpensePdfGeneration ccExpensePdfGeneration = null;
-			CashExpensePdfGeneration cashExpensePdfGeneration = null;
-			VendorCreditPdfGeneration vendorCreditPdfGeneration = null;
-			WriteCheckPdfGeneration writeCheckPdfGeneration = null;
-			VendorPaymentPdfGeneration vendorPaymentPdfGeneration = null;
-			EnterBillPdfGeneration enterBillPdfGeneration = null;
-			PayBillPdfGeneration payBillPdfGeneration = null;
-
-			String templeteName = null;
-			String fileName = null;
+			TransactionPDFGeneration pdfGeneration = null;
 
 			if (transaction instanceof Invoice) {
 				// for Invoice
-				if (brandingTheme.getInvoiceTempleteName().contains(
-						"Classic Template")) {
-					templeteName = "templetes" + File.separator
-							+ "InvoiceDocx.docx";
-				} else {
-
-					templeteName = ServerConfiguration.getAttachmentsDir()
-							+ "/" + company.getId() + "/" + "templateFiles"
-							+ "/" + brandingTheme.getID() + "/"
-							+ brandingTheme.getInvoiceTempleteName();
-				}
-				fileName = "Invoice_" + transaction.getNumber();
-				invoicePdfGeneration = new InvoicePdfGeneration(
-						(Invoice) transaction, company, brandingTheme);
+				pdfGeneration = new InvoicePdfGeneration((Invoice) transaction,
+						brandingTheme);
 			}
 
 			if (transaction instanceof CustomerCreditMemo) {
 				// For CreditNote
-				if (brandingTheme.getCreditNoteTempleteName().contains(
-						"Classic Template")) {
-					templeteName = "templetes" + File.separator
-							+ "CreditDocx.docx";
-				} else {
-					templeteName = ServerConfiguration.getAttachmentsDir()
-							+ "/" + company.getId() + "/" + "templateFiles"
-							+ "/" + brandingTheme.getID() + "/"
-							+ brandingTheme.getCreditNoteTempleteName();
-				}
-				fileName = "CreditNote_" + transaction.getNumber();
-				creditPdfGeneration = new CreditNotePdfGeneration(
-						(CustomerCreditMemo) transaction, company,
-						brandingTheme);
+				pdfGeneration = new CreditNotePdfGeneration(
+						(CustomerCreditMemo) transaction, brandingTheme);
 			}
 
 			if (transaction instanceof ReceivePayment) {
-				templeteName = "templetes" + File.separator
-						+ "ReceivePaymentOdt.odt";
-				fileName = "ReceivePayment_" + transaction.getNumber();
-				receivePaymentPdfGeneration = new ReceivePaymentPdfGeneration(
-						(ReceivePayment) transaction, company);
+				pdfGeneration = new ReceivePaymentPdfGeneration(
+						(ReceivePayment) transaction);
 			}
 
 			if (transaction instanceof CustomerRefund) {
-				templeteName = "templetes" + File.separator + "RefundOdt.odt";
-				fileName = "Refund_" + transaction.getNumber();
-				refundPdfGeneration = new RefundPdfGeneration(
-						(CustomerRefund) transaction, company);
+				pdfGeneration = new RefundPdfGeneration(
+						(CustomerRefund) transaction);
 			}
 
 			if (transaction instanceof CashPurchase) {
-				if (transaction.getType() == Transaction.TYPE_CASH_PURCHASE) {
-					templeteName = "templetes" + File.separator
-							+ "CashPurchaseOdt.odt";
-					fileName = "CashPurchase_" + transaction.getNumber();
-					purchasePdfGeneration = new CashPurchasePdfGeneration(
-							(CashPurchase) transaction, company);
-				} else {
-					templeteName = "templetes" + File.separator
-							+ "CashExpenseOdt.odt";
-					fileName = "CashExpense_" + transaction.getNumber();
-					cashExpensePdfGeneration = new CashExpensePdfGeneration(
-							(CashPurchase) transaction, company);
-				}
+				pdfGeneration = new CashExpensePdfGeneration(
+						(CashPurchase) transaction);
 			}
 
 			if (transaction instanceof CustomerPrePayment) {
-				templeteName = "templetes" + File.separator
-						+ "CustomerPaymentOdt.odt";
-				fileName = "Prepayment_" + transaction.getNumber();
-				customerPaymentPdfGeneration = new CustomerPaymentPdfGeneration(
-						(CustomerPrePayment) transaction, company);
+				pdfGeneration = new CustomerPaymentPdfGeneration(
+						(CustomerPrePayment) transaction);
 			}
 
 			if (transaction instanceof CreditCardCharge) {
-				templeteName = "templetes" + File.separator
-						+ "CCExpenseOdt.odt";
-				fileName = "CCExpense_" + transaction.getNumber();
-				ccExpensePdfGeneration = new CCExpensePdfGeneration(
-						(CreditCardCharge) transaction, company);
+				pdfGeneration = new CCExpensePdfGeneration(
+						(CreditCardCharge) transaction);
 			}
 
 			if (transaction instanceof VendorCreditMemo) {
-				templeteName = "templetes" + File.separator
-						+ "VendorCreditOdt.odt";
-				fileName = "CreditMemo_" + transaction.getNumber();
-				vendorCreditPdfGeneration = new VendorCreditPdfGeneration(
-						(VendorCreditMemo) transaction, company);
+				pdfGeneration = new VendorCreditPdfGeneration(
+						(VendorCreditMemo) transaction);
 
 			}
 
 			if (transaction instanceof WriteCheck) {
-				templeteName = "templetes" + File.separator
-						+ "WriteCheckOdt.odt";
-				fileName = "WriteCheck_" + transaction.getNumber();
-				writeCheckPdfGeneration = new WriteCheckPdfGeneration(
-						(WriteCheck) transaction, company);
-
+				pdfGeneration = new WriteCheckPdfGeneration(
+						(WriteCheck) transaction);
 			}
 
 			if (transaction instanceof VendorPrePayment) {
-				templeteName = "templetes" + File.separator
-						+ "VendorPaymentOdt.odt";
-				fileName = "Payment_" + transaction.getNumber();
-				vendorPaymentPdfGeneration = new VendorPaymentPdfGeneration(
-						(VendorPrePayment) transaction, company);
+				pdfGeneration = new VendorPaymentPdfGeneration(
+						(VendorPrePayment) transaction);
 
 			}
 
 			if (transaction instanceof EnterBill) {
-				templeteName = "templetes" + File.separator
-						+ "EnterBillOdt.odt";
-				fileName = "Bill_" + transaction.getNumber();
-				enterBillPdfGeneration = new EnterBillPdfGeneration(
-						(EnterBill) transaction, company);
-
+				pdfGeneration = new EnterBillPdfGeneration(
+						(EnterBill) transaction);
 			}
 
 			if (transaction instanceof PayBill) {
-				templeteName = "templetes" + File.separator + "PaybillOdt.odt";
-				fileName = "PayBill_" + transaction.getNumber();
-				payBillPdfGeneration = new PayBillPdfGeneration(
-						(PayBill) transaction, company);
-
+				pdfGeneration = new PayBillPdfGeneration((PayBill) transaction);
 			}
 
 			if (transaction instanceof CashSales) {
-				if (brandingTheme.getCashSaleTemplateName().contains(
-						"Classic Template")) {
-					templeteName = "templetes" + File.separator
-							+ "CashSaleOdt.odt";
-				} else {
-					templeteName = ServerConfiguration.getAttachmentsDir()
-							+ "/" + company.getId() + "/" + "templateFiles"
-							+ "/" + brandingTheme.getID() + "/"
-							+ brandingTheme.getCashSaleTemplateName();
-				}
-
-				fileName = "CashSale_" + transaction.getNumber();
-				cashSalePdfGeneration = new CashSalePdfGeneration(
-						(CashSales) transaction, company, brandingTheme);
+				pdfGeneration = new CashSalePdfGeneration(
+						(CashSales) transaction, brandingTheme);
 			}
 			if (transaction instanceof Estimate) {
 
@@ -1060,74 +963,29 @@ public class GeneratePDFservlet extends BaseServlet {
 
 				if (est.getEstimateType() == Estimate.QUOTES) {
 					// For Quote
-					if (brandingTheme.getQuoteTemplateName().contains(
-							"Classic Template")) {
-						templeteName = "templetes" + File.separator
-								+ "QuoteDocx.docx";
-					} else {
-						templeteName = ServerConfiguration.getAttachmentsDir()
-								+ "/" + company.getId() + "/" + "templateFiles"
-								+ "/" + brandingTheme.getID() + "/"
-								+ brandingTheme.getQuoteTemplateName();
-					}
-					fileName = "Quote_" + transaction.getNumber();
-					quotePdfGeneration = new QuotePdfGeneration(
-							(Estimate) transaction, company, brandingTheme);
+					pdfGeneration = new QuotePdfGeneration(
+							(Estimate) transaction, brandingTheme);
 				} else if (est.getEstimateType() == Estimate.SALES_ORDER) {
 					// for sales Order
-					if (brandingTheme.getSalesOrderTemplateName().contains(
-							"Classic Template")) {
-						templeteName = "templetes" + File.separator
-								+ "SalesOrder.docx";
-					} else {
-
-						templeteName = ServerConfiguration.getAttachmentsDir()
-								+ "/" + company.getId() + "/" + "templateFiles"
-								+ "/" + brandingTheme.getID() + "/"
-								+ brandingTheme.getSalesOrderTemplateName();
-					}
-					fileName = "SalesOrder_" + transaction.getNumber();
-					salesOrderPdfGeneration = new SalesOrderPdfGeneration(
-							(Estimate) transaction, company, brandingTheme);
+					pdfGeneration = new SalesOrderPdfGeneration(
+							(Estimate) transaction, brandingTheme);
 				}
 			}
 
 			if (transaction instanceof PurchaseOrder) {
 				// for Purchase Order
-				if (brandingTheme.getPurchaseOrderTemplateName().contains(
-						"Classic Template")) {
-					templeteName = "templetes" + File.separator
-							+ "PurchaseOrder.docx";
-				} else {
-
-					templeteName = ServerConfiguration.getAttachmentsDir()
-							+ "/" + company.getId() + "/" + "templateFiles"
-							+ "/" + brandingTheme.getID() + "/"
-							+ brandingTheme.getPurchaseOrderTemplateName();
-				}
-				fileName = "PurchaseOrder_" + transaction.getNumber();
-				purchaseOrderPdfGeneration = new PurchaseOrderPdfGeneration(
-						(PurchaseOrder) transaction, company, brandingTheme);
+				pdfGeneration = new PurchaseOrderPdfGeneration(
+						(PurchaseOrder) transaction, brandingTheme);
 			}
 
 			if (transaction instanceof JournalEntry) {
-				// for Purchase Order
-				if (brandingTheme.getPurchaseOrderTemplateName().contains(
-						"Classic Template")) {
-					templeteName = "templetes" + File.separator
-							+ "JournelEntryDocx.docx";
-				} else {
-
-					templeteName = ServerConfiguration.getAttachmentsDir()
-							+ "/" + company.getId() + "/" + "templateFiles"
-							+ "/" + brandingTheme.getID() + "/"
-							+ brandingTheme.getPurchaseOrderTemplateName();
-				}
-				fileName = "JournalEntry_" + transaction.getNumber();
-				journelEntryPdfGeneration = new JournelEntryPdfGeneration(
-						(JournalEntry) transaction, company, brandingTheme);
+				// for Journal Entry
+				pdfGeneration = new JournelEntryPdfGeneration(
+						(JournalEntry) transaction, brandingTheme);
 			}
 
+			String templeteName = pdfGeneration.getTemplateName();
+			String fileName = pdfGeneration.getFileName();
 			InputStream in = new BufferedInputStream(new FileInputStream(
 					templeteName));
 
@@ -1135,72 +993,21 @@ public class GeneratePDFservlet extends BaseServlet {
 					in, TemplateEngineKind.Velocity);
 			IContext context = report.createContext();
 
-			if (transaction instanceof CustomerCreditMemo) {
-				context = creditPdfGeneration.assignValues(context, report);
-			} else if (transaction instanceof Invoice) {
-				context = invoicePdfGeneration.assignValues(context, report);
-			} else if (transaction instanceof Estimate) {
-				if (((Estimate) transaction).getEstimateType() == Estimate.QUOTES) {
-					context = quotePdfGeneration.assignValues(context, report);
-				} else {
-					context = salesOrderPdfGeneration.assignValues(context,
-							report);
-				}
-			} else if (transaction instanceof CashSales) {
-				context = cashSalePdfGeneration.assignValues(context, report);
-			} else if (transaction instanceof ReceivePayment) {
-				context = receivePaymentPdfGeneration.assignValues(context,
-						report);
-			} else if (transaction instanceof PurchaseOrder) {
-				context = purchaseOrderPdfGeneration.assignValues(context,
-						report);
-			} else if (transaction instanceof JournalEntry) {
-				context = journelEntryPdfGeneration.assignValues(context,
-						report);
-			} else if (transaction instanceof CustomerRefund) {
-				context = refundPdfGeneration.assignValues(context, report);
-			} else if (transaction instanceof CashPurchase) {
-				if (transaction.getType() == Transaction.TYPE_CASH_PURCHASE) {
-					context = purchasePdfGeneration.assignValues(context,
-							report);
-				} else {
-					context = cashExpensePdfGeneration.assignValues(context,
-							report);
-				}
-			} else if (transaction instanceof CustomerPrePayment) {
-				context = customerPaymentPdfGeneration.assignValues(context,
-						report);
-			} else if (transaction instanceof CreditCardCharge) {
-				context = ccExpensePdfGeneration.assignValues(context, report);
-			} else if (transaction instanceof VendorCreditMemo) {
-				context = vendorCreditPdfGeneration.assignValues(context,
-						report);
-			} else if (transaction instanceof WriteCheck) {
-				context = writeCheckPdfGeneration.assignValues(context, report);
-			} else if (transaction instanceof VendorPrePayment) {
-				context = vendorPaymentPdfGeneration.assignValues(context,
-						report);
-			} else if (transaction instanceof EnterBill) {
-				context = enterBillPdfGeneration.assignValues(context, report);
-			} else if (transaction instanceof PayBill) {
-				context = payBillPdfGeneration.assignValues(context, report);
-			}
-
+			context = pdfGeneration.assignValues(context, report);
 			FontFactory.setFontImp(new FontFactoryImpEx());
-			if (multipleIds) {
-				Options options = Options.getTo(ConverterTypeTo.PDF).via(
-						ConverterTypeVia.ITEXT);
+			HashMap objects = new HashMap();
+			Options options = Options.getTo(ConverterTypeTo.PDF).via(
+					ConverterTypeVia.ITEXT);
 
-				File file = File.createTempFile(fileName.replace(" ", ""),
-						".pdf");
-				java.io.FileOutputStream fos = new java.io.FileOutputStream(
-						file);
+			File file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
+			FileOutputStream fos = new FileOutputStream(file);
+			objects.put("fileName", file.getName());
+			objects.put("output", fos);
+			if (multipleIds) {
 				report.convert(context, options, fos);
 				fileNames.add(file.getAbsolutePath());
 
 			}
-
-			HashMap objects = new HashMap();
 			objects.put("context", context);
 			objects.put("report", report);
 			return objects;

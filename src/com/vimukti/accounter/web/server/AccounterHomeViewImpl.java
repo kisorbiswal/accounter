@@ -1659,14 +1659,16 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	 */
 
 	@Override
-	public String createPdfFile(long objectID, int type, long brandingThemeId)
-			throws AccounterException {
+	public List<String> createPdfFile(String objectID, int type,
+			long brandingThemeId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) throws AccounterException {
 		FinanceTool tool;
 		try {
 			tool = getFinanceTool();
 			if (tool != null) {
 				long id = getCompanyId();
-				return tool.createPdfFile(objectID, type, brandingThemeId, id);
+				return tool.createPdfFile(objectID, type, brandingThemeId, id,
+						startDate, endDate);
 			}
 		} catch (Exception e) {
 			throw new AccounterException(e.getMessage());

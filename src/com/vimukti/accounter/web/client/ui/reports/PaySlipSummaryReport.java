@@ -88,7 +88,7 @@ public class PaySlipSummaryReport extends AbstractReportView<PaySlipSummary> {
 			String id = String.valueOf(pay.getEmployeeId());
 			ids = ids.append(id + ",");
 		}
-		UIUtils.downloadMultipleAttachment(ids.toString(), 116, toolbar
-				.getStartDate().toString(), toolbar.getEndDate().toString());
+		UIUtils.downloadMultipleAttachment(ids.toString(), 116,
+				toolbar.getStartDate(), toolbar.getEndDate());
 	}
 }

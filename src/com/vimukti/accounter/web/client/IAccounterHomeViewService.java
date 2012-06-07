@@ -358,7 +358,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public boolean sendTestMail(ClientEmailAccount sender, String recipient);
 
-	String createPdfFile(long objectID, int type, long brandingThemeId)
+	List<String> createPdfFile(String objectID, int type, long brandingThemeId,
+			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException;
 
 	public PaginationList<ClientBudget> getBudgetList();

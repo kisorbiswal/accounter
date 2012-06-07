@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,21 +10,18 @@ import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 
-public class ReceivePaymentPdfGeneration {
+public class ReceivePaymentPdfGeneration extends TransactionPDFGeneration {
 
-	private final ReceivePayment receive;
-	private final Company company;
-
-	public ReceivePaymentPdfGeneration(ReceivePayment receive, Company company) {
-		this.receive = receive;
-		this.company = company;
+	public ReceivePaymentPdfGeneration(ReceivePayment receive) {
+		super(receive, null);
 	}
 
 	public IContext assignValues(IContext context, IXDocReport report) {
 
 		try {
 			ReceivePaymentTemplate receivePaymentTmplt = new ReceivePaymentTemplate();
-
+			ReceivePayment receive = (ReceivePayment) getTransaction();
+			Company company = getCompany();
 			receivePaymentTmplt.setTitle("Receive Payment");
 			receivePaymentTmplt.setNumber(receive.getNumber());
 			receivePaymentTmplt.setChequeOrRefNo(receive.getCheckNumber());
@@ -260,5 +258,15 @@ public class ReceivePaymentPdfGeneration {
 		public void setAmountApplied(String amountApplied) {
 			this.amountApplied = amountApplied;
 		}
+	}
+
+	@Override
+	public String getTemplateName() {
+		return "templetes" + File.separator + "ReceivePaymentOdt.odt";
+	}
+
+	@Override
+	public String getFileName() {
+		return "ReceivePayment_" + getTransaction().getNumber();
 	}
 }

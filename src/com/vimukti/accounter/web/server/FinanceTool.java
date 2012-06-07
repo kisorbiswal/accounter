@@ -2541,10 +2541,14 @@ public class FinanceTool {
 	/**
 	 * to generate PDF File for Invoice
 	 * 
+	 * @param endDate
+	 * @param startDate
+	 * 
 	 * @throws Exception
 	 */
-	public String createPdfFile(long objectID, int type, long brandingThemeId,
-			long companyId) throws Exception {
+	public List<String> createPdfFile(String objectID, int type,
+			long brandingThemeId, long companyId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) throws Exception {
 		BrandingTheme brandingTheme = (BrandingTheme) getManager()
 				.getServerObjectForid(AccounterCoreType.BRANDINGTHEME,
 						brandingThemeId);
@@ -2553,7 +2557,7 @@ public class FinanceTool {
 			return null;
 		}
 		return new PrintPDFManager().generatePDFFile(company, brandingTheme,
-				type, String.valueOf(objectID));
+				type, objectID, startDate, endDate);
 	}
 
 	/**

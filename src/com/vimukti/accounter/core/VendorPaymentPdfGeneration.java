@@ -1,29 +1,27 @@
 package com.vimukti.accounter.core;
 
+import java.io.File;
+
 import com.vimukti.accounter.web.client.Global;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.template.IContext;
 
-public class VendorPaymentPdfGeneration {
+public class VendorPaymentPdfGeneration extends TransactionPDFGeneration {
 
-	private VendorPrePayment vendorPayment;
-	private Company company;
-
-	public VendorPaymentPdfGeneration(VendorPrePayment payment, Company company) {
-		this.company = company;
-		this.vendorPayment = payment;
+	public VendorPaymentPdfGeneration(VendorPrePayment payment) {
+		super(payment, null);
 	}
 
 	public IContext assignValues(IContext context, IXDocReport report) {
 
 		try {
-
+			VendorPrePayment vendorPayment = (VendorPrePayment) getTransaction();
 			DummyPayment template = new DummyPayment();
 			template.setTitle(Global.get().Vendor() + " Prepayment");
 			template.setName(vendorPayment.getVendor().getName());
 			template.setVendorNBillingAddress(getBillingAddress());
-			template.setRegisteredAddress(getRegistrationAddress());
+			template.setRegisteredAddress(getRegisteredAddress());
 			template.setMemo(vendorPayment.getMemo());
 			template.setNumber(vendorPayment.getNumber());
 			template.setDate(Utility.getDateInSelectedFormat(vendorPayment
@@ -51,45 +49,11 @@ public class VendorPaymentPdfGeneration {
 
 	}
 
-	private String getRegistrationAddress() {
-		String regestrationAddress = "";
-		Address reg = company.getRegisteredAddress();
-
-		if (reg != null) {
-			regestrationAddress = ("Registered Address: " + reg.getAddress1()
-					+ forUnusedAddress(reg.getStreet(), true)
-					+ forUnusedAddress(reg.getCity(), true)
-					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true) + forUnusedAddress(
-					reg.getCountryOrRegion(), true));
-		} else {
-			regestrationAddress = (company.getTradingName() + "\n " + ((company
-					.getRegistrationNumber() != null && !company
-					.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
-					+ company.getRegistrationNumber()
-					: ""));
-		}
-		String phoneStr = forNullValue(company.getPreferences().getPhone());
-		if (phoneStr.trim().length() > 0) {
-			regestrationAddress = regestrationAddress + ",\n"
-					+ Global.get().messages().phone() + " : " + phoneStr;
-		}
-		String website = forNullValue(company.getPreferences().getWebSite());
-
-		if (website.trim().length() > 0) {
-			regestrationAddress = regestrationAddress + ",\n"
-					+ Global.get().messages().webSite() + " : " + website
-					+ " .";
-		}
-
-		return regestrationAddress;
-
-	}
-
 	private String getBillingAddress() {
 		String cname = "";
 		String phone = "";
 		boolean hasPhone = false;
+		VendorPrePayment vendorPayment = (VendorPrePayment) getTransaction();
 
 		Address bill = vendorPayment.getAddress();
 		String customerName = forUnusedAddress(vendorPayment.getVendor()
@@ -120,21 +84,6 @@ public class VendorPaymentPdfGeneration {
 			return contact.toString();
 		}
 		return "";
-	}
-
-	public String forUnusedAddress(String add, boolean isFooter) {
-		if (isFooter) {
-			if (add != null && !add.equals(""))
-				return add + ", ";
-		} else {
-			if (add != null && !add.equals(""))
-				return add + "\n";
-		}
-		return "";
-	}
-
-	public String forNullValue(String value) {
-		return value != null ? value : "";
 	}
 
 	public class DummyPayment {
@@ -260,17 +209,13 @@ public class VendorPaymentPdfGeneration {
 
 	}
 
-	private String forAddress(String address, boolean isFooter) {
-		if (address == null) {
-			return "";
-		}
-		if (address.trim().length() == 0) {
-			return "";
-		}
-		if (isFooter) {
-			return address + "." + "\n";
-		} else {
-			return address + "," + "\n";
-		}
+	@Override
+	public String getTemplateName() {
+		return "templetes" + File.separator + "VendorPaymentOdt.odt";
+	}
+
+	@Override
+	public String getFileName() {
+		return "Payment_" + getTransaction().getNumber();
 	}
 }

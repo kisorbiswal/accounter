@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.web.client.Global;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.images.ClassPathImageProvider;
@@ -14,17 +13,10 @@ import fr.opensagres.xdocreport.document.images.IImageProvider;
 import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 
-public class CashSalePdfGeneration {
-	private CashSales sale;
-	private Company company;
-	private BrandingTheme brandingTheme;
+public class CashSalePdfGeneration extends TransactionPDFGeneration {
 
-	public CashSalePdfGeneration(CashSales sale, Company company,
-			BrandingTheme brandingTheme) {
-		this.sale = sale;
-		this.company = company;
-		this.brandingTheme = brandingTheme;
-
+	public CashSalePdfGeneration(CashSales sale, BrandingTheme brandingTheme) {
+		super(sale, brandingTheme);
 	}
 
 	public IContext assignValues(IContext context, IXDocReport report) {
@@ -44,7 +36,9 @@ public class CashSalePdfGeneration {
 
 			// assigning the original values
 			DummyCashSale i = new DummyCashSale();
-
+			BrandingTheme brandingTheme = getBrandingTheme();
+			CashSales sale = (CashSales) getTransaction();
+			Company company = getCompany();
 			String title = brandingTheme.getCashSaleTitle() == null ? "Cash Sale"
 					: brandingTheme.getCashSaleTitle().toString();
 
@@ -214,7 +208,7 @@ public class CashSalePdfGeneration {
 			}
 			i.setEmail(paypalEmail);
 
-			i.setRegistrationAddress(getRegistrationAddress());
+			i.setRegistrationAddress(getRegisteredAddress());
 			Address regAddress1 = company.getRegisteredAddress();
 			if (regAddress1 != null) {
 				i.setRegAddress(regAddress1);
@@ -251,49 +245,12 @@ public class CashSalePdfGeneration {
 		return null;
 	}
 
-	private String getRegistrationAddress() {
-		String regestrationAddress = "";
-		Address reg = company.getRegisteredAddress();
-
-		if (reg != null)
-			regestrationAddress = ("Registered Address: " + reg.getAddress1()
-					+ forUnusedAddress(reg.getStreet(), true)
-					+ forUnusedAddress(reg.getCity(), true)
-					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-					+ forNullValue(reg.getCountryOrRegion()) + ".");
-
-		regestrationAddress = (company.getTradingName() + " "
-				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
-				.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
-				+ company.getRegistrationNumber()
-				: ""));
-
-		String phoneStr = forNullValue(company.getPreferences().getPhone());
-		if (phoneStr.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().phone() + " : " + phoneStr + ",";
-		}
-		String website = forNullValue(company.getPreferences().getWebSite());
-
-		if (website.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().webSite() + " : " + website;
-		}
-
-		return regestrationAddress;
-
-	}
-
-	public String forNullValue(String value) {
-		return value != null ? value : "";
-	}
-
 	private String getBillingAddress() {
 		// To get the selected contact name form Invoice
 		String cname = "";
 		String phone = "";
 		boolean hasPhone = false;
+		CashSales sale = (CashSales) getTransaction();
 		Contact selectedContact = sale.getContact();
 		if (selectedContact != null) {
 			cname = selectedContact.getName().trim();
@@ -340,30 +297,10 @@ public class CashSalePdfGeneration {
 		return "";
 	}
 
-	public String forUnusedAddress(String add, boolean isFooter) {
-		if (isFooter) {
-			if (add != null && !add.equals(""))
-				return add + ", ";
-		} else {
-			if (add != null && !add.equals(""))
-				return add + "\n";
-		}
-		return "";
-	}
-
-	private String getImage() {
-
-		StringBuffer original = new StringBuffer();
-		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ company.getId() + "/" + brandingTheme.getFileName());
-
-		return original.toString();
-
-	}
-
 	private String getShippingAddress() {
 		// setting shipping address
 		String shipAddress = "";
+		CashSales sale = (CashSales) getTransaction();
 		Address shpAdres = sale.getShippingAdress();
 		if (shpAdres != null) {
 			shipAddress = forUnusedAddress(sale.getCustomer().getName(), false)
@@ -583,92 +520,21 @@ public class CashSalePdfGeneration {
 
 	}
 
-	public class ItemList {
-		private String name;
-		private String description;
-		private String quantity;
-		private String itemUnitPrice;
-		private String discount;
-		private String itemTotalPrice;
-		private String itemVatRate;
-		private String itemVatAmount;
-
-		ItemList(String name, String description, String quantity,
-				String itemUnitPrice, String discount, String itemTotalPrice,
-				String itemVatRate, String itemVatAmount) {
-			this.name = name;
-			this.description = description;
-			this.quantity = quantity;
-			this.itemUnitPrice = itemUnitPrice;
-			this.discount = discount;
-			this.itemTotalPrice = itemTotalPrice;
-			this.itemVatRate = itemVatRate;
-			this.itemVatAmount = itemVatAmount;
+	@Override
+	public String getTemplateName() {
+		BrandingTheme brandingTheme = getBrandingTheme();
+		if (brandingTheme.getCashSaleTemplateName()
+				.contains("Classic Template")) {
+			return "templetes" + File.separator + "CashSaleOdt.odt";
 		}
+		return ServerConfiguration.getAttachmentsDir() + "/"
+				+ getCompany().getId() + "/" + "templateFiles" + "/"
+				+ brandingTheme.getID() + "/"
+				+ brandingTheme.getCashSaleTemplateName();
+	}
 
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getDescription() {
-			return description;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
-
-		public String getQuantity() {
-			return quantity;
-		}
-
-		public void setQuantity(String quantity) {
-			this.quantity = quantity;
-		}
-
-		public String getItemUnitPrice() {
-			return itemUnitPrice;
-		}
-
-		public void setItemUnitPrice(String itemUnitPrice) {
-			this.itemUnitPrice = itemUnitPrice;
-		}
-
-		public String getDiscount() {
-			return discount;
-		}
-
-		public void setDiscount(String discount) {
-			this.discount = discount;
-		}
-
-		public String getItemTotalPrice() {
-			return itemTotalPrice;
-		}
-
-		public void setItemTotalPrice(String itemTotalPrice) {
-			this.itemTotalPrice = itemTotalPrice;
-		}
-
-		public String getItemVatRate() {
-			return itemVatRate;
-		}
-
-		public void setItemVatRate(String itemVatRate) {
-			this.itemVatRate = itemVatRate;
-		}
-
-		public String getItemVatAmount() {
-			return itemVatAmount;
-		}
-
-		public void setItemVatAmount(String itemVatAmount) {
-			this.itemVatAmount = itemVatAmount;
-		}
-
+	@Override
+	public String getFileName() {
+		return "CashSale_" + getTransaction().getNumber();
 	}
 }

@@ -83,6 +83,18 @@ public class AutomaticTransactionsServerReport extends
 	}
 
 	@Override
+	public int getColumnWidth(int index) {
+		switch (index) {
+		case 3:
+			return 60;
+		case 4:
+			return 100;
+		default:
+			return 130;
+		}
+	}
+
+	@Override
 	public ClientFinanceDate getStartDate(TransactionDetailByAccount obj) {
 		return obj.getStartDate();
 	}

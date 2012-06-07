@@ -84,4 +84,23 @@ public class BankCheckDetailServerReport extends
 	public void makeReportRequest(long start, long end) {
 	}
 
+	@Override
+	public int getColumnWidth(int col) {
+		switch (col) {
+		case 0:
+			return 100;
+		case 1:
+			return 100;
+		case 2:
+			return 70;
+		case 3:
+			return 100;
+		case 4:
+			return 85;
+		case 5:
+			return 100;
+
+		}
+		return -1;
+	}
 }

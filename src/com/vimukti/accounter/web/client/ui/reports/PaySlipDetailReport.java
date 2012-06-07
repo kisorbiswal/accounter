@@ -96,9 +96,8 @@ public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 		long employeeId = employeeToolBar.getSelectedEmployee() == null ? data == null ? 0
 				: ((PaySlipDetail) data).getEmployeeId()
 				: employeeToolBar.getSelectedEmployee().getID();
-		UIUtils.downloadAttachment(String.valueOf(employeeId), 116,
-				employeeToolBar.getStartDate().toString(), employeeToolBar
-						.getEndDate().toString());
+		UIUtils.downloadMultipleAttachment(String.valueOf(employeeId), 116,
+				employeeToolBar.getStartDate(), employeeToolBar.getEndDate());
 	}
 
 	@Override

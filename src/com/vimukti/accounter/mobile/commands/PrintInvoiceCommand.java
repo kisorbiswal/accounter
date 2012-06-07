@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEmailAccount;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -97,14 +98,16 @@ public class PrintInvoiceCommand extends AbstractCommand {
 					CompanyPreferenceThreadLocal.set(clientCompanyPreferences);
 					AccounterThreadLocal.set(user);
 					FinanceTool tool = new FinanceTool();
-					String createPdfFile = tool.createPdfFile(invoiceId,
+					List<String> createPdfFile = tool.createPdfFile(
+							String.valueOf(invoiceId),
 							Transaction.TYPE_INVOICE, brandingThemeId,
-							companyId);
+							companyId, new ClientFinanceDate(),
+							new ClientFinanceDate());
 					String content = getMessages().invoiceMailMessage(
 							Global.get().Customer(), invoice.getNumber(),
 							invoice.getDate().toClientFinanceDate());
 					content = content.replaceAll("\n", "<br/>");
-					UsersMailSendar.sendPdfMail(new File(createPdfFile),
+					UsersMailSendar.sendPdfMail(new File(createPdfFile.get(1)),
 							tradingName, subject, content, account, emailId,
 							ccAdd);
 				} catch (Exception e) {

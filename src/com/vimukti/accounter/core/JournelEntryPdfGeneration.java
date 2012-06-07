@@ -14,24 +14,19 @@ import fr.opensagres.xdocreport.document.images.IImageProvider;
 import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 
-public class JournelEntryPdfGeneration {
-
-	private JournalEntry journalEntry;
-	private Company company;
-	private BrandingTheme brandingTheme;
+public class JournelEntryPdfGeneration extends TransactionPDFGeneration {
 
 	public JournelEntryPdfGeneration(JournalEntry journalEntry,
-			Company company, BrandingTheme brandingTheme) {
-		this.journalEntry = journalEntry;
-		this.company = company;
-		this.brandingTheme = brandingTheme;
+			BrandingTheme brandingTheme) {
+		super(journalEntry, brandingTheme);
 
 	}
 
 	public IContext assignValues(IContext context, IXDocReport report) {
 
 		try {
-
+			JournalEntry journalEntry = (JournalEntry) getTransaction();
+			Company company = getCompany();
 			IImageProvider logo = new ClassPathImageProvider(
 					CashSalePdfGeneration.class, getImage());
 			IImageProvider footerImg = new ClassPathImageProvider(
@@ -99,7 +94,7 @@ public class JournelEntryPdfGeneration {
 					/ currencyFactor, symbol);
 			i.setCreditTotal(credittotal);
 			i.setMemo(journalEntry.getMemo());
-			i.setRegistrationAddress(getRegistrationAddress());
+			i.setRegistrationAddress(getRegisteredAddress());
 
 			context.put("logo", logo);
 			context.put("JournalEntry", i);
@@ -111,63 +106,6 @@ public class JournelEntryPdfGeneration {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	public String forUnusedAddress(String add, boolean isFooter) {
-		if (isFooter) {
-			if (add != null && !add.equals(""))
-				return add+", ";
-		} else {
-			if (add != null && !add.equals(""))
-				return add + "\n";
-		}
-		return "";
-	}
-
-	private String getRegistrationAddress() {
-		String regestrationAddress = "";
-		Address reg = company.getRegisteredAddress();
-
-		if (reg != null)
-			regestrationAddress = ("Registered Address: " + reg.getAddress1()
-					+ forUnusedAddress(reg.getStreet(), true)
-					+ forUnusedAddress(reg.getCity(), true)
-					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-					+ forNullValue(reg.getCountryOrRegion()) + ".");
-
-		regestrationAddress = (company.getTradingName() + " "
-				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
-				.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
-				+ company.getRegistrationNumber()
-				: ""));
-		String phoneStr = forNullValue(company.getPreferences().getPhone());
-		if (phoneStr.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().phone() + " : " + phoneStr + ",";
-		}
-		String website = forNullValue(company.getPreferences().getWebSite());
-
-		if (website.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().webSite() + " : " + website;
-		}
-
-		return regestrationAddress;
-
-	}
-
-	public String forNullValue(String value) {
-		return value != null ? value : "";
-	}
-
-	private String getImage() {
-
-		StringBuffer original = new StringBuffer();
-		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ company.getId() + "/" + brandingTheme.getFileName());
-		return original.toString();
-
 	}
 
 	public class DummyJournalEntry {
@@ -301,5 +239,24 @@ public class JournelEntryPdfGeneration {
 		public void setCredit(String credit) {
 			this.credit = credit;
 		}
+	}
+
+	@Override
+	public String getTemplateName() {
+		BrandingTheme brandingTheme = getBrandingTheme();
+		Company company = getCompany();
+		if (brandingTheme.getPurchaseOrderTemplateName().contains(
+				"Classic Template")) {
+			return "templetes" + File.separator + "JournelEntryDocx.docx";
+		}
+
+		return ServerConfiguration.getAttachmentsDir() + "/" + company.getId()
+				+ "/" + "templateFiles" + "/" + brandingTheme.getID() + "/"
+				+ brandingTheme.getPurchaseOrderTemplateName();
+	}
+
+	@Override
+	public String getFileName() {
+		return "JournalEntry_" + getTransaction().getNumber();
 	}
 }

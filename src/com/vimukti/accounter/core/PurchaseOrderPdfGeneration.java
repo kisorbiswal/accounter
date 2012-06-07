@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.images.ClassPathImageProvider;
@@ -23,18 +21,11 @@ import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
  * 
  */
 
-public class PurchaseOrderPdfGeneration {
-
-	private PurchaseOrder purchaseOrder;
-	private Company company;
-	private BrandingTheme brandingTheme;
+public class PurchaseOrderPdfGeneration extends TransactionPDFGeneration {
 
 	public PurchaseOrderPdfGeneration(PurchaseOrder purchaseOrder,
-			Company company, BrandingTheme brandingTheme) {
-		this.purchaseOrder = purchaseOrder;
-		this.company = company;
-		this.brandingTheme = brandingTheme;
-
+			BrandingTheme brandingTheme) {
+		super(purchaseOrder, brandingTheme);
 	}
 
 	public IContext assignValues(IContext context, IXDocReport report) {
@@ -51,7 +42,9 @@ public class PurchaseOrderPdfGeneration {
 			imgMetaData.addFieldAsImage("logo");
 			imgMetaData.addFieldAsImage("companyImg");
 			report.setFieldsMetadata(imgMetaData);
-
+			BrandingTheme brandingTheme = getBrandingTheme();
+			Company company = getCompany();
+			PurchaseOrder purchaseOrder = (PurchaseOrder) getTransaction();
 			// assigning the original values
 			DummyPurchaseOrder i = new DummyPurchaseOrder();
 			String title = brandingTheme.getPurchaseOrderTitle() == null ? "Purchase Order"
@@ -242,7 +235,7 @@ public class PurchaseOrderPdfGeneration {
 			}
 			i.setEmail(paypalEmail);
 			i.setStatus(getStatusString(purchaseOrder.getStatus()));
-			i.setRegistrationAddress(getRegistrationAddress());
+			i.setRegistrationAddress(getRegisteredAddress());
 			Address regAddress1 = company.getRegisteredAddress();
 			if (regAddress1 != null) {
 				i.setRegAddress(regAddress1);
@@ -278,68 +271,12 @@ public class PurchaseOrderPdfGeneration {
 		return null;
 	}
 
-	private String getStatusString(int status) {
-		switch (status) {
-		case ClientTransaction.STATUS_OPEN:
-			return Global.get().messages().open();
-		case ClientTransaction.STATUS_COMPLETED:
-			return Global.get().messages().completed();
-		case ClientTransaction.STATUS_CANCELLED:
-			return Global.get().messages().cancelled();
-		default:
-			break;
-		}
-		return "";
-	}
-
-	private String getRegistrationAddress() {
-		String regestrationAddress = "";
-		Address reg = company.getRegisteredAddress();
-
-		if (reg != null)
-			regestrationAddress = ("Registered Address: " + reg.getAddress1()
-					+ forUnusedAddress(reg.getStreet(), true)
-					+ forUnusedAddress(reg.getCity(), true)
-					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-					+ forNullValue(reg.getCountryOrRegion()) + ".");
-
-		regestrationAddress = (company.getTradingName() + " "
-				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
-				.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
-				+ company.getRegistrationNumber()
-				: ""));
-		String phoneStr = forNullValue(company.getPreferences().getPhone());
-		if (phoneStr.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().phone() + " : " + phoneStr + ",";
-		}
-		String website = forNullValue(company.getPreferences().getWebSite());
-
-		if (website.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().webSite() + " : " + website;
-		}
-
-		return regestrationAddress;
-
-	}
-
-	public String getImage() {
-		StringBuffer original = new StringBuffer();
-
-		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ company.getId() + "/" + brandingTheme.getFileName());
-
-		return original.toString();
-
-	}
-
 	private String getBillingAddress() {
 		// To get the selected contact name form Invoice
 		String cname = "";
 		String phone = "";
 		boolean hasPhone = false;
+		PurchaseOrder purchaseOrder = (PurchaseOrder) getTransaction();
 		Contact selectedContact = purchaseOrder.getContact();
 		if (selectedContact != null) {
 			cname = selectedContact.getName().trim();
@@ -389,6 +326,7 @@ public class PurchaseOrderPdfGeneration {
 	private String getShippingAddress() {
 		// setting shipping address
 		String shipAddress = "";
+		PurchaseOrder purchaseOrder = (PurchaseOrder) getTransaction();
 		Address shpAdres = purchaseOrder.getShippingAddress();
 		if (shpAdres != null) {
 			shipAddress = forUnusedAddress(purchaseOrder.getVendor().getName(),
@@ -404,29 +342,6 @@ public class PurchaseOrderPdfGeneration {
 			return shipAddress;
 		}
 		return "";
-	}
-
-	public String forUnusedAddress(String add, boolean isFooter) {
-		if (isFooter) {
-			if (add != null && !add.equals(""))
-				return add + ", ";
-		} else {
-			if (add != null && !add.equals(""))
-				return add + "\n";
-		}
-		return "";
-	}
-
-	public String forNullValue(String value) {
-		return value != null ? value : "";
-	}
-
-	public String forZeroAmounts(String amount) {
-		String[] amt = amount.replace(".", "-").split("-");
-		if (amt[0].equals("0")) {
-			return "";
-		}
-		return amount;
 	}
 
 	public class DummyPurchaseOrder {
@@ -649,92 +564,22 @@ public class PurchaseOrderPdfGeneration {
 		}
 	}
 
-	public class ItemList {
-		private String name;
-		private String description;
-		private String quantity;
-		private String itemUnitPrice;
-		private String discount;
-		private String itemTotalPrice;
-		private String itemVatRate;
-		private String itemVatAmount;
-
-		ItemList(String name, String description, String quantity,
-				String itemUnitPrice, String discount, String itemTotalPrice,
-				String itemVatRate, String itemVatAmount) {
-			this.name = name;
-			this.description = description;
-			this.quantity = quantity;
-			this.itemUnitPrice = itemUnitPrice;
-			this.discount = discount;
-			this.itemTotalPrice = itemTotalPrice;
-			this.itemVatRate = itemVatRate;
-			this.itemVatAmount = itemVatAmount;
+	@Override
+	public String getTemplateName() {
+		BrandingTheme brandingTheme = getBrandingTheme();
+		Company company = getCompany();
+		if (brandingTheme.getPurchaseOrderTemplateName().contains(
+				"Classic Template")) {
+			return "templetes" + File.separator + "PurchaseOrder.docx";
 		}
 
-		public String getName() {
-			return name;
-		}
+		return ServerConfiguration.getAttachmentsDir() + "/" + company.getId()
+				+ "/" + "templateFiles" + "/" + brandingTheme.getID() + "/"
+				+ brandingTheme.getPurchaseOrderTemplateName();
+	}
 
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getDescription() {
-			return description;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
-
-		public String getQuantity() {
-			return quantity;
-		}
-
-		public void setQuantity(String quantity) {
-			this.quantity = quantity;
-		}
-
-		public String getItemUnitPrice() {
-			return itemUnitPrice;
-		}
-
-		public void setItemUnitPrice(String itemUnitPrice) {
-			this.itemUnitPrice = itemUnitPrice;
-		}
-
-		public String getDiscount() {
-			return discount;
-		}
-
-		public void setDiscount(String discount) {
-			this.discount = discount;
-		}
-
-		public String getItemTotalPrice() {
-			return itemTotalPrice;
-		}
-
-		public void setItemTotalPrice(String itemTotalPrice) {
-			this.itemTotalPrice = itemTotalPrice;
-		}
-
-		public String getItemVatRate() {
-			return itemVatRate;
-		}
-
-		public void setItemVatRate(String itemVatRate) {
-			this.itemVatRate = itemVatRate;
-		}
-
-		public String getItemVatAmount() {
-			return itemVatAmount;
-		}
-
-		public void setItemVatAmount(String itemVatAmount) {
-			this.itemVatAmount = itemVatAmount;
-		}
-
+	@Override
+	public String getFileName() {
+		return "PurchaseOrder_" + getTransaction().getNumber();
 	}
 }

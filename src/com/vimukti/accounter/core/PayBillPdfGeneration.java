@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,24 +11,20 @@ import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 
-public class PayBillPdfGeneration {
+public class PayBillPdfGeneration extends TransactionPDFGeneration {
 
-	private final PayBill payBill;
-	private final Company company;
-
-	public PayBillPdfGeneration(PayBill payBill, Company company) {
-		this.payBill = payBill;
-		this.company = company;
+	public PayBillPdfGeneration(PayBill payBill) {
+		super(payBill, null);
 	}
 
 	public IContext assignValues(IContext context, IXDocReport report) {
 
 		try {
 			PaybillTemplete paybillTemp = new PaybillTemplete();
-
+			PayBill payBill = (PayBill) getTransaction();
 			paybillTemp.setTitle(Global.get().messages().payBill());
 			paybillTemp.setName(payBill.getVendor().getName());
-			paybillTemp.setRegisteredAddress(getRegistrationAddress());
+			paybillTemp.setRegisteredAddress(getRegisteredAddress());
 			paybillTemp.setNumber(payBill.getNumber());
 			paybillTemp.setAccountName(payBill.getPayFrom().getName());
 			paybillTemp.setDate(payBill.getDate().toString());
@@ -75,55 +72,6 @@ public class PayBillPdfGeneration {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	private String getRegistrationAddress() {
-		String regestrationAddress = "";
-		Address reg = company.getRegisteredAddress();
-
-		if (reg != null) {
-			regestrationAddress = (reg.getAddress1()
-					+ forUnusedAddress(reg.getStreet(), true)
-					+ forUnusedAddress(reg.getCity(), true)
-					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true) + forUnusedAddress(
-					reg.getCountryOrRegion(), true));
-		} else {
-			regestrationAddress = (company.getTradingName() + "\n " + ((company
-					.getRegistrationNumber() != null && !company
-					.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
-					+ company.getRegistrationNumber()
-					: ""));
-		}
-		String phoneStr = forNullValue(company.getPreferences().getPhone());
-		if (phoneStr.trim().length() > 0) {
-			regestrationAddress = regestrationAddress + ",\n"
-					+ Global.get().messages().phone() + " : " + phoneStr + "\n";
-		}
-		String website = forNullValue(company.getPreferences().getWebSite());
-
-		if (website.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().webSite() + " : " + website;
-		}
-
-		return regestrationAddress;
-
-	}
-
-	public String forNullValue(String value) {
-		return value != null ? value : "";
-	}
-
-	public String forUnusedAddress(String add, boolean isFooter) {
-		if (isFooter) {
-			if (add != null && !add.equals(""))
-				return add + ",";
-		} else {
-			if (add != null && !add.equals(""))
-				return add + "\n";
-		}
-		return "";
 	}
 
 	public class PaybillTemplete {
@@ -260,6 +208,16 @@ public class PayBillPdfGeneration {
 		public void setAmountPaid(String amountPaid) {
 			this.amountPaid = amountPaid;
 		}
+	}
+
+	@Override
+	public String getTemplateName() {
+		return "templetes" + File.separator + "PaybillOdt.odt";
+	}
+
+	@Override
+	public String getFileName() {
+		return "PayBill_" + getTransaction().getNumber();
 	}
 
 }
