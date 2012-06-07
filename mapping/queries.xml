@@ -1431,7 +1431,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXRateCalculation v where
 		v.taxItem.name=:taxItemName and v.transactionDate between :startDate
-		and :endDate and v.taxItem.company =:company
+		and :endDate and v.taxItem.company =:company order by v.transactionDate asc
 	</query>
 
 
@@ -1523,7 +1523,7 @@
 		from com.vimukti.accounter.core.TAXAdjustment v where
 		v.taxItem.name=:taxItemName and v.transactionDate between :startDate
 		and :endDate and v.company=:company order by v.taxItem.name,
-		v.transactionDate
+		v.transactionDate asc
 	</query>
 
 	<query name="getTAXAdjustment.by.dates.and.taxAgency">
