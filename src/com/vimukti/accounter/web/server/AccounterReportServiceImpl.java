@@ -955,13 +955,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		return transactionDetailByAccount(startDate, endDate, getCompanyId());
+			long accountId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
+		return transactionDetailByAccount(accountId, startDate, endDate,
+				getCompanyId());
 	}
 
 	private ArrayList<TransactionDetailByAccount> transactionDetailByAccount(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
+			long accountId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate, long companyId) {
 		ArrayList<TransactionDetailByAccount> transDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
@@ -970,7 +972,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			transDetailByAccountList = getFinanceTool().getReportManager()
-					.getTransactionDetailByAccount(financeDates[0],
+					.getTransactionDetailByAccount(accountId, financeDates[0],
 							financeDates[1], companyId);
 
 			TransactionDetailByAccount obj = new TransactionDetailByAccount();
@@ -1238,45 +1240,6 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		return agedCreditorsListForCustomer;
 
-	}
-
-	@Override
-	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			String accountName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
-		return transactionDetailByAccount(accountName, startDate, endDate,
-				getCompanyId());
-	}
-
-	private ArrayList<TransactionDetailByAccount> transactionDetailByAccount(
-			String accountName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate, long companyId) {
-		ArrayList<TransactionDetailByAccount> transDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
-
-		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, companyId);
-
-		try {
-
-			transDetailByAccountList = getFinanceTool().getReportManager()
-					.getTransactionDetailByAccount(accountName,
-							financeDates[0], financeDates[1], companyId);
-
-			TransactionDetailByAccount obj = new TransactionDetailByAccount();
-			if (transDetailByAccountList != null)
-				transDetailByAccountList
-						.add((TransactionDetailByAccount) setStartEndDates(obj,
-								financeDates));
-
-			// transDetailByAccountList = (List<TransactionDetailByAccount>)
-			// manager
-			// .merge(transDetailByAccountList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return transDetailByAccountList;
 	}
 
 	private ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(
@@ -2830,15 +2793,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
-		return transactionDetailByAccount(startDate, endDate, companyId);
-	}
-
-	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			String accountName, ClientFinanceDate startDate,
+			long accountId, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long companyId) {
-		return transactionDetailByAccount(accountName, startDate, endDate,
+		return transactionDetailByAccount(accountId, startDate, endDate,
 				companyId);
 	}
 

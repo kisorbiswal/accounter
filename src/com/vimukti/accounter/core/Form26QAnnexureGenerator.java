@@ -15,35 +15,18 @@ import com.vimukti.accounter.web.client.core.Utility;
 
 public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 
-	String fileText = null;
-	private ClientTDSChalanDetail chalanDetails;
-	private ClientTDSTransactionItem transactionItems;
-	private List<ClientTDSChalanDetail> chalanDetailsList;
-	private Vendor vendorFinal;
-
-	private int runningSerialNumber;
-	private int runningChalanNumber;
-	private int lineNumber;
-	private int codesArrayIndex = 0;
-	String[] panListArray;
-	String[] codeListArray;
-	String[] remarkListArray;
-
 	public Form26QAnnexureGenerator(
 			ClientTDSDeductorMasters tdsDeductorMasterDetails2,
 			ClientTDSResponsiblePerson responsiblePersonDetails2,
 			Company company, String panList, String codeList, String remarkList) {
-		super(tdsDeductorMasterDetails2, responsiblePersonDetails2, company);
-
-		panListArray = panList.split("-");
-		codeListArray = codeList.split("-");
-		remarkListArray = remarkList.split("-");
+		super(tdsDeductorMasterDetails2, responsiblePersonDetails2, company,
+				panList, codeList, remarkList);
 	}
 
 	public String generateFile() {
 		Double total = 0.00;
 
-		for (ClientTDSChalanDetail chalan : chalanDetailsList) {
+		for (ClientTDSChalanDetail chalan : getChalanDetailsList()) {
 			total = total + chalan.getIncomeTaxAmount()
 					+ chalan.getSurchangePaidAmount()
 					+ chalan.getEducationCessAmount()
@@ -60,7 +43,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			for (ClientTDSChalanDetail chalan : chalanDetailsList) {
+			for (ClientTDSChalanDetail chalan : getChalanDetailsList()) {
 				chalanDetails = chalan;
 				setLineNumber(lineNumber);
 				setRunningChalanNumber(chalNum);
@@ -904,11 +887,6 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	public void setFormDetails(String formNo, String quater, String startYear,
 			String endYear) {
 		super.setFormDetails(formNo, quater, startYear, endYear);
-	}
-
-	public void setChalanDetailsList(List<ClientTDSChalanDetail> chalanList2) {
-		chalanDetailsList = chalanList2;
-		super.setChalanCount(chalanDetailsList.size());
 	}
 
 	public int getRunningSerialNumber() {

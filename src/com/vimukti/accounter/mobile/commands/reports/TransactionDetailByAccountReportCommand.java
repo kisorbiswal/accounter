@@ -149,24 +149,14 @@ public class TransactionDetailByAccountReportCommand extends
 		List<TransactionDetailByAccount> transactionDetailsByAc = new ArrayList<TransactionDetailByAccount>();
 		ReportManager reportManager = new FinanceTool().getReportManager();
 		Account account = get(ACCOUNT).getValue();
-		if (account == null) {
-			try {
-				transactionDetailsByAc = reportManager
-						.getTransactionDetailByAccount(getStartDate(),
-								getEndDate(), getCompanyId());
-			} catch (DAOException e) {
-				e.printStackTrace();
-				transactionDetailsByAc = new ArrayList<TransactionDetailByAccount>();
-			}
-		} else {
-			try {
-				transactionDetailsByAc = reportManager
-						.getTransactionDetailByAccount(account.getName(),
-								getStartDate(), getEndDate(), getCompanyId());
-			} catch (DAOException e) {
-				e.printStackTrace();
-				transactionDetailsByAc = new ArrayList<TransactionDetailByAccount>();
-			}
+		try {
+			transactionDetailsByAc = reportManager
+					.getTransactionDetailByAccount(account == null ? 0
+							: account.getID(), getStartDate(), getEndDate(),
+							getCompanyId());
+		} catch (DAOException e) {
+			e.printStackTrace();
+			transactionDetailsByAc = new ArrayList<TransactionDetailByAccount>();
 		}
 		return transactionDetailsByAc;
 	}

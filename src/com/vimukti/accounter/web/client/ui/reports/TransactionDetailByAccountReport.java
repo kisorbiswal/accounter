@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.CountryPreferences;
-import com.vimukti.accounter.web.client.core.StringReportInput;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
@@ -138,15 +138,9 @@ public class TransactionDetailByAccountReport extends
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		TrialBalance accountdetails = (TrialBalance) data;
-		if (accountdetails == null) {
-			Accounter.createReportService().getTransactionDetailByAccount(
-					start, end, this);
-		} else if (accountdetails.getAccountName() != null) {
-			Accounter.createReportService().getTransactionDetailByAccount(
-					accountdetails.getAccountName(),
-					accountdetails.getStartDate(), accountdetails.getEndDate(),
-					this);
-		}
+		Accounter.createReportService().getTransactionDetailByAccount(
+				accountdetails == null ? 0 : accountdetails.getAccountId(),
+				start, end, this);
 	}
 
 	@Override
@@ -156,10 +150,10 @@ public class TransactionDetailByAccountReport extends
 
 	@Override
 	public void export(int generationType) {
-		String accountName = data != null ? ((TrialBalance) data)
-				.getAccountName() : null;
+		long accountId = data != null ? ((TrialBalance) data).getAccountId()
+				: 0;
 		UIUtils.generateReport(generationType, startDate.getDate(), endDate
-				.getDate(), getReportType(), new StringReportInput(accountName));
+				.getDate(), getReportType(), new NumberReportInput(accountId));
 	}
 
 	@Override

@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
+import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.Utility;
 
 /**
@@ -16,9 +18,8 @@ import com.vimukti.accounter.web.client.core.Utility;
  * @author vimukti8
  * 
  */
-public class ETDSAnnexuresGenerator {
+public abstract class ETDSAnnexuresGenerator {
 
-	private String finalString;
 	private ClientTDSDeductorMasters deductor;
 	private ClientTDSResponsiblePerson responsiblePerson;
 	protected String formNo;
@@ -26,16 +27,34 @@ public class ETDSAnnexuresGenerator {
 	protected String startYear;
 	protected String endYear;
 	protected int chalanCount;
+	protected List<ClientTDSChalanDetail> chalanDetailsList;
+
+	String fileText = null;
+	protected ClientTDSChalanDetail chalanDetails;
+	protected ClientTDSTransactionItem transactionItems;
+	protected Vendor vendorFinal;
 
 	protected Company company;
+
+	protected int runningSerialNumber;
+	protected int runningChalanNumber;
+	protected int lineNumber;
+	protected String[] panListArray;
+	protected String[] codeListArray;
+	protected String[] remarkListArray;
+	protected String[] grossingUpListArray;
+	protected int codesArrayIndex = 0;
 
 	public ETDSAnnexuresGenerator(
 			ClientTDSDeductorMasters tdsDeductorMasterDetails2,
 			ClientTDSResponsiblePerson responsiblePersonDetails2,
-			Company company) {
+			Company company, String panList, String codeList, String remarkList) {
 		deductor = tdsDeductorMasterDetails2;
 		responsiblePerson = responsiblePersonDetails2;
 		this.company = company;
+		panListArray = panList.split("-");
+		codeListArray = codeList.split("-");
+		remarkListArray = remarkList.split("-");
 	}
 
 	/**
@@ -1053,4 +1072,15 @@ public class ETDSAnnexuresGenerator {
 		format.applyPattern("ddMMyyyy");
 		return format.format(date.getAsDateObject());
 	}
+
+	public List<ClientTDSChalanDetail> getChalanDetailsList() {
+		return chalanDetailsList;
+	}
+
+	public void setChalanDetailsList(
+			List<ClientTDSChalanDetail> chalanDetailsList) {
+		this.chalanDetailsList = chalanDetailsList;
+	}
+
+	public abstract String generateFile();
 }

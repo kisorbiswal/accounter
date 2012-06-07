@@ -56,6 +56,7 @@ import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
+import com.vimukti.accounter.web.client.core.reports.ETDsFilingData;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -2757,5 +2758,25 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public List<String> generateETDSFillingtext(ETDsFilingData etDsFilingData) {
+		try {
+			return new FinanceTool().getPrintManager().generateETDSFillingtext(
+					etDsFilingData, getCompanyId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<String> generateFrom16APDF(long vendorID, String datesRange,
+			String place, String printDate, String tdsCertificateNumber,
+			int type) {
+		return new FinanceTool().getPrintManager().generateFrom16APDF(
+				getCompanyId(), vendorID, datesRange, type,
+				tdsCertificateNumber, place, printDate);
 	}
 }

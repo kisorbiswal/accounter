@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.core.reports.ETDsFilingData;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -317,12 +318,12 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 			}
 			grossingUpList = grossingUpList + "-";
 		}
-		int fromDate = (int) fromDateField.getEnteredDate().getDate();
-		int toDate = (int) toDateField.getEnteredDate().getDate();
-
-		UIUtils.generateETDSFillingtext(formNoSelected, quaterSelected,
-				fromDate, toDate, startYear, endYear, panList, codeList,
-				remarkList, grossingUpList);
+		long fromDate = fromDateField.getEnteredDate().getDate();
+		long toDate = toDateField.getEnteredDate().getDate();
+		ETDsFilingData etDsFilingData = new ETDsFilingData(formNoSelected,
+				quaterSelected, fromDate, toDate, startYear, endYear, panList,
+				codeList, remarkList, grossingUpList);
+		UIUtils.generateETDSFillingtext(etDsFilingData);
 		changeButtonBarMode(false);
 	}
 

@@ -2556,7 +2556,7 @@ public class FinanceTool {
 		if (company == null) {
 			return null;
 		}
-		return new PrintPDFManager().generatePDFFile(company, brandingTheme,
+		return getPrintManager().generatePDFFile(company, brandingTheme,
 				type, objectID, startDate, endDate);
 	}
 
@@ -4452,6 +4452,7 @@ public class FinanceTool {
 	String SALES = "Sales";
 	String CASH_DISBURSEMENT = "Cash Disbursement";
 	String GENERAL_JOURNAL = "General Journal";
+	private PrintPDFManager printPDFManager;
 
 	private String getSourceType(Transaction transaction) {
 		switch (transaction.getType()) {
@@ -5020,6 +5021,13 @@ public class FinanceTool {
 		}
 		paypalTransactionDetails.getTransactionDetails();
 
+	}
+
+	public PrintPDFManager getPrintManager() {
+		if (printPDFManager == null) {
+			printPDFManager = new PrintPDFManager();
+		}
+		return printPDFManager;
 	}
 
 }

@@ -156,7 +156,7 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<ClientItem>> callBackResult);
 
-	public void getTransactionDetailByAccount(
+	public void getTransactionDetailByAccount(long accountId,
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TransactionDetailByAccount>> callBackResult);
 
@@ -183,10 +183,6 @@ public interface IAccounterReportServiceAsync {
 	public void getPurchasesByItemDetail(String itemName,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
-
-	public void getTransactionDetailByAccount(String accountName,
-			final ClientFinanceDate startDate, final ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<TransactionDetailByAccount>> callBack);
 
 	void getMinimumAndMaximumTransactionDate(
 			AsyncCallback<ArrayList<ClientFinanceDate>> callBack);

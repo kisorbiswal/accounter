@@ -2120,109 +2120,9 @@
 
 	</sql-query>
 
-	<sql-query name="getTransactionDetailByAccount">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-
-		<return-scalar column="account_name" type="encryptedstring" />
-		<return-scalar column="payee_name" type="encryptedstring" />
-		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="transaction_type" type="int" />
-		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="encryptedstring" />
-		<return-scalar column="amount" type="double" />
-		<return-scalar column="memo" type="encryptedstring" />
-		
-		<![CDATA[
-				SELECT A.NAME         AS ACCOUNT_NAME,
-				       CASE
-				         WHEN T.T_TYPE = 15 THEN WC.IN_FAVOUR_OF
-				         ELSE P.NAME
-				       END            AS PAYEE_NAME,
-				       T.ID           AS TRANSACTION_ID,
-				       T.T_TYPE		  AS TRANSACTION_TYPE,
-				       T.T_DATE       AS TRANSACTION_DATE,
-				       T.NUMBER       AS TRANSACTION_NUMBER,
-				       SUM(AT.AMOUNT) AS AMOUNT,
-				       CASE
-				         WHEN T.T_TYPE = 25
-				              THEN NULL
-				         ELSE T.MEMO
-				       END            AS MEMO
-				FROM   ACCOUNT_TRANSACTION AT
-				       LEFT OUTER JOIN TRANSACTION T
-				         ON AT.TRANSACTION_ID = T.ID
-				       LEFT OUTER JOIN ACCOUNT A
-				         ON A.ID = AT.ACCOUNT_ID
-				       LEFT OUTER JOIN CASH_PURCHASE CP
-				         ON T.ID = CP.ID
-				       LEFT OUTER JOIN CASH_SALES CS
-				         ON T.ID = CS.ID
-				       LEFT OUTER JOIN CREDIT_CARD_CHARGES CCC
-				         ON T.ID = CCC.ID
-				       LEFT OUTER JOIN CUSTOMER_CREDIT_MEMO CCM
-				         ON T.ID = CCM.ID
-				       LEFT OUTER JOIN ENTER_BILL EB
-				         ON T.ID = EB.ID
-				       LEFT OUTER JOIN INVOICE I
-				         ON T.ID = I.ID
-				       LEFT OUTER JOIN VENDOR_CREDIT_MEMO VCM
-				         ON T.ID = VCM.ID
-				       LEFT OUTER JOIN WRITE_CHECKS WC
-				         ON T.ID = WC.ID
-				       LEFT OUTER JOIN RECEIVE_PAYMENT RP
-				         ON T.ID = RP.ID
-				       LEFT OUTER JOIN PAY_BILL PB
-				         ON T.ID = PB.ID
-				       LEFT OUTER JOIN VENDOR_PAYMENT VP
-				         ON T.ID = VP.ID
-				       LEFT OUTER JOIN CUSTOMER_PREPAYMENT CPP
-				         ON T.ID = CPP.ID
-				       LEFT OUTER JOIN CUSTOMER_REFUND CR
-				         ON T.ID = CR.ID
-				       LEFT JOIN JOURNAL_ENTRY JE
-				         ON T.ID = JE.ID
-				       LEFT OUTER JOIN PAYEE P
-				         ON P.ID = CP.VENDOR_ID
-				             OR P.ID = CCC.VENDOR_ID
-				             OR P.ID = EB.VENDOR_ID
-				             OR P.ID = VCM.VENDOR_ID
-				             OR P.ID = WC.VENDOR_ID
-				             OR P.ID = CS.CUSTOMER_ID
-				             OR P.ID = CCM.CUSTOMER_ID
-				             OR P.ID = WC.CUSTOMER_ID
-				             OR P.ID = WC.TAX_AGENCY_ID
-				             OR P.ID = I.CUSTOMER_ID
-				             OR P.ID = RP.CUSTOMER_ID
-				             OR P.ID = PB.VENDOR_ID
-				             OR P.ID = VP.VENDOR_ID
-				             OR P.ID = CPP.CUSTOMER_ID
-				             OR P.ID = CR.CUSTOMER_ID
-				       LEFT OUTER JOIN USERS U
-				         ON U.ID = CP.EMPLOYEE
-				       LEFT OUTER JOIN CLIENT C
-				         ON C.ID = U.CLIENT_ID
-				WHERE  T.COMPANY_ID = :companyId
-				       AND T.T_TYPE NOT IN ( 9 )
-				       AND T.T_DATE BETWEEN :startDate AND :endDate
-				       AND AT.AMOUNT != 0
-				GROUP  BY T.ID,
-				          PB.ID,
-				          A.FLOW,
-				          A.NAME,
-				          P.NAME,
-				          WC.IN_FAVOUR_OF
-				ORDER  BY A.FLOW,
-				          A.NAME,
-				          T.T_DATE ASC  
-				]]>
-
-	</sql-query>
-
 	<sql-query name="getTransactionDetailByAccount_ForParticularAccount">
 		<query-param name="companyId" type="long" />
-		<query-param name="accountName" type="String" />
+		<query-param name="accountId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
@@ -2308,7 +2208,7 @@
 				       LEFT OUTER JOIN CLIENT C
 				         ON C.ID = U.CLIENT_ID
 				WHERE  T.COMPANY_ID = :companyId
-				       AND A.NAME = :accountName
+				       AND (CASE WHEN :accountId = 0 THEN TRUE ELSE A.ID = :accountId END)
 				       AND T.T_TYPE NOT IN ( 9 )
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				       AND AT.AMOUNT != 0

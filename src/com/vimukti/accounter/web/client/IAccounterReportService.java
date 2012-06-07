@@ -141,8 +141,9 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<ClientItem> getPurchaseReportItems(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
+	ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
+			long accountId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
 	public ArrayList<TransactionDetailByAccount> getAutomaticTransactions(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
@@ -165,10 +166,6 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
 			String itemName, ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
-
-	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			String accountName, final ClientFinanceDate startDate,
-			final ClientFinanceDate endDate);
 
 	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
 

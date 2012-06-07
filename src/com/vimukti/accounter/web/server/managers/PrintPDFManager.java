@@ -14,9 +14,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.hibernate.Session;
 import org.zefer.pd4ml.PD4Constants;
 
 import com.lowagie.text.Document;
@@ -42,11 +45,16 @@ import com.vimukti.accounter.core.CustomerCreditMemo;
 import com.vimukti.accounter.core.CustomerPaymentPdfGeneration;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
+import com.vimukti.accounter.core.ETDSAnnexuresGenerator;
 import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.EnterBillPdfGeneration;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Form16ApdfTemplate;
+import com.vimukti.accounter.core.Form26QAnnexureGenerator;
+import com.vimukti.accounter.core.Form27EQAnnexureGenerator;
+import com.vimukti.accounter.core.Form27QAnnexureGenerator;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.InvoicePDFTemplete;
 import com.vimukti.accounter.core.InvoicePdfGeneration;
@@ -64,19 +72,30 @@ import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceivePaymentPdfGeneration;
 import com.vimukti.accounter.core.RefundPdfGeneration;
 import com.vimukti.accounter.core.SalesOrderPdfGeneration;
+import com.vimukti.accounter.core.TDSChalanDetail;
+import com.vimukti.accounter.core.TDSCoveringLetterTemplate;
+import com.vimukti.accounter.core.TDSDeductorMasters;
+import com.vimukti.accounter.core.TDSResponsiblePerson;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionPDFGeneration;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorCreditMemo;
 import com.vimukti.accounter.core.VendorCreditPdfGeneration;
 import com.vimukti.accounter.core.VendorPaymentPdfGeneration;
 import com.vimukti.accounter.core.VendorPrePayment;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.WriteCheckPdfGeneration;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.Converter;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
+import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
+import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
+import com.vimukti.accounter.web.client.core.reports.ETDsFilingData;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -678,5 +697,262 @@ public class PrintPDFManager extends Manager {
 			}
 
 		}
+	}
+
+	public List<String> generateETDSFillingtext(ETDsFilingData etDsFilingData,
+			Long companyId) throws Exception {
+		Company company = getCompany(companyId);
+		if (company == null) {
+			return null;
+		}
+		return generateTextFile(etDsFilingData, company);
+
+	}
+
+	/**
+	 * generate the text file by calling the respective form generator class and
+	 * print them to the text file.
+	 * 
+	 * @param request
+	 * @param response
+	 * @param companyName
+	 * @param chalanList
+	 * @param tdsDeductorMasterDetails
+	 * @param responsiblePersonDetails
+	 * @throws IOException
+	 */
+	private List<String> generateTextFile(ETDsFilingData etDsFilingData,
+			Company company) throws Exception {
+		FinanceTool financetool = new FinanceTool();
+		int formNo = etDsFilingData.getFormNo();
+		int quarter = etDsFilingData.getQuarter();
+		ClientFinanceDate fromDate = new ClientFinanceDate(
+				etDsFilingData.getFromDate());
+		ClientFinanceDate toDate = new ClientFinanceDate(
+				etDsFilingData.getToDate());
+		int startYear = etDsFilingData.getStartYear();
+		int endYear = etDsFilingData.getEndYear();
+		String panList = etDsFilingData.getPanList();
+		String codeList = etDsFilingData.getCodeList();
+		String remarkList = etDsFilingData.getRemarkList();
+		String grossingUpList = etDsFilingData.getGrossingUpList();
+
+		List<ClientTDSChalanDetail> chalanList = financetool.getChalanList(
+				formNo, quarter, fromDate, toDate, startYear, endYear,
+				company.getID());
+
+		ClientTDSDeductorMasters tdsDeductorMasterDetails = financetool
+				.getTDSDeductorMasterDetails(company.getId());
+
+		ClientTDSResponsiblePerson responsiblePersonDetails = financetool
+				.getResponsiblePersonDetails(company.getId());
+		ETDSAnnexuresGenerator generator = null;
+
+		if (formNo == 1) {
+			generator = new Form26QAnnexureGenerator(tdsDeductorMasterDetails,
+					responsiblePersonDetails, company, panList, codeList,
+					remarkList);
+
+		} else if (formNo == 2) {
+			generator = new Form27QAnnexureGenerator(tdsDeductorMasterDetails,
+					responsiblePersonDetails, company, panList, codeList,
+					remarkList, grossingUpList);
+
+		} else if (formNo == 3) {
+			generator = new Form27EQAnnexureGenerator(tdsDeductorMasterDetails,
+					responsiblePersonDetails, company, panList, codeList,
+					remarkList);
+		}
+
+		List<String> result = new ArrayList<String>();
+
+		if (generator != null) {
+			generator.setFormDetails(String.valueOf(formNo),
+					String.valueOf(quarter), String.valueOf(startYear),
+					String.valueOf(endYear));
+			generator.setChalanDetailsList(chalanList);
+
+			String generateFile = generator.generateFile();
+
+			String createID = generateFileName(String.valueOf(formNo),
+					String.valueOf(quarter))
+					+ ".txt";
+			File file = new File(ServerConfiguration.getTmpDir(), createID);
+			FileOutputStream outputStream = new FileOutputStream(file);
+			outputStream.write(generateFile.getBytes());
+			outputStream.flush();
+			result.add(file.getName());
+			result.add(createID);
+		}
+
+		return result;
+	}
+
+	/**
+	 * generate the file name based on the formNO and quarter selected
+	 * 
+	 * @param formNo
+	 * @param quater
+	 * @return
+	 */
+	private String generateFileName(String formNo, String quater) {
+
+		String formName = null;
+		int FormNo = Integer.parseInt(formNo);
+		if (FormNo == 1) {
+			formName = "26Q";
+		} else if (FormNo == 2) {
+			formName = "27Q";
+		} else if (FormNo == 3) {
+			formName = "27EQ";
+		}
+
+		String QuaterName = null;
+		int quaterNO = Integer.parseInt(quater);
+		if (quaterNO == 1) {
+			QuaterName = "RQ1";
+		} else if (quaterNO == 2) {
+			QuaterName = "RQ2";
+		} else if (quaterNO == 3) {
+			QuaterName = "RQ3";
+		} else if (quaterNO == 4) {
+			QuaterName = "RQ4";
+		}
+
+		return formName + QuaterName;
+	}
+
+	public List<String> generateFrom16APDF(Long companyId, long vendorID,
+			String dateRangeString, int type, String acknowledgementNo,
+			String place, String date) {
+		try {
+
+			Session currentSession = HibernateUtil.getCurrentSession();
+			Company company = getCompany(companyId);
+			Vendor vendor = (Vendor) currentSession.get(Vendor.class, vendorID);
+			IXDocReport report = null;
+			IContext context = null;
+			TDSDeductorMasters tdsDeductorMasterDetails = company
+					.getTdsDeductor();
+			TDSResponsiblePerson tdsResposiblePerson = company
+					.getTdsResposiblePerson();
+			if (tdsDeductorMasterDetails == null || vendor == null
+					|| tdsResposiblePerson == null) {
+				return null;
+			}
+
+			String fileName = null;
+
+			String[] split = dateRangeString.split("-");
+			String fromDate = split[0];
+			String toDate = split[1];
+			FinanceTool financeTool = new FinanceTool();
+			if (type == 0) {
+				fileName = "Form16A";
+				String templeteName = "templetes" + File.separator
+						+ "Form16a.docx";
+				ClientFinanceDate cEndDate = new ClientFinanceDate(toDate);
+				ClientFinanceDate cStartDate = new ClientFinanceDate(fromDate);
+				FinanceDate startDate = new FinanceDate(cStartDate);
+				FinanceDate endDate = new FinanceDate(cEndDate);
+				ArrayList<TDSChalanDetail> chalanList = financeTool
+						.getChalanList(startDate, endDate, acknowledgementNo,
+								company.getID());
+
+				Form16ApdfTemplate form16APdfGeneration = new Form16ApdfTemplate();
+
+				form16APdfGeneration.setDateYear(dateRangeString);
+
+				InputStream in = new BufferedInputStream(new FileInputStream(
+						templeteName));
+
+				report = XDocReportRegistry.getRegistry().loadReport(in,
+						TemplateEngineKind.Velocity);
+
+				form16APdfGeneration.setSummaryPaymentDetails(chalanList);
+
+				Map<Integer, ArrayList<TDSChalanDetail>> quartersList = new HashMap<Integer, ArrayList<TDSChalanDetail>>();
+				for (int i = 0; i < 4; i++) {
+					FinanceDate[] quarterDates = getQuarterDates(i);
+					ArrayList<TDSChalanDetail> quarterList = new ArrayList<TDSChalanDetail>();
+					if (quarterDates != null) {
+						quarterList = financeTool.getChalanList(
+								quarterDates[0], quarterDates[1],
+								acknowledgementNo, company.getID());
+					}
+					quartersList.put(i, quarterList);
+				}
+				form16APdfGeneration.setSummaryOfTaxDetails(quartersList);
+				form16APdfGeneration.setVerificationDetails(
+						tdsResposiblePerson, place, date);
+				form16APdfGeneration.setVendorandCompanyData(vendor,
+						tdsDeductorMasterDetails);
+				context = report.createContext();
+				context = form16APdfGeneration.assignValues(context, report);
+
+			} else {
+				fileName = "CoveringLetter" + vendor.getName();
+				String templeteName = null;
+				templeteName = "templetes" + File.separator
+						+ "CoveringLetter.docx";
+				TDSCoveringLetterTemplate coveringLetterTemp = new TDSCoveringLetterTemplate();
+				coveringLetterTemp.setValues(vendor, company,
+						tdsResposiblePerson);
+
+				InputStream in = new BufferedInputStream(new FileInputStream(
+						templeteName));
+
+				report = XDocReportRegistry.getRegistry().loadReport(in,
+						TemplateEngineKind.Velocity);
+				context = report.createContext();
+				context = coveringLetterTemp.assignValues(context, report);
+			}
+
+			FontFactory.setFontImp(new FontFactoryImpEx());
+			Options options = Options.getTo(ConverterTypeTo.PDF).via(
+					ConverterTypeVia.ITEXT);
+
+			File file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
+			List<String> result = new ArrayList<String>();
+			result.add(fileName + ".pdf");
+			result.add(file.getName());
+			FileOutputStream outputStream = new FileOutputStream(file);
+			report.convert(context, options, outputStream);
+			System.err.println("From 16A Pdf created");
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private FinanceDate[] getQuarterDates(int quarter) {
+		int finYear = new ClientFinanceDate().getYear();
+		String frmDt = null;
+		String toDt = null;
+		switch (quarter) {
+		case 0:
+			frmDt = "04/01/" + Integer.toString(finYear);
+			toDt = "06/30/" + Integer.toString(finYear);
+			break;
+		case 1:
+			frmDt = "07/01/" + Integer.toString(finYear);
+			toDt = "09/30/" + Integer.toString(finYear);
+			break;
+		case 2:
+			frmDt = "10/01/" + Integer.toString(finYear);
+			toDt = "12/31/" + Integer.toString(finYear);
+			break;
+		case 3:
+			frmDt = "01/01/" + Integer.toString(finYear);
+			toDt = "31/03/" + Integer.toString(finYear);
+			break;
+		default:
+			break;
+
+		}
+		FinanceDate fromDate = new FinanceDate(frmDt);
+		FinanceDate toDate = new FinanceDate(toDt);
+		return new FinanceDate[] { fromDate, toDate };
 	}
 }

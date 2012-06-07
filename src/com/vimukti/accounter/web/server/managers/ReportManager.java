@@ -618,18 +618,19 @@ public class ReportManager extends Manager {
 	}
 
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			final FinanceDate startDate, final FinanceDate endDate,
-			long companyId) throws DAOException {
+			long accountId, final FinanceDate startDate,
+			final FinanceDate endDate, long companyId) throws DAOException {
 
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
 
 			List<TransactionDetailByAccount> transactionDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
-
 			Query query = session
-					.getNamedQuery("getTransactionDetailByAccount")
+					.getNamedQuery(
+							"getTransactionDetailByAccount_ForParticularAccount")
 					.setParameter("companyId", companyId)
+					.setParameter("accountId", accountId)
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate());
 
@@ -750,44 +751,6 @@ public class ReportManager extends Manager {
 			transactionMakeDepositsList.add(transactionDetailByAccount);
 
 		}
-	}
-
-	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			String accountName, FinanceDate startDate, FinanceDate endDate,
-			long companyId) throws DAOException {
-
-		try {
-
-			Session session = HibernateUtil.getCurrentSession();
-
-			Query query = session
-					.getNamedQuery(
-							"getTransactionDetailByAccount_ForParticularAccount")
-					.setParameter("companyId", companyId)
-					.setParameter("accountName", accountName,
-							EncryptedStringType.INSTANCE).setParameter(
-
-					"startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate());
-
-			List<TransactionDetailByAccount> transactionDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
-			List list = query.list();
-
-			if (list != null && list.size() > 0) {
-				createTransasctionDetailByAccount(list,
-						transactionDetailByAccountList);
-			}
-
-			if (transactionDetailByAccountList != null) {
-				return new ArrayList<TransactionDetailByAccount>(
-						transactionDetailByAccountList);
-			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-		}
-
 	}
 
 	private List<TrialBalance> sortTheList(List<TrialBalance> queryResult) {

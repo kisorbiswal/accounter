@@ -15,30 +15,12 @@ import com.vimukti.accounter.web.client.core.Utility;
 
 public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 
-	String fileText = null;
-	private ClientTDSChalanDetail chalanDetails;
-	private ClientTDSTransactionItem transactionItems;
-	private List<ClientTDSChalanDetail> chalanDetailsList;
-	private Vendor vendorFinal;
-
-	private int runningSerialNumber;
-	private int runningChalanNumber;
-	private int lineNumber;
-	private int codesArrayIndex = 0;
-	String[] panListArray;
-	String[] codeListArray;
-	String[] remarkListArray;
-
 	public Form27EQAnnexureGenerator(
 			ClientTDSDeductorMasters tdsDeductorMasterDetails2,
 			ClientTDSResponsiblePerson responsiblePersonDetails2,
 			Company company, String panList, String codeList, String remarkList) {
-		super(tdsDeductorMasterDetails2, responsiblePersonDetails2, company);
-
-		panListArray = panList.split("-");
-		codeListArray = codeList.split("-");
-		remarkListArray = remarkList.split("-");
-
+		super(tdsDeductorMasterDetails2, responsiblePersonDetails2, company,
+				panList, codeList, remarkList);
 	}
 
 	public String generateFile() {
@@ -903,16 +885,6 @@ public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 */
 	private String getDeducteeRecordsCount() {
 		return Integer.toString(chalanDetails.getTdsTransactionItems().size());
-	}
-
-	public void setFormDetails(String formNo, String quater, String startYear,
-			String endYear) {
-		super.setFormDetails(formNo, quater, startYear, endYear);
-	}
-
-	public void setChalanDetailsList(List<ClientTDSChalanDetail> chalanList2) {
-		chalanDetailsList = chalanList2;
-		super.setChalanCount(chalanDetailsList.size());
 	}
 
 	public int getRunningSerialNumber() {

@@ -14,7 +14,7 @@ public class TransactionDetailbyAccountProcessor extends ReportProcessor {
 			throws Exception {
 		init(req, resp);
 		List<? extends BaseReport> result = service
-				.getTransactionDetailByAccount(startDate,
+				.getTransactionDetailByAccount(0, startDate,
 						endDate);
 
 		sendResult(result);

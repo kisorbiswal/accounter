@@ -1,10 +1,13 @@
 package com.vimukti.accounter.web.client;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.reports.ETDsFilingData;
 
 /**
  * for exporting the the list as CSV file
@@ -126,5 +129,12 @@ public interface IAccounterExportCSVServiceAsync {
 
 	public void exportSavedPaypalTransactions(ClientAccount clientAccount,
 			AsyncCallback<String> exportCSVCallback);
+
+	public void generateETDSFillingtext(ETDsFilingData etDsFilingData,
+			AsyncCallback<List<String>> callback);
+
+	void generateFrom16APDF(long vendorID, String datesRange, String place,
+			String printDate, String tdsCertificateNumber, int type,
+			AsyncCallback<List<String>> callback);
 
 }

@@ -14,32 +14,13 @@ import com.vimukti.accounter.web.client.core.Utility;
 
 public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 
-	String fileText = null;
-	private ClientTDSChalanDetail chalanDetails;
-	private ClientTDSTransactionItem transactionItems;
-	private List<ClientTDSChalanDetail> chalanDetailsList;
-	private Vendor vendorFinal;
-
-	private int runningSerialNumber;
-	private int runningChalanNumber;
-	private int lineNumber;
-	String[] panListArray;
-	String[] codeListArray;
-	String[] remarkListArray;
-	String[] grossingUpListArray;
-	private int codesArrayIndex = 0;
-
 	public Form27QAnnexureGenerator(
 			ClientTDSDeductorMasters tdsDeductorMasterDetails2,
 			ClientTDSResponsiblePerson responsiblePersonDetails2,
 			Company company, String panList, String codeList,
 			String remarkList, String grossingUpList) {
-		super(tdsDeductorMasterDetails2, responsiblePersonDetails2, company);
-
-		panListArray = panList.split("-");
-		codeListArray = codeList.split("-");
-		remarkListArray = remarkList.split("-");
-		grossingUpListArray = grossingUpList.split("-");
+		super(tdsDeductorMasterDetails2, responsiblePersonDetails2, company,
+				panList, codeList, remarkList);
 	}
 
 	public String generateFile() {

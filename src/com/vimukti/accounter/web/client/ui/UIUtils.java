@@ -55,6 +55,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.ReportInput;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.reports.ETDsFilingData;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.banking.CreditCardChargeAction;
@@ -1957,27 +1958,20 @@ public class UIUtils {
 	public static void generateForm16A(long vendorID, String datesRange,
 			String place, String printDate, String tdsCertificateNumber,
 			int type) {
-		generateForm16A(String.valueOf(vendorID), datesRange, place, printDate,
-				String.valueOf(type), tdsCertificateNumber);
-	}
+		Accounter.createExportCSVService().generateFrom16APDF(vendorID,
+				datesRange, place, printDate, tdsCertificateNumber, type,
+				new AccounterAsyncCallback<List<String>>() {
 
-	private static native void generateForm16A(String vendorID,
-			String datesRange, String place, String printDate, String type,
-			String tdsCertificateNumber)/*-{
-		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src",
-					"/do/finance/Form16ApdfGenerationServlet?vendorID="
-							+ vendorID + "&datesRange=" + datesRange
-							+ "&place=" + place + "&printDate=" + printDate
-							+ "&type=" + type + "&tdsCertificateNumber="
-							+ tdsCertificateNumber);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
-		} catch (e) {
-			alert(e);
-		}
-	}-*/;
+					@Override
+					public void onException(AccounterException exception) {
+					}
+
+					@Override
+					public void onResultSuccess(List<String> result) {
+						downloadFileFromTemp(result.get(0), result.get(1));
+					}
+				});
+	}
 
 	public static List<ClientCurrency> getCurrenciesList() {
 		// FIXME :put default exact currencies and externalize them .
@@ -2112,24 +2106,20 @@ public class UIUtils {
 		}
 	}-*/;
 
-	public native static void generateETDSFillingtext(int formNo, int quarter,
-			int fromDate, int toDate, int startYear, int endYear,
-			String panList, String codeList, String remarkList,
-			String grossingUpList)/*-{
-		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src", "/do/finance/GenerateETDSServlet?formNo="
-					+ formNo + "&quater=" + quarter + "&fromDate=" + fromDate
-					+ "&toDate=" + toDate + "&startYear=" + startYear
-					+ "&endYear=" + endYear + "&panList=" + panList
-					+ "&codeList=" + codeList + "&remarkList=" + remarkList
-					+ "&grossingUpList=" + grossingUpList);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
-		} catch (e) {
-			alert(e);
-		}
-	}-*/;
+	public static void generateETDSFillingtext(ETDsFilingData etDsFilingData) {
+		Accounter.createExportCSVService().generateETDSFillingtext(
+				etDsFilingData, new AccounterAsyncCallback<List<String>>() {
+
+					@Override
+					public void onException(AccounterException exception) {
+					}
+
+					@Override
+					public void onResultSuccess(List<String> result) {
+						downloadFileFromTemp(result.get(1), result.get(0));
+					}
+				});
+	}
 
 	public static Action getAddNewAction(int transactionType, int subType) {
 		Action action = null;

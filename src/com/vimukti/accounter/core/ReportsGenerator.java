@@ -545,22 +545,13 @@ public class ReportsGenerator {
 			updateReport(transactionDetailByAccountServerReport, finaTool);
 			transactionDetailByAccountServerReport.resetVariables();
 			try {
-				if (status == null || status.isEmpty()
-						|| status.trim().equals("0")) {
-					transactionDetailByAccountServerReport
-							.onResultSuccess(reportsSerivce
-									.getTransactionDetailByAccount(
-											startDate.toClientFinanceDate(),
-											endDate.toClientFinanceDate(),
-											getCompany().getID()));
-				} else {
-					transactionDetailByAccountServerReport
-							.onResultSuccess(reportsSerivce
-									.getTransactionDetailByAccount(status,
-											startDate.toClientFinanceDate(),
-											endDate.toClientFinanceDate(),
-											getCompany().getID()));
-				}
+				transactionDetailByAccountServerReport
+						.onResultSuccess(reportsSerivce
+								.getTransactionDetailByAccount(
+										Long.valueOf(status),
+										startDate.toClientFinanceDate(),
+										endDate.toClientFinanceDate(),
+										getCompany().getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

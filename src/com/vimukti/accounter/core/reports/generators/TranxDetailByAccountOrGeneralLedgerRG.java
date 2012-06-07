@@ -26,22 +26,12 @@ public class TranxDetailByAccountOrGeneralLedgerRG extends
 		updateReport(transactionDetailByAccountServerReport, financeTool);
 		transactionDetailByAccountServerReport.resetVariables();
 		try {
-			if (getInputAsString(0) ==null) {
-				transactionDetailByAccountServerReport
-						.onResultSuccess(reportsSerivce
-								.getTransactionDetailByAccount(
-										startDate.toClientFinanceDate(),
-										endDate.toClientFinanceDate(),
-										company.getID()));
-			} else {
-				transactionDetailByAccountServerReport
-						.onResultSuccess(reportsSerivce
-								.getTransactionDetailByAccount(
-										getInputAsString(0),
-										startDate.toClientFinanceDate(),
-										endDate.toClientFinanceDate(),
-										company.getID()));
-			}
+			transactionDetailByAccountServerReport
+					.onResultSuccess(reportsSerivce
+							.getTransactionDetailByAccount(getInputAsLong(0),
+									startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate(),
+									company.getID()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

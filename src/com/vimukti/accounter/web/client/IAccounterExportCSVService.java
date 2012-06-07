@@ -1,10 +1,13 @@
 package com.vimukti.accounter.web.client;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.reports.ETDsFilingData;
 
 /**
  * for exporting the the list as CSV file
@@ -104,5 +107,11 @@ public interface IAccounterExportCSVService extends RemoteService {
 	String getBuildAssembliesExportCsv(long startDate, long endDate, int viewId);
 
 	String exportSavedPaypalTransactions(ClientAccount clientAccount);
+
+	List<String> generateETDSFillingtext(ETDsFilingData etDsFilingData);
+
+	List<String> generateFrom16APDF(long vendorID, String datesRange,
+			String place, String printDate, String tdsCertificateNumber,
+			int type);
 
 }
