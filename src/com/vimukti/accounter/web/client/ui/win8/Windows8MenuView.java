@@ -2061,14 +2061,14 @@ public class Windows8MenuView extends BaseView {
 		menuForm.add(itemGroupList);
 
 		W8MenuItem currencyList = new W8MenuItem(messages.currencyList(), "",
-				HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
+				HistoryTokens.CURRENCYGROUPLIST);
 		menuForm.add(currencyList);
 
 		if (hasPermission(Features.CLASS)) {
 			if (isClassTracking) {
 				W8MenuItem accounterClassList = new W8MenuItem(
 						messages.accounterClassList(), "",
-						HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
+						HistoryTokens.ACCOUNTERCLASSLIST);
 				menuForm.add(accounterClassList);
 
 			}
@@ -2077,7 +2077,7 @@ public class Windows8MenuView extends BaseView {
 			if (isLocationTracking) {
 				W8MenuItem locationsList = new W8MenuItem(
 						messages.locationsList(Global.get().Location()), "",
-						HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
+						HistoryTokens.LOCATIONGROUPLIST);
 				menuForm.add(locationsList);
 
 			}

@@ -3,18 +3,11 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Features;
-import com.vimukti.accounter.web.client.ui.AccountMergeDialog;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.ClassMergeDialog;
-import com.vimukti.accounter.web.client.ui.CustomerMergeDialog;
 import com.vimukti.accounter.web.client.ui.CustomerMergeView;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
-import com.vimukti.accounter.web.client.ui.ItemMergeDialog;
-import com.vimukti.accounter.web.client.ui.LocationMergeDialog;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.VendorMergeDialog;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
 public class MergeAction extends Action {
 
@@ -39,78 +32,40 @@ public class MergeAction extends Action {
 			return;
 		}
 
-		BaseDialog dialog = null;
 		switch (type) {
 		case TYPE_CUSTOMERS:
-			if (!Accounter.isIpadApp()) {
-				dialog = new CustomerMergeDialog(messages.mergeCustomers(Global
-						.get().customers()),
-						messages.payeeMergeDescription(Global.get().customer()));
-			} else {
 
-				CustomerMergeView view = new CustomerMergeView();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, MergeAction.this);
-			}
+			CustomerMergeView customerView = new CustomerMergeView();
+			MainFinanceWindow.getViewManager().showView(customerView, data,
+					isDependent, MergeAction.this);
 			break;
 		case TYPE_VENDORS:
-			if (!Accounter.isIpadApp()) {
-				dialog = new VendorMergeDialog(messages.mergeVendors(Global
-						.get().vendors()),
-						messages.payeeMergeDescription(Global.get().vendor()));
-			} else {
-				VendorMergeView view = new VendorMergeView();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, MergeAction.this);
-			}
+			VendorMergeView vendorView = new VendorMergeView();
+			MainFinanceWindow.getViewManager().showView(vendorView, data,
+					isDependent, MergeAction.this);
 			break;
 		case TYPE_ACCOUNTS:
-			if (!Accounter.isIpadApp()) {
-				dialog = new AccountMergeDialog(messages.mergeAccounts(),
-						messages.mergeDescription());
-			} else {
-				AccountMergeView view = new AccountMergeView();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, MergeAction.this);
-			}
+			AccountMergeView accountView = new AccountMergeView();
+			MainFinanceWindow.getViewManager().showView(accountView, data,
+					isDependent, MergeAction.this);
 			break;
 		case TYPE_ITEMS:
-			if (!Accounter.isIpadApp()) {
-				dialog = new ItemMergeDialog(messages.mergeItems(),
-						messages.itemDescription());
-			} else {
-				ItemMergeView view = new ItemMergeView();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, MergeAction.this);
-			}
+			ItemMergeView itemView = new ItemMergeView();
+			MainFinanceWindow.getViewManager().showView(itemView, data,
+					isDependent, MergeAction.this);
 			break;
 		case TYPE_CLASSES:
-			if (!Accounter.isIpadApp()) {
-				dialog = new ClassMergeDialog(messages.mergeClasses(),
-						messages.mergeClassDescription());
-			} else {
-				ClassMergeView view = new ClassMergeView();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, MergeAction.this);
-			}
+			ClassMergeView classView = new ClassMergeView();
+			MainFinanceWindow.getViewManager().showView(classView, data,
+					isDependent, MergeAction.this);
 			break;
 		case TYPE_LOCATIONS:
-			if (!Accounter.isIpadApp()) {
-				dialog = new LocationMergeDialog(messages.mergeLocations(),
-						messages.mergeLocationDescription());
-			} else {
-				LocationMergeView view = new LocationMergeView();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, MergeAction.this);
-			}
+			LocationMergeView locationView = new LocationMergeView();
+			MainFinanceWindow.getViewManager().showView(locationView, data,
+					isDependent, MergeAction.this);
 			break;
 		default:
 			break;
-		}
-		if (dialog != null) {
-			dialog.show();
-		} else {
-
 		}
 	}
 
