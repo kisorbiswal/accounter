@@ -1429,15 +1429,17 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 					if (isPurchaseType && isSalesType) {
 						return new String[] { messages.itemName(),
 								messages.description(), messages.type(),
-								messages.salesPrice(), messages.purchasePrice() };
+								messages.avarageCost(), messages.salesPrice(),
+								messages.purchasePrice() };
 					} else if (isPurchaseType) {
 						return new String[] { messages.itemName(),
 								messages.description(), messages.type(),
+								messages.avarageCost(),
 								messages.purchasePrice() };
 					} else {
 						return new String[] { messages.itemName(),
 								messages.description(), messages.type(),
-								messages.salesPrice() };
+								messages.avarageCost(), messages.salesPrice() };
 					}
 				}
 
@@ -1460,6 +1462,11 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								.getItemTypeText(obj) : "";
 						break;
 					case 3:
+						columnValue = amountAsStringWithCurrency(
+								obj.getAverageCost(), obj.getCompany()
+										.getPrimaryCurrency());
+						break;
+					case 4:
 						if (!(isPurchaseType && isSalesType)) {
 							if (obj.isISellThisItem()) {
 								columnValue = amountAsStringWithCurrency(
@@ -1481,7 +1488,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 									obj.getPurchasePrice(), obj.getCompany()
 											.getPrimaryCurrency());
 						break;
-					case 4:
+					case 5:
 						if (isPurchaseType && isSalesType) {
 							columnValue = amountAsStringWithCurrency(
 									obj.getPurchasePrice(), obj.getCompany()

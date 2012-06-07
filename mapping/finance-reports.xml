@@ -4684,7 +4684,7 @@
 		           SELECT 	I.ID                                AS ITEM_ID,
        						I.ON_HAND_QTY_VALUE                 AS ONHANDQTY,
       					    I.NAME                              AS ITEM_NAME,
-       						I.SALES_PRICE * I.ON_HAND_QTY_VALUE AS COSTVALUTION,
+       						I.AVERAGE_COST * I.ON_HAND_QTY_VALUE AS COSTVALUTION,
       					    CASE
        	  						WHEN TRANSACTION_TYPE IN ( 6, 36 ) THEN true
         					 ELSE false

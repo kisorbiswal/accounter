@@ -59,9 +59,9 @@ public class InventoryDetailsServerReport extends
 		case 0:
 			return record.getItemName();
 		case 1:
-			return (record.getQtyIn() != 0 ? -1 * record.getQtyIn() : 0);
+			return (record.getQtyIn());
 		case 2:
-			return (record.getCost() != 0.0 ? -1 * record.getCost() : 0.0);
+			return (record.getCost());
 		case 3:
 			return record.getQtyOut();
 		case 4:
@@ -87,5 +87,23 @@ public class InventoryDetailsServerReport extends
 	@Override
 	public void makeReportRequest(long start, long end) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public int getColumnWidth(int index) {
+		switch (index) {
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+			return 120;
+		case 5:
+		case 6:
+			return 140;
+
+		default:
+			break;
+		}
+		return super.getColumnWidth(index);
 	}
 }

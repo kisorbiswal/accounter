@@ -35,13 +35,15 @@ public class WareHouseToolBar extends DateRangeReportToolbar {
 			ClientFinanceDate endDate) {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
-		if (selectWareHouse != null) {
-			reportview.makeReportRequest(selectWareHouse.getID() == 0 ? 0
-					: selectWareHouse.getID(), fromItem.getDate(), toItem
-					.getDate());
-		} else {
-			reportview.addEmptyMessage(messages.noRecordsToShow());
+		if (selectWareHouse == null) {
+			ClientWarehouse warehouse = new ClientWarehouse();
+			warehouse.setName(messages.all());
+			this.selectWareHouse = warehouse;
 		}
+		reportview
+				.makeReportRequest(selectWareHouse.getID() == 0 ? 0
+						: selectWareHouse.getID(), fromItem.getDate(), toItem
+						.getDate());
 	}
 
 	@Override

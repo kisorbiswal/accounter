@@ -4374,7 +4374,7 @@ public class ReportManager extends Manager {
 				record.setOnHandqty((Double) (object[1] != null ? object[1] : 0));
 				record.setItemName((String) (object[2] != null ? object[2] : ""));
 				boolean type = ((Boolean) object[6]).booleanValue();
-				if (type) {
+				if (!type) {
 					record.setQtyOut((Double) (object[4] != null ? object[4]
 							: 0));
 					record.setPricesold((Double) (object[5] != null ? object[5]
@@ -4390,7 +4390,7 @@ public class ReportManager extends Manager {
 			} else {
 				InventoryDetails record = list.get(list.size() - 1);
 				boolean type = ((Boolean) object[6]).booleanValue();
-				if (type) {
+				if (!type) {
 					record.setQtyOut((Double) (object[4] != null ? object[4]
 							: 0));
 					record.setPricesold((Double) (object[5] != null ? object[5]

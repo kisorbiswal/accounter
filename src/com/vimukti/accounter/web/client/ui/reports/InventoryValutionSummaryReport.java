@@ -19,7 +19,6 @@ public class InventoryValutionSummaryReport extends
 	@Override
 	public void init() {
 		super.init();
-		this.toolbar.setWareHouseId(this.warehouseId);
 	}
 
 	@Override
@@ -31,6 +30,7 @@ public class InventoryValutionSummaryReport extends
 	public void makeReportRequest(long wareHouseId,
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		grid.removeAllRows();
+		grid.addLoadingImagePanel();
 		setWarehouseId(wareHouseId);
 		Accounter.createReportService().getInventoryValutionSummary(
 				wareHouseId, startDate, endDate, this);
