@@ -45,7 +45,7 @@
 			             END )
 				       AND T.SAVE_STATUS != 202
 				ORDER  BY P.NAME,
-				          T.T_DATE  
+				          T.T_DATE ASC 
 				]]>
 
 	</sql-query>
@@ -114,7 +114,7 @@
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				       AND T.SAVE_STATUS = 203
 				       AND T.COMPANY_ID = :companyId
-				ORDER  BY T.ID  
+				ORDER  BY T.ID , T.T_DATE ASC 
 				]]>
 
 	</sql-query>
@@ -193,7 +193,7 @@
 				WHERE  CUSTOMER_ID IS NOT NULL
 				       AND VIEW.COMPANY_ID = :companyId
 				       AND DATE BETWEEN :startDate AND :endDate
-				ORDER  BY NAME  
+				ORDER  BY NAME,DATE ASC
 				]]>
 
 	</sql-query>
@@ -239,7 +239,7 @@
 				       AND COMPANY_ID = :companyId
 				       AND NAME = :customerName
 				       AND DATE BETWEEN :startDate AND :endDate
-				ORDER  BY NAME  
+				ORDER  BY NAME,DATE ASC  
 				]]>
 
 	</sql-query>
@@ -322,7 +322,7 @@
 				       AND COMPANY_ID =  :companyId
 				       AND ITEM_TYPE IS NOT NULL
 				       AND DATE BETWEEN :startDate AND :endDate
-				ORDER  BY PATH DESC
+				ORDER  BY PATH,DATE ASC
 				]]>
 
 	</sql-query>
@@ -383,7 +383,7 @@
 				       AND ITEM_TYPE IS NOT NULL
 				       AND ITEM_NAME = :itemName
 				       AND DATE BETWEEN :startDate AND :endDate
-				ORDER  BY PATH DESC
+				ORDER  BY PATH ,DATE ASC
 				]]>
 
 	</sql-query>
@@ -412,8 +412,8 @@
 				       AND ITEM_TYPE IS NOT NULL
 				       AND ITEM_NAME IS NOT NULL
 				       AND DATE BETWEEN :startDate AND :endDate
-				GROUP  BY ITEM_NAME,PARENT_ID,PATH,DEPTH
-				ORDER  BY PATH DESC
+				GROUP  BY ITEM_NAME,PARENT_ID,PATH,DEPTH,DATE
+				ORDER  BY PATH ,DATE ASC
 				]]>
 
 	</sql-query>
@@ -459,7 +459,7 @@
 				       AND COMPANY_ID = :companyId
 				       AND COMPANY_ID = :companyId
 				       AND DATE BETWEEN :startDate AND :endDate
-				ORDER  BY NAME  
+				ORDER  BY NAME,DATE ASC  
 				]]>
 
 	</sql-query>
@@ -505,7 +505,7 @@
 				       AND COMPANY_ID = :companyId
 				       AND NAME = :vendorName
 				       AND DATE BETWEEN :startDate AND :endDate
-				ORDER  BY NAME  
+				ORDER  BY NAME ,DATE ASC 
 				]]>
 
 	</sql-query>
@@ -579,7 +579,7 @@
 				       AND COMPANY_ID = :companyId
 				       AND ITEM_TYPE IS NOT NULL
 				       AND DATE BETWEEN :startDate AND :endDate
-				ORDER  BY PATH DESC
+				ORDER  BY PATH ,DATE DESC
 				]]>
 
 	</sql-query>
@@ -631,7 +631,7 @@
 				       AND ITEM_TYPE IS NOT NULL
 				       AND ITEM_NAME = :itemName
 				       AND DATE BETWEEN :startDate AND :endDate
-				ORDER  BY PATH DESC
+				ORDER  BY PATH,DATE DESC
 				]]>
 
 	</sql-query>
@@ -746,8 +746,7 @@
 				       AND TV.DATE BETWEEN :startDate AND :endDate
 				       AND TV.SAVE_STATUS = 203
 				ORDER  BY TV.CUSTOMER_ID,
-				          TV.TYPE,
-				          TV.DATE  
+				          TV.DATE,TV.TYPE ASC 
 				]]>
 
 	</sql-query>
@@ -840,8 +839,7 @@
 				       AND TV.DATE BETWEEN :startDate AND :endDate
 				       AND TV.SAVE_STATUS = 203
 				ORDER  BY TV.VENDOR_ID,
-				          TV.TYPE,
-				          TV.DATE  
+				          TV.DATE, TV.TYPE ASC 
 				]]>
 
 	</sql-query>
@@ -1373,7 +1371,7 @@
 				       AND T.SAVE_STATUS !=204
 				ORDER  BY P.NAME,
 				          T.T_TYPE,
-				          T.T_DATE  
+				          T.T_DATE ASC 
 				]]>
 
 	</sql-query>
@@ -1453,7 +1451,7 @@
 				       AND T.COMPANY_ID = :companyId
 				ORDER  BY P.NAME,
 				          T.T_TYPE,
-				          T_DATE  
+				          T.T_DATE ASC  
 				]]>
 
 	</sql-query>
@@ -1806,7 +1804,7 @@
 				WHERE  T.T_DATE BETWEEN :startDate AND :endDate
 				       AND T.COMPANY_ID = :companyId
 				ORDER  BY TIG.NAME,
-				          P1.NAME  
+				          P1.NAME , T.T_DATE ASC  
 				]]>
 
 	</sql-query>
@@ -1878,7 +1876,7 @@
 				       AND T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				ORDER  BY TIG.NAME,
-				          P1.NAME  
+				          P1.NAME , T.T_DATE ASC  
 				]]>
 
 	</sql-query>
@@ -1917,7 +1915,7 @@
 				       AND TI.ITEM_ID IS NOT NULL
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				GROUP  BY IT.NAME
-				ORDER  BY IT.TYPE  
+				ORDER  BY IT.TYPE  , T.T_DATE ASC 
 				]]>
 
 	</sql-query>
@@ -1956,7 +1954,7 @@
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				       AND T.COMPANY_ID = :companyId
 				GROUP  BY IT.NAME
-				ORDER  BY IT.TYPE  
+				ORDER  BY IT.TYPE  , T.T_DATE ASC 
 				]]>
 
 	</sql-query>
@@ -2003,7 +2001,7 @@
 				                         10, 12, 15 )
 				       AND C.ID IS NOT NULL
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
-				ORDER  BY P.NAME  
+				ORDER  BY P.NAME , T.T_DATE ASC  
 				]]>
 
 	</sql-query>
@@ -2050,7 +2048,7 @@
 				                         11, 14, 15, 25 )
 				       AND V.ID IS NOT NULL
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
-				ORDER  BY P.NAME  
+				ORDER  BY P.NAME  , T.T_DATE ASC 
 				]]>
 
 	</sql-query>
@@ -2117,7 +2115,7 @@
 				          P.NAME,
 				          WC.IN_FAVOUR_OF
 				ORDER  BY T.T_TYPE,
-				          T.T_DATE  
+				          T.T_DATE  ASC
 				]]>
 
 	</sql-query>
@@ -2217,7 +2215,7 @@
 				          WC.IN_FAVOUR_OF
 				ORDER  BY A.FLOW,
 				          A.NAME,
-				          T.T_DATE DESC  
+				          T.T_DATE ASC  
 				]]>
 
 	</sql-query>
@@ -2320,7 +2318,7 @@
 				          P.NAME,
 				          C.FULL_NAME,
 				          WC.IN_FAVOUR_OF
-				ORDER  BY A.NAME  
+				ORDER  BY A.NAME,T.T_DATE ASC
 				]]>
 
 	</sql-query>
@@ -2531,6 +2529,7 @@
 				       AND P.NAME IS NOT NULL
 				GROUP  BY T.ID,
 				          A.ID  
+			    ORDER BY T.T_DATE ASC 	          
           		]]>
 
 	</sql-query>
@@ -2570,7 +2569,7 @@
 				WHERE  T.T_DATE BETWEEN :startDate AND :endDate
 				       AND T.T_TYPE IN ( 8, 1 )
 				       AND T.COMPANY_ID = :companyId
-				ORDER  BY L.LOCATION_NAME  
+				ORDER  BY L.LOCATION_NAME , T.T_DATE ASC  
 				]]>
 
 	</sql-query>
@@ -2599,7 +2598,7 @@
 				       AND T.T_TYPE IN ( 8, 1 )
 				       AND T.COMPANY_ID = :companyId
 				GROUP  BY L.LOCATION_NAME
-				ORDER  BY L.LOCATION_NAME  
+				ORDER  BY L.LOCATION_NAME
 				]]>
 
 	</sql-query>
@@ -2644,7 +2643,7 @@
 				             WHEN :locationORClassName IS NULL THEN L.LOCATION_NAME IS NULL
 				             ELSE L.LOCATION_NAME = :locationORClassName
 				           END
-				ORDER  BY L.LOCATION_NAME  
+				ORDER  BY L.LOCATION_NAME, T.T_DATE ASC   
 				]]>
 
 	</sql-query>
@@ -2691,7 +2690,7 @@
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				       AND AC.ID IS NOT NULL 
 				       AND T.T_TYPE IN ( 8, 1 )
-				ORDER  BY AC.PATH DESC  
+				ORDER  BY AC.PATH , T.T_DATE ASC 
 				]]>
 
 	</sql-query>
@@ -2727,7 +2726,7 @@
 				       AND T.T_TYPE IN ( 8, 1 )
 				       AND AC.ID IS NOT NULL
 				GROUP  BY AC.CLASS_NAME,AC.PARENT_ID,AC.ID
-				ORDER  BY AC.PATH DESC   
+				ORDER  BY AC.PATH DESC  
 				]]>
 
 	</sql-query>
@@ -2777,7 +2776,7 @@
 				             WHEN :locationORClassName IS NULL THEN AC.CLASS_NAME IS NULL
 				             ELSE AC.CLASS_NAME = :locationORClassName
 				           END
-				ORDER  BY AC.PATH  
+				ORDER  BY AC.PATH  , T.T_DATE ASC 
 				]]>
 
 	</sql-query>
@@ -2828,7 +2827,7 @@
 						          A.GROUP_TYPE,
 						          A.A_TYPE,
 						          A.ID,
-						          AC.PATH DESC    
+						          AC.PATH , T.T_DATE ASC     
 				]]>
 
 	</sql-query>
@@ -2918,7 +2917,7 @@
 				          P.NAME,
 				          WC.IN_FAVOUR_OF,
 				          C.ID
-				ORDER  BY T.T_DATE  
+				ORDER  BY T.T_DATE ASC 
 				]]>
 
 	</sql-query>
@@ -3029,7 +3028,7 @@
 				       AND T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				ORDER  BY P.ID,
-				          J.ID  
+				          J.ID  , T.T_DATE ASC 
 				]]>
 
 	</sql-query>
@@ -3068,7 +3067,7 @@
 				       AND jtv.customer_id = :customerId
 				       AND jtv.job_id = :jobId
 				       AND jtv.t_date BETWEEN :startDate AND :endDate 
-				       AND JTV.revenue !=0  
+				       AND JTV.revenue !=0 
 				]]>
 
 	</sql-query>
@@ -3137,7 +3136,7 @@
 				           END
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				       AND T.SAVE_STATUS != 204
-				ORDER  BY T.ID  
+				ORDER  BY T.ID , T.T_DATE ASC  
 				]]>
 
 	</sql-query>
@@ -3224,7 +3223,7 @@
 						A.SUB_BASE_TYPE,
 						A.GROUP_TYPE,
 						A.A_TYPE,
-						A.ID   
+						A.ID  , T.T_DATE ASC  
 				]]>
 
 	</sql-query>
@@ -3284,6 +3283,7 @@
 				       AND ( P.ID = :customerId
 				             AND T.JOB_ID = :jobId )
 				       AND T.SAVE_STATUS != 204  
+				ORDER BY T.T_DATE ASC 
 				]]>
 
 	</sql-query>
@@ -3323,6 +3323,7 @@
 				       AND JTV.JOB_ID = :jobId
 				       AND JTV.T_DATE BETWEEN :startDate AND :endDate 
 				       AND JTV.COST !=0 
+				ORDER BY JTV.T_DATE ASC
 				]]>
 
 	</sql-query>
@@ -3432,7 +3433,7 @@
 				GROUP  BY JTV.JOB_ID,
 				          JTV.CUSTOMER_ID,
 				          JTV.CUSTOMER_NAME,
-				          JTV.JOB_NAME;     
+				          JTV.JOB_NAME				 
 				]]>
 
 	</sql-query>
@@ -3508,7 +3509,7 @@
 				       AND T.SAVE_STATUS !=204
 				       AND T.T_TYPE in( 1, 4, 8)
 				GROUP  BY I.ID,
-				          J.ID;  
+				          J.ID				
 				]]>
 
 	</sql-query>
@@ -3563,6 +3564,7 @@
 				       AND J.ID = :jobId
 				       AND I.TYPE = 2
 				       AND T.SAVE_STATUS != 204  
+			    ORDER BY T.T_DATE ASC
 				]]>
 
 	</sql-query>
@@ -3659,7 +3661,7 @@
 				WHERE  ( TT.CHECK_NUMBER != :tobePrint
 				         AND TT.CHECK_NUMBER != :empty )
 				ORDER  BY Length(TT.CHECK_NUMBER),
-				          TT.CHECK_NUMBER  
+				          TT.CHECK_NUMBER ,TT.TRANSACTION_DATE ASC 
 				]]>
 
 	</sql-query>
@@ -3842,7 +3844,7 @@
 				WHERE  ( TT.CHECK_NUMBER != :tobePrint
 				         AND TT.CHECK_NUMBER != :empty )
 				ORDER  BY Length(TT.CHECK_NUMBER),
-				          TT.CHECK_NUMBER  
+				          TT.CHECK_NUMBER , TT.TRANSACTION_DATE ASC  
 				]]>
 
 	</sql-query>
@@ -3906,7 +3908,7 @@
 					          A.SUB_BASE_TYPE,
 					          A.GROUP_TYPE,
 					          A.A_TYPE,
-					          A.ID  
+					          A.ID
 			]]>
 
 	</sql-query>
@@ -3961,7 +3963,7 @@
 				         TIG.NAME,
 				         P.NAME
 				ORDER BY TAXAGENCY_NAME,
-				         TIG.NAME
+				         TIG.NAME 
 				]]>
 
 	</sql-query>
@@ -4077,7 +4079,7 @@
 					GROUP BY T.ID,
 					         TI.ID,
 					         A.ID
-					ORDER BY AT.ID
+					ORDER BY AT.ID, T.T_DATE ASC 
 				]]>
 
 	</sql-query>
@@ -4233,7 +4235,7 @@
 						          COM.ID,
 						          TDS.CHALANSERIALNUMBER
 						ORDER  BY T.T_DATE,
-						          AT.TRANSACTION_ID  
+						          AT.TRANSACTION_ID ASC  
 				]]>
 
 	</sql-query>
@@ -4414,7 +4416,7 @@
 							          P.NAME,
 							          C.FULL_NAME,
 							          WC.IN_FAVOUR_OF
-							ORDER  BY A.NAME    
+							ORDER  BY A.NAME , T.T_DATE ASC    
 				 ]]>
 	</sql-query>
 	<sql-query name="getPurchaseByLocationDetail">
@@ -4452,7 +4454,7 @@
 			       AND T.T_DATE BETWEEN :startDate AND :endDate
 			       AND T.T_TYPE IN ( 2, 6, 14 )
 			       AND T.LOCATION_ID IS NOT NULL
-			ORDER  BY L.LOCATION_NAME  
+			ORDER  BY L.LOCATION_NAME  , T.T_DATE ASC 
 		]]>
 	</sql-query>
 	<sql-query name="getPurchaseByClassDetail">
@@ -4497,7 +4499,7 @@
 					       AND T.COMPANY_ID = :companyId
 					       AND T.T_DATE BETWEEN :startDate AND :endDate
 					       AND AC.CLASS_NAME IS NOT NULL
-					ORDER  BY AC.PATH DESC  
+					ORDER  BY AC.PATH , T.T_DATE ASC  
 			]]>
 	</sql-query>
 	<sql-query name="getPurchaseByLocationSummary">
@@ -4523,7 +4525,7 @@
 			       AND T.T_TYPE IN ( 2, 6, 14 )
 			       AND T.COMPANY_ID = :companyId
 			GROUP  BY L.LOCATION_NAME
-			ORDER  BY L.LOCATION_NAME  
+			ORDER  BY L.LOCATION_NAME DESC
 			]]>
 	</sql-query>
 	<sql-query name="getPurchaseByLocationDetailForLocation">
@@ -4566,7 +4568,7 @@
 				             WHEN :locationORClassName IS NULL THEN L.LOCATION_NAME IS NULL
 				             ELSE L.LOCATION_NAME = :locationORClassName
 				           END
-				ORDER  BY L.LOCATION_NAME  
+				ORDER  BY L.LOCATION_NAME , T.T_DATE ASC  
 				]]>
 
 	</sql-query>
@@ -4601,7 +4603,7 @@
 				       AND T.T_TYPE IN (2,6,14 )
 				       AND AC.ID IS NOT NULL
 				GROUP  BY AC.CLASS_NAME,AC.PARENT_ID,AC.ID
-				ORDER  BY AC.PATH  
+				ORDER  BY AC.PATH DESC
 				]]>
 
 	</sql-query>
@@ -4650,7 +4652,7 @@
 				             WHEN :locationORClassName IS NULL THEN AC.CLASS_NAME IS NULL
 				             ELSE AC.CLASS_NAME = :locationORClassName
 				           END
-				ORDER  BY AC.PATH 
+				ORDER  BY AC.PATH , T.T_DATE ASC 
 				]]>
 
 	</sql-query>
@@ -4700,7 +4702,7 @@
 					GROUP  BY I.ID,
 					          TRANSACTION_TYPE IN ( 6, 36 ),
 					          TRANSACTION_TYPE IN ( 1,4,8,37 )
-					ORDER  BY I.Id  
+					ORDER  BY I.Id
 		]]>
 	</sql-query>
 	<sql-query name="getPayHeadSummaryReportList">
@@ -4732,6 +4734,7 @@
 				THEN TRUE ELSE PH.ID =:payHeadId END AND T.SAVE_STATUS NOT IN
 				(204,201,202)
 				GROUP BY PH.ID,E.ID
+				ORDER BY  T.T_DATE ASC
 		]]>
 
 	</sql-query>
@@ -4772,6 +4775,7 @@
 				AND T.SAVE_STATUS NOT IN
 				(204,201,202)
 				GROUP BY PH.ID,E.NAME,EPC.RATE,T.ID,PR.ID
+				ORDER BY T.T_DATE ASC
 		]]>
 	</sql-query>
 
@@ -4871,7 +4875,7 @@
 				               WHEN IT.TYPE IN ( 2, 4 ) THEN A.ID != IT.ASSETS_ACCOUNT_ID
 				               ELSE TRUE
 				             END )
-				ORDER  BY T.ID  
+				ORDER  BY T.ID ,T.T_DATE ASC
 				]]>
 
 	</sql-query>
