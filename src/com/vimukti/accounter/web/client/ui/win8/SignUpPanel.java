@@ -29,6 +29,7 @@ public class SignUpPanel extends FlowPanel {
 	CheckBox agreeterms, newsLetters;
 	WebsocketAccounterInitialiser accounter;
 	Label errorlLabel;
+	Button submitbutton;
 
 	public SignUpPanel(WebsocketAccounterInitialiser accounter) {
 		getElement().setId("signUpPanel");
@@ -65,6 +66,7 @@ public class SignUpPanel extends FlowPanel {
 
 			@Override
 			public void onException(AccounterException exception) {
+				submitbutton.setEnabled(true);
 				errorlLabel.setText(exception.getMessage());
 
 			}
@@ -76,7 +78,7 @@ public class SignUpPanel extends FlowPanel {
 			}
 
 		};
-		Button submitbutton = new Button(Accounter.getMessages().submit(),
+		submitbutton = new Button(Accounter.getMessages().submit(),
 				new ClickHandler() {
 
 					@Override
@@ -88,6 +90,7 @@ public class SignUpPanel extends FlowPanel {
 									.emailIdAndConfirmEmaildMustBeSame());
 						}
 						if (validate()) {
+							submitbutton.setEnabled(false);
 							signupDetails = new SignupDetails();
 							signupDetails.setFirstName(firstname.getValue());
 							signupDetails.setLastName(lastname.getValue());
@@ -133,8 +136,7 @@ public class SignUpPanel extends FlowPanel {
 		centerPanel.add(cancelButton);
 
 		add(stylPanel);
-		add(new HTML("<h2>" + Accounter.getMessages().signUp()
-				+ "</h2>"));
+		add(new HTML("<h2>" + Accounter.getMessages().signUp() + "</h2>"));
 		add(errorlLabel);
 		add(centerPanel);
 		add(stylPanel);

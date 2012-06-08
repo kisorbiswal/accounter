@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -28,6 +26,7 @@ public class LoginPanel extends FlowPanel {
 	PasswordItem password;
 	WebsocketAccounterInitialiser accounterInitialiser;
 	Label errorlLabel;
+	Button submitbutton;
 
 	public LoginPanel(WebsocketAccounterInitialiser accounter) {
 		getElement().setId("loginPanel");
@@ -49,6 +48,7 @@ public class LoginPanel extends FlowPanel {
 
 			@Override
 			public void onException(AccounterException exception) {
+				submitbutton.setEnabled(true);
 				errorlLabel.setText(exception.getMessage());
 			}
 
@@ -78,7 +78,7 @@ public class LoginPanel extends FlowPanel {
 
 		password.setKeyPressHandler(listener);
 
-		Button submitbutton = new Button(Accounter.getMessages().submit(),
+		submitbutton = new Button(Accounter.getMessages().submit(),
 				new ClickHandler() {
 
 					@Override
@@ -124,6 +124,7 @@ public class LoginPanel extends FlowPanel {
 
 	protected void submit(
 			AccounterAsyncCallback<ArrayList<CompanyDetails>> accounterAsyncCallback) {
+		submitbutton.setEnabled(false);
 		errorlLabel.setText("");
 		if (validate()) {
 			Accounter.createWindowsRPCService().login(useritem.getValue(),
