@@ -68,7 +68,7 @@ public class AdjustTAXView extends
 		listforms = new ArrayList<DynamicForm>();
 		Label infoLabel;
 		infoLabel = new Label(messages.taxAdjustment());
-		infoLabel.setStyleName("label-title-list");
+		infoLabel.setStyleName("label-title");
 
 		adjustDate = new DateItem(messages.date(), "adjustDate");
 		adjustDate.setDatethanFireEvent(new ClientFinanceDate());

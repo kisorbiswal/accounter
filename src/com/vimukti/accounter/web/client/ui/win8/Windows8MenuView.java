@@ -296,7 +296,7 @@ public class Windows8MenuView extends BaseView {
 		}
 
 		if (hasPermission(Features.PAY_ROLL)) {
-			this.add(getPayrollMenu(messages.payroll()));
+			mainMenuPanel.add(getPayrollMenu(messages.payroll()));
 		}
 
 		if (canViewReports) {
