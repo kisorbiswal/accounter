@@ -1382,9 +1382,11 @@ public class Windows8MenuView extends BaseView {
 		W8MenuItem stockAdjustmentsItem = new W8MenuItem(
 				messages.stockAdjustments(), messages2.stockAdjustDesc(),
 				HistoryTokens.STOCKADJUSTMENTS);
-		W8MenuItem warehouseDetailsItem = new W8MenuItem("",
-				messages2.warehouseDetailDesc(), HistoryTokens.WAREHOUSELIST);
-		W8MenuItem warehouseTransfersItem = new W8MenuItem("",
+		W8MenuItem warehouseDetailsItem = new W8MenuItem(
+				messages.warehouseList(), messages2.warehouseDetailDesc(),
+				HistoryTokens.WAREHOUSELIST);
+		W8MenuItem warehouseTransfersItem = new W8MenuItem(
+				messages.warehouseTransferList(),
 				messages2.warehouseTransfDesc(),
 				HistoryTokens.WAREHOUSETRANSFERLIST);
 		W8MenuItem measurementItem = new W8MenuItem("Measurements",

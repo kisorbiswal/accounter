@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.portlet.PortletPage;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
+import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.banking.ReconciliationsListAction;
@@ -24,6 +25,8 @@ import com.vimukti.accounter.web.client.ui.company.CustomersAction;
 import com.vimukti.accounter.web.client.ui.company.NewJournalEntryAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ButtonGroup;
+import com.vimukti.accounter.web.client.ui.core.IButtonContainer;
 import com.vimukti.accounter.web.client.ui.customers.NewInvoiceAction;
 import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
@@ -35,7 +38,7 @@ import com.vimukti.accounter.web.client.ui.vendors.EnterBillsAction;
 import com.vimukti.accounter.web.client.ui.vendors.ExpensesAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsListAction;
 
-public class Windows8DashBoard extends BaseHomeView {
+public class Windows8DashBoard extends BaseHomeView implements IButtonContainer {
 
 	private PortletPage page;
 	private StyledPanel mainPanel;
@@ -195,4 +198,20 @@ public class Windows8DashBoard extends BaseHomeView {
 		this.page = page;
 	}
 
+	@Override
+	public void addButtons(ButtonGroup group) {
+		final ImageButton configButton = new ImageButton(
+				messages.configurePortlets(), Accounter.getFinanceImages()
+						.portletPageSettings());
+		configButton.addStyleName("settingsButton");
+		configButton.getElement().setId("configButton");
+		configButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				getPage().createSettingsDialog().showRelativeTo(configButton);
+			}
+		});
+		group.add(configButton);
+	}
 }
