@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.WebsocketAccounterInitialiser;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.forms.PasswordItem;
+import com.vimukti.accounter.web.client.ui.forms.TextBoxItem.KeyPressListener;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class LoginPanel extends FlowPanel {
@@ -62,25 +63,20 @@ public class LoginPanel extends FlowPanel {
 			}
 
 		};
-		useritem.addKeyBoardHandler(new KeyPressHandler() {
+
+		KeyPressListener listener = new KeyPressListener() {
 
 			@Override
-			public void onKeyPress(KeyPressEvent event) {
-				if (KeyCodes.KEY_ENTER == event.getNativeEvent().getKeyCode()) {
+			public void onKeyPress(int keyCode) {
+				if (KeyCodes.KEY_ENTER == keyCode) {
 					submit(accounterAsyncCallback);
 				}
 			}
-		});
+		};
 
-		password.addKeyBoardHandler(new KeyPressHandler() {
+		useritem.setKeyPressHandler(listener);
 
-			@Override
-			public void onKeyPress(KeyPressEvent event) {
-				if (KeyCodes.KEY_ENTER == event.getNativeEvent().getKeyCode()) {
-					submit(accounterAsyncCallback);
-				}
-			}
-		});
+		password.setKeyPressHandler(listener);
 
 		Button submitbutton = new Button(Accounter.getMessages().submit(),
 				new ClickHandler() {
