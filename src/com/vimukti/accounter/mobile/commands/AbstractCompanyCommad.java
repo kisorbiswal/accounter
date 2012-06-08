@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -299,19 +300,6 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		return CoreUtils.getCountriesAsList();
 	}
 
-	protected List<String> getStatesList(String country) {
-		// String country = get(COUNTRY).getValue();
-		List<String> statesList = new ArrayList<String>();
-		if (country == null) {
-			return statesList;
-		}
-		String[] statesForCountry = CoreUtils.getStatesForCountry(country);
-		for (int i = 0; i < statesForCountry.length; i++) {
-			statesList.add(statesForCountry[i]);
-		}
-		return statesList;
-	}
-
 	protected String getDefaultTzOffsetStr() {
 
 		return "UTC+5:30 Asia/Kolkata";
@@ -551,9 +539,12 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		String country = context.getIOSession().getClient().getCountry();
 		ClientAddress address = get(TRADING_ADDRESS).getValue();
 		address.setCountryOrRegion(country);
-		List<String> statesList = getStatesList(country);
+		ICountryPreferences iCountryPreferences = CountryPreferenceFactory
+				.get(country);
+		List<String> statesList = Arrays
+				.asList(iCountryPreferences.getStates());
 		if (statesList != null && !statesList.isEmpty()) {
-			String state = getStatesList(country).get(0);
+			String state = statesList.get(0);
 			address.setStateOrProvinence(state);
 		}
 		get(TRADING_ADDRESS).setValue(address);

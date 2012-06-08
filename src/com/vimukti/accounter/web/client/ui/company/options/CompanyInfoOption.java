@@ -263,20 +263,12 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 				&& getCompany().getTradingAddress().getCountryOrRegion() != null) {
 			tCountryCombo.setComboItem(getCompany().getTradingAddress()
 					.getCountryOrRegion());
-			tStateCombo
-					.initCombo(CoreUtils
-							.getStatesAsListForCountry(tCountryCombo
-									.getSelectedValue()));
 		}
 
 		if (getCompany().getRegisteredAddress() != null
 				&& getCompany().getRegisteredAddress().getCountryOrRegion() != null) {
 			rCountryCombo.setComboItem(getCompany().getRegisteredAddress()
 					.getCountryOrRegion());
-			rStateCombo
-					.initCombo(CoreUtils
-							.getStatesAsListForCountry(rCountryCombo
-									.getSelectedValue()));
 		}
 
 		// website

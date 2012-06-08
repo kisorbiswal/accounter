@@ -4,6 +4,11 @@ import com.vimukti.accounter.web.server.util.AbstractCountryPreferences;
 
 public class Zimbabwe extends AbstractCountryPreferences {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String getPreferredCurrency() {
 		return "ZWD";
