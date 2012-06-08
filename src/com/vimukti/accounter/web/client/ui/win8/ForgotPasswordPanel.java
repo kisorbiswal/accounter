@@ -43,6 +43,7 @@ public class ForgotPasswordPanel extends FlowPanel {
 
 			@Override
 			public void onException(AccounterException exception) {
+				getNewPassword.setEnabled(true);
 				errorlabel.setText(exception.getMessage());
 
 			}
@@ -62,6 +63,7 @@ public class ForgotPasswordPanel extends FlowPanel {
 			public void onClick(ClickEvent event) {
 				errorlabel.setText("");
 				if (validate()) {
+					getNewPassword.setEnabled(false);
 					Accounter.createWindowsRPCService().forgotPassword(
 							emailTxt.getValue(), accounterAsyncCallback);
 				}

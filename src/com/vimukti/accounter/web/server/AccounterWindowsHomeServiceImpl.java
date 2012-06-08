@@ -347,50 +347,35 @@ public class AccounterWindowsHomeServiceImpl extends
 	}
 
 	@Override
-	public boolean forgotPassword(String email) {
+	public boolean forgotPassword(String email) throws StartupException {
 		String errorMsg = "Internal error occured.Please try after some time";
 		if (email == null) {
 			errorMsg = "we couldn't find any user with the given Email ID. please enter a valid email";
-			try {
-				throw new StartupException(errorMsg);
-			} catch (StartupException e) {
-				e.printStackTrace();
-			}
+			throw new StartupException(errorMsg);
 		}
 		email = email.toLowerCase().trim();
 
 		Session serverSession = HibernateUtil.getCurrentSession();
 		Transaction transaction = null;
-		try {
-			transaction = serverSession.beginTransaction();
-			Client client = getClient(email);
+		transaction = serverSession.beginTransaction();
+		Client client = getClient(email);
 
-			if (client == null) {
-				errorMsg = "we couldn't find any user with the given Email ID. please enter a valid email.";
-				throw new StartupException(errorMsg);
-			}
-
-			Activation activation = getActivationByEmailId(email);
-			String token = null;
-			if (activation == null) {
-				token = createActivation(email);
-			} else {
-				token = activation.getToken();
-			}
-
-			sendForgetPasswordLinkToUser(client, token);
-
-			transaction.commit();
-		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			try {
-				throw new StartupException(errorMsg);
-			} catch (StartupException e1) {
-				e1.printStackTrace();
-			}
+		if (client == null) {
+			errorMsg = "we couldn't find any user with the given Email ID. please enter a valid email.";
+			throw new StartupException(errorMsg);
 		}
+
+		Activation activation = getActivationByEmailId(email);
+		String token = null;
+		if (activation == null) {
+			token = createActivation(email);
+		} else {
+			token = activation.getToken();
+		}
+
+		sendForgetPasswordLinkToUser(client, token);
+
+		transaction.commit();
 		return true;
 	}
 
