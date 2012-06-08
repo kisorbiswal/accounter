@@ -108,7 +108,7 @@ public class Win8EditTableImpl<R> extends EditTableImpl<R> {
 				IsWidget widget = column.getWidget(context);
 				IsWidget header = column.getHeader();
 
-				if (widget instanceof CheckBox) {
+				if (!(header instanceof Label)) {
 					header = new Label();
 				}
 

@@ -209,7 +209,20 @@ public abstract class CustomTable extends FlowPanel {
 		// this.header.getElement().getParentElement().getStyle()
 		// .setHeight(10, Unit.PX);
 
-		panel = new ScrollPanel();
+		panel = new ScrollPanel() {
+			@Override
+			protected Element getContainerElement() {
+				Element containerElement = super.getContainerElement();
+				containerElement.addClassName("bodyParentContainer");
+				return containerElement;
+			}
+
+			@Override
+			protected void onLoad() {
+				super.onLoad();
+				getContainerElement();
+			}
+		};
 		panel.getElement().removeAttribute("style");
 		panel.addStyleName("gridBodyContainer");
 		panel.add(this.body.getPanel());
