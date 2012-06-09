@@ -223,11 +223,13 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 			}
 		});
+		StyledPanel activityPanel = new StyledPanel("useractivitylog_parent");
+		activityPanel.add(budgetCellTable);
 
 		mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(topHLay);
-		mainVLay.add(budgetCellTable);
+		mainVLay.add(activityPanel);
 		budgetCellTable.setStyleName("user_activity_log");
 		this.add(mainVLay);
 

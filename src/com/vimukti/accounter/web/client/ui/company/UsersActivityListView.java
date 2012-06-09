@@ -38,9 +38,10 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 	private long value;
 	private ActivityCustomizationDialog customizationDialog;
 
-	public UsersActivityListView(){
+	public UsersActivityListView() {
 		this.getElement().setId("UsersActivityListView");
 	}
+
 	@Override
 	public void init() {
 		super.init();
@@ -102,6 +103,9 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 			}
 		});
 
+		StyledPanel activityPanel = new StyledPanel("useractivitylog_parent");
+		activityPanel.add(activityList);
+
 		StyledPanel panel = new StyledPanel("panel");
 		panel.add(fromdate);
 		panel.add(toDate);
@@ -111,7 +115,7 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 
 		mainPanel.add(titleItem);
 		mainPanel.add(panel);
-		mainPanel.add(activityList);
+		mainPanel.add(activityPanel);
 		activityList.setStyleName("user_activity_log");
 		mainPanel.add(pager);
 		add(mainPanel);

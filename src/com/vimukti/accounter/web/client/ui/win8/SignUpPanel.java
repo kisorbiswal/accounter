@@ -125,12 +125,16 @@ public class SignUpPanel extends FlowPanel {
 
 		StyledPanel centerPanel = new StyledPanel("centerPanel");
 
+		StyledPanel termsConditionsPanel = new StyledPanel(
+				"termsConditionsPanel");
+		termsConditionsPanel.add(agreeterms);
+		termsConditionsPanel.add(termaAndConditionsAnchor);
+
 		signupForm = new DynamicForm("signupForm");
 		signupForm.add(firstname, lastname, emailid, confirmMailid, password,
 				confirmPassword, phone, countrySelect);
 		centerPanel.add(signupForm);
-		centerPanel.add(agreeterms);
-		centerPanel.add(termaAndConditionsAnchor);
+		centerPanel.add(termsConditionsPanel);
 		centerPanel.add(newsLetters);
 		centerPanel.add(submitbutton);
 		centerPanel.add(cancelButton);

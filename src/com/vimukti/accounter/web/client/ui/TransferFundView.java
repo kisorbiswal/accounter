@@ -641,7 +641,7 @@ public class TransferFundView extends
 		// form2.setWidth("50%");
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.setWidth("100%");
+		/*topHLay.setWidth("100%");*/
 		topHLay.addStyleName("fields-panel");
 		topHLay.add(depoForm);
 
