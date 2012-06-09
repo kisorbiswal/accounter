@@ -6,6 +6,7 @@ import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAs
 import com.vimukti.accounter.web.client.IAccounterExportCSVServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
+import com.vimukti.accounter.web.client.IAccounterPayrollServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterWindowsHomeServiceAsync;
 import com.vimukti.accounter.web.client.rpc.WebSocketRpcRequestBuilder;
@@ -21,6 +22,15 @@ public class WebsocketAccounterRPCInitialiser extends AccounterRPCInitialiser {
 
 		return cIService;
 
+	}
+
+	@Override
+	public IAccounterPayrollServiceAsync createPayrollService() {
+		IAccounterPayrollServiceAsync payrollService = super
+				.createPayrollService();
+		((ServiceDefTarget) payrollService)
+				.setRpcRequestBuilder(new WebSocketRpcRequestBuilder());
+		return payrollService;
 	}
 
 	public IAccounterCRUDServiceAsync createCRUDService() {

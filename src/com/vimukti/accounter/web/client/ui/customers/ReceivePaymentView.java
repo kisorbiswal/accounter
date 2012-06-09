@@ -1057,9 +1057,8 @@ public class ReceivePaymentView extends
 		ClientAccount bankAccount = depositInCombo.getSelectedValue();
 		// check if the currency of accounts is valid or not
 		if (bankAccount != null) {
-			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
-
-			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
+			if (bankAccount.getCurrency() != getBaseCurrency().getID()
+					&& bankAccount.getCurrency() != currency.getID()) {
 				result.addError(depositInCombo,
 						messages.selectProperBankAccount());
 			}
