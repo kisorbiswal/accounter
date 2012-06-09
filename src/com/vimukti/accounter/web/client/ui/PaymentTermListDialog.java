@@ -2,14 +2,14 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.List;
 
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.company.AddPaymentTermDialog;
+import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.GroupDialog;
-import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
-import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
+import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 
 /**
  * 
@@ -17,90 +17,24 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandl
  * @param <T>
  * 
  */
-public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
-
-	private GroupDialogButtonsHandler dialogButtonsHandler;
-
-	List<ClientPaymentTerms> paymentTerms;
-
-	ClientPaymentTerms paymentTerm;
+public class PaymentTermListDialog extends BaseListView<ClientPaymentTerms> {
 
 	private AddPaymentTermDialog dialog;
 
 	public PaymentTermListDialog() {
-		super(messages.managePaymentTerm(), messages.paymentTermDescription());
+		super();
 		this.getElement().setId("PaymentTermListDialog");
-		createControls();
-		center();
-	}
-
-	private void createControls() {
-		listGridView.setType(AccounterCoreType.PAYMENT_TERM);
-		listGridView.setCellsWidth(new Integer[] { 120, 140, 130 /* , 135 */});
-		// listGridView.setSize("515px", "500px");
-		listGridView
-				.addRecordClickHandler(new GridRecordClickHandler<ClientPaymentTerms>() {
-
-					@Override
-					public boolean onRecordClick(ClientPaymentTerms core,
-							int column) {
-						enableEditRemoveButtons(true);
-						return true;
-					}
-
-				});
-
-		dialogButtonsHandler = new GroupDialogButtonsHandler() {
-
-			public void onCloseButtonClick() {
-
-			}
-
-			public void onFirstButtonClick() {
-				showAddEditTermDialog(null);
-
-			}
-
-			public void onSecondButtonClick() {
-				ClientPaymentTerms selectedPaymentTerms = getSelectedPaymentTerms();
-				if (!selectedPaymentTerms.isDefault()) {
-					showAddEditTermDialog(selectedPaymentTerms);
-				} else {
-					Accounter.showError(messages
-							.youcannotEditDeleteDefaultTerms());
-				}
-
-			}
-
-			public void onThirdButtonClick() {
-				ClientPaymentTerms selectedPaymentTerms = getSelectedPaymentTerms();
-				if (!selectedPaymentTerms.isDefault()) {
-					deleteObject(selectedPaymentTerms);
-				} else {
-					Accounter.showError(messages
-							.youcannotEditDeleteDefaultTerms());
-				}
-				if (paymentTerms == null)
-					enableEditRemoveButtons(false);
-
-			}
-		};
-		addGroupButtonsHandler(dialogButtonsHandler);
-		this.okbtn.setVisible(false);
-
 	}
 
 	protected ClientPaymentTerms getSelectedPaymentTerms() {
-
-		return (ClientPaymentTerms) listGridView.getSelection();
+		return (ClientPaymentTerms) grid.getSelection();
 	}
 
-	public void showAddEditTermDialog(ClientPaymentTerms rec) {
+	public void showAddEditTermDialog(ClientPaymentTerms paymentTerm) {
 		dialog = new AddPaymentTermDialog(this, messages.addPaymentTermTitle(),
 				messages.addPaymentTermTitleDesc());
-		this.paymentTerm = rec;
-		if (rec != null) {
-			dialog.payTermText.setValue(rec.getName());
+		if (paymentTerm != null) {
+			dialog.payTermText.setValue(paymentTerm.getName());
 			dialog.dateDriven.setValue(paymentTerm.isDateDriven());
 			dialog.disableForms(paymentTerm.isDateDriven());
 			if (!paymentTerm.isDateDriven()) {
@@ -132,18 +66,24 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		dialog.setCallback(new ActionCallback<ClientPaymentTerms>() {
 			@Override
 			public void actionResult(ClientPaymentTerms result) {
-				setResult(result);
+				initListCallback();
 			}
 		});
 
 		dialog.show();
 	}
 
+	@Override
+	public void initListCallback() {
+		grid.removeAllRecords();
+		grid.addRecords(getRecords());
+	}
+
 	protected ClientPaymentTerms getPaymentTerms() {
-		ClientPaymentTerms clientPaymentTerms;
+		ClientPaymentTerms paymentTerm = (ClientPaymentTerms) grid
+				.getSelection();
 		if (paymentTerm != null) {
-			clientPaymentTerms = paymentTerm;
-			clientPaymentTerms
+			paymentTerm
 					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
 							.getValue().toString() : "");
 			paymentTerm.setDateDriven(dialog.dateDriven.getValue());
@@ -170,89 +110,39 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 								.getNumber() != null ? this.dialog.discountPaidBefore
 								.getNumber() : 0)));
 			}
-			// clientPaymentTerms
-			// .setDescription(dialog.descText.getValue() != null ?
-			// dialog.descText
-			// .getValue().toString() : "");
-			// clientPaymentTerms.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
-			// .getValue() != null ? dialog.discDayText.getValue() : "0"));
-			// clientPaymentTerms.setDiscountPercent(UIUtils
-			// .toDbl(dialog.discText.getValue().toString()
-			// .replaceAll("%", "") != null ? dialog.discText
-			// .getValue().toString().replaceAll("%", "") : "0"));
-
-			// for (int i = 0; i < dialog.dueValues.length; i++) {
-			// if (dialog.dueSelect.getValue() != null) {
-			// if (dialog.dueSelect.getValue().toString()
-			// .equals(dialog.dueValues[i]))
-			// clientPaymentTerms.setDue(i + 1);
-			// }
-			// }
-			// clientPaymentTerms.setDueDays(UIUtils.toInt(dialog.dayText
-			// .getValue() != null ? dialog.dayText.getValue() : "0"));
 		} else {
-			clientPaymentTerms = new ClientPaymentTerms();
-			clientPaymentTerms
+			paymentTerm = new ClientPaymentTerms();
+			paymentTerm
 					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
 							.getValue().toString() : "");
 
-			clientPaymentTerms.setDateDriven(dialog.dateDriven.getValue());
+			paymentTerm.setDateDriven(dialog.dateDriven.getValue());
 			if (dialog.fixedDays.getValue()) {
-				clientPaymentTerms
-						.setDueDays(UIUtils.toInt((this.dialog.netDueIn
-								.getNumber() != null ? this.dialog.netDueIn
-								.getNumber() : 0)));
-				clientPaymentTerms.setDiscountPercent(this.dialog.discountField
+				paymentTerm.setDueDays(UIUtils.toInt((this.dialog.netDueIn
+						.getNumber() != null ? this.dialog.netDueIn.getNumber()
+						: 0)));
+				paymentTerm.setDiscountPercent(this.dialog.discountField
 						.getAmount() != null ? this.dialog.discountField
 						.getAmount() : 0);
-				clientPaymentTerms
+				paymentTerm
 						.setIfPaidWithIn(UIUtils.toInt((this.dialog.discountDue
 								.getNumber() != null ? this.dialog.discountDue
 								.getNumber() : 0)));
 			} else {
-				clientPaymentTerms
-						.setDueDays(UIUtils.toInt((this.dialog.netDueBefore
-								.getNumber() != null ? this.dialog.netDueBefore
-								.getNumber() : 0)));
-				clientPaymentTerms
-						.setDiscountPercent(this.dialog.discountPerField
-								.getAmount() != null ? this.dialog.discountPerField
-								.getAmount() : 0);
-				clientPaymentTerms
+				paymentTerm.setDueDays(UIUtils.toInt((this.dialog.netDueBefore
+						.getNumber() != null ? this.dialog.netDueBefore
+						.getNumber() : 0)));
+				paymentTerm.setDiscountPercent(this.dialog.discountPerField
+						.getAmount() != null ? this.dialog.discountPerField
+						.getAmount() : 0);
+				paymentTerm
 						.setIfPaidWithIn(UIUtils.toInt((this.dialog.discountPaidBefore
 								.getNumber() != null ? this.dialog.discountPaidBefore
 								.getNumber() : 0)));
 			}
-			// clientPaymentTerms
-			// .setDescription(dialog.descText.getValue() != null ?
-			// dialog.descText
-			// .getValue().toString() : "");
-			// clientPaymentTerms
-			// .setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
-			// .getNumber() != null ? dialog.discDayText
-			// .getNumber() : "0"));
-			// clientPaymentTerms.setDiscountPercent(UIUtils
-			// .toDbl(dialog.discText.getPercentage().toString()
-			// .replaceAll("%", "") != null ? dialog.discText
-			// .getPercentage().toString().replaceAll("%", "")
-			// : "0"));
-			//
-			// for (int i = 0; i < dialog.dueValues.length; i++) {
-			// if (dialog.dueSelect.getValue() != null) {
-			// if (dialog.dueSelect.getValue().toString()
-			// .equals(dialog.dueValues[i]))
-			// clientPaymentTerms.setDue(i + 1);
-			// }
-			// }
-			// clientPaymentTerms.setDueDays(UIUtils.toInt(dialog.dayText
-			// .getNumber() != null ? dialog.dayText.getNumber() : "0"));
-		}
-		/*
-		 * all these are modified cause after editing clientPaymentTerms was not
-		 * getting the values from text field. Now its working
-		 */
 
-		return clientPaymentTerms;
+		}
+		return paymentTerm;
 	}
 
 	/*
@@ -264,15 +154,16 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	 * @return true -if the payment term is already exists
 	 */
 	private boolean validateName(String name) {
-		ClientPaymentTerms paymentTermsByName = company
+		ClientPaymentTerms paymentTermsByName = getCompany()
 				.getPaymentTermsByName(name);
+		ClientPaymentTerms paymentTerm = (ClientPaymentTerms) grid
+				.getSelection();
 		return (paymentTerm == null && paymentTermsByName == null)
 				|| (paymentTerm != null && !(paymentTerm.getName()
 						.equalsIgnoreCase(name) ? true
 						: paymentTermsByName == null));
 	}
 
-	@Override
 	public Object getGridColumnValue(ClientPaymentTerms paymentTerms, int index) {
 		if (paymentTerms != null) {
 			switch (index) {
@@ -282,55 +173,27 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 				return paymentTerms.getDescription();
 			case 2:
 				return paymentTerms.getDueDays();
-				// case 3:
-				// return DataUtils.getNumberAsPercentString(paymentTerms
-				// .getDiscountPercent()
-				// + "");
+			case 3:
+				return Accounter.getFinanceImages().delete();
 			}
 		}
 		return null;
 	}
 
-	@Override
 	public String[] setColumns() {
 		return new String[] { messages.name(), messages.description(),
-				messages.dueDays(),
-		/* messages.cashDiscount() */};
+				messages.dueDays(), messages.delete() };
 	}
 
-	@Override
-	public String getHeaderStyle(int index) {
-		switch (index) {
-		case 0:
-			return "name";
-		case 1:
-			return "description";
-		case 2:
-			return "dueDays";
-		default:
-			break;
-
-		}
-		return "";
+	public String[] getHeaderStyle() {
+		return new String[] { "name", "description", "dueDays", "delete" };
 	}
 
-	@Override
-	public String getRowElementsStyle(int index) {
-		switch (index) {
-		case 0:
-			return "nameValue";
-		case 1:
-			return "descriptionValue";
-		case 2:
-			return "dueDaysValue";
-		default:
-			break;
-
-		}
-		return "";
+	public String[] getRowElementsStyle() {
+		return new String[] { "nameValue", "descriptionValue", "dueDaysValue",
+				"deleteValue" };
 	}
 
-	@Override
 	protected List<ClientPaymentTerms> getRecords() {
 		return getCompany().getPaymentsTerms();
 	}
@@ -339,14 +202,14 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	public ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
-		if (paymentTerm != null) {
+		if (grid.getSelection() != null) {
 			if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
 					.getValue().toString() : "")) {
 				result.addError(this, messages.paytermsAlreadyExists());
 			}
 		} else {
 			String value = dialog.payTermText.getValue();
-			ClientPaymentTerms clientPaymentTerms = company
+			ClientPaymentTerms clientPaymentTerms = getCompany()
 					.getPaymentTermsByName(value);
 			if (clientPaymentTerms != null) {
 				result.addError(this, messages.paytermsAlreadyExists());
@@ -355,7 +218,6 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		return result;
 	}
 
-	@Override
 	public boolean onOK() {
 		ClientPaymentTerms paymentTerms = getPaymentTerms();
 		if (paymentTerms != null) {
@@ -368,8 +230,99 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-
 	}
 
+	@Override
+	public void updateInGrid(ClientPaymentTerms objectTobeModified) {
+	}
+
+	@Override
+	protected void initGrid() {
+		grid = new BaseListGrid<ClientPaymentTerms>(false) {
+
+			@Override
+			protected int[] setColTypes() {
+				return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
+						COLUMN_TYPE_TEXT, COLUMN_TYPE_IMAGE };
+			}
+
+			@Override
+			protected String[] setHeaderStyle() {
+				return PaymentTermListDialog.this.getHeaderStyle();
+			}
+
+			@Override
+			protected String[] setRowElementsStyle() {
+				return PaymentTermListDialog.this.getRowElementsStyle();
+			}
+
+			@Override
+			protected void executeDelete(ClientPaymentTerms object) {
+				deleteObject(object);
+			}
+
+			@Override
+			protected Object getColumnValue(ClientPaymentTerms obj, int index) {
+				return PaymentTermListDialog.this
+						.getGridColumnValue(obj, index);
+			}
+
+			@Override
+			public void onDoubleClick(ClientPaymentTerms obj) {
+				showAddEditTermDialog(obj);
+			}
+
+			@Override
+			protected void onClick(ClientPaymentTerms obj, int row, int col) {
+				if (col == 3) {
+					showWarnDialog(obj);
+				}
+			}
+
+			@Override
+			protected String[] getColumns() {
+				return PaymentTermListDialog.this.setColumns();
+			}
+
+			@Override
+			protected int getCellWidth(int index) {
+				if (index == 0) {
+					return 200;
+				}
+				if (index == 2) {
+					return 80;
+				} else if (index == 3) {
+					return 40;
+				}
+				return -1;
+			}
+		};
+		grid.init();
+	}
+
+	@Override
+	protected String getListViewHeading() {
+		return messages.managePaymentTerm();
+	}
+
+	@Override
+	protected Action getAddNewAction() {
+		showAddEditTermDialog(null);
+		return null;
+	}
+
+	@Override
+	protected String getAddNewLabelString() {
+		return messages.addaNew(messages.paymentTerm());
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return messages.paymentTermList();
+	}
+
+	@Override
+	protected SelectCombo getSelectItem() {
+		return null;
+	}
 }

@@ -16,12 +16,12 @@ public class PaymentTermsCombo extends CustomCombo<ClientPaymentTerms> {
 	 * @param title
 	 */
 	public PaymentTermsCombo(String title) {
-		super(title,"PaymentTermsCombo");
+		super(title, "PaymentTermsCombo");
 		initCombo(getCompany().getPaymentsTerms());
 	}
 
 	public PaymentTermsCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1,"PaymentTermsCombo");
+		super(title, isAddNewRequired, 1, "PaymentTermsCombo");
 		initCombo(getCompany().getPaymentsTerms());
 	}
 
@@ -40,14 +40,14 @@ public class PaymentTermsCombo extends CustomCombo<ClientPaymentTerms> {
 
 	@Override
 	public void onAddNew() {
-		PaymentTermListDialog paymentTermsDialog = new PaymentTermListDialog();
-		paymentTermsDialog.hide();
-		paymentTermsDialog.addCallBack(createAddNewCallBack());
-		paymentTermsDialog.showAddEditTermDialog(null);
+		PaymentTermListDialog vendorGroup = new PaymentTermListDialog();
+		vendorGroup.setVisible(false);
+		vendorGroup.setCallback(createAddNewCallBack());
+		vendorGroup.showAddEditTermDialog(null);
 	}
 
 	@Override
-	protected String getColumnData(ClientPaymentTerms object,  int col) {
+	protected String getColumnData(ClientPaymentTerms object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

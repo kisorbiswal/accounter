@@ -7,23 +7,16 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.AccounterClassListDialog;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
-import com.vimukti.accounter.web.client.ui.ItemGroupListDialog;
-import com.vimukti.accounter.web.client.ui.LocationGroupListDialog;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PaymentTermListDialog;
-import com.vimukti.accounter.web.client.ui.PriceLevelListDialog;
 import com.vimukti.accounter.web.client.ui.SalesTaxGroupListView;
 import com.vimukti.accounter.web.client.ui.SalesTaxGroupView;
 import com.vimukti.accounter.web.client.ui.SalesTaxItemsView;
-import com.vimukti.accounter.web.client.ui.ShippingMethodListDialog;
-import com.vimukti.accounter.web.client.ui.ShippingTermListDialog;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.customers.CurrencyGroupListDialog;
-import com.vimukti.accounter.web.client.ui.customers.CustomerGroupListDialog;
-import com.vimukti.accounter.web.client.ui.vendors.VendorGroupListDialog;
+import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.customers.CurrencyGroupListView;
+import com.vimukti.accounter.web.client.ui.vendors.ManageSupportListView;
 
 public class ManageSupportListAction extends Action {
 
@@ -53,51 +46,44 @@ public class ManageSupportListAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				BaseDialog<? extends IAccounterCore> dialog = null;
+				BaseListView<? extends IAccounterCore> dialog = null;
 				switch (type) {
 				case TYPE_PAYMENT_TERMS:
 					dialog = new PaymentTermListDialog();
 					break;
 				case TYPE_CUSTOMER_GROUPS:
-					dialog = new CustomerGroupListDialog(messages
-							.manageCustomerGroup(Global.get().Customer()),
-							messages.toAddPayeeGroup(Global.get().Customer()));
+					dialog = new ManageSupportListView(
+							IAccounterCore.CUSTOMER_GROUP);
 					break;
 				case TYPE_VENDOR_GROUPS:
-					dialog = new VendorGroupListDialog();
+					dialog = new ManageSupportListView(
+							IAccounterCore.VENDOR_GROUP);
 					break;
 				case TYPE_ITEM_GROUPS:
-					dialog = new ItemGroupListDialog(
-							messages.manageItemGroup(), messages
-									.toAddItemGroup());
+					dialog = new ManageSupportListView(
+							IAccounterCore.ITEM_GROUP);
 					break;
 				case TYPE_SHIPPING_TERMS:
-					dialog = new ShippingTermListDialog(messages
-							.manageShippingTermList(), messages
-							.toAddShippingTerm());
+					dialog = new ManageSupportListView(
+							IAccounterCore.SHIPPING_TERMS);
 					break;
 				case TYPE_SHIPPING_METHODS:
-					dialog = new ShippingMethodListDialog(messages
-							.manageShippingMethodList(), messages
-							.toAddShippingMethod());
+					dialog = new ManageSupportListView(
+							IAccounterCore.SHIPPING_METHOD);
 					break;
 				case TYPE_CLASSES:
-					dialog = new AccounterClassListDialog(messages
-							.manageAccounterClass(), messages
-							.toAddAccounterClass());
+					dialog = new ManageSupportListView(
+							IAccounterCore.ACCOUNTER_CLASS);
 					break;
 				case TYPE_LOCATIONS:
-					dialog = new LocationGroupListDialog(messages
-							.manageLocationGroup(Global.get().Location()),
-							messages.toAddLocation());
+					dialog = new ManageSupportListView(IAccounterCore.LOCATION);
 					break;
 				case TYPE_PRICE_LEVELS:
-					dialog = new PriceLevelListDialog(messages
-							.managePriceLevelListGroup(), " ");
+					dialog = new ManageSupportListView(
+							IAccounterCore.PRICE_LEVEL);
 					break;
 				case TYPE_CURRENCY_GROUPS:
-					dialog = new CurrencyGroupListDialog(messages
-							.manageCurrency(), messages.toAddCurrencyGroup());
+					dialog = new CurrencyGroupListView();
 					break;
 				case TYPE_SALES_TAX_GROUPS:
 					SalesTaxGroupListView view = new SalesTaxGroupListView();
@@ -117,7 +103,8 @@ public class ManageSupportListAction extends Action {
 					break;
 				}
 				if (dialog != null) {
-					dialog.center();
+					MainFinanceWindow.getViewManager().showView(dialog, data,
+							isDependent, ManageSupportListAction.this);
 				}
 
 			}

@@ -2,12 +2,13 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
-import com.vimukti.accounter.web.client.ui.vendors.VendorGroupListDialog;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.vendors.ManageSupportListView;
 
 public class VendorGroupCombo extends CustomCombo<ClientVendorGroup> {
 
 	public VendorGroupCombo(String title) {
-		super(title,"VendorGroupCombo");
+		super(title, "VendorGroupCombo");
 	}
 
 	@Override
@@ -25,14 +26,15 @@ public class VendorGroupCombo extends CustomCombo<ClientVendorGroup> {
 
 	@Override
 	public void onAddNew() {
-		VendorGroupListDialog vendorGroup = new VendorGroupListDialog();
-		vendorGroup.hide();
-		vendorGroup.addCallBack(createAddNewCallBack());
+		ManageSupportListView vendorGroup = new ManageSupportListView(
+				IAccounterCore.VENDOR_GROUP);
+		vendorGroup.setVisible(false);
+		vendorGroup.setCallback(createAddNewCallBack());
 		vendorGroup.showAddEditGroupDialog(null);
 	}
 
 	@Override
-	protected String getColumnData(ClientVendorGroup object,  int col) {
+	protected String getColumnData(ClientVendorGroup object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

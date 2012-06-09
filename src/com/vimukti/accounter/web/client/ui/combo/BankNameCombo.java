@@ -1,12 +1,14 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientBank;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.company.AddBankDialog;
 
 public class BankNameCombo extends CustomCombo<ClientBank> {
 
 	public BankNameCombo(String title) {
-		super(title,"bankNameCombo");
+		super(title, "bankNameCombo");
 	}
 
 	@Override
@@ -25,9 +27,19 @@ public class BankNameCombo extends CustomCombo<ClientBank> {
 	@Override
 	public void onAddNew() {
 		AddBankDialog bankNameDialog = new AddBankDialog(null);
-		bankNameDialog.addCallBack(createAddNewCallBack());
-	}
+		bankNameDialog.addCallBack(new AccounterAsyncCallback<ClientBank>() {
 
+			@Override
+			public void onResultSuccess(ClientBank result) {
+				createAddNewCallBack().onResultSuccess(result);
+			}
+
+			@Override
+			public void onException(AccounterException exception) {
+				createAddNewCallBack().onException(exception);
+			}
+		});
+	}
 
 	@Override
 	protected String getColumnData(ClientBank object, int col) {

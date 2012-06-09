@@ -16,10 +16,10 @@ public class NewCurrencyListDialog extends BaseDialog<ClientCurrency> {
 
 	private ClientCurrency clientCurrency;
 	private CurrencyListCombo listCombo;
-	private final CurrencyGroupListDialog parent;
+	private final CurrencyGroupListView parent;
 	private TextItem currencySymbolItem;
-	
-	public NewCurrencyListDialog(CurrencyGroupListDialog parent, String text,
+
+	public NewCurrencyListDialog(CurrencyGroupListView parent, String text,
 			ClientCurrency clientCurrency) {
 		super(messages.currency());
 		this.parent = parent;

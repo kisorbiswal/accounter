@@ -1,20 +1,18 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
-import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.ShippingTermListDialog;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.vendors.ManageSupportListView;
 
 public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {
 
 	public ShippingTermsCombo(String title) {
-		super(title,"ShippingTermsCombo");
+		super(title, "ShippingTermsCombo");
 		initCombo(getCompany().getShippingTerms());
 	}
 
 	public ShippingTermsCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1,"ShippingTermsCombo");
+		super(title, isAddNewRequired, 1, "ShippingTermsCombo");
 		initCombo(getCompany().getShippingTerms());
 	}
 
@@ -33,28 +31,15 @@ public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {
 
 	@Override
 	public void onAddNew() {
-		ShippingTermListDialog shippingTermDialog = new ShippingTermListDialog(
-				"", "");
-		// shippingTermDialog.addCallBack(createAddNewCallBack());
-		shippingTermDialog.removeFromParent();
-		shippingTermDialog
-				.addCallBack(new AccounterAsyncCallback<ClientShippingTerms>() {
-					@Override
-					public void onException(AccounterException exception) {
-						exception.printStackTrace();
-						Accounter.showError(exception.getMessage());
-					}
-
-					@Override
-					public void onResultSuccess(ClientShippingTerms result) {
-						addItemThenfireEvent(result);
-					}
-				});
-		shippingTermDialog.showAddEditTermDialog(null);
+		ManageSupportListView priceLevelDialog = new ManageSupportListView(
+				IAccounterCore.SHIPPING_TERMS);
+		priceLevelDialog.setVisible(false);
+		priceLevelDialog.setCallback(createAddNewCallBack());
+		priceLevelDialog.showAddEditGroupDialog(null);
 	}
 
 	@Override
-	protected String getColumnData(ClientShippingTerms object,  int col) {
+	protected String getColumnData(ClientShippingTerms object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

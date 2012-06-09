@@ -1,12 +1,13 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
-import com.vimukti.accounter.web.client.ui.PriceLevelListDialog;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.vendors.ManageSupportListView;
 
 public class PriceLevelCombo extends CustomCombo<ClientPriceLevel> {
 
 	public PriceLevelCombo(String title) {
-		super(title,"PriceLevelCombo");
+		super(title, "PriceLevelCombo");
 		initCombo(getCompany().getPriceLevels());
 	}
 
@@ -25,10 +26,11 @@ public class PriceLevelCombo extends CustomCombo<ClientPriceLevel> {
 
 	@Override
 	public void onAddNew() {
-		PriceLevelListDialog priceLevelDialog = new PriceLevelListDialog("", "");
-		priceLevelDialog.hide();
-		priceLevelDialog.addCallBack(createAddNewCallBack());
-		priceLevelDialog.showAddEditPriceLevel(null);
+		ManageSupportListView priceLevelDialog = new ManageSupportListView(
+				IAccounterCore.PRICE_LEVEL);
+		priceLevelDialog.setVisible(false);
+		priceLevelDialog.setCallback(createAddNewCallBack());
+		priceLevelDialog.showAddEditGroupDialog(null);
 	}
 
 	@Override

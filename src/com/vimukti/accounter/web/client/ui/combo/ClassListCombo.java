@@ -2,8 +2,10 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CreateClassDialog;
 
 public class ClassListCombo extends CustomCombo<ClientAccounterClass> {
@@ -102,7 +104,31 @@ public class ClassListCombo extends CustomCombo<ClientAccounterClass> {
 	public void onAddNew() {
 		CreateClassDialog classDialog = new CreateClassDialog(null,
 				messages.createClass(), "");
-		classDialog.addSuccessCallback(newClassHandler);
+		classDialog
+				.addSuccessCallback(new ValueCallBack<ClientAccounterClass>() {
+
+					@Override
+					public void execute(
+							final ClientAccounterClass accounterClass) {
+						Accounter.createCRUDService().create(accounterClass,
+								new AsyncCallback<Long>() {
+
+									@Override
+									public void onSuccess(Long result) {
+										accounterClass.setID(result);
+										Accounter.getCompany()
+												.processUpdateOrCreateObject(
+														accounterClass);
+										setComboItem(accounterClass);
+									}
+
+									@Override
+									public void onFailure(Throwable caught) {
+										caught.printStackTrace();
+									}
+								});
+					}
+				});
 	}
 
 	@Override

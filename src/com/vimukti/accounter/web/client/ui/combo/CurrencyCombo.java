@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.ui.customers.CurrencyGroupListDialog;
+import com.vimukti.accounter.web.client.ui.customers.CurrencyGroupListView;
 
 public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 
 	public CurrencyCombo(String title) {
-		super(title,"currencyCombo");
+		super(title, "currencyCombo");
 		List<ClientCurrency> currency = new ArrayList<ClientCurrency>(
 				getCompany().getCurrencies());
 		initCombo(currency);
@@ -19,7 +19,7 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 	}
 
 	public CurrencyCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1,"currencyCombo");
+		super(title, isAddNewRequired, 1, "currencyCombo");
 		List<ClientCurrency> currency = new ArrayList<ClientCurrency>(
 				getCompany().getCurrencies());
 		initCombo(currency);
@@ -51,12 +51,9 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 
 	@Override
 	public void onAddNew() {
-
-		CurrencyGroupListDialog groupListDialog = new CurrencyGroupListDialog(
-				messages.manageCurrency(), messages.toAddCurrencyGroup());
-
-		groupListDialog.hide();
-		groupListDialog.addCallBack(createAddNewCallBack());
+		CurrencyGroupListView groupListDialog = new CurrencyGroupListView();
+		groupListDialog.setVisible(false);
+		groupListDialog.setCallback(createAddNewCallBack());
 		groupListDialog.ShowAddEditDialog(null);
 
 	}

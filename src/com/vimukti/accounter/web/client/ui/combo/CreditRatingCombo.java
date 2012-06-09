@@ -1,12 +1,14 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.CreditRatingListDialog;
 
 public class CreditRatingCombo extends CustomCombo<ClientCreditRating> {
 
 	public CreditRatingCombo(String title) {
-		super(title,"creditRatingCombo");
+		super(title, "creditRatingCombo");
 	}
 
 	@Override
@@ -27,7 +29,19 @@ public class CreditRatingCombo extends CustomCombo<ClientCreditRating> {
 		CreditRatingListDialog creditRatingDialog = new CreditRatingListDialog(
 				"", "");
 		creditRatingDialog.hide();
-		creditRatingDialog.addCallBack(createAddNewCallBack());
+		creditRatingDialog
+				.addCallBack(new AccounterAsyncCallback<ClientCreditRating>() {
+
+					@Override
+					public void onResultSuccess(ClientCreditRating result) {
+						createAddNewCallBack().onResultSuccess(result);
+					}
+
+					@Override
+					public void onException(AccounterException exception) {
+						createAddNewCallBack().onException(exception);
+					}
+				});
 		creditRatingDialog.showAddEditGroupDialog(null);
 	}
 

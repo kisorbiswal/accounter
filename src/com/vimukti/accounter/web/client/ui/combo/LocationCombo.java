@@ -1,14 +1,11 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.LocationGroupListDialog;
 import com.vimukti.accounter.web.client.ui.core.QuickAddDialog;
+import com.vimukti.accounter.web.client.ui.vendors.ManageSupportListView;
 
 /**
  * 
@@ -19,11 +16,12 @@ public class LocationCombo extends CustomCombo<ClientLocation> {
 	private ValueCallBack<ClientLocation> newLocationtHandler;
 
 	public LocationCombo(String title) {
-		super(title, true, 1,"LocationCombo");
+		super(title, true, 1, "LocationCombo");
 		initCombo(getCompany().getLocations());
 	}
-	public LocationCombo(String title, boolean isAddNewRequire ) {
-		super(title, isAddNewRequire, 1,"LocationCombo");
+
+	public LocationCombo(String title, boolean isAddNewRequire) {
+		super(title, isAddNewRequire, 1, "LocationCombo");
 		initCombo(getCompany().getLocations());
 	}
 
@@ -52,24 +50,11 @@ public class LocationCombo extends CustomCombo<ClientLocation> {
 
 	@Override
 	public void onAddNew() {
-		LocationGroupListDialog itemGroupDialog = new LocationGroupListDialog(
-				"", "");
-		itemGroupDialog.removeFromParent();
-		itemGroupDialog
-				.addCallBack(new AccounterAsyncCallback<ClientLocation>() {
-
-					@Override
-					public void onResultSuccess(ClientLocation result) {
-						addItemThenfireEvent(result);
-					}
-
-					@Override
-					public void onException(AccounterException exception) {
-						exception.printStackTrace();
-						Accounter.showError(exception.getMessage());
-					}
-				});
-		itemGroupDialog.showAddEditGroupDialog(null);
+		ManageSupportListView priceLevelDialog = new ManageSupportListView(
+				IAccounterCore.LOCATION);
+		priceLevelDialog.setVisible(false);
+		priceLevelDialog.setCallback(createAddNewCallBack());
+		priceLevelDialog.showAddEditGroupDialog(null);
 	}
 
 	/**
@@ -113,26 +98,13 @@ public class LocationCombo extends CustomCombo<ClientLocation> {
 
 	@Override
 	protected void onAddAllInfo(String text) {
-		LocationGroupListDialog itemGroupDialog = new LocationGroupListDialog(
-				"", "");
-		itemGroupDialog.removeFromParent();
-		itemGroupDialog
-				.addCallBack(new AccounterAsyncCallback<ClientLocation>() {
-
-					@Override
-					public void onResultSuccess(ClientLocation result) {
-						addItemThenfireEvent(result);
-					}
-
-					@Override
-					public void onException(AccounterException exception) {
-						exception.printStackTrace();
-						Accounter.showError(exception.getMessage());
-					}
-				});
 		ClientLocation clientLocation = new ClientLocation();
 		clientLocation.setLocationName(textBox.getText());
-		itemGroupDialog.showAddEditGroupDialog(clientLocation);
+		ManageSupportListView priceLevelDialog = new ManageSupportListView(
+				IAccounterCore.LOCATION);
+		priceLevelDialog.setVisible(false);
+		priceLevelDialog.setCallback(createAddNewCallBack());
+		priceLevelDialog.showAddEditGroupDialog(clientLocation);
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.vendors.ManageSupportListView;
 
 /**
  * InputDialog is especially for take input from user using one or more text
@@ -26,6 +27,7 @@ public class InputDialog extends BaseDialog {
 	private TextItem textItem;
 	private final String[] itemsNames;
 	private final GroupDialog<?> parent;
+	private ManageSupportListView parentView;
 
 	public InputDialog(GroupDialog<?> parentDialog, String title, String desc,
 			String... itemNames) {
@@ -37,13 +39,24 @@ public class InputDialog extends BaseDialog {
 		this.parent = parentDialog;
 	}
 
+	public InputDialog(ManageSupportListView vendorGroupListDialog,
+			String dialogueTitle, String... itemNames) {
+		super(dialogueTitle, "");
+		this.getElement().setId("InputDialog");
+		this.itemsNames = itemNames;
+		initialise();
+		center();
+		this.parent = null;
+		this.parentView = vendorGroupListDialog;
+	}
+
 	/**
 	 * Create GUI controls for this Dialog
 	 */
 	private void initialise() {
 		// mainPanel.setSpacing(3);
 		form = new DynamicForm("form");
-//		form.setWidth("100%");
+		// form.setWidth("100%");
 		StyledPanel layout = new StyledPanel("layout");
 		for (String item : itemsNames)
 			addTextItem(item);
@@ -112,12 +125,19 @@ public class InputDialog extends BaseDialog {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
-		result.add(parent.validate());
+		if (parentView != null) {
+			result.add(parentView.validate());
+		} else {
+			result.add(parent.validate());
+		}
 		return result;
 	}
 
 	@Override
 	protected boolean onOK() {
+		if (parentView != null) {
+			return parentView.onOK();
+		}
 		return parent.onOK();
 	}
 

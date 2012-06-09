@@ -1,17 +1,18 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
-import com.vimukti.accounter.web.client.ui.ShippingMethodListDialog;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.vendors.ManageSupportListView;
 
 public class ShippingMethodsCombo extends CustomCombo<ClientShippingMethod> {
 
 	public ShippingMethodsCombo(String title) {
-		super(title,"ShippingMethodsCombo");
+		super(title, "ShippingMethodsCombo");
 		initCombo(getCompany().getShippingMethods());
 	}
 
 	public ShippingMethodsCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1,"ShippingMethodsCombo");
+		super(title, isAddNewRequired, 1, "ShippingMethodsCombo");
 		initCombo(getCompany().getShippingMethods());
 	}
 
@@ -30,11 +31,11 @@ public class ShippingMethodsCombo extends CustomCombo<ClientShippingMethod> {
 
 	@Override
 	public void onAddNew() {
-		ShippingMethodListDialog shippingMethod = new ShippingMethodListDialog(
-				"", "");
-		shippingMethod.addCallBack(createAddNewCallBack());
-		shippingMethod.hide();
-		shippingMethod.showAddEditTermDialog(null);
+		ManageSupportListView priceLevelDialog = new ManageSupportListView(
+				IAccounterCore.SHIPPING_METHOD);
+		priceLevelDialog.setVisible(false);
+		priceLevelDialog.setCallback(createAddNewCallBack());
+		priceLevelDialog.showAddEditGroupDialog(null);
 	}
 
 	@Override

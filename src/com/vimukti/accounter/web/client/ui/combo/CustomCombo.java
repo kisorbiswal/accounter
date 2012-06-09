@@ -19,10 +19,11 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * @author Malcom Fernandez
  */
 public abstract class CustomCombo<T> extends DropDownCombo<T> {
-	protected static AccounterMessages messages=Global.get().messages();
+	protected static AccounterMessages messages = Global.get().messages();
 
-	public CustomCombo(String title, boolean isAddNewRequire, int noOfCols, String styleName) {
-		super(title, isAddNewRequire, noOfCols,styleName);
+	public CustomCombo(String title, boolean isAddNewRequire, int noOfCols,
+			String styleName) {
+		super(title, isAddNewRequire, noOfCols, styleName);
 		if (title != null) {
 			int i = title.length();
 			if (i > 5)
@@ -30,19 +31,17 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 					title = title.replace("s", "");
 				else if (title.substring(i - 4, i).equalsIgnoreCase(
 						messages.name()))
-					title = title.replace(messages.name(), "")
-							.toLowerCase();
+					title = title.replace(messages.name(), "").toLowerCase();
 			if (isAddNewRequire)
 				super.setToolTip(messages
 						.selectWhichWeHaveInOurCompanyOrAddNew(title));
 			else
-				super.setToolTip(messages
-						.selectWhichWeHaveInOurCompany(title));
+				super.setToolTip(messages.selectWhichWeHaveInOurCompany(title));
 		}
 	}
 
-	public CustomCombo(String title,String styleName) {
-		super(title, true, 1,styleName);
+	public CustomCombo(String title, String styleName) {
+		super(title, true, 1, styleName);
 		if (title != null) {
 			int i = title.length();
 			if (i > 5)
@@ -50,8 +49,7 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 					title = title.replace("s", "");
 				else if (title.substring(i - 4, i).equalsIgnoreCase(
 						messages.name()))
-					title = title.replace(messages.name(), "")
-							.toLowerCase();
+					title = title.replace(messages.name(), "").toLowerCase();
 			super.setToolTip(messages
 					.selectWhichWeHaveInOurCompanyOrAddNew(title));
 		}
@@ -69,31 +67,28 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 		return comboItems;
 	}
 
-	protected AccounterAsyncCallback<T> createAddNewCallBack() {
+	protected AccounterAsyncCallback<Object> createAddNewCallBack() {
+		AccounterAsyncCallback<Object> accounterAsyncCallback = new AccounterAsyncCallback<Object>() {
 
-		AccounterAsyncCallback<T> callBack = new AccounterAsyncCallback<T>() {
-
-			public void onException(AccounterException caught) {
-
-				if (!GWT.isScript()) {
-					caught.printStackTrace();
-					Accounter
-							.showError(messages.sorryFailedToAdd());
-				}
-
-			}
-
-			public void onResultSuccess(T result) {
+			@Override
+			public void onResultSuccess(Object result) {
 				if (result != null) {
-					addItemThenfireEvent(result);
+					addItemThenfireEvent((T) result);
 				} else {
 					onFailure(null);
+				}
+			}
+
+			@Override
+			public void onException(AccounterException caught) {
+				if (!GWT.isScript()) {
+					caught.printStackTrace();
+					Accounter.showError(messages.sorryFailedToAdd());
 				}
 
 			}
 		};
-
-		return callBack;
+		return accounterAsyncCallback;
 	}
 
 	// public void addChangeHandler() {
