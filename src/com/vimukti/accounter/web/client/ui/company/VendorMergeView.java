@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -100,6 +101,9 @@ public class VendorMergeView extends BaseView<ClientVendor> {
 	}
 
 	private void createControls() {
+		Label lab1 = new Label(messages.mergeVendors(Global.get().vendors()));
+		lab1.setStyleName("label-title");
+
 		form = new DynamicForm("form");
 		form1 = new DynamicForm("form1");
 		StyledPanel layout = new StyledPanel("layout");
@@ -133,6 +137,7 @@ public class VendorMergeView extends BaseView<ClientVendor> {
 		// form.setItems(getTextItems());
 		layout.add(form);
 		layout1.add(form1);
+		horizontalPanel.add(lab1);
 		horizontalPanel.add(layout);
 		horizontalPanel.add(layout1);
 		this.add(horizontalPanel);

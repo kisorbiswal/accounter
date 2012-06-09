@@ -1379,6 +1379,14 @@ public class Windows8MenuView extends BaseView {
 		Label inventoryLabel = new Label(inventory);
 		inventoryLabel.setStyleName("menuName");
 
+		W8MenuItem inventoryCenterItem = new W8MenuItem(
+				messages.inventoryCentre(), messages2.stockAdjustDesc(),
+				HistoryTokens.INVENTORY_CENTRE);
+		W8MenuItem inventoryItemsListItem = new W8MenuItem(
+				messages.inventoryItems(), "", HistoryTokens.INVENTORYITEMS);
+		W8MenuItem inventoryAssItemsListItem = new W8MenuItem(
+				messages.inventoryAssemblyItem(), "",
+				HistoryTokens.INVENTORY_ASSEMBLY_ITEMS);
 		W8MenuItem stockAdjustmentsItem = new W8MenuItem(
 				messages.stockAdjustments(), messages2.stockAdjustDesc(),
 				HistoryTokens.STOCKADJUSTMENTS);
@@ -1393,6 +1401,9 @@ public class Windows8MenuView extends BaseView {
 				messages2.measurementsListDesc(), HistoryTokens.MEASUREMENTLIST);
 
 		inventoryListForm.add(inventoryLabel);
+		inventoryListForm.add(inventoryCenterItem);
+		inventoryListForm.add(inventoryItemsListItem);
+		inventoryListForm.add(inventoryAssItemsListItem);
 		inventoryListForm.add(stockAdjustmentsItem);
 		inventoryListForm.add(warehouseDetailsItem);
 		inventoryListForm.add(warehouseTransfersItem);
@@ -1418,8 +1429,10 @@ public class Windows8MenuView extends BaseView {
 		W8MenuItem writeCheckItem = new W8MenuItem(messages.writeCheck(),
 				messages2.writeCheckDesc(), HistoryTokens.WRITECHECK);
 		W8MenuItem depositAndTransfersItem = new W8MenuItem(
-				messages.depositTransferFunds(), messages2.depositTrasDesc(),
+				messages.transferFunds(), messages2.depositTrasDesc(),
 				HistoryTokens.DEPOSITETRANSFERFUNDS);
+		W8MenuItem depositItem = new W8MenuItem(messages.makeDeposit(),
+				messages2.depositTrasDesc(), HistoryTokens.DEPOSIT);
 		W8MenuItem reconciliationItem = new W8MenuItem(
 				messages.ReconciliationsList(), messages2.reconciliationDesc(),
 				HistoryTokens.RECOUNCILATIONSLIST);
@@ -1427,6 +1440,7 @@ public class Windows8MenuView extends BaseView {
 		bankingListForm.add(bankAccountItem);
 		bankingListForm.add(writeCheckItem);
 		bankingListForm.add(depositAndTransfersItem);
+		bankingListForm.add(depositItem);
 		bankingListForm.add(reconciliationItem);
 
 		bankingMenuForm.add(bankingLabel);

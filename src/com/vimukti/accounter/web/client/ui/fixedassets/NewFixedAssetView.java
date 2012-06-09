@@ -408,7 +408,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		itmInfoVPanel.add(itemHPanel);
 
 		StyledPanel descriptionVPanel = new StyledPanel("descriptionVPanel");
-		descriptionVPanel.add(descrptionLabel);
 		descriptionVPanel.add(descriptionForm);
 
 		assetType = new TextItem(messages.assetType(), "assetType");
