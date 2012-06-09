@@ -8,6 +8,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
@@ -16,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
  * 
  */
 public class ManageTAXCodesListAction extends Action {
-
 
 	/**
 	 * @param text
@@ -72,15 +72,15 @@ public class ManageTAXCodesListAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			public void onCreated() {
-//
-//				
-//
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// public void onCreated() {
+		//
+		//
+		//
+		// }
+		//
+		// });
 	}
 
 	// @Override
@@ -90,7 +90,7 @@ public class ManageTAXCodesListAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "vatCodes";
+		return HistoryTokens.VATCODES;
 	}
 
 	@Override

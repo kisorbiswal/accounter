@@ -84,11 +84,11 @@ public class MergeAction extends Action {
 	public String getHistoryToken() {
 		switch (type) {
 		case TYPE_CUSTOMERS:
-			return "merge_customers";
+			return HistoryTokens.MERGECUSTOMERS;
 		case TYPE_VENDORS:
-			return "merge_vendor";
+			return HistoryTokens.MERGEVENDOR;
 		case TYPE_ACCOUNTS:
-			return "merge_account";
+			return HistoryTokens.MERGEACCOUNT;
 		case TYPE_ITEMS:
 			return "merge_item";
 		case TYPE_CLASSES:
@@ -103,8 +103,7 @@ public class MergeAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return getHistoryToken();
 	}
 
 	@Override

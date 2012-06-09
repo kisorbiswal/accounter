@@ -58,9 +58,6 @@ import com.vimukti.accounter.web.client.ui.company.ItemsAction;
 import com.vimukti.accounter.web.client.ui.company.MakeActiveAction;
 import com.vimukti.accounter.web.client.ui.company.MakeInActiveAction;
 import com.vimukti.accounter.web.client.ui.company.ManageFiscalYearAction;
-import com.vimukti.accounter.web.client.ui.company.ManageItemTaxAction;
-import com.vimukti.accounter.web.client.ui.company.ManageSalesTaxGroupsAction;
-import com.vimukti.accounter.web.client.ui.company.MergeFinancialAccountsAction;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.company.NewBudgetAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
@@ -351,22 +348,10 @@ public class ActionFactory {
 	// return new MergeItemsAction(messages.mergeItems());
 	// }
 
-	public static MergeFinancialAccountsAction getMergeFinancialAccountsAction() {
-		return new MergeFinancialAccountsAction();
-	}
-
-	public static ManageSalesTaxGroupsAction getManageSalesTaxGroupsAction() {
-		return new ManageSalesTaxGroupsAction();
-	}
-
 	// public static ManageSalesTaxCodesAction getManageSalesTaxCodesAction() {
 	// String constant = messages.manageSalesTaxCodes();
 	// return new ManageSalesTaxCodesAction(constant);
 	// }
-
-	public static ManageItemTaxAction getManageItemTaxAction() {
-		return new ManageItemTaxAction(messages.manageItemTax());
-	}
 
 	public static CreditRatingListAction getCreditRatingListAction() {
 		return new CreditRatingListAction();
@@ -404,10 +389,6 @@ public class ActionFactory {
 		return new NewbankAction();
 	}
 
-	public static ManageItemTaxAction getNewItemTaxAction() {
-		return new ManageItemTaxAction(messages.newItemTax());
-	}
-
 	public static NewItemAction getNewItemAction(boolean forCustomer) {
 		return new NewItemAction(forCustomer);
 	}
@@ -424,10 +405,6 @@ public class ActionFactory {
 
 	public static NewTAXAgencyAction getNewTAXAgencyAction() {
 		return new NewTAXAgencyAction();
-	}
-
-	public static ManageSalesTaxItemsAction getManageSalesTaxItemsAction() {
-		return new ManageSalesTaxItemsAction();
 	}
 
 	// public static NewTaxItemAction getTaxItemAction() {

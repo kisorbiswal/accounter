@@ -41,7 +41,6 @@ import com.vimukti.accounter.web.client.ui.company.HelpItem;
 import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.company.ItemsAction;
 import com.vimukti.accounter.web.client.ui.company.ManageFiscalYearAction;
-import com.vimukti.accounter.web.client.ui.company.ManageSalesTaxGroupsAction;
 import com.vimukti.accounter.web.client.ui.company.ManageSupportListAction;
 import com.vimukti.accounter.web.client.ui.company.MergeAction;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
@@ -57,7 +56,6 @@ import com.vimukti.accounter.web.client.ui.company.VendorCenterAction;
 import com.vimukti.accounter.web.client.ui.company.WarehouseActions;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ManageSalesTaxItemsAction;
 import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 import com.vimukti.accounter.web.client.ui.core.PayRollReportActions;
 import com.vimukti.accounter.web.client.ui.core.TransactionsCenterAction;
@@ -352,10 +350,10 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(preferencesAction.getHistoryToken(), preferencesAction);
 		preferencesAction = new PreferencesAction(PreferencesAction.SETTINGS);
 		actions.put(preferencesAction.getHistoryToken(), preferencesAction);
-		actions.put(new ManageSalesTaxGroupsAction().getHistoryToken(),
-				new ManageSalesTaxGroupsAction());
-		actions.put(new ManageSalesTaxItemsAction().getHistoryToken(),
-				new ManageSalesTaxItemsAction());
+		actions.put(ManageSupportListAction.salesTaxGroups().getHistoryToken(),
+				ManageSupportListAction.salesTaxGroups());
+		actions.put(ManageSupportListAction.salesTaxItems().getHistoryToken(),
+				ManageSupportListAction.salesTaxItems());
 		actions.put(new AdjustTAXAction(2).getHistoryToken(),
 				new AdjustTAXAction(2));
 		actions.put(new NewTAXAgencyAction().getHistoryToken(),
@@ -1032,7 +1030,9 @@ public class MainFinanceWindow extends FlowPanel {
 
 		actions.put(ActionFactory.getIpadMenuAction().getHistoryToken(),
 				ActionFactory.getIpadMenuAction());
-
+		ManageSupportListAction salesTaxGroupAction = ManageSupportListAction
+				.salesTaxGroup();
+		actions.put(salesTaxGroupAction.getHistoryToken(), salesTaxGroupAction);
 	}
 
 	public ClientCompany getCompany() {

@@ -80,7 +80,6 @@ import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.company.CheckPrintSettingAction;
 import com.vimukti.accounter.web.client.ui.company.CreditRatingListAction;
 import com.vimukti.accounter.web.client.ui.company.InventoryActions;
-import com.vimukti.accounter.web.client.ui.company.ManageSalesTaxGroupsAction;
 import com.vimukti.accounter.web.client.ui.company.ManageSupportListAction;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.company.NewBudgetAction;
@@ -294,7 +293,7 @@ public class ReportsRPC {
 			break;
 		case IAccounterCore.TAXGROUP:
 			initCallBack(new ClientTAXGroup(),
-					new ManageSalesTaxGroupsAction(), transactionId);
+					ManageSupportListAction.salesTaxGroups(), transactionId);
 			break;
 		case IAccounterCore.TAXITEM:
 			initCallBack(new ClientTAXItem(), new NewVatItemAction(),

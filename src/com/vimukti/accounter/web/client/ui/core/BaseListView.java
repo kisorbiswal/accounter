@@ -122,11 +122,10 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 		Label lab1 = new Label(getListViewHeading());
 		lab1.addStyleName("label-title-list");
-
+		gridLayout = new StyledPanel("gridLayout");
 		initGrid();
 
 		StyledPanel totalLayout = getTotalLayout(grid);
-		gridLayout = new StyledPanel("gridLayout");
 		grid.setView(this);
 		gridLayout.add(grid);
 

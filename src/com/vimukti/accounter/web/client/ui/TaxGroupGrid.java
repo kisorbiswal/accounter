@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.ui.company.ManageSupportListAction;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -30,7 +31,11 @@ public class TaxGroupGrid extends BaseListGrid<ClientTAXGroup> {
 
 	@Override
 	public void onDoubleClick(ClientTAXGroup obj) {
-
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			ManageSupportListAction salesTaxGroupaction = ManageSupportListAction
+					.salesTaxGroup();
+			salesTaxGroupaction.run(obj, false);
+		}
 	}
 
 	@Override
@@ -50,11 +55,11 @@ public class TaxGroupGrid extends BaseListGrid<ClientTAXGroup> {
 	@Override
 	protected String[] setHeaderStyle() {
 		return new String[] { "name" };
-		}
+	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
 		return new String[] { "name-val" };
-		}
+	}
 
 }

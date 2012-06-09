@@ -8,17 +8,22 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
-import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
+import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid.RecordClickHandler;
+import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 
 /**
  * Re-implemented Class to get Correct Flow
@@ -28,32 +33,21 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandl
  * 
  */
 
-public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
+public class SalesTaxGroupView extends BaseView<ClientTAXGroup> {
 
-	protected DialogGrid<ClientTAXItem> availTaxItemsGrid;
-	protected DialogGrid<ClientTAXItem> selectTaxItemsGrid;
+	protected BaseListGrid<ClientTAXItem> availTaxItemsGrid;
+	protected BaseListGrid<ClientTAXItem> selectTaxItemsGrid;
 	protected Button addButton, removeButton;
-	ClientTAXGroup taxGroup;
 
 	private ArrayList<ClientTAXItem> tempAvailTaxItemList;
 	private ArrayList<ClientTAXItem> tempSelectedTaxItemList;
 	public TextItem taxGroupText;
 	public DynamicForm form1;
+	private List<DynamicForm> forms = new ArrayList<DynamicForm>();
 	private static boolean flag = false;
 
-	public SalesTaxGroupDialog(String title, String desc,
-			ClientTAXGroup taxGroup) {
-
-		super(title, desc);
+	public SalesTaxGroupView() {
 		this.getElement().setId("SalesTaxGroupDialog");
-		this.taxGroup = taxGroup;
-		createControls(taxGroup);
-		if (taxGroup != null)
-			fillSelectedTaxItems(taxGroup);
-
-		fillAvailableTaxItems();
-		// mainPanel.setSpacing(3);
-		center();
 	}
 
 	// Filling Available tax Codes in availTaxCodesGrid
@@ -63,7 +57,8 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 	}
 
 	// Filling Available tax Codes in selectTaxCodesGrid
-	private void fillSelectedTaxItems(ClientTAXGroup taxGroup) {
+	private void fillSelectedTaxItems() {
+		ClientTAXGroup taxGroup = getData();
 		if (getTaxItemsForTaxGroup(taxGroup) != null)
 			for (ClientTAXItem codeInternal : getTaxItemsForTaxGroup(taxGroup)) {
 				selectTaxItemsGrid.addData(codeInternal);
@@ -119,25 +114,6 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 	}
 
-	private void setAvailTaxItemsGridFields() {
-		availTaxItemsGrid.addColumns(new String[] { messages.name(),
-				messages.currentRate() });
-	}
-
-	public void setAvalableTCGridCellWidths() {
-		availTaxItemsGrid.setCellsWidth(new Integer[] { 80, 50 });
-	}
-
-	private void setSelectedTaxItemsGridFields() {
-		selectTaxItemsGrid.addColumns(new String[] { messages.name(),
-				messages.currentRate() });
-
-	}
-
-	public void setSelectedTCGridCellWidths() {
-		selectTaxItemsGrid.setCellsWidth(new Integer[] { 80, 50 });
-	}
-
 	public Object getAvailTaxItemsGridColumnValue(
 			ClientTAXItemGroup accounterCore, int col) {
 		ClientTAXItem taxItem = (ClientTAXItem) accounterCore;
@@ -171,18 +147,19 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		return getCompany().getTaxGroups();
 	}
 
-	private void createControls(final ClientTAXGroup taxGroup) {
+	private void createControls() {
+		Label label = new Label(getViewTitle());
+		label.addStyleName("label-title");
 
-		// setPageTop(10);
 		StyledPanel bodyLayout = new StyledPanel("bodyLayout");
+
+		bodyLayout.add(label);
 
 		form1 = new DynamicForm("form1");
 		taxGroupText = new TextItem(messages.selectedTaxGroupItem(),
 				"taxGroupText");
+		taxGroupText.setEnabled(!isInViewMode());
 		taxGroupText.setRequired(true);
-
-		if (taxGroup != null)
-			taxGroupText.setValue(taxGroup.getName());
 
 		form1.add(taxGroupText);
 
@@ -227,10 +204,9 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 							.getSelection();
 					selectTaxItemsGrid.deleteRecord(gridRecord);
 					tempSelectedTaxItemList.remove(gridRecord);
-					int selectedIndex = availTaxItemsGrid
-							.getSelectedRecordIndex();
 					availTaxItemsGrid.addData(gridRecord);
-					availTaxItemsGrid.selectRecord(selectedIndex);
+					availTaxItemsGrid.setSelection(availTaxItemsGrid
+							.getSelection());
 					if (tempAvailTaxItemList != null)
 						tempAvailTaxItemList.add(gridRecord);
 					if (selectTaxItemsGrid.getRecords() == null
@@ -249,10 +225,18 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		});
 		removeButton.setEnabled(false);
 
-		availTaxItemsGrid = new DialogGrid<ClientTAXItem>(false) {
+		availTaxItemsGrid = new BaseListGrid<ClientTAXItem>(false) {
 			@Override
 			protected Object getColumnValue(ClientTAXItem obj, int index) {
 				return getAvailTaxItemsGridColumnValue(obj, index);
+			}
+
+			@Override
+			protected void onClick(ClientTAXItem obj, int row, int col) {
+				super.onClick(obj, row, col);
+				if (recordClickHandler != null) {
+					recordClickHandler.onRecordClick(obj, col);
+				}
 			}
 
 			@Override
@@ -282,20 +266,63 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 				}
 				return "";
 			}
+
+			@Override
+			protected int[] setColTypes() {
+				return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT };
+			}
+
+			@Override
+			protected String[] setHeaderStyle() {
+				return new String[] { "nameValue", "currentRateValue" };
+			}
+
+			@Override
+			protected String[] setRowElementsStyle() {
+				return new String[] { "nameValue", "currentRateValue" };
+			}
+
+			@Override
+			protected void executeDelete(ClientTAXItem object) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onDoubleClick(ClientTAXItem obj) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String[] getColumns() {
+				return new String[] { messages.name(), messages.currentRate() };
+			}
+
+			@Override
+			protected int getCellWidth(int index) {
+				switch (index) {
+				case 0:
+					return 150;
+				case 1:
+					return 100;
+
+				default:
+					break;
+				}
+
+				return super.getCellWidth(index);
+			}
 		};
 		// availTaxCodesGrid.setCellsWidth(cellsWidth)
 		availTaxItemsGrid.addStyleName("available-tax-items-list");
-		availTaxItemsGrid.setName(messages.available());
-		setAvailTaxItemsGridFields();
-		setAvalableTCGridCellWidths();
-		availTaxItemsGrid.setView(SalesTaxGroupDialog.this);
 		// getAvailableRecords();
 		availTaxItemsGrid
-				.addRecordClickHandler(new GridRecordClickHandler<ClientTAXItem>() {
+				.addRecordClickHandler(new RecordClickHandler<ClientTAXItem>() {
 
 					@Override
 					public boolean onRecordClick(ClientTAXItem core, int column) {
-						addButton.setEnabled(true);
+						addButton.setEnabled(!isInViewMode());
 						return true;
 					}
 				});
@@ -313,10 +340,18 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		// Selected Tax Codes Layout
 		// DynamicForm selectForm = new DynamicForm();
 
-		selectTaxItemsGrid = new DialogGrid<ClientTAXItem>(false) {
+		selectTaxItemsGrid = new BaseListGrid<ClientTAXItem>(false) {
 			@Override
 			protected Object getColumnValue(ClientTAXItem obj, int index) {
 				return getAvailTaxItemsGridColumnValue(obj, index);
+			}
+
+			@Override
+			protected void onClick(ClientTAXItem obj, int row, int col) {
+				super.onClick(obj, row, col);
+				if (recordClickHandler != null) {
+					recordClickHandler.onRecordClick(obj, col);
+				}
 			}
 
 			@Override
@@ -346,52 +381,76 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 				}
 				return "";
 			}
+
+			@Override
+			protected int[] setColTypes() {
+				return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT };
+			}
+
+			@Override
+			protected String[] setHeaderStyle() {
+				return new String[] { "nameValue", "currentRateValue" };
+			}
+
+			@Override
+			protected String[] setRowElementsStyle() {
+				return new String[] { "nameValue", "currentRateValue" };
+			}
+
+			@Override
+			protected void executeDelete(ClientTAXItem object) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onDoubleClick(ClientTAXItem obj) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String[] getColumns() {
+				return new String[] { messages.name(), messages.currentRate() };
+			}
+
+			@Override
+			protected int getCellWidth(int index) {
+				switch (index) {
+				case 0:
+					return 150;
+				case 1:
+					return 100;
+				default:
+					break;
+				}
+				return super.getCellWidth(index);
+			}
 		};
-		selectTaxItemsGrid.setName(messages.selected());
 		selectTaxItemsGrid.addStyleName("select-tax-items-list");
-		setSelectedTaxItemsGridFields();
-		setSelectedTCGridCellWidths();
-		selectTaxItemsGrid.setView(SalesTaxGroupDialog.this);
-		if (taxGroup != null)
-			getTaxItemsForTaxGroup(taxGroup);
 		selectTaxItemsGrid
-				.addRecordClickHandler(new GridRecordClickHandler<ClientTAXItem>() {
+				.addRecordClickHandler(new RecordClickHandler<ClientTAXItem>() {
 
 					@Override
 					public boolean onRecordClick(ClientTAXItem core, int column) {
-						removeButton.setEnabled(true);
+						removeButton.setEnabled(!isInViewMode());
 						return true;
 					}
+
 				});
 		selectTaxItemsGrid.init();
-		// selectTaxCodesGrid.setWidth("80%");
-		// selectTaxCodesGrid.setHeight("100%");
-
-		// selectForm.add(selectTaxCodesGrid);
-
-		// horizontalPanel.setCellHorizontalAlignment(availTaxItemsGrid,
-		// HasHorizontalAlignment.ALIGN_LEFT);
 		horizontalPanel.add(availTaxItemsGrid);
-		// horizontalPanel.setCellHorizontalAlignment(buttonsLayout,
-		// HasHorizontalAlignment.ALIGN_CENTER);
 		horizontalPanel.add(buttonsLayout);
-		// horizontalPanel.setCellWidth(buttonsLayout, "75px");
-		// horizontalPanel.setCellHorizontalAlignment(selectTaxItemsGrid,
-		// HasHorizontalAlignment.ALIGN_RIGHT);
 		horizontalPanel.add(selectTaxItemsGrid);
 		bodyLayout.add(form1);
 		bodyLayout.add(horizontalPanel);
-
-		setBodyLayout(bodyLayout);
-		center();
-
+		add(bodyLayout);
 	}
 
-	public DialogGrid getSelectTaxItemsGrid() {
+	public BaseListGrid<ClientTAXItem> getSelectTaxItemsGrid() {
 		return selectTaxItemsGrid;
 	}
 
-	@Override
 	public Object getGridColumnValue(ClientTAXGroup obj, int index) {
 
 		if (!flag) {
@@ -407,88 +466,45 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 	}
 
 	@Override
-	protected ValidationResult validate() {
-
+	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		result.add(form1.validate());
+		String groupName = taxGroupText.getValue();
+
+		ClientCompany company = getCompany();
+		ClientTAXGroup taxGroupByName = company.getTaxGroupByName(groupName);
+		ClientTAXItem itemByName = company.getTaxItemByName(groupName);
+
+		if ((itemByName != null && itemByName.getID() != getData().getID())
+				|| (taxGroupByName != null && taxGroupByName.getID() != getData()
+						.getID())) {
+			result.addError(taxGroupText, messages.alreadyExist());
+		}
 		return result;
 	}
 
 	@Override
-	protected boolean onOK() {
-		if (taxGroup != null) {
-			editTaxGroup(taxGroup);
+	public void saveAndUpdateView() {
+		ClientTAXGroup taxGroup = getData();
+		data.setName(UIUtils.toStr(taxGroupText.getValue()));
+		data.setActive(true);
+		data.setPercentage(true);
+		data.setSalesType(true);
+		data.setTaxItems(getSelectedTaxItems(data));
+		ClientCompany company = getCompany();
+		ClientTAXItem itemByName = company.getTaxItemByName(data.getName());
+		ClientTAXGroup taxGroupByName = company.getTaxGroupByName(data
+				.getName());
+		if ((itemByName != null && itemByName.getID() != getData().getID())
+				|| (taxGroupByName != null && taxGroupByName.getID() != getData()
+						.getID())) {
+			Accounter.showError(messages.alreadyExist());
 		} else {
-			if (taxGroupText.getValue() != null
-					&& !taxGroupText.getValue().toString().isEmpty()) {
-				newTaxGroup();
-			}
-
+			saveOrUpdate(taxGroup);
 		}
-		return false;
-	}
-
-	protected void saveOrUpdate(final ClientTAXGroup core) {
-		AsyncCallback<Long> callback2 = new AsyncCallback<Long>() {
-
-			@Override
-			public void onSuccess(Long result) {
-				removeFromParent();
-				if (core.getID() != 0) {
-					core.setVersion(core.getVersion() + 1);
-				}
-				core.setID(result);
-				getCompany().processUpdateOrCreateObject(core);
-				if (getCallback() != null) {
-					getCallback().actionResult(core);
-				}
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
-			}
-		};
-		if (core.getID() == 0) {
-			Accounter.createCRUDService().create(core, callback2);
-		} else {
-			Accounter.createCRUDService().update(core, callback2);
-		}
-
 	}
 
 	protected void newTaxGroup() {
-
-		ClientTAXGroup taxGroup = new ClientTAXGroup();
-		taxGroup.setName(UIUtils.toStr(taxGroupText.getValue()));
-		taxGroup.setActive(true);
-		taxGroup.setPercentage(true);
-		taxGroup.setSalesType(true);
-		taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
-		ClientCompany company = getCompany();
-		ClientTAXItem itemByName = company.getTaxItemByName(taxGroup.getName());
-		ClientTAXGroup taxGroupByName = company.getTaxGroupByName(taxGroup
-				.getName());
-		if (itemByName != null || taxGroupByName != null) {
-			Accounter.showError(messages.alreadyExist());
-		} else {
-			saveOrUpdate(taxGroup);
-		}
-	}
-
-	protected void editTaxGroup(ClientTAXGroup taxGroup) {
-		String groupName = taxGroupText.getValue();
-		ClientTAXGroup taxGroupByName = getCompany().getTaxGroupByName(
-				groupName);
-		if (!(taxGroup.getName().equalsIgnoreCase(groupName) ? true
-				: taxGroupByName == null)) {
-			Accounter.showError(messages.alreadyExist());
-		} else {
-			taxGroup.setName(groupName);
-			taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
-			saveOrUpdate(taxGroup);
-		}
 	}
 
 	private List<ClientTAXItem> getSelectedTaxItems(ClientTAXGroup taxGroup) {
@@ -528,32 +544,75 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 	}
 
-	@Override
-	protected boolean onCancel() {
-		return true;
-	}
 	// @Override
 	// public Object getGridColumnValue(IsSerializable obj, int index) {
 	// return null;
 	// }
 
-	// public void initGrid(List<ClientTaxGroup> resultrecords) {
-	// // grid.setRecords((List<IsSerializable>) (ArrayList) resultrecords);
-	// if (resultrecords != null) {
-	//
-	// List<ClientTaxGroup> records = resultrecords;
-	//
-	// if (records != null) {
-	// for (ClientTaxGroup t : records) {
-	// addToGrid(t);
-	// }
-	//
-	// }
-	// }
-	// }
-	//
-	// public void addToGrid(ClientTaxGroup objectToBeAdded) {
-	// availTaxCodesGrid.addData((IsSerializable) objectToBeAdded);
-	// }
+	@Override
+	public void deleteFailed(AccounterException caught) {
+	}
 
+	@Override
+	public void deleteSuccess(IAccounterCore result) {
+
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return this.getAction().getText();
+	}
+
+	@Override
+	public List<DynamicForm> getForms() {
+		return forms;
+	}
+
+	@Override
+	public void initData() {
+		fillAvailableTaxItems();
+		if (data == null) {
+			data = new ClientTAXGroup();
+		} else {
+			taxGroupText.setValue(data.getName());
+			fillSelectedTaxItems();
+		}
+		super.initData();
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		createControls();
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
+	@Override
+	public void onEdit() {
+		Accounter.createCRUDService().canEdit(AccounterCoreType.TAX_ITEM_GROUP,
+				getData().getID(), new AsyncCallback<Boolean>() {
+
+					@Override
+					public void onSuccess(Boolean result) {
+						if (result) {
+							enableFormItems();
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+	}
+
+	protected void enableFormItems() {
+		setMode(EditMode.EDIT);
+		taxGroupText.setEnabled(!isInViewMode());
+	}
 }

@@ -8476,3 +8476,12 @@ table.no_records tr td {
 	box-pack: end;
 	-moz-box-flex: 1;
 }
+#TaxGroupGrid .gridHeader{
+	width: 100%;
+}
+#SalesTaxGroupDialog .horizontalPanel {
+	width:100%;
+}
+#SalesTaxGroupDialog .gridHeader {
+	width:auto !important;
+}

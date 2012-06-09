@@ -66,7 +66,6 @@ import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.company.CreditRatingListAction;
 import com.vimukti.accounter.web.client.ui.company.InventoryActions;
-import com.vimukti.accounter.web.client.ui.company.ManageSalesTaxGroupsAction;
 import com.vimukti.accounter.web.client.ui.company.ManageSupportListAction;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.company.NewBudgetAction;
@@ -2221,7 +2220,7 @@ public class UIUtils {
 			action = new NewAccountAction();
 			break;
 		case IAccounterCore.TAXGROUP:
-			action = new ManageSalesTaxGroupsAction();
+			action = ManageSupportListAction.salesTaxGroups();
 			break;
 		case IAccounterCore.TAXITEM:
 			action = new NewVatItemAction();

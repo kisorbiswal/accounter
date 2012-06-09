@@ -5,8 +5,8 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.ui.SalesTaxGroupDialog;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.company.ManageSupportListAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -87,18 +87,17 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 
 			if (radio.equals(TAXGROUP)) {
 				// try {
-				SalesTaxGroupDialog dialog = new SalesTaxGroupDialog(
-						messages.taxGroup(), messages.toAddOrRemoveTaxCode(),
-						null);
-				dialog.setCallback(new ActionCallback<ClientTAXGroup>() {
+				ManageSupportListAction salesTaxGroupAction = ManageSupportListAction
+						.salesTaxGroup();
+				salesTaxGroupAction.run(null, true);
+				salesTaxGroupAction
+						.setCallback(new ActionCallback<ClientTAXGroup>() {
 
-					@Override
-					public void actionResult(ClientTAXGroup result) {
-						setResult(result);
-					}
-				});
-				dialog.show();
-
+							@Override
+							public void actionResult(ClientTAXGroup result) {
+								setResult(result);
+							}
+						});
 			} else if (radio.equals(TAXITEM)) {
 				// try {
 				NewVatItemAction action = new NewVatItemAction();

@@ -8,10 +8,15 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AccounterClassListDialog;
+import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.ItemGroupListDialog;
 import com.vimukti.accounter.web.client.ui.LocationGroupListDialog;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PaymentTermListDialog;
 import com.vimukti.accounter.web.client.ui.PriceLevelListDialog;
+import com.vimukti.accounter.web.client.ui.SalesTaxGroupListView;
+import com.vimukti.accounter.web.client.ui.SalesTaxGroupView;
+import com.vimukti.accounter.web.client.ui.SalesTaxItemsView;
 import com.vimukti.accounter.web.client.ui.ShippingMethodListDialog;
 import com.vimukti.accounter.web.client.ui.ShippingTermListDialog;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -32,6 +37,9 @@ public class ManageSupportListAction extends Action {
 	public static final int TYPE_LOCATIONS = 8;
 	public static final int TYPE_PRICE_LEVELS = 9;
 	public static final int TYPE_CURRENCY_GROUPS = 10;
+	public static final int TYPE_SALES_TAX_GROUPS = 11;
+	public static final int TYPE_SALES_TAX_ITEMS = 12;
+	public static final int TYPE_SALES_TAX_GROUP = 13;
 
 	private int type;
 
@@ -90,6 +98,22 @@ public class ManageSupportListAction extends Action {
 				case TYPE_CURRENCY_GROUPS:
 					dialog = new CurrencyGroupListDialog(messages
 							.manageCurrency(), messages.toAddCurrencyGroup());
+					break;
+				case TYPE_SALES_TAX_GROUPS:
+					SalesTaxGroupListView view = new SalesTaxGroupListView();
+					MainFinanceWindow.getViewManager().showView(view, data,
+							isDependent, ManageSupportListAction.this);
+					break;
+				case TYPE_SALES_TAX_ITEMS:
+					SalesTaxItemsView taxItemsView = new SalesTaxItemsView();
+					MainFinanceWindow.getViewManager().showView(taxItemsView,
+							data, isDependent, ManageSupportListAction.this);
+					break;
+				case TYPE_SALES_TAX_GROUP:
+					SalesTaxGroupView salesTaxGroupView = new SalesTaxGroupView();
+					MainFinanceWindow.getViewManager().showView(
+							salesTaxGroupView, data, isDependent,
+							ManageSupportListAction.this);
 					break;
 				}
 				if (dialog != null) {
@@ -157,6 +181,18 @@ public class ManageSupportListAction extends Action {
 			return "priceLevels";
 		case TYPE_CURRENCY_GROUPS:
 			return "currencyGroupList";
+		case TYPE_SALES_TAX_GROUPS:
+			if (Accounter.getUser().canDoInvoiceTransactions()) {
+				return HistoryTokens.MANAGESALESTAXGROUP;
+			}
+			return HistoryTokens.SALESTAXGROUPsalesTaxGroup;
+		case TYPE_SALES_TAX_ITEMS:
+			if (Accounter.getUser().canDoInvoiceTransactions()) {
+				return HistoryTokens.MANAGESALESTAXITEMS;
+			}
+			return HistoryTokens.SALESTAXITEMS;
+		case TYPE_SALES_TAX_GROUP:
+			return HistoryTokens.SALES_TAX_GROUP;
 		}
 		return null;
 	}
@@ -184,6 +220,12 @@ public class ManageSupportListAction extends Action {
 			return "price_level-list";
 		case TYPE_CURRENCY_GROUPS:
 			return "currency-group";
+		case TYPE_SALES_TAX_GROUPS:
+			return "sales_tax-group";
+		case TYPE_SALES_TAX_ITEMS:
+			return "pay_sales-tax";
+		case TYPE_SALES_TAX_GROUP:
+			return HistoryTokens.SALES_TAX_GROUP;
 		}
 		return null;
 	}
@@ -212,6 +254,22 @@ public class ManageSupportListAction extends Action {
 			return messages.priceLevelList();
 		case TYPE_CURRENCY_GROUPS:
 			messages.currencyList();
+		case TYPE_SALES_TAX_GROUPS:
+			String text;
+			if (Accounter.getUser().canDoInvoiceTransactions())
+				text = messages.manageSalesTaxGroups();
+			else
+				text = messages.salesTaxGroups();
+			return text;
+		case TYPE_SALES_TAX_ITEMS:
+			String constant;
+			if (Accounter.getUser().canDoInvoiceTransactions())
+				constant = messages.manageSalesItems();
+			else
+				constant = messages.salesTaxItems();
+			return constant;
+		case TYPE_SALES_TAX_GROUP:
+			return messages.taxGroup();
 		}
 		return null;
 	}
@@ -254,6 +312,18 @@ public class ManageSupportListAction extends Action {
 
 	public static ManageSupportListAction currencyGroups() {
 		return new ManageSupportListAction(TYPE_CURRENCY_GROUPS);
+	}
+
+	public static ManageSupportListAction salesTaxGroups() {
+		return new ManageSupportListAction(TYPE_SALES_TAX_GROUPS);
+	}
+
+	public static ManageSupportListAction salesTaxItems() {
+		return new ManageSupportListAction(TYPE_SALES_TAX_ITEMS);
+	}
+
+	public static ManageSupportListAction salesTaxGroup() {
+		return new ManageSupportListAction(TYPE_SALES_TAX_GROUP);
 	}
 
 }

@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
-import com.vimukti.accounter.web.client.ui.company.ManageSalesTaxGroupsAction;
+import com.vimukti.accounter.web.client.ui.company.ManageSupportListAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 
 public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
@@ -27,7 +27,8 @@ public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
 
 	@Override
 	public void onAddNew() {
-		ManageSalesTaxGroupsAction action = new ManageSalesTaxGroupsAction();
+		ManageSupportListAction action = ManageSupportListAction
+				.salesTaxItems();
 		action.setCallback(new ActionCallback<ClientTAXGroup>() {
 
 			@Override
