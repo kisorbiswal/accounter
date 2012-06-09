@@ -267,9 +267,8 @@ body {
 
 #forgotPasswordPanel {
 	width: 450px;
-	margin: 25px auto;
+	margin: 150px auto 25px;
 	padding: 10px;
-	background-color: #1D1B1B;
 }
 
 #forgotPasswordPanel .gwt-Button {
@@ -1105,8 +1104,6 @@ button#closeButton {
 
 #SalesPersonListGrid .gridBody {
 	display: -ms-flexbox;
-	-ms-box-lines: multiple;
-	margin-top: 10px;
 }
 
 #SalesPersonListGrid .gridRow {
@@ -1275,7 +1272,7 @@ button#closeButton {
 	display: -ms-flexbox;
 } */
 
-#ChartOfAccountsListGrid .gridBody {
+/* #ChartOfAccountsListGrid .gridBody {
 	display: -ms-flexbox;
 	-ms-box-lines: multiple;
 	width: 1281px;
@@ -1284,7 +1281,7 @@ button#closeButton {
 	height: 100%;
 	margin-left: 6%;
 	margin-top: 10px;
-}
+} */
 
 #ChartOfAccountsListGrid .gridBodyContainer {
 }
@@ -1431,11 +1428,6 @@ button#closeButton {
 
 #journalentryview .datepannel {
 	width: 40%;
-}
-
-#NewFixedAssetView .mainVPanel {
-	width: 50%;
-	margin-left: 20%;
 }
 
 #NewFixedAssetView .selectitem {
@@ -1934,8 +1926,9 @@ select:hover{
 .abstract_base_view .mainVLay,#InvoiceView .mainVLay,#PreferenceSettingsView .preferences_page,
 .customerCenter .rightPanel,#vendorCenterView .rightVpPanel,#CheckPrintingSettingView .allPanel,.companyInfoPanel .CompanyInfoOption,
 #TDSDeductorDetailsView .panel1,#TDSDeductorDetailsView .panel1 .taxDynamicForm,#TDSResponsiblePersonDetailsView .horizontalPanel,
-#EmailView .mainPanel,#paybillview,#paybillview .gridLayout,.groupPanel .generalTab,.groupPanel .generalTab .topHLay,.groupPanel .detailsTab,
-.progress_panel_show .viewPanel .company_Info_table,#TAXAgencyView .mainVlay{
+#EmailView .mainPanel,#paybillview,#paybillview .gridLayout,.groupPanel .generalTab .topHLay,.groupPanel .detailsTab,
+.progress_panel_show .viewPanel .company_Info_table,#TAXAgencyView .mainVlay,#InventoryAssemblyView .topHLay,
+#InventoryAssemblyView .topPanel2,#NewFixedAssetView .mainVPanel{
 	/* height: 100%;
 	column-width: 300px; */
 	
@@ -1951,13 +1944,17 @@ select:hover{
 .company_settings_panel,.mainMenuView .mainMenu,.win8EditTable,#customercreditmemoview .dislosurePanel,
 #customercreditmemoview .customerCreditMemoViewPanel,#customercreditmemoview .mainControlsPanel,
 .disclosurePanelcontent .accountFlowPanel,.disclosurePanelcontent .itemsFlowPanel,.disclosurePanelcontent,
-.subMenu .menu_parent_clicked,.customerCenter .rightPanel,
+.subMenu .menu_parent_clicked,.customerCenter .rightPanel,#NewFixedAssetView .mainVPanel,
 #vendorCenterView .rightVpPanel,#TDSDeductorDetailsView .panel1,#TDSResponsiblePersonDetailsView .horizontalPanel,
 #TDSResponsiblePersonDetailsView .verticalPanel,#EmailView .mainPanel,#paybillview,#paybillview .gridLayout,
-#UsersActivityListView .mainPanel,.groupPanel .generalTab,.groupPanel .detailsTab,#CustomerView .tabPanel,.groupPanel,
-#PreferenceSettingsView .company_settings_panel{
+#UsersActivityListView .mainPanel,.groupPanel .detailsTab,#CustomerView .tabPanel,.groupPanel,
+#PreferenceSettingsView .company_settings_panel,#InventoryAssemblyView .topHLay,#InventoryAssemblyView .topPanel2{
 	height: 100% !important;
 	
+}
+.groupPanel .generalTab{
+	height: 90%;
+	display: -ms-flexbox;
 }
 #InvoiceView .align-form{
 	height:auto !important;
@@ -2329,17 +2326,17 @@ a:hover,.subMenuName:hover{
 	-ms-box-pack:justify;
 }
 #VendorView .tabPanel,#VendorView .generalTab,#VendorView .fields-panel,
-#CustomerView .tabPanel,#CustomerView .generalTab,#CustomerView .fields-panel{
-	display:-ms-box;
+#CustomerView .tabPanel,#CustomerView .generalTab,#CustomerView .fields-panel,.groupPanel .generalTab{
+	display:-ms-flexbox;
 }
 .tabTitle{
 	font-size: 25px;
 }
 .mainMenuView{
-	height: 120% !important;
+	height: 122% !important;
 	margin-top: -40px;
 }
-.detailsTab,#itemView .topHLay ,#itemView .topPanel2{
+.detailsTab,#itemView .topHLay ,#itemView .topPanel2,#TAXAgencyView .topHLay{
 	display: -ms-flexbox;
 }
 .gridBody .rowWidget{
@@ -2426,7 +2423,7 @@ table.gridBody tr{
 	right: 20%;
 }
 #group4{
-	right: 26%;
+	right: 30%;
 }
 #group9{
 	right: 0%;
@@ -2540,7 +2537,7 @@ table.gridBody tr{
 	display: -ms-flexbox;
 }
 .useractivitylog_parent{
-	height: 50%;
+	height: 75%;
 	overflow: auto;
 }
 #SalesTaxGroupListView .bodyLayout .listgrid{
@@ -2601,7 +2598,7 @@ table.gridBody .gridEvenRow{
 	margin-top: 11px;
 	position: relative;
 }
-.customComboItem{
+.customComboItem,#CustomerView .panel{
 	display: -ms-flexbox;
 }
 .gridBodyContainer div:first-child,.gridBody,.gridHeader,.gridBody tbody{
@@ -2611,6 +2608,35 @@ table.gridBody .gridEvenRow{
 	overflow-x: auto !important;
 	overflow-y: hidden !important;
 }
-.RadioGroupItem .gwt-Label{
+.RadioGroupItem .gwt-Label,.ExpensesByCustomerOption .gwt-Label{
 	width: auto !important;
+}
+#ChartOfAccountsView .gridBodyContainer{
+	height: 400px;
+}
+#ChartOfAccountsView .gridBodyContainer div:first-child{
+	height: 100%;
+	overflow:auto;
+}
+#ChartOfAccountsView .gridLayout{
+	margin-bottom: 20px;
+}
+.listgrid .gridBodyContainer div:first-child{
+	height: 60%;
+	overflow: auto;
+}
+.memoForm .formItem{
+	display: block;
+}
+#TAXAgencyView .topHLay{
+	height: 100%;
+}
+#forgotPasswordPanel .gwt-Label{
+	color: white;
+}
+#forgotPasswordPanel .emailTxt{
+	margin: 20px 0px;
+}
+#forgotPasswordPanel .success{
+	margin-left: 200px;
 }
