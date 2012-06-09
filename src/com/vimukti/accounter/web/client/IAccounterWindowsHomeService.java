@@ -17,7 +17,7 @@ public interface IAccounterWindowsHomeService extends RemoteService {
 
 	boolean activate(String activationCode) throws StartupException;
 
-	boolean forgotPassword(String email);
+	boolean forgotPassword(String email) throws StartupException;
 
 	boolean deleteCompany(long companyId, boolean fromAllUsers)
 			throws StartupException;

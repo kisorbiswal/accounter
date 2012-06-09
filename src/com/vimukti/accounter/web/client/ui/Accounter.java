@@ -509,7 +509,11 @@ public class Accounter implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.Location.assign("/main/login");
+				String loginUrl = "/main/login";
+				if (isWin8App()) {
+					loginUrl = "/default.html";
+				}
+				Window.Location.assign(loginUrl);
 			}
 		});
 		vPanel.add(loginBtn);
@@ -795,7 +799,7 @@ public class Accounter implements EntryPoint {
 	public static void setFeatures(Set<String> feature) {
 		features = feature;
 	}
-	
+
 	public static boolean isWin8App() {
 		return windowsService != null;
 	}
