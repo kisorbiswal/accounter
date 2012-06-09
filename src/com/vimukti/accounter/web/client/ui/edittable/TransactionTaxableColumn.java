@@ -23,8 +23,13 @@ public class TransactionTaxableColumn extends
 	}
 
 	@Override
+	protected String getColumnName() {
+		return messages.taxable();
+	}
+
+	@Override
 	public IsWidget getHeader() {
-		return new Label(messages.taxable());
+		return new Label(getColumnName());
 	}
 
 	@Override

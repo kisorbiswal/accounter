@@ -63,7 +63,8 @@ public abstract class EditColumn<R> {
 
 	public void updateHeader() {
 		if (getColumnName().length() > 0) {
-			getHeader();
+			IsWidget header = getHeader();
+			columnHeader = (Label) header;
 			columnHeader.setText(getColumnName());
 		}
 	}

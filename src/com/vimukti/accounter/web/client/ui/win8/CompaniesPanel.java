@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.CompanyDetails;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -24,16 +23,6 @@ import com.vimukti.accounter.web.client.ui.WebsocketAccounterInitialiser;
  * @param <T>
  */
 public class CompaniesPanel extends FlowPanel {
-
-	Button createNewCompanyButton;
-
-	Button deleteComapny;
-
-	Button logOut;
-
-	// Button deleteAccount;
-
-	StyledPanel companiesListStyledPanel;
 
 	List<CompanyDetails> comapniesList = new ArrayList<CompanyDetails>();
 
@@ -54,12 +43,11 @@ public class CompaniesPanel extends FlowPanel {
 	/**
 	 * 
 	 */
-	@SuppressWarnings("deprecation")
 	private void createControls() {
 
 		title = new HTML("<h2>" + Accounter.getMessages().companieslist()
 				+ "</h2>");
-		createNewCompanyButton = new Button(Accounter.getMessages()
+		Button createNewCompanyButton = new Button(Accounter.getMessages()
 				.createNewCompany());
 		createNewCompanyButton.setStyleName("success");
 		createNewCompanyButton.addClickHandler(new ClickHandler() {
@@ -70,26 +58,23 @@ public class CompaniesPanel extends FlowPanel {
 			}
 		});
 
-		companiesListStyledPanel = new StyledPanel("companies-list");
+		StyledPanel companiesListStyledPanel = new StyledPanel("companies-list");
 
 		for (final CompanyDetails com : comapniesList) {
-			StyledPanel imgPanel = new StyledPanel("imgPanel");
-			Image image = new Image("/images/dfsgsdfg.png");
-			imgPanel.add(image);
 			Anchor anchor = new Anchor(com.getCompanyName());
 			anchor.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
 					selected_companyName = com.getCompanyName();
-
 					loadCompany(com.getCompanyId());
 				}
 
 			});
 			StyledPanel anchorPanel = new StyledPanel("companyNameAnchor");
 			anchorPanel.add(anchor);
-			deleteComapny = new Button(Accounter.getMessages().deletecompany());
+			Button deleteComapny = new Button(Accounter.getMessages()
+					.deletecompany());
 			deleteComapny.setStyleName("warning");
 			deleteComapny.addClickHandler(new ClickHandler() {
 
@@ -100,10 +85,9 @@ public class CompaniesPanel extends FlowPanel {
 				}
 			});
 			anchorPanel.add(deleteComapny);
-			companiesListStyledPanel.add(imgPanel);
 			companiesListStyledPanel.add(anchorPanel);
 		}
-		logOut = new Button(Accounter.getMessages().logout());
+		Button logOut = new Button(Accounter.getMessages().logout());
 		logOut.setStyleName("cancel");
 		final AccounterAsyncCallback<Boolean> logoutCallback = new AccounterAsyncCallback<Boolean>() {
 
@@ -129,15 +113,6 @@ public class CompaniesPanel extends FlowPanel {
 			}
 		});
 
-		// deleteAccount = new Button(Accounter.getMessages().deleteAccount());
-		// deleteAccount.setStyleName("warning");
-		// deleteAccount.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		//
-		// }
-		// });
 		StyledPanel mainPanel = new StyledPanel("main-panel");
 		mainPanel.add(title);
 		mainPanel.add(companiesListStyledPanel);
