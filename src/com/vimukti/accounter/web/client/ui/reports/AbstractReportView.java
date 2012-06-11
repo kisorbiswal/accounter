@@ -405,16 +405,6 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			this.grid = new ReportGrid<R>(getColunms(),
 					this.serverReport.isIshowGridFooter()) {
 				@Override
-				protected void onLoad() {
-					if (UIUtils.isMSIEBrowser())
-						grid.setHeight(tableLayout.getOffsetHeight() + "px");
-					else
-						// grid.setHeight(tableLayout.getOffsetHeight() - 20
-						// + "px");
-						super.onLoad();
-				}
-
-				@Override
 				protected ClientCurrency getCurrency() {
 					ClientCurrency currency = AbstractReportView.this
 							.getCurrency();
