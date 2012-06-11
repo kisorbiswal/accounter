@@ -740,19 +740,10 @@ button#closeButton {
 	font-size: 20px;
 }
 
-#CustomerTransactionsHistoryGrid .gridBody {
-	display: -ms-flexbox;
-}
-
 #CustomerTransactionsHistoryGrid .gridRow {
 	margin: 10px;
 	width: 183px;
 	border: 2px solid #00552A;
-}
-
-#InvoiceListGrid .gridBody {
-	display: -ms-flexbox;
-	margin-bottom: 20px;
 }
 
 #InvoiceListGrid .gridBody .emptyPanel,#InvoiceListGrid .gridBody .panel{
@@ -825,10 +816,6 @@ button#closeButton {
 	-ms-flex-pack: justify;
 }
 
-#UsersActivityList .gridBody {
-	display: -ms-flexbox;
-	-ms-box-lines: multiple;
-}
 
 /* .settingsButton {
 	position: absolute;
@@ -1092,10 +1079,6 @@ button#closeButton {
 }
 
 #vendorpaymentview .hLay {
-	display: -ms-flexbox;
-}
-
-#SalesPersonListGrid .gridBody {
 	display: -ms-flexbox;
 }
 
@@ -1536,24 +1519,12 @@ button#closeButton {
 	background-color: #F1F1F1;
 }
 
-#CustomersListGrid .gridBody {
-	display: -ms-flexbox;
-	-ms-box-orient: vertical;
-	width: 246px;
-}
-
-#cashpurchaseview .mainVpanel {
-}
-
 #cashpurchaseview .mainControlsPanel {
 	display: -ms-flexbox;
 }
 
 #cashpurchaseview .discPanel {
 	display: -ms-flexbox;
-}
-
-#signUpPanel h2 {
 }
 
 #signUpPanel .gwt-CheckBox label {
@@ -1608,13 +1579,6 @@ button#closeButton {
 	display: -ms-flexbox;
 	-ms-box-orient: horizontal;
 	-ms-box-pack: justify;
-}
-
-#QuoteListGrid .gridBody {
-	display: -ms-flexbox;
-	-ms-box-lines: multiple;
-	width: 124%;
-	margin-bottom: 20px;
 }
 
 #QuoteListGrid .payeename-value {
@@ -1769,10 +1733,6 @@ button#closeButton {
 	padding-bottom: 20px;
 }
 
-#BudgetCellTable .gridBody {
-	padding-bottom: 50px;
-}
-
 #NewBudgetCellTableView .mainVLay .topHLay {
 	width: 50%;
 }
@@ -1890,6 +1850,11 @@ button#closeButton {
 button:hover{
 	background:none repeat scroll 0 0 gray !important;
 	cursor: pointer;
+}
+button:disabled:hover{
+	background:rgba(202, 202, 202, 0.49) !important;
+	cursor: auto;
+	border: 0 none !important;
 }
 #companiesPanel .app-bar{
 	text-align: right;
@@ -2620,10 +2585,7 @@ table.gridBody .gridEvenRow{
 #ChartOfAccountsView .gridLayout{
 	margin-bottom: 20px;
 }
-.listgrid .gridBodyContainer div:first-child{
-	height: 60%;
-	overflow: auto;
-}
+
 .memoForm .formItem{
 	display: block;
 }
@@ -2671,4 +2633,16 @@ table.gridBody .gridEvenRow{
 }
 .no_records td{
 	text-align: center;
+}
+.listView .gridLayout{
+	height: 75%;
+	margin-bottom: 30px;
+}
+.listView .listgrid{
+	height: 100%;
+}
+.listView .listgrid .gridBodyContainer{
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
