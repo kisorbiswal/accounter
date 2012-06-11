@@ -722,7 +722,8 @@
 				           END
 				       AND T.COMPANY_ID = :companyId
 				       AND T.SAVE_STATUS != 202
-				       AND T.T_DATE BETWEEN :fromDate AND :toDate  
+				       AND T.T_DATE BETWEEN :fromDate AND :toDate
+				 ORDER  BY T.T_DATE DESC, T.NUMBER DESC        
 				]]>
 
 	</sql-query>
