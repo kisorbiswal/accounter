@@ -677,7 +677,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 					double diff = amountToUpdate - amount * currencyFactor;
 
 					e.add(getCompany().getExchangeLossOrGainAccount(), -diff, 1);
-					e.add(getCompany().getAccountsReceivableAccount(), diff, 1);
+					e.add(getCustomer().getAccount(), diff, 1);
 				}
 			}
 

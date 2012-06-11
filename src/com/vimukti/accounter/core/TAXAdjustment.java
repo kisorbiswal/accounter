@@ -286,7 +286,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 		}
 		e.add(liabilityAccount, amount);
 		e.add(getAdjustmentAccount(), -amount);
-		e.add(getTaxItem(), getTotal());
+		e.add(getTaxItem(), amount);
 	}
 
 	@Override

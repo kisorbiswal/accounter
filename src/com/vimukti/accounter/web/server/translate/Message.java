@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.server.translate;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Message implements Serializable {
@@ -15,7 +16,7 @@ public class Message implements Serializable {
 
 	String comment;
 
-	Set<LocalMessage> localMessages;
+	Set<LocalMessage> localMessages = new HashSet<LocalMessage>();
 
 	Set<Key> keys;
 
