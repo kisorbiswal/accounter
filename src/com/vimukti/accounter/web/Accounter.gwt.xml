@@ -27,7 +27,7 @@
 
 	<!-- Specify the app entry point class. -->
 	<entry-point class='com.vimukti.accounter.web.client.ui.Accounter' />
-	<set-property name="user.agent" value="gecko1_8" /> 
+	<set-property name="user.agent" value="safari,ie9" /> 
 	<set-configuration-property name="UiBinder.useSafeHtmlTemplates"
 		value="true" />
 	<set-property name="ClientBundle.enableInlining" value="false" /> 
@@ -51,7 +51,7 @@
 			</any>
 		</none>
 	</set-property>
-	<!-- <set-property name="tablet.user.agent" value="not_tablet" /> -->
+	<set-property name="tablet.user.agent" value="ie10" /> 
 	<generate-with
 		class="com.vimukti.accounter.web.server.i18n.MessagesGenerator">
 		<when-type-assignable class="com.vimukti.accounter.web.client.i18n.Messages" />
@@ -101,12 +101,11 @@
 		<when-property-is name="tablet.user.agent" value="ie10" />
 	</replace-with>
 
-	<replace-with
+	<!-- <replace-with
 		class="com.vimukti.accounter.web.client.ui.grids.StyledFlexTable">
 		<when-type-is class="com.vimukti.accounter.web.client.ui.grids.GwtFlexTable" />
 		<when-property-is name="tablet.user.agent" value="ie10" />
-	</replace-with>
-
+	</replace-with>-->
 	<replace-with class="com.vimukti.accounter.web.client.ui.Windows8Menu">
 		<when-type-is class="com.vimukti.accounter.web.client.ui.WebMenu" />
 		<when-property-is name="tablet.user.agent" value="ie10" />
