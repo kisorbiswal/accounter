@@ -185,8 +185,8 @@ public class MainFinanceWindow extends FlowPanel {
 
 		if (Accounter.isIpadApp()) {
 			ActionFactory.getIpadMenuAction().run(null, false);
-			ActionFactory.getCompanyHomeAction().run(null, false);
 		} else {
+			ActionFactory.getCompanyHomeAction().run(null, false);
 		}
 
 		// // } else {
