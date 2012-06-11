@@ -20,7 +20,7 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 		super();
 		slabTypes.add("Percentage");
 		slabTypes.add("Value");
-		addEmptyRowAtLast();
+		addEmptyRecords();
 	}
 
 	@Override
@@ -224,9 +224,13 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 	}
 
 	@Override
-	public void addEmptyRowAtLast() {
-		ClientComputationSlab item = new ClientComputationSlab();
-		add(item);
+	protected int getDefaultEmptyRowsSize() {
+		return 1;
+	}
+
+	@Override
+	protected ClientComputationSlab getEmptyRow() {
+		return new ClientComputationSlab();
 	}
 
 	@Override

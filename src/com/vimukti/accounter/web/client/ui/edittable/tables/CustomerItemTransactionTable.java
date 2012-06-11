@@ -61,21 +61,11 @@ public abstract class CustomerItemTransactionTable extends
 		addEmptyRecords();
 	}
 
-	/**
-	 * This method will add 4 empty records to the table.
-	 */
 	@Override
-	protected void addEmptyRecords() {
-		for (int i = 0; i < 4; i++) {
-			addEmptyRowAtLast();
-		}
-	}
-
-	@Override
-	public void addEmptyRowAtLast() {
+	protected ClientTransactionItem getEmptyRow() {
 		ClientTransactionItem item = new ClientTransactionItem();
 		item.setType(ClientTransactionItem.TYPE_ITEM);
-		add(item);
+		return item;
 	}
 
 	@Override
@@ -142,7 +132,7 @@ public abstract class CustomerItemTransactionTable extends
 			}
 		});
 
-		this.addColumn(new DescriptionEditColumn(){
+		this.addColumn(new DescriptionEditColumn() {
 			@Override
 			public int getWidth() {
 				return 240;
@@ -204,7 +194,7 @@ public abstract class CustomerItemTransactionTable extends
 
 					@Override
 					public int insertNewLineNumber() {
-						return 1 ;
+						return 1;
 					}
 
 				});

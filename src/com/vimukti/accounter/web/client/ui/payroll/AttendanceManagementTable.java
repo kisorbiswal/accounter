@@ -26,16 +26,9 @@ public class AttendanceManagementTable extends
 		super();
 	}
 
-	public void addEmptyRecords() {
-		for (int i = 0; i < 4; i++) {
-			addEmptyRowAtLast();
-		}
-	}
-
 	@Override
-	public void addEmptyRowAtLast() {
-		ClientAttendanceManagementItem item = new ClientAttendanceManagementItem();
-		add(item);
+	protected ClientAttendanceManagementItem getEmptyRow() {
+		return new ClientAttendanceManagementItem();
 	}
 
 	@Override

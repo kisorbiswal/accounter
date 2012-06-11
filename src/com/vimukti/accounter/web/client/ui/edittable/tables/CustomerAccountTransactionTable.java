@@ -54,21 +54,11 @@ public abstract class CustomerAccountTransactionTable extends
 		addEmptyRecords();
 	}
 
-	/**
-	 * This method will add 4 empty records to the table.
-	 */
 	@Override
-	protected void addEmptyRecords() {
-		for (int i = 0; i < 4; i++) {
-			addEmptyRowAtLast();
-		}
-	}
-
-	@Override
-	public void addEmptyRowAtLast() {
+	protected ClientTransactionItem getEmptyRow() {
 		ClientTransactionItem item = new ClientTransactionItem();
 		item.setType(ClientTransactionItem.TYPE_ACCOUNT);
-		add(item);
+		return item;
 	}
 
 	@Override
@@ -195,7 +185,7 @@ public abstract class CustomerAccountTransactionTable extends
 
 					@Override
 					public String getValueAsString(ClientTransactionItem row) {
-						return messages.className()+ getValue(row);
+						return messages.className() + getValue(row);
 					}
 
 					@Override
@@ -244,7 +234,7 @@ public abstract class CustomerAccountTransactionTable extends
 
 					@Override
 					public String getValueAsString(ClientTransactionItem row) {
-						return "Vat Code"+getValue(row);
+						return "Vat Code" + getValue(row);
 					}
 
 					@Override

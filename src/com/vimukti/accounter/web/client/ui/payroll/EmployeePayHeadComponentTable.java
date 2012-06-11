@@ -22,19 +22,9 @@ public class EmployeePayHeadComponentTable extends
 		super();
 	}
 
-	/**
-	 * This method will add 4 empty records to the table.
-	 */
-	protected void addEmptyRecords() {
-		for (int i = 0; i < 4; i++) {
-			addEmptyRowAtLast();
-		}
-	}
-
 	@Override
-	public void addEmptyRowAtLast() {
-		ClientEmployeePayHeadComponent item = new ClientEmployeePayHeadComponent();
-		add(item);
+	protected ClientEmployeePayHeadComponent getEmptyRow() {
+		return new ClientEmployeePayHeadComponent();
 	}
 
 	@Override

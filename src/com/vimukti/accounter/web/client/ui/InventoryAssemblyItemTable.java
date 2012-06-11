@@ -175,11 +175,9 @@ public abstract class InventoryAssemblyItemTable extends
 	}
 
 	@Override
-	public void addEmptyRowAtLast() {
-		this.add(new ClientInventoryAssemblyItem());
+	protected ClientInventoryAssemblyItem getEmptyRow() {
+		return new ClientInventoryAssemblyItem();
 	}
-
-	protected abstract void addEmptyRecords();
 
 	public void updateTotals() {
 
@@ -259,8 +257,14 @@ public abstract class InventoryAssemblyItemTable extends
 			setAllRows(transactionItems);
 			updateTotals();
 		} else {
+			clear();
 			addEmptyRecords();
 		}
+	}
+
+	public void resetRecords() {
+		clear();
+		addEmptyRecords();
 	}
 
 	public List<ClientInventoryAssemblyItem> getRecords() {
@@ -294,11 +298,6 @@ public abstract class InventoryAssemblyItemTable extends
 			result.addError(this, messages.invalidTransactionAmount());
 		}
 		return result;
-	}
-
-	public void resetRecords() {
-		clear();
-		addEmptyRecords();
 	}
 
 	public void updateAmountsFromGUI() {

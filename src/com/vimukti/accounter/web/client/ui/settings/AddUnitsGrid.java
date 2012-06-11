@@ -9,11 +9,9 @@ public abstract class AddUnitsGrid extends EditTable<ClientUnit> {
 	public AddUnitsGrid() {
 	}
 
-	protected void addEmptyRecords() {
-		for (int i = 0; i < 4; i++) {
-			ClientUnit item = new ClientUnit();
-			add(item);
-		}
+	@Override
+	protected ClientUnit getEmptyRow() {
+		return new ClientUnit();
 	}
 
 	@Override
@@ -38,7 +36,7 @@ public abstract class AddUnitsGrid extends EditTable<ClientUnit> {
 
 			@Override
 			public String getValueAsString(ClientUnit row) {
-				return messages.unitName()+" : "+getValue(row);
+				return messages.unitName() + " : " + getValue(row);
 			}
 
 			@Override
@@ -66,7 +64,7 @@ public abstract class AddUnitsGrid extends EditTable<ClientUnit> {
 
 			@Override
 			public String getValueAsString(ClientUnit row) {
-				return messages.getFactorName()+"  : "+getValue(row);
+				return messages.getFactorName() + "  : " + getValue(row);
 			}
 
 			@Override

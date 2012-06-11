@@ -217,7 +217,7 @@ public abstract class TransactionDepositTable extends
 					@Override
 					public String getValueAsString(
 							ClientTransactionDepositItem row) {
-						 return "Class: " + getValue(row).toString();
+						return "Class: " + getValue(row).toString();
 					}
 
 					@Override
@@ -323,9 +323,9 @@ public abstract class TransactionDepositTable extends
 
 				@Override
 				public String getValueAsString(ClientTransactionDepositItem row) {
-					if(row.isBillable()){
+					if (row.isBillable()) {
 						return "Is Billable";
-					}else{
+					} else {
 						return "Not Billable";
 					}
 				}
@@ -352,16 +352,9 @@ public abstract class TransactionDepositTable extends
 
 	protected abstract boolean isInViewMode();
 
-	protected void addEmptyRecords() {
-		for (int i = 0; i < 4; i++) {
-			addEmptyRowAtLast();
-		}
-	}
-
 	@Override
-	public void addEmptyRowAtLast() {
-		ClientTransactionDepositItem item = new ClientTransactionDepositItem();
-		add(item);
+	protected ClientTransactionDepositItem getEmptyRow() {
+		return new ClientTransactionDepositItem();
 	}
 
 	@Override

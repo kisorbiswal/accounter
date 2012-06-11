@@ -92,11 +92,6 @@ public class BuildAssemblyView extends
 			}
 
 			@Override
-			protected void addEmptyRecords() {
-
-			}
-
-			@Override
 			protected long getAssembly() {
 				if (getData() == null) {
 					return 0;

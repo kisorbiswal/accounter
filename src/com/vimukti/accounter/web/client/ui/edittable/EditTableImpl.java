@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class EditTableImpl<R> {
 
@@ -27,12 +28,12 @@ public class EditTableImpl<R> {
 	private CellFormatter cellFormatter;
 	private RowFormatter rowFormatter;
 	private FlexCellFormatter flexCellFormatter;
-	protected EditTable wrapper;
+	protected EditTable<R> wrapper;
 
 	public EditTableImpl() {
 	}
 
-	public void init(EditTable wrapper, int numOfRowsPerObject) {
+	public void init(EditTable<R> wrapper, int numOfRowsPerObject) {
 		this.wrapper = wrapper;
 		this.numOfRowsPerObject = numOfRowsPerObject;
 		this.wrapper.addStyleName("editTable");
@@ -187,6 +188,17 @@ public class EditTableImpl<R> {
 			}
 		}
 		rows.clear();
+	}
+
+	protected void addEmptyRecords() {
+		int size = wrapper.getDefaultEmptyRowsSize();
+		for (int i = 0; i < size; i++) {
+			R r = wrapper.getEmptyRow();
+			if (r == null) {
+				break;
+			}
+			add(r);
+		}
 	}
 
 	public void setAllRows(List<R> rows) {

@@ -269,22 +269,22 @@ public class IPadEditTableImpl<R> extends EditTableImpl<R> {
 
 	}
 
-//	@Override
-//	protected void onAttach() {
-//		createColumns();
-//		if (rows == null || rows.isEmpty()) {
-//			addEmptyMessage(messages.noRecordsToShow());
-//		}
-//		super.onAttach();
-//	}
-//
-//	@Override
-//	protected void createColumns() {
-//		if (!columnsCreated) {
-//			initColumns();
-//		}
-//		columnsCreated = true;
-//	}
+	// @Override
+	// protected void onAttach() {
+	// createColumns();
+	// if (rows == null || rows.isEmpty()) {
+	// addEmptyMessage(messages.noRecordsToShow());
+	// }
+	// super.onAttach();
+	// }
+	//
+	// @Override
+	// protected void createColumns() {
+	// if (!columnsCreated) {
+	// initColumns();
+	// }
+	// columnsCreated = true;
+	// }
 
 	private void updateHeaderState(boolean isDisable) {
 		for (int x = 0; x < columns.size(); x++) {

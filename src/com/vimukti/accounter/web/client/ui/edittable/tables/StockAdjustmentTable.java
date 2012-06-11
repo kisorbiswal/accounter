@@ -402,20 +402,11 @@ public abstract class StockAdjustmentTable extends
 		return selectedRecords;
 	}
 
-	/**
-	 * This method will add 4 empty records to the table.
-	 */
-	protected void addEmptyRecords() {
-		for (int i = 0; i < 4; i++) {
-			addEmptyRowAtLast();
-		}
-	}
-
 	@Override
-	public void addEmptyRowAtLast() {
+	protected ClientTransactionItem getEmptyRow() {
 		ClientTransactionItem item = new ClientTransactionItem();
 		item.setType(ClientTransactionItem.TYPE_ITEM);
-		add(item);
+		return item;
 	}
 
 	private ClientItem getItem(long itemId) {

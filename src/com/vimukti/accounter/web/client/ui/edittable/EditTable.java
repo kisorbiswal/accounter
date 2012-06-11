@@ -8,9 +8,9 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class EditTable<R> extends FlowPanel {
-
 	protected AccounterMessages messages = Global.get().messages();
 	EditTableImpl<R> impl;
 
@@ -81,6 +81,7 @@ public abstract class EditTable<R> extends FlowPanel {
 	 */
 	public void clear() {
 		impl.clear();
+
 	}
 
 	public void setAllRows(List<R> rows) {
@@ -140,10 +141,6 @@ public abstract class EditTable<R> extends FlowPanel {
 		return impl.getWidget(row, column);
 	}
 
-	public void addEmptyRowAtLast() {
-
-	}
-
 	@Override
 	protected void onAttach() {
 		createColumns();
@@ -162,6 +159,26 @@ public abstract class EditTable<R> extends FlowPanel {
 
 	public IsWidget getWidget(int rowIndex, int colIndex) {
 		return impl.getWidget(rowIndex, colIndex);
+	}
+
+	protected int getDefaultEmptyRowsSize() {
+		return Accounter.isWin8App() ? 1 : 4;
+	}
+
+	protected R getEmptyRow() {
+		return null;
+	}
+
+	protected void addEmptyRecords() {
+		impl.addEmptyRecords();
+	}
+
+	public void addEmptyRowAtLast() {
+		R row = getEmptyRow();
+		if (row != null) {
+			impl.add(row);
+		}
+
 	}
 
 }
