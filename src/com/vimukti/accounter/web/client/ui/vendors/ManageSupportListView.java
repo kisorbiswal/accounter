@@ -309,6 +309,8 @@ public class ManageSupportListView extends BaseListView<IAccounterCore> {
 				if (((coreType != IAccounterCore.SHIPPING_TERMS && coreType != IAccounterCore.SHIPPING_METHOD) && col == 1)
 						|| ((coreType == IAccounterCore.SHIPPING_TERMS || coreType == IAccounterCore.SHIPPING_METHOD) && col == 2)) {
 					showWarnDialog(obj);
+				} else {
+					onDoubleClick(obj);
 				}
 				super.onClick(obj, row, col);
 			}

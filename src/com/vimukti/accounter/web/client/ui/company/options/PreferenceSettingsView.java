@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -120,7 +121,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		subTabsPanels.get(j).add(createPageView(page));
 		pageDetailsPanel.add(page);
 		page.addStyleName("preferences_page");
-		page.getElement().getParentElement().addClassName("preferences_page_parent");
+		page.getElement().getParentElement()
+				.addClassName("preferences_page_parent");
 
 	}
 
@@ -280,11 +282,29 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 					}
 					optionLink.addStyleName("optionClicked");
 					pageDetailsPanel.ensureVisible(option);
+					if (Accounter.isWin8App()) {
+						scrollLeft(pageDetailsPanel.getElement(),
+								option.getElement());
+					}
 				}
 			});
 		}
 		return pageView;
 	}
+
+	private native void scrollLeft(Element scroll, Element e) /*-{
+		if (!e)
+			return;
+
+		var item = e;
+		var realOffset = 0;
+		while (item && (item != scroll)) {
+			realOffset += item.offsetLeft;
+			item = item.offsetParent;
+		}
+
+		scroll.scrollLeft = realOffset - scroll.offsetWidth / 2;
+	}-*/;
 
 	@Override
 	public void initData() {
