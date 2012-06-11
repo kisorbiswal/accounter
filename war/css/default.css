@@ -1923,6 +1923,9 @@ select:hover{
     overflow-y: hidden;
     width:100%;
 }
+.abstract_base_view .mainVLay{
+	width: 90% !important;
+}
 .abstract_base_view{
 	overflow-x: auto;
 	height:101%;
@@ -2096,8 +2099,12 @@ button#searchButton:hover{
 	bottom:5px;
 	font-weight:bold;
 	left:70px;
+	height: 80px;
+	display:-ms-flexbox;
+	-ms-flex-direction: column;
+	-ms-flex-wrap: wrap;
 }
-.boldtext .gwt-Label,.textbold .gwt-Label{
+.boldtext .gwt-Label,.textbold .gwt-Label,.unused-payments .gwt-Label{
 	padding: 0px !important;
 }
 .gwt-PopupPanel,.dropdownTable,#ItemsDropDownTable{
@@ -2649,7 +2656,7 @@ table.gridBody .gridEvenRow{
 }
 .report-toolbar .form,.report-toolbar,#InventoryCentreView .mainPanel,#NewPayHeadView .panel,
 #DepositView .accountFlowPanel,#TDSChalanDetailsView .verticalPanel .horizontalPanel1,
-.dateItem_datePanel{
+.dateItem_datePanel,#InvoiceView .topHLay{
 	display: -ms-flexbox;
 }
 .report-toolbar input[type=text]{
@@ -2666,7 +2673,7 @@ table.gridBody .gridEvenRow{
 	margin-bottom: 15px;
 }
 .addNewButton{
-	margin: 10px 0 0 10px;
+	margin: 10px 20px 0 10px;
 }
 #SellingRegisteredItemView .label-title,#JournalViewDialog .label-title{
 	position: relative;
@@ -2703,4 +2710,41 @@ table.gridBody .gridEvenRow{
 }
 .gwt-PopupPanel .blue-month-line tr:hover td{
 	cursor: pointer;
+}
+.search_result_table{
+	width: 100%;
+}
+.view-gwt-dialog{
+	width: 95%;
+	height: 88%;
+	top: 12% !important;
+	left: 5% !important;
+	background: white !important;
+}
+.view-gwt-dialog .dialogTop .caption{
+	background: white !important;
+	color: black !important;
+}
+.view-gwt-dialog .dialogTop .caption .imageStyledPanel{
+	display: none;
+}
+.view-gwt-dialog table{
+	width: 100%;
+}
+.view-gwt-dialog div{
+	width: 98%;
+}
+.view-gwt-dialog .dialogMiddleLeft, .view-gwt-dialog .dialogMiddleRight,.view-gwt-dialog  .dialogBottomLeft,
+.view-gwt-dialog .dialogBottomRight,.view-gwt-dialog .dialogTopLeft,.view-gwt-dialog .dialogTopRight,
+.view-gwt-dialog .dialogBottomCenter{
+	background: white !important;
+}
+.pager-alignment{
+	width: auto !important;
+}
+.abstract_base_view .mainVLay,#paybillview,.abstract_base_view .bodyLayout{
+	padding-left: 60px;
+}
+#inviteUser .gwt-RadioButton{
+	display: block;
 }
