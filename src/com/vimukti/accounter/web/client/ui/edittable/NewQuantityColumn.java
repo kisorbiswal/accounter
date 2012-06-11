@@ -50,7 +50,7 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 				StringBuffer data = new StringBuffer();
 				data.append(String.valueOf(row.getQuantity().getValue()));
 
-				if (getPreferences().isUnitsEnabled()) {
+				if (isUnitsEnabled()) {
 					ClientUnit unit = Accounter.getCompany().getUnitById(
 							row.getQuantity().getUnit());
 					data.append(" ");
@@ -88,7 +88,7 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		final ClientTransactionItem row = context.getRow();
 		// Checking the units and wareHouses is enabled or not.
 		if (widget instanceof TextBox && isMultipleWarehouseEnabled()
-				|| getPreferences().isUnitsEnabled()) {
+				|| isUnitsEnabled()) {
 			((TextBox) widget).addFocusHandler(new FocusHandler() {
 				@Override
 				public void onFocus(FocusEvent event) {
@@ -163,7 +163,7 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 
 		table.setWidget(0, 0, valueLabel);
 		table.setWidget(1, 0, valueBox);
-		if (getPreferences().isUnitsEnabled()) {
+		if (isUnitsEnabled()) {
 			table.setWidget(0, 1, unitLabel);
 			table.setWidget(1, 1, unitBox.getMainWidget());
 			table.getCellFormatter().addStyleName(1, 1, "quantity_unit_width");
@@ -215,6 +215,10 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		popup.setAutoHideEnabled(true);
 		popup.addStyleName("quantityPopup");
 		popup.showRelativeTo(widget);
+	}
+
+	protected boolean isUnitsEnabled() {
+		return getPreferences().isUnitsEnabled();
 	}
 
 	protected void setQuantity(ClientTransactionItem row,
@@ -287,7 +291,7 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 
 	@Override
 	public String getValueAsString(ClientTransactionItem row) {
-		return "Qty"+" : "+getValue(row);
+		return "Qty" + " : " + getValue(row);
 	}
 
 	@Override

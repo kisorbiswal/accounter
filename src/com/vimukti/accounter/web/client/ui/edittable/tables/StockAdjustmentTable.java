@@ -201,6 +201,11 @@ public abstract class StockAdjustmentTable extends
 				}
 
 				@Override
+				protected boolean isUnitsEnabled() {
+					return false;
+				}
+
+				@Override
 				protected String getValue(ClientTransactionItem row) {
 					ClientItem item = getItem(row.getItem());
 					if (item == null || row.getQuantity() == null) {
