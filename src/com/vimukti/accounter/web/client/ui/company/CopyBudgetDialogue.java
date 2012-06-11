@@ -59,7 +59,7 @@ public class CopyBudgetDialogue extends BaseDialog {
 
 		DynamicForm budgetInfoForm = UIUtils.form(messages
 				.chartOfAccountsInformation());
-//		budgetInfoForm.setWidth("100%");
+		// budgetInfoForm.setWidth("100%");
 
 		budgetInfoForm.add(selectBudget);
 
@@ -90,5 +90,11 @@ public class CopyBudgetDialogue extends BaseDialog {
 	public void setFocus() {
 		selectBudget.setFocus();
 
+	}
+
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

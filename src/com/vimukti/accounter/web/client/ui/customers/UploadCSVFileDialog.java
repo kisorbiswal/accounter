@@ -257,4 +257,10 @@ public class UploadCSVFileDialog extends BaseDialog {
 		onCancel();
 		this.removeFromParent();
 	}
+
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

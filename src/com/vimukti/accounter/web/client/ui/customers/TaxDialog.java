@@ -123,4 +123,10 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 		return true;
 	}
 
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

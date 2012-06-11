@@ -234,6 +234,12 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	// protected String getViewTitle() {
 	// return FinanceApplication.constants().purchaseOrderList();
 	// }

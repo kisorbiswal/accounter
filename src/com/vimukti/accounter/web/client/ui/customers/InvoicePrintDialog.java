@@ -18,7 +18,7 @@ public class InvoicePrintDialog extends BaseDialog {
 
 		Label label = new Label(description);
 
-//		label.setWidth("100%");
+		// label.setWidth("100%");
 		label.addStyleName("invoice_print_dialog");
 
 		StyledPanel comboPanel = new StyledPanel("comboPanel");
@@ -42,6 +42,12 @@ public class InvoicePrintDialog extends BaseDialog {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -82,4 +82,10 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		return true;
 	}
 
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

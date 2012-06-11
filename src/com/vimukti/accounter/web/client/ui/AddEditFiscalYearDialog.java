@@ -68,4 +68,9 @@ public class AddEditFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 
 	}
 
+	@Override
+	protected boolean isViewDialog() {
+		return false;
+	}
+
 }

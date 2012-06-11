@@ -115,4 +115,10 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 		return result;
 	}
 
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

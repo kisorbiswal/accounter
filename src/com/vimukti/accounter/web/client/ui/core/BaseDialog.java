@@ -79,13 +79,17 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 	public BaseDialog() {
 		super(true);
 		this.getElement().setId("BaseDialog");
+		if (isViewDialog()) {
+			addStyleName("view-gwt-dialog");
+			setModal(false);
+		} else {
+			setModal(true);
+		}
 	}
 
 	public BaseDialog(String text) {
-		super(true);
-		this.getElement().setId("BaseDialog");
+		this();
 		setText(text);
-		setModal(true);
 		initRPCService();
 		createControls();
 		okbtn.setFocus(true);
@@ -94,11 +98,9 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 	}
 
 	public BaseDialog(String text, String desc) {
-		super(true);
-		this.getElement().setId("BaseDialog");
+		this();
 		// setText(getViewTitle());
 		setText(text);
-		setModal(true);
 		this.description = desc;
 		initRPCService();
 		createControls();
@@ -464,5 +466,9 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 				+ DayAndMonthUtil.mar());
 		list.add(messages.custom());
 		return list;
+	}
+
+	protected boolean isViewDialog() {
+		return true;
 	}
 }

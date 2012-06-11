@@ -80,4 +80,10 @@ public class SelectChallanTypeDialog extends BaseDialog<ClientTDSChalanDetail> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

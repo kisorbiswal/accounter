@@ -75,4 +75,9 @@ public class AddItemTaxDialog extends BaseDialog<ClientTAXItem> {
 
 	}
 
+	@Override
+	protected boolean isViewDialog() {
+		return false;
+	}
+
 }

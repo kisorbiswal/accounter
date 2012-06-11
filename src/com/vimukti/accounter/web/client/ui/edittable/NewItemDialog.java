@@ -8,7 +8,7 @@ public class NewItemDialog extends BaseDialog<ClientItem> {
 	public NewItemDialog(String title, String desc) {
 		super(title, desc);
 		this.getElement().setId("NewItemDialog");
-//		setWidth("300px");
+		// setWidth("300px");
 		show();
 	}
 
@@ -26,5 +26,11 @@ public class NewItemDialog extends BaseDialog<ClientItem> {
 	@Override
 	protected boolean onCancel() {
 		return true;
+	}
+
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

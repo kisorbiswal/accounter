@@ -70,4 +70,10 @@ public class AutomaticSequenceDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

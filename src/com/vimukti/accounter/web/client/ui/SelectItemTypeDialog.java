@@ -154,4 +154,10 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 	public void setItemname(String itemname) {
 		this.itemname = itemname;
 	}
+
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

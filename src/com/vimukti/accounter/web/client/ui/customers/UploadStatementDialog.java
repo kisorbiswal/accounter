@@ -346,4 +346,10 @@ public class UploadStatementDialog extends BaseDialog implements
 			statementsList = result;
 		}
 	}
+
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

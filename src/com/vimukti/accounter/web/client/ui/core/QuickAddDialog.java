@@ -115,4 +115,10 @@ public class QuickAddDialog extends BaseDialog<IAccounterCore> {
 		return true;
 	}
 
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

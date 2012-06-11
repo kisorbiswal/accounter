@@ -120,4 +120,10 @@ public class NewCurrencyListDialog extends BaseDialog<ClientCurrency> {
 	protected boolean onCancel() {
 		return true;
 	}
+
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

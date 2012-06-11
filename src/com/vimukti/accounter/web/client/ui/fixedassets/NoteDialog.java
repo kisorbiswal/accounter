@@ -79,4 +79,10 @@ public class NoteDialog extends BaseDialog {
 	public void setAsset(ClientFixedAsset asset) {
 		this.asset = asset;
 	}
+
+	@Override
+	protected boolean isViewDialog() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
