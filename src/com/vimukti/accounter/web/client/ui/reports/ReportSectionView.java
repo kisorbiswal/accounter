@@ -387,58 +387,84 @@ public class ReportSectionView extends BaseHomeView {
 			}
 		}
 
-		leftPanel.add(companyAndFinancialHeader);
-		leftPanel.add(companyAndFinancialPanel);
-		leftPanel.add(customersAndRecievableHeader);
-		leftPanel.add(customersAndRecievablePanel);
+		StyledPanel companyAndFinancial = new StyledPanel("reportPanel");
+		companyAndFinancial.add(companyAndFinancialHeader);
+		companyAndFinancial.add(companyAndFinancialPanel);
+		leftPanel.add(companyAndFinancial);
+
+		StyledPanel customersAndRecievable = new StyledPanel("reportPanel");
+		customersAndRecievable.add(customersAndRecievableHeader);
+		customersAndRecievable.add(customersAndRecievablePanel);
+		leftPanel.add(customersAndRecievable);
 
 		if (Global.get().preferences().isInventoryEnabled()
 				&& hasExtraReportsPerm) {
-			leftPanel.add(inventoryHeader);
-			leftPanel.add(inventoryPanel);
+			StyledPanel inventory = new StyledPanel("reportPanel");
+			inventory.add(inventoryHeader);
+			inventory.add(inventoryPanel);
+			leftPanel.add(inventory);
 		}
 
 		if (hasExtraReportsPerm) {
-			leftPanel.add(bankingHeader);
-			leftPanel.add(bankingPanel);
+			StyledPanel banking = new StyledPanel("reportPanel");
+			banking.add(bankingHeader);
+			banking.add(bankingPanel);
+			leftPanel.add(banking);
 		}
 
 		if (Global.get().preferences().isJobTrackingEnabled()) {
-			leftPanel.add(jobHeader);
-			leftPanel.add(jobPanel);
+			StyledPanel job = new StyledPanel("reportPanel");
+			job.add(jobHeader);
+			job.add(jobPanel);
+			leftPanel.add(job);
 		}
 
 		if (hasExtraReportsPerm && hasPermission(Features.BUDGET)) {
-			rightPanel.add(budgetHeader);
-			rightPanel.add(budgetPanel);
+			StyledPanel budget = new StyledPanel("reportPanel");
+			budget.add(budgetHeader);
+			budget.add(budgetPanel);
+			rightPanel.add(budget);
 		}
 
 		if (Global.get().preferences().isTrackTax()) {
-			rightPanel.add(mainTaxHeader);
-			rightPanel.add(mainTaxPanel);
+			StyledPanel mainTax = new StyledPanel("reportPanel");
+			mainTax.add(mainTaxHeader);
+			mainTax.add(mainTaxPanel);
+			rightPanel.add(mainTax);
 		}
 
 		if (hasExtraReportsPerm) {
-			rightPanel.add(salesHeader);
-			rightPanel.add(salesPanel);
+			StyledPanel sales = new StyledPanel("reportPanel");
+			sales.add(salesHeader);
+			sales.add(salesPanel);
+			rightPanel.add(sales);
 		}
-		rightPanel.add(vendorAndPayableHeader);
-		rightPanel.add(vendorAndPayablePanel);
+
+		StyledPanel vendorAndPayable = new StyledPanel("reportPanel");
+		vendorAndPayable.add(vendorAndPayableHeader);
+		vendorAndPayable.add(vendorAndPayablePanel);
+		rightPanel.add(vendorAndPayable);
 
 		if (hasExtraReportsPerm) {
-			rightPanel.add(purchaseHeader);
-			rightPanel.add(purchasePanel);
+			StyledPanel purchase = new StyledPanel("reportPanel");
+			purchase.add(purchaseHeader);
+			purchase.add(purchasePanel);
+			rightPanel.add(purchase);
 		}
 
 		if (hasExtraReportsPerm && hasPermission(Features.FIXED_ASSET)) {
-			rightPanel.add(fixedAssetHeader);
-			rightPanel.add(fixedAssetPanel);
+			StyledPanel fixedAsset = new StyledPanel("reportPanel");
+			fixedAsset.add(fixedAssetHeader);
+			fixedAsset.add(fixedAssetPanel);
+			rightPanel.add(fixedAsset);
 		}
 
 		if (hasExtraReportsPerm && hasPermission(Features.PAY_ROLL)) {
+			StyledPanel payroll = new StyledPanel("reportPanel");
 			Label payrollHeader = new Label(messages.payroll());
-			rightPanel.add(payrollHeader);
-			rightPanel.add(payRollPanel);
+			payroll.add(payrollHeader);
+			payroll.add(payRollPanel);
+			rightPanel.add(payroll);
 		}
 
 		mainPanel.add(leftPanel);
