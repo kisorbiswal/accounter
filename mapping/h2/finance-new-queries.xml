@@ -434,9 +434,9 @@
 	</sql-query>
 	
 	
-	<query name="getLicensesOf">
+	<query name="getLicense">
 		<query-param name="emailId" type="String" />
-		from com.vimukti.accounter.core.License ls  where ls.client.emailId=:emailId
+		from com.vimukti.accounter.core.License ls  where ls.isActive=true
 	</query>
 	
 	<query name="getLicenseByServerID">

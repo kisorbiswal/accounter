@@ -48,8 +48,7 @@ public class ManageLicenseServlet extends BaseServlet {
 		}
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getLicensesOf").setParameter(
-				"emailId", emailId);
+		Query query = session.getNamedQuery("getLicense");
 		List<License> licenses = (List<License>) query.list();
 
 		req.setAttribute("licenses", licenses);

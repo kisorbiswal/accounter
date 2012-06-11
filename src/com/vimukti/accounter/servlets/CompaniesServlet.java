@@ -162,8 +162,7 @@ public class CompaniesServlet extends BaseServlet {
 		HttpSession httpSession = req.getSession();
 		String emailID = (String) httpSession.getAttribute(EMAIL_ID);
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getLicensesOf").setParameter(
-				"emailId", emailID);
+		Query query = session.getNamedQuery("getLicense");
 		List<License> list = query.list();
 		if (list.isEmpty()) {
 			dispatch(req, resp, licenseExpired);

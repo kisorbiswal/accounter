@@ -89,8 +89,7 @@ public class LicenseInfoServlet extends BaseServlet {
 
 		Transaction transaction = session.beginTransaction();
 		try {
-			Query query = session.getNamedQuery("getLicensesOf").setParameter(
-					"emailId", email);
+			Query query = session.getNamedQuery("getLicense");
 			List<License> licenses = query.list();
 			for (License l : licenses) {
 				l.setActive(false);
