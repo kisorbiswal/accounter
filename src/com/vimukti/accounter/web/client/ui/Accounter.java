@@ -66,6 +66,7 @@ public class Accounter implements EntryPoint {
 	private static boolean isShutdown = false;
 	private static MainFinanceWindow mainWindow;
 	protected ValueCallBack<Accounter> callback;
+	private static AccounterInitialiser create;
 	private static AccounterRPCInitialiser rpcInitialiser;
 	private static Set<String> features;
 	private static ClientFinanceDate endDate;
@@ -257,10 +258,11 @@ public class Accounter implements EntryPoint {
 		} else {
 			menuFactory = new DesktopMenuFactory();
 		}
-		AccounterMenuBar menubar = new AccounterMenuBar(menuFactory);
-		mainWindow.remove(1);
-		mainWindow.insert(menubar, 1);
-
+		if (!isWin8App()) {
+			AccounterMenuBar menubar = new AccounterMenuBar(menuFactory);
+			mainWindow.remove(1);
+			mainWindow.insert(menubar, 1);
+		}
 		reloadMacMenu();
 	}
 
@@ -405,8 +407,7 @@ public class Accounter implements EntryPoint {
 		eventBus = new SimpleEventBus();
 		placeController = new PlaceController(eventBus);
 		rpcInitialiser = GWT.create(AccounterRPCInitialiser.class);
-
-		AccounterInitialiser create = GWT.create(AccounterInitialiser.class);
+		create = GWT.create(AccounterInitialiser.class);
 		create.initalize();
 		isIpadApp = create.isIpad();
 	}
@@ -802,5 +803,9 @@ public class Accounter implements EntryPoint {
 
 	public static boolean isWin8App() {
 		return windowsService != null;
+	}
+
+	public static WebsocketAccounterInitialiser getAccounterInitializer() {
+		return (WebsocketAccounterInitialiser) create;
 	}
 }

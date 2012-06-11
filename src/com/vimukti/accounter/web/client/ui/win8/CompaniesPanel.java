@@ -5,11 +5,13 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.CompanyDetails;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -33,6 +35,32 @@ public class CompaniesPanel extends FlowPanel {
 	HTML title;
 
 	public CompaniesPanel(List<CompanyDetails> companiesList,
+			WebsocketAccounterInitialiser accounterInitialiser) {
+		init(companiesList, accounterInitialiser);
+	}
+
+	public CompaniesPanel(
+			final WebsocketAccounterInitialiser accounterInitialiser) {
+		Accounter.createWindowsRPCService().getCompanies(
+				new AsyncCallback<ArrayList<CompanyDetails>>() {
+
+					@Override
+					public void onSuccess(ArrayList<CompanyDetails> result) {
+						init(result, accounterInitialiser);
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						unableToShowTheView();
+					}
+				});
+	}
+
+	protected void unableToShowTheView() {
+		Accounter.showError(Global.get().messages().unableToshowtheview());
+	}
+
+	protected void init(List<CompanyDetails> companiesList,
 			WebsocketAccounterInitialiser accounterInitialiser) {
 		getElement().setId("companiesPanel");
 		this.comapniesList = companiesList;

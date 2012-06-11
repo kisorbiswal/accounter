@@ -1748,6 +1748,10 @@ public class Windows8MenuView extends BaseView {
 		companynamelabel.setStyleName("menuName");
 		companyMenuBar.add(companynamelabel);
 
+		W8MenuItem companies = new W8MenuItem(messages.companies(), "",
+				HistoryTokens.COMPANIES);
+		companyMenuBar.add(companies);
+
 		W8MenuItem dashBoard = new W8MenuItem(messages.dashBoard(), "",
 				HistoryTokens.DASHBOARD);
 		companyMenuBar.add(dashBoard);
@@ -1756,8 +1760,8 @@ public class Windows8MenuView extends BaseView {
 			W8MenuItem journalEntry = new W8MenuItem(messages.journalEntry(),
 					"", HistoryTokens.NEWJOURNALENTRY);
 			companyMenuBar.add(journalEntry);
-
 		}
+
 		W8MenuItem transactionscenter = new W8MenuItem(
 				messages.transactionscenter(), messages2.transCenterDesc(),
 				HistoryTokens.TRANSACTIONS_CENTER);

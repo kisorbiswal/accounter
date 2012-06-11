@@ -13,10 +13,12 @@ import com.vimukti.accounter.web.client.ui.PaymentTermListDialog;
 import com.vimukti.accounter.web.client.ui.SalesTaxGroupListView;
 import com.vimukti.accounter.web.client.ui.SalesTaxGroupView;
 import com.vimukti.accounter.web.client.ui.SalesTaxItemsView;
+import com.vimukti.accounter.web.client.ui.WebsocketAccounterInitialiser;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.customers.CurrencyGroupListView;
 import com.vimukti.accounter.web.client.ui.vendors.ManageSupportListView;
+import com.vimukti.accounter.web.client.ui.win8.CompaniesPanel;
 
 public class ManageSupportListAction extends Action {
 
@@ -33,6 +35,7 @@ public class ManageSupportListAction extends Action {
 	public static final int TYPE_SALES_TAX_GROUPS = 11;
 	public static final int TYPE_SALES_TAX_ITEMS = 12;
 	public static final int TYPE_SALES_TAX_GROUP = 13;
+	public static final int TYPE_COMPANIES = 14;
 
 	private int type;
 
@@ -100,6 +103,13 @@ public class ManageSupportListAction extends Action {
 					MainFinanceWindow.getViewManager().showView(
 							salesTaxGroupView, data, isDependent,
 							ManageSupportListAction.this);
+					break;
+				case TYPE_COMPANIES:
+					WebsocketAccounterInitialiser accounterInitializer = Accounter
+							.getAccounterInitializer();
+					CompaniesPanel companiesPanel = new CompaniesPanel(
+							Accounter.getAccounterInitializer());
+					accounterInitializer.showView(companiesPanel);
 					break;
 				}
 				if (dialog != null) {
@@ -180,6 +190,8 @@ public class ManageSupportListAction extends Action {
 			return HistoryTokens.SALESTAXITEMS;
 		case TYPE_SALES_TAX_GROUP:
 			return HistoryTokens.SALES_TAX_GROUP;
+		case TYPE_COMPANIES:
+			return HistoryTokens.COMPANIES;
 		}
 		return null;
 	}
@@ -213,6 +225,8 @@ public class ManageSupportListAction extends Action {
 			return "pay_sales-tax";
 		case TYPE_SALES_TAX_GROUP:
 			return HistoryTokens.SALES_TAX_GROUP;
+		case TYPE_COMPANIES:
+			return "companies";
 		}
 		return null;
 	}
@@ -257,6 +271,8 @@ public class ManageSupportListAction extends Action {
 			return constant;
 		case TYPE_SALES_TAX_GROUP:
 			return messages.taxGroup();
+		case TYPE_COMPANIES:
+			return messages.companies();
 		}
 		return null;
 	}
@@ -313,4 +329,7 @@ public class ManageSupportListAction extends Action {
 		return new ManageSupportListAction(TYPE_SALES_TAX_GROUP);
 	}
 
+	public static ManageSupportListAction companies() {
+		return new ManageSupportListAction(TYPE_COMPANIES);
+	}
 }

@@ -441,6 +441,8 @@ public class HistoryTokens {
 
 	public static final String SALES_TAX_GROUP = "salestaxgroup";
 
+	public static final String COMPANIES = "companies";
+
 	public HistoryTokens() {
 
 	}

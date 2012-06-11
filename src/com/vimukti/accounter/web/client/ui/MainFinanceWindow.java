@@ -185,8 +185,8 @@ public class MainFinanceWindow extends FlowPanel {
 
 		if (Accounter.isIpadApp()) {
 			ActionFactory.getIpadMenuAction().run(null, false);
-		} else {
 			ActionFactory.getCompanyHomeAction().run(null, false);
+		} else {
 		}
 
 		// // } else {
@@ -1033,6 +1033,9 @@ public class MainFinanceWindow extends FlowPanel {
 		ManageSupportListAction salesTaxGroupAction = ManageSupportListAction
 				.salesTaxGroup();
 		actions.put(salesTaxGroupAction.getHistoryToken(), salesTaxGroupAction);
+		ManageSupportListAction companiesAction = ManageSupportListAction
+				.companies();
+		actions.put(companiesAction.getHistoryToken(), companiesAction);
 	}
 
 	public ClientCompany getCompany() {
