@@ -32,6 +32,7 @@ public abstract class StockAdjustmentTable extends
 
 	public StockAdjustmentTable(ICurrencyProvider currencyProvider) {
 		this.currencyProvider = currencyProvider;
+		addEmptyRecords();
 	}
 
 	protected abstract ClientWarehouse getSelectedWareHouse();
@@ -93,7 +94,7 @@ public abstract class StockAdjustmentTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionItem row) {
-				return messages.item()+" : "+getValue(row);
+				return messages.item() + " : " + getValue(row);
 			}
 
 			@Override
@@ -178,7 +179,7 @@ public abstract class StockAdjustmentTable extends
 
 				@Override
 				public String getValueAsString(ClientTransactionItem row) {
-					return messages.currentQty()+" : "+getValue(row);
+					return messages.currentQty() + " : " + getValue(row);
 				}
 
 				@Override
@@ -283,7 +284,7 @@ public abstract class StockAdjustmentTable extends
 				@Override
 				public String getValueAsString(ClientTransactionItem row) {
 					// TODO Auto-generated method stub
-					return messages.currentValue()+" : "+getValue(row);
+					return messages.currentValue() + " : " + getValue(row);
 				}
 
 				@Override
@@ -360,7 +361,7 @@ public abstract class StockAdjustmentTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionItem row) {
-				return messages.salesOrPurchaseRate()+" : "+getValue(row);
+				return messages.salesOrPurchaseRate() + " : " + getValue(row);
 			}
 
 			@Override
@@ -399,6 +400,22 @@ public abstract class StockAdjustmentTable extends
 			}
 		}
 		return selectedRecords;
+	}
+
+	/**
+	 * This method will add 4 empty records to the table.
+	 */
+	protected void addEmptyRecords() {
+		for (int i = 0; i < 4; i++) {
+			addEmptyRowAtLast();
+		}
+	}
+
+	@Override
+	public void addEmptyRowAtLast() {
+		ClientTransactionItem item = new ClientTransactionItem();
+		item.setType(ClientTransactionItem.TYPE_ITEM);
+		add(item);
 	}
 
 	private ClientItem getItem(long itemId) {

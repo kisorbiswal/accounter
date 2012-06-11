@@ -32,7 +32,7 @@ public class WebSocketConnection {
 		// http://test.com:port/some/path
 		// ws://test.com:port
 		// String baseURL = GWT.getModuleBaseURL();
-		String baseURL = "http://192.168.0.1:9080/test";
+		String baseURL = "http://192.168.0.229/test";
 		int split = baseURL.indexOf('/', 8);
 		String urlString = baseURL.substring(0, split).replace("https", "wss")
 				.replace("http", "ws");
