@@ -28,19 +28,9 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 		addEmptyRecords();
 	}
 
-	/**
-	 * This method will add 4 empty records to the table.
-	 */
-	protected void addEmptyRecords() {
-		for (int i = 0; i < 4; i++) {
-			addEmptyRowAtLast();
-		}
-	}
-
 	@Override
-	public void addEmptyRowAtLast() {
-		ClientPayStructureItem item = new ClientPayStructureItem();
-		add(item);
+	protected ClientPayStructureItem getEmptyRow() {
+		return new ClientPayStructureItem();
 	}
 
 	@Override

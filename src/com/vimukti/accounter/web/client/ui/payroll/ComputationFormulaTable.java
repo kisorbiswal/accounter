@@ -21,13 +21,17 @@ public class ComputationFormulaTable extends
 		for (int i = 0; i < functionTypes.length; i++) {
 			functionTypesList.add(functionTypes[i]);
 		}
-		addEmptyRowAtLast();
+		addEmptyRecords();
 	}
 
 	@Override
-	public void addEmptyRowAtLast() {
-		ClientComputaionFormulaFunction item = new ClientComputaionFormulaFunction();
-		add(item);
+	protected int getDefaultEmptyRowsSize() {
+		return 1;
+	}
+
+	@Override
+	protected ClientComputaionFormulaFunction getEmptyRow() {
+		return new ClientComputaionFormulaFunction();
 	}
 
 	@Override

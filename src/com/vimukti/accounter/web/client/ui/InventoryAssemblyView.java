@@ -439,10 +439,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			}
 
 			@Override
-			protected void addEmptyRecords() {
-				for (int i = 0; i < 4; i++) {
-					add(new ClientInventoryAssemblyItem());
-				}
+			protected ClientInventoryAssemblyItem getEmptyRow() {
+				return new ClientInventoryAssemblyItem();
 			}
 
 			@Override

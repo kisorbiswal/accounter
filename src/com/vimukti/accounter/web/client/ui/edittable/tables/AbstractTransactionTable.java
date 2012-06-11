@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
-import com.vimukti.accounter.web.client.ui.edittable.EditTableImpl;
 
 public abstract class AbstractTransactionTable extends
 		EditTable<ClientTransactionItem> {
@@ -52,8 +51,6 @@ public abstract class AbstractTransactionTable extends
 			boolean isSales, ICurrencyProvider currencyProvider) {
 		this(rowsPerObject, needDiscount, isSales, false, currencyProvider);
 	}
-
-	protected abstract void addEmptyRecords();
 
 	public void updateTotals() {
 
