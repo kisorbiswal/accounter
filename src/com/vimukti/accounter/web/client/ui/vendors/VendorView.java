@@ -511,8 +511,8 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 		};
 		panel.add(l1);
-		panel.add(gridView);
-		StyledPanel hPanel = new StyledPanel("hPanel");
+		StyledPanel hPanel = new StyledPanel("addnew_edit_panel");
+		hPanel.add(gridView);
 		hPanel.add(addButton);
 		panel.add(hPanel);
 		addButton.setEnabled(!isInViewMode());

@@ -132,13 +132,16 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 			}
 		});
 
+		StyledPanel tablePanel = new StyledPanel("addnew_edit_panel");
+		tablePanel.add(table);
+		tablePanel.add(addButton);
+
 		form = new DynamicForm("form");
 		form.add(wareHouseCombo, adjustmentAccountCombo);
 		listForms.add(form);
 
 		mainPanel.add(form);
-		mainPanel.add(table);
-		mainPanel.add(addButton);
+		mainPanel.add(tablePanel);
 
 		this.add(mainPanel);
 	}

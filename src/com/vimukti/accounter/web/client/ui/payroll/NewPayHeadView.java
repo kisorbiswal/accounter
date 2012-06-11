@@ -486,12 +486,16 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			formulaForm = new DynamicForm("computationForm");
 			computationForm = new DynamicForm("computationForm");
 			compuPeriodAndTypeForm = new DynamicForm("compuPeriodAndTypeForm");
+
+			StyledPanel tablePanel = new StyledPanel("addnew_edit_panel");
+			tablePanel.add(slabTable);
+			tablePanel.add(itemTableButton);
+
 			compuPeriodAndTypeForm.add(calculationPeriodCombo,
 					computationTypeCombo);
 			computationForm.add(compuPeriodAndTypeForm);
 			computationForm.add(formulaForm);
-			computationForm.add(slabTable);
-			computationForm.add(itemTableButton);
+			computationForm.add(tablePanel);
 			calculationForm.add(computationForm);
 
 		} else if (selectItem.equals(messages.flatRate())) {
