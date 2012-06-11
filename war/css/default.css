@@ -218,7 +218,9 @@ body {
 	-ms-box-align: initial;
 	-ms-box-ordinal-group: 0;
 }
-
+.win8EditTable .gwt-TextBox{
+	height: 22px;
+}
 .gwt-TextBox {
 	height: 25px;
 }
@@ -450,15 +452,6 @@ button#closeButton {
 }
 .gridHeader {
 	border-collapse: collapse;
-}
-
-.calendar-picker {
-	background: url('/images/calendar.png');
-	vertical-align: middle;
-	width: 29px;
-	background-repeat: no-repeat;
-	background-position-y: 7px;
-	background-position-x: 2px;
 }
 
 .dateItem .datePanel {
@@ -1004,7 +997,6 @@ button#closeButton {
 .disclosurePanelTitle {
 	font-weight: bold;
 	font-size: 19px;
-	margin-bottom: 10px;
 }
 
 #cashsalesview .topControlsPanel {
@@ -1203,7 +1195,6 @@ button#closeButton {
 }
 
 .blue-date-picker .blue-week-line {
-	color: #11F1C9;
 	margin-left: 5px;
 	letter-spacing: 2px;
 }
@@ -1218,10 +1209,6 @@ button#closeButton {
 	padding-right: 8px;
 	padding-left: 8px;
 	color: #F76C6C;
-}
-
-.blue-date-picker .prenextyear-label {
-	color: #E7FD0F;
 }
 
 .blue-date-picker .currentmonth {
@@ -1489,7 +1476,7 @@ button#closeButton {
 	width: 20%;
 }
 
-.customerCenter .leftPanel {
+.customerCenter .leftPanel, #InventoryCentreView .leftVpPanel {
 	border-right: 1px solid #ccc;
 	width: 21%;
 	margin-right:20px;
@@ -1510,8 +1497,8 @@ button#closeButton {
 	width: 229.5px;
 }
 
-.customerCenter .rightPanel,#vendorCenterView .rightVpPanel {
-	width: 78%;
+.customerCenter .rightPanel,#vendorCenterView .rightVpPanel, #InventoryCentreView .rightVpPanel {
+	width: 77%;
 }
 
 
@@ -1887,7 +1874,9 @@ select:hover{
 #EmailView .mainPanel,#paybillview,#paybillview .gridLayout,.groupPanel .generalTab .topHLay,.groupPanel .detailsTab,
 .progress_panel_show .viewPanel .company_Info_table,#TAXAgencyView .mainVlay,#InventoryAssemblyView .topHLay,
 #InventoryAssemblyView .topPanel2,#NewFixedAssetView .mainVPanel,#CustomerView .rightVLay,#VendorView .rVLayout,
-.trackTaxhidePanel,#ReceivePaymentView .gridLayout{
+.trackTaxhidePanel,#ReceivePaymentView .gridLayout,#WareHouseView .mainHLay,#DepositView .mainPanel,
+#TDSDeductorDetailsView .panel1 .otherDynamicForm,#TDSChalanDetailsView .verticalPanel,#CashPurchaseView .itemsFlowPanel .win8editrowPanel,
+.report-section .report-left-panel,.report-section .report-right-panel{
 	/* height: 100%;
 	column-width: 300px; */
 	
@@ -1908,7 +1897,8 @@ select:hover{
 #TDSResponsiblePersonDetailsView .verticalPanel,#EmailView .mainPanel,#paybillview,#paybillview .gridLayout,
 #UsersActivityListView .mainPanel,.groupPanel .detailsTab,#CustomerView .tabPanel,.groupPanel,
 #PreferenceSettingsView .company_settings_panel,#InventoryAssemblyView .topHLay,#InventoryAssemblyView .topPanel2
-,#CustomerView .rightVLay,#ReceivePaymentView .gridLayout{
+,#CustomerView .rightVLay,#ReceivePaymentView .gridLayout,#DepositView .mainPanel,#TDSChalanDetailsView .verticalPanel,
+.report-section .report-left-panel,.report-section .report-right-panel{
 	height: 100% !important;
 	
 }
@@ -1928,7 +1918,7 @@ select:hover{
 
 .progress_panel_show .view_panel,.setup_panel .setup_common_head,.abstract_base_view,.portletPagePanel,
 .abstract_base_view .mainVLay,#TDSDeductorDetailsView .panel1,#EmailView .mainPanel,#PreferenceSettingsView .mainPanel,
-.companies-list{
+.companies-list,.report-section{
     overflow-x: auto;
     overflow-y: hidden;
     width:100%;
@@ -2023,7 +2013,7 @@ button{
 	min-width: auto !important;
 	min-height: auto !important;
 }
-.buttonsPanel #group6 img, .buttonsPanel #group3 img,#group10{
+.buttonsPanel #group6 img, .buttonsPanel #group3 img{
 	display: none;
 }
 
@@ -2100,12 +2090,15 @@ button#searchButton:hover{
 #VendorCreditMemoView .boldtext,#CashPurchaseView .boldtext,#CreditCardExpenseView .totForm,
 #CashExpenseView .boldtext,#writechequeview .boldtext,#MakeDepositView .textbold,#customercreditmemoview .boldtext,
 #JournalEntryView .textbold,#NewVendorPaymentView .hLay .tdsPanel .boldtext,#CreditCardExpenseView .boldtext,
-#QuoteView .boldtext,#paybillview .unused-payments,#VendorBillView .boldtext{
+#QuoteView .boldtext,#paybillview .unused-payments,#VendorBillView .boldtext,#DepositView .bottomLayout .boldtext{
 	width:400px;
 	position: fixed;
 	bottom:5px;
 	font-weight:bold;
 	left:70px;
+}
+.boldtext .gwt-Label,.textbold .gwt-Label{
+	padding: 0px !important;
 }
 .gwt-PopupPanel,.dropdownTable,#ItemsDropDownTable{
 	border: 1px solid gray;
@@ -2247,9 +2240,7 @@ input[type=text]:disabled,textarea:disabled{
 	margin-right: 15px;
 	border-right: 1px solid #ccc;
 }
-.report-section .report-left-panel{
-	width: 40%;
-}
+
 .report-section .report-left-panel a,.report-section .report-right-panel a{
 	display: block;
 	margin-left: 10px;
@@ -2373,7 +2364,7 @@ table.gridBody tr{
 #TDSDeductorDetailsView .panel2{
 	height: 100%;
 }
-#TDSDeductorDetailsView .panel1 .taxDynamicForm{
+#TDSDeductorDetailsView .panel1 .taxDynamicForm,#TDSDeductorDetailsView .panel1 .otherDynamicForm{
 	height: 550px !important;
 }
 .portletPage .fTablePortlet{
@@ -2419,11 +2410,13 @@ table.gridBody tr{
 .win8editrowPanel {
 	break-inside: avoid;
 }*/
-.customerCenter .leftPanel .filterPanel .gwt-Label,#vendorCenterView .leftVpPanel .viewform .gwt-Label{
+.customerCenter .leftPanel .filterPanel .gwt-Label,#vendorCenterView .leftVpPanel .viewform .gwt-Label,
+#InventoryCentreView .leftVpPanel .viewform .gwt-Label{
 	width: auto;
 	padding: 5px 5px 0 0;
 }
-.customerCenter .leftPanel input[type=text],#vendorCenterView .leftVpPanel input[type=text]{
+.customerCenter .leftPanel input[type=text],#vendorCenterView .leftVpPanel input[type=text],
+#InventoryCentreView .leftVpPanel input[type=text]{
 	width: 150px;
 }
 #mainWindow #signUpPanel{
@@ -2645,4 +2638,69 @@ table.gridBody .gridEvenRow{
 	height: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;
+}
+#configButton,#addCustomerButton{
+	position: absolute;
+	top: 10%;
+	right: 2%;
+}
+#group10 #previous,#group10 #next{
+	display:none;
+}
+.report-toolbar .form,.report-toolbar,#InventoryCentreView .mainPanel,#NewPayHeadView .panel,
+#DepositView .accountFlowPanel,#TDSChalanDetailsView .verticalPanel .horizontalPanel1,
+.dateItem_datePanel{
+	display: -ms-flexbox;
+}
+.report-toolbar input[type=text]{
+	width: 200px;
+}
+.report-toolbar .formItem .gwt-Label{
+	padding-right: 5px;
+	width: auto;
+}
+.formItem .gwt-Label{
+	padding-top: 8px;
+}
+.report-toolbar{
+	margin-bottom: 15px;
+}
+.addNewButton{
+	margin: 10px 0 0 10px;
+}
+#SellingRegisteredItemView .label-title,#JournalViewDialog .label-title{
+	position: relative;
+	margin: 10px 0px;
+}
+.SellingRegisteredItemView .formItem .gwt-Label{
+	width: 250px;
+}
+#changePasswordPanel{
+	width: 500px;
+	margin: 200px auto 0px;
+	color: white;
+}
+#changePasswordPanel .gwt-Button{
+	margin: 30px 0 0 410px;
+}
+#CashPurchaseView .itemsFlowPanel .win8editrowPanel,.report-section{
+	height: 500px !important;
+}
+.calendar-picker {
+    background: url("../images/calendarPicker1.png") no-repeat scroll 0 0 transparent;
+    height: 23px;
+    margin-left: -25px;
+    margin-top: 11px;
+    position: relative;
+    width: 25px;
+}
+.gwt-PopupPanel  .blue-month-line tr:hover,.gwt-PopupPanel .blue-week-line tr:hover{
+	background: none !important;
+}
+.gwt-PopupPanel .blue-month-line tr:hover td,.gwt-PopupPanel .blue-week-line tr:hover td,.gwt-PopupPanel .blue-day-grid tr:hover td,
+.gwt-PopupPanel .blue-day-grid tr td{
+	border: 0 none !important;
+}
+.gwt-PopupPanel .blue-month-line tr:hover td{
+	cursor: pointer;
 }
