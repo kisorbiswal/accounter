@@ -176,11 +176,6 @@ body {
 	width:300px;
 
 }
-.menuItem:active {
-		background-color: #1FDC76;
-		color:white;
-}
-
 
 .mainMenu>div>.menuName {
 	font-size: 28px;
@@ -203,17 +198,9 @@ body {
 	padding-left: 10px;
 	padding-right: 10px;
 }
-
-#mainWindow>div>.gwt-Label {
-	position: absolute;
-	top: -60px;
-	right: 150px;
-	font-size: 23px;
+a:ACTIVE,a:HOVER{
+	background: none !important;
 }
-
-.error-panel {
-}
-
 #loginPanel {
 	-ms-box-align: initial;
 	-ms-box-ordinal-group: 0;
@@ -490,6 +477,7 @@ button#closeButton {
 	height: 100%;
 	overflow-x: auto;
 	display: -ms-flexbox;
+	padding-left: 60px;
 }
 
 .portlets-panel {
@@ -716,9 +704,7 @@ button#closeButton {
 	color: black;
 }
 .menuItem a:active {
-	color: white;
-	background-color: lightgrey;
-	padding-right: 5px;
+	background: none !important;
 }
 
 .menuDescription {
@@ -1876,7 +1862,8 @@ select:hover{
 #InventoryAssemblyView .topPanel2,#NewFixedAssetView .mainVPanel,#CustomerView .rightVLay,#VendorView .rVLayout,
 .trackTaxhidePanel,#ReceivePaymentView .gridLayout,#WareHouseView .mainHLay,#DepositView .mainPanel,
 #TDSDeductorDetailsView .panel1 .otherDynamicForm,#TDSChalanDetailsView .verticalPanel,#CashPurchaseView .itemsFlowPanel .win8editrowPanel,
-.report-section .report-left-panel,.report-section .report-right-panel{
+.report-section .report-left-panel,.report-section .report-right-panel,#customercreditmemoview .customerCreditMemoViewPanel,
+#NewEmployeeView .mainPanel,#NewEmployeeView .firstPanel .empDetailsInfoForm{
 	/* height: 100%;
 	column-width: 300px; */
 	
@@ -1898,7 +1885,8 @@ select:hover{
 #UsersActivityListView .mainPanel,.groupPanel .detailsTab,#CustomerView .tabPanel,.groupPanel,
 #PreferenceSettingsView .company_settings_panel,#InventoryAssemblyView .topHLay,#InventoryAssemblyView .topPanel2
 ,#CustomerView .rightVLay,#ReceivePaymentView .gridLayout,#DepositView .mainPanel,#TDSChalanDetailsView .verticalPanel,
-.report-section .report-left-panel,.report-section .report-right-panel{
+.report-section .report-left-panel,.report-section .report-right-panel,#NewEmployeeView .mainPanel,
+#NewEmployeeView .firstPanel .empDetailsInfoForm{
 	height: 100% !important;
 	
 }
@@ -1918,13 +1906,13 @@ select:hover{
 
 .progress_panel_show .view_panel,.setup_panel .setup_common_head,.abstract_base_view,.portletPagePanel,
 .abstract_base_view .mainVLay,#TDSDeductorDetailsView .panel1,#EmailView .mainPanel,#PreferenceSettingsView .mainPanel,
-.companies-list,.report-section{
+.companies-list,.report-section,#NewEmployeeView .mainPanel{
     overflow-x: auto;
     overflow-y: hidden;
     width:100%;
 }
-.abstract_base_view .mainVLay{
-	width: 90% !important;
+.abstract_base_view .mainVLay,#NewEmployeeView .mainPanel{
+	width: 95.8% !important;
 }
 .abstract_base_view{
 	overflow-x: auto;
@@ -1940,6 +1928,9 @@ select:hover{
 }
 .setup_panel .view_panel .refer_panel{
 	display:-ms-box;
+}
+#NewEmployeeView .firstPanel{
+	display:-ms-flexbox;
 }
 .setup_panel .view_panel .refer_panel .setup_label{
 	padding-top: 7px;
@@ -2074,6 +2065,7 @@ button{
 }
 .portlet_quicklinks .gwt-HTML h2{
 	top: 9% !important;
+	left: 5%;
 }
 button#closeButton:hover,.subMenuBack:hover{
 	background-image: url("../images/22.png") !important;
@@ -2474,7 +2466,8 @@ table.gridBody tr{
 }
 .customerCenter .leftPanel .gridBodyContainer,#vendorCenterView .leftVpPanel .gridBodyContainer{
 	height: 100%;
-	overflow: auto;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 #CustomersListGrid,#VendorsListGrid{
 	height: 90%;
@@ -2575,9 +2568,6 @@ table.gridBody .gridEvenRow{
 .RadioGroupItem .gwt-Label,.ExpensesByCustomerOption .gwt-Label,.sell_panel .gwt-Label{
 	width: auto !important;
 }
-#ChartOfAccountsView .gridBodyContainer{
-	height: 400px;
-}
 #ChartOfAccountsView .gridBodyContainer div:first-child{
 	height: 100%;
 	overflow:auto;
@@ -2607,6 +2597,7 @@ table.gridBody .gridEvenRow{
 	padding: 10px;
 	display: -ms-flexbox;
 	-ms-flex-pack: justify;
+	width: 300px;
 }
 .companyNameAnchor a{
 	font-size: 20px;
@@ -2635,8 +2626,8 @@ table.gridBody .gridEvenRow{
 	text-align: center;
 }
 .listView .gridLayout{
-	height: 75%;
-	margin-bottom: 30px;
+	height: 81%;
+	margin-bottom: 10px;
 }
 .listView .listgrid{
 	height: 100%;
@@ -2646,20 +2637,22 @@ table.gridBody .gridEvenRow{
 	overflow-y: auto;
 	overflow-x: hidden;
 }
-#configButton,#addCustomerButton{
+#configButton,#addCustomerButton,#addVendorButton{
 	position: absolute;
 	top: 10%;
 	right: 2%;
 }
-#group10 #previous,#group10 #next{
+#group10 #previous,#group10 #next,.companyNameAnchor button{
 	display:none;
 }
 .report-toolbar .form,.report-toolbar,#InventoryCentreView .mainPanel,#NewPayHeadView .panel,
 #DepositView .accountFlowPanel,#TDSChalanDetailsView .verticalPanel .horizontalPanel1,
-.dateItem_datePanel,#InvoiceView .topHLay{
+.dateItem_datePanel,#InvoiceView .topHLay,.addnew_edit_panel,#CustomerMergeView .horizontalPanel,
+#VendorMergeView .horizontalPanel,#AccountMergeView .horizontalPanel,#ItemMergeView .horizontalPanel,
+#customercreditmemoview .dislosurePanel,#NewVendorPaymentView .hLay{
 	display: -ms-flexbox;
 }
-.report-toolbar input[type=text]{
+.report-toolbar input[type=text],.empDetailsInfoForm button{
 	width: 200px;
 }
 .report-toolbar .formItem .gwt-Label{
@@ -2690,8 +2683,16 @@ table.gridBody .gridEvenRow{
 #changePasswordPanel .gwt-Button{
 	margin: 30px 0 0 410px;
 }
-#CashPurchaseView .itemsFlowPanel .win8editrowPanel,.report-section{
+#CashPurchaseView .itemsFlowPanel .win8editrowPanel{
 	height: 500px !important;
+}
+.report-section{
+	height: 550px;
+	padding-left: 60px;
+	width: 95%;
+}
+.report-section .reportPanel{
+	margin: 0 20px;
 }
 .calendar-picker {
     background: url("../images/calendarPicker1.png") no-repeat scroll 0 0 transparent;
@@ -2715,11 +2716,12 @@ table.gridBody .gridEvenRow{
 	width: 100%;
 }
 .view-gwt-dialog{
-	width: 95%;
-	height: 88%;
-	top: 12% !important;
-	left: 5% !important;
+	width: 100%;
+	height: 90%;
+	top: 10% !important;
+	left: 0% !important;
 	background: white !important;
+	padding-left: 60px;
 }
 .view-gwt-dialog .dialogTop .caption{
 	background: white !important;
@@ -2731,9 +2733,7 @@ table.gridBody .gridEvenRow{
 .view-gwt-dialog table{
 	width: 100%;
 }
-.view-gwt-dialog div{
-	width: 98%;
-}
+
 .view-gwt-dialog .dialogMiddleLeft, .view-gwt-dialog .dialogMiddleRight,.view-gwt-dialog  .dialogBottomLeft,
 .view-gwt-dialog .dialogBottomRight,.view-gwt-dialog .dialogTopLeft,.view-gwt-dialog .dialogTopRight,
 .view-gwt-dialog .dialogBottomCenter{
@@ -2742,9 +2742,55 @@ table.gridBody .gridEvenRow{
 .pager-alignment{
 	width: auto !important;
 }
-.abstract_base_view .mainVLay,#paybillview,.abstract_base_view .bodyLayout{
+.abstract_base_view .mainVLay,#paybillview,.abstract_base_view .bodyLayout,#CustomerMergeView .horizontalPanel,
+#VendorMergeView .horizontalPanel,#AccountMergeView .horizontalPanel,#ItemMergeView .horizontalPanel,
+#AddMeasurementView .panel,.customerCenter,#vendorCenterView .mainPanel,.Transactions_center,#PreferenceSettingsView .mainPanel,
+#adjusttaxview .mainPanel,#NewFixedAssetView .mainVPanel,#DepreciationView .mainPanel,.abstract_base_view .mainPanel,
+.abstract_base_view .mainVPanel,#WareHouseView .mainHLay,#NewPayHeadView .panel,#pay-employee-view .main-panel,
+#UsersView .mainLayPanel,#inviteUser .vPanel,#CheckPrintingSettingView .allPanel,#TDSDeductorDetailsView .panel2,
+#TDSResponsiblePersonDetailsView .verticalPanel,#TDSChalanDetailsView .verticalPanel
+{
 	padding-left: 60px;
+}
+.Transactions_center .mainVLay{
+	padding-left: 0px !important;
+	width: 100% !important;
 }
 #inviteUser .gwt-RadioButton{
 	display: block;
+}
+.addnew_edit_panel button{
+	height: 35px;
+}
+.title_voided_panel{
+	color: red;
+	font-weight: bold;
+	font-size: 20px;
+}
+#NewEmployeeView .firstPanel{
+	height: 100%;
+}
+#CustomerCenterView .bodyParentContainer,#vendorCenterView .bodyParentContainer,#InventoryCentreView .bodyParentContainer{
+	height: 220px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+#CustomerCenterView,#vendorCenterView,#InventoryCentreView,#ChartOfAccountsView{
+	height: 115% !important;
+}
+#CustomerCenterView .transactionViewform,#vendorCenterView .transactionViewform,#InventoryCentreView .viewform,
+.transaction_attachment_hpanel{
+	display: -ms-flexbox;
+}
+#CustomerCenterView .transactionViewform .gwt-Label,#vendorCenterView .transactionViewform .gwt-Label,
+#InventoryCentreView .viewform .gwt-Label{
+	width: auto;
+	padding-right: 10px;
+}
+.transaction_attachment_hpanel div{
+	margin: 0 10px;
+}
+#EmailAccountDialog .errorPanel{
+	top: -8%;
+	right: 13%;
 }
