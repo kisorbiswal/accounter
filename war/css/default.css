@@ -2779,7 +2779,7 @@ table.gridBody .gridEvenRow{
 	height: 115% !important;
 }
 #CustomerCenterView .transactionViewform,#vendorCenterView .transactionViewform,#InventoryCentreView .viewform,
-.transaction_attachment_hpanel{
+.transaction_attachment_hpanel,.win8EditTable{
 	display: -ms-flexbox;
 }
 #CustomerCenterView .transactionViewform .gwt-Label,#vendorCenterView .transactionViewform .gwt-Label,
@@ -2793,4 +2793,20 @@ table.gridBody .gridEvenRow{
 #EmailAccountDialog .errorPanel{
 	top: -8%;
 	right: 13%;
+}
+.report_view_panel{
+	padding-left: 60px;
+	width: 95%;
+	height: 115%;
+}
+.report_view_panel .mainLayout{
+	height: 90%;
+}
+.report_view_panel .printableLayout,.report_view_panel .tableLayout,.report_view_panel .tableLayout div:first-child{
+	height: 100%;
+}
+.report_view_panel .gridBodyContainer{
+	overflow-x: hidden;
+	overflow-y: auto;
+	height: 95%;
 }

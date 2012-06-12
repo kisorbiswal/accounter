@@ -81,9 +81,9 @@ public class ChangePasswordPanel extends FlowPanel {
 			}
 		});
 
-		this.add(accounterTitle);
+		// this.add(accounterTitle);
 		this.add(description);
-		this.add(accounterText);
+		// this.add(accounterText);
 		this.add(newpasswordbox);
 		this.add(conformPasswordbox);
 		this.add(errorlabel);
