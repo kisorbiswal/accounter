@@ -54,6 +54,7 @@ import com.vimukti.accounter.web.client.translate.TranslateServiceAsync;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
+import com.vimukti.accounter.web.client.ui.win8.CompaniesPanel;
 import com.vimukti.accounter.web.client.uibinder.setup.SetupWizard;
 import com.vimukti.accounter.web.client.util.ChangeType;
 import com.vimukti.accounter.web.client.util.CoreEvent;
@@ -162,11 +163,13 @@ public class Accounter implements EntryPoint {
 					setupWizard = new SetupWizard(new AsyncCallback<Boolean>() {
 						@Override
 						public void onSuccess(Boolean result) {
+							RootPanel.get("mainWindow").remove(setupWizard);
+							RootPanel.get("mainWindow").remove(header);
+							RootPanel.get("mainWindow").remove(vpanel);
 							if (result) {
-								RootPanel.get("mainWindow").remove(setupWizard);
-								RootPanel.get("mainWindow").remove(header);
-								RootPanel.get("mainWindow").remove(vpanel);
 								loadCompany();
+							} else {
+								loadCompaniesPanel();
 							}
 						}
 
@@ -210,6 +213,17 @@ public class Accounter implements EntryPoint {
 			});
 		}
 
+	}
+
+	protected static void loadCompaniesPanel() {
+		if (Accounter.isWin8App()) {
+			WebsocketAccounterInitialiser initializer = Accounter
+					.getAccounterInitializer();
+			initializer.showView(new CompaniesPanel(initializer));
+		} else {
+			String companies = "/main/companies";
+			Window.Location.assign(companies);
+		}
 	}
 
 	public static ClientUser getUser() {

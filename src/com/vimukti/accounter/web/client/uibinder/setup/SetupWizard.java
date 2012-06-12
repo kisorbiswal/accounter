@@ -7,8 +7,6 @@ import java.util.Map;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.http.client.RequestException;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -219,13 +217,13 @@ public class SetupWizard extends FlowPanel {
 		var footer = $wnd.document.getElementById('mainFooter');
 		var appVersions = $wnd.document.getElementById('appVersions');
 		var parent = $wnd.document.getElementById('loadingWrapper');
-		if(parent){
+		if (parent) {
 			parent.style.visibility = 'visible';
 		}
-		if(footer){
+		if (footer) {
 			footer.style.visibility = 'hidden';
-	    } 
-		if(appVersions){
+		}
+		if (appVersions) {
 			appVersions.style.visibility = 'hidden';
 		}
 	}-*/;
@@ -244,7 +242,8 @@ public class SetupWizard extends FlowPanel {
 					}
 
 					@Override
-					public void onResultSuccess(ArrayList<AccountsTemplate> result) {
+					public void onResultSuccess(
+							ArrayList<AccountsTemplate> result) {
 						setIndustryDefaultAccounts(result);
 					}
 
@@ -407,7 +406,8 @@ public class SetupWizard extends FlowPanel {
 	 * @param account
 	 * @param value
 	 */
-	public void setSelectedAccountsList(ArrayList<TemplateAccount> selectedAccounts) {
+	public void setSelectedAccountsList(
+			ArrayList<TemplateAccount> selectedAccounts) {
 		this.selectedAccounts = selectedAccounts;
 	}
 
@@ -429,7 +429,7 @@ public class SetupWizard extends FlowPanel {
 					@Override
 					public boolean onYesClick() {
 						try {
-							redirectToCompaniesPage();
+							callback.onSuccess(false);
 						} catch (Exception e) {
 							return false;
 						}
@@ -446,14 +446,6 @@ public class SetupWizard extends FlowPanel {
 						return true;
 					}
 				});
-	}
-
-	/**
-	 * @throws RequestException
-	 * 
-	 */
-	protected void redirectToCompaniesPage() throws RequestException {
-		Window.Location.assign("/main/login");
 	}
 
 	public void initInterview() {
