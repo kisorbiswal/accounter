@@ -107,11 +107,16 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	protected boolean isDatesArranged;
 
 	public AbstractReportView() {
-		emptyMsg = messages.noRecordsToShow();
+		this(messages.noRecordsToShow());
 	}
 
 	public AbstractReportView(boolean showGridFooter, String emptyMsg) {
+		this(emptyMsg);
+	}
+
+	public AbstractReportView(String emptyMsg) {
 		this.emptyMsg = emptyMsg;
+		addStyleName("report_view_panel");
 	}
 
 	/**
