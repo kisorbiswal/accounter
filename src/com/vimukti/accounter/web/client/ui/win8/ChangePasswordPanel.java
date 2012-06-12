@@ -24,6 +24,7 @@ public class ChangePasswordPanel extends FlowPanel {
 	Anchor login;
 	WebsocketAccounterInitialiser accounter;
 	Label errorlabel;
+	private Label description;
 
 	public ChangePasswordPanel(WebsocketAccounterInitialiser accounter) {
 		getElement().setId("changePasswordPanel");
@@ -35,6 +36,8 @@ public class ChangePasswordPanel extends FlowPanel {
 		errorlabel = new Label();
 		accounterTitle = new Label();
 		accounterTitle.setText(Accounter.getMessages().accounter());
+		description = new Label();
+		description.setText("Select your new password and enter it below.");
 		accounterText = new Label(Accounter.getMessages().registeredEmailId());
 		newpasswordbox = new PasswordItem(Accounter.getMessages().newPassword());
 		conformPasswordbox = new PasswordItem(Accounter.getMessages()
@@ -79,6 +82,7 @@ public class ChangePasswordPanel extends FlowPanel {
 		});
 
 		this.add(accounterTitle);
+		this.add(description);
 		this.add(accounterText);
 		this.add(newpasswordbox);
 		this.add(conformPasswordbox);

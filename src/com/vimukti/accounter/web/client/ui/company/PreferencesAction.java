@@ -26,7 +26,7 @@ public class PreferencesAction extends Action {
 
 		try {
 			PreferenceSettingsView page = new PreferenceSettingsView();
-			MainFinanceWindow.getViewManager().showView(page, null, true,
+			MainFinanceWindow.getViewManager().showView(page, null, false,
 					PreferencesAction.this);
 		} catch (Exception e) {
 			e.printStackTrace();
