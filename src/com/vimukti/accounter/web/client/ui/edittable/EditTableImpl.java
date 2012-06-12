@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class EditTableImpl<R> {
 
@@ -51,7 +50,7 @@ public class EditTableImpl<R> {
 		for (int x = 0; x < numOfRowsPerObject; x++) {
 			this.columns.add(new ArrayList<EditColumn<R>>());
 		}
-
+		addEmptyMessage(messages.noRecordsToShow());
 	}
 
 	public void addColumn(EditColumn<R> column) {
@@ -167,6 +166,7 @@ public class EditTableImpl<R> {
 				table.removeRow(index);
 			}
 		}
+		addEmptyMessage(messages.noRecordsToShow());
 	}
 
 	/**
@@ -191,6 +191,7 @@ public class EditTableImpl<R> {
 	}
 
 	protected void addEmptyRecords() {
+		clearEmptyMessageIfPresent();
 		int size = wrapper.getDefaultEmptyRowsSize();
 		for (int i = 0; i < size; i++) {
 			R r = wrapper.getEmptyRow();
@@ -307,6 +308,7 @@ public class EditTableImpl<R> {
 	}
 
 	public void addEmptyMessage(String emptyMessage) {
+		clearEmptyMessageIfPresent();
 		this.table.setWidget(numOfRowsPerObject, 0, new Label(emptyMessage));
 		this.table.addStyleName("no_records");
 		flexCellFormatter.setColSpan(numOfRowsPerObject, 0,
