@@ -1459,7 +1459,7 @@ public class Windows8MenuView extends BaseView {
 		vendorLabel.setStyleName("menuName");
 
 		W8MenuItem vendorCenterItem = new W8MenuItem(
-				messages.vendorCentre(Global.get().Vendor()), "",
+				messages.vendorCentre(Global.get().Vendor()), messages2.vendorCentreDesc(),
 				HistoryTokens.VENDORCENTRE);
 
 		vendorListForm.add(vendorCenterItem);
@@ -1748,11 +1748,11 @@ public class Windows8MenuView extends BaseView {
 		companynamelabel.setStyleName("menuName");
 		companyMenuBar.add(companynamelabel);
 
-		W8MenuItem companies = new W8MenuItem(messages.companies(), "",
-				HistoryTokens.COMPANIES);
+		W8MenuItem companies = new W8MenuItem(messages.companies(),
+				messages2.companiesDesc(), HistoryTokens.COMPANIES);
 		companyMenuBar.add(companies);
 
-		W8MenuItem dashBoard = new W8MenuItem(messages.dashBoard(), "",
+		W8MenuItem dashBoard = new W8MenuItem(messages.dashBoard(), messages2.dashboardDesc(),
 				HistoryTokens.DASHBOARD);
 		companyMenuBar.add(dashBoard);
 

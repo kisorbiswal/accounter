@@ -228,4 +228,12 @@ public interface AccounterMessages2 extends Messages {
 	public String transCenterDesc();
 
 	public String accDesc();
+
+	public String companiesDesc();
+
+	public String dashboardDesc();
+
+	public String vendorCentreDesc();
+	
+	public String changePasswordDesc();
 }

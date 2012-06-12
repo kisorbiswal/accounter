@@ -37,7 +37,7 @@ public class ChangePasswordPanel extends FlowPanel {
 		accounterTitle = new Label();
 		accounterTitle.setText(Accounter.getMessages().accounter());
 		description = new Label();
-		description.setText("Select your new password and enter it below.");
+		description.setText(Accounter.getMessages2().changePasswordDesc());
 		accounterText = new Label(Accounter.getMessages().registeredEmailId());
 		newpasswordbox = new PasswordItem(Accounter.getMessages().newPassword());
 		conformPasswordbox = new PasswordItem(Accounter.getMessages()
