@@ -1824,10 +1824,11 @@ button:hover{
 	background:none repeat scroll 0 0 gray !important;
 	cursor: pointer;
 }
-button:disabled:hover{
-	background:rgba(202, 202, 202, 0.49) !important;
+button:disabled:hover,button:disabled:active{
+	background: rgba(202, 202, 202, 0.49) !important;
 	cursor: auto;
-	border: 0 none !important;
+	color: rgba(33,33,33,0.49)!important;
+	border-color: #b8b6b7 !important;
 }
 #companiesPanel .app-bar{
 	text-align: right;
@@ -2536,7 +2537,7 @@ table.gridBody .gridEvenRow{
 	background: #EAEDE8;
 }
 #SalesTaxGroupListView #SalesTaxItemsGrid{
-	margin-top: 20px;
+	margin-top: 40px;
 }
 #SalesTaxGroupDialog .horizontalPanel,#VendorMergeDialog .horizontalPanel,#CustomerMergeDialog .horizontalPanel,
 #AccountMergeDialog .horizontalPanel,#ItemMergeDialog .horizontalPanel{
@@ -2779,7 +2780,7 @@ table.gridBody .gridEvenRow{
 	height: 115% !important;
 }
 #CustomerCenterView .transactionViewform,#vendorCenterView .transactionViewform,#InventoryCentreView .viewform,
-.transaction_attachment_hpanel,.win8EditTable{
+.transaction_attachment_hpanel,#AddMeasurementView .win8EditTable,#adjusttaxview .memoForm .formItem{
 	display: -ms-flexbox;
 }
 #CustomerCenterView .transactionViewform .gwt-Label,#vendorCenterView .transactionViewform .gwt-Label,
@@ -2809,4 +2810,27 @@ table.gridBody .gridEvenRow{
 	overflow-x: hidden;
 	overflow-y: auto;
 	height: 95%;
+}
+#VendorBillView .disclosurePanelcontent .itemsFlowPanel .win8editrowPanel,
+#CashPurchaseView .disclosurePanelcontent .itemsFlowPanel .win8editrowPanel,
+#writechequeview .disclosurePanelcontent .vendorAccountFlowPanel .win8editrowPanel,
+#CashPurchaseView .disclosurePanelcontent .accountFlowPanel .win8editrowPanel,
+#VendorBillView .disclosurePanelcontent .accountFlowPanel .win8editrowPanel{
+	/* height: 100%;
+	column-width: 300px; */
+	
+	display: -ms-flexbox;
+	height: 450px;
+	-ms-flex-direction: column;
+	-ms-flex-wrap: wrap;
+}
+#VendorBillView .disclosurePanelcontent .itemsFlowPanel .win8editrowPanel,
+#CashPurchaseView .disclosurePanelcontent .itemsFlowPanel .win8editrowPanel,
+#writechequeview .disclosurePanelcontent .vendorAccountFlowPanel .win8editrowPanel,
+#CashPurchaseView .disclosurePanelcontent .accountFlowPanel .win8editrowPanel,
+#VendorBillView .disclosurePanelcontent .accountFlowPanel .win8editrowPanel{
+	height: 535px !important;
+}
+.disclosurePanelcontent .itemsFlowPanel .win8editrowPanel input[type=text],.disclosurePanelcontent .accountFlowPanel .win8editrowPanel input[type=text]{
+	margin-right: 10px;
 }
