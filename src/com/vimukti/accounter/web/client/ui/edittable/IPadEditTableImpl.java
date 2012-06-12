@@ -147,7 +147,7 @@ public class IPadEditTableImpl<R> extends EditTableImpl<R> {
 
 	private void clearEmptyMessage() {
 		if (rows.size() == 0) {
-			if (table.getRowFormatter() != null) {
+			if (table != null && table.getRowFormatter() != null) {
 				this.table.getRowFormatter().removeStyleName(
 						numOfRowsPerObject, "norecord-empty-message");
 				this.table.removeStyleName("no_records");
@@ -172,6 +172,7 @@ public class IPadEditTableImpl<R> extends EditTableImpl<R> {
 				table.removeRow(index);
 			}
 		}
+		addEmptyMessage(messages.noRecordsToShow());
 	}
 
 	/**
@@ -332,6 +333,10 @@ public class IPadEditTableImpl<R> extends EditTableImpl<R> {
 
 	@Override
 	public void addEmptyMessage(String emptyMessage) {
+		if (rows.size() != 0) {
+			return;
+		}
+		clearEmptyMessage();
 		this.table.setWidget(numOfRowsPerObject, 0, new Label(emptyMessage));
 		if (table.getRowFormatter() != null)
 			this.table.getRowFormatter().setStyleName(numOfRowsPerObject,

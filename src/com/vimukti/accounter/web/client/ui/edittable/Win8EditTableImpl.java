@@ -122,8 +122,9 @@ public class Win8EditTableImpl<R> extends EditTableImpl<R> {
 
 	private void clearEmptyMessage() {
 		if (rows.size() == 0) {
-			if (table.getWidgetCount() > numOfRowsPerObject) {
-				removeStyleName(numOfRowsPerObject, "norecord-empty-message");
+			if (table.getWidgetCount() > 0) {
+				removeStyleName(0, "norecord-empty-message");
+				removeRow(0);
 			}
 			this.table.removeStyleName("no_records");
 		}
@@ -145,6 +146,7 @@ public class Win8EditTableImpl<R> extends EditTableImpl<R> {
 				removeRow(index);
 			}
 		}
+		addEmptyMessage(messages.noRecordsToShow());
 	}
 
 	/**
@@ -295,12 +297,20 @@ public class Win8EditTableImpl<R> extends EditTableImpl<R> {
 
 	@Override
 	public void addEmptyMessage(String emptyMessage) {
-		// setWidget(numOfRowsPerObject, 0, new Label(emptyMessage));
-		// if (table.getWidgetCount() != 0)
-		// setStyleName(numOfRowsPerObject, "norecord-empty-message");
-		// this.table.addStyleName("no_records");
-		// setColSpan(numOfRowsPerObject, 0, columns.size() <= 0 ? 0 : columns
-		// .get(0).size());
+		if (rows.size() != 0) {
+			return;
+		}
+		clearEmptyMessageIfPresent();
+		FlowPanel rowWiget = new FlowPanel();
+		rowWiget.addStyleName("win8editrowPanel");
+		table.insert(rowWiget, 0);
+		setWidget(0, 0, new Label(emptyMessage));
+		this.table.addStyleName("no_records");
+	}
+
+	@Override
+	protected void clearEmptyMessageIfPresent() {
+		clearEmptyMessage();
 	}
 
 	@Override

@@ -21,7 +21,7 @@ public abstract class EditTable<R> extends FlowPanel {
 	public EditTable(int numOfRowsPerObject) {
 		impl = GWT.create(EditTableImpl.class);
 		impl.init(this, numOfRowsPerObject);
-
+		impl.addEmptyMessage(messages.noRecordsToShow());
 	}
 
 	public void addColumn(EditColumn<R> column) {

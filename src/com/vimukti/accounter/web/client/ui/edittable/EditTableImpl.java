@@ -50,7 +50,6 @@ public class EditTableImpl<R> {
 		for (int x = 0; x < numOfRowsPerObject; x++) {
 			this.columns.add(new ArrayList<EditColumn<R>>());
 		}
-		addEmptyMessage(messages.noRecordsToShow());
 	}
 
 	public void addColumn(EditColumn<R> column) {
@@ -141,7 +140,7 @@ public class EditTableImpl<R> {
 		}
 	}
 
-	private void clearEmptyMessageIfPresent() {
+	protected void clearEmptyMessageIfPresent() {
 		if (rows.size() == 0) {
 			if (table != null && table.getRowFormatter() != null) {
 				this.table.getRowFormatter().removeStyleName(
@@ -308,6 +307,9 @@ public class EditTableImpl<R> {
 	}
 
 	public void addEmptyMessage(String emptyMessage) {
+		if (rows.size() != 0) {
+			return;
+		}
 		clearEmptyMessageIfPresent();
 		this.table.setWidget(numOfRowsPerObject, 0, new Label(emptyMessage));
 		this.table.addStyleName("no_records");
