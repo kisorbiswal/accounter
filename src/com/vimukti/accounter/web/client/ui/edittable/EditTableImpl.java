@@ -143,7 +143,7 @@ public class EditTableImpl<R> {
 
 	private void clearEmptyMessageIfPresent() {
 		if (rows.size() == 0) {
-			if (table.getRowFormatter() != null) {
+			if (table != null && table.getRowFormatter() != null) {
 				this.table.getRowFormatter().removeStyleName(
 						numOfRowsPerObject, "norecord-empty-message");
 				this.table.removeStyleName("no_records");
