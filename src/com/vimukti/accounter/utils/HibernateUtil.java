@@ -52,6 +52,7 @@ public class HibernateUtil {
 		config.addResource("mapping/common/finance-transactions.xml");
 		config.addResource("mapping/common/finance-translate-mapping.xml");
 		config.addResource("mapping/common/usermanagment.xml");
+		config.addResource("mapping/common/finance-migration.xml");
 
 		if (!ServerConfiguration.isDesktopApp()) {
 			loadFiles(config, DatabaseManager.POSTGRESQL);
@@ -69,7 +70,6 @@ public class HibernateUtil {
 		config.addResource("mapping/" + dbType + "/finance-reports.xml");
 		config.addResource("mapping/" + dbType + "/finance-new-queries.xml");
 		config.addResource("mapping/" + dbType + "/finance-search.xml");
-		config.addResource("mapping/" + dbType + "/finance-migration.xml");
 		config.addResource("mapping/" + dbType + "/finance-triggers.xml");
 		config.addResource("mapping/" + dbType + "/finance-payroll.xml");
 	}

@@ -1518,7 +1518,16 @@ public class FinanceTool {
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate())
 					.setParameter("openingBalance",
-							AccounterServerConstants.OPENING_BALANCE);
+							AccounterServerConstants.OPENING_BALANCE,
+							EncryptedStringType.INSTANCE)
+					.setParameter("creditors",
+							AccounterServerConstants.ACCOUNTS_PAYABLE,
+							EncryptedStringType.INSTANCE)
+					.setParameter("debtors",
+							AccounterServerConstants.ACCOUNTS_RECEIVABLE,
+							EncryptedStringType.INSTANCE)
+					.setParameter("multiple", "Multiple",
+							EncryptedStringType.INSTANCE);
 
 			List l = query.list();
 			if (l != null && !(l.isEmpty())) {
@@ -1542,23 +1551,7 @@ public class FinanceTool {
 					accountRegister.setPayTo((String) object[4]);
 					accountRegister.setCheckNumber(object[5] == null ? null
 							: ((String) object[5]));
-
-					int accountType = ((Integer) object[6]).intValue();
-					String accountName = null;
-					switch (accountType) {
-					case 1:
-						accountName = AccounterServerConstants.ACCOUNTS_RECEIVABLE;
-						break;
-					case 2:
-						accountName = AccounterServerConstants.ACCOUNTS_PAYABLE;
-						break;
-					case 3:
-						accountName = "Multiple";
-						break;
-
-					}
-					accountRegister.setAccount(accountName);
-
+					accountRegister.setAccount((String) object[6]);
 					/*
 					 * Clob cl = (Clob) object[7]; if (cl == null) {
 					 * 
@@ -1749,29 +1742,29 @@ public class FinanceTool {
 
 	public static void createViews() {
 		Session session = HibernateUtil.getCurrentSession();
-		session.getNamedQuery("createTransactionHistoryView").executeUpdate();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		session.getNamedQuery("createSalesPurchasesView").executeUpdate();
-		// session.getNamedQuery("createDeleteCompanyFunction").executeUpdate();
+		session.getNamedQuery("createTransactionHistoryView").executeUpdate();
+		session.getNamedQuery("createDeleteCompanyFunction").executeUpdate();
 		session.getNamedQuery("createInventoryPurchaseHistory").executeUpdate();
 		session.getNamedQuery("getInventoryHistoryView").executeUpdate();
 		session.getNamedQuery("JobsTransactionsView").executeUpdate();
-		// session.getNamedQuery("createSubscriptionFunction").executeUpdate();
-		// session.getNamedQuery("transactionsCreatedCountTrigger")
-		// .executeUpdate();
-		// session.getNamedQuery("companiesCountTrigger").executeUpdate();
-		// session.getNamedQuery("lastClientUpDateTrigger").executeUpdate();
-		// session.getNamedQuery("changedPasswordCountTrigger").executeUpdate();
-		// session.getNamedQuery("noOfUsersPerCompanyCountTrigger")
-		// .executeUpdate();
-		// session.getNamedQuery("noOfTRansactionPerCompanyCountTrigger")
-		// .executeUpdate();
-		// session.getNamedQuery("clientUpdateTrigger").executeUpdate();
-		// session.getNamedQuery("userInsertTrigger").executeUpdate();
-		// session.getNamedQuery("transactionsUpdateCountTrigger").executeUpdate();
-		// session.getNamedQuery("updateAccounterClassPathTrigger")
-		// .executeUpdate();
-		// session.getNamedQuery("updateItemPathTrigger").executeUpdate();
+		session.getNamedQuery("createSubscriptionFunction").executeUpdate();
+		session.getNamedQuery("transactionsCreatedCountTrigger")
+				.executeUpdate();
+		session.getNamedQuery("companiesCountTrigger").executeUpdate();
+		session.getNamedQuery("lastClientUpDateTrigger").executeUpdate();
+		session.getNamedQuery("changedPasswordCountTrigger").executeUpdate();
+		session.getNamedQuery("noOfUsersPerCompanyCountTrigger")
+				.executeUpdate();
+		session.getNamedQuery("noOfTRansactionPerCompanyCountTrigger")
+				.executeUpdate();
+		session.getNamedQuery("clientUpdateTrigger").executeUpdate();
+		session.getNamedQuery("userInsertTrigger").executeUpdate();
+		session.getNamedQuery("transactionsUpdateCountTrigger").executeUpdate();
+		session.getNamedQuery("updateAccounterClassPathTrigger")
+				.executeUpdate();
+		session.getNamedQuery("updateItemPathTrigger").executeUpdate();
 
 		transaction.commit();
 	}

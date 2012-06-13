@@ -106,10 +106,9 @@
 	<%
    String app = request.getHeader( "Nativeapp" );
    boolean isNative = ( app != null && !app.equals(""));
-   Boolean isDekstop=request.getHeader("User-Agent").contains("Mozilla");
     Boolean isIpad =  (Boolean)request.getSession().getAttribute("IpadApp");
     
-   if( isNative || isDekstop){ %>
+   if( isNative){ %>
    	<link type="text/css" rel="stylesheet" href="../css/native.css?version=<%= version%>" />
    <% }	%>
     <!--                                           -->
