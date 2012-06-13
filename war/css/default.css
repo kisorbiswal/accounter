@@ -455,7 +455,7 @@ button#closeButton {
 	color: #020202;
 }
 
-.button_bar {
+.button_bar,.view-gwt-dialog .footerLayout {
 	display: -ms-flexbox;
 	-ms-box-direction: normal;
 	-ms-box-pack: end;
@@ -1828,7 +1828,8 @@ button:disabled:hover,button:disabled:active{
 	background: rgba(202, 202, 202, 0.49) !important;
 	cursor: auto;
 	color: rgba(33,33,33,0.49)!important;
-	border-color: #b8b6b7 !important;
+	border-color: rgba(0,0,0,0.001) !important;
+	/* border-color: #b8b6b7 !important; */
 }
 #companiesPanel .app-bar{
 	text-align: right;
@@ -1864,7 +1865,8 @@ select:hover{
 .trackTaxhidePanel,#ReceivePaymentView .gridLayout,#WareHouseView .mainHLay,#DepositView .mainPanel,
 #TDSDeductorDetailsView .panel1 .otherDynamicForm,#TDSChalanDetailsView .verticalPanel,#CashPurchaseView .itemsFlowPanel .win8editrowPanel,
 .report-section .report-left-panel,.report-section .report-right-panel,#customercreditmemoview .customerCreditMemoViewPanel,
-#NewEmployeeView .mainPanel,#NewEmployeeView .firstPanel .empDetailsInfoForm{
+#NewEmployeeView .mainPanel,#NewEmployeeView .firstPanel .empDetailsInfoForm,.attachment_panel .attachmentTable,
+.attachment_panel .mainPanel,#invoicebrandingview .mainPanel,#invoicebrandingview .mainPanel .setting-class-panel{
 	/* height: 100%;
 	column-width: 300px; */
 	
@@ -1886,8 +1888,8 @@ select:hover{
 #UsersActivityListView .mainPanel,.groupPanel .detailsTab,#CustomerView .tabPanel,.groupPanel,
 #PreferenceSettingsView .company_settings_panel,#InventoryAssemblyView .topHLay,#InventoryAssemblyView .topPanel2
 ,#CustomerView .rightVLay,#ReceivePaymentView .gridLayout,#DepositView .mainPanel,#TDSChalanDetailsView .verticalPanel,
-.report-section .report-left-panel,.report-section .report-right-panel,#NewEmployeeView .mainPanel,
-#NewEmployeeView .firstPanel .empDetailsInfoForm{
+.report-section .report-left-panel,.report-section .report-right-panel,#NewEmployeeView .mainPanel,#invoicebrandingview .mainPanel,
+#invoicebrandingview .mainPanel .setting-class-panel{
 	height: 100% !important;
 	
 }
@@ -2252,9 +2254,7 @@ a:hover,.subMenuName:hover{
 .recounciliation_grid table{
 	width: 100%;
 }
-#invoicebrandingview .mainPanel{
-	margin-top: 15px;
-}
+
 #invoicebrandingview .gwt-MenuBar-horizontal table,.gwt-MenuBarPopup .menuPopupMiddle .gwt-MenuItem{
 	background: gray;
 	color: white;
@@ -2449,7 +2449,7 @@ table.gridBody tr{
 .main_menu_button{
 	text-transform: capitalize;
 }
-.errorPanel{
+.viewholder .errorPanel{
 	background: #FAE1E1;
 	border: 1px solid red;
 	padding: 5px 0;
@@ -2596,9 +2596,8 @@ table.gridBody .gridEvenRow{
 	border: 2px solid #ccc;
 	margin: 10px;
 	padding: 10px;
-	display: -ms-flexbox;
-	-ms-flex-pack: justify;
 	width: 300px;
+	word-wrap: break-word;
 }
 .companyNameAnchor a{
 	font-size: 20px;
@@ -2634,7 +2633,7 @@ table.gridBody .gridEvenRow{
 	height: 100%;
 }
 .listView .listgrid .gridBodyContainer{
-	height: 100%;
+	height: 95%;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
@@ -2713,7 +2712,7 @@ table.gridBody .gridEvenRow{
 .gwt-PopupPanel .blue-month-line tr:hover td{
 	cursor: pointer;
 }
-.search_result_table{
+.search_result_table,.useractivitylog_parent .user_activity_log{
 	width: 100%;
 }
 .view-gwt-dialog{
@@ -2816,9 +2815,6 @@ table.gridBody .gridEvenRow{
 #writechequeview .disclosurePanelcontent .vendorAccountFlowPanel .win8editrowPanel,
 #CashPurchaseView .disclosurePanelcontent .accountFlowPanel .win8editrowPanel,
 #VendorBillView .disclosurePanelcontent .accountFlowPanel .win8editrowPanel{
-	/* height: 100%;
-	column-width: 300px; */
-	
 	display: -ms-flexbox;
 	height: 450px;
 	-ms-flex-direction: column;
@@ -2833,4 +2829,47 @@ table.gridBody .gridEvenRow{
 }
 .disclosurePanelcontent .itemsFlowPanel .win8editrowPanel input[type=text],.disclosurePanelcontent .accountFlowPanel .win8editrowPanel input[type=text]{
 	margin-right: 10px;
+}
+#VendorBillView .no_records .win8editrowPanel,#CashPurchaseView .no_records .win8editrowPanel,#VendorBillView .no_records .win8editrowPanel{
+	height: auto !important;
+}
+#NewPayHeadView .panel .form .panel,.attachment_panel .mainPanel,#NewPayRunView .attendanceForm .mainVLay{
+	padding-left: 0px !important;
+}
+.view-gwt-dialog .view-dialog-child{
+	width: 100%;
+}
+.view-gwt-dialog div:first-child .group_dialogue_list{
+	width: 95% !important;
+}
+.quantityPopup table tr:hover td,.quantityPopup table tr td{
+	border: 0 none !important;
+}
+.attachment_panel .attachmentTable .transaction_attachment_hpanel{
+	margin: 10px;
+	border: 2px solid #ccc;
+	padding: 5px;
+	-ms-flex-pack: justify;
+}
+.attachment_panel,.attachment_panel .mainPanel{
+	height: 100%;
+}
+.attachment_panel .attachmentTable{
+	height: 80% !important;
+}
+.attachment_panel .history_notes_label{
+	margin-right: 10px;
+}
+.attachment_panel form .hPanel{
+	border: 2px solid #ccc;
+	padding: 5px;
+}
+#BudgetListView .mainVLay{
+	display: block !important;
+}
+#invoicebrandingview .mainPanel .setting-class-panel{
+	margin: 0 20px;
+}
+#NewPayRunView button{
+	width: 100px;
 }

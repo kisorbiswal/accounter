@@ -525,14 +525,17 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		mainVlay.add(topHLay);
 		mainVlay.add(contHLay);
 
+		StyledPanel contactsPanel = new StyledPanel("addnew_edit_panel");
+		contactsPanel.add(gridView);
+		contactsPanel.add(addButton);
+
 		StyledPanel panel = new StyledPanel("panel");
 		// panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 		// panel.getElement().getStyle().setFloat(Float.RIGHT);
 		Label contactTableTitle = new Label(messages.contacts());
 		contactTableTitle.addStyleName("editTableTitle");
 		panel.add(contactTableTitle);
-		panel.add(gridView);
-		panel.add(addButton);
+		panel.add(contactsPanel);
 		// mainVlay.setWidth("100%");
 		mainVlay.add(panel);
 		// mainVlay.add(memoForm);
