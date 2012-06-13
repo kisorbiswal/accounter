@@ -50,7 +50,6 @@ public class CustomDialog extends DialogBox {
 	}
 
 	public void showHeader() {
-
 		cross = new Image(Accounter.getFinanceImages().dialougueCloseicon());
 		cross.setTitle(messages.clickThisTo(messages.close().toLowerCase(), ""));
 		// help = new Image("/images/help-icon.png");
@@ -87,6 +86,9 @@ public class CustomDialog extends DialogBox {
 		Element td = getCellElement(0, 1);
 		td.setInnerHTML("");
 		td.appendChild(captionPanel.getElement());
+		td.getParentElement().getParentElement().getParentElement()
+				.getParentElement().getParentElement()
+				.setClassName("view-dialog-child");
 	}
 
 	@Override
