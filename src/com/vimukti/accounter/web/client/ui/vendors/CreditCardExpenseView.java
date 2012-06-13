@@ -390,11 +390,7 @@ public class CreditCardExpenseView extends
 		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
-		accountsDisclosurePanel.setTitle("Itemize by Account");
-		Label accountTableTitle = new Label(
-				messages2.table(messages.Accounts()));
-		accountTableTitle.setStyleName("editTableTitle");
-		accountFlowPanel.add(accountTableTitle);
+		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -448,7 +444,7 @@ public class CreditCardExpenseView extends
 		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
-		itemsDisclosurePanel.setTitle("Itemize by Product/Service");
+		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);

@@ -670,7 +670,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		StyledPanel gridPanel = new StyledPanel("tableContainer");
-		Label itemTableTitle = new Label(messages2.table(messages.items()));
+		Label itemTableTitle = new Label(messages.ItemizebyProductService());
 		itemTableTitle.setStyleName("editTableTitle");
 		gridPanel.add(itemTableTitle);
 		gridPanel.add(customerTransactionTable);

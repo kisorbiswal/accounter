@@ -47,7 +47,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	protected static AccounterMessages messages = Global.get().messages();
 	protected int start;
 	protected boolean isActive = true;
-	public static final int DEFAULT_PAGE_SIZE = Accounter.isWin8App() ? 12 : 50;
+	public static final int DEFAULT_PAGE_SIZE = Accounter.isWin8App() ? 14 : 50;
 
 	public BaseListView() {
 		this.getElement().addClassName("listView");

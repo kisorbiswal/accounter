@@ -316,10 +316,6 @@ public class VendorCreditMemoView extends
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
-		Label accountsTableTitle = new Label(messages2.table(messages
-				.Accounts()));
-		accountsTableTitle.setStyleName("editTableTitle");
-		accountFlowPanel.add(accountsTableTitle);
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -373,9 +369,6 @@ public class VendorCreditMemoView extends
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
-		Label itemTableTitle = new Label(messages2.table(messages.items()));
-		itemTableTitle.setStyleName("editTableTitle");
-		itemsFlowPanel.add(itemTableTitle);
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);

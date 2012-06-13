@@ -1002,10 +1002,6 @@ public class WriteChequeView extends
 		vendorAccountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		vendorAccountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
-		Label accountTableTitle = new Label(
-				messages2.table(messages.Accounts()));
-		accountTableTitle.setStyleName("editTableTitle");
-		vendorAccountFlowPanel.add(accountTableTitle);
 		vendorAccountFlowPanel.add(transactionVendorAccountTable);
 		vendorAccountFlowPanel.add(accountTableButton);
 		vendorAccountsDisclosurePanel.setContent(vendorAccountFlowPanel);

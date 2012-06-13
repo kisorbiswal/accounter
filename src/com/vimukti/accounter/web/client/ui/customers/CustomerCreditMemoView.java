@@ -216,10 +216,6 @@ public class CustomerCreditMemoView extends
 		StyledPanel accountStyledPanel = new StyledPanel("accountFlowPanel");
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
-		Label accountTableTitle = new Label(
-				messages2.table(messages.Accounts()));
-		accountTableTitle.setStyleName("editTableTitle");
-		accountStyledPanel.add(accountTableTitle);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountStyledPanel.add(customerAccountTransactionTable);
 		accountStyledPanel.add(accountTableButton);
@@ -274,9 +270,6 @@ public class CustomerCreditMemoView extends
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
-		Label itemTableTitle = new Label(messages2.table(messages.items()));
-		itemTableTitle.setStyleName("editTableTitle");
-		itemsStyledPanel.add(itemTableTitle);
 		itemsStyledPanel.add(customerItemTransactionTable);
 		itemsStyledPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsStyledPanel);
