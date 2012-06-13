@@ -106,6 +106,10 @@ public class Windows8MenuView extends BaseView {
 
 	private StyledPanel vatmenu;
 
+	private boolean isFinancialAdvisor;
+
+	private boolean isAdmin;
+
 	@Override
 	public void init() {
 		super.init();
@@ -118,6 +122,10 @@ public class Windows8MenuView extends BaseView {
 	public void setPreferencesandPermissions(
 			ClientCompanyPreferences preferences, ClientUser clientUser,
 			CountryPreferences countryPreferences, Set<String> features) {
+
+		this.isAdmin = clientUser.isAdmin();
+
+		this.isFinancialAdvisor = isAdvisor(clientUser);
 
 		this.features = features;
 
@@ -193,6 +201,13 @@ public class Windows8MenuView extends BaseView {
 		this.isJobTrackingEnabled = preferences.isJobTrackingEnabled();
 
 		getMenu();
+	}
+
+	private boolean isAdvisor(ClientUser clientUser) {
+		if (clientUser.getUserRole().equals(RolePermissions.FINANCIAL_ADVISER))
+			return true;
+		else
+			return false;
 	}
 
 	private boolean CanDoManageAccounts(ClientUser clientUser) {
@@ -295,7 +310,7 @@ public class Windows8MenuView extends BaseView {
 			mainMenuPanel.add(getInventoryMenu(messages.inventory()));
 		}
 
-		if (hasPermission(Features.PAY_ROLL)) {
+		if ((isAdmin || isFinancialAdvisor) && hasPermission(Features.PAY_ROLL)) {
 			mainMenuPanel.add(getPayrollMenu(messages.payroll()));
 		}
 
@@ -1459,8 +1474,8 @@ public class Windows8MenuView extends BaseView {
 		vendorLabel.setStyleName("menuName");
 
 		W8MenuItem vendorCenterItem = new W8MenuItem(
-				messages.vendorCentre(Global.get().Vendor()), messages2.vendorCentreDesc(),
-				HistoryTokens.VENDORCENTRE);
+				messages.vendorCentre(Global.get().Vendor()),
+				messages2.vendorCentreDesc(), HistoryTokens.VENDORCENTRE);
 
 		vendorListForm.add(vendorCenterItem);
 
@@ -1752,8 +1767,8 @@ public class Windows8MenuView extends BaseView {
 				messages2.companiesDesc(), HistoryTokens.COMPANIES);
 		companyMenuBar.add(companies);
 
-		W8MenuItem dashBoard = new W8MenuItem(messages.dashBoard(), messages2.dashboardDesc(),
-				HistoryTokens.DASHBOARD);
+		W8MenuItem dashBoard = new W8MenuItem(messages.dashBoard(),
+				messages2.dashboardDesc(), HistoryTokens.DASHBOARD);
 		companyMenuBar.add(dashBoard);
 
 		if (canDoManageAccounts) {

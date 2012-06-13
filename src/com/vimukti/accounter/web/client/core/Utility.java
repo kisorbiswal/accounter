@@ -168,6 +168,8 @@ public class Utility implements IsSerializable, Serializable {
 		case IAccounterCore.BUDGET:
 		case IAccounterCore.TDSDEDUCTORMASTER:
 		case IAccounterCore.TDSRESPONSIBLEPERSON:
+		case ClientTransaction.TYPE_PAY_RUN:
+		case ClientTransaction.TYPE_PAY_EMPLOYEE:
 			isAllowed = user.getUserRole().equals(
 					RolePermissions.FINANCIAL_ADVISER);
 			break;
@@ -204,7 +206,6 @@ public class Utility implements IsSerializable, Serializable {
 			isAllowed = permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES;
 			break;
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
-		case ClientTransaction.TYPE_PAY_RUN:
 			isAllowed = permissions.getTypeOfManageAccounts() == RolePermissions.TYPE_YES;
 			break;
 		case IAccounterCore.ACCOUNT:
@@ -2065,6 +2066,14 @@ public class Utility implements IsSerializable, Serializable {
 		case BUDGET:
 		case TDSDEDUCTORMASTER:
 		case TDSRESPONSIBLEPERSON:
+		case PAY_HEAD:
+		case PAY_STRUCTURE:
+		case PAY_RUN:
+		case EMPLOYEE:
+		case EMPLOYEE_GROUP:
+		case ATTENDANCE_PRODUCTION_TYPE:
+		case PAY_ROLL_UNIT:
+		case TYPE_PAYEMPLOYEE:
 			isAllowed = user.getUserRole().equals(
 					RolePermissions.FINANCIAL_ADVISER);
 			break;

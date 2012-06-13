@@ -2,8 +2,6 @@ package com.vimukti.accounter.web.client.ui.win8;
 
 import java.util.ArrayList;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -18,48 +16,32 @@ public class W8MenuItem extends DynamicForm {
 	private Label titleDesc;
 	private Hyperlink titleName;
 
-	public W8MenuItem(String title, String description,
-			final String historyToken) {
+	public W8MenuItem(String title, String description, String historyToken) {
 		super("menuItem");
-		titleName = new Hyperlink(title, (Boolean) false, historyToken);
-		titleDesc = new Label(description);
-		add(titleName);
-		add(titleDesc);
-		titleName.setStyleName("menuName");
-		titleDesc.setStyleName("menuDescription");
-
-		addDomHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				com.vimukti.accounter.web.client.ui.core.History.newItem(historyToken);
-			}
-		}, ClickEvent.getType());
+		sinkEvents(Event.ONCLICK);
+		addMenuItem(title, description, historyToken, false);
 	}
 
-	public W8MenuItem(String title, String description,
-			final String historyToken, boolean value) {
-		super("menuItem");
-		titleName = new Hyperlink(title, (Boolean) false, historyToken);
+	private void addMenuItem(String title, String description,
+			final String historyToken, boolean isSelected) {
+		titleName = new Hyperlink(title, false, historyToken);
 		titleDesc = new Label(description);
 		add(titleName);
 		add(titleDesc);
-		if (value) {
+
+		if (isSelected) {
 			titleName.setStyleName("selectedMenuName");
 			titleDesc.setStyleName("selectedMenuDescription");
 		} else {
 			titleName.setStyleName("menuName");
 			titleDesc.setStyleName("menuDescription");
 		}
+	}
 
-		addDomHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addStyleName("menuClicked");
-				com.vimukti.accounter.web.client.ui.core.History.newItem(historyToken);
-			}
-		}, ClickEvent.getType());
+	public W8MenuItem(String title, String description,
+			final String historyToken, boolean value) {
+		super("menuItem");
+		addMenuItem(title, description, historyToken, value);
 	}
 
 	public W8MenuItem(String menuTitle, String description,
@@ -75,7 +57,7 @@ public class W8MenuItem extends DynamicForm {
 					for (Widget widget : children) {
 						widget.setVisible(true);
 					}
-					
+
 					getParent().getElement().addClassName("selectedSubMenu");
 					break;
 				default:
@@ -84,6 +66,7 @@ public class W8MenuItem extends DynamicForm {
 				super.onBrowserEvent(event);
 			}
 		};
+
 		this.titleName.setText(menuTitle);
 		titleName.setStyleName("menuName");
 		titleDesc.setStyleName("menuDescription");
@@ -97,4 +80,9 @@ public class W8MenuItem extends DynamicForm {
 		setStyleName("subMenuItem");
 	}
 
+	@Override
+	public void onBrowserEvent(Event event) {
+		super.onBrowserEvent(event);
+		titleName.onBrowserEvent(event);
+	}
 }

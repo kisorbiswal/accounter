@@ -132,7 +132,7 @@ public class MenuBar {
 		}
 
 		// this.addMenu(getFixedAssetsMenu(messages.fixedAssets()));
-		if (hasPermission(Features.PAY_ROLL)) {
+		if ((isAdmin || isFinancialAdvisor) && hasPermission(Features.PAY_ROLL)) {
 			this.addMenu(getPayrollMenu(messages.payroll()));
 		}
 		if (canViewReports) {
@@ -275,8 +275,6 @@ public class MenuBar {
 		if ((isAdmin || isFinancialAdvisor)) {
 			settingsMenuBar.addMenuItem(messages.invoiceBranding(),
 					HistoryTokens.INVOICEBRANDING, "i");
-		}
-		if (isAdmin || isFinancialAdvisor) {
 			settingsMenuBar.addMenuItem(messages.chequePrintSetting(),
 					HistoryTokens.CHECK_PRINT_SETTING);
 		}
