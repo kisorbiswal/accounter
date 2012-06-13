@@ -192,6 +192,7 @@ public class AccountTransaction extends CreatableObject implements
 					.getCurrencyFactor());
 			session.saveOrUpdate(account);
 		}
+
 		return super.onSave(session);
 	}
 
@@ -202,6 +203,7 @@ public class AccountTransaction extends CreatableObject implements
 					getTransaction().previousCurrencyFactor);
 			session.saveOrUpdate(getAccount());
 		}
+
 		return super.onDelete(session);
 	}
 

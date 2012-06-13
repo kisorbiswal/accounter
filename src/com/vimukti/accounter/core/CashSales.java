@@ -905,6 +905,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 					e.add(item, tItem.getQuantity().reverse(),
 							tItem.getUnitPriceInBaseCurrency(),
 							tItem.getWareHouse());
+					tItem.addPurchasesEffects(e);
 				}
 				break;
 			default:
@@ -949,7 +950,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 				}
 				boolean billableExcepence = features
 						.contains(Features.BILLABLE_EXPENSE);
-				
+
 			}
 		}
 

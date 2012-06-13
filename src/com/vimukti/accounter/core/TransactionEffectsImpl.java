@@ -122,13 +122,8 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 	}
 
 	private void mergeAccountTransactions(Session session) {
-		Set<AccountTransaction> oldAT = new HashSet<AccountTransaction>();
-		for (AccountTransaction at : transaction
-				.getAccountTransactionEntriesList()) {
-			if (at.isUpdateAccount()) {
-				oldAT.add(at);
-			}
-		}
+		Set<AccountTransaction> oldAT = new HashSet<AccountTransaction>(
+				transaction.getAccountTransactionEntriesList());
 
 		findOutIntersectionAT(oldAT, newATs);
 

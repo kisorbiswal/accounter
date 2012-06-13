@@ -138,6 +138,7 @@ public class BuildAssembly extends Transaction {
 			Item item = tItem.getItem();
 			e.add(item, tItem.getQuantity().reverse(),
 					tItem.getUnitPriceInBaseCurrency(), tItem.getWareHouse());
+			tItem.addPurchasesEffects(e);
 		}
 	}
 

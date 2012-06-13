@@ -101,7 +101,7 @@
 
 	<query name="get.all.Items">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.Item i where i.company=:company
+		from com.vimukti.accounter.core.Item it where it.type in(2,4) and it.company=:company
 	</query>
 
 	<sql-query name="get.all.inventory.items.transactions">
@@ -132,4 +132,9 @@
 		<query-param name="company" type="company"/>
 		from com.vimukti.accounter.core.Item i where i.type in (2,4) and i.averageCost &lt; 0 and i.company=:company
 	</query>
+	
+	<sql-query name="make.all.accounttransaction.can.updateaccount">
+		<query-param name="company" type="Company"/>
+		UPDATE ACCOUNT_TRANSACTION SET UPDATE_ACCOUNT=TRUE WHERE UPDATE_ACCOUNT=FALSE; 
+	</sql-query>
 </hibernate-mapping>

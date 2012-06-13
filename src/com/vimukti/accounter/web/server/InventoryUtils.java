@@ -16,10 +16,12 @@ import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class InventoryUtils {
 
-	public static void remapSalesPurchases(List<Item> items) {
+	public static void remapSalesPurchases(List<Item> items)
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		for (Item item : items) {
 			long itemID = item.getID();
@@ -38,10 +40,13 @@ public class InventoryUtils {
 	}
 
 	private static void adjustSales(Item item, boolean isSchemeAvarage,
-			List<TransactionItem> sales, List<InventoryDetails> purchases) {
+			List<TransactionItem> sales, List<InventoryDetails> purchases)
+			throws AccounterException {
 		if (sales.isEmpty()) {
 			return;
 		}
+		InventoryEffects iEffects = new InventoryEffects();
+
 		Iterator<InventoryDetails> purchaseIterator = purchases.iterator();
 		for (TransactionItem inventorySale : sales) {
 			Quantity salesQty = inventorySale.getQuantityCopy();
@@ -72,9 +77,16 @@ public class InventoryUtils {
 					break;
 				}
 			}
-			inventorySale.modifyPurchases(purchaseForThisSale, isSchemeAvarage,
-					isSchemeAvarage ? item.getAverageCost() : 0);
+
+			iEffects.addPurchase(inventorySale, purchaseForThisSale,
+					isSchemeAvarage, isSchemeAvarage ? item.getAverageCost()
+							: 0);
+
+			// inventorySale.modifyPurchases(purchaseForThisSale,
+			// isSchemeAvarage,
+			// isSchemeAvarage ? item.getAverageCost() : 0);
 		}
+		iEffects.doEffect();
 	}
 
 	private static List<TransactionItem> getSales(long itemID) {

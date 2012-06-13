@@ -1047,6 +1047,7 @@ public class Invoice extends Transaction implements Lifecycle {
 					e.add(item, tItem.getQuantity().reverse(),
 							tItem.getUnitPriceInBaseCurrency(),
 							tItem.getWareHouse());
+					tItem.addPurchasesEffects(e);
 				}
 				break;
 			default:

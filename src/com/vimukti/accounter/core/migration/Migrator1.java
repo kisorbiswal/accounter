@@ -10,6 +10,7 @@ import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.InventoryUtils;
 
 /**
@@ -24,7 +25,7 @@ import com.vimukti.accounter.web.server.InventoryUtils;
 public class Migrator1 extends AbstractMigrator {
 
 	@Override
-	public void migrate(Company company) {
+	public void migrate(Company company) throws AccounterException {
 		log.info("Started Migrator1");
 		Session session = getSession();
 

@@ -7,14 +7,11 @@ import java.util.Set;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.InventoryPurchase;
 import com.vimukti.accounter.core.ItemUpdate;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionEffectsImpl;
-import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -49,13 +46,13 @@ public class Migrator11 extends AbstractMigrator {
 				transaction.getAccountTransactionEntriesList());
 
 		Set<AccountTransaction> missingAts = new HashSet<AccountTransaction>();
-		for (TransactionItem tItem : transaction.getTransactionItems()) {
-			if (tItem.getType() == TransactionItem.TYPE_ITEM
-					&& tItem.getItem() != null && tItem.getItem().isInventory()) {
-				matchATandIP(oldATs, tItem.getPurchases(), tItem.getItem()
-						.getAssestsAccount(), missingAts);
-			}
-		}
+		// for (TransactionItem tItem : transaction.getTransactionItems()) {
+		// if (tItem.getType() == TransactionItem.TYPE_ITEM
+		// && tItem.getItem() != null && tItem.getItem().isInventory()) {
+		// matchATandIP(oldATs, tItem.getPurchases(), tItem.getItem()
+		// .getAssestsAccount(), missingAts);
+		// }
+		// }
 		TransactionEffectsImpl tEffects = new TransactionEffectsImpl(
 				transaction);
 		transaction.getEffects(tEffects);
@@ -111,69 +108,64 @@ public class Migrator11 extends AbstractMigrator {
 		}
 	}
 
-	/**
-	 * It will check the Suitable AccountTrannsaction for this Purchases and
-	 * removes it from List
-	 * 
-	 * @param oldATs
-	 * @param purchases
-	 * @param assetAccount
-	 * @param missingAts
-	 * @return
-	 */
-	private double matchATandIP(Set<AccountTransaction> oldATs,
-			Set<InventoryPurchase> purchases, Account assetAccount,
-			Set<AccountTransaction> missingAts) {
-		if (purchases.isEmpty()) {
-			return 0.0D;
-		}
-		double assetChange = 0.00D;
-		for (InventoryPurchase purchase : purchases) {
-			double purchaseValue = purchase.getQuantity().calculatePrice(
-					purchase.getCost());
-			assetChange += purchaseValue;
-			Account effectingAccount = purchase.getEffectingAccount();
-			purchaseValue = (effectingAccount.isIncrease() ? 1 : -1)
-					* purchaseValue;
-			checkAndRemoveAT(oldATs, purchase.getEffectingAccount(),
-					-purchaseValue, missingAts);
-		}
-		assetChange = (assetAccount.isIncrease() ? 1 : -1) * assetChange;
-		checkAndRemoveAT(oldATs, assetAccount, assetChange, missingAts);
-		return assetChange;
-	}
+	// /**
+	// * It will check the Suitable AccountTrannsaction for this Purchases and
+	// * removes it from List
+	// *
+	// * @param oldATs
+	// * @param purchases
+	// * @param assetAccount
+	// * @param missingAts
+	// * @return
+	// */
+	// private double matchATandIP(Set<AccountTransaction> oldATs,
+	// Set<InventoryPurchase> purchases, Account assetAccount,
+	// Set<AccountTransaction> missingAts) {
+	// if (purchases.isEmpty()) {
+	// return 0.0D;
+	// }
+	// double assetChange = 0.00D;
+	// for (InventoryPurchase purchase : purchases) {
+	// double purchaseValue = purchase.getQuantity().calculatePrice(
+	// purchase.getCost());
+	// assetChange += purchaseValue;
+	// Account effectingAccount = purchase.getEffectingAccount();
+	// purchaseValue = (effectingAccount.isIncrease() ? 1 : -1)
+	// * purchaseValue;
+	// checkAndRemoveAT(oldATs, purchase.getEffectingAccount(),
+	// -purchaseValue, missingAts);
+	// }
+	// assetChange = (assetAccount.isIncrease() ? 1 : -1) * assetChange;
+	// checkAndRemoveAT(oldATs, assetAccount, assetChange, missingAts);
+	// return assetChange;
+	// }
 
-	/**
-	 * It will check the AccountTransaction with same account and amount. If
-	 * exists removes that from list and Make the VAR 'updateAccount' false;
-	 * 
-	 * @param ats
-	 * @param account
-	 * @param amount
-	 * @param missingAts
-	 * @return
-	 */
-	private AccountTransaction checkAndRemoveAT(Set<AccountTransaction> ats,
-			Account account, double amount, Set<AccountTransaction> missingAts) {
-		Iterator<AccountTransaction> iterator = ats.iterator();
-		Transaction tr = null;
-		while (iterator.hasNext()) {
-			AccountTransaction next = iterator.next();
-			tr = next.getTransaction();
-			if (next.getAccount().getID() == account.getID()
-					&& DecimalUtil.isEquals(next.getAmount(), amount)) {
-				log.info("Found the AT match for Purchase : " + next);
-				next.setUpdateAccount(false);
-				getSession().saveOrUpdate(next);
-				iterator.remove();
-				return next;
-			}
-		}
-		if (tr != null) {
-			missingAts.add(new AccountTransaction(account, tr, amount, false));
-		}
-		return null;
-	}
+	// /**
+	// * It will check the AccountTransaction with same account and amount. If
+	// * exists removes that from list and Make the VAR 'updateAccount' false;
+	// *
+	// * @param ats
+	// * @param account
+	// * @param amount
+	// * @param missingAts
+	// * @return
+	// */
+	// private AccountTransaction checkAndRemoveAT(Set<AccountTransaction> ats,
+	// Account account, double amount, Set<AccountTransaction> missingAts) {
+	// Iterator<AccountTransaction> iterator = ats.iterator();
+	// while (iterator.hasNext()) {
+	// AccountTransaction next = iterator.next();
+	// if (next.getAccount().getID() == account.getID()
+	// && DecimalUtil.isEquals(next.getAmount(), amount)) {
+	// log.info("Found the AT match for Purchase : " + next);
+	// iterator.remove();
+	// next.setUpdateAccount(true);
+	// getSession().saveOrUpdate(next);
+	// return next;
+	// }
+	// }
+	// return null;
+	// }
 
 	private void findOutIntersectionAT(Set<AccountTransaction> oldATs,
 			List<AccountTransaction> newATs) {
@@ -191,6 +183,8 @@ public class Migrator11 extends AbstractMigrator {
 								newAT.getAmount())) {
 					newATsIterator.remove();
 					oldAtsIterator.remove();
+					oldAT.setUpdateAccount(true);
+					getSession().saveOrUpdate(oldAT);
 					break;
 				}
 			}

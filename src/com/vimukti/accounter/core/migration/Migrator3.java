@@ -4,16 +4,17 @@ import java.util.List;
 
 import org.hibernate.Query;
 
-import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.InventoryUtils;
 
 public class Migrator3 extends AbstractMigrator {
 
 	@Override
-	public void migrate(Company company) {
+	public void migrate(Company company) throws AccounterException {
 		Query query = getSession().getNamedQuery("get.All.InventoryItem")
 				.setParameter("companyId", company.getId());
 		List<Item> items = query.list();
@@ -29,10 +30,10 @@ public class Migrator3 extends AbstractMigrator {
 					.setParameter("itemId", item.getID());
 			List<AccountTransaction> list = query.list();
 			for (AccountTransaction at : list) {
-				Account account = at.getAccount();
-				account.updateCurrentBalance(at.getTransaction(), (account
-						.isIncrease() ? -at.getAmount() : at.getAmount()), 1);
-				getSession().saveOrUpdate(account);
+				Transaction transaction = at.getTransaction();
+				transaction.getAccountTransactionEntriesList().remove(at);
+				getSession().saveOrUpdate(transaction);
+				getSession().saveOrUpdate(at);
 			}
 		}
 

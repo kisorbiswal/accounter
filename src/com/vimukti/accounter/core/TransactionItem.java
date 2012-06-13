@@ -2,9 +2,6 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
@@ -372,7 +369,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 		if (this.type == TYPE_ITEM && getItem() != null
 				&& getItem().isInventory()) {
-			modifyPurchases(null, false, null);
+			// modifyPurchases(null, false, null);
 		}
 
 		return false;
@@ -419,7 +416,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 		if (this.type == TYPE_ITEM && getItem() != null
 				&& getItem().isInventory()) {
-			modifyPurchases(null, false, null);
+			// modifyPurchases(null, false, null);
 		}
 
 	}
@@ -711,7 +708,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 *            the purchases to set
 	 */
 	public void setPurchases(Set<InventoryPurchase> purchases) {
-		this.purchases = purchases;
+		this.purchases.clear();
+		this.purchases.addAll(purchases);
 	}
 
 	/**
@@ -719,102 +717,67 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 * 
 	 * @param newPurchases
 	 */
-	public void modifyPurchases(Map<Double, Quantity> newPurchases,
-			boolean useAverage, Double averageCost) {
-		Session session = HibernateUtil.getCurrentSession();
-		double amountToReverseUpdate = 0.00D;
-		double amountToUpdate = 0.00D;
-		if (newPurchases == null) {
-			// we are deleting this transaction item
-			amountToReverseUpdate += getPreviousPurchaseAmount();
-		} else {
-			if (!isNewlyCreated) {
-				// remove all old amount
-				// amountToReverseUpdate = clearPurchases();
-				amountToReverseUpdate = getPreviousPurchaseAmount();
-			}
-
-			amountToUpdate = getNewPurchaseAmount(newPurchases, useAverage,
-					averageCost);
-			// amountToUpdate = createPurchases(newPurchases, useAverage,
-			// averageCost);
-		}
-		// did some thing changed
-		if (!DecimalUtil.isEquals(amountToUpdate, amountToReverseUpdate)) {
-
-			mergreChanges(newPurchases, useAverage, averageCost);
-
-			Account assetsAccount = getItem().getAssestsAccount();
-			if (assetsAccount != null) {
-				assetsAccount.updateCurrentBalance(getTransaction(),
-						-amountToReverseUpdate, 1);
-				assetsAccount.updateCurrentBalance(getTransaction(),
-						amountToUpdate, 1);
-				session.saveOrUpdate(assetsAccount);
-			}
-
-		}
-	}
-
-	private void mergreChanges(Map<Double, Quantity> newPurchases,
-			boolean useAverage, Double averageCost) {
-
-		if (newPurchases == null) {
-			clearPurchases();
-			return;
-		}
-
-		Session session = HibernateUtil.getCurrentSession();
-		Transaction transaction = HibernateUtil
-				.initializeAndUnproxy(getTransaction());
-		Quantity mapped = getQuantityCopy();
-		Iterator<InventoryPurchase> iterator = getPurchases().iterator();
-		while (iterator.hasNext()) {
-			InventoryPurchase next = iterator.next();
-
-			Quantity quantity = newPurchases.get(next.getCost());
-			if (quantity != null && quantity.equals(next.getQuantity())) {
-				mapped = mapped.subtract(quantity);
-				newPurchases.remove(next.getCost());
-			} else {
-				// Reverse Updating ExpenseAccount
-				double purchaseValue = next.getQuantity().calculatePrice(
-						next.getCost());
-				Account expenseAccount = next.getEffectingAccount();
-				expenseAccount.updateCurrentBalance(transaction, purchaseValue,
-						1);
-				session.saveOrUpdate(expenseAccount);
-				session.delete(next);
-				iterator.remove();
-			}
-		}
-
-		// Creating New Purchases
-		for (Entry<Double, Quantity> entry : newPurchases.entrySet()) {
-			Quantity qty = entry.getValue();
-			double purchaseCost = transaction.isVendorCreditMemo() ? entry
-					.getKey() - this.getUnitPriceInBaseCurrency() : entry
-					.getKey();
-			double cost = useAverage ? averageCost : purchaseCost;
-			mapped = mapped.subtract(qty);
-			createPurchase(session, qty, cost);
-		}
-		if (!mapped.isEmpty()) {
-			double purchaseCost = transaction.isVendorCreditMemo() ? 0
-					: getUnitPriceInBaseCurrency();
-			double cost = (useAverage && averageCost != null) ? averageCost
-					: purchaseCost;
-			// finally what ever is unmapped add the that using unitprice
-			createPurchase(session, mapped, cost);
-		}
-
-	}
-
-	public double getUnitPriceInBaseCurrency() {
-		return getUnitPrice() * getTransaction().getCurrencyFactor();
-	}
-
-	/**
+	/*
+	 * public void modifyPurchases(Map<Double, Quantity> newPurchases, boolean
+	 * useAverage, Double averageCost) { Session session =
+	 * HibernateUtil.getCurrentSession(); double amountToReverseUpdate = 0.00D;
+	 * double amountToUpdate = 0.00D; if (newPurchases == null) { // we are
+	 * deleting this transaction item amountToReverseUpdate +=
+	 * getPreviousPurchaseAmount(); } else { if (!isNewlyCreated) { // remove
+	 * all old amount // amountToReverseUpdate = clearPurchases();
+	 * amountToReverseUpdate = getPreviousPurchaseAmount(); }
+	 * 
+	 * amountToUpdate = getNewPurchaseAmount(newPurchases, useAverage,
+	 * averageCost); // amountToUpdate = createPurchases(newPurchases,
+	 * useAverage, // averageCost); } // did some thing changed if
+	 * (!DecimalUtil.isEquals(amountToUpdate, amountToReverseUpdate)) {
+	 * 
+	 * mergreChanges(newPurchases, useAverage, averageCost);
+	 * 
+	 * Account assetsAccount = getItem().getAssestsAccount(); if (assetsAccount
+	 * != null) { assetsAccount.updateCurrentBalance(getTransaction(),
+	 * -amountToReverseUpdate, 1);
+	 * assetsAccount.updateCurrentBalance(getTransaction(), amountToUpdate, 1);
+	 * session.saveOrUpdate(assetsAccount); }
+	 * 
+	 * } }
+	 * 
+	 * private void mergreChanges(Map<Double, Quantity> newPurchases, boolean
+	 * useAverage, Double averageCost) {
+	 * 
+	 * if (newPurchases == null) { clearPurchases(); return; }
+	 * 
+	 * Session session = HibernateUtil.getCurrentSession(); Transaction
+	 * transaction = HibernateUtil .initializeAndUnproxy(getTransaction());
+	 * Quantity mapped = getQuantityCopy(); Iterator<InventoryPurchase> iterator
+	 * = getPurchases().iterator(); while (iterator.hasNext()) {
+	 * InventoryPurchase next = iterator.next();
+	 * 
+	 * double cost = useAverage ? averageCost : next.getCost();
+	 * 
+	 * Quantity quantity = newPurchases.get(cost); if (quantity != null &&
+	 * quantity.equals(next.getQuantity())) { mapped =
+	 * mapped.subtract(quantity); newPurchases.remove(next.getCost()); } else {
+	 * // Reverse Updating ExpenseAccount double purchaseValue =
+	 * next.getQuantity().calculatePrice( next.getCost()); Account
+	 * expenseAccount = next.getEffectingAccount();
+	 * expenseAccount.updateCurrentBalance(transaction, purchaseValue, 1);
+	 * session.saveOrUpdate(expenseAccount); session.delete(next);
+	 * iterator.remove(); } }
+	 * 
+	 * // Creating New Purchases for (Entry<Double, Quantity> entry :
+	 * newPurchases.entrySet()) { Quantity qty = entry.getValue(); double
+	 * purchaseCost = transaction.isVendorCreditMemo() ? entry .getKey() -
+	 * this.getUnitPriceInBaseCurrency() : entry .getKey(); double cost =
+	 * useAverage ? averageCost : purchaseCost; mapped = mapped.subtract(qty);
+	 * createPurchase(session, qty, cost); } if (!mapped.isEmpty()) { double
+	 * purchaseCost = transaction.isVendorCreditMemo() ? 0 :
+	 * getUnitPriceInBaseCurrency(); double cost = (useAverage && averageCost !=
+	 * null) ? averageCost : purchaseCost; // finally what ever is unmapped add
+	 * the that using unitprice createPurchase(session, mapped, cost); }
+	 * 
+	 * }
+	 *//**
 	 * Creates a Purchase
 	 * 
 	 * @param session
@@ -822,75 +785,56 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 * @param cost
 	 * @return
 	 */
-	private double createPurchase(Session session, Quantity qty, double cost) {
-		double purchaseValue = qty.calculatePrice(cost);
-		Account expenseAccount = getExpenseAccountForInventoryPurchase();
-		if (expenseAccount != null) {
-			expenseAccount.updateCurrentBalance(getTransaction(),
-					-purchaseValue, 1);
-			InventoryPurchase inventoryPurchase = new InventoryPurchase(item,
-					expenseAccount, qty, cost);
-			session.save(inventoryPurchase);
-			getPurchases().add(inventoryPurchase);
-		}
-		return purchaseValue;
+	/*
+	 * private double createPurchase(Session session, Quantity qty, double cost)
+	 * { double purchaseValue = qty.calculatePrice(cost); Account expenseAccount
+	 * = getExpenseAccountForInventoryPurchase(); if (expenseAccount != null) {
+	 * expenseAccount.updateCurrentBalance(getTransaction(), -purchaseValue, 1);
+	 * InventoryPurchase inventoryPurchase = new InventoryPurchase(item,
+	 * expenseAccount, qty, cost); session.save(inventoryPurchase);
+	 * getPurchases().add(inventoryPurchase); } return purchaseValue; }
+	 * 
+	 * private double getNewPurchaseAmount(Map<Double, Quantity> newPurchases,
+	 * boolean useAverage, Double averageCost) { Quantity mapped =
+	 * getQuantityCopy(); double amountToUpdate = 0; Transaction transaction =
+	 * HibernateUtil .initializeAndUnproxy(getTransaction()); for (Entry<Double,
+	 * Quantity> entry : newPurchases.entrySet()) { Quantity qty =
+	 * entry.getValue(); double purchaseCost = transaction.isVendorCreditMemo()
+	 * ? entry .getKey() - this.getUnitPriceInBaseCurrency() : entry .getKey();
+	 * double cost = (useAverage && averageCost != null) ? averageCost :
+	 * purchaseCost;
+	 * 
+	 * mapped = mapped.subtract(qty); amountToUpdate +=
+	 * qty.calculatePrice(cost); }
+	 * 
+	 * if (!mapped.isEmpty()) { double purchaseCost =
+	 * transaction.isVendorCreditMemo() ? 0 : getUnitPriceInBaseCurrency();
+	 * double cost = (useAverage && averageCost != null) ? averageCost :
+	 * purchaseCost; amountToUpdate += mapped.calculatePrice(cost); } return
+	 * amountToUpdate; }
+	 * 
+	 * private double getPreviousPurchaseAmount() { double amountToReverseUpdate
+	 * = 0; for (InventoryPurchase purchase : getPurchases()) { Quantity
+	 * quantity = purchase.getQuantity(); double purchaseValue =
+	 * quantity.calculatePrice(purchase.getCost()); amountToReverseUpdate +=
+	 * purchaseValue; } return amountToReverseUpdate; }
+	 * 
+	 * private void clearPurchases() { Session session =
+	 * HibernateUtil.getCurrentSession(); Iterator<InventoryPurchase> iterator =
+	 * getPurchases().iterator(); while (iterator.hasNext()) { InventoryPurchase
+	 * purchase = iterator.next(); Quantity quantity = purchase.getQuantity();
+	 * double purchaseValue = quantity.calculatePrice(purchase.getCost());
+	 * session.delete(purchase); iterator.remove(); Account expenseAccount =
+	 * purchase.getEffectingAccount();
+	 * expenseAccount.updateCurrentBalance(this.getTransaction(), purchaseValue,
+	 * 1); session.saveOrUpdate(expenseAccount); } }
+	 */
+
+	public double getUnitPriceInBaseCurrency() {
+		return getUnitPrice() * getTransaction().getCurrencyFactor();
 	}
 
-	private double getNewPurchaseAmount(Map<Double, Quantity> newPurchases,
-			boolean useAverage, Double averageCost) {
-		Quantity mapped = getQuantityCopy();
-		double amountToUpdate = 0;
-		Transaction transaction = HibernateUtil
-				.initializeAndUnproxy(getTransaction());
-		for (Entry<Double, Quantity> entry : newPurchases.entrySet()) {
-			Quantity qty = entry.getValue();
-			double purchaseCost = transaction.isVendorCreditMemo() ? entry
-					.getKey() - this.getUnitPriceInBaseCurrency() : entry
-					.getKey();
-			double cost = (useAverage && averageCost != null) ? averageCost
-					: purchaseCost;
-
-			mapped = mapped.subtract(qty);
-			amountToUpdate += qty.calculatePrice(cost);
-		}
-
-		if (!mapped.isEmpty()) {
-			double purchaseCost = transaction.isVendorCreditMemo() ? 0
-					: getUnitPriceInBaseCurrency();
-			double cost = (useAverage && averageCost != null) ? averageCost
-					: purchaseCost;
-			amountToUpdate += mapped.calculatePrice(cost);
-		}
-		return amountToUpdate;
-	}
-
-	private double getPreviousPurchaseAmount() {
-		double amountToReverseUpdate = 0;
-		for (InventoryPurchase purchase : getPurchases()) {
-			Quantity quantity = purchase.getQuantity();
-			double purchaseValue = quantity.calculatePrice(purchase.getCost());
-			amountToReverseUpdate += purchaseValue;
-		}
-		return amountToReverseUpdate;
-	}
-
-	private void clearPurchases() {
-		Session session = HibernateUtil.getCurrentSession();
-		Iterator<InventoryPurchase> iterator = getPurchases().iterator();
-		while (iterator.hasNext()) {
-			InventoryPurchase purchase = iterator.next();
-			Quantity quantity = purchase.getQuantity();
-			double purchaseValue = quantity.calculatePrice(purchase.getCost());
-			session.delete(purchase);
-			iterator.remove();
-			Account expenseAccount = purchase.getEffectingAccount();
-			expenseAccount.updateCurrentBalance(this.getTransaction(),
-					purchaseValue, 1);
-			session.saveOrUpdate(expenseAccount);
-		}
-	}
-
-	private Account getExpenseAccountForInventoryPurchase() {
+	public Account getExpenseAccountForInventoryPurchase() {
 		Account expenseAccount = null;
 		Transaction transaction = HibernateUtil
 				.initializeAndUnproxy(getTransaction());
@@ -1033,6 +977,15 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 		if (this.updateAmount == null) {
 			this.setUpdateAmount(new Double(0));
+		}
+	}
+
+	public void addPurchasesEffects(ITransactionEffects e) {
+		for (InventoryPurchase purchase : getPurchases()) {
+			double purchaseCost = purchase.getQuantity().calculate(
+					purchase.getCost());
+			e.add(item.getAssestsAccount(), purchaseCost, 1);
+			e.add(purchase.getEffectingAccount(), -purchaseCost, 1);
 		}
 	}
 }

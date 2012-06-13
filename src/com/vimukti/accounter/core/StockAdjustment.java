@@ -189,6 +189,7 @@ public class StockAdjustment extends Transaction implements INamedObject {
 				e.add(item, tItem.getQuantity().reverse(),
 						tItem.getUnitPriceInBaseCurrency(),
 						tItem.getWareHouse());
+				tItem.addPurchasesEffects(e);
 			}
 		}
 		e.add(getAdjustmentAccount(), totalAdjustment);
