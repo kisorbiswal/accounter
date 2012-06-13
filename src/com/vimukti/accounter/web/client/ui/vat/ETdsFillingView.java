@@ -248,14 +248,18 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 		mainVLay.add(lab1);
 		mainVLay.add(topHLay);
 		topHLay.getElement().getStyle().setPaddingTop(10, Unit.PX);
-
+		Label etdsTableTitle = new Label(
+				messages2.table(messages.eTDSFilling()));
+		etdsTableTitle.addStyleName("editTableTitle");
+		StyledPanel tablePanel = new StyledPanel("etdsTable");
+		tablePanel.add(etdsTableTitle);
 		ScrollPanel scroll = new ScrollPanel();
 		scroll.add(tdsCellTable);
 		// scroll.setWidth("910px");
 		scroll.setTouchScrollingDisabled(false);
 		scroll.addStyleName("tds-scroll-panel");
-
-		mainVLay.add(scroll);
+		tablePanel.add(scroll);
+		mainVLay.add(tablePanel);
 
 		this.add(mainVLay);
 

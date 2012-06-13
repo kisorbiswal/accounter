@@ -96,7 +96,12 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 			}
 		};
 		table.setEnabled(!isInViewMode());
-		mainPanel.add(table);
+		Label tableTitle = new Label(messages2.table(messages.units()));
+		tableTitle.addStyleName("editTableTitle");
+		StyledPanel tablePanel = new StyledPanel("transferTablePanel");
+		tablePanel.add(tableTitle);
+		tablePanel.add(table);
+		mainPanel.add(tablePanel);
 		// mainPanel.setSize("100%", "100%");
 
 		this.add(mainPanel);
@@ -113,7 +118,12 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 			}
 		};
 		table.setEnabled(!isInViewMode());
-		mainPanel.add(table);
+		Label tableTitle = new Label(messages2.table(messages.units()));
+		tableTitle.addStyleName("editTableTitle");
+		StyledPanel tablePanel = new StyledPanel("transferTablePanel");
+		tablePanel.add(tableTitle);
+		tablePanel.add(table);
+		mainPanel.add(tablePanel);
 		Accounter
 				.createHomeService()
 				.getStockTransferItems(

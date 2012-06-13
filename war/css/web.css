@@ -8481,3 +8481,7 @@ table.no_records tr td {
 #SalesTaxGroupDialog .gridHeader {
 	width:auto !important;
 }
+.editTableTitle{
+	font-size: 15px;
+	font-weight: bold;
+}

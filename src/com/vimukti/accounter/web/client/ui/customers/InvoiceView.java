@@ -611,7 +611,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		mainVLay.add(transactionsTree);
-		mainVLay.add(customerTransactionTable);
+		StyledPanel tableContainer = new StyledPanel("tableContainer");
+		Label itemTableTitle = new Label(messages2.table(messages.items()));
+		itemTableTitle.setStyleName("editTableTitle");
+		tableContainer.add(itemTableTitle);
+		tableContainer.add(customerTransactionTable);
+		mainVLay.add(tableContainer);
 		mainVLay.add(itemTableButton);
 
 		// table = new WarehouseAllocationTable();

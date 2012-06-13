@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientBuildAssembly;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -176,7 +177,13 @@ public class BuildAssemblyView extends
 
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(topPanel);
-		mainPanel.add(itemTable);
+		Label assemblyTableTitle = new Label(messages2.table(messages
+				.assemblyItem()));
+		assemblyTableTitle.addStyleName("editTableTitle");
+		StyledPanel itemPanel = new StyledPanel("assemblyTableContainer");
+		itemPanel.add(assemblyTableTitle);
+		itemPanel.add(itemTable);
+		mainPanel.add(itemPanel);
 		mainPanel.add(bottomPanel);
 
 		this.add(mainPanel);

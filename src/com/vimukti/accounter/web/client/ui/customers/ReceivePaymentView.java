@@ -669,7 +669,7 @@ public class ReceivePaymentView extends
 
 		currencyWidget = createCurrencyFactorWidget();
 		Label lab1 = new Label(messages.dueForPayment());
-
+		lab1.addStyleName("editTableTitle");
 		initListGrid();
 
 		unUsedCreditsText = new AmountLabel(

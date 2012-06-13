@@ -526,11 +526,13 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		mainVlay.add(contHLay);
 
 		StyledPanel panel = new StyledPanel("panel");
-		panel.add(addButton);
 		// panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 		// panel.getElement().getStyle().setFloat(Float.RIGHT);
-
-		mainVlay.add(gridView);
+		Label contactTableTitle = new Label(messages.contacts());
+		contactTableTitle.addStyleName("editTableTitle");
+		panel.add(contactTableTitle);
+		panel.add(gridView);
+		panel.add(addButton);
 		// mainVlay.setWidth("100%");
 		mainVlay.add(panel);
 		// mainVlay.add(memoForm);
@@ -857,7 +859,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		emailForm.setEnabled(!isInViewMode());
 		gridView.setEnabled(!isInViewMode());
 		tAXFilingFrequency.setEnabled(!isInViewMode());
-		
+
 		super.onEdit();
 
 	}

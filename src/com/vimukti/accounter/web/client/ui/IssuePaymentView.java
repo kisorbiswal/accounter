@@ -629,13 +629,14 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		// bottomLabelLayOut = new StyledPanel();
 		// bottomLabelLayOut.setWidth("100%");
 		// bottomLabelLayOut.setHeight("100px");
-		Label emptyLabel = new Label();
 		totalLabel = new Label();
 		totalLabel.setText(messages.totalAmount());
 
 		amountLabel = new Label();
 		amountLabel.setText("" + UIUtils.getCurrencySymbol() + "0");
-
+		Label tableTitle = new Label(messages2.table(messages.issuePayment()));
+		tableTitle.addStyleName("editTableTitle");
+		gridLayout.add(tableTitle);
 		gridLayout.add(grid);
 		// gridLayout.add(bottomLabelLayOut);
 

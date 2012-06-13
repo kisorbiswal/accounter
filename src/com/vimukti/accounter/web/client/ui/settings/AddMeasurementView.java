@@ -117,8 +117,11 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		addUnitButton.setEnabled(!isInViewMode());
 
 		StyledPanel unitsPanel = new StyledPanel("addnew_edit_panel");
+		Label tableTitle = new Label(messages2.table(messages.units()));
+		tableTitle.addStyleName("editTableTitle");
+		unitsPanel.add(tableTitle);
 		unitsPanel.add(unitsTable);
-		unitsTable.add(addUnitButton);
+		unitsPanel.add(addUnitButton);
 
 		addMeasurmentForm.add(nameItem, description);
 		addMeasurmentForm.addStyleName("fields-panel");

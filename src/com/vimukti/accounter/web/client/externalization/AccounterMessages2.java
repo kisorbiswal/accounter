@@ -234,6 +234,8 @@ public interface AccounterMessages2 extends Messages {
 	public String dashboardDesc();
 
 	public String vendorCentreDesc();
-	
+
 	public String changePasswordDesc();
+
+	public String table(String tableName);
 }

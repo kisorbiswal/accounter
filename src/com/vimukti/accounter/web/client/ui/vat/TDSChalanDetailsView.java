@@ -396,7 +396,12 @@ public class TDSChalanDetailsView extends
 		verticalPanel.add(label);
 		verticalPanel.add(voidedPanel);
 		verticalPanel.add(horizontalPanel1);
-		verticalPanel.add(table);
+		Label tableTitle = new Label(messages2.table(messages.tdsChallan()));
+		tableTitle.addStyleName("editTableTitle");
+		StyledPanel tablePanel = new StyledPanel("tdschalantable");
+		tablePanel.add(tableTitle);
+		tablePanel.add(table);
+		verticalPanel.add(tablePanel);
 		verticalPanel.add(horizontalPanel2);
 
 		this.add(verticalPanel);

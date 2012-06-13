@@ -6,6 +6,8 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomField;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -63,6 +65,10 @@ public class CustomFieldDialog extends BaseDialog {
 		});
 		StyledPanel layout = new StyledPanel("layout");
 		customFieldTable.addStyleName("customfileddialog");
+		Label customFieldTableTitle = new Label(Global.get().messages2()
+				.table(messages.CustomField()));
+		customFieldTableTitle.addStyleName("editTableTitle");
+		layout.add(customFieldTableTitle);
 		layout.add(customFieldTable);
 		layout.add(addNew);
 		setBodyLayout(layout);

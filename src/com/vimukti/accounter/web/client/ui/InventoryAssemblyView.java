@@ -451,7 +451,13 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 				return getData().getID();
 			}
 		};
-		mainVLay.add(table);
+		Label assemblyTableTitle = new Label(messages2.table(messages
+				.inventoryAssemblyItem()));
+		assemblyTableTitle.addStyleName("editTableTitle");
+		StyledPanel itemPanel = new StyledPanel("assemblyTableContainer");
+		itemPanel.add(assemblyTableTitle);
+		itemPanel.add(table);
+		mainVLay.add(itemPanel);
 		table.setEnabled(!isInViewMode());
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());

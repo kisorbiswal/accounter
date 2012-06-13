@@ -99,7 +99,13 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 		mainVLay.add(lab1);
 		mainVLay.add(empsAndGroups);
 		mainVLay.add(copyFrom);
-		mainVLay.add(grid);
+		Label payStrctTableTitle = new Label(messages2.table(messages
+				.payStructure()));
+		payStrctTableTitle.addStyleName("editTableTitle");
+		StyledPanel itemPanel = new StyledPanel("payStrctTableContainer");
+		itemPanel.add(payStrctTableTitle);
+		itemPanel.add(grid);
+		mainVLay.add(itemPanel);
 		mainVLay.add(itemTableButton);
 
 		this.add(mainVLay);

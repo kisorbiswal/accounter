@@ -275,6 +275,9 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		});
 
 		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
+		Label tableTitle = new Label(messages2.table(messages.deposit()));
+		tableTitle.addStyleName("editTableTitle");
+		accountFlowPanel.add(tableTitle);
 		accountFlowPanel.add(transactionDepositTable);
 		accountFlowPanel.add(depositTableButton);
 

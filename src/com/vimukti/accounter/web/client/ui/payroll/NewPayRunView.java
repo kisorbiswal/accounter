@@ -211,8 +211,14 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		});
 
 		attendanceLay = new StyledPanel("mainVLay");
+		StyledPanel attendanceTablePanel = new StyledPanel(
+				"attendanceTablePanel");
+		Label attTableTitle = new Label(messages2.table(messages.attendance()));
+		attTableTitle.setStyleName("editTableTitle");
+		attendanceTablePanel.add(attTableTitle);
+		attendanceTablePanel.add(table);
 		attendanceLay.add(lab1);
-		attendanceLay.add(table);
+		attendanceLay.add(attendanceTablePanel);
 		attendanceLay.add(nextButton);
 
 		attendanceForm = new DynamicForm("attendanceForm");

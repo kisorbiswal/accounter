@@ -339,7 +339,9 @@ public class JournalEntryView extends
 				addEmptRecords();
 			}
 		});
-
+		Label tableTitle = new Label(messages2.table(messages.journalEntries()));
+		tableTitle.addStyleName("editTableTitle");
+		gridPanel.add(tableTitle);
 		gridPanel.add(grid);
 
 		StyledPanel hPanel = new StyledPanel("hPanel");

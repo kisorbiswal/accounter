@@ -129,7 +129,8 @@ public class CashExpenseView extends
 		transaction.setMemo(getMemoTextAreaItem());
 
 		if (isTrackDiscounts()) {
-			if (discountField.getPercentage() != 0.0 && transactionItems != null) {
+			if (discountField.getPercentage() != 0.0
+					&& transactionItems != null) {
 				for (ClientTransactionItem item : transactionItems) {
 					item.setDiscount(discountField.getPercentage());
 				}
@@ -425,6 +426,10 @@ public class CashExpenseView extends
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
+		Label accountTableTitle = new Label(
+				messages2.table(messages.Accounts()));
+		accountTableTitle.setStyleName("editTableTitle");
+		accountFlowPanel.add(accountTableTitle);
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -478,6 +483,9 @@ public class CashExpenseView extends
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
+		Label itemTableTitle = new Label(messages2.table(messages.items()));
+		itemTableTitle.setStyleName("editTableTitle");
+		itemsFlowPanel.add(itemTableTitle);
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -1066,9 +1074,10 @@ public class CashExpenseView extends
 	protected void updateDiscountValues() {
 
 		if (discountField.getPercentage() != null) {
-			vendorItemTransactionTable.setDiscount(discountField.getPercentage());
-			vendorAccountTransactionTable
-					.setDiscount(discountField.getPercentage());
+			vendorItemTransactionTable.setDiscount(discountField
+					.getPercentage());
+			vendorAccountTransactionTable.setDiscount(discountField
+					.getPercentage());
 		} else {
 			discountField.setPercentage(0d);
 		}

@@ -371,6 +371,9 @@ public class CashSalesView extends
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
+		Label tableTitle = new Label(messages2.table(messages.Accounts()));
+		tableTitle.setStyleName("editTableTitle");
+		accountFlowPanel.add(tableTitle);
 		accountFlowPanel.add(customerAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -418,6 +421,9 @@ public class CashSalesView extends
 		});
 
 		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
+		Label itemTableTitle = new Label(messages2.table(messages.items()));
+		itemTableTitle.setStyleName("editTableTitle");
+		itemsFlowPanel.add(itemTableTitle);
 		itemsFlowPanel.add(customerItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT

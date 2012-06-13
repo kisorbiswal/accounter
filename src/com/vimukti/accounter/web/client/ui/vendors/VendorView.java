@@ -512,6 +512,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		};
 		panel.add(l1);
 		StyledPanel hPanel = new StyledPanel("addnew_edit_panel");
+		Label contactTableTitle = new Label(messages.contacts());
+		contactTableTitle.addStyleName("editTableTitle");
+		hPanel.add(contactTableTitle);
 		hPanel.add(gridView);
 		hPanel.add(addButton);
 		panel.add(hPanel);

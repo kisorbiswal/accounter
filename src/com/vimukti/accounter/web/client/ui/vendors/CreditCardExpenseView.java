@@ -391,7 +391,10 @@ public class CreditCardExpenseView extends
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle("Itemize by Account");
-
+		Label accountTableTitle = new Label(
+				messages2.table(messages.Accounts()));
+		accountTableTitle.setStyleName("editTableTitle");
+		accountFlowPanel.add(accountTableTitle);
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);

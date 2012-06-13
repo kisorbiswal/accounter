@@ -5,10 +5,13 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientComputaionFormulaFunction;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -41,8 +44,14 @@ public class ComputationFormulaDialog extends
 				table.add(row);
 			}
 		});
-
-		mainForm.add(table);
+		StyledPanel attendanceTablePanel = new StyledPanel(
+				"ComputationFormulaTablePanel");
+		Label attTableTitle = new Label(Global.get().messages2()
+				.table(messages.attendance()));
+		attTableTitle.setStyleName("editTableTitle");
+		attendanceTablePanel.add(attTableTitle);
+		attendanceTablePanel.add(table);
+		mainForm.add(attendanceTablePanel);
 		mainForm.add(itemTableButton);
 
 		bodyLayout.add(mainForm);

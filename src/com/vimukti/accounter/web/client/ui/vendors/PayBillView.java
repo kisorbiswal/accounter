@@ -602,7 +602,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 		// }
 
 		Label lab1 = new Label(messages.billsDue());
-
+		lab1.addStyleName("editTableTitle");
 		memoTextAreaItem = createMemoTextAreaItem();
 
 		DynamicForm memoForm = new DynamicForm("memoForm");

@@ -133,6 +133,10 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 		});
 
 		StyledPanel tablePanel = new StyledPanel("addnew_edit_panel");
+		Label tableTitle = new Label(
+				messages2.table(messages.stockAdjustment()));
+		tableTitle.addStyleName("editTableTitle");
+		tablePanel.add(tableTitle);
 		tablePanel.add(table);
 		tablePanel.add(addButton);
 

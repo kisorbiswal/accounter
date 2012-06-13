@@ -127,7 +127,13 @@ public class PayEmployeeView extends
 
 		mainPanel.add(dateNoForm);
 		mainPanel.add(mainForm);
-		mainPanel.add(table);
+		Label payEmployeeTableTitle = new Label(messages2.table(messages
+				.payEmployee()));
+		payEmployeeTableTitle.addStyleName("editTableTitle");
+		StyledPanel itemPanel = new StyledPanel("payEmployeeTableContainer");
+		itemPanel.add(payEmployeeTableTitle);
+		itemPanel.add(table);
+		mainPanel.add(itemPanel);
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setEnabled(!isInViewMode());

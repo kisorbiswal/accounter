@@ -7,6 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -208,6 +209,10 @@ public class ItemReceiptView extends
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle("Itemize by Account");
+		Label accountTableTitle = new Label(
+				messages2.table(messages.Accounts()));
+		accountTableTitle.setStyleName("editTableTitle");
+		accountFlowPanel.add(accountTableTitle);
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -257,6 +262,9 @@ public class ItemReceiptView extends
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle("Itemize by Product/Service");
+		Label itemTableTitle = new Label(messages2.table(messages.items()));
+		itemTableTitle.setStyleName("editTableTitle");
+		itemsFlowPanel.add(itemTableTitle);
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
