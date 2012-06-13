@@ -29,6 +29,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.UTF8Control;
@@ -55,12 +56,12 @@ public class OpenCompanyServlet extends BaseServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		String header = request.getHeader(USER_AGENT);
-		if (header != null)
+		if (header != null) {
 			if (!SupportedBrowsers.check(header)) {
 				dispatch(request, response, SUPPORTED_BROWSERS_URL);
 				return;
 			}
-
+		}
 		String url = request.getRequestURI().toString();
 		String isTouch = (String) request.getSession().getAttribute(IS_TOUCH);
 		request.setAttribute(IS_TOUCH, isTouch == null ? "false" : isTouch);
@@ -71,144 +72,142 @@ public class OpenCompanyServlet extends BaseServlet {
 		}
 		String emailID = (String) request.getSession().getAttribute(EMAIL_ID);
 
-		if (emailID != null) {
-			Session session = HibernateUtil.getCurrentSession();
-			FinanceTool financeTool = new FinanceTool();
-			Query namedQuery = session.getNamedQuery("getClient.by.mailId");
-			namedQuery.setParameter(BaseServlet.EMAIL_ID, emailID);
-			Client client = (Client) namedQuery.uniqueResult();
-			String language = "";
-			try {
-				language = getlocale().getISO3Language();
-			} catch (MissingResourceException e) {
-				language = "eng";
-			}
-			HashMap<String, String> keyAndValues = financeTool.getKeyAndValues(
-					client.getID(), language);
+		if (emailID == null) {
+			response.sendRedirect(LOGIN_URL);
+			return;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		FinanceTool financeTool = new FinanceTool();
+		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
+		namedQuery.setParameter(BaseServlet.EMAIL_ID, emailID);
+		Client client = (Client) namedQuery.uniqueResult();
+		String language = "";
+		try {
+			language = getlocale().getISO3Language();
+		} catch (MissingResourceException e) {
+			language = "eng";
+		}
+		HashMap<String, String> keyAndValues = financeTool.getKeyAndValues(
+				client.getID(), language);
 
-			for (Entry<String, String> entrySet : keyAndValues.entrySet()) {
-				String value = entrySet.getValue();
-				if (value.contains("'")) {
-					value = value.replace("'", "\\'");
-					entrySet.setValue(value);
-				}
+		for (Entry<String, String> entrySet : keyAndValues.entrySet()) {
+			String value = entrySet.getValue();
+			if (value.contains("'")) {
+				value = value.replace("'", "\\'");
+				entrySet.setValue(value);
 			}
-			Long serverCompanyID = (Long) request.getSession().getAttribute(
-					COMPANY_ID);
-			request.setAttribute("messages", keyAndValues);
-			// Load locale aware date time constants, number format constants
+		}
+		Long serverCompanyID = (Long) request.getSession().getAttribute(
+				COMPANY_ID);
+		request.setAttribute("messages", keyAndValues);
+		// Load locale aware date time constants, number format constants
 
-			HashMap<String, String> accounterLocale = getLocaleConstants();
-			request.setAttribute("accounterLocale", accounterLocale);
+		HashMap<String, String> accounterLocale = getLocaleConstants();
+		request.setAttribute("accounterLocale", accounterLocale);
 			boolean ispaid = client.getClientSubscription().isPaidUser();
 			boolean freeTrial = client.getClientSubscription().isPaidUser() ? false
 					: !client.isPremiumTrailDone();
-			request.setAttribute("isPaid", ispaid);
-			request.setAttribute("freeTrial", freeTrial);
-			String create = (String) request.getSession().getAttribute(CREATE);
-			if (serverCompanyID == null) {
-				if (create != null && create.equals("true")) {
-					if (ispaid) {
-						byte[] d2 = getD2(request);
-						if (d2 == null) {
-							response.sendRedirect(LOGIN_URL);
-							return;
-						}
-					}
-					if (!canCreateCompany(client)) {
-						response.sendRedirect(COMPANIES_URL);
+		request.setAttribute("isPaid", ispaid);
+		request.setAttribute("freeTrial", freeTrial);
+		String create = (String) request.getSession().getAttribute(CREATE);
+		if (serverCompanyID == null) {
+			if (create != null && create.equals("true")) {
+				if (ispaid) {
+					byte[] d2 = getD2(request);
+					if (d2 == null) {
+						response.sendRedirect(LOGIN_URL);
 						return;
 					}
+				}
+				if (!canCreateCompany(client)) {
+					response.sendRedirect(COMPANIES_URL);
+					return;
+				}
 					request.setAttribute("features", client
 							.getClientSubscription().getSubscription()
 							.getFeatures());
-					RequestDispatcher dispatcher = getServletContext()
-							.getRequestDispatcher("/WEB-INF/Accounter.jsp");
-					dispatcher.forward(request, response);
-					return;
-				} else {
-					response.sendRedirect(COMPANIES_URL);
-					return;
-				}
+				RequestDispatcher dispatcher = getServletContext()
+							.getRequestDispatcher(getAccountView());
+				dispatcher.forward(request, response);
+				return;
+			} else {
+				response.sendRedirect(COMPANIES_URL);
+				return;
+			}
+		}
+
+		// initComet(request.getSession(), serverCompanyID, emailID);
+		// we are create comet in getCompany method
+
+		try {
+			Transaction transaction = session.beginTransaction();
+
+			int openedCompaniesCount = client.getOpenedCompaniesCount() + 1;
+			client.setOpenedCompaniesCount(openedCompaniesCount);
+			session.saveOrUpdate(client);
+
+			User user = getUser(emailID, serverCompanyID);
+			if (user == null) {
+				response.sendRedirect(COMPANIES_URL);
+				return;
 			}
 
-			// initComet(request.getSession(), serverCompanyID, emailID);
-			// we are create comet in getCompany method
+			user = HibernateUtil.initializeAndUnproxy(user);
+			request.setAttribute(EMAIL_ID, user.getClient().getEmailId());
+			request.setAttribute(USER_ID, user.getID());
+			request.setAttribute(USER_NAME, user.getClient().getFullName());
 
-			try {
-				Transaction transaction = session.beginTransaction();
-
-				int openedCompaniesCount = client.getOpenedCompaniesCount() + 1;
-				client.setOpenedCompaniesCount(openedCompaniesCount);
-				session.saveOrUpdate(client);
-
-				User user = getUser(emailID, serverCompanyID);
-				if (user == null) {
-					response.sendRedirect(COMPANIES_URL);
-					return;
-				}
-
-				user = HibernateUtil.initializeAndUnproxy(user);
-				request.setAttribute(EMAIL_ID, user.getClient().getEmailId());
-				request.setAttribute(USER_ID, user.getID());
-				request.setAttribute(USER_NAME, user.getClient().getFullName());
-
-				AccounterThreadLocal.set(user);
-				if (getCompanySecretFromDB(serverCompanyID) != null) {
-					try {
-						if (user.getSecretKey() == null) {
-							request.setAttribute("showResetLink",
-									canResetPassword(serverCompanyID));
-							Query query = session
-									.getNamedQuery("getHint.by.company");
-							query.setParameter("companyId", serverCompanyID);
-							String hint = (String) query.uniqueResult();
-							request.setAttribute("hint", hint);
-							dispatch(request, response,
-									"/WEB-INF/companypassword.jsp");
-							return;
-						}
-						EU.createCipher(user.getSecretKey(), getD2(request),
-								request.getSession().getId());
-					} catch (Exception e) {
-						e.printStackTrace();
+			AccounterThreadLocal.set(user);
+			if (getCompanySecretFromDB(serverCompanyID) != null) {
+				try {
+					if (user.getSecretKey() == null) {
+						request.setAttribute("showResetLink",
+								canResetPassword(serverCompanyID));
+						Query query = session
+								.getNamedQuery("getHint.by.company");
+						query.setParameter("companyId", serverCompanyID);
+						String hint = (String) query.uniqueResult();
+						request.setAttribute("hint", hint);
+						dispatch(request, response,
+								"/WEB-INF/companypassword.jsp");
+						return;
 					}
+					EU.createCipher(user.getSecretKey(), getD2(request),
+							request.getSession().getId());
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				Company company = getCompany(request);
-				if (company.isLocked()) {
-					request.getSession().setAttribute(COMPANY_ID, null);
-					response.sendRedirect(COMPANIES_URL + "?message=locked");
-					return;
-				}
-				User createdBy = company.getCreatedBy();
-				if (createdBy != null) {
-					request.setAttribute("features", createdBy.getClient()
-							.getClientSubscription().getSubscription()
-							.getFeatures());
-				} else {
-					request.setAttribute("features", new HashSet<String>());
-				}
+			}
+			Company company = getCompany(request);
+			if (company.isLocked()) {
+				request.getSession().setAttribute(COMPANY_ID, null);
+				response.sendRedirect(COMPANIES_URL + "?message=locked");
+				return;
+			}
+			User createdBy = company.getCreatedBy();
+			if (createdBy != null) {
+				request.setAttribute("features", createdBy.getClient()
+						.getClientSubscription().getSubscription()
+						.getFeatures());
+			} else {
+				request.setAttribute("features", new HashSet<String>());
+			}
 
-				request.setAttribute("emailId", emailID);
+			request.setAttribute("emailId", emailID);
 				request.setAttribute(COMPANY_NAME, company.getDisplayName()
 						+ " - " + company.getID());
 				Activity activity = new Activity(company, user,
 						ActivityType.LOGIN);
-				session.save(activity);
-				transaction.commit();
-				// if (client.getClientSubscription() != null) {
-				// request.setAttribute(SUBSCRIPTION, client
-				// .getClientSubscription().getId());
-				// }
-				RequestDispatcher dispatcher = getServletContext()
-						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
-				dispatcher.forward(request, response);
-			} finally {
-			}
-		} else {
-			response.sendRedirect(LOGIN_URL);
-			// Session is there, so show the main page
-
+			session.save(activity);
+			transaction.commit();
+			// if (client.getClientSubscription() != null) {
+			// request.setAttribute(SUBSCRIPTION, client
+			// .getClientSubscription().getId());
+			// }
+			RequestDispatcher dispatcher = getServletContext()
+						.getRequestDispatcher(getAccountView());
+			dispatcher.forward(request, response);
+		} finally {
 		}
 	}
 
@@ -309,4 +308,11 @@ public class OpenCompanyServlet extends BaseServlet {
 	// cometSession);
 	// }
 
+	private String getAccountView() {
+		if (ServerConfiguration.isDesktopApp()) {
+			return "/WEB-INF/Accounter_desk.jsp";
+		} else {
+			return "/WEB-INF/Accounter.jsp";
+		}
+	}
 }

@@ -183,10 +183,10 @@ public class Header extends FlowPanel {
 		panel3.add(help);
 		panel3.add(logout);
 		ClientUser user = Accounter.getUser();
-		if (user != null && user.getEmail() != null
-				&& user.getEmail().trim().equals("support@accounterlive.com")) {
-			panel3.add(createStatisticsLink());
-		}
+		// if (user != null && user.getEmail() != null
+		// && user.getEmail().trim().equals("support@accounterlive.com")) {
+		// panel3.add(createStatisticsLink());
+		// }
 		// panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
 		StyledPanel hpanel = new StyledPanel("hpanel");
 		// hpanel.setWidth("100%");

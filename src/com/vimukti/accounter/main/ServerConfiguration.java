@@ -53,6 +53,10 @@ public class ServerConfiguration {
 	private static String livePaypalapiUserName;
 	private static String livePaypalapiPassword;
 	private static String livePaypalapiSignature;
+	private static boolean isDesktopApp;
+	private static boolean isStartUpCompleted;
+	private static boolean isSetupCompleted;
+	private static String setupStatus;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -85,20 +89,22 @@ public class ServerConfiguration {
 		}
 
 		try {
-			mainServerDomain = prop.getProperty("mainServerDomain", "");
-			currentServerDomain = prop.getProperty("currentServerDomain", null);
+			mainServerDomain = prop.getProperty("mainServerDomain",
+					"www.accounterlive.com");
+			currentServerDomain = prop.getProperty("currentServerDomain",
+					"www.accounterlive.com");
 
 			mainServerPort = Integer.parseInt(prop.getProperty(
-					"mainServerPort", null));
+					"mainServerPort", "80"));
 
 			consoleChatServerPort = Integer.parseInt(prop.getProperty(
-					"consoleChatServer", null));
+					"consoleChatServer", "9085"));
 
 			mobileChatServerPort = Integer.parseInt(prop.getProperty(
-					"mobileChatServer", null));
+					"mobileChatServer", "9083"));
 
 			mobileSSLChatServerPort = Integer.parseInt(prop.getProperty(
-					"mobileSSLChatServer", null));
+					"mobileSSLChatServer", "9084"));
 
 			encryptTmpDir = prop.getProperty("encryptTmpDir", null);
 			paypalButtonId = prop.getProperty("paypalButtonId", "No Id");
@@ -122,7 +128,7 @@ public class ServerConfiguration {
 			 * "7990"));
 			 */
 
-			logsDir = prop.getProperty("logsdir", "./");
+			logsDir = prop.getProperty("logsdir", "logs");
 			System.setProperty("logsDir", logsDir);
 
 			if (mainServerDomain.length() < 5) {
@@ -142,7 +148,7 @@ public class ServerConfiguration {
 			String username = prop.getProperty("username", null);
 			String password = prop.getProperty("password", null);
 			String dialect = prop.getProperty("dialect", null);
-			String showSql = prop.getProperty("showsql", null);
+			String showSql = prop.getProperty("showsql", "false");
 			;
 			if (databaseUrl == null || username == null || password == null
 					|| dialect == null) {
@@ -164,13 +170,15 @@ public class ServerConfiguration {
 			chatUsername = prop.getProperty("chatUsername", null);
 			chatpassword = prop.getProperty("chatPassword", null);
 			enableConsoleChatServer = prop.getProperty(
-					"enableConsoleChatServer", null).equalsIgnoreCase("true");
-			enableIMChatServer = prop.getProperty("enableIMChatServer", null)
+					"enableConsoleChatServer", "false")
+					.equalsIgnoreCase("true");
+			enableIMChatServer = prop
+					.getProperty("enableIMChatServer", "false")
 					.equalsIgnoreCase("true");
 			enableMobileChatServer = prop.getProperty("enableMobileChatServer",
-					null).equalsIgnoreCase("true");
+					"false").equalsIgnoreCase("true");
 
-			loadMessages = prop.getProperty("loadMessages", null)
+			loadMessages = prop.getProperty("loadMessages", "false")
 					.equalsIgnoreCase("true");
 			isSandBoxPaypal = (prop.getProperty("isSandBoxPaypal", "false")
 					.equalsIgnoreCase("true"));
@@ -193,6 +201,9 @@ public class ServerConfiguration {
 					null);
 			livePaypalapiSignature = prop.getProperty("livePaypalapiSignature",
 					null);
+
+			isDesktopApp = prop.getProperty("isDesktopApp", "true").equals(
+					"true");
 
 		} catch (NumberFormatException ne) {
 			System.err
@@ -419,4 +430,44 @@ public class ServerConfiguration {
 	public static String getPaypalApplicationID() {
 		return paypalApplicationId;
 	}
+
+	/**
+	 * @return the logsDir
+	 */
+	public static String getLogsDir() {
+		return logsDir;
+	}
+
+	public static boolean isDesktopApp() {
+		return isDesktopApp;
+	}
+
+	public static boolean isStartUpCompleted() {
+		return isStartUpCompleted;
+	}
+
+	public static void completeStartup() {
+		isStartUpCompleted = true;
+	}
+
+	public static String getLicenseKeystorePWD() {
+		return "***REMOVED***";
+	}
+
+	public static String getLicenseAlias() {
+		return "vimukti";
+	}
+
+	public static boolean isSetupCompleted() {
+		return setupStatus != null && setupStatus.equals("3");
+	}
+
+	public static void setSeupStatus(String value) {
+		setupStatus = value;
+	}
+
+	public static String getSetupStatus() {
+		return setupStatus;
+	}
+
 }

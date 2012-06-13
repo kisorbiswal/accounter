@@ -238,4 +238,16 @@ public interface AccounterMessages2 extends Messages {
 	public String changePasswordDesc();
 
 	public String table(String tableName);
+
+	public String manageLicense();
+
+	public String licenseManagement();
+
+	public String purchaseLicense();
+
+	public String licenseKey();
+
+	public String licenseExpired();
+
+	public String invalidLicense();
 }

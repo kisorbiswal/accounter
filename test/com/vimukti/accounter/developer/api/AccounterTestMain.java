@@ -11,8 +11,6 @@ public class AccounterTestMain {
 	private static List<ITest> tests = new ArrayList<ITest>();
 
 	public static void main(String[] args) {
-		loadTest();
-		test();
 	}
 
 	private static void test() {

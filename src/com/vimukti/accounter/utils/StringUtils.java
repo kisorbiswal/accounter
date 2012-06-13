@@ -105,73 +105,143 @@ public class StringUtils {
 		return buffer.toString();
 
 	}
-	  public static <T> String delimitObjectsToString(String delim, T... objects) {
-	        return delimitObjectsToString(delim, delim, objects);
-	    }
 
-	    public static <T> String delimitObjectsToString(String delim, String lastDelim, T... objects) {
-	        return delimitObjectsToString(delim, lastDelim, false, objects);
-	    }
+	public static <T> String delimitObjectsToString(String delim, T... objects) {
+		return delimitObjectsToString(delim, delim, objects);
+	}
 
-	    public static <T> String delimitObjectsToString(String delim, String lastDelim, boolean skipNulls, T... objects) {
-	        return delimitObjectsToString(delim, lastDelim, skipNulls, new StringConverter<T>() {
-	            public String toString(T object) {
-	                return (object == null ? "null" : object.toString());
-	            }
-	        }, objects);
-	    }
+	public static <T> String delimitObjectsToString(String delim,
+			String lastDelim, T... objects) {
+		return delimitObjectsToString(delim, lastDelim, false, objects);
+	}
 
-	    public static <T> String delimitObjectsToString(String delim, String lastDelim, boolean skipNulls, StringConverter<T> conv, T... objects) {
-	        if (objects == null || objects.length == 0) {
-	            return null;
-	        }
-	        if (objects.length == 1 && Collection.class.isAssignableFrom(objects[0].getClass())) {
-	            objects = (T[])((Collection)objects[0]).toArray();
-	        }
-	        StringBuffer sb = new StringBuffer();
-	        boolean firstDone = false;
-	        for (int n = 0; n < objects.length; n++) {
-	            if (firstDone) {
-	                if (n == objects.length - 1) {
-	                    sb.append(nvl(lastDelim, delim));
-	                } else {
-	                    sb.append(delim);
-	                }
-	            }
-	            if (objects[n] != null || !skipNulls) {
-	                sb.append(conv.toString(objects[n]));
-	                firstDone = true;
-	            }
-	        }
-	        return sb.toString();
-	    }
-	    /**
-	     * Allows a list of values to be provided, the first non-null value in
-	     * the list is returned as the result.
-	     * @param <T>
-	     * @param mainValue
-	     * @param fallbackValues
-	     * @return
-	     */
-	    public static <T> T nvl(T mainValue, T... fallbackValues) {
-	        T result = mainValue;
-	        int idx = 0;
-	        while (result == null && idx < fallbackValues.length) {
-	            result = fallbackValues[idx++];
-	        }
-	        return result;
-	    }
-	    /**
-	     * @param str string to inspect
-	     * @return true if string is not null or empty
-	     */
-	    public static boolean isNotEmptyStr(String str) {
-	        return !(str == null || str.isEmpty());
-	    }
+	public static <T> String delimitObjectsToString(String delim,
+			String lastDelim, boolean skipNulls, T... objects) {
+		return delimitObjectsToString(delim, lastDelim, skipNulls,
+				new StringConverter<T>() {
+					public String toString(T object) {
+						return (object == null ? "null" : object.toString());
+					}
+				}, objects);
+	}
 
-	    public static boolean isNotBlankStr(String str) {
-	        return !(str == null || str.trim().isEmpty());
-	    }
+	public static <T> String delimitObjectsToString(String delim,
+			String lastDelim, boolean skipNulls, StringConverter<T> conv,
+			T... objects) {
+		if (objects == null || objects.length == 0) {
+			return null;
+		}
+		if (objects.length == 1
+				&& Collection.class.isAssignableFrom(objects[0].getClass())) {
+			objects = (T[]) ((Collection) objects[0]).toArray();
+		}
+		StringBuffer sb = new StringBuffer();
+		boolean firstDone = false;
+		for (int n = 0; n < objects.length; n++) {
+			if (firstDone) {
+				if (n == objects.length - 1) {
+					sb.append(nvl(lastDelim, delim));
+				} else {
+					sb.append(delim);
+				}
+			}
+			if (objects[n] != null || !skipNulls) {
+				sb.append(conv.toString(objects[n]));
+				firstDone = true;
+			}
+		}
+		return sb.toString();
+	}
 
+	/**
+	 * Allows a list of values to be provided, the first non-null value in the
+	 * list is returned as the result.
+	 * 
+	 * @param <T>
+	 * @param mainValue
+	 * @param fallbackValues
+	 * @return
+	 */
+	public static <T> T nvl(T mainValue, T... fallbackValues) {
+		T result = mainValue;
+		int idx = 0;
+		while (result == null && idx < fallbackValues.length) {
+			result = fallbackValues[idx++];
+		}
+		return result;
+	}
 
+	/**
+	 * @param str
+	 *            string to inspect
+	 * @return true if string is not null or empty
+	 */
+	public static boolean isNotEmptyStr(String str) {
+		return !(str == null || str.isEmpty());
+	}
+
+	public static boolean isNotBlankStr(String str) {
+		return !(str == null || str.trim().isEmpty());
+	}
+
+	public static String replaceAll(String str, String oldPattern,
+			String newPattern) {
+		if (str == null)
+			return null;
+		if ((oldPattern == null) || (oldPattern.equals("")))
+			return str;
+		String remainder = str;
+		StringBuffer buf = new StringBuffer(str.length() * 2);
+		while (true) {
+			int i = remainder.indexOf(oldPattern);
+			if (i != -1) {
+				buf.append(remainder.substring(0, i));
+				buf.append(newPattern);
+				remainder = remainder.substring(i + oldPattern.length());
+			} else {
+				buf.append(remainder);
+				break;
+			}
+		}
+		return buf.toString();
+	}
+
+	public static String trimLeadingWhitespace(String str) {
+		if (str.length() == 0) {
+			return str;
+		}
+		StringBuffer buf = new StringBuffer(str);
+		while ((buf.length() > 0) && (Character.isWhitespace(buf.charAt(0)))) {
+			buf.deleteCharAt(0);
+		}
+		return buf.toString();
+	}
+
+	public static String trimTrailingWhitespace(String str) {
+		if (str.length() == 0) {
+			return str;
+		}
+		StringBuffer buf = new StringBuffer(str);
+		while ((buf.length() > 0)
+				&& (Character.isWhitespace(buf.charAt(buf.length() - 1)))) {
+			buf.deleteCharAt(buf.length() - 1);
+		}
+		return buf.toString();
+	}
+
+	public static String removeWhiteSpaces(String licenseData) {
+		if ((licenseData == null) || (licenseData.length() == 0)) {
+			return licenseData;
+		}
+
+		char[] chars = licenseData.toCharArray();
+		StringBuffer buf = new StringBuffer(chars.length);
+		for (int i = 0; i < chars.length; i++) {
+			if (Character.isWhitespace(chars[i]))
+				continue;
+			buf.append(chars[i]);
+		}
+
+		return buf.toString();
+	}
 }

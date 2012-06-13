@@ -17,7 +17,7 @@ public class MailLogTailerListener extends TailerListenerAdapter implements
 
 	private Tailer tailer;
 
-	MailLogTailerListener(File logFile) {
+	public MailLogTailerListener(File logFile) {
 		tailer = new Tailer(logFile, this, 1000);
 		Thread thread = new Thread(this);
 		thread.setDaemon(true);
@@ -25,6 +25,7 @@ public class MailLogTailerListener extends TailerListenerAdapter implements
 	}
 
 	Pattern pattern = Pattern.compile(".+<(.+?)>.+status=\\[(\\w+?)\\] (.+)");
+
 	@Override
 	public void handle(String line) {
 

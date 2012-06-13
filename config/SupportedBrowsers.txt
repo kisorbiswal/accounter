@@ -3,3 +3,4 @@
 .+Version\/5\.1\..* Safari.*
 .+AppleWebKit\/5.+
 .+MSIE 10.+
+Mozilla.*
