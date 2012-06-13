@@ -54,7 +54,6 @@ import org.xml.sax.SAXException;
 
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 
@@ -84,19 +83,6 @@ public class AccounterDesktopMain extends Main {
 			// Load the configuration from the file
 			String configFile = getArgument(args, "-config");
 			ServerConfiguration.init(configFile);
-
-			Session session = HibernateUtil.openSession();
-			try {
-				// FinanceTool.createViews();
-
-				if (ServerConfiguration.isLoadMessages()) {
-					loadAccounterMessages();
-				}
-				loadSubscriptionFeatures();
-			} finally {
-				session.close();
-			}
-			Global.set(new ServerGlobal());
 
 			// Show the System Tray
 			// SystemTrayIcon trayIcon = new SystemTrayIcon();

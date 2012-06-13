@@ -112,11 +112,6 @@
 			       <a target="_blank" href="/main/licenseInfo"><i18n:i18n msg='manageLicense'/></a>
 				</td>
 				</c:when>
-				<c:otherwise>
-				<td>
-					<a target="_blank" href="/main/gopremium?emailId=<%=userEmail %>">Go Premium</a>
-				</td>
-				</c:otherwise>
 		   </c:choose>
       
 	      <c:if test="<%= enableEncryption %>">

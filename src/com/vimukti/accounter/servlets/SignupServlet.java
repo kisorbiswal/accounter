@@ -18,6 +18,7 @@ import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
@@ -112,8 +113,13 @@ public class SignupServlet extends BaseServlet {
 					client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
 					ClientSubscription clientSubscription = new ClientSubscription();
 					clientSubscription.setCreatedDate(new Date());
-					clientSubscription.setSubscription(Subscription
-							.getInstance(Subscription.FREE_CLIENT));
+					if (!ServerConfiguration.isDesktopApp()) {
+						clientSubscription.setSubscription(Subscription
+								.getInstance(Subscription.FREE_CLIENT));
+					} else {
+						clientSubscription.setSubscription(Subscription
+								.getInstance(Subscription.PREMIUM_USER));
+					}
 					saveEntry(clientSubscription);
 
 					client.setClientSubscription(clientSubscription);
@@ -179,8 +185,13 @@ public class SignupServlet extends BaseServlet {
 				client.setCreatedDate(new FinanceDate());
 				ClientSubscription clientSubscription = new ClientSubscription();
 				clientSubscription.setCreatedDate(new Date());
-				clientSubscription.setSubscription(Subscription
-						.getInstance(Subscription.FREE_CLIENT));
+				if (!ServerConfiguration.isDesktopApp()) {
+					clientSubscription.setSubscription(Subscription
+							.getInstance(Subscription.FREE_CLIENT));
+				} else {
+					clientSubscription.setSubscription(Subscription
+							.getInstance(Subscription.PREMIUM_USER));
+				}
 				saveEntry(clientSubscription);
 				client.setClientSubscription(clientSubscription);
 

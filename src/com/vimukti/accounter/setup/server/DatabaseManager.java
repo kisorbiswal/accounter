@@ -34,16 +34,6 @@ public class DatabaseManager {
 
 	private static DatabaseManager manager = null;
 
-	public class DbConfig {
-		String type;
-		String url;
-		String driver;
-		String dialect;
-		String username;
-		String password;
-		String schema;
-	}
-
 	public static DatabaseManager getInstance() {
 		if (manager == null) {
 			manager = new DatabaseManager();
