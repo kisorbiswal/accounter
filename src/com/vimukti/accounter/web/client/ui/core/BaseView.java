@@ -40,7 +40,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	protected String quickAddText;
 
-	private TransactionAttachmentPanel transactionAttachmentPanel;
+	protected TransactionAttachmentPanel transactionAttachmentPanel;
 
 	public BaseView() {
 		super();
@@ -79,14 +79,15 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 		buttonBar = new ButtonBar(this);
 		buttonBar.setStyleName("button_bar");
-
 		super.add(buttonBar);
+
 		if (data != null && mode != EditMode.CREATE) {
 			if (Accounter.hasPermission(Features.HISTORY)) {
 				super.add(createHistoryView());
 			}
 		}
-		if (canAddAttachmentPanel()) {
+		if (canAddAttachmentPanel()
+				&& Accounter.hasPermission(Features.ATTACHMENTS)) {
 			transactionAttachmentPanel = new TransactionAttachmentPanel() {
 
 				@Override
@@ -99,10 +100,9 @@ public abstract class BaseView<T extends IAccounterCore> extends
 					BaseView.this.saveAttachment(attachment);
 				}
 			};
-			if (Accounter.hasPermission(Features.ATTACHMENTS)) {
-				super.add(transactionAttachmentPanel);
-			}
+			super.add(transactionAttachmentPanel);
 		}
+
 	}
 
 	public void addAttachments(ArrayList<ClientAttachment> attachments) {

@@ -635,10 +635,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		mainVLay.add(panel11);
 
-		if (UIUtils.isMSIEBrowser())
+		if (UIUtils.isMSIEBrowser()) {
 			resetFromView();
+		}
 
-		this.add(mainVLay);
+		mainVLay.add(buttonBar);
+		if (transactionAttachmentPanel != null) {
+			mainVLay.add(transactionAttachmentPanel);
+		}
+		super.insert(mainVLay, 0);
 
 		if (isMultiCurrencyEnabled()) {
 			if (!isInViewMode()) {
