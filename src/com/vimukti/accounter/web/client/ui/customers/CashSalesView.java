@@ -491,21 +491,22 @@ public class CashSalesView extends
 			currencyWidget.setEnabled(!isInViewMode());
 		}
 
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.addStyleName("fields-panel");
-
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
 		// topHLay.setSpacing(20);
-
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
-		mainVLay.add(topHLay);
+		StyledPanel topHLay = getTopLayOut();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVLay.add(topHLay);
+		} else {
+			mainVLay.add(leftVLay);
+			mainVLay.add(rightVLay);
+		}
+
 		mainVLay.add(transactionsTree);
 		mainVLay.add(accountsDisclosurePanel.getPanel());
 		mainVLay.add(itemsDisclosurePanel.getPanel());
@@ -531,6 +532,12 @@ public class CashSalesView extends
 			foreignCurrencyamountLabel.hide();
 		}
 
+	}
+
+	protected StyledPanel getTopLayOut() {
+		StyledPanel styledPanel = new StyledPanel("topHLay");
+		styledPanel.addStyleName("fields-panel");
+		return styledPanel;
 	}
 
 	protected ShippingTermsCombo createShippingTermsCombo() {

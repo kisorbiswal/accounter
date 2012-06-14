@@ -71,7 +71,9 @@ public class NewQuoteAction extends Action {
 				default:
 					break;
 				}
-				QuoteView view = new QuoteView(type, title);
+				QuoteView view = GWT.create(QuoteView.class);
+				view.setTitle(title);
+				view.setType(type);
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewQuoteAction.this);
@@ -82,15 +84,15 @@ public class NewQuoteAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		//
+		// }
+		//
+		// });
 	}
 
 	// @Override

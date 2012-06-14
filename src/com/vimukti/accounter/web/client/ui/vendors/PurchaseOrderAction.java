@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class PurchaseOrderAction extends Action {
 
-
 	public PurchaseOrderAction() {
 		super();
 	}
@@ -30,7 +29,7 @@ public class PurchaseOrderAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				PurchaseOrderView view = new PurchaseOrderView();
+				PurchaseOrderView view = GWT.create(PurchaseOrderView.class);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, PurchaseOrderAction.this);
 			}
@@ -40,19 +39,19 @@ public class PurchaseOrderAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			public void onCreated() {
-//
-//				
-//				// / UIUtils.setCanvas(view, getViewConfiguration());
-//
-//			}
-//
-//			public void onCreateFailed(Throwable t) {
-//				// //UIUtils.logError("Failed to Load Customer list...", t);
-//			}
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// public void onCreated() {
+		//
+		//
+		// // / UIUtils.setCanvas(view, getViewConfiguration());
+		//
+		// }
+		//
+		// public void onCreateFailed(Throwable t) {
+		// // //UIUtils.logError("Failed to Load Customer list...", t);
+		// }
+		// });
 
 	}
 

@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class NewCreditsAndRefundsAction extends Action {
 
-
 	public NewCreditsAndRefundsAction() {
 		super();
 	}
@@ -37,7 +36,8 @@ public class NewCreditsAndRefundsAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				CustomerCreditMemoView view = new CustomerCreditMemoView();
+				CustomerCreditMemoView view = GWT
+						.create(CustomerCreditMemoView.class);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewCreditsAndRefundsAction.this);
 			}
@@ -47,15 +47,15 @@ public class NewCreditsAndRefundsAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		//
+		// }
+		//
+		// });
 	}
 
 	// @Override

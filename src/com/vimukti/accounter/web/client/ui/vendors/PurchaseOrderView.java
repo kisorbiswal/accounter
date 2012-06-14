@@ -520,11 +520,6 @@ public class PurchaseOrderView extends
 		// rightVLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
 		// rightVLay.setCellHorizontalAlignment(dateform, ALIGN_RIGHT);
 
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.addStyleName("fields-panel");
-		// topHLay.setStyleName("toplayout");
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
 		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		StyledPanel panel = new StyledPanel("panel");
@@ -542,7 +537,15 @@ public class PurchaseOrderView extends
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
-		mainVLay.add(topHLay);
+		StyledPanel topHLay = getTopLayout();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVLay.add(topHLay);
+		} else {
+			mainVLay.add(leftVLay);
+			mainVLay.add(rightVLay);
+		}
 		// mainVLay.add(lab2);
 
 		mainVLay.add(accountsDisclosurePanel.getPanel());
@@ -576,6 +579,12 @@ public class PurchaseOrderView extends
 			foreignCurrencyamountLabel.hide();
 		}
 		// settabIndexes();
+	}
+
+	protected StyledPanel getTopLayout(){
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		topHLay.addStyleName("fields-panel");
+		return topHLay;
 	}
 
 	private PaymentTermsCombo createPaymentTermsSelectItem() {

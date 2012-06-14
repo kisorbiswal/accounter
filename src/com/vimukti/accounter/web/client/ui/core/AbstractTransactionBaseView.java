@@ -2129,7 +2129,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (!isPrev && (transaction == null || transaction.id == 0)) {
 			return;
 		}
-		final int subType = (transactionType == 7) ? ((QuoteView) this).type
+		final int subType = (transactionType == 7) ? ((QuoteView) this).getType()
 				: 0;
 		AsyncCallback<Long> callback = new AsyncCallback<Long>() {
 

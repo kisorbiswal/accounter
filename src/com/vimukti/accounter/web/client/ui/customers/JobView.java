@@ -38,9 +38,8 @@ public class JobView extends BaseView<ClientJob> {
 	CustomerCombo customerCombo;
 	private ClientCustomer customer;
 
-	public JobView(ClientCustomer customer) {
+	public JobView() {
 		super();
-		this.customer = customer;
 	}
 
 	@Override
@@ -61,8 +60,8 @@ public class JobView extends BaseView<ClientJob> {
 		projectEndDate.setEnteredDate(data.getProjectEndDate());
 		endDate.setEnteredDate(data.getEndDate());
 		statusCheck.setValue(data.isActive());
-		if (customer != null) {
-			customerCombo.setComboItem(customer);
+		if (getCustomer() != null) {
+			customerCombo.setComboItem(getCustomer());
 		} else {
 			customerCombo.setComboItem(getCompany().getCustomer(
 					data.getCustomer()));
@@ -119,19 +118,29 @@ public class JobView extends BaseView<ClientJob> {
 		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		rightVLay.add(form);
 
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.addStyleName("main-panel");
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
-
 		StyledPanel contHLay = new StyledPanel("contHLay");
 
 		mainVlay.add(titleLabel);
 
-		mainVlay.add(topHLay);
+		StyledPanel topHLay = getTopLayout();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVlay.add(topHLay);
+		} else {
+			mainVlay.add(leftVLay);
+			mainVlay.add(rightVLay);
+		}
+
 		mainVlay.add(contHLay);
 		// mainVlay.setWidth("100%");
 		this.add(mainVlay);
+	}
+
+	protected StyledPanel getTopLayout() {
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		topHLay.addStyleName("main-panel");
+		return topHLay;
 	}
 
 	@Override
@@ -304,5 +313,13 @@ public class JobView extends BaseView<ClientJob> {
 
 	private void jonStatusSelected(String selectedValue) {
 		jobstatusCombo.setSelected(selectedValue);
+	}
+
+	public ClientCustomer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(ClientCustomer customer) {
+		this.customer = customer;
 	}
 }

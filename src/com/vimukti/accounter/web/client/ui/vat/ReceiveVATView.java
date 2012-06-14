@@ -271,16 +271,6 @@ public class ReceiveVATView extends
 			rightVLay.add(currencyWidget);
 		}
 
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.addStyleName("fields-panel");
-		// topHLay.setWidth("100%");
-		// topHLay.setSpacing(10);
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
-		// topHLay.setCellWidth(leftVLay, "50%");
-		// topHLay.setCellWidth(rightVLay, "50%");
-		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
-
 		Label lab1 = new Label("" + messages.billsToReceive() + "");
 
 		initListGrid();
@@ -289,7 +279,15 @@ public class ReceiveVATView extends
 		mainVLay.add(lab);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(datepanel);
-		mainVLay.add(topHLay);
+		StyledPanel topHLay = getTopLayout();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVLay.add(topHLay);
+		} else {
+			mainVLay.add(leftVLay);
+			mainVLay.add(rightVLay);
+		}
 		mainVLay.add(lab1);
 		mainVLay.add(gridLayout);
 		this.add(mainVLay);
@@ -305,6 +303,12 @@ public class ReceiveVATView extends
 		calculateEndingBalance();
 		// settabIndexes();
 
+	}
+
+	protected StyledPanel getTopLayout(){
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		topHLay.addStyleName("fields-panel");
+		return topHLay;
 	}
 
 	@Override

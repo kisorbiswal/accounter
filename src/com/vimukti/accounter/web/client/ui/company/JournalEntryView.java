@@ -434,14 +434,19 @@ public class JournalEntryView extends
 			leftVLay.add(currencyCombo);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
 
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(verticalPanel);
-		mainVLay.add(topHLay);
+		StyledPanel topHLay = getTopLayOut();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVLay.add(topHLay);
+		} else {
+			mainVLay.add(leftVLay);
+			mainVLay.add(rightVLay);
+		}
 		mainVLay.add(gridPanel);
 		mainVLay.add(bottomPanel);
 		// mainVLay.add(labelPane);
@@ -454,6 +459,10 @@ public class JournalEntryView extends
 
 		/* Adding dynamic forms in list */
 
+	}
+
+	protected StyledPanel getTopLayOut() {
+		return new StyledPanel("topHLay");
 	}
 
 	@Override

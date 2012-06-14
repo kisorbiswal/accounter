@@ -66,7 +66,9 @@ public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 					if (data != null) {
 						type = data.getFormType();
 					}
-					TDSChalanDetailsView view = new TDSChalanDetailsView(type);
+					TDSChalanDetailsView view = GWT
+							.create(TDSChalanDetailsView.class);
+					view.setFormTypeSeclected(type);
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, TDSChalanDetailsAction.this);
 

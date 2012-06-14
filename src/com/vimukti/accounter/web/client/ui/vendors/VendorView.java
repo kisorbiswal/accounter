@@ -578,12 +578,16 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		StyledPanel accInfoHPanel = new StyledPanel("accInfoHPanel");
 
-		StyledPanel topHLay = new StyledPanel("fields-panel");
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
-
 		StyledPanel mainVlay = new StyledPanel("generalTab");
-		mainVlay.add(topHLay);
+		StyledPanel topHLay = getTopLayout();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVlay.add(topHLay);
+		} else {
+			mainVlay.add(leftVLay);
+			mainVlay.add(rightVLay);
+		}
 		mainVlay.add(panel);
 		mainVlay.add(bottomPanel);
 
@@ -594,6 +598,10 @@ public class VendorView extends BaseView<ClientVendor> {
 		listforms.add(memoForm);
 
 		return mainVlay;
+	}
+
+	protected StyledPanel getTopLayout(){
+		return new StyledPanel("fields-panel");
 	}
 
 	private void resetFromView() {

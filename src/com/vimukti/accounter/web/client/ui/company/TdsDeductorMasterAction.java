@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.ui.vat.TDSDeductorDetailsView;
 
 public class TdsDeductorMasterAction extends Action {
 
-
 	public TdsDeductorMasterAction() {
 		super();
 		this.catagory = messages.deducatorMasters();
@@ -21,7 +20,8 @@ public class TdsDeductorMasterAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				TDSDeductorDetailsView view = new TDSDeductorDetailsView();
+				TDSDeductorDetailsView view = GWT
+						.create(TDSDeductorDetailsView.class);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, TdsDeductorMasterAction.this);
 			}
@@ -31,14 +31,14 @@ public class TdsDeductorMasterAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		// }
+		//
+		// });
 	}
 
 	@Override

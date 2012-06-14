@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.vat.TAXAgencyView;
  */
 public class NewTAXAgencyAction extends Action<ClientTAXAgency> {
 
-
 	public NewTAXAgencyAction() {
 		super();
 		String flag;
@@ -39,7 +38,7 @@ public class NewTAXAgencyAction extends Action<ClientTAXAgency> {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				TAXAgencyView view = new TAXAgencyView();
+				TAXAgencyView view = GWT.create(TAXAgencyView.class);
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewTAXAgencyAction.this);
@@ -50,15 +49,15 @@ public class NewTAXAgencyAction extends Action<ClientTAXAgency> {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		//
+		// }
+		//
+		// });
 	}
 
 	public ImageResource getBigImage() {

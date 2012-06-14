@@ -106,11 +106,16 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	}
 
 	public void addAttachments(ArrayList<ClientAttachment> attachments) {
-		transactionAttachmentPanel.addAttachments(attachments);
+		if (transactionAttachmentPanel != null) {
+			transactionAttachmentPanel.addAttachments(attachments);
+		}
 	}
 
 	public List<ClientAttachment> getAttachments() {
-		return transactionAttachmentPanel.getAttachments();
+		if (transactionAttachmentPanel != null) {
+			return transactionAttachmentPanel.getAttachments();
+		}
+		return new ArrayList<ClientAttachment>();
 	}
 
 	protected void saveAttachment(ClientAttachment attachment) {

@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class EnterBillsAction extends Action<ClientEnterBill> {
 
-
 	public EnterBillsAction() {
 		super();
 	}
@@ -33,7 +32,7 @@ public class EnterBillsAction extends Action<ClientEnterBill> {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				VendorBillView view = VendorBillView.getInstance();
+				VendorBillView view = GWT.create(VendorBillView.class);
 
 				// UIUtils.setCanvas(view, getViewConfiguration());
 				MainFinanceWindow.getViewManager().showView(view, data,
@@ -45,15 +44,15 @@ public class EnterBillsAction extends Action<ClientEnterBill> {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			public void onCreated() {
-//
-//				
-//
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// public void onCreated() {
+		//
+		//
+		//
+		// }
+		//
+		// });
 
 	}
 

@@ -307,12 +307,17 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		ministryNameOtehr.setEnabled(true);
 		govtState.setEnabled(true);
 
-		StyledPanel styledPanel = new StyledPanel("panel1");
-		styledPanel.add(taxDynamicForm);
-		styledPanel.add(otherDynamicForm);
 		StyledPanel styledPanel1 = new StyledPanel("panel2");
 		styledPanel1.add(titleLabel);
-		styledPanel1.add(styledPanel);
+		StyledPanel styledPanel = getMainPanel();
+		if (styledPanel != null) {
+			styledPanel.add(taxDynamicForm);
+			styledPanel.add(otherDynamicForm);
+			styledPanel1.add(styledPanel);
+		} else {
+			styledPanel1.add(taxDynamicForm);
+			styledPanel1.add(otherDynamicForm);
+		}
 
 		this.add(styledPanel1);
 
@@ -327,6 +332,10 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 		isViewInitialised = true;
 
+	}
+
+	protected StyledPanel getMainPanel() {
+		return new StyledPanel("panel1");
 	}
 
 	protected void governmentSelected() {

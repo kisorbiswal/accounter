@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class NewCashPurchaseAction extends Action {
 
-
 	public NewCashPurchaseAction() {
 		super();
 	}
@@ -39,7 +38,7 @@ public class NewCashPurchaseAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				CashPurchaseView view = new CashPurchaseView();
+				CashPurchaseView view = GWT.create(CashPurchaseView.class);
 
 				// UIUtils.setCanvas(view, getViewConfiguration());
 				MainFinanceWindow.getViewManager().showView(view, data,
@@ -52,14 +51,14 @@ public class NewCashPurchaseAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			public void onCreated() {
-//
-//				
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// public void onCreated() {
+		//
+		//
+		// }
+		//
+		// });
 
 	}
 

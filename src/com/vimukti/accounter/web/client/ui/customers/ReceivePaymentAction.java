@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class ReceivePaymentAction extends Action {
 
-
 	public ReceivePaymentAction() {
 		super();
 	}
@@ -38,7 +37,7 @@ public class ReceivePaymentAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				ReceivePaymentView view = new ReceivePaymentView();
+				ReceivePaymentView view = GWT.create(ReceivePaymentView.class);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, ReceivePaymentAction.this);
 			}
@@ -48,15 +47,15 @@ public class ReceivePaymentAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		//
+		// }
+		//
+		// });
 	}
 
 	// @Override

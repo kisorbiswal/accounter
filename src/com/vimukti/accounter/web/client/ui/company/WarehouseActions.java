@@ -45,7 +45,7 @@ public class WarehouseActions extends Action {
 				AbstractBaseView view = null;
 				switch (type) {
 				case NEW_WAREHOUSE:
-					view = new WareHouseView();
+					view = GWT.create(WareHouseView.class);
 					break;
 				case WAREHOUSE_TRANSFER:
 					view = new WareHouseTransferView();

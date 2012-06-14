@@ -304,7 +304,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	}
 
-	private StyledPanel getTopLayout() {
+	protected StyledPanel getTopLayout(){
 		Label lab;
 		lab = new Label(messages.taxAgency());
 		taxAgencyText = new TextItem(messages.taxAgency(), "taxAgencyText");
@@ -507,12 +507,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		// addrsForm.getCellFormatter().addStyleName(0, 1,
 		// "addrsFormCellAlign");
 
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.addStyleName("fields-panel");
 		// topHLay.setWidth("100%");
 		// topHLay.setSpacing(5);
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
+
 		// topHLay.setCellWidth(leftVLay, "50%");
 		// topHLay.setCellWidth(rightVLay, "50%");
 		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
@@ -522,7 +519,15 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		StyledPanel mainVlay = new StyledPanel("mainVlay");
 		mainVlay.add(lab);
-		mainVlay.add(topHLay);
+		StyledPanel topHLay = getTopContainerLayout();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVlay.add(topHLay);
+		} else {
+			mainVlay.add(leftVLay);
+			mainVlay.add(rightVLay);
+		}
 		mainVlay.add(contHLay);
 
 		StyledPanel contactsPanel = new StyledPanel("addnew_edit_panel");
@@ -551,6 +556,12 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		// }
 
 		return mainVlay;
+	}
+
+	private StyledPanel getTopContainerLayout() {
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		topHLay.addStyleName("fields-panel");
+		return topHLay;
 	}
 
 	private List<String> getTAXFilingFrequencies() {

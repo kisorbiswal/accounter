@@ -303,10 +303,6 @@ public class ItemReceiptView extends
 		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		rightVLay.add(termsForm);
 
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
-
 		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
 		if (isTrackTax() && isTrackPaidTax()) {
 			bottomLayout.add(memoForm);
@@ -328,7 +324,15 @@ public class ItemReceiptView extends
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(voidedPanel);
-		mainVLay.add(topHLay);
+		StyledPanel topHLay = getTopLayout();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVLay.add(topHLay);
+		} else {
+			mainVLay.add(leftVLay);
+			mainVLay.add(rightVLay);
+		}
 		mainVLay.add(lab2);
 		// mainVLay.add(menuButton);
 		mainVLay.add(accountsDisclosurePanel.getPanel());
@@ -346,6 +350,10 @@ public class ItemReceiptView extends
 		listforms.add(memoForm);
 		listforms.add(amountForm);
 
+	}
+
+	protected StyledPanel getTopLayout(){
+		return new StyledPanel("topHLay");
 	}
 
 	@Override

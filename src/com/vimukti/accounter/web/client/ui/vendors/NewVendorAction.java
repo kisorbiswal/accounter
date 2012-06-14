@@ -48,7 +48,7 @@ public class NewVendorAction extends Action<ClientVendor> {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				VendorView view = new VendorView();
+				VendorView view = GWT.create(VendorView.class);
 				if (quickAddText != null) {
 					view.prepareForQuickAdd(quickAddText);
 				}
@@ -65,13 +65,13 @@ public class NewVendorAction extends Action<ClientVendor> {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			public void onCreated() {
-//				
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// public void onCreated() {
+		//
+		// }
+		//
+		// });
 
 	}
 

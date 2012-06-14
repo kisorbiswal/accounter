@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class CashExpenseAction extends Action {
 
-
 	public CashExpenseAction() {
 		super();
 	}
@@ -30,7 +29,7 @@ public class CashExpenseAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				CashExpenseView view = new CashExpenseView();
+				CashExpenseView view = GWT.create(CashExpenseView.class);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, CashExpenseAction.this);
 				// UIUtils.setCanvas(view, getViewConfiguration());
@@ -42,14 +41,14 @@ public class CashExpenseAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			public void onCreated() {
-//
-//				
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// public void onCreated() {
+		//
+		//
+		// }
+		//
+		// });
 
 	}
 

@@ -31,7 +31,8 @@ public class NewJobAction extends Action<ClientJob> {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				JobView view = new JobView(customer);
+				JobView view = GWT.create(JobView.class);
+				view.setCustomer(customer);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewJobAction.this);
 			}
@@ -42,33 +43,33 @@ public class NewJobAction extends Action<ClientJob> {
 			}
 		});
 
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//				/*
-//				 * NewJobDialog jobDialog = new NewJobDialog(null,
-//				 * messages.job(), ""); final ClientCompany company =
-//				 * Accounter.getCompany(); jobDialog.addSuccessCallback(new
-//				 * ValueCallBack<ClientJob>() {
-//				 * 
-//				 * @Override public void execute(final ClientJob value) {
-//				 * Accounter.createCRUDService().create(value, new
-//				 * AsyncCallback<Long>() {
-//				 * 
-//				 * @Override public void onSuccess(Long result) {
-//				 * value.setID(result);
-//				 * company.processUpdateOrCreateObject(value); }
-//				 * 
-//				 * @Override public void onFailure(Throwable caught) {
-//				 * caught.printStackTrace(); } });
-//				 * 
-//				 * } });
-//				 */
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		// /*
+		// * NewJobDialog jobDialog = new NewJobDialog(null,
+		// * messages.job(), ""); final ClientCompany company =
+		// * Accounter.getCompany(); jobDialog.addSuccessCallback(new
+		// * ValueCallBack<ClientJob>() {
+		// *
+		// * @Override public void execute(final ClientJob value) {
+		// * Accounter.createCRUDService().create(value, new
+		// * AsyncCallback<Long>() {
+		// *
+		// * @Override public void onSuccess(Long result) {
+		// * value.setID(result);
+		// * company.processUpdateOrCreateObject(value); }
+		// *
+		// * @Override public void onFailure(Throwable caught) {
+		// * caught.printStackTrace(); } });
+		// *
+		// * } });
+		// */
+		// }
+		//
+		// });
 	}
 
 	@Override

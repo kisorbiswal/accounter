@@ -313,15 +313,20 @@ public class CustomerCreditMemoView extends
 			currencyWidget.setEnabled(!isInViewMode());
 		}
 
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
-
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(voidedPanel);
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
-		mainVLay.add(topHLay);
+
+		StyledPanel topHLay = getTopLayOut();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVLay.add(topHLay);
+		} else {
+			mainVLay.add(leftVLay);
+			mainVLay.add(rightVLay);
+		}
 
 		StyledPanel disPanel = new StyledPanel("dislosurePanel");
 		disPanel.add(accountsDisclosurePanel.getPanel());
@@ -347,6 +352,10 @@ public class CustomerCreditMemoView extends
 		if (isMultiCurrencyEnabled()) {
 			foreignCurrencyamountLabel.hide();
 		}
+	}
+
+	protected StyledPanel getTopLayOut() {
+		return new StyledPanel("topHLay");
 	}
 
 	@Override

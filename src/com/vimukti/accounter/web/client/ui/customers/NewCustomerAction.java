@@ -41,7 +41,7 @@ public class NewCustomerAction extends Action<ClientCustomer> {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				CustomerView view = new CustomerView();
+				CustomerView view = GWT.create(CustomerView.class);
 				if (quickAddText != null) {
 					view.prepareForQuickAdd(quickAddText);
 				}
@@ -58,15 +58,15 @@ public class NewCustomerAction extends Action<ClientCustomer> {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		//
+		// }
+		//
+		// });
 	}
 
 	public boolean isCustomerViewEditable() {

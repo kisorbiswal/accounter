@@ -37,9 +37,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class TDSChalanDetailsView extends
 		AbstractTransactionBaseView<ClientTDSChalanDetail> {
 
-	public TDSChalanDetailsView(int formType) {
+	public TDSChalanDetailsView() {
 		super(ClientTransaction.TYPE_TDS_CHALLAN);
-		this.formTypeSeclected = formType;
 		this.getElement().setId("TDSChalanDetailsView");
 	}
 
@@ -71,7 +70,7 @@ public class TDSChalanDetailsView extends
 	public static final int Form27Q = 2;
 	public static final int Form27EQ = 3;
 
-	int formTypeSeclected = 1;
+	private int formTypeSeclected = 1;
 	String assessmentYear;
 	String paymentSectionSelected = null;
 	// private SelectCombo natureOfPaymentCombo27Q;
@@ -226,11 +225,11 @@ public class TDSChalanDetailsView extends
 		totalAmountPaid.setEnabled(false);
 
 		natureOfPaymentCombo = new SelectCombo(messages.natureOfPayment());
-		if (formTypeSeclected == Form26Q) {
+		if (getFormTypeSeclected() == Form26Q) {
 			natureOfPaymentCombo.initCombo(get26QSectionsList());
-		} else if (formTypeSeclected == Form27Q) {
+		} else if (getFormTypeSeclected() == Form27Q) {
 			natureOfPaymentCombo.initCombo(get27QSectionsList());
-		} else if (formTypeSeclected == Form27EQ) {
+		} else if (getFormTypeSeclected() == Form27EQ) {
 			natureOfPaymentCombo.initCombo(get27EQSectionsList());
 		}
 
@@ -369,7 +368,7 @@ public class TDSChalanDetailsView extends
 		// grid.setCanEdit(true);
 		// grid.init();
 
-		table = new TdsChalanTransactionItemsTable(formTypeSeclected) {
+		table = new TdsChalanTransactionItemsTable(getFormTypeSeclected()) {
 
 			@Override
 			public void updateNonEditableFields() {
@@ -384,30 +383,46 @@ public class TDSChalanDetailsView extends
 		};
 		table.setEnabled(!isInViewMode());
 
-		StyledPanel horizontalPanel1 = new StyledPanel("horizontalPanel1");
-		horizontalPanel1.add(taxDynamicForm);
-		horizontalPanel1.add(otherDynamicForm);
-
-		StyledPanel horizontalPanel2 = new StyledPanel("horizontalPanel2");
-		horizontalPanel2.add(belowForm1);
-		horizontalPanel2.add(belowForm2);
-
 		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
 		verticalPanel.add(label);
 		verticalPanel.add(voidedPanel);
-		verticalPanel.add(horizontalPanel1);
+		StyledPanel horizontalPanel1 = getFirstPanel();
+		if (horizontalPanel1 != null) {
+			horizontalPanel1.add(taxDynamicForm);
+			horizontalPanel1.add(otherDynamicForm);
+			verticalPanel.add(horizontalPanel1);
+		} else {
+			verticalPanel.add(taxDynamicForm);
+			verticalPanel.add(otherDynamicForm);
+		}
 		Label tableTitle = new Label(messages2.table(messages.tdsChallan()));
 		tableTitle.addStyleName("editTableTitle");
 		StyledPanel tablePanel = new StyledPanel("tdschalantable");
 		tablePanel.add(tableTitle);
 		tablePanel.add(table);
 		verticalPanel.add(tablePanel);
-		verticalPanel.add(horizontalPanel2);
+		StyledPanel horizontalPanel2 = getSecondPanel();
+		if (horizontalPanel2 != null) {
+			horizontalPanel2.add(belowForm1);
+			horizontalPanel2.add(belowForm2);
+			verticalPanel.add(horizontalPanel2);
+		} else {
+			verticalPanel.add(belowForm1);
+			verticalPanel.add(belowForm2);
+		}
 
 		this.add(verticalPanel);
 		//
 		// natureOfPaymentCombo27Q.hide();
 		// natureOfPaymentCombo27EQ.hide();
+	}
+
+	protected StyledPanel getFirstPanel() {
+		return new StyledPanel("horizontalPanel1");
+	}
+
+	protected StyledPanel getSecondPanel() {
+		return new StyledPanel("horizontalPanel2");
 	}
 
 	protected void quarterChanged(String selectdQuarter) {
@@ -535,11 +550,11 @@ public class TDSChalanDetailsView extends
 	private List<String> getFormTypes() {
 		ArrayList<String> list = new ArrayList<String>();
 
-		if (formTypeSeclected == Form26Q) {
+		if (getFormTypeSeclected() == Form26Q) {
 			list.add("26Q");
-		} else if (formTypeSeclected == Form27Q) {
+		} else if (getFormTypeSeclected() == Form27Q) {
 			list.add("27Q");
-		} else if (formTypeSeclected == Form27EQ) {
+		} else if (getFormTypeSeclected() == Form27EQ) {
 			list.add("27EQ");
 		}
 		return list;
@@ -728,7 +743,7 @@ public class TDSChalanDetailsView extends
 		transaction.setDate(new ClientFinanceDate().getDate());
 		transaction.setType(ClientTransaction.TYPE_TDS_CHALLAN);
 
-		transaction.setFormType(formTypeSeclected);
+		transaction.setFormType(getFormTypeSeclected());
 
 		if (slectAssecementYear.getSelectedValue() != null) {
 			String delims = "-";
@@ -785,7 +800,7 @@ public class TDSChalanDetailsView extends
 		Accounter
 				.createHomeService()
 				.getTDSTransactionItemsList(
-						formTypeSeclected,
+						getFormTypeSeclected(),
 						new AccounterAsyncCallback<ArrayList<ClientTDSTransactionItem>>() {
 
 							@Override
@@ -934,5 +949,13 @@ public class TDSChalanDetailsView extends
 	@Override
 	public boolean allowEmptyTransactionItems() {
 		return false;
+	}
+
+	public int getFormTypeSeclected() {
+		return formTypeSeclected;
+	}
+
+	public void setFormTypeSeclected(int formTypeSeclected) {
+		this.formTypeSeclected = formTypeSeclected;
 	}
 }

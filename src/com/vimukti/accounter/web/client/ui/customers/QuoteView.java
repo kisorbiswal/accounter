@@ -82,7 +82,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 	private Double salesTax;
 	private ShipToForm shipToAddress;
-	public int type;
+	private int type;
 	private String title;
 	private SelectCombo statusCombo;
 
@@ -90,11 +90,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	private DateField dueDateItem;
 	private Button emailButton;
 
-	public QuoteView(int type, String title) {
+	public QuoteView() {
 		super(ClientTransaction.TYPE_ESTIMATE);
 		this.getElement().setId("QuoteView");
-		this.title = title;
-		this.type = type;
 	}
 
 	private void initAllItems() {
@@ -310,7 +308,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		case ClientEstimate.STATUS_OPEN:
 			return messages.open();
 		case ClientEstimate.STATUS_ACCECPTED:
-			if (type == ClientEstimate.SALES_ORDER) {
+			if (getType() == ClientEstimate.SALES_ORDER) {
 				return messages.completed();
 			}
 			return messages.accepted();
@@ -319,7 +317,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		case ClientEstimate.STATUS_REJECTED:
 			return messages.rejected();
 		case ClientTransaction.STATUS_COMPLETED:
-			if (type == ClientEstimate.SALES_ORDER) {
+			if (getType() == ClientEstimate.SALES_ORDER) {
 				return messages.completed();
 			}
 			return messages.closed();
@@ -405,7 +403,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		custForm = UIUtils.form(Global.get().customer());
 		// custForm.setWidth("100%");
-		if (type == ClientEstimate.QUOTES || type == ClientEstimate.SALES_ORDER) {
+		if (getType() == ClientEstimate.QUOTES || getType() == ClientEstimate.SALES_ORDER) {
 			custForm.add(customerCombo, contactCombo, phoneSelect,
 					billToTextArea);
 		} else {
@@ -447,15 +445,15 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setEnabled(false);
-			if (type == ClientEstimate.QUOTES
-					|| type == ClientEstimate.SALES_ORDER) {
+			if (getType() == ClientEstimate.QUOTES
+					|| getType() == ClientEstimate.SALES_ORDER) {
 				phoneForm.add(jobListCombo);
 			} else {
 				locationform.add(jobListCombo);
 			}
 		}
 		if (locationTrackingEnabled) {
-			if (type == ClientEstimate.QUOTES) {
+			if (getType() == ClientEstimate.QUOTES) {
 				phoneForm.add(locationCombo);
 			} else {
 				locationform.add(locationCombo);
@@ -463,7 +461,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		}
 		if (getPreferences().isSalesPersonEnabled()) {
 			if (isTemplate) {
-				if (type == ClientEstimate.SALES_ORDER) {
+				if (getType() == ClientEstimate.SALES_ORDER) {
 					phoneForm.add(statusCombo, customerOrderText,
 							shippingTermsCombo, shippingMethodsCombo,
 							payTermsSelect);
@@ -473,7 +471,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				}
 
 			} else {
-				if (type == ClientEstimate.SALES_ORDER) {
+				if (getType() == ClientEstimate.SALES_ORDER) {
 					phoneForm.add(statusCombo, customerOrderText,
 							shippingTermsCombo, shippingMethodsCombo,
 							payTermsSelect, deliveryDate);
@@ -484,7 +482,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			}
 		} else {
 			if (isTemplate) {
-				if (type == ClientEstimate.SALES_ORDER) {
+				if (getType() == ClientEstimate.SALES_ORDER) {
 					phoneForm.add(statusCombo, customerOrderText,
 							shippingTermsCombo, shippingMethodsCombo,
 							payTermsSelect);
@@ -492,7 +490,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 					phoneForm.add(statusCombo, payTermsSelect);
 				}
 			} else {
-				if (type == ClientEstimate.SALES_ORDER) {
+				if (getType() == ClientEstimate.SALES_ORDER) {
 					phoneForm.add(statusCombo, customerOrderText,
 							shippingTermsCombo, shippingMethodsCombo,
 							payTermsSelect, deliveryDate);
@@ -507,8 +505,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		// .setAttribute(messages.width(), "203px");
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
-			if (type == ClientEstimate.QUOTES
-					|| type == ClientEstimate.SALES_ORDER) {
+			if (getType() == ClientEstimate.QUOTES
+					|| getType() == ClientEstimate.SALES_ORDER) {
 				phoneForm.add(classListCombo);
 			} else {
 				locationform.add(classListCombo);
@@ -647,10 +645,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		leftVLay.add(custForm);
 		if (getCompany().getPreferences().isDoProductShipMents())
-			if (type == ClientEstimate.QUOTES)
+			if (getType() == ClientEstimate.QUOTES)
 				leftVLay.add(shipToAddress);
 		StyledPanel rightVLay = new StyledPanel("rightVLay");
-		if (type == ClientEstimate.QUOTES || type == ClientEstimate.SALES_ORDER) {
+		if (getType() == ClientEstimate.QUOTES || getType() == ClientEstimate.SALES_ORDER) {
 			rightVLay.add(phoneForm);
 		} else {
 			rightVLay.add(locationform);
@@ -659,16 +657,22 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			rightVLay.add(currencyWidget);
 			currencyWidget.setEnabled(!isInViewMode());
 		}
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.addStyleName("fields-panel");
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
-		mainVLay.add(topHLay);
+
+		StyledPanel topHLay = getTopLayout();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVLay.add(topHLay);
+		} else {
+			mainVLay.add(leftVLay);
+			mainVLay.add(rightVLay);
+		}
+
 		StyledPanel gridPanel = new StyledPanel("tableContainer");
 		Label itemTableTitle = new Label(messages.ItemizebyProductService());
 		itemTableTitle.setStyleName("editTableTitle");
@@ -695,6 +699,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		if (isMultiCurrencyEnabled()) {
 			foreignCurrencyamountLabel.hide();
 		}
+	}
+
+	protected StyledPanel getTopLayout() {
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		topHLay.addStyleName("fields-panel");
+		return topHLay;
 	}
 
 	protected DateField createDueDateItem() {
@@ -779,7 +789,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			if (jobListCombo.getSelectedValue() != null)
 				transaction.setJob(jobListCombo.getSelectedValue().getID());
 		}
-		transaction.setEstimateType(type);
+		transaction.setEstimateType(getType());
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
@@ -1285,11 +1295,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 	@Override
 	protected String getViewTitle() {
-		if (type == ClientEstimate.CHARGES) {
+		if (getType() == ClientEstimate.CHARGES) {
 			return messages.charge();
-		} else if (type == ClientEstimate.CREDITS) {
+		} else if (getType() == ClientEstimate.CREDITS) {
 			return messages.credit();
-		} else if (type == ClientEstimate.SALES_ORDER) {
+		} else if (getType() == ClientEstimate.SALES_ORDER) {
 			return messages.salesOrder();
 		}
 		return messages.quote();
@@ -1379,7 +1389,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	public List<String> getStatusList() {
 		ArrayList<String> statuses = new ArrayList<String>();
 		statuses.add(messages.open());
-		if (type != ClientEstimate.SALES_ORDER) {
+		if (getType() != ClientEstimate.SALES_ORDER) {
 			statuses.add(messages.accepted());
 			statuses.add(messages.closed());
 			if (transaction == null
@@ -1398,7 +1408,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	@Override
 	public boolean canPrint() {
 		EditMode mode = getMode();
-		if (type == ClientEstimate.QUOTES || type == ClientEstimate.SALES_ORDER) {
+		if (getType() == ClientEstimate.QUOTES || getType() == ClientEstimate.SALES_ORDER) {
 			if (mode == EditMode.CREATE || mode == EditMode.EDIT
 					|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
 				return false;
@@ -1447,7 +1457,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		if (getCompany().isPaid()
 				&& isInViewMode()
 				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)
-				&& (type == ClientEstimate.SALES_ORDER || type == ClientEstimate.QUOTES)) {
+				&& (getType() == ClientEstimate.SALES_ORDER || getType() == ClientEstimate.QUOTES)) {
 			emailButton = new Button(messages.email());
 			buttonBar.add(emailButton);
 
@@ -1472,5 +1482,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				}
 			});
 		}
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 }

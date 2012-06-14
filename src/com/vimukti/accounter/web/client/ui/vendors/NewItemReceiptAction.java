@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class NewItemReceiptAction extends Action {
 
-
 	public NewItemReceiptAction() {
 		super();
 	}
@@ -41,7 +40,7 @@ public class NewItemReceiptAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				ItemReceiptView view = new ItemReceiptView();
+				ItemReceiptView view = GWT.create(ItemReceiptView.class);
 
 				// UIUtils.setCanvas(view, getViewConfiguration());
 				MainFinanceWindow.getViewManager().showView(view, data,
@@ -54,14 +53,14 @@ public class NewItemReceiptAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		// }
+		//
+		// });
 	}
 
 	// @Override

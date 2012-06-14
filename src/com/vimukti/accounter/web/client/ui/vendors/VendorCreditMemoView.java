@@ -423,10 +423,6 @@ public class VendorCreditMemoView extends
 		leftVLay.add(vendorForm);
 		StyledPanel rightVLay1 = new StyledPanel("rightVLay1");
 		// rightVLay1.setWidth("100%");
-		StyledPanel topHLay1 = new StyledPanel("topHLay1");
-		topHLay1.addStyleName("fields-panel");
-		topHLay1.add(leftVLay);
-		topHLay1.add(rightVLay);
 
 		StyledPanel bottomLayout1 = new StyledPanel("bottomLayout1");
 
@@ -500,7 +496,15 @@ public class VendorCreditMemoView extends
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
-		mainVLay.add(topHLay1);
+		StyledPanel topHLay1 = getTopLayout();
+		if (topHLay1 != null) {
+			topHLay1.add(leftVLay);
+			topHLay1.add(rightVLay);
+			mainVLay.add(topHLay1);
+		} else {
+			mainVLay.add(leftVLay);
+			mainVLay.add(rightVLay);
+		}
 
 		mainVLay.add(accountsDisclosurePanel.getPanel());
 		mainVLay.add(itemsDisclosurePanel.getPanel());
@@ -526,6 +530,12 @@ public class VendorCreditMemoView extends
 		}
 
 		// settabIndexes();
+	}
+
+	protected StyledPanel getTopLayout(){
+		StyledPanel styledPanel = new StyledPanel("topHLay1");
+		styledPanel.addStyleName("fields-panel");
+		return styledPanel;
 	}
 
 	@Override

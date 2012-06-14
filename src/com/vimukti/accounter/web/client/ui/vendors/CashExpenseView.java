@@ -512,10 +512,6 @@ public class CashExpenseView extends
 			rightVLay.add(currencyWidget);
 			currencyWidget.setEnabled(!isInViewMode());
 		}
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.addStyleName("fields-panel");
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
 
 		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
 
@@ -597,7 +593,15 @@ public class CashExpenseView extends
 		mainVLay.add(titlelabel);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
-		mainVLay.add(topHLay);
+		StyledPanel topHLay = getTopLayout();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVLay.add(topHLay);
+		} else {
+			mainVLay.add(leftVLay);
+			mainVLay.add(rightVLay);
+		}
 
 		mainVLay.add(accountsDisclosurePanel.getPanel());
 		mainVLay.add(itemsDisclosurePanel.getPanel());
@@ -614,6 +618,12 @@ public class CashExpenseView extends
 		if (isMultiCurrencyEnabled()) {
 			foreignCurrencyamountLabel.hide();
 		}
+	}
+
+	protected StyledPanel getTopLayout(){
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		topHLay.addStyleName("fields-panel");
+		return topHLay;
 	}
 
 	@Override

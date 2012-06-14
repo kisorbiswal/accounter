@@ -43,7 +43,7 @@ public class PayTAXAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				PayTAXView view = new PayTAXView();
+				PayTAXView view = GWT.create(PayTAXView.class);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, PayTAXAction.this);
 

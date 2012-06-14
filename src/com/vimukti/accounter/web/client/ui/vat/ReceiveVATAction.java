@@ -49,7 +49,7 @@ public class ReceiveVATAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				ReceiveVATView view = new ReceiveVATView();
+				ReceiveVATView view = GWT.create(ReceiveVATView.class);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, ReceiveVATAction.this);
 			}

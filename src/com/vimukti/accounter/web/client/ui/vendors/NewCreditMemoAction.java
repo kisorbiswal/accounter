@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class NewCreditMemoAction extends Action {
 
-
 	public NewCreditMemoAction() {
 		super();
 	}
@@ -39,7 +38,8 @@ public class NewCreditMemoAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				VendorCreditMemoView view = new VendorCreditMemoView();
+				VendorCreditMemoView view = GWT
+						.create(VendorCreditMemoView.class);
 
 				// UIUtils.setCanvas(view, getViewConfiguration());
 				MainFinanceWindow.getViewManager().showView(view, data,
@@ -51,15 +51,15 @@ public class NewCreditMemoAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			public void onCreated() {
-//
-//				
-//
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// public void onCreated() {
+		//
+		//
+		//
+		// }
+		//
+		// });
 
 	}
 

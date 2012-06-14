@@ -104,8 +104,6 @@ public class ReceivePaymentView extends
 	private ClientAccount depositInAccount;
 	private DepositInAccountCombo depositInCombo;
 
-	private StyledPanel topHLay;
-
 	public ReceivePaymentView() {
 		super(ClientTransaction.TYPE_RECEIVE_PAYMENT);
 		this.getElement().setId("ReceivePaymentView");
@@ -710,10 +708,6 @@ public class ReceivePaymentView extends
 			currencyWidget.setEnabled(!isInViewMode());
 		}
 
-		topHLay = new StyledPanel("topHLay");
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
-
 		StyledPanel bottomAmtsLayout = new StyledPanel("bottomAmtsLayout");
 		gridLayout = new StyledPanel("gridLayout");
 		gridLayout.add(lab1);
@@ -725,7 +719,17 @@ public class ReceivePaymentView extends
 		mainVLay.add(lab);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
-		mainVLay.add(topHLay);
+
+		StyledPanel topHLay = getTopLayout();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVLay.add(topHLay);
+		} else {
+			mainVLay.add(leftVLay);
+			mainVLay.add(rightVLay);
+		}
+
 		mainVLay.add(gridLayout);
 
 		this.add(mainVLay);
@@ -745,6 +749,10 @@ public class ReceivePaymentView extends
 		// unUsedPaymentsTextForeignCurrency.hide();
 		// }
 
+	}
+
+	protected StyledPanel getTopLayout(){
+		return new StyledPanel("topHLay");
 	}
 
 	protected void updateTotalWithTDS() {

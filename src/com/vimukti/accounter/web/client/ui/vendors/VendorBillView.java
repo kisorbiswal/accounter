@@ -77,7 +77,7 @@ public class VendorBillView extends
 
 	TransactionsTree<PurchaseOrdersAndItemReceiptsList> transactionsTree;
 
-	private VendorBillView() {
+	public VendorBillView() {
 		super(ClientTransaction.TYPE_ENTER_BILL);
 		this.getElement().setId("VendorBillView");
 	}
@@ -770,12 +770,6 @@ public class VendorBillView extends
 			currencyWidget.setEnabled(!isInViewMode());
 		}
 
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.addStyleName("fields-panel");
-		// topHLay.setWidth("100%");
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
-
 		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
 
 		StyledPanel bottompanel = new StyledPanel("bottompanel");
@@ -833,7 +827,16 @@ public class VendorBillView extends
 		// mainVLay.setSize("100%", "100%");
 		mainVLay.add(labeldateNoLayout);
 		// mainVLay.setCellHorizontalAlignment(topHLay, ALIGN_RIGHT);
-		mainVLay.add(topHLay);
+		StyledPanel topHLay = getTopLayout();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVLay.add(topHLay);
+		} else {
+			mainVLay.add(leftVLay);
+			mainVLay.add(rightVLay);
+		}
+
 		mainVLay.add(transactionsTree);
 		mainVLay.add(accountsDisclosurePanel.getPanel());
 		mainVLay.add(itemsDisclosurePanel.getPanel());
@@ -863,6 +866,12 @@ public class VendorBillView extends
 			foreignCurrencyamountLabel.hide();
 		}
 		// settabIndexes();
+	}
+
+	protected StyledPanel getTopLayout() {
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		topHLay.addStyleName("fields-panel");
+		return topHLay;
 	}
 
 	private boolean isCustomerAllowedToAdd() {

@@ -32,7 +32,7 @@ public class NewJournalEntryAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				JournalEntryView view = new JournalEntryView();
+				JournalEntryView view = GWT.create(JournalEntryView.class);
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isEditable, NewJournalEntryAction.this);

@@ -444,11 +444,6 @@ public class CashPurchaseView extends
 
 		DynamicForm form = new DynamicForm("form");
 
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.addStyleName("fields-panel");
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
-
 		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
 
 		StyledPanel bottompanel = new StyledPanel("bottompanel");
@@ -528,7 +523,15 @@ public class CashPurchaseView extends
 		mainVLay.add(titlelabel);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
-		mainVLay.add(topHLay);
+		StyledPanel topHLay = getTopLayout();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVLay.add(topHLay);
+		} else {
+			mainVLay.add(leftVLay);
+			mainVLay.add(rightVLay);
+		}
 		// mainVLay.add(lab2);
 		mainVLay.add(transactionsTree);
 		mainVLay.add(accountsDisclosurePanel.getPanel());
@@ -555,6 +558,12 @@ public class CashPurchaseView extends
 
 		// settabIndexes();
 
+	}
+
+	protected StyledPanel getTopLayout(){
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		topHLay.addStyleName("fields-panel");
+		return topHLay;
 	}
 
 	@Override

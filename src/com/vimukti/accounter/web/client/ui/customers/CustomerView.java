@@ -851,16 +851,18 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		rightVLay.add(fonFaxForm);
 		rightVLay.add(emailForm);
 
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.addStyleName("fields-panel");
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
-
 		StyledPanel contHLay = new StyledPanel("contHLay");
 
 		StyledPanel mainVlay = new StyledPanel("mainVlay");
-
-		mainVlay.add(topHLay);
+		StyledPanel topHLay = getTopLayOut();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+			mainVlay.add(topHLay);
+		} else {
+			mainVlay.add(leftVLay);
+			mainVlay.add(rightVLay);
+		}
 		mainVlay.add(contHLay);
 		mainVlay.add(panel);
 		mainVlay.add(memoForm);
@@ -873,6 +875,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		return mainVlay;
 
+	}
+
+	protected StyledPanel getTopLayOut() {
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		topHLay.addStyleName("fields-panel");
+		return topHLay;
 	}
 
 	private void resetFromView() {

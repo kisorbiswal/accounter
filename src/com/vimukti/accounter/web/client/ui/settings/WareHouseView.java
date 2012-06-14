@@ -156,19 +156,29 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	private void createControls() {
 		Label lab1 = new Label(messages.wareHouse());
 		lab1.setStyleName("label-title");
-		StyledPanel mainHLay = new StyledPanel("mainHLay");
-		DynamicForm leftSideForm = getLeftSideForm();
-		DynamicForm rightSideForm = getRightSideForm();
-		mainHLay.add(leftSideForm);
-		mainHLay.add(rightSideForm);
 
 		vPanel = new StyledPanel("vPanel");
 		vPanel.add(lab1);
-		vPanel.add(mainHLay);
+
+		DynamicForm leftSideForm = getLeftSideForm();
+		DynamicForm rightSideForm = getRightSideForm();
+		StyledPanel mainHLay = getTopLayout();
+		if (mainHLay != null) {
+			mainHLay.add(leftSideForm);
+			mainHLay.add(rightSideForm);
+			vPanel.add(mainHLay);
+		} else {
+			vPanel.add(leftSideForm);
+			vPanel.add(rightSideForm);
+		}
 
 		// this.setSize("100%", "100%");
 		this.add(vPanel);
 
+	}
+
+	protected StyledPanel getTopLayout(){
+		return new StyledPanel("mainHLay");
 	}
 
 	private DynamicForm getRightSideForm() {

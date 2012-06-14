@@ -231,15 +231,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			rightVlay.add(currencyWidget);
 			currencyWidget.setEnabled(!isInViewMode());
 		}
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.addStyleName("fields-panel");
-		// topHLay.setWidth("100%");
-		// topHLay.setSpacing(10);
-		topHLay.add(leftVLay);
-		topHLay.add(rightVlay);
-		// topHLay.setCellWidth(leftVLay, "50%");
-		// topHLay.setCellWidth(rightVlay, "50%");
-		// topHLay.setCellHorizontalAlignment(rightVlay, ALIGN_RIGHT);
 
 		Label lab1 = new Label("" + messages.billsToPay() + "");
 
@@ -249,7 +240,16 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		mainVLay.add(lab);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(datepanel);
-		mainVLay.add(topHLay);
+
+		StyledPanel topHLay = getTopLayout();
+		if (topHLay != null) {
+			topHLay.add(leftVLay);
+			topHLay.add(rightVlay);
+			mainVLay.add(topHLay);
+		} else {
+			mainVLay.add(leftVLay);
+			mainVLay.add(rightVlay);
+		}
 		mainVLay.add(lab1);
 		mainVLay.add(gridLayout);
 		this.add(mainVLay);
@@ -265,6 +265,12 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 		// settabIndexes();
 
+	}
+
+	protected StyledPanel getTopLayout(){
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		topHLay.addStyleName("fields-panel");
+		return topHLay;
 	}
 
 	@Override
