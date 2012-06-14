@@ -503,7 +503,7 @@ button#closeButton {
 	padding: 15px 10px;
 }
 .quickLinks-panel a:hover{
-	background-color: gray;
+	background-color: gray !important;
 }
 .quickLinks-panel a {
 	display: inline-block;
@@ -1866,7 +1866,9 @@ select:hover{
 #TDSDeductorDetailsView .panel1 .otherDynamicForm,#TDSChalanDetailsView .verticalPanel,#CashPurchaseView .itemsFlowPanel .win8editrowPanel,
 .report-section .report-left-panel,.report-section .report-right-panel,#customercreditmemoview .customerCreditMemoViewPanel,
 #NewEmployeeView .mainPanel,#NewEmployeeView .firstPanel .empDetailsInfoForm,.attachment_panel .attachmentTable,
-.attachment_panel .mainPanel,#invoicebrandingview .mainPanel,#invoicebrandingview .mainPanel .setting-class-panel{
+.attachment_panel .mainPanel,#invoicebrandingview .mainPanel,#invoicebrandingview .mainPanel .setting-class-panel,
+.view-gwt-dialog .mainPanel,#ETdsFillingView .win8editrowPanel,#CheckPrintingSettingView .checkprintbox .allFields,
+#CheckPrintingSettingView .allPanel .verticalPanel .chequeLeftScal{
 	/* height: 100%;
 	column-width: 300px; */
 	
@@ -1889,7 +1891,7 @@ select:hover{
 #PreferenceSettingsView .company_settings_panel,#InventoryAssemblyView .topHLay,#InventoryAssemblyView .topPanel2
 ,#CustomerView .rightVLay,#ReceivePaymentView .gridLayout,#DepositView .mainPanel,#TDSChalanDetailsView .verticalPanel,
 .report-section .report-left-panel,.report-section .report-right-panel,#NewEmployeeView .mainPanel,#invoicebrandingview .mainPanel,
-#invoicebrandingview .mainPanel .setting-class-panel{
+#invoicebrandingview .mainPanel .setting-class-panel,.view-gwt-dialog .mainPanel,#ETdsFillingView .win8editrowPanel{
 	height: 100% !important;
 	
 }
@@ -1909,7 +1911,7 @@ select:hover{
 
 .progress_panel_show .view_panel,.setup_panel .setup_common_head,.abstract_base_view,.portletPagePanel,
 .abstract_base_view .mainVLay,#TDSDeductorDetailsView .panel1,#EmailView .mainPanel,#PreferenceSettingsView .mainPanel,
-.companies-list,.report-section,#NewEmployeeView .mainPanel{
+.companies-list,.report-section,#NewEmployeeView .mainPanel,.view-gwt-dialog .mainPanel{
     overflow-x: auto;
     overflow-y: hidden;
     width:100%;
@@ -2273,8 +2275,8 @@ a:hover,.subMenuName:hover{
 	-ms-flex-direction: column;
 	-ms-flex-wrap: wrap;
 }
-#inviteUser label{
-	color: black;
+#inviteUser label,.view-gwt-dialog label,.view-gwt-dialog div,.view-gwt-dialog .gwt-Label{
+	color: black !important;
 }
 #writechequeview .vendorAccountFlowPanel,.portlet-body .dashboard_label{
 	display: -ms-flexbox;
@@ -2282,8 +2284,9 @@ a:hover,.subMenuName:hover{
 .portlet-body .dashboard_label{
 	-ms-box-pack:justify;
 }
-#VendorView .tabPanel,#VendorView .generalTab,#VendorView .fields-panel,
-#CustomerView .tabPanel,#CustomerView .generalTab,#CustomerView .fields-panel,.groupPanel .generalTab{
+#VendorView .tabPanel,#VendorView .generalTab,#VendorView .fields-panel,#AbstractFileTAXView .topLayout,
+#CustomerView .tabPanel,#CustomerView .generalTab,#CustomerView .fields-panel,.groupPanel .generalTab,
+#AbstractFileTAXView .topLayout .topForm{
 	display:-ms-flexbox;
 }
 .tabTitle{
@@ -2536,9 +2539,6 @@ table.gridBody{
 table.gridBody .gridEvenRow{
 	background: #EAEDE8;
 }
-#SalesTaxGroupListView #SalesTaxItemsGrid{
-	margin-top: 40px;
-}
 #SalesTaxGroupDialog .horizontalPanel,#VendorMergeDialog .horizontalPanel,#CustomerMergeDialog .horizontalPanel,
 #AccountMergeDialog .horizontalPanel,#ItemMergeDialog .horizontalPanel{
 	display: -ms-flexbox;
@@ -2748,7 +2748,8 @@ table.gridBody .gridEvenRow{
 #adjusttaxview .mainPanel,#NewFixedAssetView .mainVPanel,#DepreciationView .mainPanel,.abstract_base_view .mainPanel,
 .abstract_base_view .mainVPanel,#WareHouseView .mainHLay,#NewPayHeadView .panel,#pay-employee-view .main-panel,
 #UsersView .mainLayPanel,#inviteUser .vPanel,#CheckPrintingSettingView .allPanel,#TDSDeductorDetailsView .panel2,
-#TDSResponsiblePersonDetailsView .verticalPanel,#TDSChalanDetailsView .verticalPanel
+#TDSResponsiblePersonDetailsView .verticalPanel,#TDSChalanDetailsView .verticalPanel,#SellingRegisteredItemView .mainLayout,
+#NewBrandingThemeView table.gwt-DecoratedTabPanel
 {
 	padding-left: 60px;
 }
@@ -2802,7 +2803,8 @@ table.gridBody .gridEvenRow{
 .report_view_panel .mainLayout{
 	height: 90%;
 }
-.report_view_panel .printableLayout,.report_view_panel .tableLayout,.report_view_panel .tableLayout div:first-child{
+.report_view_panel .printableLayout,.report_view_panel .tableLayout,.report_view_panel .tableLayout div:first-child,
+#DepreciationView .mainPanel{
 	height: 100%;
 }
 .report_view_panel .gridBodyContainer{
@@ -2838,6 +2840,7 @@ table.gridBody .gridEvenRow{
 }
 .view-gwt-dialog .view-dialog-child{
 	width: 100%;
+	height: 90%;
 }
 .view-gwt-dialog div:first-child .group_dialogue_list{
 	width: 95% !important;
@@ -2851,8 +2854,16 @@ table.gridBody .gridEvenRow{
 	padding: 5px;
 	-ms-flex-pack: justify;
 }
-.attachment_panel,.attachment_panel .mainPanel{
+.attachment_panel,.attachment_panel .mainPanel,#NewPayStructureView .payStrctTableContainer,
+.viewholder .mainPanel .gridPanel .treeGrid,#SalesTaxGroupDialog .bodyLayout,#AbstractFileTAXView .mainLayout,
+#ETdsFillingView .etdsTable,#ETdsFillingView .tds-scroll-panel div:first-child,#paytaxview .gridLayout,
+#paytaxview .gridLayout .listgrid,#TaxHistoryView .mainPanel,#TaxHistoryView .gridLayout .listgrid,
+#CheckPrintingSettingView .allPanel, #CheckPrintingSettingView .checkpanel,#CheckPrintingSettingView .verticalPanel,
+#CheckPrintingSettingView .horizontalPanel,#CheckPrintingSettingView .checkprintbox{
 	height: 100%;
+}
+#AbstractFileTAXView .listgrid{
+	height: 70%;
 }
 .attachment_panel .attachmentTable{
 	height: 80% !important;
@@ -2872,4 +2883,74 @@ table.gridBody .gridEvenRow{
 }
 #NewPayRunView button{
 	width: 100px;
+}
+.view-gwt-dialog .mainPanel{
+	width: 84%;
+}
+#DepreciationView .mainPanel .buttonPanel{
+	float:left;
+}
+#DepreciationView .mainPanel .panel{
+	display: -ms-flexbox;
+}
+#DepreciationView .mainPanel .panel div{
+	margin: 10px 10px 10px 0px;
+}
+
+.viewholder .mainPanel .gridPanel,.mainPanel .gridPanel .gridBodyContainer,
+#SalesTaxGroupDialog .bodyLayout .horizontalPanel,#SalesTaxGroupDialog .bodyLayout .gridBodyContainer,
+#AbstractFileTAXView .listgrid .gridBodyContainer,#ETdsFillingView .tds-scroll-panel,
+#paytaxview .gridLayout .listgrid .gridBodyContainer,#TaxHistoryView .gridLayout .listgrid .gridBodyContainer{
+	height: 90%;
+}
+.mainPanel .gridPanel .gridBodyContainer,#SalesTaxGroupDialog .bodyLayout .gridBodyContainer,
+#AbstractFileTAXView .listgrid .gridBodyContainer,#TaxHistoryView .gridLayout .listgrid .gridBodyContainer,
+#paytaxview .gridLayout .listgrid .gridBodyContainer,#EmployeeGroupListDialog .gridBodyContainer{
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+#DepreciationView button{
+	height: 40px;
+}
+#DepreciationView .image-button{
+	margin-top: 5px;
+}
+#ActivityCustomizationDialog .gwt-RadioButton,#AddBudgetAmountDialogue .mainPanel .gwt-RadioButton{
+	display: block;
+}
+#AbstractFileTAXView .topLayout .topForm .gwt-Label{
+	width: auto;
+	padding-right: 10px;
+}
+#AddBudgetAmountDialogue{
+	width: 95.5% !important;
+}
+#AddBudgetAmountDialogue .verticalPanel{
+	display: -ms-flexbox;
+}
+#AddBudgetAmountDialogue .mainPanel table{
+	width: auto !important;
+}
+#AddBudgetAmountDialogue .mainPanel{
+	width: 92%;
+}
+#SalesTaxGroupListView .gridLayout{
+	width: 100%;
+	display: -ms-flexbox;
+}
+#SalesTaxGroupListView .gridLayout .listgrid{
+	width: 49%;
+	margin-right: 10px;
+}
+#TaxHistoryView .gridLayout{
+	height: 85%;
+}
+#EmployeeGroupListDialog .gridBodyContainer{
+	height: 500px;
+}
+#CheckPrintingSettingView .chequeLeftScal .vericalScale{
+	height: 10px;
+}
+#CheckPrintingSettingView .checkprintbox .allFields{
+	height: 75%;
 }

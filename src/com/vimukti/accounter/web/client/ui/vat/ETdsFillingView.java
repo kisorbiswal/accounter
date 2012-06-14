@@ -255,6 +255,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 		tablePanel.add(etdsTableTitle);
 		ScrollPanel scroll = new ScrollPanel();
 		scroll.add(tdsCellTable);
+		scroll.getElement().removeAttribute("style");
 		// scroll.setWidth("910px");
 		scroll.setTouchScrollingDisabled(false);
 		scroll.addStyleName("tds-scroll-panel");
