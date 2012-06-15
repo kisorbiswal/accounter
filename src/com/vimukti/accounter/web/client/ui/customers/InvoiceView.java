@@ -654,7 +654,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (transactionAttachmentPanel != null) {
 			mainVLay.add(transactionAttachmentPanel);
 		}
-		super.insert(mainVLay, 0);
+		super.insert(mainVLay, 1);
 
 	}
 
