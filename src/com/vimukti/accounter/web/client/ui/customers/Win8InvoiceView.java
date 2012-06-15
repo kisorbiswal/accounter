@@ -7,4 +7,9 @@ public class Win8InvoiceView extends InvoiceView {
 	protected StyledPanel getTopLay() {
 		return null;
 	}
+
+	@Override
+	protected boolean canAddAttachmentPanel() {
+		return false;
+	}
 }
