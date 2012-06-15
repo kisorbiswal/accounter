@@ -51,7 +51,8 @@ public class InventoryActions extends Action {
 				AbstractBaseView view = null;
 				switch (type) {
 				case TYPE_NEW_ASSEMBLY:
-					InventoryAssemblyView iView = new InventoryAssemblyView();
+					InventoryAssemblyView iView = GWT
+							.create(InventoryAssemblyView.class);
 					iView.setItemName(itemname);
 					view = iView;
 					break;

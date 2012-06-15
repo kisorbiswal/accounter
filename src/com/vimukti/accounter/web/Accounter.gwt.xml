@@ -262,7 +262,7 @@
 		<when-type-is class="com.vimukti.accounter.web.client.ui.customers.CustomerPrePaymentView" />
 		<when-property-is name="tablet.user.agent" value="ie10" />
 	</replace-with>
-	<replace-with class="com.vimukti.accounter.web.client.ui.Win8NewAccountView">
+	<replace-with class="com.vimukti.accounter.web.client.ui.Win8AccountView">
 		<when-type-is class="com.vimukti.accounter.web.client.ui.NewAccountView" />
 		<when-property-is name="tablet.user.agent" value="ie10" />
 	</replace-with>
