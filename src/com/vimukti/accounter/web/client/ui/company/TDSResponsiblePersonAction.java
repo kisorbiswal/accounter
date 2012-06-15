@@ -21,7 +21,8 @@ public class TDSResponsiblePersonAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				TDSResponsiblePersonDetailsView view = new TDSResponsiblePersonDetailsView();
+				TDSResponsiblePersonDetailsView view = GWT
+						.create(TDSResponsiblePersonDetailsView.class);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, TDSResponsiblePersonAction.this);
 			}

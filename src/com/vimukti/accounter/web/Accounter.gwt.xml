@@ -274,4 +274,8 @@
 		<when-type-is class="com.vimukti.accounter.web.client.ui.InventoryAssemblyView" />
 		<when-property-is name="tablet.user.agent" value="ie10" />
 	</replace-with>
+	<replace-with class="com.vimukti.accounter.web.client.ui.vat.Win8TDSResponsiblePersonDetailsView">
+		<when-type-is class="com.vimukti.accounter.web.client.ui.vat.TDSResponsiblePersonDetailsView" />
+		<when-property-is name="tablet.user.agent" value="ie10" />
+	</replace-with>
 </module>

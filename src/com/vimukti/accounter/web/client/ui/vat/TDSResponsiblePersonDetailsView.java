@@ -148,9 +148,6 @@ public class TDSResponsiblePersonDetailsView extends
 		email.setRequired(true);
 
 		taxDynamicForm = new DynamicForm("taxDynamicForm");
-		taxDynamicForm.add(responsiblePersonName, designation, branchName,
-				flatNo, buildingName, streetName, areaName, cityName,
-				stateCombo, pinNumber, addressChangeCombo);
 
 		financialYearCombo = new SelectCombo(messages.financialYear());
 		financialYearCombo.initCombo(getFinancialYearList());
@@ -210,17 +207,27 @@ public class TDSResponsiblePersonDetailsView extends
 		// faxNumber, email, financialYearCombo, assessmentYearCombo,
 		// returnType, existingTdsassess, panCode, tanNumber);
 
-		otherDynamicForm.add(stdNumber, telephoneNumber, mobileNumber,
-				faxNumber, email, returnType, existingTdsassess);
-
-		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
-		horizontalPanel.setWidth("100%");
-		horizontalPanel.add(taxDynamicForm);
-		horizontalPanel.add(otherDynamicForm);
-
 		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
 		verticalPanel.add(titleLabel);
-		verticalPanel.add(horizontalPanel);
+
+		StyledPanel horizontalPanel = getLayoutPanel();
+		if (horizontalPanel != null) {
+			taxDynamicForm.add(responsiblePersonName, designation, branchName,
+					flatNo, buildingName, streetName, areaName, cityName,
+					stateCombo, pinNumber, addressChangeCombo);
+			horizontalPanel.add(taxDynamicForm);
+			otherDynamicForm.add(stdNumber, telephoneNumber, mobileNumber,
+					faxNumber, email, returnType, existingTdsassess);
+			horizontalPanel.add(otherDynamicForm);
+
+			verticalPanel.add(horizontalPanel);
+		} else {
+			verticalPanel.add(responsiblePersonName, designation, branchName,
+					flatNo, buildingName, streetName, areaName, cityName,
+					stateCombo, pinNumber, addressChangeCombo);
+			verticalPanel.add(stdNumber, telephoneNumber, mobileNumber,
+					faxNumber, email, returnType, existingTdsassess);
+		}
 
 		this.add(verticalPanel);
 
@@ -230,6 +237,12 @@ public class TDSResponsiblePersonDetailsView extends
 
 		viewIntialized = true;
 
+	}
+
+	protected StyledPanel getLayoutPanel() {
+		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
+		horizontalPanel.setWidth("100%");
+		return horizontalPanel;
 	}
 
 	private void upDateControls() {
@@ -358,8 +371,8 @@ public class TDSResponsiblePersonDetailsView extends
 		data.setStateName(stateCombo.getSelectedValue());
 
 		data.setPinCode(pinNumber.getNumber());
-		
-		data.setReturnType(returnType.getSelectedIndex()+1);
+
+		data.setReturnType(returnType.getSelectedIndex() + 1);
 
 		if (addressChangeCombo.getSelectedValue().equals(messages.YES())) {
 			data.setAddressChanged(true);
