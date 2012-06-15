@@ -83,7 +83,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private CheckboxItem cashAccountCheck;
 	private DynamicForm cashBasisForm;
 	private TextAreaItem commentsArea;
-	private DynamicForm commentsForm;
+	protected DynamicForm commentsForm;
 	private SelectCombo typeSelect;
 	private AmountField limitText;
 	private IntegerField accNoText, cardNumText;
@@ -120,7 +120,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	private Label lab1;
 
-	StyledPanel mainVLay;
+	protected StyledPanel mainVLay;
 
 	private ArrayList<DynamicForm> listforms;
 	protected Long nextAccountNumber;
@@ -179,7 +179,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	private void createControls() {
-
+		mainVLay = new StyledPanel("mainVLay");
+		mainVLay.addStyleName("fields-panel");
 		listforms = new ArrayList<DynamicForm>();
 
 		// setTitle(UIUtils.title(FinanceApplication.constants()
@@ -384,7 +385,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		accInfoForm = UIUtils.form(messages.chartOfAccountsInformation());
 		balanceForm = new DynamicForm("balanceForm");
-		topHLay = new StyledPanel("topHLay");
+		setTopHLay(new StyledPanel("topHLay"));
 		leftLayout = new StyledPanel("leftLayout");
 		currencyCombo = createCurrencyComboWidget();
 		if (accountType == 0
@@ -440,7 +441,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		currencyCombo.setVisible(ClientAccount
 				.isAllowCurrencyChange(accountType));
 
-		topHLay.add(leftLayout);
+		getTopHLay().add(leftLayout);
 
 		if (accountType == ClientAccount.TYPE_BANK)
 			addBankForm();
@@ -471,18 +472,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// messages.width(), "200");
 		// currency = createCurrencyWidget();
 
-		mainVLay = new StyledPanel("mainVLay");
-		mainVLay.addStyleName("fields-panel");
 		mainVLay.add(lab1);
-		mainVLay.add(topHLay);
-
-		// mainVLay.add(cashBasisForm);
-
-		mainVLay.add(commentsForm);
-		// mainVLay.add(currency);
-
-		// setHeightForCanvas("450");
-		this.add(mainVLay);
+		addMainPanel();
 
 		/* Adding dynamic forms in list */
 		listforms.add(accInfoForm);
@@ -492,6 +483,18 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		// settabIndexes();
 
+	}
+
+	protected void addMainPanel() {
+		mainVLay.add(getTopHLay());
+
+		// mainVLay.add(cashBasisForm);
+
+		mainVLay.add(commentsForm);
+		// mainVLay.add(currency);
+
+		// setHeightForCanvas("450");
+		this.add(mainVLay);
 	}
 
 	protected List<ClientAccount> getAccountsForParent() {
@@ -535,11 +538,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	private void addPaypalForm() {
 		if (bankForm != null) {
-			topHLay.remove(bankForm);
+			getTopHLay().remove(bankForm);
 		}
 		if (creditCardForm != null)
 
-			topHLay.remove(creditCardForm);
+			getTopHLay().remove(creditCardForm);
 
 		bankNameSelect = null;
 
@@ -587,7 +590,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// getBankNameSelectItem();
 		// reset(bankForm);
 		// }
-		topHLay.add(paypalForm);
+		getTopHLay().add(paypalForm);
 
 	}
 
@@ -646,7 +649,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// accInfoForm.setWidth("100%");
 
 		if (paypalForm != null)
-			topHLay.remove(paypalForm);
+			getTopHLay().remove(paypalForm);
 
 		reset(cashBasisForm);
 		reset(commentsForm);
@@ -660,9 +663,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			subhierarchy = null;
 
 			if (bankForm != null)
-				topHLay.remove(bankForm);
+				getTopHLay().remove(bankForm);
 			if (creditCardForm != null)
-				topHLay.remove(creditCardForm);
+				getTopHLay().remove(creditCardForm);
 
 			accNoText.setToolTip(messages.accountNumberToolTipDesc("4000",
 					"4999"));
@@ -730,10 +733,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		if (bankForm != null) {
 
-			topHLay.remove(bankForm);
+			getTopHLay().remove(bankForm);
 		}
 		if (paypalForm != null) {
-			topHLay.remove(paypalForm);
+			getTopHLay().remove(paypalForm);
 		}
 
 		bankNameSelect = null;
@@ -808,7 +811,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				getBankNameSelectItem();
 			reset(creditCardForm);
 		}
-		topHLay.add(creditCardForm);
+		getTopHLay().add(creditCardForm);
 
 	}
 
@@ -816,10 +819,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		AccounterMessages messages = Global.get().messages();
 		if (creditCardForm != null) {
 
-			topHLay.remove(creditCardForm);
+			getTopHLay().remove(creditCardForm);
 		}
 		if (paypalForm != null)
-			topHLay.remove(paypalForm);
+			getTopHLay().remove(paypalForm);
 		bankNameSelect = null;
 
 		if (bankForm == null) {
@@ -865,7 +868,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			reset(bankForm);
 		}
 
-		topHLay.add(bankForm);
+		getTopHLay().add(bankForm);
 
 	}
 
@@ -1824,5 +1827,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	@Override
 	protected boolean canVoid() {
 		return false;
+	}
+
+	public StyledPanel getTopHLay() {
+		return topHLay;
+	}
+
+	public void setTopHLay(StyledPanel topHLay) {
+		this.topHLay = topHLay;
 	}
 }

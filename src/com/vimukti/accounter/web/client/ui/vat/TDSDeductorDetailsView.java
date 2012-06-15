@@ -46,9 +46,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	private IntegerField telephoneNumber;
 	private IntegerField faxNumber;
 	private SelectCombo addressChangeCombo;
-	private DynamicForm taxDynamicForm;
 	private EmailField email;
-	private DynamicForm otherDynamicForm;
 	private SelectCombo statusCombo;
 	private SelectCombo deductorTypeOther;
 	private SelectCombo govtState;
@@ -70,6 +68,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	private CheckboxItem addressSameBox;
 	private boolean isViewInitialised;
 	private TextAreaItem taxOfficeAddrItem;
+	DynamicForm taxDynamicForm, otherDynamicForm;
 	protected LinkedHashMap<Integer, ClientAddress> taxOfficeAddresses;
 
 	@Override
@@ -187,12 +186,6 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		// email.setHelpInformation(true);
 		email.setEnabled(!isInViewMode());
 
-		taxDynamicForm = new DynamicForm("taxDynamicForm");
-		taxDynamicForm.add(deductorName, branchName, flatNo, buildingName,
-				streetName, areaName, cityName, stateCombo, pinNumber,
-				addressChangeCombo, stdNumber, telephoneNumber, faxNumber,
-				email);
-
 		statusCombo = new SelectCombo(messages.status());
 		statusCombo.initCombo(getStatusTypes());
 		statusCombo.setEnabled(!isInViewMode());
@@ -293,12 +286,6 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		ministryNameOtehr.setEnabled(true);
 		ministryNameOtehr.setRequired(false);
 
-		otherDynamicForm = new DynamicForm("otherDynamicForm");
-		otherDynamicForm.add(statusCombo, deductorTypeOther,
-				deductorTypeGovernment, govtState, paoCode, paoRegistration,
-				ddoCode, ddoRegistration, ministryCombo, ministryNameOtehr,
-				panNumber, tanNumber, addressSameBox, taxOfficeAddrItem);
-
 		paoCode.setEnabled(true);
 		paoRegistration.setEnabled(true);
 		ddoCode.setEnabled(true);
@@ -310,13 +297,31 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		StyledPanel styledPanel1 = new StyledPanel("panel2");
 		styledPanel1.add(titleLabel);
 		StyledPanel styledPanel = getMainPanel();
+		taxDynamicForm = new DynamicForm("taxDynamicForm");
+		otherDynamicForm = new DynamicForm("otherDynamicForm");
 		if (styledPanel != null) {
+			taxDynamicForm.add(deductorName, branchName, flatNo, buildingName,
+					streetName, areaName, cityName, stateCombo, pinNumber,
+					addressChangeCombo, stdNumber, telephoneNumber, faxNumber,
+					email);
 			styledPanel.add(taxDynamicForm);
+			otherDynamicForm.add(statusCombo, deductorTypeOther,
+					deductorTypeGovernment, govtState, paoCode,
+					paoRegistration, ddoCode, ddoRegistration, ministryCombo,
+					ministryNameOtehr, panNumber, tanNumber, addressSameBox,
+					taxOfficeAddrItem);
 			styledPanel.add(otherDynamicForm);
 			styledPanel1.add(styledPanel);
 		} else {
-			styledPanel1.add(taxDynamicForm);
-			styledPanel1.add(otherDynamicForm);
+			styledPanel1.add(deductorName, branchName, flatNo, buildingName,
+					streetName, areaName, cityName, stateCombo, pinNumber,
+					addressChangeCombo, stdNumber, telephoneNumber, faxNumber,
+					email);
+			styledPanel1.add(statusCombo, deductorTypeOther,
+					deductorTypeGovernment, govtState, paoCode,
+					paoRegistration, ddoCode, ddoRegistration, ministryCombo,
+					ministryNameOtehr, panNumber, tanNumber, addressSameBox,
+					taxOfficeAddrItem);
 		}
 
 		this.add(styledPanel1);

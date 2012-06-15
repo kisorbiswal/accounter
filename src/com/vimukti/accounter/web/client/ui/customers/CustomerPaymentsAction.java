@@ -23,8 +23,8 @@ public class CustomerPaymentsAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				CustomerPrePaymentView view = CustomerPrePaymentView
-						.getInstance();
+				CustomerPrePaymentView view = GWT
+						.create(CustomerPrePaymentView.class);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, CustomerPaymentsAction.this);
 			}
@@ -34,15 +34,15 @@ public class CustomerPaymentsAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		//
+		// }
+		//
+		// });
 	}
 
 	// @Override

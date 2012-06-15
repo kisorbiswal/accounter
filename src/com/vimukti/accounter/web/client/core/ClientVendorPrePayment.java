@@ -2,6 +2,10 @@ package com.vimukti.accounter.web.client.core;
 
 public class ClientVendorPrePayment extends ClientTransaction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private boolean isAmountIncludeTDS;
 	private double unusedAmount;

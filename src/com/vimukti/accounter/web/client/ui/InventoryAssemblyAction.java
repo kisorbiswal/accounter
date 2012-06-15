@@ -20,7 +20,7 @@ public class InventoryAssemblyAction extends Action<ClientInventoryAssembly> {
 
 	public InventoryAssemblyAction(boolean forCustomer) {
 		super();
-		this.forCustomer=forCustomer;
+		this.forCustomer = forCustomer;
 	}
 
 	@Override
@@ -38,14 +38,15 @@ public class InventoryAssemblyAction extends Action<ClientInventoryAssembly> {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				InventoryAssemblyView view = new InventoryAssemblyView();
+				InventoryAssemblyView view = GWT
+						.create(InventoryAssemblyView.class);
 				view.setItemName(itemname);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, InventoryAssemblyAction.this);
 				if (isItemEditable) {
 					view.onEdit();
 				}
-				
+
 			}
 
 			public void onFailure(Throwable e) {
@@ -53,13 +54,13 @@ public class InventoryAssemblyAction extends Action<ClientInventoryAssembly> {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//			}
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		// }
+		// });
 	}
 
 	@Override
@@ -73,11 +74,12 @@ public class InventoryAssemblyAction extends Action<ClientInventoryAssembly> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public String getCatagory() {
-		if(forCustomer){
-		return Global.get().Customer();
-		}else{
+		if (forCustomer) {
+			return Global.get().Customer();
+		} else {
 			return Global.get().Vendor();
 		}
 	}

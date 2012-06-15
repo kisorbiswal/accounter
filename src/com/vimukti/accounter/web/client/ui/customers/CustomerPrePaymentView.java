@@ -521,15 +521,19 @@ public class CustomerPrePaymentView extends
 		if (isMultiCurrencyEnabled()) {
 			rightPanel.add(currencyWidget);
 		}
-		StyledPanel hLay = new StyledPanel("hLayPanel");
-		hLay.addStyleName("fields-panel");
-		hLay.add(leftPanel);
-		hLay.add(rightPanel);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
-		mainVLay.add(hLay);
+		StyledPanel hLay = getTopLayOut();
+		if (hLay != null) {
+			hLay.add(leftPanel);
+			hLay.add(rightPanel);
+			mainVLay.add(hLay);
+		} else {
+			mainVLay.add(leftPanel);
+			mainVLay.add(rightPanel);
+		}
 
 		this.add(mainVLay);
 
@@ -538,6 +542,12 @@ public class CustomerPrePaymentView extends
 		listforms.add(balForm);
 		listforms.add(payForm);
 		// settabIndexes();
+	}
+
+	protected StyledPanel getTopLayOut() {
+		StyledPanel hLay = new StyledPanel("hLayPanel");
+		hLay.addStyleName("fields-panel");
+		return hLay;
 	}
 
 	private AddressCombo createBillToComboItem(String address) {

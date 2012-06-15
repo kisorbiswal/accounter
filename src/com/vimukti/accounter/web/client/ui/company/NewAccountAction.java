@@ -48,7 +48,7 @@ public class NewAccountAction extends Action<ClientAccount> {
 		GWT.runAsync(NewAccountAction.class, new RunAsyncCallback() {
 
 			public void onSuccess() {
-				NewAccountView view = new NewAccountView();
+				NewAccountView view = GWT.create(NewAccountView.class);
 				if (accountType == 0) {
 					view.setAccountTypes(getAccountTypes());
 				} else {

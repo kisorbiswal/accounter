@@ -79,7 +79,9 @@ public class NewItemAction extends Action<ClientItem> {
 						if (data != null) {
 							type = data.getType();
 						}
-						ItemView view = new ItemView(type, forCustomer);
+						ItemView view = GWT.create(ItemView.class);
+						view.setType(type);
+						view.setGeneratedFromCustomer(forCustomer);
 						view.setItemName(itemName);
 						MainFinanceWindow.getViewManager().showView(view, data,
 								isDependent, NewItemAction.this);
@@ -88,8 +90,9 @@ public class NewItemAction extends Action<ClientItem> {
 						}
 					}
 				} else if (sellServices) {
-					ItemView view = new ItemView(ClientItem.TYPE_SERVICE,
-							forCustomer);
+					ItemView view = GWT.create(ItemView.class);
+					view.setType(type);
+					view.setGeneratedFromCustomer(forCustomer);
 					view.setItemName(itemName);
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, NewItemAction.this);
@@ -111,7 +114,9 @@ public class NewItemAction extends Action<ClientItem> {
 							if (data != null) {
 								type = data.getType();
 							}
-							ItemView view = new ItemView(type, forCustomer);
+							ItemView view = GWT.create(ItemView.class);
+							view.setType(type);
+							view.setGeneratedFromCustomer(forCustomer);
 							view.setItemName(itemName);
 							MainFinanceWindow.getViewManager().showView(view,
 									data, isDependent, NewItemAction.this);
@@ -121,8 +126,9 @@ public class NewItemAction extends Action<ClientItem> {
 						}
 
 					} else {
-						ItemView view = new ItemView(
-								ClientItem.TYPE_NON_INVENTORY_PART, forCustomer);
+						ItemView view = GWT.create(ItemView.class);
+						view.setType(ClientItem.TYPE_NON_INVENTORY_PART);
+						view.setGeneratedFromCustomer(forCustomer);
 						view.setItemName(itemName);
 						MainFinanceWindow.getViewManager().showView(view, data,
 								isDependent, NewItemAction.this);

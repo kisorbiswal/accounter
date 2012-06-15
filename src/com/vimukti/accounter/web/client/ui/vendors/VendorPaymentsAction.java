@@ -27,7 +27,8 @@ public class VendorPaymentsAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				NewVendorPaymentView view = new NewVendorPaymentView();
+				NewVendorPaymentView view = GWT
+						.create(NewVendorPaymentView.class);
 
 				// UIUtils.setCanvas(view, getViewConfiguration());
 				MainFinanceWindow.getViewManager().showView(view, data,

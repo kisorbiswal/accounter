@@ -32,7 +32,7 @@ public class NewBankAccountAction extends Action<ClientBankAccount> {
 		GWT.runAsync(NewAccountAction.class, new RunAsyncCallback() {
 
 			public void onSuccess() {
-				NewAccountView view = new NewAccountView();
+				NewAccountView view = GWT.create(NewAccountView.class);
 				// view.setNewBankAccountAction(NewBankAccountAction.this);
 				// view.setNewBankAccount(true);
 				view.setAccountType(ClientAccount.TYPE_BANK);

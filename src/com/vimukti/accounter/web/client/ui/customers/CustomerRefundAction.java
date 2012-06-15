@@ -37,7 +37,7 @@ public class CustomerRefundAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				CustomerRefundView view = new CustomerRefundView();
+				CustomerRefundView view = GWT.create(CustomerRefundView.class);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isEditable, CustomerRefundAction.this);
 			}

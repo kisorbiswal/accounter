@@ -280,16 +280,21 @@ public class CustomerRefundView extends
 			rightPanel.add(currencyWidget);
 			currencyWidget.setEnabled(!isInViewMode());
 		}
-		StyledPanel hLay = new StyledPanel("hLay");
-		hLay.addStyleName("fields-panel");
-		hLay.add(leftPanel);
-		hLay.add(rightPanel);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(totalLabel);
-		mainVLay.add(hLay);
+
+		StyledPanel hLay = getTopLayout();
+		if (hLay != null) {
+			hLay.add(leftPanel);
+			hLay.add(rightPanel);
+			mainVLay.add(hLay);
+		} else {
+			mainVLay.add(leftPanel);
+			mainVLay.add(rightPanel);
+		}
 
 		this.add(mainVLay);
 
@@ -299,6 +304,12 @@ public class CustomerRefundView extends
 		listforms.add(balForm);
 		// settabIndexes();
 
+	}
+
+	protected StyledPanel getTopLayout() {
+		StyledPanel hLay = new StyledPanel("hLay");
+		hLay.addStyleName("fields-panel");
+		return hLay;
 	}
 
 	private void settabIndexes() {

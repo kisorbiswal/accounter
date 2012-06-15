@@ -359,27 +359,29 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 		purchzVPanel.add(purchaseInfoForm);
 
-		StyledPanel topPanel1 = new StyledPanel("topPanel1");
-		topPanel1.add(itemForm);
-		topPanel1.setStyleName("service-item-group");
-		topPanel1.add(itemInfoForm);
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.addStyleName("fields-panel");
-
-		StyledPanel topPanel2 = new StyledPanel("topPanel2");
-		StyledPanel emptyPanel = new StyledPanel("emptyPanel");
-
-		// topPanel2.setWidth("100%");
-		topPanel2.add(salesVPanel);
-		topPanel2.add(purchzVPanel);
-		topHLay.add(topPanel1);
-		topHLay.add(topPanel2);
-
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 
 		// mainVLay.getElement().getStyle().setMarginBottom(15, Unit.PX);
 		mainVLay.add(hPanel);
-		mainVLay.add(topHLay);
+
+		StyledPanel topPanel1 = new StyledPanel("topPanel1");
+		topPanel1.add(itemForm);
+		topPanel1.setStyleName("service-item-group");
+		topPanel1.add(itemInfoForm);
+		StyledPanel topHLay = getTopLayout();
+
+		if (topHLay != null) {
+			StyledPanel topPanel2 = new StyledPanel("topPanel2");
+			topPanel2.add(salesVPanel);
+			topPanel2.add(purchzVPanel);
+			topHLay.add(topPanel1);
+			topHLay.add(topPanel2);
+			mainVLay.add(topHLay);
+		} else {
+			mainVLay.add(topPanel1);
+			mainVLay.add(salesVPanel);
+			mainVLay.add(purchzVPanel);
+		}
 
 		table = new InventoryAssemblyItemTable(
 				InventoryAssemblyItemTable.INVENTORY_ASSEMBLY_ITEM,
@@ -503,6 +505,12 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		listforms.add(purchaseInfoForm);
 		// settabIndexes();
 
+	}
+
+	protected StyledPanel getTopLayout() {
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		topHLay.addStyleName("fields-panel");
+		return topHLay;
 	}
 
 	private StyledPanel getStockPanel_2() {

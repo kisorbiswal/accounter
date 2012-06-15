@@ -93,7 +93,7 @@ public class ItemView extends BaseView<ClientItem> {
 	protected ClientVendor selectVendor;
 	protected ClientTAXCode selectTaxCode;
 	private final ClientCompany company;
-	private final boolean isGeneratedFromCustomer;
+	private boolean isGeneratedFromCustomer;
 	private ArrayList<DynamicForm> listforms;
 	private String name;
 	private String itemName;
@@ -106,14 +106,10 @@ public class ItemView extends BaseView<ClientItem> {
 	private Label quantityUnitsLabel;
 	private ItemCombo itemCombo;
 
-	public ItemView(int type, boolean isGeneratedFromCustomer) {
-
+	public ItemView() {
 		super();
 		this.getElement().setId("itemView");
-		this.type = type;
 		this.company = getCompany();
-		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
-
 	}
 
 	private void initTaxCodes() {
@@ -164,15 +160,15 @@ public class ItemView extends BaseView<ClientItem> {
 
 		});
 
-		itemCombo = new ItemCombo(" ", type, true, true,
-				isGeneratedFromCustomer);
+		itemCombo = new ItemCombo(" ", getType(), true, true,
+				isGeneratedFromCustomer());
 		itemCombo.setEnabled(false);
 
 		StyledPanel hPanel = new StyledPanel("hPanel");
 		hPanel.add(lab1);
-		if (this.type == TYPE_SERVICE) {
+		if (this.getType() == TYPE_SERVICE) {
 			nameText = new TextItem(messages.serviceName(), "nameText");
-		} else if (this.type == NON_INVENTORY_PART) {
+		} else if (this.getType() == NON_INVENTORY_PART) {
 			nameText = new TextItem(messages.productName(), "nameText");
 		} else {
 			nameText = new TextItem(messages.inventoryName(), "nameText");
@@ -201,13 +197,13 @@ public class ItemView extends BaseView<ClientItem> {
 		itemForm = new DynamicForm("itemForm");
 		itemForm.setStyleName("item-form-view");
 		if (isInViewMode()) {
-			this.type = data.getType();
+			this.setType(data.getType());
 		}
 		itemForm.add(nameText);
 
-		if (type == ClientItem.TYPE_SERVICE) {
+		if (getType() == ClientItem.TYPE_SERVICE) {
 			lab1.setText(messages.serviceItem());
-		} else if (type == NON_INVENTORY_PART) {
+		} else if (getType() == NON_INVENTORY_PART) {
 			lab1.setText(messages.productItem());
 			itemForm.add(weightText);
 		} else {
@@ -239,12 +235,12 @@ public class ItemView extends BaseView<ClientItem> {
 						if (selectAccount != null
 								&& selectAccount != defaultIncomeAccount
 								&& defaultIncomeAccount != null) {
-							if (type == ClientItem.TYPE_SERVICE)
+							if (getType() == ClientItem.TYPE_SERVICE)
 								AccounterValidator
 										.defaultIncomeAccountServiceItem(
 												selectAccount,
 												defaultIncomeAccount);
-							if (type == ClientItem.TYPE_NON_INVENTORY_PART)
+							if (getType() == ClientItem.TYPE_NON_INVENTORY_PART)
 								AccounterValidator
 										.defaultIncomeAccountNonInventory(
 												selectAccount,
@@ -381,7 +377,8 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 
-		taxCode = new TAXCodeCombo(messages.taxCode(), isGeneratedFromCustomer);
+		taxCode = new TAXCodeCombo(messages.taxCode(),
+				isGeneratedFromCustomer());
 		taxCode.setRequired(false);
 		taxCode.setEnabled(!isInViewMode());
 
@@ -400,7 +397,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// purchaseDescArea.setWidth(100);
 		purchaseDescArea.setEnabled(!isInViewMode());
 		purchasePriceTxt = new AmountField(
-				type == ClientItem.TYPE_INVENTORY_PART ? messages.standardCost()
+				getType() == ClientItem.TYPE_INVENTORY_PART ? messages.standardCost()
 						: messages.purchasePrice(), this, getBaseCurrency(),
 				"purchasePriceTxt");
 		// purchasePriceTxt.setWidth(100);
@@ -415,7 +412,7 @@ public class ItemView extends BaseView<ClientItem> {
 		});
 
 		expAccCombo = new PurchaseItemCombo(
-				type == ClientItem.TYPE_INVENTORY_PART ? messages
+				getType() == ClientItem.TYPE_INVENTORY_PART ? messages
 						.costOfGoodSold() : messages.expenseAccount());
 		expAccCombo.setRequired(true);
 		expAccCombo.setEnabled(!isInViewMode());
@@ -426,12 +423,12 @@ public class ItemView extends BaseView<ClientItem> {
 							ClientAccount selectExpAccount) {
 						if (selectExpAccount != null
 								&& selectExpAccount != defaultExpAccount) {
-							if (type == ClientItem.TYPE_SERVICE)
+							if (getType() == ClientItem.TYPE_SERVICE)
 								AccounterValidator
 										.defaultExpenseAccountServiceItem(
 												selectExpAccount,
 												defaultExpAccount);
-							if (type == ClientItem.TYPE_NON_INVENTORY_PART)
+							if (getType() == ClientItem.TYPE_NON_INVENTORY_PART)
 								AccounterValidator
 										.defaultExpenseAccountNonInventory(
 												selectExpAccount,
@@ -440,7 +437,7 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 		expAccCombo.setPopupWidth("500px");
-		if (type == ClientItem.TYPE_INVENTORY_PART) {
+		if (getType() == ClientItem.TYPE_INVENTORY_PART) {
 			ClientAccount selectExpAccount = getCompany().getAccount(
 					getCompany().getCostOfGoodsSold());
 			if (selectExpAccount != null) {
@@ -459,7 +456,7 @@ public class ItemView extends BaseView<ClientItem> {
 				});
 
 		vendItemNumText = new TextItem(
-				this.type != ClientItem.TYPE_SERVICE ? messages.vendorProductNo(Global
+				this.getType() != ClientItem.TYPE_SERVICE ? messages.vendorProductNo(Global
 						.get().Vendor())
 						: messages.vendorServiceNo(Global.get().Vendor()),
 				"vendorServiceNo");
@@ -467,7 +464,7 @@ public class ItemView extends BaseView<ClientItem> {
 		vendItemNumText.setEnabled(!isInViewMode());
 
 		isellCheck = new CheckboxItem(
-				this.type == ClientItem.TYPE_SERVICE ? messages.isellthisservice()
+				this.getType() == ClientItem.TYPE_SERVICE ? messages.isellthisservice()
 						: messages.isellthisproduct(), "isellCheck");
 		isellCheck.setEnabled(!isInViewMode());
 
@@ -482,7 +479,7 @@ public class ItemView extends BaseView<ClientItem> {
 		});
 
 		ibuyCheck = new CheckboxItem(
-				this.type == ClientItem.TYPE_SERVICE ? messages.ibuythisservice()
+				this.getType() == ClientItem.TYPE_SERVICE ? messages.ibuythisservice()
 						: messages.ibuythisproduct(), "ibuyCheck");
 		ibuyCheck.setEnabled(!isInViewMode());
 		ibuyCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -496,12 +493,12 @@ public class ItemView extends BaseView<ClientItem> {
 		});
 
 		if (!isInViewMode()) {
-			if (isGeneratedFromCustomer) {
-				isellCheck.setValue(isGeneratedFromCustomer);
-				disablePurchaseFormItems(isGeneratedFromCustomer);
+			if (isGeneratedFromCustomer()) {
+				isellCheck.setValue(isGeneratedFromCustomer());
+				disablePurchaseFormItems(isGeneratedFromCustomer());
 			} else {
-				ibuyCheck.setValue(!isGeneratedFromCustomer);
-				disableSalesFormItems(isGeneratedFromCustomer);
+				ibuyCheck.setValue(!isGeneratedFromCustomer());
+				disableSalesFormItems(isGeneratedFromCustomer());
 			}
 		}
 
@@ -513,7 +510,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// salesInfoForm.add(isellCheck, salesDescArea,
 		// salesPriceText, accountCombo, itemTaxCheck, comCheck,
 		// stdCostText);
-		if (type == ClientItem.TYPE_INVENTORY_PART) {
+		if (getType() == ClientItem.TYPE_INVENTORY_PART) {
 			salesInfoForm.add(salesDescArea, salesPriceText, accountCombo,
 					itemTaxCheck, comCheck);
 		} else {
@@ -538,7 +535,7 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseInfoForm = UIUtils.form(messages.purchaseInformation());
 		// purchaseInfoForm.setNumCols(2);
 		purchaseInfoForm.setStyleName("purchase_info_form");
-		if (type == ClientItem.TYPE_INVENTORY_PART) {
+		if (getType() == ClientItem.TYPE_INVENTORY_PART) {
 			purchaseInfoForm.add(purchaseDescArea, purchasePriceTxt,
 					expAccCombo, prefVendorCombo, vendItemNumText);
 		} else {
@@ -557,7 +554,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		// salesVPanel.setCellHorizontalAlignment(itemHPanel, ALIGN_LEFT);
 		salesVPanel.add(salesInfoForm);
-		if (type == ClientItem.TYPE_INVENTORY_PART) {
+		if (getType() == ClientItem.TYPE_INVENTORY_PART) {
 			salesVPanel.add(inventoryInfoForm);
 		}
 		StyledPanel purchzVPanel = new StyledPanel("purchzVPanel");
@@ -581,8 +578,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// topPanel1.setCellHorizontalAlignment(itemInfoForm, ALIGN_LEFT);
 		// topPanel1.setCellWidth(itemForm, "50%");
 		// topPanel1.setCellWidth(itemInfoForm, "50%");
-		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.addStyleName("fields-panel");
+
 		// topHLay.setWidth("100%");
 
 		StyledPanel topPanel2 = new StyledPanel("topPanel2");
@@ -596,17 +592,23 @@ public class ItemView extends BaseView<ClientItem> {
 		topPanel2.add(purchzVPanel);
 		// topPanel2.setCellWidth(salesVPanel, "50%");
 		// topPanel2.setCellWidth(purchzVPanel, "50%");
-		topHLay.add(topPanel1);
-		topHLay.add(topPanel2);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 
 		// mainVLay.setSize("100%", "100%");
 		// mainVLay.getElement().getStyle().setMarginBottom(15, Unit.PX);
 		mainVLay.add(hPanel);
-		mainVLay.add(topHLay);
+		StyledPanel topHLay = getTopLayout();
+		if (topHLay != null) {
+			topHLay.add(topPanel1);
+			topHLay.add(topPanel2);
+			mainVLay.add(topHLay);
+		} else {
+			mainVLay.add(topPanel1);
+			mainVLay.add(topPanel2);
+		}
 
-		if (type == ClientItem.TYPE_INVENTORY_PART) {
+		if (getType() == ClientItem.TYPE_INVENTORY_PART) {
 			StyledPanel stockPanel_1 = getStockPanel_1();
 
 			purchzVPanel.add(stockPanel_1);
@@ -642,6 +644,12 @@ public class ItemView extends BaseView<ClientItem> {
 		listforms.add(purchaseInfoForm);
 		// settabIndexes();
 
+	}
+
+	protected StyledPanel getTopLayout() {
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		topHLay.addStyleName("fields-panel");
+		return topHLay;
 	}
 
 	protected void changeSubItemsCombo(Boolean iSellThis, Boolean iBuyThis) {
@@ -744,7 +752,7 @@ public class ItemView extends BaseView<ClientItem> {
 	protected void updateItem() {
 
 		data.setActive(getBooleanValue(activeCheck));
-		data.setType(type);
+		data.setType(getType());
 		if (nameText.getValue() != null) {
 			data.setName(nameText.getValue().toString());
 		}
@@ -767,7 +775,7 @@ public class ItemView extends BaseView<ClientItem> {
 		data.setISellThisItem(getBooleanValue(isellCheck));
 		data.setIBuyThisItem(getBooleanValue(ibuyCheck));
 
-		if ((type == ClientItem.TYPE_NON_INVENTORY_PART || type == ClientItem.TYPE_INVENTORY_PART)
+		if ((getType() == ClientItem.TYPE_NON_INVENTORY_PART || getType() == ClientItem.TYPE_INVENTORY_PART)
 				&& weightText.getNumber() != null) {
 			data.setWeight(UIUtils.toInt(weightText.getNumber()));
 			if (assetsAccount.getSelectedValue() != null) {
@@ -791,7 +799,7 @@ public class ItemView extends BaseView<ClientItem> {
 			}
 			data.setAsOfDate(asOfDate.getValue());
 
-			if (type == ClientItem.TYPE_INVENTORY_PART) {
+			if (getType() == ClientItem.TYPE_INVENTORY_PART) {
 				data.setISellThisItem(true);
 				data.setIBuyThisItem(true);
 				data.setMinStockAlertLevel(null);
@@ -858,8 +866,8 @@ public class ItemView extends BaseView<ClientItem> {
 		if (getPreferences().isTrackTax()) {
 			data.setTaxable(getBooleanValue(itemTaxCheck));
 		}
-		if (type == ClientItem.TYPE_NON_INVENTORY_PART
-				|| type == ClientItem.TYPE_SERVICE)
+		if (getType() == ClientItem.TYPE_NON_INVENTORY_PART
+				|| getType() == ClientItem.TYPE_SERVICE)
 			data.setTaxCode(selectTaxCode != null ? selectTaxCode.getID() : 0);
 	}
 
@@ -890,7 +898,7 @@ public class ItemView extends BaseView<ClientItem> {
 		} else {
 
 			NewItemAction action = (NewItemAction) this.getAction();
-			action.setType(type);
+			action.setType(getType());
 			super.saveSuccess(result);
 
 		}
@@ -967,8 +975,8 @@ public class ItemView extends BaseView<ClientItem> {
 				selectTaxCode = company.getTAXCode(data.getTaxCode());
 			}
 			itemTaxCheck.setValue(data.isTaxable());
-			if (type == ClientItem.TYPE_INVENTORY_PART
-					|| type == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
+			if (getType() == ClientItem.TYPE_INVENTORY_PART
+					|| getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
 				if (data.getAssestsAccount() != 0) {
 					assetsAccount.setSelected(getCompany().getAccount(
 							data.getAssestsAccount()).getName());
@@ -990,7 +998,7 @@ public class ItemView extends BaseView<ClientItem> {
 		initAccountList();
 		initVendorsList();
 		initItemGroups();
-		if (type == ClientItem.TYPE_INVENTORY_PART) {
+		if (getType() == ClientItem.TYPE_INVENTORY_PART) {
 			setStockPanelData();
 		}
 		if (getPreferences().isTrackTax()
@@ -1000,8 +1008,8 @@ public class ItemView extends BaseView<ClientItem> {
 					initTaxCodes();
 			}
 		}
-		if (type == ClientItem.TYPE_INVENTORY_PART
-				|| type == ClientItem.TYPE_NON_INVENTORY_PART) {
+		if (getType() == ClientItem.TYPE_INVENTORY_PART
+				|| getType() == ClientItem.TYPE_NON_INVENTORY_PART) {
 			weightText.setValue(String.valueOf(data.getWeight()));
 		}
 		super.initData();
@@ -1051,9 +1059,9 @@ public class ItemView extends BaseView<ClientItem> {
 			}
 
 		} else {
-			if (type != ClientItem.TYPE_INVENTORY_PART) {
-				disablePurchaseFormItems(isGeneratedFromCustomer);
-				disableSalesFormItems(!isGeneratedFromCustomer);
+			if (getType() != ClientItem.TYPE_INVENTORY_PART) {
+				disablePurchaseFormItems(isGeneratedFromCustomer());
+				disableSalesFormItems(!isGeneratedFromCustomer());
 			} else {
 				disableSalesFormItems(false);
 				disablePurchaseFormItems(false);
@@ -1085,7 +1093,7 @@ public class ItemView extends BaseView<ClientItem> {
 		if (listAccount != null) {
 			accountCombo.initCombo(listAccount);
 			expAccCombo.initCombo(listExpAccount);
-			if (type == ClientItem.TYPE_SERVICE) {
+			if (getType() == ClientItem.TYPE_SERVICE) {
 				defaultIncomeAccount = getDefaultAccount(messages
 						.incomeandDistribution());
 				defaultExpAccount = getDefaultAccount(messages
@@ -1093,7 +1101,7 @@ public class ItemView extends BaseView<ClientItem> {
 				accountCombo.setComboItem(defaultIncomeAccount);
 				expAccCombo.setComboItem(defaultExpAccount);
 			}
-			if (type == ClientItem.TYPE_NON_INVENTORY_PART) {
+			if (getType() == ClientItem.TYPE_NON_INVENTORY_PART) {
 				defaultIncomeAccount = getDefaultAccount(messages
 						.incomeandDistribution());
 				defaultExpAccount = getDefaultAccount(messages
@@ -1177,7 +1185,7 @@ public class ItemView extends BaseView<ClientItem> {
 			}
 		}
 
-		if (type == ClientItem.TYPE_INVENTORY_PART) {
+		if (getType() == ClientItem.TYPE_INVENTORY_PART) {
 			result.add(inventoryInfoForm.validate());
 		}
 
@@ -1306,7 +1314,7 @@ public class ItemView extends BaseView<ClientItem> {
 			salesPriceText.setEnabled(false);
 		}
 
-		if (type == ClientItem.TYPE_INVENTORY_PART) {
+		if (getType() == ClientItem.TYPE_INVENTORY_PART) {
 			// measurement.setEnabled(!isInViewMode());
 			wareHouse.setEnabled(!isInViewMode());
 			openingBalTxt.setEnabled(!isInViewMode());
@@ -1363,5 +1371,21 @@ public class ItemView extends BaseView<ClientItem> {
 	@Override
 	protected boolean canVoid() {
 		return false;
+	}
+
+	public boolean isGeneratedFromCustomer() {
+		return isGeneratedFromCustomer;
+	}
+
+	public void setGeneratedFromCustomer(boolean isGeneratedFromCustomer) {
+		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 }

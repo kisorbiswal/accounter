@@ -250,4 +250,28 @@
 		<when-type-is class="com.vimukti.accounter.web.client.ui.vat.TDSChalanDetailsView" />
 		<when-property-is name="tablet.user.agent" value="ie10" />
 	</replace-with>
+	<replace-with class="com.vimukti.accounter.web.client.ui.vendors.Win8VendorPaymentView">
+		<when-type-is class="com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView" />
+		<when-property-is name="tablet.user.agent" value="ie10" />
+	</replace-with>
+	<replace-with class="com.vimukti.accounter.web.client.ui.customers.Win8CustomerRefundView">
+		<when-type-is class="com.vimukti.accounter.web.client.ui.customers.CustomerRefundView" />
+		<when-property-is name="tablet.user.agent" value="ie10" />
+	</replace-with>
+	<replace-with class="com.vimukti.accounter.web.client.ui.customers.Win8CustomerPrePaymentView">
+		<when-type-is class="com.vimukti.accounter.web.client.ui.customers.CustomerPrePaymentView" />
+		<when-property-is name="tablet.user.agent" value="ie10" />
+	</replace-with>
+	<replace-with class="com.vimukti.accounter.web.client.ui.Win8NewAccountView">
+		<when-type-is class="com.vimukti.accounter.web.client.ui.NewAccountView" />
+		<when-property-is name="tablet.user.agent" value="ie10" />
+	</replace-with>
+	<replace-with class="com.vimukti.accounter.web.client.ui.Win8ItemView">
+		<when-type-is class="com.vimukti.accounter.web.client.ui.ItemView" />
+		<when-property-is name="tablet.user.agent" value="ie10" />
+	</replace-with>
+	<replace-with class="com.vimukti.accounter.web.client.ui.Win8InventoryAssemblyView">
+		<when-type-is class="com.vimukti.accounter.web.client.ui.InventoryAssemblyView" />
+		<when-property-is name="tablet.user.agent" value="ie10" />
+	</replace-with>
 </module>
