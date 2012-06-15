@@ -54,6 +54,7 @@ public class TDSResponsiblePersonDetailsView extends
 	private IntegerField mobileNumber;
 
 	boolean viewIntialized;
+	private DynamicForm verticalPanel;
 
 	@Override
 	public void init() {
@@ -207,7 +208,7 @@ public class TDSResponsiblePersonDetailsView extends
 		// faxNumber, email, financialYearCombo, assessmentYearCombo,
 		// returnType, existingTdsassess, panCode, tanNumber);
 
-		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
+		verticalPanel = new DynamicForm("verticalPanel");
 		verticalPanel.add(titleLabel);
 
 		StyledPanel horizontalPanel = getLayoutPanel();
@@ -328,9 +329,12 @@ public class TDSResponsiblePersonDetailsView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-
-		result.add(taxDynamicForm.validate());
-		result.add(otherDynamicForm.validate());
+		if (getLayoutPanel() != null) {
+			result.add(taxDynamicForm.validate());
+			result.add(otherDynamicForm.validate());
+		} else {
+			result.add(verticalPanel.validate());
+		}
 
 		if (email.getValue() == null || email.getValue().equals("")
 				|| email.getValue().length() == 0) {

@@ -70,6 +70,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	private TextAreaItem taxOfficeAddrItem;
 	DynamicForm taxDynamicForm, otherDynamicForm;
 	protected LinkedHashMap<Integer, ClientAddress> taxOfficeAddresses;
+	private DynamicForm mainPanel;
 
 	@Override
 	public void init() {
@@ -294,8 +295,8 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		ministryNameOtehr.setEnabled(true);
 		govtState.setEnabled(true);
 
-		StyledPanel styledPanel1 = new StyledPanel("panel2");
-		styledPanel1.add(titleLabel);
+		mainPanel = new DynamicForm("panel2");
+		mainPanel.add(titleLabel);
 		StyledPanel styledPanel = getMainPanel();
 		taxDynamicForm = new DynamicForm("taxDynamicForm");
 		otherDynamicForm = new DynamicForm("otherDynamicForm");
@@ -311,20 +312,20 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					ministryNameOtehr, panNumber, tanNumber, addressSameBox,
 					taxOfficeAddrItem);
 			styledPanel.add(otherDynamicForm);
-			styledPanel1.add(styledPanel);
+			mainPanel.add(styledPanel);
 		} else {
-			styledPanel1.add(deductorName, branchName, flatNo, buildingName,
+			mainPanel.add(deductorName, branchName, flatNo, buildingName,
 					streetName, areaName, cityName, stateCombo, pinNumber,
 					addressChangeCombo, stdNumber, telephoneNumber, faxNumber,
 					email);
-			styledPanel1.add(statusCombo, deductorTypeOther,
+			mainPanel.add(statusCombo, deductorTypeOther,
 					deductorTypeGovernment, govtState, paoCode,
 					paoRegistration, ddoCode, ddoRegistration, ministryCombo,
 					ministryNameOtehr, panNumber, tanNumber, addressSameBox,
 					taxOfficeAddrItem);
 		}
 
-		this.add(styledPanel1);
+		this.add(mainPanel);
 
 		deductorTypeOther.hide();
 		deductorTypeGovernment.hide();
@@ -537,9 +538,12 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 
-		result.add(taxDynamicForm.validate());
-
-		result.add(otherDynamicForm.validate());
+		if (getMainPanel() != null) {
+			result.add(taxDynamicForm.validate());
+			result.add(otherDynamicForm.validate());
+		} else {
+			result.add(mainPanel.validate());
+		}
 
 		if (stateSelected == null) {
 			result.addError(govtState, messages.pleaseSelect(messages.state()));
