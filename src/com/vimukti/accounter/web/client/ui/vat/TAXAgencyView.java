@@ -558,7 +558,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		return mainVlay;
 	}
 
-	private StyledPanel getTopContainerLayout() {
+	protected StyledPanel getTopContainerLayout() {
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
 		return topHLay;

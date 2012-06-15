@@ -581,15 +581,13 @@ public class ItemView extends BaseView<ClientItem> {
 
 		// topHLay.setWidth("100%");
 
-		StyledPanel topPanel2 = new StyledPanel("topPanel2");
+		
 		StyledPanel emptyPanel = new StyledPanel("emptyPanel");
 		// emptyPanel.setWidth("100%");
 
 		// topPanel2.setHorizontalAlignment(ALIGN_RIGHT);
 		// topPanel2.setWidth("100%");
-		topPanel2.add(salesVPanel);
-		// topPanel2.setCellHorizontalAlignment(purchzVPanel, ALIGN_LEFT);
-		topPanel2.add(purchzVPanel);
+	
 		// topPanel2.setCellWidth(salesVPanel, "50%");
 		// topPanel2.setCellWidth(purchzVPanel, "50%");
 
@@ -601,11 +599,17 @@ public class ItemView extends BaseView<ClientItem> {
 		StyledPanel topHLay = getTopLayout();
 		if (topHLay != null) {
 			topHLay.add(topPanel1);
+			StyledPanel topPanel2 = new StyledPanel("topPanel2");
+			topPanel2.add(salesVPanel);
+			// topPanel2.setCellHorizontalAlignment(purchzVPanel, ALIGN_LEFT);
+			topPanel2.add(purchzVPanel);
 			topHLay.add(topPanel2);
 			mainVLay.add(topHLay);
 		} else {
 			mainVLay.add(topPanel1);
-			mainVLay.add(topPanel2);
+			mainVLay.add(salesVPanel);
+			// topPanel2.setCellHorizontalAlignment(purchzVPanel, ALIGN_LEFT);
+			mainVLay.add(purchzVPanel);
 		}
 
 		if (getType() == ClientItem.TYPE_INVENTORY_PART) {

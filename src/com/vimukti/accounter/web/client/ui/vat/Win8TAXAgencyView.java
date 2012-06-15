@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 public class Win8TAXAgencyView extends TAXAgencyView {
 
 	@Override
-	protected StyledPanel getTopLayout() {
+	protected StyledPanel getTopContainerLayout() {
 		return null;
 	}
 }

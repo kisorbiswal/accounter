@@ -1868,7 +1868,8 @@ select:hover{
 #NewEmployeeView .mainPanel,#NewEmployeeView .firstPanel .empDetailsInfoForm,.attachment_panel .attachmentTable,
 .attachment_panel .mainPanel,#invoicebrandingview .mainPanel,#invoicebrandingview .mainPanel .setting-class-panel,
 .view-gwt-dialog .mainPanel,#ETdsFillingView .win8editrowPanel,#CheckPrintingSettingView .checkprintbox .allFields,
-#CheckPrintingSettingView .allPanel .verticalPanel .chequeLeftScal{
+#CheckPrintingSettingView .allPanel .verticalPanel .chequeLeftScal,#WareHouseView .vPanel,
+#TDSDeductorDetailsView .panel2,#TDSResponsiblePersonDetailsView .verticalPanel{
 	/* height: 100%;
 	column-width: 300px; */
 	
@@ -1891,7 +1892,8 @@ select:hover{
 #PreferenceSettingsView .company_settings_panel,#InventoryAssemblyView .topHLay,#InventoryAssemblyView .topPanel2
 ,#CustomerView .rightVLay,#ReceivePaymentView .gridLayout,#DepositView .mainPanel,#TDSChalanDetailsView .verticalPanel,
 .report-section .report-left-panel,.report-section .report-right-panel,#NewEmployeeView .mainPanel,#invoicebrandingview .mainPanel,
-#invoicebrandingview .mainPanel .setting-class-panel,.view-gwt-dialog .mainPanel,#ETdsFillingView .win8editrowPanel{
+#invoicebrandingview .mainPanel .setting-class-panel,.view-gwt-dialog .mainPanel,#ETdsFillingView .win8editrowPanel,
+#WareHouseView .vPanel{
 	height: 100% !important;
 	
 }
@@ -1911,7 +1913,7 @@ select:hover{
 
 .progress_panel_show .view_panel,.setup_panel .setup_common_head,.abstract_base_view,.portletPagePanel,
 .abstract_base_view .mainVLay,#TDSDeductorDetailsView .panel1,#EmailView .mainPanel,#PreferenceSettingsView .mainPanel,
-.companies-list,.report-section,#NewEmployeeView .mainPanel,.view-gwt-dialog .mainPanel{
+.companies-list,.report-section,#NewEmployeeView .mainPanel,.view-gwt-dialog .mainPanel,#WareHouseView .vPanel{
     overflow-x: auto;
     overflow-y: hidden;
     width:100%;
@@ -2090,7 +2092,8 @@ button#searchButton:hover{
 #VendorCreditMemoView .boldtext,#CashPurchaseView .boldtext,#CreditCardExpenseView .totForm,
 #CashExpenseView .boldtext,#writechequeview .boldtext,#MakeDepositView .textbold,#customercreditmemoview .boldtext,
 #JournalEntryView .textbold,#NewVendorPaymentView .hLay .tdsPanel .boldtext,#CreditCardExpenseView .boldtext,
-#QuoteView .boldtext,#paybillview .unused-payments,#VendorBillView .boldtext,#DepositView .bottomLayout .boldtext{
+#QuoteView .boldtext,#paybillview .unused-payments,#VendorBillView .boldtext,#DepositView .bottomLayout .boldtext,
+#NewVendorPaymentView .boldtext{
 	width:400px;
 	position: fixed;
 	bottom:5px;
@@ -2144,7 +2147,7 @@ input[type=text]:disabled,textarea:disabled{
 .mainMenu .submenu_parent .menuForm,.mainMenu .submenu_parent .subMenuBack,.subMenu .menu_parent{
 	display: none;
 }
-.subMenu .submenu_clicked .menuForm, .subMenu .submenu_clicked .subMenuBack{
+/* .subMenu .submenu_clicked .menuForm, */ .subMenu .submenu_clicked .subMenuBack{
 	display: block;
 }
 .subMenuName{
@@ -2608,7 +2611,7 @@ table.gridBody .gridEvenRow{
 	padding: 2px;
 }
 .menuItem:hover,.subMenuName:hover{
-	background: green;
+	background-color: green;
 }
 .menuItem:hover .menuDescription,.subMenuName:hover .menuDescription,.menuItem:hover a,.subMenuName:hover a{
 	color: white;
@@ -2749,7 +2752,7 @@ table.gridBody .gridEvenRow{
 .abstract_base_view .mainVPanel,#WareHouseView .mainHLay,#NewPayHeadView .panel,#pay-employee-view .main-panel,
 #UsersView .mainLayPanel,#inviteUser .vPanel,#CheckPrintingSettingView .allPanel,#TDSDeductorDetailsView .panel2,
 #TDSResponsiblePersonDetailsView .verticalPanel,#TDSChalanDetailsView .verticalPanel,#SellingRegisteredItemView .mainLayout,
-#NewBrandingThemeView table.gwt-DecoratedTabPanel
+#NewBrandingThemeView table.gwt-DecoratedTabPanel,#WareHouseView .vPanel
 {
 	padding-left: 60px;
 }
@@ -2814,17 +2817,16 @@ table.gridBody .gridEvenRow{
 }
 #VendorBillView .disclosurePanelcontent .itemsFlowPanel .win8editrowPanel,
 #CashPurchaseView .disclosurePanelcontent .itemsFlowPanel .win8editrowPanel,
-#writechequeview .disclosurePanelcontent .vendorAccountFlowPanel .win8editrowPanel,
 #CashPurchaseView .disclosurePanelcontent .accountFlowPanel .win8editrowPanel,
-#VendorBillView .disclosurePanelcontent .accountFlowPanel .win8editrowPanel{
-	display: -ms-flexbox;
+#VendorBillView .disclosurePanelcontent .accountFlowPanel .win8editrowPanel,
+.subMenu .submenu_clicked .menuForm{
+	display: -ms-flexbox !important;
 	height: 450px;
 	-ms-flex-direction: column;
 	-ms-flex-wrap: wrap;
 }
 #VendorBillView .disclosurePanelcontent .itemsFlowPanel .win8editrowPanel,
 #CashPurchaseView .disclosurePanelcontent .itemsFlowPanel .win8editrowPanel,
-#writechequeview .disclosurePanelcontent .vendorAccountFlowPanel .win8editrowPanel,
 #CashPurchaseView .disclosurePanelcontent .accountFlowPanel .win8editrowPanel,
 #VendorBillView .disclosurePanelcontent .accountFlowPanel .win8editrowPanel{
 	height: 535px !important;
@@ -2832,7 +2834,8 @@ table.gridBody .gridEvenRow{
 .disclosurePanelcontent .itemsFlowPanel .win8editrowPanel input[type=text],.disclosurePanelcontent .accountFlowPanel .win8editrowPanel input[type=text]{
 	margin-right: 10px;
 }
-#VendorBillView .no_records .win8editrowPanel,#CashPurchaseView .no_records .win8editrowPanel,#VendorBillView .no_records .win8editrowPanel{
+#VendorBillView .win8EditTable .win8EditTableContainer.no_records .win8editrowPanel,
+#CashPurchaseView win8EditTable .win8EditTableContainer.no_records .win8editrowPanel{
 	height: auto !important;
 }
 #NewPayHeadView .panel .form .panel,.attachment_panel .mainPanel,#NewPayRunView .attendanceForm .mainVLay{
@@ -2866,7 +2869,7 @@ table.gridBody .gridEvenRow{
 	height: 70%;
 }
 .attachment_panel .attachmentTable{
-	height: 80% !important;
+	height: 95% !important;
 }
 .attachment_panel .history_notes_label{
 	margin-right: 10px;
@@ -2953,4 +2956,10 @@ table.gridBody .gridEvenRow{
 }
 #CheckPrintingSettingView .checkprintbox .allFields{
 	height: 75%;
+}
+#VendorView .tabPanel{
+	height: 100%;
+}
+#WareHouseView .vPanel{
+	width: 95% !important;
 }
