@@ -194,7 +194,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	// Bank bank;// for Bank name
 	// int bankAccountType;
 	// String bankAccountNumber;
-	
+
 	/**
 	 * saves the paypal token and secret key for the paypal account if the user
 	 * has done synchronization. or else it will be null
@@ -202,7 +202,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	private String paypalToken;
 
 	private String paypalSecretkey;
-	
+
 	private FinanceDate endDate;
 
 	/**
@@ -960,6 +960,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 		this.totalBalance += amount;
 
+		if (DecimalUtil.isEquals(currencyFactor, 0.00D)) {
+			currencyFactor = 1.0;
+		}
+
 		double amountInAccountCurrency = amount / currencyFactor;
 
 		this.totalBalanceInAccountCurrency += amountInAccountCurrency;
@@ -979,7 +983,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		}
 		amount = (isIncrease ? 1 : -1) * amount * currencyFactor;
 
-		if (this.getCurrency() == getCompany().getPrimaryCurrency()) {
+		if (this.getCurrency().getID() == getCompany().getPrimaryCurrency()
+				.getID()) {
 			currencyFactor = 1;
 		}
 
@@ -1024,7 +1029,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			return;
 		}
 
-		if (this.getCurrency() == getCompany().getPrimaryCurrency()) {
+		if (this.getCurrency().getID() == getCompany().getPrimaryCurrency()
+				.getID()) {
 			currencyFactor = 1;
 		}
 

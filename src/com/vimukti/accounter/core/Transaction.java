@@ -698,7 +698,7 @@ public abstract class Transaction extends CreatableObject implements
 	public void onLoad(Session session, Serializable arg1) {
 		this.previousTotal = total;
 		this.isVoidBefore = isVoid();
-		this.previousCurrencyFactor = currencyFactor;
+		this.previousCurrencyFactor = getCurrencyFactor();
 	}
 
 	/**
@@ -1634,5 +1634,9 @@ public abstract class Transaction extends CreatableObject implements
 				}
 			}
 		}
+	}
+
+	public double getPreviousCurrencyFactor() {
+		return previousCurrencyFactor;
 	}
 }

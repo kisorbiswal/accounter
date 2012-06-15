@@ -199,8 +199,9 @@ public class AccountTransaction extends CreatableObject implements
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (isUpdateAccount()) {
-			getAccount().effectCurrentBalance(-amount,
-					getTransaction().previousCurrencyFactor);
+			double previousCurrencyFactor = getTransaction()
+					.getPreviousCurrencyFactor();
+			getAccount().effectCurrentBalance(-amount, previousCurrencyFactor);
 			session.saveOrUpdate(getAccount());
 		}
 

@@ -67,6 +67,7 @@ import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.InventoryUtils;
 import com.vimukti.accounter.web.server.OperationContext;
 import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.server.util.ICountryPreferences;
@@ -321,6 +322,13 @@ public class CompanyManager extends Manager {
 			}
 			ClientCompany clientCompany = (ClientCompany) data;
 			Company cmp = getCompany(context.getCompanyId());
+
+			int oldInventoryScheme = cmp.getPreferences()
+					.getActiveInventoryScheme();
+
+			int newInventoryScheme = clientCompany.getPreferences()
+					.getActiveInventoryScheme();
+
 			createOrUpdatePrimaryCurrency(clientCompany, cmp);
 
 			cmp.updatePreferences(clientCompany);
@@ -332,6 +340,10 @@ public class CompanyManager extends Manager {
 					ActivityType.UPDATE_PREFERENCE);
 			session.save(activity);
 			session.update(cmp);
+
+			if (oldInventoryScheme != newInventoryScheme) {
+				InventoryUtils.remapAllInventory(cmp);
+			}
 
 			transaction.commit();
 			ChangeTracker.put(cmp.toClientCompany());

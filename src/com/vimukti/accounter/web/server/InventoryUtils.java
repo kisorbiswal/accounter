@@ -10,6 +10,7 @@ import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Quantity;
@@ -47,10 +48,10 @@ public class InventoryUtils {
 		}
 		InventoryEffects iEffects = new InventoryEffects();
 
-		Iterator<InventoryDetails> purchaseIterator = purchases.iterator();
 		for (TransactionItem inventorySale : sales) {
 			Quantity salesQty = inventorySale.getQuantityCopy();
 			Map<Double, Quantity> purchaseForThisSale = new HashMap<Double, Quantity>();
+			Iterator<InventoryDetails> purchaseIterator = purchases.iterator();
 			while (purchaseIterator.hasNext()) {
 				InventoryDetails next = purchaseIterator.next();
 				Quantity purchaseQty = next.quantity;
@@ -66,18 +67,26 @@ public class InventoryUtils {
 					continue;
 				} else if (compareTo > 0) {
 					purchaseQty = purchaseQty.subtract(salesQty);
-					purchaseForThisSale.put(next.cost, salesQty.copy());
+					Quantity qtyToPut = salesQty.copy();
+					Quantity quantity = purchaseForThisSale.get(next.cost);
+					if (quantity != null) {
+						qtyToPut = qtyToPut.add(quantity);
+					}
+					purchaseForThisSale.put(next.cost, qtyToPut);
 					next.quantity = purchaseQty;
 					salesQty.setValue(0.00D);
 					break;
 				} else {
+					Quantity quantity = purchaseForThisSale.get(next.cost);
+					if (quantity != null) {
+						purchaseQty = purchaseQty.add(quantity);
+					}
 					purchaseForThisSale.put(next.cost, purchaseQty);
 					purchaseIterator.remove();
 					salesQty.setValue(0.00D);
 					break;
 				}
 			}
-
 			iEffects.addPurchase(inventorySale, purchaseForThisSale,
 					isSchemeAvarage, isSchemeAvarage ? item.getAverageCost()
 							: 0);
@@ -181,6 +190,16 @@ public class InventoryUtils {
 			this.quantity = quantity;
 			this.cost = cost;
 		}
+	}
+
+	public static void remapAllInventory(Company company)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("get.all.Items").setEntity(
+				"company", company);
+		List<Item> items = query.list();
+
+		InventoryUtils.remapSalesPurchases(items);
 	}
 
 }

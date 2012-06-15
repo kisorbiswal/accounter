@@ -101,7 +101,7 @@
 
 	<query name="get.all.Items">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.Item it where it.type in(2,4) and it.company=:company
+		from com.vimukti.accounter.core.Item it where it.type in(2,4) and it.company=:company order by it.id
 	</query>
 
 	<sql-query name="get.all.inventory.items.transactions">
@@ -137,4 +137,122 @@
 		<query-param name="company" type="Company"/>
 		UPDATE ACCOUNT_TRANSACTION SET UPDATE_ACCOUNT=TRUE WHERE UPDATE_ACCOUNT=FALSE; 
 	</sql-query>
+	
+	<sql-query name="set.current.balance">
+		<query-param name="cid" type="long"/>
+		UPDATE account A
+		SET    current_balance = (SELECT SUM(at.amount)
+		                          FROM   account_transaction at
+		                          WHERE  at.account_id = a.id)
+		WHERE  a.id IN (SELECT account_id
+		                FROM   (SELECT a2.id           AS account_id,
+		                               SUM(at2.amount) AS at_amount,
+		                               a2.current_balance
+		                        FROM   account a2
+		                               left join account_transaction at2
+		                                      ON at2.account_id = a2.id
+		                        WHERE  a2.company_id = :cid
+		                        GROUP  BY a2.id) AS tab
+		                WHERE at_amount is not null and Abs(at_amount - current_balance) > 0.01)
+		       AND a.company_id = :cid
+	</sql-query>
+	<sql-query name="set.total.balance.normal">
+		<query-param name="cid" type="long"/>
+		UPDATE account a
+		SET    total_balance = current_balance
+		WHERE  id NOT IN (SELECT a2.parent_id
+		                  FROM   account a2
+		                  WHERE  a2.parent_id IS NOT NULL
+		                         AND a2.company_id = :cid
+		                  GROUP  BY a2.parent_id)
+		       AND total_balance != current_balance
+		       AND a.company_id = :cid
+	</sql-query>
+	<sql-query name="set.total.balance.2nd.stage">
+		<query-param name="cid" type="long"/>
+		UPDATE account aa
+		SET    total_balance = ( current_balance
+		                         + (SELECT SUM(aa2.current_balance)
+		                            FROM   account aa2
+		                            WHERE  aa2.parent_id = aa.id
+		                                   AND aa2.company_id = :cid) )
+		WHERE  aa.id IN (SELECT a.parent_id
+		                 FROM   account a
+		                 WHERE  a.parent_id IS NOT NULL
+		                        AND a.company_id = :cid
+		                        AND (SELECT a2.parent_id
+		                             FROM   account a2
+		                             WHERE  a2.id = a.parent_id
+		                                    AND a2.company_id = :cid
+		                                    AND (SELECT parent_id
+		                                         FROM   account a3
+		                                         WHERE  a3.id = a2.parent_id
+		                                                AND a3.company_id = :cid)
+		                                        IS NULL
+		                            ) IS NOT
+		                            NULL)
+		       AND aa.company_id = :cid
+	</sql-query>
+	<sql-query name="set.total.balance.1st.stage">
+		<query-param name="cid" type="long"/>
+		UPDATE account aa
+		SET    total_balance = ( current_balance
+		                         + (SELECT SUM(aa2.current_balance)
+		                            FROM   account aa2
+		                            WHERE  aa2.parent_id = aa.id
+		                                   AND aa2.company_id = :cid) )
+		WHERE  aa.id IN (SELECT a.parent_id
+		                 FROM   account a
+		                 WHERE  a.parent_id IS NOT NULL
+		                        AND a.company_id = :cid
+		                        AND (SELECT a2.parent_id
+		                             FROM   account a2
+		                             WHERE  a2.id = a.parent_id
+		                                    AND a2.company_id = :cid) IS NULL)
+		       AND aa.company_id = :cid
+	</sql-query>
+	<sql-query name="set.total.balance.in.account_currency.primary">
+		<query-param name="cid" type="long"/>
+		UPDATE account aa
+		SET    total_balance_in_account_currency = total_balance
+		WHERE  aa.id IN (SELECT a.id
+		                 FROM   account a
+		                        left join company c
+		                               ON c.id = a.company_id
+		                 WHERE  a.total_balance != a.total_balance_in_account_currency
+		                        AND a.account_currency = c.primary_currency
+		                        AND a.company_id = :cid)
+		       AND aa.company_id = :cid
+	</sql-query>
+	
+	<sql-query name="set.total.balance.in.account_currency.other">
+		<query-param name="cid" type="long"/>
+		UPDATE account a
+		SET    total_balance_in_account_currency = (SELECT SUM(
+		                                           at2.amount / t2.currency_factor)
+		                                            FROM   account_transaction at2
+		                                                   left join TRANSACTION t2
+		                                                          ON
+		                                                   at2.transaction_id = t2.id
+		                                            WHERE  at2.account_id = a.id
+		                                                   AND
+		                                           t2.company_id = :cid)
+		WHERE  id IN (SELECT account_id
+		              FROM   (SELECT a2.id                                AS account_id,
+		                             SUM(at.amount / t.currency_factor)   AS at_amount,
+		                             a2.total_balance_in_account_currency AS tbac
+		                      FROM   account a2
+		                             left join account_transaction at
+		                                    ON at.account_id = a2.id
+		                             left join TRANSACTION t
+		                                    ON t.id = at.transaction_id
+		                             left join company c
+		                                    ON c.id = a2.company_id
+		                      WHERE  a2.account_currency != c.primary_currency
+		                             AND a2.company_id = :cid
+		                      GROUP  BY a2.id) AS tab
+		              WHERE  at_amount is not null and  Abs(at_amount - tbac) > 0.01)
+		       AND a.company_id = :cid
+	</sql-query>
+	
 </hibernate-mapping>

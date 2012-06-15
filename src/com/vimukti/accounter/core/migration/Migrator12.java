@@ -1,11 +1,6 @@
 package com.vimukti.accounter.core.migration;
 
-import java.util.List;
-
-import org.hibernate.Query;
-
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.InventoryUtils;
 
@@ -15,11 +10,7 @@ public class Migrator12 extends AbstractMigrator {
 	public void migrate(Company company) throws AccounterException {
 		log.info("Started Migrator12.");
 
-		Query query = getSession().getNamedQuery("get.all.Items").setEntity(
-				"company", company);
-		List<Item> items = query.list();
-
-		InventoryUtils.remapSalesPurchases(items);
+		InventoryUtils.remapAllInventory(company);
 
 		log.info("Finished Migrator12.");
 	}

@@ -80,15 +80,19 @@ public class InventoryEffects {
 			Iterator<InventoryPurchase> newIterator = newPurchases.iterator();
 			while (oldIterator.hasNext()) {
 				InventoryPurchase oldP = oldIterator.next();
+				boolean isEqual = false;
 				while (newIterator.hasNext()) {
 					InventoryPurchase newP = newIterator.next();
-					if (oldP.getQuantity().equals(newP.getQuantity())
+					isEqual = oldP.getQuantity().equals(newP.getQuantity())
 							&& oldP.getCost() == newP.getCost()
 							&& oldP.getEffectingAccount().getID() == newP
-									.getEffectingAccount().getID()) {
-						oldIterator.remove();
+									.getEffectingAccount().getID();
+					if (isEqual) {
 						newIterator.remove();
 					}
+				}
+				if (isEqual) {
+					oldIterator.remove();
 				}
 			}
 			// Something changed. So do effect the Transaction
