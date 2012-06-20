@@ -42,6 +42,7 @@ public class AccounterWindowsRPCBaseServiceImpl extends RemoteServiceServlet {
 	protected SerializationPolicy doGetSerializationPolicy(
 			HttpServletRequest request, String moduleBaseURL, String strongName) {
 		moduleBaseURL = moduleBaseURL.replace("ms-wwa://", "http://");
+		moduleBaseURL = moduleBaseURL.replace("ms-appx://", "http://");
 		return super.doGetSerializationPolicy(request, moduleBaseURL,
 				strongName);
 	}

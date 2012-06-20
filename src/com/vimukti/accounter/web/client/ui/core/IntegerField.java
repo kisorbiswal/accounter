@@ -39,7 +39,7 @@ public class IntegerField extends TextItem {
 	@Override
 	public void setValue(String value) {
 		super.setValue(value);
-		if (value != null)
+		if (value != null && !value.isEmpty())
 			try {
 				number = Long.parseLong(value);
 			} catch (Exception e) {
