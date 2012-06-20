@@ -491,10 +491,6 @@ public class JournalEntryView extends
 				creditTotalText.setTitle(messages2
 						.creditTotalColonSymbol(currency.getSymbol()));
 			}
-			deditTotalText.setTitle(messages2.debitTotalColonSymbol(currency
-					.getSymbol()));
-			creditTotalText.setTitle(messages2.creditTotalColonSymbol(currency
-					.getSymbol()));
 			List<ClientTransactionItem> entries = transaction
 					.getTransactionItems();
 

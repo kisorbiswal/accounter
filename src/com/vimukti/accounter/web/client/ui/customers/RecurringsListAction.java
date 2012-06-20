@@ -45,14 +45,14 @@ public class RecurringsListAction extends Action<ClientRecurringTransaction> {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		// }
+		//
+		// });
 	}
 
 	@Override
@@ -79,6 +79,6 @@ public class RecurringsListAction extends Action<ClientRecurringTransaction> {
 
 	@Override
 	public String getText() {
-		return "Recurrings List action";
+		return "Recurring Transactions List";
 	}
 }
