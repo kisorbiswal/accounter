@@ -225,7 +225,10 @@ public class PrintPDFManager extends Manager {
 
 			InputStreamReader reader = new InputStreamReader(inputStream,
 					Charset.forName("UTF-8"));
-			File file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
+			// This matches all characters that are neither letters nor numbers.
+			fileName = fileName.replaceAll("[^\\p{L}\\p{N}]", "_");
+
+			File file = File.createTempFile(fileName, ".pdf");
 			result.add(file.getName());
 			FileOutputStream outputStream = new FileOutputStream(file);
 			switch (transactionType) {
