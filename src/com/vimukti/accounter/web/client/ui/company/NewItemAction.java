@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -91,7 +92,7 @@ public class NewItemAction extends Action<ClientItem> {
 					}
 				} else if (sellServices) {
 					ItemView view = GWT.create(ItemView.class);
-					view.setType(type);
+					view.setType(Item.TYPE_SERVICE);
 					view.setGeneratedFromCustomer(forCustomer);
 					view.setItemName(itemName);
 					MainFinanceWindow.getViewManager().showView(view, data,

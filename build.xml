@@ -1,4 +1,4 @@
-<project name="accounter" basedir="." default="setupandclean">
+<project name="accounter" basedir="." default="clean-setup">
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="libs/ant-contrib.jar" />
 	<taskdef name="yguard" classname="com.yworks.yguard.YGuardTask" classpath="libs/yguard.jar"/>
 	<property name="src.dir" value="./src" />
@@ -11,7 +11,7 @@
 	<property name="win-lib.dir" value="${setup.dir}/windows/libs" />
 	<property name="tmp.dir" value="${build.dir}/tmp" />
 	<property name="gwt.sdk" location="${env.GWT_SDK}" />
-	<property name="version-number" value="1.0.9" />
+	<property name="version-number" value="1.0.9.5.5"/>
 	<property name="name-version" value="${ant.project.name}-${version-number}" />
 	
 	<property name="jar" value="${build.dir}/${name-version}.jar"/>

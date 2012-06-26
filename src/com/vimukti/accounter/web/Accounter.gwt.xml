@@ -51,7 +51,7 @@
 			</any>
 		</none>
 	</set-property>
-	<set-property name="tablet.user.agent" value="not_tablet" /> 
+	<!-- <set-property name="tablet.user.agent" value="not_tablet" /> --> 
 	<generate-with
 		class="com.vimukti.accounter.web.server.i18n.MessagesGenerator">
 		<when-type-assignable class="com.vimukti.accounter.web.client.i18n.Messages" />
