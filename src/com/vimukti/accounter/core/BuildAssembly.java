@@ -41,14 +41,14 @@ public class BuildAssembly extends Transaction {
 			Quantity quantity = assemblyItem.getQuantity().copy();
 			quantity.setValue(quantity.getValue() * quantityToBuild);
 			transactionItem.setQuantity(quantity);
-			transactionItem.setUnitPrice(assemblyItem.getUnitPrice());
-			total += assemblyItem.getUnitPrice();
+			transactionItem.setUnitPrice(inventoryItem.getAverageCost());
+			total += inventoryItem.getAverageCost();
 			transactionItem.setItem(inventoryItem);
 			transactionItem.setDescription(Global.get().messages()
 					.buildAssembly());
 			transactionItem.setWareHouse(assemblyItem.getWarehouse());
 			transactionItem.setLineTotal(assemblyItem.getQuantity()
-					.calculatePrice(assemblyItem.getUnitPrice()));
+					.calculatePrice(inventoryItem.getAverageCost()));
 			getTransactionItems().add(transactionItem);
 		}
 		this.total = total;

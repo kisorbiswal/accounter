@@ -25,7 +25,12 @@ public class InventoryTransactionUnitPriceColumn extends
 	}
 
 	protected Double getAmount(ClientInventoryAssemblyItem row) {
-		return row.getUnitPrice();
+		Double amount = null;
+		if (row.getInventoryItem() != 0) {
+			amount = Accounter.getCompany().getItem(row.getInventoryItem())
+					.getAverageCost();
+		}
+		return amount;
 	}
 
 	@Override
@@ -43,7 +48,6 @@ public class InventoryTransactionUnitPriceColumn extends
 	}
 
 	protected void setAmount(ClientInventoryAssemblyItem row, Double value) {
-		row.setUnitPrice(value);
 		getTable().update(row);
 	}
 

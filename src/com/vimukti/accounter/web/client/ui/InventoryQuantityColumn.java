@@ -196,14 +196,20 @@ public class InventoryQuantityColumn extends
 			ClientCompany company = Accounter.getCompany();
 			ClientUnit unitById = company.getUnitById(row.getQuantity()
 					.getUnit());
+			double lt = 0;
+			double unitPrice = 0;
+			if (row.getInventoryItem() != 0) {
+				unitPrice = Accounter.getCompany()
+						.getItem(row.getInventoryItem()).getAverageCost();
+			}
+
 			if (unitById != null) {
 				ClientQuantity convertToDefaultUnit = row.getQuantity()
 						.convertToDefaultUnit(unitById);
-				row.setUnitPrice((row.getPurchaseCost() * convertToDefaultUnit
-						.getValue()) / quantity.getValue());
+				unitPrice = (unitPrice * convertToDefaultUnit.getValue())
+						/ quantity.getValue();
 			}
-
-			double lt = quantity.getValue() * row.getUnitPrice();
+			lt = unitPrice * quantity.getValue();
 			row.setLineTotal(lt);
 			getTable().update(row);
 		}

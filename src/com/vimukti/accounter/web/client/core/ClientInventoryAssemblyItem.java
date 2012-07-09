@@ -14,8 +14,6 @@ public class ClientInventoryAssemblyItem implements IAccounterCore {
 
 	private ClientQuantity quantity;
 
-	private Double unitPrice;
-
 	private String discription;
 
 	private long warehouse;
@@ -85,14 +83,6 @@ public class ClientInventoryAssemblyItem implements IAccounterCore {
 		this.quantity = quantity;
 	}
 
-	public Double getUnitPrice() {
-		return unitPrice;
-	}
-
-	public void setUnitPrice(Double unitPrice) {
-		this.unitPrice = unitPrice;
-	}
-
 	public void setDescription(String discription) {
 		this.discription = discription;
 	}
@@ -119,7 +109,6 @@ public class ClientInventoryAssemblyItem implements IAccounterCore {
 
 	public boolean isEmpty() {
 		if ((this.inventoryItem == 0 && getID() == 0)
-				&& this.unitPrice == null
 				&& (this.linetotal == 0)
 				&& (this.quantity == null || this.quantity.getValue() == 0 || this.quantity
 						.getValue() == 1)) {

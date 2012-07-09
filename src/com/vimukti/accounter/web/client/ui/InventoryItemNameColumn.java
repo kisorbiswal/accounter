@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.ComboColumn;
 import com.vimukti.accounter.web.client.ui.edittable.ItemsDropDownTable;
 
-public class InventoryItemNameColumn  extends
+public class InventoryItemNameColumn extends
 		ComboColumn<ClientInventoryAssemblyItem, ClientItem> {
 
 	ItemsDropDownTable itemsList = new ItemsDropDownTable(getItemsFilter());
@@ -56,15 +56,15 @@ public class InventoryItemNameColumn  extends
 	protected void setValue(ClientInventoryAssemblyItem row, ClientItem newValue) {
 		if (newValue != null) {
 			Double unitPrice = 0.0;
-			Double itemPrice = newValue.getSalesPrice();
+			Double itemPrice = newValue.getAverageCost();
 			if (newValue.getType() == ClientItem.TYPE_NON_INVENTORY_PART) {
-				itemPrice = newValue.getPurchasePrice();
+				itemPrice = newValue.getAverageCost();
 			}
 
-			if (row.getUnitPrice() == null || !isSameItems(row, newValue)) {
+			if (!isSameItems(row, newValue)) {
 				unitPrice = itemPrice / currencyProvider.getCurrencyFactor();
 			} else {
-				unitPrice = row.getUnitPrice();
+				unitPrice = newValue.getAverageCost();
 			}
 
 			if (unitPrice.equals((0.0 / 0.0))) {
@@ -76,7 +76,6 @@ public class InventoryItemNameColumn  extends
 				}
 			}
 
-			row.setUnitPrice(unitPrice);
 			row.setPurchaseCost(unitPrice);
 		}
 		row.setInventoryItem(newValue.getID());
@@ -134,7 +133,6 @@ public class InventoryItemNameColumn  extends
 	public boolean isPrimaryColumn() {
 		return true;
 	}
-
 
 	@Override
 	public int insertNewLineNumber() {

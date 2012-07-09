@@ -21,8 +21,6 @@ public class InventoryAssemblyItem extends CreatableObject implements
 
 	private Quantity quantity;
 
-	private Double unitPrice;
-
 	private String discription;
 
 	private Warehouse warehouse;
@@ -71,14 +69,6 @@ public class InventoryAssemblyItem extends CreatableObject implements
 
 	public void setQuantity(Quantity quantity) {
 		this.quantity = quantity;
-	}
-
-	public Double getUnitPrice() {
-		return unitPrice;
-	}
-
-	public void setUnitPrice(Double unitPrice) {
-		this.unitPrice = unitPrice;
 	}
 
 	public String getDiscription() {

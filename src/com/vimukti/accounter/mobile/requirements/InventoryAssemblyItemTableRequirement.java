@@ -120,8 +120,6 @@ public abstract class InventoryAssemblyItemTableRequirement extends
 		obj.setDescription(comment);
 		ClientQuantity clientQuantity = get(QUANTITYNEEDED).getValue();
 		obj.setQuantity(clientQuantity);
-		Double unitPrice = get(UNITPRICE).getValue();
-		obj.setUnitPrice(unitPrice);
 	}
 
 	@Override
@@ -131,7 +129,6 @@ public abstract class InventoryAssemblyItemTableRequirement extends
 		get(ITEM).setValue(item);
 		get(COMMENT).setValue(obj.getDiscription());
 		get(QUANTITYNEEDED).setValue(obj.getQuantity());
-		get(UNITPRICE).setValue(obj.getUnitPrice());
 	}
 
 	@Override

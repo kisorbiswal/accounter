@@ -64,7 +64,6 @@ public class CreateInventoryAssemblyItemCommand extends
 			if (item.isActive() && item.getType() == Item.TYPE_INVENTORY_PART) {
 				InventoryAssemblyItem assemblyItem = new InventoryAssemblyItem();
 				assemblyItem.setInventoryItem(item);
-				assemblyItem.setUnitPrice(item.getPurchasePrice());
 				assemblyItem.setDiscription(item.getPurchaseDescription());
 				assemblyItem.setWarehouse(item.getWarehouse());
 				returnedItems.add(assemblyItem);

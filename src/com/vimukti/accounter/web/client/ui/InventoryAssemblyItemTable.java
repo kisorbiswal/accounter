@@ -74,11 +74,14 @@ public abstract class InventoryAssemblyItemTable extends
 						quantity = row.getQuantity();
 					}
 					row.setQuantity(quantity);
-					double lt = quantity.getValue() * row.getUnitPrice();
-					row.setLineTotal(lt);
-					if (row.getUnitPrice() == null) {
-						row.setUnitPrice(new Double(0));
+					long inventoryItem = row.getInventoryItem();
+					double lt = 0;
+					if (inventoryItem != 0) {
+						lt = quantity.getValue()
+								* Accounter.getCompany().getItem(inventoryItem)
+										.getAverageCost();
 					}
+					row.setLineTotal(lt);
 					ClientMeasurement measurement = Accounter.getCompany()
 							.getMeasurement(newValue.getMeasurement());
 					if (measurement != null) {

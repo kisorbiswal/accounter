@@ -873,7 +873,6 @@
 			<many-to-one name="unit" class="Unit" column="QTY_UNIT"
 				cascade="save-update"></many-to-one>
 		</component>
-		<property name="unitPrice" column="UNIT_PRICE"></property>
 		<property name="discription" column="DISCRIPTION" type="encryptedstring"></property>
 		<many-to-one name="warehouse" column="WARE_HOUSE" class="Warehouse">
 		</many-to-one>
