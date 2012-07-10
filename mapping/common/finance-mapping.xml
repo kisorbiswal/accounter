@@ -566,7 +566,7 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="TAXItem" />
 		</set>
-		<set name="items" inverse="true" cascade="save-update,delete">
+		<set name="items" inverse="true" cascade="save-update,delete" order-by="NAME asc" >
 			<key column="COMPANY_ID" />
 			<one-to-many class="Item" />
 		</set>

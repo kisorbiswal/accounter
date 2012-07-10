@@ -127,28 +127,16 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 						toClientObjectInternal(srcField.get(src), dstFieldType));
 			} else {
 				if (isSet(dstFieldType)) {
-					if (isList(srcField.getType())) {
-						HashSet set = new HashSet();
-						List list = (List) toClientList((List<?>) srcField
-								.get(src));
-						if (list != null)
-							set.addAll(list);
+					HashSet set = new HashSet();
+					if (toClientCollection(
+							(Collection<?>) srcField.get(src), set)) {
 						dstField.set(dst, set);
-					} else {
-						dstField.set(dst,
-								toClientSet((Set<?>) srcField.get(src)));
 					}
 				} else if (isList(dstFieldType)) {
-					if (isSet(srcField.getType())) {
-						ArrayList list = new ArrayList();
-						Set set = toClientSet((Set<?>) srcField.get(src));
-						if (set != null)
-							list.addAll(set);
-
-						dstField.set(dst, list);
-					} else {
-						dstField.set(dst,
-								toClientList((List<?>) srcField.get(src)));
+					ArrayList set = new ArrayList();
+					if (toClientCollection(
+							(Collection<?>) srcField.get(src), set)) {
+						dstField.set(dst, set);
 					}
 				} else if (isMap(dstFieldType)
 						|| srcField.get(src) instanceof Map) {
@@ -369,56 +357,57 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		return null;
 	}
 
-	private Set<?> toClientSet(Set<?> set) throws IllegalArgumentException,
-			InstantiationException, IllegalAccessException, AccounterException {
-		if (set == null)
-			return null;
-		HashSet result = new HashSet();
-		if (set.size() == 0)
-			return result;
-
-		try {
-			for (Object obj : set) {
-				if (obj != null) {
-					obj = HibernateUtil.initializeAndUnproxy(obj);
-					Class<? extends Object> resultClass = Class
-							.forName("com.vimukti.accounter.web.client.core.Client"
-									+ obj.getClass().getSimpleName());
-
-					result.add(getClientAfterCheckingInCache(obj, resultClass));
-				}
-			}
-			return result;
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-
-	}
-
-	private ArrayList toClientList(List<?> list)
+	@SuppressWarnings("unchecked")
+	private boolean toClientCollection(Collection src, Collection dst)
 			throws IllegalArgumentException, InstantiationException,
 			IllegalAccessException, AccounterException {
-		if (list == null)
-			return null;
-		ArrayList result = new ArrayList();
-		if (list.size() == 0)
-			return result;
+		if (src == null)
+			return false;
+		if (src.size() == 0)
+			return true;
 
 		try {
-			for (Object obj : list) {
+			for (Object obj : src) {
 				if (obj != null) {
 					obj = HibernateUtil.initializeAndUnproxy(obj);
 					Class<? extends Object> resultClass = Class
 							.forName("com.vimukti.accounter.web.client.core.Client"
 									+ obj.getClass().getSimpleName());
-					result.add(getClientAfterCheckingInCache(obj, resultClass));
+
+					dst.add(getClientAfterCheckingInCache(obj, resultClass));
 				}
 			}
-			return result;
+			return true;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			return null;
+			return false;
 		}
+
 	}
+
+	// private ArrayList toClientList(List<?> list)
+	// throws IllegalArgumentException, InstantiationException,
+	// IllegalAccessException, AccounterException {
+	// if (list == null)
+	// return null;
+	// ArrayList result = new ArrayList();
+	// if (list.size() == 0)
+	// return result;
+	//
+	// try {
+	// for (Object obj : list) {
+	// if (obj != null) {
+	// obj = HibernateUtil.initializeAndUnproxy(obj);
+	// Class<? extends Object> resultClass = Class
+	// .forName("com.vimukti.accounter.web.client.core.Client"
+	// + obj.getClass().getSimpleName());
+	// result.add(getClientAfterCheckingInCache(obj, resultClass));
+	// }
+	// }
+	// return result;
+	// } catch (ClassNotFoundException e) {
+	// e.printStackTrace();
+	// return null;
+	// }
+	// }
 }
