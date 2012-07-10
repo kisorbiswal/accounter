@@ -492,7 +492,10 @@ public class ItemView extends BaseView<ClientItem> {
 
 		});
 
-		if (!isInViewMode()) {
+		if (getType() == ClientItem.TYPE_INVENTORY_PART) {
+			isellCheck.setValue(true);
+			ibuyCheck.setValue(true);
+		} else if (!isInViewMode()) {
 			if (isGeneratedFromCustomer()) {
 				isellCheck.setValue(isGeneratedFromCustomer());
 				disablePurchaseFormItems(isGeneratedFromCustomer());
@@ -510,13 +513,13 @@ public class ItemView extends BaseView<ClientItem> {
 		// salesInfoForm.add(isellCheck, salesDescArea,
 		// salesPriceText, accountCombo, itemTaxCheck, comCheck,
 		// stdCostText);
-		if (getType() == ClientItem.TYPE_INVENTORY_PART) {
-			salesInfoForm.add(salesDescArea, salesPriceText, accountCombo,
-					itemTaxCheck, comCheck);
-		} else {
-			salesInfoForm.add(isellCheck, salesDescArea, salesPriceText,
-					accountCombo, itemTaxCheck, comCheck, stdCostText);
-		}
+		// if (getType() == ClientItem.TYPE_INVENTORY_PART) {
+		// salesInfoForm.add(salesDescArea, salesPriceText, accountCombo,
+		// itemTaxCheck, comCheck);
+		// } else {
+		salesInfoForm.add(isellCheck, salesDescArea, salesPriceText,
+				accountCombo, itemTaxCheck, comCheck, stdCostText);
+		// }
 
 		if (!getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine())
@@ -535,13 +538,13 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseInfoForm = UIUtils.form(messages.purchaseInformation());
 		// purchaseInfoForm.setNumCols(2);
 		purchaseInfoForm.setStyleName("purchase_info_form");
-		if (getType() == ClientItem.TYPE_INVENTORY_PART) {
-			purchaseInfoForm.add(purchaseDescArea, purchasePriceTxt,
-					expAccCombo, prefVendorCombo, vendItemNumText);
-		} else {
-			purchaseInfoForm.add(ibuyCheck, purchaseDescArea, purchasePriceTxt,
-					expAccCombo, prefVendorCombo, vendItemNumText);
-		}
+		// if (getType() == ClientItem.TYPE_INVENTORY_PART) {
+		// purchaseInfoForm.add(purchaseDescArea, purchasePriceTxt,
+		// expAccCombo, prefVendorCombo, vendItemNumText);
+		// } else {
+		purchaseInfoForm.add(ibuyCheck, purchaseDescArea, purchasePriceTxt,
+				expAccCombo, prefVendorCombo, vendItemNumText);
+		// }
 
 		// purchaseInfoForm.getCellFormatter().addStyleName(1, 0,
 		// "memoFormAlign");
@@ -581,13 +584,12 @@ public class ItemView extends BaseView<ClientItem> {
 
 		// topHLay.setWidth("100%");
 
-		
 		StyledPanel emptyPanel = new StyledPanel("emptyPanel");
 		// emptyPanel.setWidth("100%");
 
 		// topPanel2.setHorizontalAlignment(ALIGN_RIGHT);
 		// topPanel2.setWidth("100%");
-	
+
 		// topPanel2.setCellWidth(salesVPanel, "50%");
 		// topPanel2.setCellWidth(purchzVPanel, "50%");
 
@@ -804,8 +806,6 @@ public class ItemView extends BaseView<ClientItem> {
 			data.setAsOfDate(asOfDate.getValue());
 
 			if (getType() == ClientItem.TYPE_INVENTORY_PART) {
-				data.setISellThisItem(true);
-				data.setIBuyThisItem(true);
 				data.setMinStockAlertLevel(null);
 				data.setMaxStockAlertLevel(null);
 				data.setOpeningBalance(openingBalTxt.getAmount());
