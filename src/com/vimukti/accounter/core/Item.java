@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * Class for any item. Basically we have divided items in two part SERVICE and
@@ -138,6 +137,8 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	private FinanceDate asOfDate;
 	private Account assestsAccount;
 	private int reorderPoint;
+
+	@NonEditable
 	private Quantity onHandQty;
 	private double itemTotalValue;
 	private Item parentItem;
@@ -434,8 +435,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		if (this.isOnSaveProccessed)
+
+		if (this.isOnSaveProccessed) {
 			return true;
+		}
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
 		if (type == TYPE_INVENTORY_PART || type == TYPE_INVENTORY_ASSEMBLY) {
@@ -443,6 +446,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		}
 		ChangeTracker.put(this);
 		setDepth(getDepthCount());
+
 		return false;
 
 	}
@@ -480,7 +484,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		if (warehouse == null) {
 			return;
 		}
-		if (!onHandQty.isEmpty() && !DecimalUtil.isEquals(itemTotalValue, 0)) {
+		if (!onHandQty.isEmpty()) {
 			averageCost = purchasePrice;
 			Session session = HibernateUtil.getCurrentSession();
 			StockAdjustment adjustment = createStockAdjustment();
@@ -506,7 +510,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		item.setType(TransactionItem.TYPE_ITEM);
 		item.setItem(this);
 		item.setQuantity(onHandQty.copy());
-		item.setUnitPrice(purchasePrice);
+		item.setUnitPrice(standardCost);
 		item.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
 		item.setTransaction(adjustment);
 		item.setWareHouse(warehouse);

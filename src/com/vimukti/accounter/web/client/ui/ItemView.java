@@ -396,10 +396,8 @@ public class ItemView extends BaseView<ClientItem> {
 				"purchaseDescArea");
 		// purchaseDescArea.setWidth(100);
 		purchaseDescArea.setEnabled(!isInViewMode());
-		purchasePriceTxt = new AmountField(
-				getType() == ClientItem.TYPE_INVENTORY_PART ? messages.standardCost()
-						: messages.purchasePrice(), this, getBaseCurrency(),
-				"purchasePriceTxt");
+		purchasePriceTxt = new AmountField(messages.purchasePrice(), this,
+				getBaseCurrency(), "purchasePriceTxt");
 		// purchasePriceTxt.setWidth(100);
 		purchasePriceTxt.setEnabled(!isInViewMode());
 		purchasePriceTxt.addBlurHandler(new BlurHandler() {
@@ -513,13 +511,8 @@ public class ItemView extends BaseView<ClientItem> {
 		// salesInfoForm.add(isellCheck, salesDescArea,
 		// salesPriceText, accountCombo, itemTaxCheck, comCheck,
 		// stdCostText);
-		// if (getType() == ClientItem.TYPE_INVENTORY_PART) {
-		// salesInfoForm.add(salesDescArea, salesPriceText, accountCombo,
-		// itemTaxCheck, comCheck);
-		// } else {
 		salesInfoForm.add(isellCheck, salesDescArea, salesPriceText,
 				accountCombo, itemTaxCheck, comCheck, stdCostText);
-		// }
 
 		if (!getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine())
@@ -746,6 +739,7 @@ public class ItemView extends BaseView<ClientItem> {
 		salesPriceText.setEnabled(!isEdit);
 		accountCombo.setEnabled(!isEdit);
 		comCheck.setEnabled(!isEdit);
+		stdCostText.setEnabled(!isEdit);
 	}
 
 	/**
@@ -797,11 +791,11 @@ public class ItemView extends BaseView<ClientItem> {
 			if (asOfDate != null) {
 				data.setAsOfDate(asOfDate.getDate());
 			}
-			Long qtyValue = null;
+			Double qtyValue = null;
 			if (onHandQuantity.getValue().length() > 0) {
-				qtyValue = onHandQuantity.getNumber();
+				qtyValue = Double.valueOf(onHandQuantity.getValue());
 			} else {
-				qtyValue = 0l;
+				qtyValue = 0D;
 			}
 			data.setAsOfDate(asOfDate.getValue());
 

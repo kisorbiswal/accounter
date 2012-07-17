@@ -83,7 +83,7 @@ public class InventoryTransactionUnitPriceColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return getColumnNameWithCurrency(messages.unitPrice());
+		return getColumnNameWithCurrency(messages.avarageCost());
 	}
 
 	@Override

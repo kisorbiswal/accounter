@@ -198,7 +198,9 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 			if (dst == null && !isNotMappingEntity(serverCoreClass)) {
 				dst = (D) loadObjectByid(session, serverCoreClass, src.getID());
 			}
+
 			dst = dst == null ? serverCoreClass.newInstance() : dst;
+			boolean isCreating = dst.getID() == 0l;
 			getCache().put(src, dst);
 
 			Class<S> srcType = (Class<S>) src.getClass();
@@ -232,6 +234,12 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 				if (dstField.getAnnotation(Exempted.class) != null) {
 					continue;
 				}
+
+				if (!isCreating
+						&& dstField.getAnnotation(NonEditable.class) != null) {
+					continue;
+				}
+
 				// create id to object...
 				// if (dstFieldName.equals("id")) {
 				// String val = (String) srcField.get(src);

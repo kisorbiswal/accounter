@@ -78,7 +78,6 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 	HashMap<String, ClientAccount> allaccounts;
 	HashMap<String, ClientItemGroup> allitemgroups;
 	private DynamicForm itemForm;
-	private DynamicForm stdCostForm;
 	private DynamicForm itemInfoForm;
 	private DynamicForm purchaseInfoForm;
 	private DynamicForm salesInfoForm;
@@ -530,7 +529,6 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		listforms.add(itemForm);
 		listforms.add(salesInfoForm);
 
-		listforms.add(stdCostForm);
 		listforms.add(itemInfoForm);
 		listforms.add(purchaseInfoForm);
 		// settabIndexes();
@@ -628,9 +626,6 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 		data.setUPCorSKU(skuText.getValue());
 
-		data.setISellThisItem(true);
-		data.setIBuyThisItem(true);
-
 		if (salesDescArea.getValue() != null)
 			data.setSalesDescription(salesDescArea.getValue().toString());
 		data.setSalesPrice(salesPriceText.getAmount());
@@ -692,6 +687,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 		data.setAsOfDate(asOfDate.getValue());
 		data.setTaxable(getBooleanValue(itemTaxCheck));
+		data.setStandardCost(totalLabel.getAmount());
 
 	}
 
@@ -771,9 +767,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		purchasePriceTxt.setEnabled(!isDisable);
 		purchaseDescArea.setEnabled(!isDisable);
 		vendItemNumText.setEnabled(!isDisable);
-		expAccCombo.setEnabled(!isDisable);
 		prefVendorCombo.setEnabled(!isDisable);
-
 	}
 
 	@Override
@@ -957,6 +951,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 		if (ibuyCheck.isChecked()) {
 			result.add(purchaseInfoForm.validate());
+		} else {
+			if (!expAccCombo.validate()) {
+				result.addError(expAccCombo,
+						messages.pleaseEnter(expAccCombo.getTitle()));
+			}
 		}
 
 		if (isellCheck.isChecked()) {
