@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.server;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.zschech.gwt.comet.server.CometSession;
 
@@ -17,7 +17,7 @@ public class CometManager {
 	/**
 	 * Map of UserID and the Queue
 	 */
-	private static HashMap<String, Map<String, CometSession>> map = new HashMap<String, Map<String, CometSession>>();
+	private static Map<String, Map<String, CometSession>> map = new ConcurrentHashMap<String, Map<String, CometSession>>();
 
 	// private static CommandQueue<ObjectPayload> queue;
 
@@ -27,7 +27,7 @@ public class CometManager {
 	 * @param key
 	 * @return
 	 */
-	static CometSession getQueue(String sessionID, long companyId,
+	static synchronized CometSession getQueue(String sessionID, long companyId,
 			String emailID) {
 		Map<String, CometSession> queues = map.get(emailID + companyId);
 		if (queues != null) {
@@ -48,7 +48,7 @@ public class CometManager {
 	 *            Name of the stream
 	 * @return
 	 */
-	public static CometStream getStream(long companyId, String emailId) {
+	public static synchronized CometStream getStream(long companyId, String emailId) {
 		Map<String, CometSession> queues = map.get(emailId + companyId);
 		if (queues == null) {
 			return null;
@@ -58,17 +58,17 @@ public class CometManager {
 		return str;
 	}
 
-	public static void initStream(String sessionID, long serverCompanyId,
+	public static synchronized void initStream(String sessionID, long serverCompanyId,
 			String emailID, CometSession cometSession) {
 		Map<String, CometSession> queues = map.get(emailID + serverCompanyId);
 		if (queues == null) {
-			queues = new HashMap<String, CometSession>();
+			queues = new ConcurrentHashMap<String, CometSession>();
 			map.put(emailID + serverCompanyId, queues);
 		}
 		queues.put(sessionID, cometSession);
 	}
 
-	public static void destroyStream(String sessionID, long companyId,
+	public static synchronized void destroyStream(String sessionID, long companyId,
 			String emailID) {
 		Map<String, CometSession> queues = map.get(emailID + companyId);
 		if (queues != null) {
