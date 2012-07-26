@@ -8485,3 +8485,6 @@ table.no_records tr td {
 	font-size: 15px;
 	font-weight: bold;
 }
+.general-setting-invoice{
+	   max-width: 630px;
+}

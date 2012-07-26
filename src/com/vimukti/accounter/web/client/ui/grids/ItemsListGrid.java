@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
@@ -188,8 +189,8 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 				ClientMeasurement measurement = getCompany().getMeasurement(
 						obj.getMeasurement());
 
-				return obj.getOnhandQty() != null ? obj.getOnhandQty()
-						.getValue()
+				return obj.getOnhandQty() != null ? DecimalUtil.round(obj
+						.getOnhandQty().getValue())
 						+ "("
 						+ measurement.getDefaultUnit().getType() + ")" : "";
 			case 5:
