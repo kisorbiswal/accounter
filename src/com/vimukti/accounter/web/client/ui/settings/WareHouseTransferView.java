@@ -109,21 +109,6 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 
 	protected void fromWareHouseSelected(ClientWarehouse selectItem) {
 		selectedFrom = selectItem;
-		table.removeFromParent();
-		table = new WareHouseTransferTable() {
-
-			@Override
-			protected boolean isInViewMode() {
-				return WareHouseTransferView.this.isInViewMode();
-			}
-		};
-		table.setEnabled(!isInViewMode());
-		Label tableTitle = new Label(messages2.table(messages.units()));
-		tableTitle.addStyleName("editTableTitle");
-		StyledPanel tablePanel = new StyledPanel("transferTablePanel");
-		tablePanel.add(tableTitle);
-		tablePanel.add(table);
-		mainPanel.add(tablePanel);
 		Accounter
 				.createHomeService()
 				.getStockTransferItems(
@@ -139,8 +124,12 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 							@Override
 							public void onResultSuccess(
 									ArrayList<ClientStockTransferItem> result) {
-								if (result != null) {
+								table.removeAllRecords();
+								if (result != null && !result.isEmpty()) {
 									table.setAllRows(result);
+								} else {
+									table.addEmptyMessage(messages
+											.noRecordsToShow());
 								}
 							}
 						});
