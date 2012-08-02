@@ -375,7 +375,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		purchaseInfoForm = UIUtils.form(messages.purchaseInformation());
 		purchaseInfoForm.setStyleName("purchase_info_form");
 		purchaseInfoForm.add(ibuyCheck, purchaseDescArea, purchasePriceTxt,
-				expAccCombo, prefVendorCombo, vendItemNumText);
+				expAccCombo/* , prefVendorCombo, vendItemNumText */);
 
 		StyledPanel salesVPanel = new StyledPanel("salesVPanel");
 		StyledPanel itemHPanel = new StyledPanel("itemHPanel");

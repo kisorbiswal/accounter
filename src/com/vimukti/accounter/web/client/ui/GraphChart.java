@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class GraphChart {
@@ -179,7 +180,7 @@ public class GraphChart {
 	private Options createYearOverYearOptionsForBarChart() {
 		Options options = Options.create();
 		options.setWidth(444);
-//		options.setHeight(225);
+		// options.setHeight(225);
 		options.setType(Type.BARS);
 		options.setTitle(getTitle());
 		options.setLegend(LegendPosition.NONE);
@@ -194,7 +195,7 @@ public class GraphChart {
 	private Options createIncomeAndExpenseOptionsForBarChart() {
 		Options options = Options.create();
 		options.setWidth(444);
-//		options.setHeight(225);
+		// options.setHeight(225);
 		options.setType(Type.BARS);
 		options.setLegend(LegendPosition.RIGHT);
 		options.setColors("#6CA92F", "#FF4000");
@@ -207,8 +208,8 @@ public class GraphChart {
 
 	private Options createOptionsForPieChart() {
 		Options options = (PieOptions) Options.create();
-//		options.setWidth(444);
-//		options.setHeight(225);
+		// options.setWidth(444);
+		// options.setHeight(225);
 		options.setLegend(LegendPosition.RIGHT);
 		options.setColors("#6CA92F", "#e0440e", "#91AB56", "#40640e",
 				"#07891D", "#800000", "#628906", "#0000FF", "#800080",
@@ -246,8 +247,8 @@ public class GraphChart {
 	private Options createOptionsToAccountReceivableChart() {
 
 		Options options = Options.create();
-//		options.setWidth(444);
-//		options.setHeight(225);
+		// options.setWidth(444);
+		// options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
 		// options.setMin(100);
 		options.setColors("#6CA92F");
@@ -278,8 +279,8 @@ public class GraphChart {
 
 	private Options createOptionsToBankingAccountsListChart() {
 		Options options = Options.create();
-//		options.setWidth(630);
-//		options.setHeight(225);
+		// options.setWidth(630);
+		// options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
 		// options.setMin(100);
 		options.setColors("#6CA92F");
@@ -301,8 +302,8 @@ public class GraphChart {
 		// options.setDisplayExactValues(true);
 		// options.setAllowHtml(true);
 		// options.setWindowMode(WindowMode.OPAQUE);
-//		options.setWidth(425);
-//		options.setHeight(225);
+		// options.setWidth(425);
+		// options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
 		// options.setMin(100);
 		options.setColors("#6CA92F");
@@ -366,7 +367,7 @@ public class GraphChart {
 		for (int i = 0; i < size; i++) {
 			data.setValue(i, 0,
 					getMonthAsString(Integer.parseInt(accountNames.get(i))));
-			data.setValue(i, 1, graph_Values.get(i));
+			data.setValue(i, 1, DecimalUtil.round(graph_Values.get(i)));
 		}
 		return data;
 	}
@@ -375,8 +376,8 @@ public class GraphChart {
 			DataTable data, int size) {
 		for (int i = 0; i < size; i++) {
 			data.setValue(i, 0, (String) x_Axis_Labels.get(i));
-			data.setValue(i, 1, incomeValues.get(i));
-			data.setValue(i, 2, expenseValues.get(i));
+			data.setValue(i, 1, DecimalUtil.round(incomeValues.get(i)));
+			data.setValue(i, 2, DecimalUtil.round(expenseValues.get(i)));
 		}
 		return data;
 	}
@@ -384,7 +385,7 @@ public class GraphChart {
 	private DataTable addGraphPoints(int chartType, DataTable data, int size) {
 		for (int i = 0; i < size; i++) {
 			data.setValue(i, 0, (String) x_Axis_Labels.get(i));
-			data.setValue(i, 1, graph_Values.get(i));
+			data.setValue(i, 1, DecimalUtil.round(graph_Values.get(i)));
 		}
 		return data;
 	}

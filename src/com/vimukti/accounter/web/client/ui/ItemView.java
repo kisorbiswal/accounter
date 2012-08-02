@@ -486,6 +486,7 @@ public class ItemView extends BaseView<ClientItem> {
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				disablePurchaseFormItems(!event.getValue());
 				changeSubItemsCombo(isellCheck.getValue(), event.getValue());
+				addPreferredCombo();
 			}
 
 		});
@@ -536,9 +537,10 @@ public class ItemView extends BaseView<ClientItem> {
 		// expAccCombo, prefVendorCombo, vendItemNumText);
 		// } else {
 		purchaseInfoForm.add(ibuyCheck, purchaseDescArea, purchasePriceTxt,
-				expAccCombo, prefVendorCombo, vendItemNumText);
-		// }
-
+				expAccCombo);
+		if (ibuyCheck.getValue() == true) {
+			purchaseInfoForm.add(prefVendorCombo, vendItemNumText);
+		}
 		// purchaseInfoForm.getCellFormatter().addStyleName(1, 0,
 		// "memoFormAlign");
 
@@ -643,6 +645,15 @@ public class ItemView extends BaseView<ClientItem> {
 		listforms.add(purchaseInfoForm);
 		// settabIndexes();
 
+	}
+
+	protected void addPreferredCombo() {
+		if (ibuyCheck.getValue() == true) {
+			purchaseInfoForm.add(prefVendorCombo, vendItemNumText);
+		} else {
+			prefVendorCombo.removeFromParent();
+			vendItemNumText.removeFromParent();
+		}
 	}
 
 	protected StyledPanel getTopLayout() {
