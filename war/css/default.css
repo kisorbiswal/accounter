@@ -1,4 +1,4 @@
-/* #cashexpenseview .AmountLabel .label {
+﻿/* #cashexpenseview .AmountLabel .label {
 	font-size: 70px;
 }
 #customercreditmemoview .AmountLabel .label {
@@ -138,11 +138,9 @@ body {
 	/* -ms-grid-row-align: center; */
 	width: 100%;
 	height:85%;
-	-ms-box-pack: center;
-	-ms-box-align: middle;
-	-ms-box-flex: 0;
-	-ms-box-ordinal-group: 0;
-	-ms-box-lines: single;
+	-ms-flex-pack: center;
+	-ms-flex-align: center;
+	-ms-flex: 0;
 	/* overflow-y: auto; */
 }
 
@@ -194,7 +192,7 @@ body {
 }
 
 .mainMenu>.form {
-	-ms-box-ordinal-group: 0;
+
 	padding-left: 10px;
 	padding-right: 10px;
 }
@@ -202,8 +200,8 @@ a:ACTIVE,a:HOVER{
 	background: none !important;
 }
 #loginPanel {
-	-ms-box-align: initial;
-	-ms-box-ordinal-group: 0;
+	-ms-flex-align: initial;
+
 }
 .win8EditTable .gwt-TextBox{
 	height: 22px;
@@ -289,14 +287,14 @@ a:ACTIVE,a:HOVER{
 
 .dropdownFlex>div {
 	display: -ms-flexbox;
-	-ms-box-lines: multiple;
-	-ms-box-orient: horizontal;
-	-ms-box-pack: center;
-	-ms-box-align: middle;
+	-ms-flex-wrap: wrap;
+	-ms-flex-direction: row;
+	-ms-flex-pack: center;
+	-ms-flex-align: center;
 	border-width: 1px;
 	border-style: solid;
 	margin: 2px;
-	-ms-box-flex: 1;
+	-ms-flex: 1;
 	cursor: pointer;
 	max-width: 200px;
 }
@@ -314,19 +312,19 @@ a:ACTIVE,a:HOVER{
 	left: 30%;
 	width: 70%; */
 	display: -ms-flexbox;
-	-ms-box-orient: horizontal;
-	-ms-box-align: middle;
-	-ms-box-pack: end;
+	-ms-flex-direction: row;
+	-ms-flex-align: center;
+	-ms-flex-pack: end;
 	margin-right: 100px;
 }
 #group1{
 	/* display: -ms-flexbox;
-	-ms-box-orient: horizontal; */
+	-ms-flex-direction: row; */
 	display:none;
 }
 .group-toolbar .buttonsPanel{
 	display: -ms-flexbox;
-	-ms-box-orient: horizontal;
+	-ms-flex-direction: row;
 }
 button#searchButton {
 	background-repeat: no-repeat;
@@ -380,9 +378,9 @@ button#closeButton {
 	background-color: #3D7416;
 	color: white;
 	display: -ms-flexbox;
-	-ms-box-orient: vertical;
-	-ms-box-lines: multiple;
-	-ms-box-flex: 0;
+	-ms-flex-direction: column;
+	-ms-flex-wrap: wrap;
+	-ms-flex: 0;
 }
 
 .finance_window h2 {
@@ -395,18 +393,17 @@ button#closeButton {
 
 .subMenus {
 	display: -ms-flexbox;
-	-ms-box-orient: vertical;
-	-ms-box-lines: multiple;
+	-ms-flex-direction: column;
+	-ms-flex-wrap: wrap;
 }
 
 .mainMenu>.form>.form {
 	display: -ms-flexbox;
-	-ms-box-lines: multiple;
-	-ms-box-orient: vertical;
-	-ms-box-direction: normal;
-	-ms-box-flex: 0;
-	-ms-box-pack: start;
-	-ms-box-align: before;
+	-ms-flex-wrap: wrap;
+	-ms-flex-direction: column;
+	-ms-flex: 0;
+	-ms-flex-pack: start;
+	-ms-flex-align: start;
 }
 
 .errors {
@@ -457,8 +454,7 @@ button#closeButton {
 
 .button_bar,.view-gwt-dialog .footerLayout {
 	display: -ms-flexbox;
-	-ms-box-direction: normal;
-	-ms-box-pack: end;
+	-ms-flex-pack: end;
 	position: fixed;
 	bottom: 10px;
 	right: 10px;
@@ -562,8 +558,8 @@ button#closeButton {
 .transations_list_table {
 	display: -ms-flexbox;
 	margin-top: 20px;
-	-ms-box-lines: multiple;
-	-ms-box-pack: center;
+	-ms-flex-wrap: wrap;
+	-ms-flex-pack: center;
 }
 
 .transations_list_table input[type=text] {
@@ -609,7 +605,7 @@ button#closeButton {
 
 .editTable {
 	display: -ms-flexbox;
-	-ms-box-lines: multiple;
+	-ms-flex-wrap: wrap;
 }
 
 #CustomersListGrid .gridRow div {
@@ -633,17 +629,16 @@ button#closeButton {
 }
 
 #journalentryview .editTable {
-	-ms-box-lines: single;
 	padding: 0px 10px 15px;
 	overflow-x: auto;
 }
 
 .dropdownFlex {
 	/* display: -ms-flexbox;
-	-ms-box-lines: multiple;
-	-ms-box-align: middle;
-	-ms-box-pack: center;
-	-ms-box-orient: horizontal */;
+	-ms-flex-wrap: wrap;
+	-ms-flex-align: center;
+	-ms-flex-pack: center;
+	-ms-box-orient: horizontal; */
 	max-height: 100px;
 	overflow-y: auto;
 	width:100%;
@@ -731,7 +726,7 @@ button#closeButton {
 	background-color: #D6D6D6;
 	border: 1px solid black;
 	width: 230px;
-	-ms-box-lines: multiple;
+	-ms-flex-wrap: wrap;
 	display: -ms-flexbox;
 	height: 210px;
 	padding: 5px;
@@ -743,7 +738,7 @@ button#closeButton {
 	background-color: #D6D6D6;
 	border: 1px solid black;
 	width: 220px;
-	-ms-box-lines: multiple;
+	-ms-flex-wrap: wrap;
 	display: -ms-flexbox;
 	height: 200px;
 	padding: 5px;
@@ -752,8 +747,8 @@ button#closeButton {
 
 #journalentryview .textbold {
 	display: -ms-flexbox;
-	-ms-box-pack: end;
-	-ms-box-orient: horizontal;
+	-ms-flex-pack: end;
+	-ms-flex-direction: row;
 	width: 16%;
 	padding-bottom: 10px;
 	margin-left: 25%;
@@ -762,7 +757,7 @@ button#closeButton {
 
 #journalentryview  .AmountLabel {
 	display: -ms-flexbox;
-	-ms-box-orient: horizontal;
+	-ms-flex-direction: row;
 }
 
 #journalentryview  .AmountLabel .label {
@@ -899,14 +894,14 @@ button#closeButton {
 
 #UsersActivityList  .gridRow {
 	margin: 10px;
-	-ms-box-lines: multiple;
+	-ms-flex-wrap: wrap;
 	width: 20%;
 }
 
 
 .gridBodyContainer {
 	display: -ms-flexbox;
-	-ms-box-lines: multiple;
+	-ms-flex-wrap: wrap;
 	width: 100%;
 }
 
@@ -939,7 +934,7 @@ button#closeButton {
 
 #ReportSectionView .reportSectionLinks {
 	display: -ms-flexbox;
-	-ms-box-lines: multiple;
+	-ms-flex-wrap: wrap;
 	margin-top: 27px;
 }
 
@@ -967,7 +962,7 @@ button#closeButton {
 
 #UsersListGrid .gridBodyContainer {
 	display: -ms-flexbox;
-	-ms-box-lines: multiple;
+	-ms-flex-wrap: wrap;
 }
 
 #UsersListGrid .gridRow .firstname,#UsersListGrid .gridRow .lastname,#UsersListGrid .gridRow .userrole,#UsersListGrid .gridRow .emailid,#UsersListGrid .gridRow .status {
@@ -1012,7 +1007,7 @@ button#closeButton {
 	width: 100%;
 	margin-top: 30px;
 	display: -ms-flexbox;
-	-ms-box-pack: center;
+	-ms-flex-pack: center;
 }
 
 #customercreditmemoview .mainVLay {
@@ -1124,7 +1119,7 @@ button#closeButton {
 
 #preferenceSettingsView .titlesPanel {
 	display: -ms-flexbox;
-	-ms-box-orient: vertical;
+	-ms-flex-direction: column;
 }
 
 #preferenceSettingsView .pageView {
@@ -1223,7 +1218,7 @@ button#closeButton {
 
 /* #ChartOfAccountsListGrid .gridBody {
 	display: -ms-flexbox;
-	-ms-box-lines: multiple;
+	-ms-flex-wrap: wrap;
 	width: 1281px;
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -1292,9 +1287,9 @@ button#closeButton {
 
 #invoiceview .prodAndServiceHLay {
 	width: 100%;
-	-ms-box-orient: horizontal;
+	-ms-flex-direction: row;
 	display: -ms-flexbox;
-	-ms-box-align: middle;
+	-ms-flex-align: center;
 	margin-top: 20px;
 }
 
@@ -1431,7 +1426,7 @@ button#closeButton {
 
 .rowPanel .row_column {
 	display: -ms-flexbox;
-	-ms-box-pack: justify;
+	-ms-flex-pack: justify;
 }
 
 .rowPanel .row_column .columnHeader {
@@ -1478,8 +1473,8 @@ button#closeButton {
 .customerCenter .filterPanel .SelectCombo {
 	width: 94%;
 	display: -ms-flexbox;
-	-ms-box-orient: vertical;
-	-ms-box-align: before;
+	-ms-flex-direction: column;
+	-ms-flex-align: start;
 }
 
 .customerCenter .filterPanel .SelectCombo input {
@@ -1553,8 +1548,8 @@ button#closeButton {
 .dataRow {
 	width: 100%;
 	display: -ms-flexbox;
-	-ms-box-orient: horizontal;
-	-ms-box-pack: justify;
+	-ms-flex-direction: row;
+	-ms-flex-pack: justify;
 }
 
 #QuoteListGrid .payeename-value {
@@ -1578,7 +1573,7 @@ button#closeButton {
 
 #invoiceview .boldtext {
 	display: -ms-flexbox;
-	-ms-box-orient: horizontal;
+	-ms-flex-direction: row;
 }
 
 #quoteview .topHLay .rightVLay {
@@ -1603,7 +1598,7 @@ button#closeButton {
 .vendorBillViewpanel .taxPanel {
 	display: -ms-flexbox;
 	margin-left: 8%;
-	-ms-box-align: middle;
+	-ms-flex-align: center;
 	padding-top: 20px;
 }
 
@@ -1688,7 +1683,7 @@ button#closeButton {
 
 #BudgetListGrid .gridBodyContainer {
 	display: -ms-flexbox;
-	-ms-box-lines: multiple;
+	-ms-flex-wrap: wrap;
 }
 
 #BudgetCellTable .gridRow {
@@ -1937,7 +1932,7 @@ select:hover{
 	width:275px;
 }
 .setup_panel .view_panel .refer_panel{
-	display:-ms-box;
+	display: -ms-flexbox;
 }
 #NewEmployeeView .firstPanel{
 	display:-ms-flexbox;
@@ -1983,7 +1978,7 @@ label{
 }
 .gwt-DialogBox .dialogTop .caption{
    display: -ms-flexbox;
-   -ms-box-pack:justify;	
+   -ms-flex-pack:justify;	
    padding: 3px 0;
    background-color: #255403;
    color: white;
@@ -2079,11 +2074,9 @@ button{
 }
 button#closeButton:hover,.subMenuBack:hover{
 	background-image: url("../images/22.png") !important;
-	background-color: none !important;
 }
 button#searchButton:hover{
 	background-image: url("../images/serchhover.png") !important;
-	background-color: none !important;
 }
 #customercreditmemoview .mainVLay{
 	width: auto !important; 
@@ -2138,7 +2131,7 @@ button#searchButton:hover{
 	display: -ms-flexbox;
 } */
 .win8EditTable .win8EditTableContainer{
-	-ms-box-orient: horizontal;
+	-ms-flex-direction: row;
 }
 input[type=text]:disabled,textarea:disabled{
 	border-color: #B8B6B7;
@@ -2288,7 +2281,7 @@ a:hover,.subMenuName:hover{
 	display: -ms-flexbox;
 }
 .portlet-body .dashboard_label{
-	-ms-box-pack:justify;
+	-ms-flex-pack:justify;
 }
 #VendorView .tabPanel,#VendorView .generalTab,#VendorView .fields-panel,#AbstractFileTAXView .topLayout,
 #CustomerView .tabPanel,#CustomerView .generalTab,#CustomerView .fields-panel,.groupPanel .generalTab,
@@ -2310,7 +2303,7 @@ a:hover,.subMenuName:hover{
 	margin: 10px 10px 0 0;
 	padding:5px;
 	display: -ms-flexbox;
-	-ms-box-pack: justify;
+	-ms-flex-pack: justify;
 }
 .gwt-PopupPanel table{
 	width: 100%;
@@ -2354,7 +2347,7 @@ table.gridBody tr{
 	height: 500px !important
 }
 .manageBillsOweRadioButtonsPanel,.RadioGroupItem{
-	-ms-box-pack: start;
+	-ms-flex-pack: start;
 }
 .estiamtesHiddenPanel span,.RadioGroupItem span{
 	display: block;
