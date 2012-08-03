@@ -1,4 +1,5 @@
 package com.vimukti.accounter.utils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -51,6 +52,10 @@ public class NoCacheAnalyser {
 
 	}
 
+	public Map<Permitation, String> permitations() {
+		return perMap;
+	}
+
 	public static class Permitation {
 		Permitation(String a, String b, String c) {
 			this.a = a;
@@ -89,16 +94,16 @@ public class NoCacheAnalyser {
 		}
 		String data = readFile(args[0]);
 		NoCacheAnalyser noc = new NoCacheAnalyser(data);
-		System.out.println("Safari:"+noc.get(SAFARI));
-		System.out.println("Chrome:"+noc.get(SAFARI));
-		System.out.println("IPad:"+noc.get(IPAD));
-		System.out.println("Android:"+noc.get(ANDROID));
-		System.out.println("IE9:"+noc.get(IE9));
-		System.out.println("IE10:"+noc.get(IE10));
-		System.out.println("Firefox:"+noc.get(FIREFOX));
+		System.out.println("Safari:" + noc.get(SAFARI));
+		System.out.println("Chrome:" + noc.get(SAFARI));
+		System.out.println("IPad:" + noc.get(IPAD));
+		System.out.println("Android:" + noc.get(ANDROID));
+		System.out.println("IE9:" + noc.get(IE9));
+		System.out.println("IE10:" + noc.get(IE10));
+		System.out.println("Firefox:" + noc.get(FIREFOX));
 	}
 
-	private String get(Permitation perm) {
+	public String get(Permitation perm) {
 		return perMap.get(perm);
 	}
 

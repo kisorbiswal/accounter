@@ -17,3 +17,5 @@ platforms/windows 8/Accounter/accounter.client
 platforms/windows 8/Accounter/default.html
 platforms/windows 8/Accounter/css/default.css
 platforms/windows 8/Accounter/Debug
+platforms/windows 8/Accounter/bin
+platforms/windows 8/Accounter/bld
