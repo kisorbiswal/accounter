@@ -250,4 +250,6 @@ public interface AccounterMessages2 extends Messages {
 	public String licenseExpired();
 
 	public String invalidLicense();
+
+	public String newTermsOfUse();
 }

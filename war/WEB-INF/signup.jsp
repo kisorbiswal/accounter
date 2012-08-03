@@ -109,13 +109,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 			emailId: {
 				required: true,
 				email: true
-			},
-			confirmemailId: {
-				required: true,
-				email: true,
-				equalTo: "#mid-box2"
-			},
-			agree: "required"
+			}
 		},
 		messages: {
 			firstName: "<i18n:i18n msg='pleaseenteryourfirstname'/>",
@@ -204,10 +198,10 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	     <label><i18n:i18n msg='emailAddress'/></label><br />
 		 <input id="mid-box2"  type="text" tabindex="3" name="emailId" />	
 	   </div>
-	   <div class="check_label">
+	   <!--<div class="check_label">
 	     <label><i18n:i18n msg='confirmEmailAddress'/></label><br />
 		 <input id="mid-box7"  type="text" tabindex="4" name="confirmemailId" />	
-	   </div>
+	   </div>-->
 	   <div class="check_label">
 	     <label><i18n:i18n msg='password'/></label><br />
 		 <input id="mid-box4"  type="password" tabindex="5" name="password" />
@@ -216,10 +210,10 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	     <label><i18n:i18n msg='confirmPassword'/></label><br />
 		 <input id="mid-box5" type="password" tabindex="6" name="confirmPassword" />
 	   </div>
-	   <div class="check_label">
+	  <!--<div class="check_label">
 	     <label><i18n:i18n msg='phoneNumber'/></label><br />
 		 <input id="mid-box6"  type="text" tabindex="7" name="phoneNumber" />
-	   </div>
+	   </div>-->
 	   <div class="check_label">
 	     <label><i18n:i18n msg='country'/></label><br />
 		 <select id="select-box" tabindex="8" name="country">
@@ -463,15 +457,14 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 											<option value="Zimbabwe">Zimbabwe</option>
 		 </select>
 	   </div>
-	   <div>
-	     <label style="padding-left:5px;"><i18n:i18n msg='readAccept'/><a href="/site/termsandconditions" target="_blank" ><i18n:i18n msg='termsofUse'/></a></label>
-	     <input id="checkbox" type="checkbox" name="agree" tabindex="9" style="float:left" />
-		 
+	   <div class="check_label">
+	     <label style="padding-left:5px;"><i18n:i18n msg='newTermsOfUse'/><a href="/site/termsandconditions" target="_blank" ><i18n:i18n msg='termsConditions'/></a></label>
+	     <!--<input id="checkbox" type="checkbox" name="agree" tabindex="9" style="float:left" />-->
 	   </div>
-	   <div>
+	   <!--<div>
 	      <input id="newsletter" type="checkbox" name="newsletter" tabindex="10"/>
 		  <label><i18n:i18n msg='newsletter'/><b>(<i18n:i18n msg='optional'/>)</b></label>
-	   </div>
+	   </div>-->
 	   <div class="signup-submit">
 	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="<i18n:i18n msg='signUp'/>" tabindex="11" />
 	   </div>

@@ -4,7 +4,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -21,12 +20,12 @@ import com.vimukti.accounter.web.client.ui.forms.PasswordItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class SignUpPanel extends FlowPanel {
-	TextItem firstname, lastname, emailid, confirmMailid, phone;
+	TextItem firstname, lastname, emailid/* , confirmMailid, phone */;
 	PasswordItem password, confirmPassword;
 	SelectCombo countrySelect;
 	SignupDetails signupDetails;
 	DynamicForm signupForm;
-	CheckBox agreeterms, newsLetters;
+	/* CheckBox agreeterms, newsLetters; */
 	WebsocketAccounterInitialiser accounter;
 	Label errorlLabel;
 	Button submitbutton;
@@ -44,24 +43,26 @@ public class SignUpPanel extends FlowPanel {
 				"firstname");
 		lastname = new TextItem(Accounter.getMessages().lastName(), "lastname");
 		emailid = new TextItem(Accounter.getMessages().email(), "emailid");
-		confirmMailid = new TextItem(Accounter.getMessages2().confirmEmail(),
-				"confirmemailid");
+		/*
+		 * confirmMailid = new TextItem(Accounter.getMessages2().confirmEmail(),
+		 * "confirmemailid");
+		 */
 		password = new PasswordItem(Accounter.getMessages().password());
 		confirmPassword = new PasswordItem(Accounter.getMessages()
 				.confirmPassword());
-		phone = new TextItem(Accounter.getMessages().phone(), "phone");
+		/* phone = new TextItem(Accounter.getMessages().phone(), "phone"); */
 		countrySelect = new SelectCombo(Accounter.getMessages().country());
 		String[] countries = CoreUtils.getCountries();
 		for (int i = 0; i < countries.length; i++) {
 			countrySelect.setComboItem(countries[i]);
 		}
-		agreeterms = new CheckBox();
+		// agreeterms = new CheckBox();
 		Anchor termaAndConditionsAnchor = new Anchor(Accounter.getMessages()
 				.termsConditions());
 		termaAndConditionsAnchor.setHref("/site/termsandconditions");
-		newsLetters = new CheckBox();
-		newsLetters.setText(Accounter.getMessages().newsletter());
-		newsLetters.setValue(true);
+		// newsLetters = new CheckBox();
+		// newsLetters.setText(Accounter.getMessages().newsletter());
+		// newsLetters.setValue(true);
 		final AccounterAsyncCallback<Boolean> accounterAsyncCallback = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
@@ -84,11 +85,12 @@ public class SignUpPanel extends FlowPanel {
 					@Override
 					public void onClick(ClickEvent event) {
 						errorlLabel.setText("");
-						if (!emailid.getValue()
-								.equals(confirmMailid.getValue())) {
-							errorlLabel.setText(Accounter.getMessages()
-									.emailIdAndConfirmEmaildMustBeSame());
-						}
+						/*
+						 * if (!emailid.getValue()
+						 * .equals(confirmMailid.getValue())) {
+						 * errorlLabel.setText(Accounter.getMessages()
+						 * .emailIdAndConfirmEmaildMustBeSame()); }
+						 */
 						if (validate()) {
 							submitbutton.setEnabled(false);
 							signupDetails = new SignupDetails();
@@ -100,10 +102,8 @@ public class SignUpPanel extends FlowPanel {
 									.getValue());
 							signupDetails.setCountry(countrySelect
 									.getSelectedValue());
-							signupDetails.setAcceptedTerms(agreeterms
-									.getValue());
-							signupDetails.setSubscribeUpdates(newsLetters
-									.getValue());
+							signupDetails.setAcceptedTerms(true);
+							signupDetails.setSubscribeUpdates(true);
 							Accounter.createWindowsRPCService().signup(
 									signupDetails, accounterAsyncCallback);
 
@@ -127,15 +127,14 @@ public class SignUpPanel extends FlowPanel {
 
 		StyledPanel termsConditionsPanel = new StyledPanel(
 				"termsConditionsPanel");
-		termsConditionsPanel.add(agreeterms);
 		termsConditionsPanel.add(termaAndConditionsAnchor);
 
 		signupForm = new DynamicForm("signupForm");
-		signupForm.add(firstname, lastname, emailid, confirmMailid, password,
-				confirmPassword, phone, countrySelect);
+		signupForm.add(firstname, lastname, emailid, password, confirmPassword,
+				countrySelect);
 		centerPanel.add(signupForm);
 		centerPanel.add(termsConditionsPanel);
-		centerPanel.add(newsLetters);
+		// centerPanel.add(newsLetters);
 		centerPanel.add(submitbutton);
 		centerPanel.add(cancelButton);
 
@@ -151,8 +150,7 @@ public class SignUpPanel extends FlowPanel {
 		if (firstname.getValue().isEmpty() || lastname.getValue().isEmpty()
 				|| emailid.getValue().isEmpty()
 				|| password.getValue().isEmpty()
-				|| confirmPassword.getValue().isEmpty()
-				|| agreeterms.getValue().equals(Boolean.FALSE)) {
+				|| confirmPassword.getValue().isEmpty()) {
 			errorlLabel.setText(Accounter.getMessages().shouldNotEmpty());
 			return false;
 		} else {

@@ -50,37 +50,39 @@ public class SignupServlet extends BaseServlet {
 			throws ServletException, IOException {
 		// Take userName from request
 		String emailId = req.getParameter("emailId").trim();
-		String confirmEmailId = req.getParameter("confirmemailId").trim();
+		// String confirmEmailId = req.getParameter("confirmemailId").trim();
 		String firstName = req.getParameter("firstName").trim();
 		String lastName = req.getParameter("lastName").trim();
 		String password = req.getParameter("password").trim();
-		String phoneNumber = req.getParameter("phoneNumber").trim();
+		// String phoneNumber = req.getParameter("phoneNumber").trim();
 		String country = req.getParameter("country").trim();
-		boolean isSubscribedToNewsLetter = false;
-		if (req.getParameter("newsletter") != null
-				&& req.getParameter("newsletter").equals("on"))
-			isSubscribedToNewsLetter = true;
+		boolean isSubscribedToNewsLetter = true;
+		/*
+		 * if (req.getParameter("newsletter") != null &&
+		 * req.getParameter("newsletter").equals("on")) isSubscribedToNewsLetter
+		 * = true;
+		 */
 
-		boolean isAgreed = false;
-		if (req.getParameter("agree") != null
-				&& req.getParameter("agree").equals("on"))
-			isAgreed = true;
-		if (!isAgreed) {
-			dispatchMessage(Global.get().messages().pleaseacceptTermsofuse(),
-					req, resp, view);
-		}
+		boolean isAgreed = true;
+		// if (req.getParameter("agree") != null
+		// && req.getParameter("agree").equals("on"))
+		// isAgreed = true;
+		// if (!isAgreed) {
+		// dispatchMessage(Global.get().messages().pleaseacceptTermsofuse(),
+		// req, resp, view);
+		// }
 
 		if (!isValidInputs(NAME, firstName, lastName, country)
-				|| !isValidInputs(MAIL_ID, emailId, confirmEmailId)) {
+				|| !isValidInputs(MAIL_ID, emailId)) {
 			dispatchMessage(Global.get().messages().incorrectEmailOrPassWord(),
 					req, resp, view);
 			return;
 		}
-		if (!emailId.equals(confirmEmailId)) {
-			dispatchMessage(Global.get().messages()
-					.emailIdAndConfirmEmaildMustBeSame(), req, resp, view);
-			return;
-		}
+		// if (!emailId.equals(confirmEmailId)) {
+		// dispatchMessage(Global.get().messages()
+		// .emailIdAndConfirmEmaildMustBeSame(), req, resp, view);
+		// return;
+		// }
 		emailId = emailId.toLowerCase();
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
 				+ Client.PASSWORD_HASH_STRING + password));
@@ -108,7 +110,7 @@ public class SignupServlet extends BaseServlet {
 							.fullName(firstName, lastName));
 					client.setPassword(passwordWithHash);
 					client.setPasswordRecoveryKey(EU.encryptPassword(password));
-					client.setPhoneNo(phoneNumber);
+					 client.setPhoneNo("");
 					client.setCountry(country);
 					client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
 					ClientSubscription clientSubscription = new ClientSubscription();
@@ -168,7 +170,6 @@ public class SignupServlet extends BaseServlet {
 				client.setFullName(firstName + " " + lastName);
 				client.setPassword(passwordWithHash);
 				client.setPasswordRecoveryKey(EU.encryptPassword(password));
-				client.setPhoneNo(phoneNumber);
 				client.setCountry(country);
 				client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
 
