@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="cbd3502d-e964-43dc-884e-1e92fe9ccbf1" Version="1.0.0.0" Publisher="CN=Rajesh Akkineni" />
+  <Identity Name="VimuktiTechnologiesPrivat.Accounter" Version="1.0.0.0" Publisher="CN=DC27707D-4D04-49D6-8C8D-AC6ABC1F5FC5" />
   <Properties>
     <DisplayName>Accounter</DisplayName>
-    <PublisherDisplayName>Vimukti Technologies  Private Limited</PublisherDisplayName>
-    <Logo>images\storelogo.png</Logo>
+    <PublisherDisplayName>Vimukti Technologies Private Limited</PublisherDisplayName>
+    <Logo>images\storelogog.png</Logo>
   </Properties>
   <Prerequisites>
     <OSMinVersion>6.2.0</OSMinVersion>
@@ -16,8 +16,8 @@
   <Applications>
     <Application Id="App" StartPage="default.html">
       <VisualElements DisplayName="Accounter" Logo="images\logo.png" SmallLogo="images\smalllogo.png" Description="Accounter" ForegroundText="light" BackgroundColor="#464646">
-        <DefaultTile ShowName="allLogos" />
-        <SplashScreen Image="images\splashscreen.png" />
+        <DefaultTile ShowName="allLogos" ShortName="Accounter" />
+        <SplashScreen Image="images\splash.png" BackgroundColor="#3d5e62" />
       </VisualElements>
     </Application>
   </Applications>

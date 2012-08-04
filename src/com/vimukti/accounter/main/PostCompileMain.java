@@ -12,6 +12,10 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.channels.FileChannel;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.border.MatteBorder;
 
 import com.vimukti.accounter.utils.NoCacheAnalyser;
 import com.vimukti.accounter.utils.NoCacheAnalyser.Permitation;
@@ -34,6 +38,7 @@ public class PostCompileMain {
 		File destClient = new File(dest, "accounter.client");
 		destClient.mkdirs();
 
+		// MSApp.execUnsafeLocalFunction(function () { m.write(mc) })
 		changeDefaultHtml(dest);
 		String deferedID = copyNoCacheJS(srcClient, destClient);
 
@@ -52,6 +57,9 @@ public class PostCompileMain {
 
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(source)));
+		writer.write(0xEF);
+		writer.write(0xBB);
+		writer.write(0xBF);
 
 		String[] split = readFile.split("\r\n");
 
@@ -122,10 +130,29 @@ public class PostCompileMain {
 		if (!destNoCach.exists()) {
 			destNoCach.createNewFile();
 		}
+		String fileContent = readFile(noCache);
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(destNoCach)));
 
-		copyFolder(noCache, destNoCach);
+		writer.write(0xEF);
+		writer.write(0xBB);
+		writer.write(0xBF);
+		
+		String[] split = fileContent.split("\n");
 
-		NoCacheAnalyser analyser = new NoCacheAnalyser(readFile(noCache));
+		Pattern pattern=Pattern.compile(";(.\\.write\\(.+?\\))");
+		for (String line : split) {
+			Matcher matcher = pattern.matcher(line);
+			if(matcher.find()){
+				line=matcher.replaceFirst(";MSApp.execUnsafeLocalFunction(function(){$1})");
+			}
+			writer.write(line);
+			writer.newLine();
+		}
+
+		writer.close();
+
+		NoCacheAnalyser analyser = new NoCacheAnalyser(fileContent);
 		String ie10 = analyser.get(NoCacheAnalyser.IE10);
 		if (ie10 == null) {
 			Map<Permitation, String> permitations = analyser.permitations();
@@ -144,25 +171,27 @@ public class PostCompileMain {
 			destHtml.createNewFile();
 		}
 
-		FileChannel source = null;
-		FileChannel destination = null;
-		try {
-			source = new FileInputStream(srcHtml).getChannel();
-			destination = new FileOutputStream(destHtml).getChannel();
+		String fileContent = readFile(srcHtml);
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(destHtml)));
 
-			long count = 0;
-			long size = source.size();
-			while ((count += destination.transferFrom(source, count, size
-					- count)) < size)
-				;
-		} finally {
-			if (source != null) {
-				source.close();
+		writer.write(0xEF);
+		writer.write(0xBB);
+		writer.write(0xBF);
+		
+		String[] split = fileContent.split("\n");
+//		function Bu(b,a){b.innerHTML=a||xmq}
+		Pattern pattern=Pattern.compile("(\\{.\\.innerHTML=.+?\\})");
+		for (String line : split) {
+			Matcher matcher = pattern.matcher(line);
+			if(matcher.find()){
+				line=matcher.replaceFirst("{MSApp.execUnsafeLocalFunction(function()$1)}");
 			}
-			if (destination != null) {
-				destination.close();
-			}
+			writer.write(line);
+			writer.newLine();
 		}
+
+		writer.close();
 
 	}
 
@@ -192,23 +221,14 @@ public class PostCompileMain {
 				new FileOutputStream(jsProj), "UTF-8"));
 
 		String[] split = fileContent.split("\r\n");
-		boolean isAccounterClient = false;
 		for (String str : split) {
-			if (isAccounterClient
-					&& !str.trim().equals(
-							"<Content Include=\"images\\Add.png\" />")) {
-				continue;
-			}
-			writer.write(str);
-			writer.newLine();
-			if (str.trim().equals("<Content Include=\"default.html\" />")) {
-				isAccounterClient = true;
+			if (str.contains("default.html")) {
 				includeClinet(writer, new File(dest, "accounter.client"));
-			} else if (str.trim().equals(
-					"<Content Include=\"images\\Add.png\" />")) {
-				isAccounterClient = false;
 			}
-
+			if (!str.contains("accounter.client")) {
+				writer.write(str);
+				writer.newLine();
+			}
 		}
 		writer.close();
 	}
@@ -254,6 +274,10 @@ public class PostCompileMain {
 			if (!dest.exists()) {
 				dest.createNewFile();
 			}
+			boolean addBOMarker = false;
+			if (src.getName().endsWith("cache.js")) {
+				addBOMarker = true;
+			}
 			// if file, then copy it
 			// Use bytes stream to support all file types
 			InputStream in = new FileInputStream(src);
@@ -262,6 +286,12 @@ public class PostCompileMain {
 			byte[] buffer = new byte[1024];
 
 			int length;
+			if (addBOMarker) {
+				// 0xEF,0xBB,0xBF
+				out.write(0xEF);
+				out.write(0xBB);
+				out.write(0xBF);
+			}
 			// copy the file content in bytes
 			while ((length = in.read(buffer)) > 0) {
 				out.write(buffer, 0, length);
