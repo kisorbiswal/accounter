@@ -3,7 +3,9 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -173,13 +175,13 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		showSaveButtons();
 	}
 
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
 		this.saveAndNewButton = new SaveAndNewButtom(this);
 		this.cancelButton = new CancelButton(this);
 		this.deleteButton = new DeleteButton(this, getData());
 		this.voidButton = new VoidButton(this, getData());
-		buttonBar.add(cancelButton);
+		addButton(cancelButton);
 	}
 
 	protected boolean isSaveButtonAllowed() {
@@ -363,6 +365,16 @@ public abstract class BaseView<T extends IAccounterCore> extends
 				+ DayAndMonthUtil.mar());
 		list.add(messages.custom());
 		return list;
+	}
+	
+	public void addButton(Widget parent,Widget child) {
+	}
+	
+	public void addButton(Widget widget) {
+	}
+
+	public void addButton(Widget widget, HorizontalAlignmentConstant alignment) {
+		
 	}
 
 }
