@@ -10,13 +10,17 @@ import org.eclipse.jetty.server.session.AbstractSessionManager;
 import org.eclipse.jetty.server.session.JDBCSessionIdManager;
 import org.eclipse.jetty.server.session.JDBCSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
+import org.eclipse.jetty.server.ssl.SslConnector;
+import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
 import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class JettyServer {
 	public static Server jettyServer;
 
-	public static void start(int port) throws Exception {
+	public static void start(int port, String keyStore,
+			String keyStorePassword, String keyPassword) throws Exception {
 		jettyServer = new Server();
 		Connector connector = new SelectChannelConnector();
 		connector.setPort(port);
@@ -40,7 +44,14 @@ public class JettyServer {
 
 		webappcontext.setBaseResource(resource);
 
-		jettyServer.setConnectors(new Connector[] { connector, wsConnector });
+		if (keyStore == null) {
+			jettyServer
+					.setConnectors(new Connector[] { connector, wsConnector });
+		} else {
+			jettyServer.setConnectors(new Connector[] { connector,
+					makeSSLConnector(keyStore, keyStorePassword, keyPassword),
+					wsConnector });
+		}
 		webappcontext.setClassLoader(JettyServer.class.getClassLoader());
 
 		webappcontext.setAttribute("documentDomain",
@@ -61,6 +72,34 @@ public class JettyServer {
 
 		jettyServer.start();
 
+	}
+
+	/**
+	 * <New class="org.mortbay.jetty.security.SslSocketConnector"> <Set
+	 * name="Port">8443</Set> <Set name="maxIdleTime">30000</Set> <Set
+	 * name="keystore"><SystemProperty name="jetty.home" default="."
+	 * />/etc/keystore</Set> <Set
+	 * name="password">OBF:1vny1zlo1x8e1vnw1vn61x8g1zlu1vn4</Set> <Set
+	 * name="keyPassword">OBF:1u2u1wml1z7s1z7a1wnl1u2g</Set> <Set
+	 * name="truststore"><SystemProperty name="jetty.home" default="."
+	 * />/etc/keystore</Set> <Set
+	 * name="trustPassword">OBF:1vny1zlo1x8e1vnw1vn61x8g1zlu1vn4</Set> </New>
+	 * 
+	 * @param keyStorePath
+	 * @param password
+	 * @param keyPassword
+	 * 
+	 * @return
+	 */
+	private static SslConnector makeSSLConnector(String keyStorePath,
+			String password, String keyPassword) {
+		SslContextFactory contextFactory = new SslContextFactory();
+		contextFactory.setKeyStorePath(keyStorePath);
+		contextFactory.setKeyStorePassword(password);
+		contextFactory.setKeyManagerPassword(keyPassword);
+		SslConnector connector = new SslSelectChannelConnector(contextFactory);
+		connector.setPort(8443);
+		return connector;
 	}
 
 	/**

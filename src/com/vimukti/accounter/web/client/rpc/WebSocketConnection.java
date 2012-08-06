@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.Header;
+import com.google.gwt.user.client.Window;
 
 public class WebSocketConnection {
 
@@ -29,15 +30,16 @@ public class WebSocketConnection {
 	List<Cookie> cookiesList = new ArrayList<WebSocketConnection.Cookie>();
 
 	WebSocketConnection() {
-		// http://test.com:port/some/path
-		// ws://test.com:port
-		// String baseURL = GWT.getModuleBaseURL();
-		String baseURL = "http://192.168.0.229/test";
+		String baseURL = "https://websocket.accounterlive.com:8443/test";
 		int split = baseURL.indexOf('/', 8);
 		String urlString = baseURL.substring(0, split).replace("https", "wss")
 				.replace("http", "ws");
 		this.url = urlString.concat("/main/ws");
-		this.jsWebSocket = createJSWebSocket(url, this);
+		try {
+			this.jsWebSocket = createJSWebSocket(url, this);
+		} catch (Exception e) {
+			Window.alert("Exception:"+ e.getMessage());
+		}
 	}
 
 	public static WebSocketConnection getInstance() {
@@ -68,7 +70,7 @@ public class WebSocketConnection {
 	 * @param url
 	 */
 	private native JavaScriptObject createJSWebSocket(final String url,
-			final WebSocketConnection webSocket) /*-{
+			final WebSocketConnection webSocket) throws Exception /*-{
 		var jsWebSocket = new WebSocket(url);
 
 		jsWebSocket.onopen = function() {
@@ -187,7 +189,11 @@ public class WebSocketConnection {
 		requestCounter = 0;
 		sent = 0;
 		// reconnect again
-		this.jsWebSocket = createJSWebSocket(url, this);
+		try {
+			this.jsWebSocket = createJSWebSocket(url, this);
+		} catch (Exception e) {
+			Window.alert("Exception:"+ e.getMessage());
+		}
 	}
 
 	public List<Cookie> getCookies() {
