@@ -57,6 +57,9 @@ public class ServerConfiguration {
 	private static boolean isStartUpCompleted;
 	private static boolean isSetupCompleted;
 	private static String setupStatus;
+	private static String keyStore;
+	private static String keyStorePassword;
+	private static String keyPassword;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -210,6 +213,9 @@ public class ServerConfiguration {
 					.println("Invalid configuration for some numeric options");
 			System.exit(0);
 		}
+		keyStore = prop.getProperty("keyStore", null);
+		keyStorePassword = prop.getProperty("keyStorePassword", null);
+		keyPassword = prop.getProperty("keyPassword", null);
 
 	}
 
@@ -468,6 +474,18 @@ public class ServerConfiguration {
 
 	public static String getSetupStatus() {
 		return setupStatus;
+	}
+
+	public static String getKeyStore() {
+		return keyStore;
+	}
+
+	public static String getKeyStorePassword() {
+		return keyStorePassword;
+	}
+
+	public static String getKeyPassword() {
+		return keyPassword;
 	}
 
 }

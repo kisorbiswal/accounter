@@ -27,7 +27,10 @@ public class ServerMain extends Main {
 		// openInBrowser();
 		// }
 
-		JettyServer.start(ServerConfiguration.getMainServerPort());
+		JettyServer.start(ServerConfiguration.getMainServerPort(),
+				ServerConfiguration.getKeyStore(),
+				ServerConfiguration.getKeyStorePassword(),
+				ServerConfiguration.getKeyPassword());
 		JettyServer.jettyServer.join();
 
 	}
