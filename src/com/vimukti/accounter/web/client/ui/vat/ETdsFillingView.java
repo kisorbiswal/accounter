@@ -429,7 +429,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 		// super.createButtons(buttonBar);
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
 		this.saveAndCloseButton.setText(messages.downloadTxtFile());
@@ -445,8 +445,8 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 			}
 		});
 
-		// buttonBar.add(acknowledgementFormButton);
-		buttonBar.add(saveAndCloseButton);
+		// addButton(acknowledgementFormButton);
+		addButton(saveAndCloseButton);
 	}
 
 	protected void openAcknowledgementForm() {

@@ -427,7 +427,7 @@ public class CashExpenseView extends
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
-		accountFlowPanel.add(accountTableButton);
+		addButton(accountFlowPanel, accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
 		// accountsDisclosurePanel.setWidth("100%");
@@ -480,7 +480,7 @@ public class CashExpenseView extends
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
-		itemsFlowPanel.add(itemTableButton);
+		addButton(itemsFlowPanel, itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 		// itemsDisclosurePanel.setWidth("100%");
 
@@ -620,7 +620,7 @@ public class CashExpenseView extends
 		}
 	}
 
-	protected StyledPanel getTopLayout(){
+	protected StyledPanel getTopLayout() {
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
 		return topHLay;

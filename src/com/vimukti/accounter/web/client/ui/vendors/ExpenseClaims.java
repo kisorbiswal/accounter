@@ -47,9 +47,8 @@ public class ExpenseClaims extends BaseView {
 		tabset.add(expenseview, messages.presentClaims());
 		tabset.add(claimsView, messages.previousClaims());
 		if (Accounter.getUser().canApproveExpences())
-			tabset.add(awaitingview, messages
-					.awaitingAuthorisation());
-//		setSize("100%", "100%");
+			tabset.add(awaitingview, messages.awaitingAuthorisation());
+		// setSize("100%", "100%");
 		this.add(tabset);
 		tabset.selectTab(selectTab);
 	}
@@ -95,7 +94,7 @@ public class ExpenseClaims extends BaseView {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 	}
 
 	@Override

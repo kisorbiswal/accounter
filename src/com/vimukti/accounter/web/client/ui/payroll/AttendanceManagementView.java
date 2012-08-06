@@ -51,7 +51,7 @@ public class AttendanceManagementView extends
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(table);
-		mainVLay.add(itemTableButton);
+		addButton(mainVLay, itemTableButton);
 
 		this.add(mainVLay);
 	}

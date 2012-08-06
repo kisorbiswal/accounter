@@ -133,7 +133,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	//
 	// }
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 		ImageButton printButton = new ImageButton(messages.print(), Accounter
 				.getFinanceImages().Print1Icon());
 		printButton.addClickHandler(new ClickHandler() {
@@ -153,11 +153,11 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		});
 		saveAndCloseButton.setView(this);
 		if (!isInViewMode()) {
-			buttonBar.add(saveAndCloseButton);
+			addButton(saveAndCloseButton);
 		}
 		cancelButton = new CancelButton(this);
-		buttonBar.add(printButton);
-		buttonBar.add(cancelButton);
+		addButton(printButton);
+		addButton(cancelButton);
 	}
 
 	protected void cretaeOnlyIssuePayment() {

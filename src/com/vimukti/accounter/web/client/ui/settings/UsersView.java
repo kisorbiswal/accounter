@@ -207,7 +207,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 	}
 
 	@Override

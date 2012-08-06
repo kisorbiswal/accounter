@@ -45,7 +45,6 @@ import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -1737,7 +1736,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 		if ((accountType == ClientAccount.TYPE_BANK || accountType == ClientAccount.TYPE_CREDIT_CARD)
 				&& getData() != null) {
 			Button reconcileBtn = new Button(messages.Reconcile());
@@ -1753,7 +1752,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					dialog.show();
 				}
 			});
-			buttonBar.add(reconcileBtn);
+			addButton(reconcileBtn);
 
 			Button uploadStatementBtn = new Button(messages.uploadAttachment());
 			uploadStatementBtn.addClickHandler(new ClickHandler() {
@@ -1766,12 +1765,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				}
 			});
 			if (accountType == ClientAccount.TYPE_BANK) {
-				// buttonBar.add(uploadStatementBtn);
+				// addButton(uploadStatementBtn);
 			}
 			// buttonBar.setCellHorizontalAlignment(reconcileBtn,
 			// HasHorizontalAlignment.ALIGN_LEFT);
 		}
-		super.createButtons(buttonBar);
+		super.createButtons();
 	}
 
 	private void settabIndexes() {

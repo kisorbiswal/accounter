@@ -55,7 +55,7 @@ public class AccountMergeView extends BaseView<ClientAccount> {
 			}
 		});
 
-		buttonBar.add(meregButton);
+		addButton(meregButton);
 		createControls();
 	}
 

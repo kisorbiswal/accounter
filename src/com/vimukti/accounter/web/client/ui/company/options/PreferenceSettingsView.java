@@ -312,13 +312,13 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
 		this.cancelButton = new CancelButton(this);
 		saveAndCloseButton.setText(messages.update());
 		cancelButton.setText(messages.close());
-		buttonBar.add(saveAndCloseButton);
-		buttonBar.add(cancelButton);
+		addButton(saveAndCloseButton);
+		addButton(cancelButton);
 		saveAndCloseButton.addClickHandler(new ClickHandler() {
 
 			@Override

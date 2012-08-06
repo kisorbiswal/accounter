@@ -45,7 +45,6 @@ import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BrandingThemeComboAction;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.EmailThemeComboAction;
@@ -403,7 +402,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		custForm = UIUtils.form(Global.get().customer());
 		// custForm.setWidth("100%");
-		if (getType() == ClientEstimate.QUOTES || getType() == ClientEstimate.SALES_ORDER) {
+		if (getType() == ClientEstimate.QUOTES
+				|| getType() == ClientEstimate.SALES_ORDER) {
 			custForm.add(customerCombo, contactCombo, phoneSelect,
 					billToTextArea);
 		} else {
@@ -648,7 +648,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			if (getType() == ClientEstimate.QUOTES)
 				leftVLay.add(shipToAddress);
 		StyledPanel rightVLay = new StyledPanel("rightVLay");
-		if (getType() == ClientEstimate.QUOTES || getType() == ClientEstimate.SALES_ORDER) {
+		if (getType() == ClientEstimate.QUOTES
+				|| getType() == ClientEstimate.SALES_ORDER) {
 			rightVLay.add(phoneForm);
 		} else {
 			rightVLay.add(locationform);
@@ -679,7 +680,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		gridPanel.add(itemTableTitle);
 		gridPanel.add(customerTransactionTable);
 		mainVLay.add(gridPanel);
-		mainVLay.add(itemTableButton);
+		addButton(mainVLay, itemTableButton);
 		mainVLay.add(mainpanel);
 
 		// if (UIUtils.isMSIEBrowser()) {
@@ -1408,7 +1409,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	@Override
 	public boolean canPrint() {
 		EditMode mode = getMode();
-		if (getType() == ClientEstimate.QUOTES || getType() == ClientEstimate.SALES_ORDER) {
+		if (getType() == ClientEstimate.QUOTES
+				|| getType() == ClientEstimate.SALES_ORDER) {
 			if (mode == EditMode.CREATE || mode == EditMode.EDIT
 					|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
 				return false;
@@ -1452,14 +1454,14 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
-		super.createButtons(buttonBar);
+	protected void createButtons() {
+		super.createButtons();
 		if (getCompany().isPaid()
 				&& isInViewMode()
 				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)
 				&& (getType() == ClientEstimate.SALES_ORDER || getType() == ClientEstimate.QUOTES)) {
 			emailButton = new Button(messages.email());
-			buttonBar.add(emailButton);
+			addButton(emailButton);
 
 			emailButton.addClickHandler(new ClickHandler() {
 

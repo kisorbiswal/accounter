@@ -225,7 +225,7 @@ public class AwaitingAuthorisationView extends BaseView {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 	}
 
 	@Override

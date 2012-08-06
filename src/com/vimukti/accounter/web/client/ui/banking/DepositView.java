@@ -279,7 +279,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		tableTitle.addStyleName("editTableTitle");
 		accountFlowPanel.add(tableTitle);
 		accountFlowPanel.add(transactionDepositTable);
-		accountFlowPanel.add(depositTableButton);
+		addButton(accountFlowPanel, depositTableButton);
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setDisabled(this.isInViewMode());

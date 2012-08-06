@@ -591,7 +591,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 		reviewJournal = new Button(messages.reviewJournal());
 
 		reviewJournal.addClickHandler(new ClickHandler() {
@@ -604,8 +604,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 		this.cancelButton = new CancelButton(this);
 
-		buttonBar.add(reviewJournal);
-		buttonBar.add(cancelButton);
+		addButton(reviewJournal);
+		addButton(cancelButton);
 	}
 
 	protected void reviewJournal() {

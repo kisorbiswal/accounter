@@ -106,7 +106,7 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 		itemPanel.add(payStrctTableTitle);
 		itemPanel.add(grid);
 		mainVLay.add(itemPanel);
-		mainVLay.add(itemTableButton);
+		addButton(mainVLay, itemTableButton);
 
 		this.add(mainVLay);
 	}

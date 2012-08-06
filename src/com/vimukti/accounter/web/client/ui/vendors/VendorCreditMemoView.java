@@ -317,7 +317,7 @@ public class VendorCreditMemoView extends
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
-		accountFlowPanel.add(accountTableButton);
+		addButton(accountFlowPanel, accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
 		// accountsDisclosurePanel.setWidth("100%");
@@ -370,7 +370,7 @@ public class VendorCreditMemoView extends
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
-		itemsFlowPanel.add(itemTableButton);
+		addButton(itemsFlowPanel, itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 
 		StyledPanel leftVLay = new StyledPanel("leftVLay");
@@ -532,7 +532,7 @@ public class VendorCreditMemoView extends
 		// settabIndexes();
 	}
 
-	protected StyledPanel getTopLayout(){
+	protected StyledPanel getTopLayout() {
 		StyledPanel styledPanel = new StyledPanel("topHLay1");
 		styledPanel.addStyleName("fields-panel");
 		return styledPanel;

@@ -48,7 +48,6 @@ import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.BrandingThemeComboAction;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.EmailThemeComboAction;
@@ -372,7 +371,7 @@ public class CashSalesView extends
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(customerAccountTransactionTable);
-		accountFlowPanel.add(accountTableButton);
+		addButton(accountFlowPanel, accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		customerItemTransactionTable = new CustomerItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
@@ -419,7 +418,7 @@ public class CashSalesView extends
 
 		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
 		itemsFlowPanel.add(customerItemTransactionTable);
-		itemsFlowPanel.add(itemTableButton);
+		addButton(itemsFlowPanel, itemTableButton);
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
@@ -1629,13 +1628,13 @@ public class CashSalesView extends
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
-		super.createButtons(buttonBar);
+	protected void createButtons() {
+		super.createButtons();
 		if (getCompany().isPaid()
 				&& isInViewMode()
 				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)) {
 			emailButton = new Button(messages.email());
-			buttonBar.add(emailButton);
+			addButton(emailButton);
 
 			emailButton.addClickHandler(new ClickHandler() {
 

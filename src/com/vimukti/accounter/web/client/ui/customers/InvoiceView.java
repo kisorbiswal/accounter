@@ -53,7 +53,6 @@ import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BrandingThemeComboAction;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.EmailThemeComboAction;
@@ -642,7 +641,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		tableContainer.add(itemTableTitle);
 		tableContainer.add(customerTransactionTable);
 		mainVLay.add(tableContainer);
-		mainVLay.add(itemTableButton);
+		addButton(mainVLay, itemTableButton);
 
 		mainVLay.add(panel11);
 
@@ -665,13 +664,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
-		super.createButtons(buttonBar);
+	protected void createButtons() {
+		super.createButtons();
 		if (getCompany().isPaid()
 				&& isInViewMode()
 				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)) {
 			emailButton = new Button(messages.email());
-			buttonBar.add(emailButton);
+			addButton(emailButton);
 			emailButton.addClickHandler(new ClickHandler() {
 
 				@Override

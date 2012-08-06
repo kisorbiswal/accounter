@@ -499,7 +499,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 				addItem();
 			}
 		});
-		mainVLay.add(itemTableButton);
+		addButton(mainVLay, itemTableButton);
 		totalLabel = new AmountLabel(messages.totalValueOfMaterialsCost());
 		DynamicForm amountLabelsForm = new DynamicForm("amountLabelsForm");
 		amountLabelsForm.add(totalLabel);

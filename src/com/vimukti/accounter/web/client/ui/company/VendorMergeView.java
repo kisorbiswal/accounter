@@ -59,7 +59,7 @@ public class VendorMergeView extends BaseView<ClientVendor> {
 			}
 		});
 
-		buttonBar.add(meregButton);
+		addButton(meregButton);
 
 		createControls();
 	}

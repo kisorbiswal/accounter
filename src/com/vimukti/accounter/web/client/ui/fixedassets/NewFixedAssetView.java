@@ -1061,9 +1061,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
-		buttonBar.add(this.saveAndCloseButton);
+		addButton(this.saveAndCloseButton);
 
 		registerButton = new ImageButton(messages.register(), Accounter
 				.getFinanceImages().register());
@@ -1074,7 +1074,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				registerAsset();
 			}
 		});
-		buttonBar.add(registerButton);
+		addButton(registerButton);
 		this.cancelButton = new CancelButton(this);
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -1082,7 +1082,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			public void onClick(ClickEvent event) {
 			}
 		});
-		buttonBar.add(this.cancelButton);
+		addButton(this.cancelButton);
 	}
 
 	protected void registerAsset() {

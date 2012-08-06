@@ -138,7 +138,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 		tableTitle.addStyleName("editTableTitle");
 		tablePanel.add(tableTitle);
 		tablePanel.add(table);
-		tablePanel.add(addButton);
+		addButton(tablePanel, addButton);
 
 		form = new DynamicForm("form");
 		form.add(wareHouseCombo, adjustmentAccountCombo);

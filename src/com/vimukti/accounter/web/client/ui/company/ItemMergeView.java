@@ -57,7 +57,7 @@ public class ItemMergeView extends BaseView<ClientItem> {
 			}
 		});
 
-		buttonBar.add(meregButton);
+		addButton(meregButton);
 		createControls();
 	}
 

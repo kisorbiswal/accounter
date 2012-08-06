@@ -156,9 +156,9 @@ public class TDSFiledDetailsView extends BaseView {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 		this.cancelButton = new CancelButton(this);
-		buttonBar.add(cancelButton);
+		addButton(cancelButton);
 	}
 
 }

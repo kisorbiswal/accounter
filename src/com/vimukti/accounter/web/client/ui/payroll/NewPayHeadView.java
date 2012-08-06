@@ -489,7 +489,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 			StyledPanel tablePanel = new StyledPanel("addnew_edit_panel");
 			tablePanel.add(slabTable);
-			tablePanel.add(itemTableButton);
+			addButton(tablePanel, itemTableButton);
 
 			compuPeriodAndTypeForm.add(calculationPeriodCombo,
 					computationTypeCombo);

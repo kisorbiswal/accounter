@@ -30,7 +30,6 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TemplateCombo;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -488,22 +487,25 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 		checkBoxPanel = new StyledPanel("checkBoxPanel");
 
-		taxNumItem = new CheckboxItem(messages.showTaxNumber(),"taxNumItem");
+		taxNumItem = new CheckboxItem(messages.showTaxNumber(), "taxNumItem");
 		taxNumItem.setValue(true);
-		
-		headingItem = new CheckboxItem(messages.showColumnHeadings(),"headingItem");
+
+		headingItem = new CheckboxItem(messages.showColumnHeadings(),
+				"headingItem");
 		headingItem.setValue(true);
-		unitPriceItem = new CheckboxItem(messages.showUnitPrice(),"unitPriceItem");
+		unitPriceItem = new CheckboxItem(messages.showUnitPrice(),
+				"unitPriceItem");
 		unitPriceItem.setValue(true);
 		// paymentItem = new CheckBox(messages
 		// .showPaymentAdvice());
 		// paymentItem.setChecked(true);
-		columnItem = new CheckboxItem(messages.showTaxColumn(),"columnItem");
+		columnItem = new CheckboxItem(messages.showTaxColumn(), "columnItem");
 		columnItem.setValue(true);
 
-		addressItem = new CheckboxItem(messages.showRegisteredAddress(),"addressItem");
+		addressItem = new CheckboxItem(messages.showRegisteredAddress(),
+				"addressItem");
 		addressItem.setValue(true);
-		logoItem = new CheckboxItem(messages.showLogo(),"logoItem");
+		logoItem = new CheckboxItem(messages.showLogo(), "logoItem");
 		logoItem.setValue(true);
 		paypalEmailHtml = new HTML(messages.paypalEmailHtml());
 		paypalTextBox = new TextItem(messages.paypalEmail(), "paypalTextBox");
@@ -787,9 +789,9 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
-		super.createButtons(buttonBar);
-		buttonBar.remove(this.saveAndNewButton);
+	protected void createButtons() {
+		super.createButtons();
+		remove(this.saveAndNewButton);
 	}
 
 	@Override

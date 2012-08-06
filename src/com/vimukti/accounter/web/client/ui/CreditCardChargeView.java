@@ -577,7 +577,7 @@ public class CreditCardChargeView extends
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
-		accountFlowPanel.add(accountTableButton);
+		addButton(accountFlowPanel, accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
@@ -627,7 +627,7 @@ public class CreditCardChargeView extends
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
-		itemsFlowPanel.add(itemTableButton);
+		addButton(itemsFlowPanel, itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 
 		memoTextAreaItem = createMemoTextAreaItem();

@@ -108,10 +108,10 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		if (saveAndNewButton != null) {
 			saveAndNewButton.setVisible(!grid.getSelectedRecords().isEmpty());
 			saveAndNewButton.setText(messages.payTax());
-			this.buttonBar.add(saveAndNewButton);
+			this.addButton(saveAndNewButton);
 		}
 
-		this.buttonBar.add(deleteButton);
+		this.addButton(deleteButton);
 		deleteButton.setVisible(false);
 
 		deleteButton.addDeleteHandler(new ClickHandler() {

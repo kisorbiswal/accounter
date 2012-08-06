@@ -229,8 +229,8 @@ public class BuildAssemblyView extends
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
-		super.createButtons(buttonBar);
+	protected void createButtons() {
+		super.createButtons();
 		saveAndCloseButton.setText(messages.buildAndClose());
 		saveAndNewButton.setText(messages.buildAndNew());
 	}

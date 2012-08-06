@@ -24,7 +24,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
@@ -715,7 +714,6 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		} else {
 			this.setMode(EditMode.EDIT);
 		}
-		showSaveButtons();
 	}
 
 	private void updateControlsForNew() {
@@ -760,9 +758,9 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 		// TODO Auto-generated method stub
-		super.createButtons(buttonBar);
+		super.createButtons();
 		saveAndNewButton.setVisible(false);
 	}
 

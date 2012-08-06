@@ -218,7 +218,7 @@ public class CustomerCreditMemoView extends
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountStyledPanel.add(customerAccountTransactionTable);
-		accountStyledPanel.add(accountTableButton);
+		addButton(accountStyledPanel, accountTableButton);
 		accountsDisclosurePanel.setContent(accountStyledPanel);
 		// accountsDisclosurePanel.setOpen(true);
 
@@ -271,7 +271,7 @@ public class CustomerCreditMemoView extends
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsStyledPanel.add(customerItemTransactionTable);
-		itemsStyledPanel.add(itemTableButton);
+		addButton(itemsStyledPanel, itemTableButton);
 		itemsDisclosurePanel.setContent(itemsStyledPanel);
 
 		DynamicForm form = new DynamicForm("boldtext");

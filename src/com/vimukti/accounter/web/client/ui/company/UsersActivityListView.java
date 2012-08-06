@@ -159,7 +159,7 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 	}
 
 	@Override

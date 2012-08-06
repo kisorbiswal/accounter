@@ -3,9 +3,8 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
+import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -55,13 +54,13 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	public void init() {
 		super.init();
 		createView();
-		createButtons(getButtonBar());
 	}
 
 	@Override
 	public void initData() {
 		super.initData();
-		showSaveButtons();
+		// showSaveButtons();
+		createButtons();
 	}
 
 	public static boolean checkIfNotNumber(String in) {
@@ -82,6 +81,12 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		buttonBar = new ButtonBar(this);
 		buttonBar.setStyleName("button_bar");
 		super.add(buttonBar);
+
+		this.saveAndCloseButton = new SaveAndCloseButton(this);
+		this.saveAndNewButton = new SaveAndNewButtom(this);
+		this.cancelButton = new CancelButton(this);
+		this.deleteButton = new DeleteButton(this, getData());
+		this.voidButton = new VoidButton(this, getData());
 
 		if (data != null && mode != EditMode.CREATE) {
 			if (Accounter.hasPermission(Features.HISTORY)) {
@@ -172,15 +177,37 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		} else {
 			this.setMode(EditMode.VIEW);
 		}
-		showSaveButtons();
+		createButtons();
 	}
 
 	protected void createButtons() {
-		this.saveAndCloseButton = new SaveAndCloseButton(this);
-		this.saveAndNewButton = new SaveAndNewButtom(this);
-		this.cancelButton = new CancelButton(this);
-		this.deleteButton = new DeleteButton(this, getData());
-		this.voidButton = new VoidButton(this, getData());
+		buttonBar.clear();
+		if (getMode() != null && getMode() != EditMode.CREATE) {
+
+			if (canDelete() && deleteButton != null) {
+				addButton(deleteButton);
+				// this.buttonBar.setCellHorizontalAlignment(deleteButton,
+				// ALIGN_LEFT);
+			} else if (!canDelete() && deleteButton != null) {
+				remove(deleteButton);
+			}
+			if (isSaveButtonAllowed() && canVoid() && voidButton != null) {
+				addButton(voidButton);
+				// this.buttonBar.setCellHorizontalAlignment(voidButton,
+				// ALIGN_LEFT);
+			}
+
+		}
+
+		if (!isInViewMode()) {
+			if (saveAndNewButton != null && isSaveButtonAllowed()) {
+				addButton(saveAndNewButton);
+			}
+			if (saveAndCloseButton != null && isSaveButtonAllowed()) {
+				addButton(saveAndCloseButton);
+			}
+		}
+
 		addButton(cancelButton);
 	}
 
@@ -236,44 +263,11 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		this.mode = mode;
 		if (getManager() != null)
 			getManager().updateButtons();
-		if (!isInViewMode()) {
-			showSaveButtons();
-		}
+		createButtons();
 	}
 
 	public boolean isInViewMode() {
 		return this.mode == EditMode.VIEW;
-	}
-
-	protected void showSaveButtons() {
-		// if (approveButton != null) {
-		// this.buttonBar.insert(approveButton, 0);
-		// }
-		if (getMode() != null && getMode() != EditMode.CREATE) {
-
-			if (canDelete() && deleteButton != null) {
-				buttonBar.insert(deleteButton, 0);
-				// this.buttonBar.setCellHorizontalAlignment(deleteButton,
-				// ALIGN_LEFT);
-			} else if (!canDelete() && deleteButton != null) {
-				buttonBar.remove(deleteButton);
-			}
-			if (isSaveButtonAllowed() && canVoid() && voidButton != null) {
-				buttonBar.insert(voidButton, 0);
-				// this.buttonBar.setCellHorizontalAlignment(voidButton,
-				// ALIGN_LEFT);
-			}
-
-		}
-
-		if (!isInViewMode()) {
-			if (saveAndNewButton != null && isSaveButtonAllowed()) {
-				this.buttonBar.insert(saveAndNewButton, 0);
-			}
-			if (saveAndCloseButton != null && isSaveButtonAllowed()) {
-				this.buttonBar.insert(saveAndCloseButton, 0);
-			}
-		}
 	}
 
 	public void prepareForQuickAdd(String text) {
@@ -366,15 +360,17 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		list.add(messages.custom());
 		return list;
 	}
-	
-	public void addButton(Widget parent,Widget child) {
+
+	public void addButton(Widget parent, Widget child) {
+
 	}
-	
+
 	public void addButton(Widget widget) {
+		buttonBar.add(widget);
 	}
 
 	public void addButton(Widget widget, HorizontalAlignmentConstant alignment) {
-		
+		buttonBar.add(widget, alignment);
 	}
 
 }

@@ -60,7 +60,7 @@ public class CustomerMergeView extends BaseView<ClientCustomer> {
 			}
 		});
 
-		buttonBar.add(meregButton);
+		addButton(meregButton);
 
 		createControls();
 	}

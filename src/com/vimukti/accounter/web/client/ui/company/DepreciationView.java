@@ -541,7 +541,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 		updateButton = new Button();
 		updateButton.setText(messages.update());
 		updateButton.addClickHandler(new ClickHandler() {
@@ -551,8 +551,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 				onSave(false);
 			}
 		});
-		buttonBar.add(updateButton);
-		super.createButtons(buttonBar);
+		addButton(updateButton);
+		super.createButtons();
 	}
 
 }

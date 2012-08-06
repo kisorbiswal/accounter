@@ -2228,7 +2228,7 @@ public class Windows8MenuView extends BaseView {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 	}
 
 }

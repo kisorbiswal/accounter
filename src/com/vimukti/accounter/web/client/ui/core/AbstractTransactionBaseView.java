@@ -665,7 +665,15 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	// }
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
+
+		if (isTemplate) {
+			if (saveAndCloseButton != null) {
+				saveAndCloseButton.setText(messages.saveTemplate());
+				addButton(saveAndCloseButton);
+			}
+			return;
+		}
 
 		// FIXME > Need to complete Recurring transaction feature.
 		if (canRecur()
@@ -674,16 +682,16 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			if (!isTemplate) {
 				if (getCompany().getLoggedInUser().getPermissions()
 						.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES)
-					buttonBar.add(recurringButton);
+					addButton(recurringButton);
 			}
 		}
 		if (Accounter.hasPermission(Features.DRAFTS)) {
 			draftsButton = new DraftsButton(messages.Saveasdraft(), this);
 			draftsButton.setVisible(!isInViewMode() && canAddDraftButton());
-			buttonBar.add(draftsButton);
+			addButton(draftsButton);
 		}
 
-		super.createButtons(buttonBar);
+		super.createButtons();
 	}
 
 	protected boolean canAddDraftButton() {
@@ -692,21 +700,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return Utility.isUserHavePermissions(transactionType) && canRecur() ? (transaction == null ? true
 				: transaction.getID() == 0)
 				: (!canRecur() && transaction != null && transaction.isDraft());
-	}
-
-	@Override
-	protected void showSaveButtons() {
-		if (isTemplate) {
-			if (saveAndCloseButton != null) {
-				saveAndCloseButton.setText(messages.saveTemplate());
-				this.buttonBar.insert(saveAndCloseButton, 0);
-			}
-		} else {
-			if (draftsButton != null) {
-				draftsButton.setVisible(canAddDraftButton());
-			}
-			super.showSaveButtons();
-		}
 	}
 
 	// for new recurring
@@ -2129,8 +2122,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (!isPrev && (transaction == null || transaction.id == 0)) {
 			return;
 		}
-		final int subType = (transactionType == 7) ? ((QuoteView) this).getType()
-				: 0;
+		final int subType = (transactionType == 7) ? ((QuoteView) this)
+				.getType() : 0;
 		AsyncCallback<Long> callback = new AsyncCallback<Long>() {
 
 			@Override

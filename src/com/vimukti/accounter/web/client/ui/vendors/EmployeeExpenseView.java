@@ -268,8 +268,8 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
-		super.createButtons(buttonBar);
+	protected void createButtons() {
+		super.createButtons();
 		approveButton = new ImageButton(messages.approve(), Accounter
 				.getFinanceImages().approve());
 		approveButton.addClickHandler(new ClickHandler() {
@@ -289,8 +289,8 @@ public class EmployeeExpenseView extends CashPurchaseView {
 				onSubmitForApproval();
 			}
 		});
-		buttonBar.add(approveButton);
-		buttonBar.add(submitForApprove);
+		addButton(approveButton);
+		addButton(submitForApprove);
 	}
 
 	protected void onSubmitForApproval() {

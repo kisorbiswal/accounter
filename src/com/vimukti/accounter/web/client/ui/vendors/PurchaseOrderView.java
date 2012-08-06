@@ -48,7 +48,6 @@ import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BrandingThemeComboAction;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -419,7 +418,7 @@ public class PurchaseOrderView extends
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
-		accountFlowPanel.add(accountTableButton);
+		addButton(accountFlowPanel, accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
@@ -478,7 +477,7 @@ public class PurchaseOrderView extends
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
-		itemsFlowPanel.add(itemTableButton);
+		addButton(itemsFlowPanel, itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 		memoTextAreaItem = createMemoTextAreaItem();
 
@@ -581,7 +580,7 @@ public class PurchaseOrderView extends
 		// settabIndexes();
 	}
 
-	protected StyledPanel getTopLayout(){
+	protected StyledPanel getTopLayout() {
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
 		return topHLay;
@@ -1628,13 +1627,13 @@ public class PurchaseOrderView extends
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
-		super.createButtons(buttonBar);
+	protected void createButtons() {
+		super.createButtons();
 		if (getCompany().isPaid()
 				&& isInViewMode()
 				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)) {
 			emailButton = new Button(messages.email());
-			buttonBar.add(emailButton);
+			addButton(emailButton);
 
 			emailButton.addClickHandler(new ClickHandler() {
 

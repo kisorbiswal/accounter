@@ -32,7 +32,7 @@ public class AuditHistoryView extends BaseView {
 	private final long activityID;
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
+	protected void createButtons() {
 
 	}
 

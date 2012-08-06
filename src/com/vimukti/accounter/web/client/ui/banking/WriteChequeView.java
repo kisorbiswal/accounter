@@ -1003,7 +1003,7 @@ public class WriteChequeView extends
 				.create(GwtDisclosurePanel.class);
 		vendorAccountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		vendorAccountFlowPanel.add(transactionVendorAccountTable);
-		vendorAccountFlowPanel.add(accountTableButton);
+		addButton(vendorAccountFlowPanel, accountTableButton);
 		vendorAccountsDisclosurePanel.setContent(vendorAccountFlowPanel);
 		vendorAccountsDisclosurePanel.setOpen(true);
 		// vendorAccountsDisclosurePanel.setWidth("100%");
