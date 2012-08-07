@@ -89,6 +89,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 
 	@Override
 	public void init() {
+		super.init();
 		clearAllErrors();
 		errorPanel.addStyleName("error-panel");
 		super.add(errorPanel);
@@ -517,4 +518,5 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	public void saveAsDrafts() {
 
 	}
+
 }

@@ -10,12 +10,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.nio.channels.FileChannel;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.border.MatteBorder;
+import org.apache.commons.io.FileUtils;
 
 import com.vimukti.accounter.utils.NoCacheAnalyser;
 import com.vimukti.accounter.utils.NoCacheAnalyser.Permitation;
@@ -40,9 +39,14 @@ public class PostCompileMain {
 
 		// MSApp.execUnsafeLocalFunction(function () { m.write(mc) })
 		changeDefaultHtml(dest);
-		String deferedID = copyNoCacheJS(srcClient, destClient);
+		String deferedID = getIE10ID(srcClient);
 
 		if (deferedID != null) {
+			if (destClient.exists()) {
+				FileUtils.deleteDirectory(destClient);
+			}
+			copyNoCacheJS(srcClient, destClient);
+			destClient.mkdirs();
 			copyIE10Html(srcClient, destClient, deferedID);
 			copyDeferredJS(srcClient, destClient, deferedID);
 		}
@@ -62,6 +66,9 @@ public class PostCompileMain {
 		writer.write(0xBF);
 
 		String[] split = readFile.split("\r\n");
+		if (split.length > 0) {
+			split[0] = split[0].replaceAll("\u00ef\u00bb\u00bf", "");
+		}
 
 		boolean isInMessages = false;
 		for (String line : split) {
@@ -124,7 +131,7 @@ public class PostCompileMain {
 		}
 	}
 
-	private static String copyNoCacheJS(File src, File dest) throws IOException {
+	private static void copyNoCacheJS(File src, File dest) throws IOException {
 		File noCache = new File(src, "accounter.client.nocache.js");
 		File destNoCach = new File(dest, "accounter.client.nocache.js");
 		if (!destNoCach.exists()) {
@@ -137,14 +144,15 @@ public class PostCompileMain {
 		writer.write(0xEF);
 		writer.write(0xBB);
 		writer.write(0xBF);
-		
+
 		String[] split = fileContent.split("\n");
 
-		Pattern pattern=Pattern.compile(";(.\\.write\\(.+?\\))");
+		Pattern pattern = Pattern.compile(";(.\\.write\\(.+?\\))");
 		for (String line : split) {
 			Matcher matcher = pattern.matcher(line);
-			if(matcher.find()){
-				line=matcher.replaceFirst(";MSApp.execUnsafeLocalFunction(function(){$1})");
+			if (matcher.find()) {
+				line = matcher
+						.replaceFirst(";MSApp.execUnsafeLocalFunction(function(){$1})");
 			}
 			writer.write(line);
 			writer.newLine();
@@ -152,11 +160,16 @@ public class PostCompileMain {
 
 		writer.close();
 
+	}
+
+	private static String getIE10ID(File src) throws Exception {
+		File noCache = new File(src, "accounter.client.nocache.js");
+		String fileContent = readFile(noCache);
 		NoCacheAnalyser analyser = new NoCacheAnalyser(fileContent);
 		String ie10 = analyser.get(NoCacheAnalyser.IE10);
 		if (ie10 == null) {
 			Map<Permitation, String> permitations = analyser.permitations();
-			if (permitations.size() == 1) {
+			if (permitations.size() >= 1) {
 				ie10 = permitations.values().toArray(new String[] {})[0];
 			}
 		}
@@ -178,14 +191,15 @@ public class PostCompileMain {
 		writer.write(0xEF);
 		writer.write(0xBB);
 		writer.write(0xBF);
-		
+
 		String[] split = fileContent.split("\n");
-//		function Bu(b,a){b.innerHTML=a||xmq}
-		Pattern pattern=Pattern.compile("(\\{.\\.innerHTML=.+?\\})");
+		// function Bu(b,a){b.innerHTML=a||xmq}
+		Pattern pattern = Pattern.compile("(\\{.\\.innerHTML=.+?\\})");
 		for (String line : split) {
 			Matcher matcher = pattern.matcher(line);
-			if(matcher.find()){
-				line=matcher.replaceFirst("{MSApp.execUnsafeLocalFunction(function()$1)}");
+			if (matcher.find()) {
+				line = matcher
+						.replaceFirst("{MSApp.execUnsafeLocalFunction(function()$1)}");
 			}
 			writer.write(line);
 			writer.newLine();
@@ -220,7 +234,7 @@ public class PostCompileMain {
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(jsProj), "UTF-8"));
 
-		String[] split = fileContent.split("\r\n");
+		String[] split = fileContent.split("[\r\n]+");
 		for (String str : split) {
 			if (str.contains("default.html")) {
 				includeClinet(writer, new File(dest, "accounter.client"));

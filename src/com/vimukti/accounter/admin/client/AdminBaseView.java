@@ -81,7 +81,7 @@ public abstract class AdminBaseView<T extends IAccounterCore> extends
 	 * This method will be called my all sub classes to add items to this view.
 	 */
 	public void add(Widget child) {
-		int index = this.getWidgetIndex(buttonBar);
+		int index = this.getWidgetIndex(buttonBar.asWidget());
 		// Insert widgets above button bar
 		super.insert(child, index);
 	}
@@ -127,7 +127,6 @@ public abstract class AdminBaseView<T extends IAccounterCore> extends
 		this.mode = mode;
 		getManager().updateButtons();
 		if (!isInViewMode()) {
-			showSaveButtons();
 		}
 	}
 
@@ -135,12 +134,4 @@ public abstract class AdminBaseView<T extends IAccounterCore> extends
 		return this.mode == EditMode.VIEW;
 	}
 
-	private void showSaveButtons() {
-		if (saveAndNewButton != null) {
-			this.buttonBar.insert(saveAndNewButton, 0);
-		}
-		if (saveAndCloseButton != null) {
-			this.buttonBar.insert(saveAndCloseButton, 0);
-		}
-	}
 }

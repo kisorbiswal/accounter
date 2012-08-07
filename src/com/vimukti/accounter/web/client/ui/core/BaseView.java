@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAttachment;
@@ -21,8 +22,6 @@ import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public abstract class BaseView<T extends IAccounterCore> extends
 		AbstractBaseView<T> implements IEditableView, ISavableView<T> {
-
-	protected ButtonBar buttonBar;
 
 	protected EditMode mode;
 	// private boolean isInViewMode;
@@ -60,7 +59,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	public void initData() {
 		super.initData();
 		// showSaveButtons();
-		createButtons();
+		updateButtons();
 	}
 
 	public static boolean checkIfNotNumber(String in) {
@@ -77,10 +76,6 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 		// setWidth("100%");
 		// setHeight("100%");
-
-		buttonBar = new ButtonBar(this);
-		buttonBar.setStyleName("button_bar");
-		super.add(buttonBar);
 
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
 		this.saveAndNewButton = new SaveAndNewButtom(this);
@@ -151,10 +146,6 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		// canvas.setWidth(width - 15 + "px");
 	}
 
-	public ButtonBar getButtonBar() {
-		return this.buttonBar;
-	}
-
 	protected void enableAttachmentPanel(boolean b) {
 		transactionAttachmentPanel.setEnable(b);
 	}
@@ -164,7 +155,12 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	 */
 	@Override
 	public void add(Widget child) {
-		int index = this.getWidgetIndex(buttonBar);
+		Widget widget = buttonBar.asWidget();
+		if (widget == null) {
+			super.add(child);
+			return;
+		}
+		int index = this.getWidgetIndex(widget);
 		// Insert widgets above button bar
 		super.insert(child, index);
 	}
@@ -177,11 +173,16 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		} else {
 			this.setMode(EditMode.VIEW);
 		}
+		updateButtons();
+	}
+
+	private void updateButtons() {
 		createButtons();
+		addButton(cancelButton);
 	}
 
 	protected void createButtons() {
-		buttonBar.clear();
+		// buttonBar.asWidget().clear();
 		if (getMode() != null && getMode() != EditMode.CREATE) {
 
 			if (canDelete() && deleteButton != null) {
@@ -208,7 +209,6 @@ public abstract class BaseView<T extends IAccounterCore> extends
 			}
 		}
 
-		addButton(cancelButton);
 	}
 
 	protected boolean isSaveButtonAllowed() {
@@ -361,16 +361,15 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		return list;
 	}
 
-	public void addButton(Widget parent, Widget child) {
-
-	}
-
-	public void addButton(Widget widget) {
+	public void addButton(Button widget) {
 		buttonBar.add(widget);
 	}
 
-	public void addButton(Widget widget, HorizontalAlignmentConstant alignment) {
+	public void addButton(Button widget, HorizontalAlignmentConstant alignment) {
 		buttonBar.add(widget, alignment);
 	}
 
+	protected IButtonBar getButtonBar() {
+		return buttonBar;
+	}
 }

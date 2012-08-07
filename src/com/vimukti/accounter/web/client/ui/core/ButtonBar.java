@@ -7,35 +7,31 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ButtonBar extends FlowPanel {
-	private BaseView<?> view;
+public class ButtonBar implements IButtonBar {
 	private List<Widget> widgets = new ArrayList<Widget>();
 
-	public ButtonBar(BaseView<?> view) {
-		this.view = view;
-		// this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		// this.setSpacing(10);
-		// this.setHeight("30px");
+	FlowPanel buttonBar;
+
+	public ButtonBar() {
+		buttonBar = new FlowPanel();
+		buttonBar.addStyleName("button_bar");
 	}
 
-	public void add(Widget widget) {
+	public void add(Button widget) {
 		this.add(widget, HasHorizontalAlignment.ALIGN_RIGHT);
 	}
 
-	public void add(Widget widget, HorizontalAlignmentConstant alignment) {
-		super.add(widget);
-		// this.setCellHorizontalAlignment(widget, alignment);
-		this.widgets.add(widget);
+	public void remove(Button widget) {
+		buttonBar.remove(widget);
 	}
 
-	@Override
-	public void insert(Widget w, int beforeIndex) {
-		super.insert(w, beforeIndex);
-		if (this.widgets.indexOf(w) == -1) {
-			this.widgets.add(w);
-		}
+	public void add(Button widget, HorizontalAlignmentConstant alignment) {
+		buttonBar.add(widget);
+		// this.setCellHorizontalAlignment(widget, alignment);
+		this.widgets.add(widget);
 	}
 
 	public void setDisabled(boolean disable) {
@@ -49,5 +45,25 @@ public class ButtonBar extends FlowPanel {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void addTo(HasWidgets w) {
+		w.add(buttonBar);
+	}
+
+	@Override
+	public void removeButton(HasWidgets parent, Button child) {
+		parent.remove(child);
+	}
+
+	@Override
+	public void addButton(HasWidgets parent, Button child) {
+		parent.add(child);
+	}
+
+	@Override
+	public Widget asWidget() {
+		return buttonBar;
 	}
 }

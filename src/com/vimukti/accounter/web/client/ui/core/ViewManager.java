@@ -382,9 +382,9 @@ public class ViewManager extends FlowPanel {
 
 		if (existingView instanceof IEditableView
 				&& ((IEditableView) existingView).canEdit()) {
-			group4.add(editButton);
+			existingView.addButton(group4, editButton);
 		} else {
-			group4.remove(editButton);
+			existingView.removeButton(group4, editButton);
 		}
 
 		if ((existingView instanceof BaseListView)
@@ -403,28 +403,28 @@ public class ViewManager extends FlowPanel {
 			}
 			if (labelString != null && !labelString.isEmpty()) {
 				addNewButton.setText(labelString);
-				group9.add(addNewButton);
+				existingView.addButton(group9, addNewButton);
 			} else {
-				group9.remove(addNewButton);
+				existingView.removeButton(group9, addNewButton);
 			}
 		} else {
-			group9.remove(addNewButton);
+			existingView.removeButton(group9, addNewButton);
 		}
 
 		if (existingView instanceof IPrintableView && !Accounter.isIpadApp()) {
 			if (((IPrintableView) existingView).canExportToCsv()) {
-				group2.add(exportButton);
+				existingView.addButton(group2, exportButton);
 			} else {
-				group2.remove(exportButton);
+				existingView.removeButton(group2, exportButton);
 			}
 			if (((IPrintableView) existingView).canPrint()) {
-				group2.add(printButton);
+				existingView.addButton(group2, printButton);
 			} else {
-				group2.remove(printButton);
+				existingView.removeButton(group2, printButton);
 			}
 		} else {
-			group2.remove(exportButton);
-			group2.remove(printButton);
+			existingView.removeButton(group2, exportButton);
+			existingView.removeButton(group2, printButton);
 
 		}
 		// if (existingView instanceof DashBoardView) {
