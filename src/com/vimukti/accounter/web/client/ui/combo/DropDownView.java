@@ -19,21 +19,23 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.ui.core.AbstractView;
 
-public class DropDownView<T> extends AbstractView<T>{
+public class DropDownView<T> extends AbstractView<T> {
 	private PopupPanel popup;
 	private DropDownTable<T> dropDown;
 	protected T selectedObject;
 	protected ListDataProvider<T> dataProvider = new ListDataProvider<T>();
-	
+
 	protected DropDownCombo<T> combo;
 	private boolean isAddNewRequire;
-	public DropDownView(){
-		//Nothing to do as it is created using GWT.create
+
+	public DropDownView() {
+		// Nothing to do as it is created using GWT.create
 	}
-	
-	public void init(final DropDownCombo<T> combo,List<T> comboItems,boolean isAddNewRequire){
-		this.isAddNewRequire=isAddNewRequire;
-		this.combo=combo;
+
+	public void init(final DropDownCombo<T> combo, List<T> comboItems,
+			boolean isAddNewRequire) {
+		this.isAddNewRequire = isAddNewRequire;
+		this.combo = combo;
 		dropDown = new DropDownTable<T>(combo) {
 
 			@Override
@@ -46,20 +48,18 @@ public class DropDownView<T> extends AbstractView<T>{
 			@Override
 			protected String getColumnValue(T object, int col) {
 				if (object.equals("addNewCaption")) {
-					if (combo.getNoOfCols()> 1)
+					if (combo.getNoOfCols() > 1)
 						return (col == 1) ? combo.messages
-								.comboDefaultAddNew(combo.getDefaultAddNewCaption())
-								: "  ";
+								.comboDefaultAddNew(combo
+										.getDefaultAddNewCaption()) : "  ";
 					else
-						return combo.messages
-								.comboDefaultAddNew(combo.getDefaultAddNewCaption());
+						return combo.messages.comboDefaultAddNew(combo
+								.getDefaultAddNewCaption());
 				}
 				return combo.getColumnData(object, col);
 			}
 		};
-		
 
-		
 		ScrollPanel panel = new ScrollPanel();
 		panel.getElement().removeAttribute("style");
 		panel.addStyleName("dropdownTable");
@@ -71,7 +71,7 @@ public class DropDownView<T> extends AbstractView<T>{
 		}
 		dataProvider.setList(list);
 		dataProvider.addDataDisplay(dropDown);
-		
+
 		popup = new PopupPanel(true) {
 			@Override
 			protected void onUnload() {
@@ -79,7 +79,6 @@ public class DropDownView<T> extends AbstractView<T>{
 				// dropDown.resetPopupStyle();
 				combo.resetComboList();
 			}
-
 
 			@Override
 			public void onBrowserEvent(Event event) {
@@ -188,7 +187,7 @@ public class DropDownView<T> extends AbstractView<T>{
 		});
 		// }
 	}
-	
+
 	private T getAddNewRow() {
 		return (T) "addNewCaption";
 	}
@@ -208,7 +207,9 @@ public class DropDownView<T> extends AbstractView<T>{
 		int popupWdth = popup.getWidget().getOffsetWidth();
 
 		if ((x + popupWdth) > clientwidth) {
-			x = x - (popup.getOffsetWidth() - combo.getMainWidget().getOffsetWidth());
+			x = x
+					- (popup.getOffsetWidth() - combo.getMainWidget()
+							.getOffsetWidth());
 			popup.setPopupPosition(x + 1, y);
 		}
 	}
@@ -216,23 +217,25 @@ public class DropDownView<T> extends AbstractView<T>{
 	public void setPopupPosition(int x, int y) {
 		popup.setPopupPosition(x, y);
 	}
-	
-	public void setList(List<T> newList){
+
+	public void setList(List<T> newList) {
 		if (this.isAddNewRequire) {
 			newList.add(0, getAddNewRow());
 		}
-		int size=newList.size();
+		int size = newList.size();
 		dataProvider.setList(newList);
 		dataProvider.refresh();
 		dropDown.setRowCount(size);
 		dropDown.setPageSize(size);
 	}
-	public void add(T obj){
+
+	public void add(T obj) {
 		dataProvider.getList().add(obj);
 		dropDown.setRowCount(dataProvider.getList().size());
 		dropDown.setPageSize(dropDown.getRowCount());
 	}
-	public void remove(T obj){
+
+	public void remove(T obj) {
 		dataProvider.getList().remove(obj);
 	}
 
@@ -241,32 +244,27 @@ public class DropDownView<T> extends AbstractView<T>{
 	}
 
 	@Override
-	public void init() {
-		
-	}
-
-	@Override
 	public void setFocus() {
 	}
 
 	@Override
 	public void fitToSize(int height, int width) {
-		
+
 	}
 
 	@Override
 	public void onEdit() {
-		
+
 	}
 
 	@Override
 	public void printPreview() {
-		
+
 	}
 
 	@Override
 	public void print() {
-		
+
 	}
 
 	public int updateIndex(int rowIndex) {

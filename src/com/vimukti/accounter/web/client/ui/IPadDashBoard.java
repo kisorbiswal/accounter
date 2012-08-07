@@ -132,6 +132,7 @@ public class IPadDashBoard extends AbstractView implements IButtonContainer {
 
 	@Override
 	public void init() {
+		super.init();
 		createControls();
 	}
 

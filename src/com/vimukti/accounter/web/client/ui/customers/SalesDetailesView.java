@@ -39,11 +39,12 @@ public class SalesDetailesView extends AbstractView {
 	 */
 	@Override
 	public void init() {
-//		this.setWidth("300px");
-//		this.setHeight("100%");
+		super.init();
+		// this.setWidth("300px");
+		// this.setHeight("100%");
 		flexTable = new FlexTable();
-//		flexTable.setWidth(345 + "px");
-//		flexTable.setHeight("100%");
+		// flexTable.setWidth(345 + "px");
+		// flexTable.setHeight("100%");
 		// int offsetHeight = Window.getClientHeight();
 		// panel = new ScrollPanel();
 		// panel.setHeight("100%");
@@ -82,7 +83,7 @@ public class SalesDetailesView extends AbstractView {
 		// });
 
 		Label headerLabel = new Label();
-//		headerLabel.setHeight("22px");
+		// headerLabel.setHeight("22px");
 		headerLabel.setText(messages.salesOrderDetails());
 		headerLabel.setStylePrimaryName("headerlabel");
 		add(headerLabel);

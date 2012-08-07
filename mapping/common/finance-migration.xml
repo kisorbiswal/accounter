@@ -125,7 +125,7 @@
 
 	<query name="getItemsOfAverageCostZero">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.Item i where i.averageCost=0 and i.company=:company
+		from com.vimukti.accounter.core.Item i where i.type in (2,4) and i.averageCost=0 and i.company=:company
 	</query>
 	
 	<query name="getInventoryOfAverageCostNegative">

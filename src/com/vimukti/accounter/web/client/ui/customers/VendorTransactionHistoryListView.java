@@ -12,12 +12,14 @@ public class VendorTransactionHistoryListView extends
 		AbstractView<TransactionHistory> {
 	private VendorTransactionsHistoryGrid vendHistoryGrid;
 	private ClientVendor selectedVendor;
+
 	public VendorTransactionHistoryListView() {
 		this.getElement().setId("VendorTransactionHistoryListView");
 	}
 
 	@Override
 	public void init() {
+		super.init();
 		vendHistoryGrid = new VendorTransactionsHistoryGrid() {
 			@Override
 			public void initListData() {
@@ -36,44 +38,43 @@ public class VendorTransactionHistoryListView extends
 			}
 
 		});
-		
+
 		this.add(vendHistoryGrid);
-		
+
 	}
 
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void fitToSize(int height, int width) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onEdit() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void printPreview() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setSelectedVendor(ClientVendor selected) {
-		selectedVendor = selected;		
+		selectedVendor = selected;
 	}
-
 
 }
