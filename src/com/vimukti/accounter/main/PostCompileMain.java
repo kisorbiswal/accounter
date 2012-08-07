@@ -35,7 +35,7 @@ public class PostCompileMain {
 
 		File srcClient = new File(src, "accounter.client");
 		File destClient = new File(dest, "accounter.client");
-		destClient.mkdirs();
+		
 
 		// MSApp.execUnsafeLocalFunction(function () { m.write(mc) })
 		changeDefaultHtml(dest);
@@ -45,6 +45,7 @@ public class PostCompileMain {
 			if (destClient.exists()) {
 				FileUtils.deleteDirectory(destClient);
 			}
+			destClient.mkdirs();
 			copyNoCacheJS(srcClient, destClient);
 			destClient.mkdirs();
 			copyIE10Html(srcClient, destClient, deferedID);
