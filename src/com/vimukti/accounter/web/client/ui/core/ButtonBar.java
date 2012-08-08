@@ -29,6 +29,9 @@ public class ButtonBar implements IButtonBar {
 	}
 
 	public void add(Button widget, HorizontalAlignmentConstant alignment) {
+		if (buttonBar.getWidgetIndex(widget) >= 0) {
+			return;
+		}
 		buttonBar.add(widget);
 		// this.setCellHorizontalAlignment(widget, alignment);
 		this.widgets.add(widget);

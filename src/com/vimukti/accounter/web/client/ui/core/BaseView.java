@@ -173,7 +173,6 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		} else {
 			this.setMode(EditMode.VIEW);
 		}
-		updateButtons();
 	}
 
 	private void updateButtons() {
