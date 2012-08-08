@@ -124,4 +124,12 @@ public class ApplicationBar implements IButtonBar {
 
 	}
 
+	@Override
+	public void clearDirectButtons() {
+		for (Widget widget : direct) {
+			getAppBar().remove(widget);
+		}
+		direct.clear();
+	}
+
 }

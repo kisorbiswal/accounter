@@ -68,9 +68,14 @@ public interface IButtonBar {
 	public void clear(HasWidgets group);
 
 	/**
-	 * Clear View buttons that are not added to Any group
+	 * Clear everything exist in ButtonBar
 	 * 
 	 * @param widget
 	 */
 	public void clear();
+
+	/**
+	 * Clear View buttons that are not added to Any group
+	 */
+	public void clearDirectButtons();
 }

@@ -29,7 +29,7 @@ public class ButtonBar implements IButtonBar {
 	}
 
 	public void add(Button widget, HorizontalAlignmentConstant alignment) {
-		if (buttonBar.getWidgetIndex(widget) >= 0) {
+		if (widget == null || buttonBar.getWidgetIndex(widget) >= 0) {
 			return;
 		}
 		buttonBar.add(widget);
@@ -83,5 +83,13 @@ public class ButtonBar implements IButtonBar {
 	@Override
 	public void addPermanent(Button btn) {
 		add(btn);
+	}
+
+	@Override
+	public void clearDirectButtons() {
+		for (Widget w : widgets) {
+			buttonBar.remove(w);
+		}
+		widgets.clear();
 	}
 }

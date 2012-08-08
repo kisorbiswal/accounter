@@ -232,7 +232,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected JobCombo jobListCombo;
 
 	private ClientJob job;
-	private boolean isButtonsCreated;
 
 	public boolean isVatInclusive() {
 		return isVATInclusive;
@@ -667,22 +666,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	@Override
 	protected void createButtons() {
-		if (isButtonsCreated) {
-			if (isTemplate) {
-				if (saveAndCloseButton != null) {
-					saveAndCloseButton.setText(messages.saveTemplate());
-					addButton(saveAndCloseButton);
-				}
-				return;
-			} else {
-				if (draftsButton != null) {
-					draftsButton.setVisible(canAddDraftButton());
-				}
-				super.createButtons();
+		if (isTemplate) {
+			if (saveAndCloseButton != null) {
+				saveAndCloseButton.setText(messages.saveTemplate());
+				addButton(saveAndCloseButton);
 			}
 			return;
 		}
-		isButtonsCreated = true;
+		super.createButtons();
 		// FIXME > Need to complete Recurring transaction feature.
 		if (canRecur()
 				&& Accounter.hasPermission(Features.RECURRING_TRANSACTIONS)) {
@@ -699,7 +690,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			addButton(draftsButton);
 		}
 
-		super.createButtons();
 	}
 
 	protected boolean canAddDraftButton() {

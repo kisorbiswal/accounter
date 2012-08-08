@@ -507,8 +507,8 @@ public class ViewManager extends FlowPanel {
 							.saveView());
 				}
 				existingView.removeFromParent();
-				this.existingView = item.view;
 				existingView.getButtonBar().clear();
+				this.existingView = item.view;
 				ActionCallback callback = current.action.getCallback();
 				if (data != null && callback != null) {
 					callback.actionResult(data);

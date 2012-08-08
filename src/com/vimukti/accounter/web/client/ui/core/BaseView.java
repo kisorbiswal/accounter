@@ -176,12 +176,29 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	}
 
 	private void updateButtons() {
+		getButtonBar().clearDirectButtons();
 		createButtons();
 		addButton(cancelButton);
 	}
 
 	protected void createButtons() {
+
+		if (!isInViewMode()) {
+			if (saveAndCloseButton != null && isSaveButtonAllowed()) {
+				addButton(saveAndCloseButton);
+			}
+			if (saveAndNewButton != null && isSaveButtonAllowed()) {
+				addButton(saveAndNewButton);
+			}
+		}
+
 		if (getMode() != null && getMode() != EditMode.CREATE) {
+
+			if (isSaveButtonAllowed() && canVoid() && voidButton != null) {
+				addButton(voidButton);
+				// this.buttonBar.setCellHorizontalAlignment(voidButton,
+				// ALIGN_LEFT);
+			}
 
 			if (canDelete() && deleteButton != null) {
 				addButton(deleteButton);
@@ -190,21 +207,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 			} else if (!canDelete() && deleteButton != null) {
 				remove(deleteButton);
 			}
-			if (isSaveButtonAllowed() && canVoid() && voidButton != null) {
-				addButton(voidButton);
-				// this.buttonBar.setCellHorizontalAlignment(voidButton,
-				// ALIGN_LEFT);
-			}
 
-		}
-
-		if (!isInViewMode()) {
-			if (saveAndNewButton != null && isSaveButtonAllowed()) {
-				addButton(saveAndNewButton);
-			}
-			if (saveAndCloseButton != null && isSaveButtonAllowed()) {
-				addButton(saveAndCloseButton);
-			}
 		}
 
 	}
@@ -259,9 +262,12 @@ public abstract class BaseView<T extends IAccounterCore> extends
 			return;
 		}
 		this.mode = mode;
-		if (getManager() != null)
+		if (getManager() != null) {
 			getManager().updateButtons();
-		updateButtons();
+		}
+		if (!isInViewMode()) {
+			updateButtons();
+		}
 	}
 
 	public boolean isInViewMode() {
