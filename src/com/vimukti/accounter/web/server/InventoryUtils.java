@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.server;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +22,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class InventoryUtils {
 
-	public static void remapSalesPurchases(List<Item> items)
+	public static void remapSalesPurchases(Collection<Item> items)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		for (Item item : items) {
@@ -132,11 +133,11 @@ public class InventoryUtils {
 			while (result.hasNext()) {
 				Object[] next = result.next();
 				Quantity quantity = new Quantity();
-				quantity.setValue((Double) next[1]);
+				quantity.setValue((Double) next[0]);
 
-				Unit unit = (Unit) session.get(Unit.class, (Long) next[2]);
+				Unit unit = (Unit) session.get(Unit.class, (Long) next[1]);
 				quantity.setUnit(unit);
-				details.add(new InventoryDetails(quantity, (Double) next[3]));
+				details.add(new InventoryDetails(quantity, (Double) next[2]));
 			}
 		} finally {
 			session.setFlushMode(flushMode);

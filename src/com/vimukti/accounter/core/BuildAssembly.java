@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import java.util.List;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
@@ -42,7 +44,6 @@ public class BuildAssembly extends Transaction {
 			quantity.setValue(quantity.getValue() * quantityToBuild);
 			transactionItem.setQuantity(quantity);
 			transactionItem.setUnitPrice(inventoryItem.getAverageCost());
-			total += inventoryItem.getAverageCost();
 			transactionItem.setItem(inventoryItem);
 			transactionItem.setDescription(Global.get().messages()
 					.buildAssembly());
@@ -50,6 +51,7 @@ public class BuildAssembly extends Transaction {
 			transactionItem.setLineTotal(assemblyItem.getQuantity()
 					.calculatePrice(inventoryItem.getAverageCost()));
 			getTransactionItems().add(transactionItem);
+			total += transactionItem.getLineTotal();
 		}
 		this.total = total;
 
@@ -136,8 +138,8 @@ public class BuildAssembly extends Transaction {
 				inventoryAssembly.getWarehouse());
 		for (TransactionItem tItem : getTransactionItems()) {
 			Item item = tItem.getItem();
-			e.add(item, tItem.getQuantity().reverse(),
-					tItem.getUnitPriceInBaseCurrency(), tItem.getWareHouse());
+			e.add(item, tItem.getQuantity().reverse(), tItem.getLineTotal(),
+					tItem.getWareHouse());
 			tItem.addPurchasesEffects(e);
 		}
 	}
@@ -156,5 +158,12 @@ public class BuildAssembly extends Transaction {
 					AccounterException.ERROR_QUANTITY_ZERO_OR_NEGATIVE, Global
 							.get().messages().quantityToBuild());
 		}
+	}
+
+	@Override
+	public List<Item> getInventoryUsed() {
+		List<Item> inventoryUsed = super.getInventoryUsed();
+		inventoryUsed.add(inventoryAssembly);
+		return inventoryUsed;
 	}
 }

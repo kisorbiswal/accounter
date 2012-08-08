@@ -255,4 +255,16 @@
 		       AND a.company_id = :cid
 	</sql-query>
 	
+	<query name="get.buildassemblies">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.BuildAssembly ba where ba.company=:company order by ba.id
+	</query>
+	
+	<query name="get.buildassembly.items">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Item it where it.company=:company and it.type=4 and 
+		it.id in (select inventoryAssembly.id from com.vimukti.accounter.core.BuildAssembly ba where ba.company=:company) 
+		order by it.id
+	</query>
+	
 </hibernate-mapping>

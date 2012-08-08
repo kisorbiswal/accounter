@@ -82,6 +82,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	@Override
 	public void init() {
+		super.init();
 		createControls();
 	}
 

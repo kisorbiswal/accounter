@@ -39,7 +39,7 @@ public abstract class AbstractView<T> extends FlowPanel {
 	}
 
 	public void cancel() {
-		setData(null);
+		// setData(null);
 		getManager().closeCurrentView();
 	}
 

@@ -182,7 +182,6 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	}
 
 	protected void createButtons() {
-		// buttonBar.asWidget().clear();
 		if (getMode() != null && getMode() != EditMode.CREATE) {
 
 			if (canDelete() && deleteButton != null) {

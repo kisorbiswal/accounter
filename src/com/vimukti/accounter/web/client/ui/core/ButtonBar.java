@@ -71,9 +71,14 @@ public class ButtonBar implements IButtonBar {
 	public void clear(HasWidgets group) {
 		group.clear();
 	}
-	
+
 	@Override
 	public void clear() {
 		this.clear();
+	}
+
+	@Override
+	public void addPermanent(Button btn) {
+		add(btn);
 	}
 }

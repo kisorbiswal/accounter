@@ -27,7 +27,7 @@
 
 	<!-- Specify the app entry point class. -->
 	<entry-point class='com.vimukti.accounter.web.client.ui.Accounter' />
-	<set-property name="user.agent" value="safari" /> 
+	<set-property name="user.agent" value="gecko1_8" /> 
 	<set-configuration-property name="UiBinder.useSafeHtmlTemplates"
 		value="true" />
 	<set-property name="ClientBundle.enableInlining" value="false" /> 
@@ -43,7 +43,7 @@
 ]]></property-provider>
 
 	<!-- Constrain the value for non-webkit browsers -->
-	<set-property name="tablet.user.agent" value="ie10">
+	<set-property name="tablet.user.agent" value="not_tablet">
 		<none> <!-- Actually means NOR, in this case "not safari" -->
 			<any>
 				<when-property-is name="user.agent" value="safari" />
@@ -279,7 +279,7 @@
 		<when-property-is name="tablet.user.agent" value="ie10" />
 	</replace-with>
 	
-	<replace-with class="com.vimukti.accounter.web.client.ui.core.ApplicationBar">
+	<replace-with class="com.vimukti.accounter.web.client.ui.core.ButtonBar">
 		<when-type-is class="com.vimukti.accounter.web.client.ui.core.IButtonBar" />
 	</replace-with>
 	

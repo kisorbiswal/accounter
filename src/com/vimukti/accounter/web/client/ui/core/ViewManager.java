@@ -290,18 +290,23 @@ public class ViewManager extends FlowPanel {
 		Object input = action.getInput();
 		String token = action.getHistoryToken();
 
-		// Save history
-		if (existingView instanceof ISavableView) {
-			viewDataHistory.put(existingView.getAction().getHistoryToken(),
-					((ISavableView) existingView).saveView());
+		if (existingView != null) {
+			// Save history
+			if (existingView instanceof ISavableView) {
+				viewDataHistory.put(existingView.getAction().getHistoryToken(),
+						((ISavableView) existingView).saveView());
+			}
+			existingView.removeFromParent();
 		}
-
+		existingView = newview;
+		newview.getButtonBar().clear();
 		if (newview.getManager() == null) {
 			newview.setManager(this);
 			// newview.setPreferences(Accounter.getCompany().getPreferences());
 			if (input != null) {
 				newview.setData(input);
 			}
+
 			newview.init();
 			if (input == null && newview instanceof ISavableView) {
 				Object object = viewDataHistory.get(action.getHistoryToken());
@@ -319,10 +324,6 @@ public class ViewManager extends FlowPanel {
 		this.views.add(new HistoryItem(newview, action, token));
 		History.newItem(token, false);
 
-		if (existingView != null) {
-			existingView.removeFromParent();
-		}
-		existingView = newview;
 		if (existingView instanceof BaseView) {
 			if (((BaseView<IAccounterCore>) existingView).isInViewMode()) {
 				createViewTitle(action.getCatagory(), action.getViewModeText());
@@ -507,6 +508,7 @@ public class ViewManager extends FlowPanel {
 				}
 				existingView.removeFromParent();
 				this.existingView = item.view;
+				existingView.getButtonBar().clear();
 				ActionCallback callback = current.action.getCallback();
 				if (data != null && callback != null) {
 					callback.actionResult(data);

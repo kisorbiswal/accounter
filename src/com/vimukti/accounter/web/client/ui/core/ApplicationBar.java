@@ -14,9 +14,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ApplicationBar implements IButtonBar {
 
-	HTMLPanel appBar;
-	private HashMap<Widget, HasWidgets> map = new HashMap<Widget, HasWidgets>();
-	HashSet<Widget> direct=new HashSet<Widget>();
+	static HTMLPanel appBar;
+	private static HashMap<Widget, HasWidgets> map = new HashMap<Widget, HasWidgets>();
+	static HashSet<Widget> direct = new HashSet<Widget>();
 
 	private HTMLPanel getAppBar() {
 		if (appBar == null) {
@@ -28,19 +28,19 @@ public class ApplicationBar implements IButtonBar {
 	}
 
 	private native void initAppBar() /*-{
-		this.appBar = $wnd.document.getElementById("appBar").winControl;
-	}-*/;
+										//this.appBar = $wnd.document.getElementById("appBar").winControl;
+										}-*/;
 
 	public native void show() /*-{
-		//this.appBar.show();
-	}-*/;
+								//this.appBar.show();
+								}-*/;
 
 	public native void hide() /*-{
-		//this.appBar.hide();
-	}-*/;
+								//this.appBar.hide();
+								}-*/;
 
 	@Override
-	public void add(Button btn) {
+	public void addPermanent(Button btn) {
 		Element element = btn.getElement();
 		element.setAttribute("data-win-control", "WinJS.UI.AppBarCommand");
 		element.setAttribute("data-win-options", "{id:'cmd'" + btn.getTitle()
@@ -50,6 +50,12 @@ public class ApplicationBar implements IButtonBar {
 		HTMLPanel appBar = getAppBar();
 		appBar.add(btn);
 		show();
+	}
+
+	@Override
+	public void add(Button btn) {
+		addPermanent(btn);
+		direct.add(btn);
 	}
 
 	@Override
@@ -76,12 +82,12 @@ public class ApplicationBar implements IButtonBar {
 
 	public void removeButton(HasWidgets parent, Button child) {
 		remove(child);
-		this.map.remove(child);
+		map.remove(child);
 	}
 
 	public void addButton(HasWidgets parent, Button child) {
-		this.map.put(child, parent);
-		add(child);
+		map.put(child, parent);
+		addPermanent(child);
 	}
 
 	@Override
@@ -91,24 +97,31 @@ public class ApplicationBar implements IButtonBar {
 
 	@Override
 	public void clear(HasWidgets group) {
-		HashSet<Widget> widgets=new HashSet<Widget>();
-		for (Entry<Widget, HasWidgets> entry : this.map.entrySet()) {
-			if(group==entry.getValue()){
+		HashSet<Widget> widgets = new HashSet<Widget>();
+		for (Entry<Widget, HasWidgets> entry : map.entrySet()) {
+			if (group == entry.getValue()) {
 				Widget widget = entry.getKey();
 				widgets.add(widget);
 			}
 		}
-		for(Widget widget:widgets){
+		for (Widget widget : widgets) {
 			getAppBar().remove(widget);
 			map.remove(widget);
 		}
 	}
+
 	@Override
 	public void clear() {
-		for(Widget widget:direct){
+		for (Widget widget : direct) {
 			getAppBar().remove(widget);
 		}
 		direct.clear();
+
+		for (Widget widget : map.keySet()) {
+			getAppBar().remove(widget);
+		}
+		map.clear();
+
 	}
 
 }

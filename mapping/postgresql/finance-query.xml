@@ -11176,20 +11176,25 @@
 	<sql-query name="getPurchasesOfItem.for.LIFO">
 		<query-param name="inventoryId" type="long" />
 
-		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="QUANTITY_VALUE" type="double" />
 		<return-scalar column="QUANTITY_UNIT" type="long" />
 		<return-scalar column="COST" type="double" />
 		
 		<![CDATA[
-				SELECT TRANSACTION_ITEM_ID,
-				       QUANTITY   AS QUANTITY_VALUE,
-				       QTY_UNIT   AS QUANTITY_UNIT,
-				       UNIT_PRICE AS COST
-				FROM   INVENTORY_PURCHASE_HISTORY_VIEW IHV
-				WHERE  IHV.ITEM_ID = :inventoryId
-				ORDER  BY TRANSACTION_DATE DESC,
-				          TRANSACTION_ITEM_ID DESC;  
+			SELECT qty_value  AS QUANTITY_VALUE,
+			       qty_unit   AS QUANTITY_UNIT,
+			       unit_price AS COST
+			FROM   item_update iu
+			       left join TRANSACTION t
+			              ON t.id = iu.TRANSACTION
+			       left join item i
+			              ON i.id = iu.item
+			WHERE  I.TYPE IN ( 2, 4 )
+			       AND i.id = :inventoryId
+			       AND T.t_type IN ( 2, 6, 4, 26, 27, 36, 37 )
+			       AND T.save_status NOT IN ( 201, 202, 204 )
+			       AND qty_value > 0
+			ORDER  BY t.t_date DESC;  
 				]]>
 
 	</sql-query>
@@ -11197,20 +11202,25 @@
 	<sql-query name="getPurchasesOfItem">
 		<query-param name="inventoryId" type="long" />
 
-		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="QUANTITY_VALUE" type="double" />
 		<return-scalar column="QUANTITY_UNIT" type="long" />
 		<return-scalar column="COST" type="double" />
 		
 		<![CDATA[
-				SELECT TRANSACTION_ITEM_ID,
-				       QUANTITY   AS QUANTITY_VALUE,
-				       QTY_UNIT   AS QUANTITY_UNIT,
-				       UNIT_PRICE AS COST
-				FROM   INVENTORY_PURCHASE_HISTORY_VIEW IHV
-				WHERE  IHV.ITEM_ID = :inventoryId
-				ORDER  BY TRANSACTION_DATE,
-				          TRANSACTION_ITEM_ID;  
+			SELECT qty_value  AS QUANTITY_VALUE,
+			       qty_unit   AS QUANTITY_UNIT,
+			       unit_price AS COST
+			FROM   item_update iu
+			       left join TRANSACTION t
+			              ON t.id = iu.TRANSACTION
+			       left join item i
+			              ON i.id = iu.item
+			WHERE  I.TYPE IN ( 2, 4 )
+			       AND i.id = :inventoryId
+			       AND T.t_type IN ( 2, 6, 4, 26, 27, 36, 37 )
+			       AND T.save_status NOT IN ( 201, 202, 204 )
+			       AND qty_value > 0
+			ORDER  BY t.t_date DESC; 
 				]]>
 
 	</sql-query>
@@ -11392,7 +11402,7 @@
 				             ELSE ( V.ITEM_ID = :itemID )
 				           END
 				       AND T.SAVE_STATUS NOT IN (201,202,204)
-				ORDER  BY ITEM_NAME;  
+				ORDER  BY ITEM_NAME,TRANSACTION_ID;  
 				]]>
 
 	</sql-query>
