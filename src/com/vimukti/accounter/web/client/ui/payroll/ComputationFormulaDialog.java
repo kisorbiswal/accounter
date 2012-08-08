@@ -52,7 +52,7 @@ public class ComputationFormulaDialog extends
 		attendanceTablePanel.add(attTableTitle);
 		attendanceTablePanel.add(table);
 		mainForm.add(attendanceTablePanel);
-		mainForm.add(itemTableButton);
+		getButtonBar().addButton(mainForm, itemTableButton);
 
 		bodyLayout.add(mainForm);
 	}

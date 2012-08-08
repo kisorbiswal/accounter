@@ -185,8 +185,8 @@ public class SearchInputDialog extends BaseDialog {
 				onCancel();
 			}
 		});
-		buttonPanel.add(findButton);
-		buttonPanel.add(closeButton);
+		getButtonBar().addButton(buttonPanel, findButton);
+		getButtonBar().addButton(buttonPanel, closeButton);
 		buttonPanel.addStyleName("search_buttons");
 
 		panel = new StyledPanel("panel");

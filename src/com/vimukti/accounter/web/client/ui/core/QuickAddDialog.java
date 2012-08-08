@@ -52,7 +52,7 @@ public class QuickAddDialog extends BaseDialog<IAccounterCore> {
 
 			}
 		});
-		footerLayout.add(addAllInfoBtn);
+		getButtonBar().addButton(footerLayout, addAllInfoBtn);
 		center();
 
 	}

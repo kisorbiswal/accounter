@@ -87,7 +87,7 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 
 			}
 		});
-		footerLayout.add(testButton);
+		getButtonBar().addButton(footerLayout, testButton);
 		bodyLayout.add(form);
 		setBodyLayout(bodyLayout);
 	}

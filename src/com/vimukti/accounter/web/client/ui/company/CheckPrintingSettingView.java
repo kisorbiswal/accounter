@@ -540,10 +540,14 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		panel.add(allFields);
 		panel.add(chequeForm);
 
+		Label lab1 = new Label(messages.chequePrintSetting());
+		lab1.setStyleName("label-title");
+
 		allPanel.add(form);
 		allPanel.add(widget);
 		allPanel.add(panel);
 
+		this.add(lab1);
 		this.add(allPanel);
 		// allPanel.setWidth("100%");
 

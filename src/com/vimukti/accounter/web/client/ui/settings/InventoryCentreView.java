@@ -15,6 +15,7 @@ import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
@@ -170,9 +171,11 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			rightVpPanel.add(transactionHistoryGrid);
 			rightVpPanel.add(pager);
 		}
-
+		Label labelTitle = new Label(messages.inventoryCentre());
+		labelTitle.setStyleName("label-title");
 		mainPanel.add(leftVpPanel);
 		mainPanel.add(rightVpPanel);
+		add(labelTitle);
 		add(mainPanel);
 
 	}
@@ -622,7 +625,6 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 
 	@Override
 	protected String getViewTitle() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

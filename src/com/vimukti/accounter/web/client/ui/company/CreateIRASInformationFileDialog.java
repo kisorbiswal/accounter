@@ -66,12 +66,12 @@ public class CreateIRASInformationFileDialog extends BaseDialog {
 			}
 		});
 
-		footerLayout.remove(okbtn);
-		footerLayout.insert(downloadXml, getAbsoluteLeft());
-		footerLayout.insert(downloadTxt, getAbsoluteLeft());
+		getButtonBar().remove(okbtn);
+		getButtonBar().addButton(footerLayout, downloadXml);
+		getButtonBar().addButton(footerLayout, downloadTxt);
 
 		setBodyLayout(verticalPanel);
-//		setWidth("370px");
+		// setWidth("370px");
 	}
 
 	protected void createFile(final boolean isXml) {

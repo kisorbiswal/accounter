@@ -178,8 +178,8 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		// Buttons Layout
 		StyledPanel buttonsLayout = new StyledPanel("buttonsLayout");
 
-		buttonsLayout.add(addButton);
-		buttonsLayout.add(removeButton);
+		getButtonBar().addButton(buttonsLayout, addButton);
+		getButtonBar().addButton(buttonsLayout, removeButton);
 
 		selectItemsGrid = new DialogGrid<T>(false) {
 

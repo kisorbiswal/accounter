@@ -96,8 +96,8 @@ public class UploadStatementDialog extends BaseDialog implements
 		Button closeButton = new Button(messages.close());
 		// closeButton.setWidth("80px");
 		buttonHlay = new StyledPanel("buttonHlay");
-		buttonHlay.add(uploadSubmitButton);
-		buttonHlay.add(closeButton);
+		getButtonBar().addButton(buttonHlay, uploadSubmitButton);
+		getButtonBar().addButton(buttonHlay, closeButton);
 		buttonHlay.setStyleName("panel-right-align");
 		vpaPanel.add(buttonHlay);
 		/* Make align three Element on there position */

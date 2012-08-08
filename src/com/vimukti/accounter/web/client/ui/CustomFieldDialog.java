@@ -70,7 +70,7 @@ public class CustomFieldDialog extends BaseDialog {
 		customFieldTableTitle.addStyleName("editTableTitle");
 		layout.add(customFieldTableTitle);
 		layout.add(customFieldTable);
-		layout.add(addNew);
+		getButtonBar().addButton(layout, addNew);
 		setBodyLayout(layout);
 	}
 

@@ -96,8 +96,8 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 		Button closeButton = new Button(messages.close());
 		StyledPanel buttonHlay = new StyledPanel("buttonHlay");
-		buttonHlay.add(uploadSubmitButton);
-		buttonHlay.add(closeButton);
+		getButtonBar().addButton(buttonHlay, uploadSubmitButton);
+		getButtonBar().addButton(buttonHlay, closeButton);
 		buttonHlay.setStyleName("panel-right-align");
 		vpaPanel.add(buttonHlay);
 

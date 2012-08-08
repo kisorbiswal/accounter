@@ -331,7 +331,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	@Override
 	protected void createControls() {
 		// setTitle(UIUtils.title(messages.quote()));
-		Label lab1 = new Label(title);
+		Label lab1 = new Label(getViewTitle());
 		// + "(" + getTransactionStatus() + ")");
 		lab1.setStyleName("label-title");
 		// lab1.setHeight("35px");

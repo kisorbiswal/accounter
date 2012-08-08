@@ -75,7 +75,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 					sendEmail();
 				}
 			});
-			footerLayout.add(emailBUtton);
+			getButtonBar().addButton(footerLayout, emailBUtton);
 		}
 		footerLayout.add(coveringLetter);
 		createControls();

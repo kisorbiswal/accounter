@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -14,6 +15,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
@@ -70,6 +72,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 	StyledPanel mainVLayPanel;
 	public StyledPanel errorPanel;
 	private final Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
+	private IButtonBar buttonBar;
 
 	private ActionCallback<T> callback;
 
@@ -165,8 +168,8 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		});
 
 		// footerLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		footerLayout.add(okbtn);
-		footerLayout.add(cancelBtn);
+		getButtonBar().addButton(footerLayout, okbtn);
+		getButtonBar().addButton(footerLayout, cancelBtn);
 
 		okbtn.setEnabled(true);
 
@@ -470,5 +473,24 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 
 	protected boolean isViewDialog() {
 		return true;
+	}
+
+	public IButtonBar getButtonBar() {
+		if (this.buttonBar == null) {
+			buttonBar = GWT.create(IButtonBar.class);
+		}
+		return buttonBar;
+	}
+
+	public void removeButton(HasWidgets parent, Button child) {
+		getButtonBar().removeButton(parent, child);
+	}
+
+	public void addButton(HasWidgets parent, Button child) {
+		getButtonBar().addButton(parent, child);
+	}
+
+	public void addButton(Button widget) {
+		getButtonBar().add(widget);
 	}
 }

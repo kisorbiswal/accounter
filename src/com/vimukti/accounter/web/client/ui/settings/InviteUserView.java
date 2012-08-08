@@ -83,6 +83,10 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	private void createControls() {
 		custForm = new DynamicForm("viewform");
 		StyledPanel vPanel = new StyledPanel("vPanel");
+
+		Label lab1 = new Label(messages.inviteUser());
+		lab1.setStyleName("label-title");
+
 		firstNametext = new TextItem(messages.firstName(), "firstNametext");
 		firstNametext.setRequired(true);
 		firstNametext.setEnabled(!isInViewMode());
@@ -154,6 +158,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		// vPanel.add(grid);
 		// vPanel.add(manageLabel);
 		// vPanel.add(userManagementBox);
+		this.add(lab1);
 		this.add(vPanel);
 	}
 

@@ -17,6 +17,7 @@ import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
@@ -170,10 +171,13 @@ public class CustomerCenterView<T> extends
 			rightVpPanel.add(custHistoryGrid);
 			rightVpPanel.add(pager);
 		}
-
+		Label labelTitle = new Label(messages.customerCentre(Global.get()
+				.Customer()));
+		labelTitle.setStyleName("label-title");
 		mainPanel.add(leftVpPanel);
 		mainPanel.add(rightVpPanel);
 		deleteButtonPanel = new StyledPanel("deleteButtonPanel");
+		add(labelTitle);
 		add(deleteButtonPanel);
 		add(mainPanel);
 

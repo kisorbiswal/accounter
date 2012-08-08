@@ -245,7 +245,8 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		else
 			createControls();
 
-		reportTypeTitle.setHTML("<strong>" + getTitle() + "</strong>");
+		reportTypeTitle.setHTML("<strong>" + "<h3>"
+				+ this.getAction().getText() + "</h3>" + "</strong>");
 
 	}
 
@@ -260,11 +261,12 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 				: getCompany().getTradingName();
 
 		HTML companyLabel = new HTML("<strong>" + cmpyname + "</strong");
-		HTML title = new HTML("<strong>" + "<h3>" + this.getAction().getText()
-				+ "</h3>" + "</strong");
-		title.getElement().getStyle().setMarginLeft(10, Unit.PX);
+		// HTML title = new HTML("<strong>" + "<h3>" +
+		// this.getAction().getText()
+		// + "</h3>" + "</strong");
 		// topLayout.add(companyLabel);
 		reportTypeTitle = new HTML();
+		reportTypeTitle.getElement().getStyle().setMarginLeft(10, Unit.PX);
 		topLayout.add(reportTypeTitle);
 		/*
 		 * dateRange = new HTML(); updateDateRangeLayout(toolbar.getStartDate(),
@@ -279,7 +281,6 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		// printableLayout.setSize("100%", "100%");
 		// printableLayout.setWidth("100%");
 		printableLayout.add(topLayout);
-		printableLayout.add(title);
 		// for statement report improvement
 		detailPanel = new FlowPanel();
 		makeDetailLayout(detailPanel);

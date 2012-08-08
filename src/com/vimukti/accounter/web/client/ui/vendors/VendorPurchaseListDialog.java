@@ -123,7 +123,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 			}
 
 		});
-		helpButtonLayout.add(helpButton);
+		getButtonBar().addButton(helpButtonLayout, helpButton);
 
 		StyledPanel okButtonLayout = new StyledPanel("okButtonLayout");
 		Button okButton = new Button(messages.ok());
@@ -140,7 +140,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 			}
 
 		});
-		okButtonLayout.add(okButton);
+		getButtonBar().addButton(okButtonLayout, okButton);
 		Button cancelButton = new Button(messages.cancel());
 		// cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
@@ -150,7 +150,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 			}
 
 		});
-		okButtonLayout.add(cancelButton);
+		getButtonBar().addButton(okButtonLayout, cancelButton);
 
 		StyledPanel buttonLayout = new StyledPanel("buttonLayout");
 		buttonLayout.add(okButtonLayout);
