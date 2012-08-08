@@ -270,6 +270,8 @@
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
   <body>
+  <div id="appBar" data-win-control="WinJS.UI.AppBar" data-win-options="">
+  </div>
 <div id="hiddenDiv" class="hiddenPic">
 		<img src="/images/loader.gif" 
   			alt="Loading" title="Loading" />

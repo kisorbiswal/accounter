@@ -729,7 +729,7 @@ public class CustomerCenterView<T> extends
 				ActionFactory.getNewCustomerAction().run();
 			}
 		});
-		group.add(addCustomerButton);
+		addButton(group,addCustomerButton);
 
 	}
 

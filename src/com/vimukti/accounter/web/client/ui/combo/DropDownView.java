@@ -270,4 +270,9 @@ public class DropDownView<T> extends AbstractView<T> {
 	public int updateIndex(int rowIndex) {
 		return rowIndex;
 	}
+
+	@Override
+	protected void init() {
+		
+	}
 }

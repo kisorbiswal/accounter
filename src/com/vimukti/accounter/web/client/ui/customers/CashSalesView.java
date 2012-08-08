@@ -1365,7 +1365,7 @@ public class CashSalesView extends
 		setMode(EditMode.EDIT);
 
 		if (emailButton != null) {
-			buttonBar.remove(emailButton);
+			getButtonBar().remove(emailButton);
 		}
 
 		transactionDateItem.setEnabled(!isInViewMode());

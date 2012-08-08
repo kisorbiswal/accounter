@@ -2113,8 +2113,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				}
 			});
 
-			group.add(prev);
-			group.add(next);
+			addButton(group,prev);
+			addButton(group,next);
 		}
 	}
 

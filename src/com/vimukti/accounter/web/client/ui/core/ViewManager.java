@@ -379,7 +379,9 @@ public class ViewManager extends FlowPanel {
 
 	public void updateButtons() {
 		addRequiredButtons();
-
+		if (!isIpad()) {
+			existingView.addButton(group6, searchButton);
+		}
 		if (existingView instanceof IEditableView
 				&& ((IEditableView) existingView).canEdit()) {
 			existingView.addButton(group4, editButton);
@@ -645,51 +647,23 @@ public class ViewManager extends FlowPanel {
 		}
 
 		group1.add(viewTitleLabel);
-		addRequiredButtons();
-		group4.add(editButton);
-		group9.add(addNewButton);
-		if (!Accounter.isIpadApp()) {
-			group2.add(exportButton);
-			group2.add(printButton);
-		}
+		// addRequiredButtons();
+		// existingView.addButton(group4,editButton);
+		// existingView.addButton(group9,addNewButton);
+		// if (!Accounter.isIpadApp()) {
+		// group2.add(exportButton);
+		// group2.add(printButton);
+		// }
 		group3.add(closeButton);
 		// group5.add(configButton);
 		if (isIpad()) {
 			group5.add(ipadMenuButton);
 		}
 
-		if (!isIpad()) {
-			group6.add(searchButton);
-		}
-
 		exportButton.getElement().setAttribute("lang",
 				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
 		printButton.getElement().setAttribute("lang",
 				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
-
-		// StyledPanel horizontalPanel = new StyledPanel();
-		// horizontalPanel.setWidth("100%");
-		// horizontalPanel.add(group1);
-		// horizontalPanel.add(group2);
-		// horizontalPanel.add(group7);
-		// horizontalPanel.add(group8);
-		// horizontalPanel.add(group9);
-		// horizontalPanel.add(group4);
-		// horizontalPanel.add(group5);
-		// horizontalPanel.add(group6);
-		// horizontalPanel.add(group3);
-		//
-		// toolBar.add(horizontalPanel);
-
-		// toolBar.add(group1);
-		// toolBar.add(group5);
-		// toolBar.add(group2);
-		// toolBar.add(group9);
-		// toolBar.add(group4);
-		// toolBar.add(group7);
-		// toolBar.add(group8);
-		// toolBar.add(group6);
-		// toolBar.add(group3);
 
 		toolBar.add(group1);
 		StyledPanel buttonsPanel = new StyledPanel("buttonsPanel");
@@ -860,11 +834,16 @@ public class ViewManager extends FlowPanel {
 	}
 
 	public void addRequiredButtons() {
-		group10.clear();
+		clearGroup(group10);
+
 		if (existingView instanceof IButtonContainer) {
 			IButtonContainer view = (IButtonContainer) existingView;
 			view.addButtons(group10);
 		}
+	}
+
+	public void clearGroup(ButtonGroup group) {
+		existingView.getButtonBar().clear(group);
 	}
 
 	public void toggleHelpPanel(boolean isHelpPanel) {

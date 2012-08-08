@@ -66,4 +66,14 @@ public class ButtonBar implements IButtonBar {
 	public Widget asWidget() {
 		return buttonBar;
 	}
+
+	@Override
+	public void clear(HasWidgets group) {
+		group.clear();
+	}
+	
+	@Override
+	public void clear() {
+		this.clear();
+	}
 }

@@ -7,10 +7,22 @@ import com.google.gwt.user.client.ui.Widget;
 
 public interface IButtonBar {
 
+	/**
+	 * Add a permanent button, this will not be removed when the view is cleared
+	 * @param widget
+	 */
 	public void add(Button widget);
 
+	/**
+	 * remove a permanent button
+	 * @param widget
+	 */
 	public void remove(Button widget);
 
+	/**
+	 * Add a permanent button, With alignment
+	 * @param widget
+	 */
 	public void add(Button widget, HorizontalAlignmentConstant alignment);
 
 	/**
@@ -23,8 +35,25 @@ public interface IButtonBar {
 	public Widget asWidget();
 
 	public void setDisabled(boolean disable);
-
+	/**
+	 * remove a view button
+	 * @param widget
+	 */
 	public void removeButton(HasWidgets parent, Button child);
-
+	/**
+	 * Add a view button to the group
+	 * @param widget
+	 */
 	public void addButton(HasWidgets parent, Button child);
+	/**
+	 * Clear View buttons of the group
+	 * @param widget
+	 */
+	public void clear(HasWidgets group);
+	
+	/**
+	 * Clear View buttons that are not added to Any group
+	 * @param widget
+	 */
+	public void clear();
 }

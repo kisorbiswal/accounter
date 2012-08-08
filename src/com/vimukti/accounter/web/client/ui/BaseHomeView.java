@@ -89,7 +89,6 @@ public class BaseHomeView extends AbstractView<Object> implements
 
 	@Override
 	public void init() {
-		super.init();
 		createView();
 	}
 

@@ -22,6 +22,7 @@ import org.hibernate.Transaction;
 import com.google.gdata.util.common.util.Base64;
 import com.google.gdata.util.common.util.Base64DecoderException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.google.gwt.user.server.rpc.SerializationPolicy;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
@@ -453,5 +454,13 @@ public class AccounterCompanyInitializationServiceImpl extends
 	@Override
 	public CountryPreferences getCountryPreferences(String countryName) {
 		return new CompanyManager().getCountryPreferences(countryName, "");
+	}
+	@Override
+	protected SerializationPolicy doGetSerializationPolicy(
+			HttpServletRequest request, String moduleBaseURL, String strongName) {
+		moduleBaseURL = moduleBaseURL.replace("ms-wwa://", "http://");
+		moduleBaseURL = moduleBaseURL.replace("ms-appx://", "http://");
+		return super.doGetSerializationPolicy(request, moduleBaseURL,
+				strongName);
 	}
 }

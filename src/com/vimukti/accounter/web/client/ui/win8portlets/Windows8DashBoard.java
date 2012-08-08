@@ -212,6 +212,6 @@ public class Windows8DashBoard extends BaseHomeView implements IButtonContainer 
 				getPage().createSettingsDialog().showRelativeTo(configButton);
 			}
 		});
-		group.add(configButton);
+		addButton(group,configButton);
 	}
 }

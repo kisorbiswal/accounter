@@ -12,12 +12,9 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class AbstractView<T> extends FlowPanel {
-	protected IButtonBar buttonBar;
+	private IButtonBar buttonBar;
 
-	public void init() {
-		buttonBar = GWT.create(IButtonBar.class);
-		buttonBar.addTo(this);
-	}
+	protected abstract void init();
 
 	private Action<?> action;
 
@@ -139,10 +136,18 @@ public abstract class AbstractView<T> extends FlowPanel {
 	}
 
 	public void removeButton(HasWidgets parent, Button child) {
-		buttonBar.removeButton(parent, child);
+		getButtonBar().removeButton(parent, child);
+	}
+
+	protected IButtonBar getButtonBar() {
+		if (this.buttonBar == null) {
+			buttonBar = GWT.create(IButtonBar.class);
+			buttonBar.addTo(this);
+		}
+		return buttonBar;
 	}
 
 	public void addButton(HasWidgets parent, Button child) {
-		buttonBar.addButton(parent, child);
+		getButtonBar().addButton(parent, child);
 	}
 }

@@ -155,7 +155,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	 */
 	@Override
 	public void add(Widget child) {
-		Widget widget = buttonBar.asWidget();
+		Widget widget = getButtonBar().asWidget();
 		if (widget == null || this.getWidgetIndex(widget) < 0) {
 			super.add(child);
 			return;
@@ -177,9 +177,6 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	}
 
 	private void updateButtons() {
-		if (buttonBar == null) {
-			return;
-		}
 		createButtons();
 		addButton(cancelButton);
 	}
@@ -279,9 +276,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	@Override
 	protected void changeButtonBarMode(boolean disable) {
-		if (buttonBar != null) {
-			buttonBar.setDisabled(disable);
-		}
+		getButtonBar().setDisabled(disable);
 	}
 
 	@Override
@@ -365,14 +360,11 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	}
 
 	public void addButton(Button widget) {
-		buttonBar.add(widget);
+		getButtonBar().add(widget);
 	}
 
 	public void addButton(Button widget, HorizontalAlignmentConstant alignment) {
-		buttonBar.add(widget, alignment);
+		getButtonBar().add(widget, alignment);
 	}
 
-	protected IButtonBar getButtonBar() {
-		return buttonBar;
-	}
 }

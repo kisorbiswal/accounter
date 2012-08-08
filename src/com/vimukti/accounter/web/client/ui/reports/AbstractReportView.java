@@ -240,7 +240,6 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 
 	@Override
 	public void init() {
-		super.init();
 		if (UIUtils.isMSIEBrowser())
 			createControlsForIE();
 		else

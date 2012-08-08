@@ -649,7 +649,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			resetFromView();
 		}
 
-		mainVLay.add(buttonBar.asWidget());
+		getButtonBar().addTo(mainVLay);
 		if (transactionAttachmentPanel != null) {
 			mainVLay.add(transactionAttachmentPanel);
 		}

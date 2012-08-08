@@ -39,7 +39,6 @@ public class SalesDetailesView extends AbstractView {
 	 */
 	@Override
 	public void init() {
-		super.init();
 		// this.setWidth("300px");
 		// this.setHeight("100%");
 		flexTable = new FlexTable();

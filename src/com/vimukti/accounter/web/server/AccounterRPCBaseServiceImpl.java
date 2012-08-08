@@ -23,6 +23,7 @@ import com.google.gdata.util.common.util.Base64;
 import com.google.gdata.util.common.util.Base64DecoderException;
 import com.google.gwt.user.server.rpc.RPCRequest;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.google.gwt.user.server.rpc.SerializationPolicy;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
@@ -370,6 +371,14 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		Long companyID = (Long) getThreadLocalRequest().getSession()
 				.getAttribute(COMPANY_ID);
 		return companyID;
+	}
+	@Override
+	protected SerializationPolicy doGetSerializationPolicy(
+			HttpServletRequest request, String moduleBaseURL, String strongName) {
+		moduleBaseURL = moduleBaseURL.replace("ms-wwa://", "http://");
+		moduleBaseURL = moduleBaseURL.replace("ms-appx://", "http://");
+		return super.doGetSerializationPolicy(request, moduleBaseURL,
+				strongName);
 	}
 
 }

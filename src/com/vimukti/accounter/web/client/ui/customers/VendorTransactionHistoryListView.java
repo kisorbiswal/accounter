@@ -19,7 +19,6 @@ public class VendorTransactionHistoryListView extends
 
 	@Override
 	public void init() {
-		super.init();
 		vendHistoryGrid = new VendorTransactionsHistoryGrid() {
 			@Override
 			public void initListData() {
