@@ -74,7 +74,7 @@ public class ButtonBar implements IButtonBar {
 
 	@Override
 	public void clear() {
-		this.clear();
+		buttonBar.clear();
 	}
 
 	@Override
