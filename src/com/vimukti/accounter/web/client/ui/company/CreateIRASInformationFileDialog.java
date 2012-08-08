@@ -66,7 +66,7 @@ public class CreateIRASInformationFileDialog extends BaseDialog {
 			}
 		});
 
-		getButtonBar().remove(okbtn);
+		getButtonBar().removeButton(footerLayout, okbtn);
 		getButtonBar().addButton(footerLayout, downloadXml);
 		getButtonBar().addButton(footerLayout, downloadTxt);
 
