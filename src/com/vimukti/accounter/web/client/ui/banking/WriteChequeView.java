@@ -987,7 +987,8 @@ public class WriteChequeView extends
 
 		transactionVendorAccountTable.setEnabled(!isInViewMode());
 
-		accountTableButton = new AddNewButton();
+		accountTableButton = new AddNewButton(messages.addNew(messages
+				.Account()));
 		accountTableButton.setEnabled(!isInViewMode());
 		accountTableButton.addClickHandler(new ClickHandler() {
 

@@ -122,7 +122,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 		};
 		table.setEnabled(!isInViewMode());
 
-		addButton = new AddNewButton();
+		addButton = new AddNewButton(messages.addNew(messages.item()));
 		addButton.setEnabled(!isInViewMode());
 		addButton.addClickHandler(new ClickHandler() {
 

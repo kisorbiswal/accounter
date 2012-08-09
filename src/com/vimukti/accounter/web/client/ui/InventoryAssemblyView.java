@@ -490,7 +490,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		itemPanel.add(table);
 		mainVLay.add(itemPanel);
 		table.setEnabled(!isInViewMode());
-		itemTableButton = new AddNewButton();
+		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
 

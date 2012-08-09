@@ -355,7 +355,8 @@ public class CashSalesView extends
 
 		customerAccountTransactionTable.setEnabled(!isInViewMode());
 
-		accountTableButton = new AddNewButton();
+		accountTableButton = new AddNewButton(messages.addNew(messages
+				.Account()));
 		accountTableButton.setEnabled(!isInViewMode());
 		accountTableButton.addClickHandler(new ClickHandler() {
 
@@ -406,7 +407,7 @@ public class CashSalesView extends
 			}
 		};
 		customerItemTransactionTable.setEnabled(!isInViewMode());
-		itemTableButton = new AddNewButton();
+		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
 

@@ -574,7 +574,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		};
 		customerTransactionTable.setEnabled(!isInViewMode());
 
-		itemTableButton = new AddNewButton();
+		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
 

@@ -302,7 +302,8 @@ public class VendorCreditMemoView extends
 		vendorAccountTransactionTable.getElement().getStyle()
 				.setMarginTop(10, Unit.PX);
 
-		accountTableButton = new AddNewButton();
+		accountTableButton = new AddNewButton(messages.addNew(messages
+				.Account()));
 		accountTableButton.setEnabled(!isInViewMode());
 		accountTableButton.addClickHandler(new ClickHandler() {
 
@@ -355,7 +356,7 @@ public class VendorCreditMemoView extends
 
 		vendorItemTransactionTable.setEnabled(!isInViewMode());
 
-		itemTableButton = new AddNewButton();
+		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
 
