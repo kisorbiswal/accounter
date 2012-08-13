@@ -202,7 +202,7 @@ public class Windows8DashBoard extends BaseHomeView implements IButtonContainer 
 	public void addButtons(ButtonGroup group) {
 		final ImageButton configButton = new ImageButton(
 				messages.configurePortlets(), Accounter.getFinanceImages()
-						.portletPageSettings());
+						.portletPageSettings(), "settings");
 		configButton.addStyleName("settingsButton");
 		configButton.getElement().setId("configButton");
 		configButton.addClickHandler(new ClickHandler() {
@@ -212,6 +212,7 @@ public class Windows8DashBoard extends BaseHomeView implements IButtonContainer 
 				getPage().createSettingsDialog().showRelativeTo(configButton);
 			}
 		});
-		addButton(group,configButton);
+		configButton.getElement().setAttribute("data-icon", "settings");
+		addButton(group, configButton);
 	}
 }

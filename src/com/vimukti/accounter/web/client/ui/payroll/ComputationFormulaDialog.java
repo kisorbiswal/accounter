@@ -36,6 +36,7 @@ public class ComputationFormulaDialog extends
 
 		table = new ComputationFormulaTable();
 		itemTableButton = new AddNewButton();
+		itemTableButton.getElement().setAttribute("data-icon", "add");
 		itemTableButton.addClickHandler(new ClickHandler() {
 
 			@Override

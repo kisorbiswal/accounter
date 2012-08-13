@@ -139,7 +139,7 @@
 	  				'addNote' : 'Add Note',
 	  				'addOf' : 'Add {quotes}',
 	  				'addPaymentTerm' : 'Add Payment Term',
-	  				'addPaymentTermTitle' : 'Add payment term title',
+	  				'addPaymentTermTitle' : 'Add payment term',
 	  				'addPaymentTermTitleDesc' : 'Add payment term title description',
 	  				'addQuote' : 'Add Quote',
 	  				'addreceivepayment' : 'Add receive payment',
@@ -1032,7 +1032,7 @@
 	  				'ein' : 'EIN',
 	  				'EINDescription' : 'A unique identification number assigned to your business entity so that you can easily be identified by the Internal Revenue Service. The tax id is commonly used for the purpose of reporting taxes. If you are US citizen you can enter your EIN or SSN numbers. If you are UK citizen you can enter your VAT registration number.',
 	  				'ELEVEN' : 'ELEVEN',
-	  				'email' : 'E-mail',
+	  				'email' : 'Email',
 	  				'emailAccount' : 'Email Account',
 	  				'emailAddress' : 'Email Address',
 	  				'emailAlerts' : 'Email alerts',
@@ -1040,7 +1040,6 @@
 	  				'emailAndInternet' : 'E-mail and Internet',
 	  				'emailForActivation' : 'Email For Activation',
 	  				'emailFormatExpr' : 'email format expression',
-	  				'emailId' : 'Email Id',
 	  				'emailIdDescription' : 'Accounter will contact you at this email and where the invoices, bills and other information will sent.',
 	  				'emailnumber' : 'Email{emailNumber}',
 	  				'employee' : 'Employee',
@@ -2596,7 +2595,6 @@
 	  				'showVatColumn' : 'Show vat column',
 	  				'signIn' : 'Sign In',
 	  				'signin' : 'Signin',
-	  				'signinEmail' : 'Email',
 	  				'signInusing' : 'Sign In using',
 	  				'signout' : 'Sign out',
 	  				'signoutafterInactivity' : 'Sign out after inactivity',
@@ -4087,24 +4085,31 @@
 
 </head>	
   <body style="-ms-grid-rows: 76px 36fr 592fr auto; -ms-grid-columns: 0px 1366fr; ">
-  	<h1 id="title">Accounter</h1>
-
-	<div id="mainWindow"></div>
-<script type="text/javascript" charset="utf-8">
+	<div id="loading" >
+        <div id="progress">
+            <progress class="win-ring withText"></progress>
+		    <label class="progressRingText">Signing in...</label>
+        </div>
+	</div>
+	<div id="mainWindow" style="display:none;"></div>
+		<script type="text/javascript" charset="utf-8">
         function MacReload() {
             if (window.macclient) {
                 window.macclient.reloadMenu();
             }
         }
-</script>
+		</script>
   		<script type="text/javascript" charset="utf-8">
         function ClearMacMenu() {
             if (window.macclient) {
                 window.macclient.clearMenu();
             }
         }
-</script>
-	<script language="javascript" type="text/javascript" src="/accounter.client/accounter.client.nocache.js"></script>
-	<div id="appBar" data-win-control="WinJS.UI.AppBar" data-win-options=""/>
+		</script>
+		<script language="javascript" type="text/javascript" src="/accounter.client/accounter.client.nocache.js"></script>
+		<div id="appBar" data-win-control="WinJS.UI.AppBar" data-win-options="">
+             <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'cmdAddnew',label:'Add new',icon:'Add',section:'global',tooltip:'Add new'}" >
+             </button>
+        </div>
  </body>
 </html>

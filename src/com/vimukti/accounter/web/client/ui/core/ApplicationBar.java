@@ -43,10 +43,22 @@ public class ApplicationBar implements IButtonBar {
 	public void addPermanent(Button btn) {
 		Element element = btn.getElement();
 		element.setAttribute("data-win-control", "WinJS.UI.AppBarCommand");
-		element.setAttribute("data-win-options", "{id:'cmd'" + btn.getTitle()
-				+ ",label:'" + btn.getText() + "',icon:'add',"
-				+ "               section:'global',tooltip:'" + btn.getTitle()
-				+ "'}");
+
+		String label = btn.getText();
+		if (label == null || label.isEmpty()) {
+			label = btn.getHTML();
+		}
+
+		element.setAttribute("data-win-options",
+				"{id:'cmd" + label.replace(" ", "") + "',label:'" + label
+						+ "',icon:'" + element.getAttribute("data-icon")
+						+ "',section:'global',tooltip:'" + btn.getTitle()
+						+ "'}");
+		element.setInnerHTML("");
+		element.setInnerText("");
+		for (int i = 0; i < element.getChildCount(); i++) {
+			element.removeChild(element.getChild(i));
+		}
 		HTMLPanel appBar = getAppBar();
 		appBar.add(btn);
 		show();

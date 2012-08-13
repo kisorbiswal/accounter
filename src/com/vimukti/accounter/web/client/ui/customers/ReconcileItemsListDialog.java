@@ -149,6 +149,7 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		panel.add(dynamicForm1);
 
 		goBtn = new Button(messages.search());
+		goBtn.getElement().setAttribute("data.icon", "search");
 		getButtonBar().addButton(panel, goBtn);
 		goBtn.addClickHandler(new ClickHandler() {
 			@Override
@@ -204,6 +205,7 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		adjustmentBtnBar = new StyledPanel("adjustmentBtnBar");
 		final Button bankfees_btn = new Button("Bank fees");
 		final Button minor_adj_btn = new Button("Minor Adjustment");
+		minor_adj_btn.getElement().setAttribute("data-icon", "highlight");
 		getButtonBar().addButton(adjustmentBtnBar, bankfees_btn);
 		getButtonBar().addButton(adjustmentBtnBar, minor_adj_btn);
 

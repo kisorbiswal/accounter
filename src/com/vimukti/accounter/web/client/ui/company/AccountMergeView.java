@@ -44,7 +44,7 @@ public class AccountMergeView extends BaseView<ClientAccount> {
 	public void init() {
 		super.init();
 		ImageButton meregButton = new ImageButton(messages.merge(), Accounter
-				.getFinanceImages().saveAndClose());
+				.getFinanceImages().saveAndClose(), "data-remote");
 		meregButton.addClickHandler(new ClickHandler() {
 
 			@Override

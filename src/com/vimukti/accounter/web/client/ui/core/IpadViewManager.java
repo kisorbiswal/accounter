@@ -30,7 +30,7 @@ public class IpadViewManager extends ViewManager {
 	@Override
 	public ImageButton getCloseButton() {
 		ImageButton closeButton = new ImageButton(Accounter.getFinanceImages()
-				.ipadClose());
+				.ipadClose(), "cancel");
 		closeButton.getElement().setId("closeButton");
 		closeButton.addClickHandler(new ClickHandler() {
 
@@ -46,7 +46,8 @@ public class IpadViewManager extends ViewManager {
 	@Override
 	public ImageButton getAddNewButton() {
 
-		addNewButton = new ImageButton(Accounter.getFinanceImages().ipadAdd());
+		addNewButton = new ImageButton(Accounter.getFinanceImages().ipadAdd(),
+				"add");
 		addNewButton.getElement().setId("addNewButton");
 		addNewButton.addClickHandler(new ClickHandler() {
 
@@ -79,7 +80,7 @@ public class IpadViewManager extends ViewManager {
 	public ImageButton getSearchButton() {
 
 		ImageButton searchButton = new ImageButton(Accounter.getFinanceImages()
-				.ipadSearch());
+				.ipadSearch(), "search");
 		searchButton.getElement().setId("searchButton");
 		searchButton.addClickHandler(new ClickHandler() {
 
@@ -98,7 +99,7 @@ public class IpadViewManager extends ViewManager {
 	@Override
 	public ImageButton getEditButton() {
 		ImageButton editButton = new ImageButton(Accounter.getFinanceImages()
-				.ipadEdit());
+				.ipadEdit(), "edit");
 		editButton.getElement().setId("editButton");
 		editButton.addClickHandler(new ClickHandler() {
 
@@ -116,7 +117,7 @@ public class IpadViewManager extends ViewManager {
 	@Override
 	public ImageButton getExportButton() {
 		ImageButton exportButton = new ImageButton(Accounter.getFinanceImages()
-				.ipadDownload());
+				.ipadDownload(), "savelocal");
 		exportButton.getElement().setId("exportButton");
 		exportButton.addClickHandler(new ClickHandler() {
 
@@ -133,7 +134,7 @@ public class IpadViewManager extends ViewManager {
 	@Override
 	public ImageButton createPrintButton() {
 		ImageButton printButton = new ImageButton(Accounter.getFinanceImages()
-				.ipadDownload());
+				.ipadDownload(), "download");
 		printButton.getElement().setId("printButton");
 		printButton.addClickHandler(new ClickHandler() {
 
@@ -150,7 +151,7 @@ public class IpadViewManager extends ViewManager {
 	@Override
 	public ImageButton getNextButton() {
 		ImageButton nextButton = new ImageButton(Accounter.getFinanceImages()
-				.nextIcon());
+				.nextIcon(), "next");
 		nextButton.getElement().setId("nextButton");
 		nextButton.addClickHandler(new ClickHandler() {
 
@@ -166,7 +167,7 @@ public class IpadViewManager extends ViewManager {
 	@Override
 	public ImageButton getPreviousButton() {
 		ImageButton previousButton = new ImageButton(Accounter
-				.getFinanceImages().previousIcon());
+				.getFinanceImages().previousIcon(), "previous");
 		previousButton.getElement().setId("previousButton");
 		previousButton.addClickHandler(new ClickHandler() {
 

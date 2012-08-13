@@ -357,6 +357,7 @@ public class CashSalesView extends
 
 		accountTableButton = new AddNewButton(messages.addNew(messages
 				.Account()));
+		accountTableButton.getElement().setAttribute("data-icon", "add");
 		accountTableButton.setEnabled(!isInViewMode());
 		accountTableButton.addClickHandler(new ClickHandler() {
 
@@ -419,6 +420,7 @@ public class CashSalesView extends
 
 		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
 		itemsFlowPanel.add(customerItemTransactionTable);
+		itemTableButton.getElement().setAttribute("data-icon", "add");
 		addButton(itemsFlowPanel, itemTableButton);
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
@@ -1635,6 +1637,7 @@ public class CashSalesView extends
 				&& isInViewMode()
 				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)) {
 			emailButton = new Button(messages.email());
+			emailButton.getElement().setAttribute("data-icon", "mail");
 			addButton(emailButton);
 
 			emailButton.addClickHandler(new ClickHandler() {

@@ -189,7 +189,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 				.getUserById(attachment.getCreatedBy()).getName());
 
 		ImageButton button = new ImageButton(Accounter.getFinanceImages()
-				.delete());
+				.delete(), "delete");
 		button.setVisible(!isInViewMode());
 		button.addClickHandler(new ClickHandler() {
 

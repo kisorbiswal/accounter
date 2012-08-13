@@ -31,17 +31,6 @@ import com.vimukti.accounter.web.client.core.Features;
 public class CompaniesServlet extends BaseServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static final String CREATE_SUCCESS = Global.get().messages()
-			.yourCompanyIsCreatetedSuccessfully();
-	private static final String CREATE_FAIL = Global.get().messages()
-			.companyCreatedFailed();
-
-	private static final String DELETE_SUCCESS = Global.get().messages()
-			.yourCompanyIsDeletedSuccessfully();
-	private static final String DELETE_FAIL = Global.get().messages()
-			.companyDeletionFailed();
-	private static final String ACCOUNT_DELETE_FAIL = Global.get().messages()
-			.accountDeletionFailed();
 	private static final String MIGRATION_VIEW = "/WEB-INF/companyMigration.jsp";
 
 	private String companiedListView = "/WEB-INF/companylist.jsp";
@@ -295,9 +284,11 @@ public class CompaniesServlet extends BaseServlet {
 				.getAttribute(COMPANY_CREATION_STATUS);
 		if (status != null) {
 			if (status.equals("Success")) {
-				req.setAttribute("message", CREATE_SUCCESS);
+				req.setAttribute("message", Global.get().messages()
+						.yourCompanyIsCreatetedSuccessfully());
 			} else {
-				req.setAttribute("message", CREATE_FAIL);
+				req.setAttribute("message", Global.get().messages()
+						.companyCreatedFailed());
 			}
 			httpSession.removeAttribute(COMPANY_CREATION_STATUS);
 		}
@@ -307,15 +298,18 @@ public class CompaniesServlet extends BaseServlet {
 				.getAttribute(COMPANY_DELETION_STATUS);
 		if (deleteStatus != null) {
 			if (deleteStatus.equals("Success")) {
-				req.setAttribute("message", DELETE_SUCCESS);
+				req.setAttribute("message", Global.get().messages()
+						.yourCompanyIsDeletedSuccessfully());
 			} else {
 				Object failureMessage = httpSession
 						.getAttribute("DeletionFailureMessage");
 				if (failureMessage != null) {
-					req.setAttribute("message", DELETE_FAIL + " "
-							+ failureMessage);
+					req.setAttribute("message", Global.get().messages()
+							.companyDeletionFailed()
+							+ " " + failureMessage);
 				} else {
-					req.setAttribute("message", DELETE_FAIL);
+					req.setAttribute("message", Global.get().messages()
+							.companyDeletionFailed());
 				}
 			}
 			httpSession.removeAttribute("DeletionFailureMessage");
@@ -325,7 +319,8 @@ public class CompaniesServlet extends BaseServlet {
 		String accountDeleteStatus = (String) httpSession
 				.getAttribute(ACCOUNT_DELETION_STATUS);
 		if (accountDeleteStatus != null) {
-			req.setAttribute("message", ACCOUNT_DELETE_FAIL);
+			req.setAttribute("message", Global.get().messages()
+					.accountDeletionFailed());
 			httpSession.removeAttribute("DeletionFailureMessage");
 			httpSession.removeAttribute(ACCOUNT_DELETION_STATUS);
 		}

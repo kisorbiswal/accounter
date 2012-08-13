@@ -563,6 +563,7 @@ public class CreditCardChargeView extends
 
 		accountTableButton = new AddNewButton(messages.addNew(messages
 				.Account()));
+		accountTableButton.getElement().setAttribute("data-icon", "add");
 		accountTableButton.setEnabled(!isInViewMode());
 		accountTableButton.addClickHandler(new ClickHandler() {
 
@@ -613,6 +614,7 @@ public class CreditCardChargeView extends
 		vendorItemTransactionTable.setEnabled(!isInViewMode());
 
 		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
+		itemTableButton.getElement().setAttribute("data-icon", "add");
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
 

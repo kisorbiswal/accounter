@@ -49,7 +49,7 @@ public class CustomerMergeView extends BaseView<ClientCustomer> {
 		super.init();
 
 		ImageButton meregButton = new ImageButton(messages.merge(), Accounter
-				.getFinanceImages().saveAndClose());
+				.getFinanceImages().saveAndClose(), "remote");
 		meregButton.addClickHandler(new ClickHandler() {
 
 			@Override

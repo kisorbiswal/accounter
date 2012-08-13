@@ -41,7 +41,7 @@ public class Company implements IAccounterServerCore {
 
 	public static final String OTHER = "Other";
 
-	public static final int CURRENT_VERSION = 15;
+	public static final int CURRENT_VERSION = 16;
 
 	private long id;
 	private int version;
@@ -1777,6 +1777,10 @@ public class Company implements IAccounterServerCore {
 
 	public void setClassCount(int classCount) {
 		this.classCount = classCount;
+	}
+
+	public Set<Transaction> getTransactions() {
+		return transactions;
 	}
 
 }

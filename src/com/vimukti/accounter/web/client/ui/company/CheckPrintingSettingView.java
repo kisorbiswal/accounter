@@ -552,7 +552,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		// allPanel.setWidth("100%");
 
 		ImageButton saveButton = new ImageButton(messages.saveAndClose(),
-				Accounter.getFinanceImages().saveAndClose());
+				Accounter.getFinanceImages().saveAndClose(), "save");
 		saveButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -564,7 +564,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		getButtonBar().add(saveButton);
 
 		ImageButton resetButton = new ImageButton(messages.reset(), Accounter
-				.getFinanceImages().saveAndClose());
+				.getFinanceImages().saveAndClose(), "save");
 		resetButton.addClickHandler(new ClickHandler() {
 
 			@Override

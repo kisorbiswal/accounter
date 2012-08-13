@@ -56,7 +56,7 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 		StyledPanel bodyLayout = new StyledPanel("bodyLayout");
 		form = new DynamicForm("form");
 
-		emailField = new EmailField(messages.emailId());
+		emailField = new EmailField(messages.email());
 		emailField.setRequired(true);
 
 		passwordField = new PasswordItem(messages.password());
@@ -75,6 +75,7 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 				sslField);
 
 		testButton = new Button(messages.test());
+		testButton.getElement().setAttribute("data.icon", "rename");
 		testButton.addClickHandler(new ClickHandler() {
 
 			@Override

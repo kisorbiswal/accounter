@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -19,8 +18,6 @@ import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmployeeCombo;
-import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 
 public class EmployeeExpenseView extends CashPurchaseView {
 
@@ -271,7 +268,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	protected void createButtons() {
 		super.createButtons();
 		approveButton = new ImageButton(messages.approve(), Accounter
-				.getFinanceImages().approve());
+				.getFinanceImages().approve(), "accept");
 		approveButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -281,7 +278,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		});
 
 		submitForApprove = new ImageButton(messages.submitForApproval(),
-				Accounter.getFinanceImages().submitForApproval());
+				Accounter.getFinanceImages().submitForApproval(), "upload");
 		submitForApprove.addClickHandler(new ClickHandler() {
 
 			@Override

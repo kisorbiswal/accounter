@@ -40,7 +40,7 @@ public class QuickAddDialog extends BaseDialog<IAccounterCore> {
 
 		okbtn.setText(messages.QuickAdd());
 		Button addAllInfoBtn = new Button(messages.AddAllInfo());
-
+		addAllInfoBtn.getElement().setAttribute("data.icon", "contactinfo");
 		addAllInfoBtn.addClickHandler(new ClickHandler() {
 
 			@Override

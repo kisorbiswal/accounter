@@ -19,7 +19,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -157,7 +156,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		phoneLabel.setText(messages.phone());
 		phone.setTitle(messages.phoneNumberOf(messages.company()));
 		faxLabel.setText(messages.fax());
-		emailAdressLabel.setText(messages.emailId());
+		emailAdressLabel.setText(messages.email());
 		webSiteLabel.setText(messages.webSite());
 		useFormat.setText("");
 		timezone.setText(messages.timezone());

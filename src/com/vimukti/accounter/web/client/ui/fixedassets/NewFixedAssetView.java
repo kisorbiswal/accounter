@@ -30,7 +30,6 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -1066,7 +1065,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		addButton(this.saveAndCloseButton);
 
 		registerButton = new ImageButton(messages.register(), Accounter
-				.getFinanceImages().register());
+				.getFinanceImages().register(), "accept");
 		registerButton.addClickHandler(new ClickHandler() {
 
 			@Override

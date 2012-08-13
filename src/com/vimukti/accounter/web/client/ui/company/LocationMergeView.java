@@ -42,7 +42,7 @@ public class LocationMergeView extends BaseView<ClientLocation> {
 	public void init() {
 		super.init();
 		ImageButton meregButton = new ImageButton(messages.merge(), Accounter
-				.getFinanceImages().saveAndClose());
+				.getFinanceImages().saveAndClose(), "remote");
 		meregButton.addClickHandler(new ClickHandler() {
 
 			@Override

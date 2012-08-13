@@ -138,6 +138,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 		tableTitle.addStyleName("editTableTitle");
 		tablePanel.add(tableTitle);
 		tablePanel.add(table);
+		addButton.getElement().setAttribute("data-icon", "add");
 		addButton(tablePanel, addButton);
 
 		form = new DynamicForm("form");

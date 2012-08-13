@@ -170,6 +170,7 @@ public class SearchInputDialog extends BaseDialog {
 
 		buttonPanel = new StyledPanel("buttonPanel");
 		findButton = new Button(messages.find());
+		findButton.getElement().setAttribute("data-icon", "search");
 		findButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -178,6 +179,7 @@ public class SearchInputDialog extends BaseDialog {
 			}
 		});
 		closeButton = new Button(messages.close());
+		closeButton.getElement().setAttribute("data-icon", "cancel");
 		closeButton.addClickHandler(new ClickHandler() {
 
 			@Override

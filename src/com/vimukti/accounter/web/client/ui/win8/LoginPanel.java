@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextBoxItem.KeyPressListener;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class LoginPanel extends FlowPanel {
+
 	TextItem useritem;
 	HTML signInItem;
 	PasswordItem password;
@@ -39,7 +40,7 @@ public class LoginPanel extends FlowPanel {
 		StyledPanel mainPanel = new StyledPanel("main_loginpanel");
 		signInItem = new HTML("<h2>" + Accounter.getMessages().signIn()
 				+ "</h2>");
-		useritem = new TextItem(Accounter.getMessages().emailId(), "useritem");
+		useritem = new TextItem(Accounter.getMessages().email(), "useritem");
 		password = new PasswordItem(Accounter.getMessages().password());
 		errorlLabel = new Label();
 		errorlLabel.setStyleName("errors");
@@ -54,6 +55,8 @@ public class LoginPanel extends FlowPanel {
 
 			@Override
 			public void onResultSuccess(ArrayList<CompanyDetails> result) {
+				// rememberCredentials(useritem.getValue(), password.getValue(),
+				// AccounterInitialiser.PASSWORD_CRED_RESOURCE);
 				if (result.size() == 1) {
 					loadCompany(result.get(0).getCompanyId());
 					return;
@@ -121,6 +124,27 @@ public class LoginPanel extends FlowPanel {
 			}
 		});
 	}
+
+	protected native void rememberCredentials(String userName, String password,
+			String resource) /*-{
+		var passwordVault = new Windows.Security.Credentials.PasswordVault;
+		var pcs;
+		try {
+			pcs = passwordVault.findAllByResource(resource);
+			if (!pcs) {
+				for (i = 0; i < pcs.size; i++) {
+					passwordVault.remove(pcs.getAt(i));
+				}
+			}
+		} catch (e) {
+			pcs = null;
+		}
+
+		var passwordCredential = new Windows.Security.Credentials.PasswordCredential(
+				resource, userName, password);
+		passwordVault.add(passwordCredential);
+
+	}-*/;
 
 	protected void submit(
 			AccounterAsyncCallback<ArrayList<CompanyDetails>> accounterAsyncCallback) {

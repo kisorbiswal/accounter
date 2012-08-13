@@ -64,7 +64,8 @@ public class LocalMessagePanel extends FlowPanel {
 		upVotesPanel = new StyledPanel("upVotesPanel");
 		upVotesLengthLabel = new Label(String.valueOf(clientLocalMessage
 				.getVotes()));
-		upImage = new ImageButton(Accounter.getFinanceImages().upArrow());
+		upImage = new ImageButton(Accounter.getFinanceImages().upArrow(),
+				"upload");
 		upImage.addStyleName("image_button");
 
 		upImage.addClickHandler(new ClickHandler() {

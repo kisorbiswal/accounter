@@ -641,6 +641,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		tableContainer.add(itemTableTitle);
 		tableContainer.add(customerTransactionTable);
 		mainVLay.add(tableContainer);
+		itemTableButton.getElement().setAttribute("data-icon", "add");
 		addButton(mainVLay, itemTableButton);
 
 		mainVLay.add(panel11);
@@ -670,6 +671,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				&& isInViewMode()
 				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)) {
 			emailButton = new Button(messages.email());
+			emailButton.getElement().setAttribute("data-icon", "mail");
 			addButton(emailButton);
 			emailButton.addClickHandler(new ClickHandler() {
 

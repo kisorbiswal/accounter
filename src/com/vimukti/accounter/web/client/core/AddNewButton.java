@@ -12,7 +12,8 @@ public class AddNewButton extends ImageButton {
 	private AbstractBaseView<?> view;
 
 	public AddNewButton(AbstractBaseView<?> baseView) {
-		super(messages.addNewLine(), Accounter.getFinanceImages().addIcon());
+		super(messages.addNewLine(), Accounter.getFinanceImages().addIcon(),
+				"add");
 		this.addStyleName("addNewButton");
 		this.view = baseView;
 		this.setTitle(messages.clickToAddItem(baseView.getAction()
@@ -35,12 +36,13 @@ public class AddNewButton extends ImageButton {
 	}
 
 	public AddNewButton() {
-		super(messages.addNewLine(), Accounter.getFinanceImages().addIcon());
+		super(messages.addNewLine(), Accounter.getFinanceImages().addIcon(),
+				"add");
 		this.addStyleName("addNewButton");
 	}
 
 	public AddNewButton(String title) {
-		super(title, Accounter.getFinanceImages().addIcon());
+		super(title, Accounter.getFinanceImages().addIcon(), "add");
 		this.addStyleName("addNewButton");
 	}
 

@@ -115,6 +115,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		StyledPanel helpButtonLayout = new StyledPanel("helpButtonLayout");
 
 		Button helpButton = new Button(messages.help());
+		helpButton.getElement().setAttribute("data-icon", "help");
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -127,6 +128,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 		StyledPanel okButtonLayout = new StyledPanel("okButtonLayout");
 		Button okButton = new Button(messages.ok());
+		okButton.getElement().setAttribute("data-icon", "accept");
 		// okButton.setWidth("100px");
 		okButton.addClickHandler(new ClickHandler() {
 
@@ -142,6 +144,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		});
 		getButtonBar().addButton(okButtonLayout, okButton);
 		Button cancelButton = new Button(messages.cancel());
+		cancelButton.getElement().setAttribute("data-icon", "cancel");
 		// cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
 

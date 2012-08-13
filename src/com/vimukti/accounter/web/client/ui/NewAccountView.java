@@ -1752,6 +1752,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					dialog.show();
 				}
 			});
+			reconcileBtn.getElement().setAttribute("data-icon", "savelocal");
 			addButton(reconcileBtn);
 
 			Button uploadStatementBtn = new Button(messages.uploadAttachment());

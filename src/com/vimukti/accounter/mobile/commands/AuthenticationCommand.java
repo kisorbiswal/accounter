@@ -58,7 +58,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new EmailRequirement(EMAIL_ID, getMessages().pleaseEnter(
-				getMessages().emailId()), getMessages().emailId(), false, true) {
+				getMessages().email()), getMessages().email(), false, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {

@@ -155,7 +155,7 @@ public class ImportView extends AbstractBaseView {
 		StyledPanel buttonPanel2 = new StyledPanel("buttonPanel2");
 
 		ImageButton saveButton = new ImageButton(messages.save(), Accounter
-				.getFinanceImages().saveAndClose());
+				.getFinanceImages().saveAndClose(), "save");
 		saveButton.addClickHandler(new ClickHandler() {
 
 			@Override

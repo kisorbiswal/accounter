@@ -393,6 +393,7 @@ public class CreditCardExpenseView extends
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
+		accountTableButton.getElement().setAttribute("data-icon", "add");
 		addButton(accountFlowPanel, accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
@@ -447,6 +448,7 @@ public class CreditCardExpenseView extends
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
+		itemTableButton.getElement().setAttribute("data-icon", "add");
 		addButton(itemsFlowPanel, itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 		// itemsDisclosurePanel.setWidth("100%");

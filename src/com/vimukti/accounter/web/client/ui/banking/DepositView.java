@@ -265,6 +265,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		};
 
 		depositTableButton = new AddNewButton(messages.addNew(messages.payee()));
+		depositTableButton.getElement().setAttribute("data-icon", "add");
 		depositTableButton.setEnabled(!isInViewMode());
 		depositTableButton.addClickHandler(new ClickHandler() {
 

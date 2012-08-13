@@ -989,6 +989,7 @@ public class WriteChequeView extends
 
 		accountTableButton = new AddNewButton(messages.addNew(messages
 				.Account()));
+		accountTableButton.getElement().setAttribute("data-icon", "add");
 		accountTableButton.setEnabled(!isInViewMode());
 		accountTableButton.addClickHandler(new ClickHandler() {
 

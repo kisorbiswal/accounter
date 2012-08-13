@@ -36,7 +36,7 @@ public class ForgotPasswordPanel extends FlowPanel {
 		errorlabel = new Label();
 		errorlabel.setStyleName("errors");
 		accounterText = new HTML(Accounter.getMessages().forgotpasswordMsg());
-		emailTxt = new TextItem(Accounter.getMessages().emailId(), "emailTxt");
+		emailTxt = new TextItem(Accounter.getMessages().email(), "emailTxt");
 		getNewPassword = new Button(Accounter.getMessages().getNewPassword());
 		getNewPassword.setStyleName("success");
 		final AccounterAsyncCallback<Boolean> accounterAsyncCallback = new AccounterAsyncCallback<Boolean>() {

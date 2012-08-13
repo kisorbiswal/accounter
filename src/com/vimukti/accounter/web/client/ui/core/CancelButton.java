@@ -16,11 +16,10 @@ import com.vimukti.accounter.web.client.ui.ImageButton;
 public class CancelButton extends ImageButton {
 
 	private AbstractBaseView<?> currentView;
-	
 
 	public CancelButton() {
-		super(messages.cancel(), Accounter.getFinanceImages()
-				.rejected());
+		super(messages.cancel(), Accounter.getFinanceImages().rejected(),
+				"cancel");
 		this.addStyleName("cancle-Btn");
 	}
 
@@ -28,10 +27,10 @@ public class CancelButton extends ImageButton {
 	 * Creates new Instance
 	 */
 	public CancelButton(AbstractBaseView<?> view) {
-		super(messages.cancel(), Accounter.getFinanceImages()
-				.rejected());
-		this.setTitle(messages.clickThisTo(this.getText(),
-				view.getAction().getViewName()));
+		super(messages.cancel(), Accounter.getFinanceImages().rejected(),
+				"cancel");
+		this.setTitle(messages.clickThisTo(this.getText(), view.getAction()
+				.getViewName()));
 		this.currentView = view;
 		this.addStyleName("cancle-Btn");
 		this.addClickHandler(new ClickHandler() {

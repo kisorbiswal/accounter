@@ -13,8 +13,8 @@ public class RecurringButton extends ImageButton {
 
 	private AbstractTransactionBaseView<?> view;
 
-	public RecurringButton(String save) {
-		super(save, Accounter.getFinanceImages().saveAndClose());
+	public RecurringButton(String save, String icon) {
+		super(save, Accounter.getFinanceImages().saveAndClose(), icon);
 		this.addStyleName("saveAndClose-Btn");
 	}
 
@@ -26,10 +26,10 @@ public class RecurringButton extends ImageButton {
 	/**
 	 * Creates new Instance
 	 */
-	public RecurringButton(AbstractTransactionBaseView<?> view) {
+	public RecurringButton(AbstractTransactionBaseView<?> view, String icon) {
 
 		super(messages.makeItRecurring(), Accounter.getFinanceImages()
-				.saveAndClose());
+				.saveAndClose(), icon);
 		this.view = view;
 		this.addStyleName("saveAndClose-Btn");
 		this.setTitle(messages.clickThisTo(this.getText(), view.getAction()

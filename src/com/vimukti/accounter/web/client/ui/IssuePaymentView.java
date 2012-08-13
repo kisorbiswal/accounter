@@ -134,7 +134,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	@Override
 	protected void createButtons() {
 		ImageButton printButton = new ImageButton(messages.print(), Accounter
-				.getFinanceImages().Print1Icon());
+				.getFinanceImages().Print1Icon(), "savelocal");
 		printButton.addClickHandler(new ClickHandler() {
 
 			@Override

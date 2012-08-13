@@ -23,7 +23,8 @@ public class DeleteButton extends ImageButton {
 	 * Creates new Instance
 	 */
 	public DeleteButton(AbstractBaseView<?> view, IAccounterCore obj) {
-		super(messages.delete(), Accounter.getFinanceImages().delete());
+		super(messages.delete(), Accounter.getFinanceImages().delete(),
+				"delete");
 		this.view = view;
 		this.obj = obj;
 		String name = obj != null ? obj.getName() : "";

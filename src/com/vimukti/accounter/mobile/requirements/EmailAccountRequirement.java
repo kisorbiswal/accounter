@@ -32,7 +32,7 @@ public class EmailAccountRequirement extends ListRequirement<EmailAccount> {
 	@Override
 	protected Record createRecord(EmailAccount value) {
 		Record record = new Record(value);
-		record.add(getMessages().emailId(), value.getEmailId());
+		record.add(getMessages().email(), value.getEmailId());
 		record.add(getMessages().portNumber(), value.getPortNumber());
 		record.add(getMessages().smtpMailServer(), value.getSmtpMailServer());
 		return record;

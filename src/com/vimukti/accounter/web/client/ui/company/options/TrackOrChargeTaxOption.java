@@ -3,6 +3,8 @@
  */
 package com.vimukti.accounter.web.client.ui.company.options;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -87,7 +89,33 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 		oneperTransactionRadioButton.setValue(true);
 
 		oneperDetailLineRadioButton = new RadioButton(
-				messages.oneperdetailline(), messages.oneperdetailline());
+				messages.onepertransaction(), messages.oneperdetailline());
+
+		oneperTransactionRadioButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (oneperTransactionRadioButton.getValue()) {
+					oneperDetailLineRadioButton.setValue(false);
+				} else {
+					oneperDetailLineRadioButton.setValue(true);
+				}
+			}
+		});
+
+		oneperDetailLineRadioButton = new RadioButton("transactionGroup",
+				messages.oneperdetailline());
+		oneperDetailLineRadioButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (oneperDetailLineRadioButton.getValue()) {
+					oneperTransactionRadioButton.setValue(false);
+				} else {
+					oneperTransactionRadioButton.setValue(true);
+				}
+			}
+		});
 
 		enableTaxCheckbox = new CheckboxItem(messages.enableTracking(),
 				"enableTaxCheckbox");

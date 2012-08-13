@@ -717,11 +717,11 @@ public class CustomerCenterView<T> extends
 		ImageButton addCustomerButton = null;
 		if (Accounter.isIpadApp()) {
 			addCustomerButton = new ImageButton(Accounter.getFinanceImages()
-					.ipadAdd());
+					.ipadAdd(), "add");
 		} else {
 			addCustomerButton = new ImageButton(messages.addNew(Global.get()
 					.Customer()), Accounter.getFinanceImages()
-					.portletPageSettings());
+					.portletPageSettings(), "add");
 		}
 
 		addCustomerButton.addStyleName("settingsButton");
@@ -733,7 +733,9 @@ public class CustomerCenterView<T> extends
 				ActionFactory.getNewCustomerAction().run();
 			}
 		});
-		addButton(group,addCustomerButton);
+
+		addCustomerButton.getElement().setAttribute("data-icon", "add");
+		addButton(group, addCustomerButton);
 
 	}
 

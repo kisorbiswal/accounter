@@ -65,6 +65,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 
 		if (getCompany().isPaid()) {
 			emailBUtton = new Button(messages.email());
+			emailBUtton.getElement().setAttribute("data-icon", "mail");
 			emailBUtton.setFocus(true);
 			emailBUtton.setVisible(false);
 			emailBUtton.addClickHandler(new ClickHandler() {

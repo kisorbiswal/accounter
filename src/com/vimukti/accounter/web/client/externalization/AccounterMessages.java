@@ -1566,8 +1566,6 @@ public interface AccounterMessages extends Messages {
 
 	public String emailFormatExpr();
 
-	public String emailId();
-
 	public String emailIdDescription();
 
 	public String emailnumber(int emailNumber);
@@ -4275,8 +4273,6 @@ public interface AccounterMessages extends Messages {
 	public String showVatColumn();
 
 	public String signIn();
-
-	public String signinEmail();
 
 	public String signInusing();
 

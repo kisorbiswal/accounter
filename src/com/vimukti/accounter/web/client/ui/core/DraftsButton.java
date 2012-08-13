@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.ImageButton;
 public class DraftsButton extends ImageButton {
 	private final AbstractBaseView<?> view;
 
-	public DraftsButton(String name, AbstractBaseView<?> view) {
-		super(name, Accounter.getFinanceImages().saveAsDrafts());
+	public DraftsButton(String name, AbstractBaseView<?> view, String icon) {
+		super(name, Accounter.getFinanceImages().saveAsDrafts(), icon);
 		this.view = view;
 		this.setTitle(messages.clickThisTo(this.getText(), view.getAction()
 				.getViewName()));

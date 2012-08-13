@@ -61,7 +61,7 @@ public class NewEmailAccountCommand extends AbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new StringRequirement(EMAIL_ID, getMessages().pleaseEnter(
-				getMessages().emailId()), getMessages().emailId(), false, true));
+				getMessages().email()), getMessages().email(), false, true));
 
 		list.add(new StringRequirement(PASSWORD, getMessages().pleaseEnter(
 				getMessages().password()), getMessages().password(), false,

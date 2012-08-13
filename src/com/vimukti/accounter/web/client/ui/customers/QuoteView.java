@@ -680,6 +680,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		gridPanel.add(itemTableTitle);
 		gridPanel.add(customerTransactionTable);
 		mainVLay.add(gridPanel);
+		itemTableButton.getElement().setAttribute("data-icon", "add");
 		addButton(mainVLay, itemTableButton);
 		mainVLay.add(mainpanel);
 
@@ -1461,6 +1462,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)
 				&& (getType() == ClientEstimate.SALES_ORDER || getType() == ClientEstimate.QUOTES)) {
 			emailButton = new Button(messages.email());
+			emailButton.getElement().setAttribute("data-icon", "mail");
 			addButton(emailButton);
 
 			emailButton.addClickHandler(new ClickHandler() {

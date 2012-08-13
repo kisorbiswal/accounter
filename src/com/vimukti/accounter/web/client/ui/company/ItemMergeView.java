@@ -46,7 +46,7 @@ public class ItemMergeView extends BaseView<ClientItem> {
 	public void init() {
 		super.init();
 		ImageButton meregButton = new ImageButton(messages.merge(), Accounter
-				.getFinanceImages().saveAndClose());
+				.getFinanceImages().saveAndClose(), "remote");
 		meregButton.addClickHandler(new ClickHandler() {
 
 			@Override

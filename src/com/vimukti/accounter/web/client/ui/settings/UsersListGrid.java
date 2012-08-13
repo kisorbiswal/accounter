@@ -61,7 +61,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	protected String[] getColumns() {
 
 		return new String[] { messages.firstName(), messages.lastName(),
-				messages.userRole(), messages.emailId(), messages.status(), "" };
+				messages.userRole(), messages.email(), messages.status(), "" };
 	}
 
 	public void setUsersView(UsersView usersView) {

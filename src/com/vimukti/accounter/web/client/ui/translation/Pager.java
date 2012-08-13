@@ -42,8 +42,9 @@ public abstract class Pager extends FlowPanel implements PagerListener {
 	private void createControls() {
 		StyledPanel pagerPanel = new StyledPanel("pagerPanel");
 		previousButton = new ImageButton(Accounter.getFinanceImages()
-				.leftArrow());
-		nextButton = new ImageButton(Accounter.getFinanceImages().rightArrow());
+				.leftArrow(), "previous");
+		nextButton = new ImageButton(Accounter.getFinanceImages().rightArrow(),
+				"next");
 		rangeLabel = new Label();
 		rangeLabel.addStyleName("pager-range");
 		previousButton.setVisible(false);
@@ -65,7 +66,7 @@ public abstract class Pager extends FlowPanel implements PagerListener {
 		pagerPanel.add(rangeLabel);
 		pagerPanel.add(nextButton);
 		this.add(pagerPanel);
-//		this.setWidth("100%");
+		// this.setWidth("100%");
 		// this.setCellHorizontalAlignment(pagerPanel,
 		// HasAlignment.ALIGN_CENTER);
 	}

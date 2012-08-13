@@ -163,7 +163,7 @@ public class IPadDashBoard extends AbstractView implements IButtonContainer {
 	@Override
 	public void addButtons(ButtonGroup group) {
 		final ImageButton configButton = new ImageButton(Accounter
-				.getFinanceImages().ipadSettings());
+				.getFinanceImages().ipadSettings(), "settings");
 		configButton.addStyleName("settingsButton");
 		configButton.getElement().setId("configButton");
 		configButton.addClickHandler(new ClickHandler() {

@@ -53,6 +53,7 @@ public class CustomFieldDialog extends BaseDialog {
 
 		addNew = new Button();
 		addNew.setText(messages.add());
+		addNew.getElement().setAttribute("data.icon", "add");
 		addNew.addClickHandler(new ClickHandler() {
 
 			@Override

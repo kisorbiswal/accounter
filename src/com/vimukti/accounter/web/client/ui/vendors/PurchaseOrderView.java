@@ -419,6 +419,7 @@ public class PurchaseOrderView extends
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
+		accountTableButton.getElement().setAttribute("data-icon", "add");
 		addButton(accountFlowPanel, accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		vendorItemTransactionTable = new VendorItemTransactionTable(
@@ -478,6 +479,7 @@ public class PurchaseOrderView extends
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
+		itemTableButton.getElement().setAttribute("data-icon", "add");
 		addButton(itemsFlowPanel, itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -1634,6 +1636,7 @@ public class PurchaseOrderView extends
 				&& isInViewMode()
 				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)) {
 			emailButton = new Button(messages.email());
+			emailButton.getElement().setAttribute("data-icon", "mail");
 			addButton(emailButton);
 
 			emailButton.addClickHandler(new ClickHandler() {

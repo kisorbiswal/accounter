@@ -33,7 +33,7 @@ public class ResendActivationCodePanel extends FlowPanel {
 		errorlabel = new Label();
 		accounterText = new HTML("<h2>"
 				+ Accounter.getMessages().activationCode() + "</h2>");
-		emailTxt = new TextItem(Accounter.getMessages().emailId(), "emailTxt");
+		emailTxt = new TextItem(Accounter.getMessages().email(), "emailTxt");
 		getNewActivCode = new Button(Accounter.getMessages().submit());
 		final AccounterAsyncCallback<Boolean> accounterAsyncCallback = new AccounterAsyncCallback<Boolean>() {
 

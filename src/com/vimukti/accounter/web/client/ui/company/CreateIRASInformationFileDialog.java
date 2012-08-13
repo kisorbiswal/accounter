@@ -49,6 +49,7 @@ public class CreateIRASInformationFileDialog extends BaseDialog {
 		verticalPanel.add(mainForm);
 
 		downloadXml = new Button(messages.downloadXmlFile());
+		downloadXml.getElement().setAttribute("data.icon", "download");
 		downloadXml.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -58,6 +59,7 @@ public class CreateIRASInformationFileDialog extends BaseDialog {
 		});
 
 		downloadTxt = new Button(messages.downloadTxtFile());
+		downloadTxt.getElement().setAttribute("data.icon", "download");
 		downloadTxt.addClickHandler(new ClickHandler() {
 
 			@Override

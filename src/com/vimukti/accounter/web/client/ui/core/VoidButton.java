@@ -19,7 +19,7 @@ public class VoidButton extends ImageButton {
 	 * Creates new Instance
 	 */
 	public VoidButton(AbstractBaseView<?> view, IAccounterCore obj) {
-		super(messages.void1(), Accounter.getFinanceImages().voided());
+		super(messages.void1(), Accounter.getFinanceImages().voided(), "delete");
 		this.view = view;
 		this.obj = obj;
 		this.setTitle(messages.clickThisTo(messages.void1(), view.getAction()

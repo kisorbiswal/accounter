@@ -12,20 +12,28 @@ public class ImageButton extends Button {
 	protected static AccounterMessages messages = Global.get().messages();
 	private ImageResource res;
 
-	public ImageButton(ImageResource res) {
+	public ImageButton(ImageResource res, String icon) {
 		setImage(res);
 		setStyleName("Empty-text");
+		setIcon(icon);
 	}
 
-	public ImageButton(String title, ImageResource res) {
+	public ImageButton(String title, ImageResource res, String icon) {
 		super(title);
 		setImage(res);
 		setStyleName("image-button");
+		setIcon(icon);
 	}
 
-	public ImageButton(String title, ImageResource res, ClickHandler handler) {
+	public ImageButton(String title, ImageResource res, String icon,
+			ClickHandler handler) {
 		super(title, handler);
 		setImage(res);
+		setIcon(icon);
+	}
+
+	public void setIcon(String icon) {
+		getElement().setAttribute("data-icon", icon);
 	}
 
 	/**

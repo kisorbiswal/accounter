@@ -91,7 +91,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	public void init() {
 		clearAllErrors();
 		errorPanel.addStyleName("error-panel");
-		super.add(errorPanel);
+		add(errorPanel);
 	}
 
 	/**

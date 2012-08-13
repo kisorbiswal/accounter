@@ -677,7 +677,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// FIXME > Need to complete Recurring transaction feature.
 		if (canRecur()
 				&& Accounter.hasPermission(Features.RECURRING_TRANSACTIONS)) {
-			recurringButton = new RecurringButton(this);
+			recurringButton = new RecurringButton(this, "clock");
 			if (!isTemplate) {
 				if (getCompany().getLoggedInUser().getPermissions()
 						.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES)
@@ -685,7 +685,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			}
 		}
 		if (Accounter.hasPermission(Features.DRAFTS)) {
-			draftsButton = new DraftsButton(messages.Saveasdraft(), this);
+			draftsButton = new DraftsButton(messages.Saveasdraft(), this,
+					"save");
 			draftsButton.setVisible(!isInViewMode() && canAddDraftButton());
 			addButton(draftsButton);
 		}
@@ -2077,10 +2078,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			if (Accounter.isIpadApp()) {
 				prev = new ImageButton(Accounter.getFinanceImages()
-						.previousIcon());
+						.previousIcon(), "previous");
 			} else {
 				prev = new ImageButton(messages.previous(), Accounter
-						.getFinanceImages().previous());
+						.getFinanceImages().previous(), "previous");
 			}
 
 			prev.getElement().setId("previous");
@@ -2096,10 +2097,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			ImageButton next;
 			if (Accounter.isIpadApp()) {
-				next = new ImageButton(Accounter.getFinanceImages().nextIcon());
+				next = new ImageButton(Accounter.getFinanceImages().nextIcon(),
+						"next");
 			} else {
 				next = new ImageButton(messages.next1(), Accounter
-						.getFinanceImages().next());
+						.getFinanceImages().next(), "next");
 			}
 			next.getElement().setId("next");
 			next.setTitle(messages.clickThisToOpen(messages.nextTransaction()));
@@ -2111,6 +2113,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				}
 			});
 
+			prev.getElement().setAttribute("data-icon", "previous");
+			next.getElement().setAttribute("data-icon", "next");
 			addButton(group, prev);
 			addButton(group, next);
 		}

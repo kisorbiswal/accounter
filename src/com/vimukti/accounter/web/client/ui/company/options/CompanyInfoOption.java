@@ -275,7 +275,7 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		companyWebsiteTextBox = new TextItem(messages.webSite(),
 				"companyWebsiteTextBox");
 		// Email
-		companyEmailTextBox = new TextItem(messages.emailId(),
+		companyEmailTextBox = new TextItem(messages.email(),
 				"companyEmailTextBox");
 		companyEmailTextBox.addBlurHandler(new BlurHandler() {
 

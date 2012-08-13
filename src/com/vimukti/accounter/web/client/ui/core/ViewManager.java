@@ -688,7 +688,7 @@ public class ViewManager extends FlowPanel {
 	public ImageButton getAddNewButton() {
 
 		addNewButton = new ImageButton("", Accounter.getFinanceImages()
-				.createAction());
+				.createAction(), "add");
 		addNewButton.getElement().setId("addNewButton");
 		addNewButton.addClickHandler(new ClickHandler() {
 
@@ -720,7 +720,7 @@ public class ViewManager extends FlowPanel {
 	public ImageButton getSearchButton() {
 
 		searchButton = new ImageButton(Accounter.getFinanceImages()
-				.searchButton());
+				.searchButton(), "search");
 		searchButton.setTitle(messages.clickThisTo(messages.open(),
 				messages.search()));
 		searchButton.getElement().setId("searchButton");
@@ -740,7 +740,7 @@ public class ViewManager extends FlowPanel {
 
 	public ImageButton getEditButton() {
 		editButton = new ImageButton(messages.edit(), Accounter
-				.getFinanceImages().editIcon());
+				.getFinanceImages().editIcon(), "edit");
 		editButton.getElement().setId("editButton");
 		editButton.addClickHandler(new ClickHandler() {
 
@@ -757,7 +757,7 @@ public class ViewManager extends FlowPanel {
 
 	public ImageButton getExportButton() {
 		exportButton = new ImageButton(messages.exportToCSV(), Accounter
-				.getFinanceImages().exportIcon());
+				.getFinanceImages().exportIcon(), "savelocal");
 		exportButton.getElement().setId("exportButton");
 		exportButton.addClickHandler(new ClickHandler() {
 
@@ -773,7 +773,7 @@ public class ViewManager extends FlowPanel {
 
 	public ImageButton createPrintButton() {
 		printButton = new ImageButton(messages.print(), Accounter
-				.getFinanceImages().Print1Icon());
+				.getFinanceImages().Print1Icon(), "download");
 		printButton.getElement().setId("printButton");
 		printButton.addClickHandler(new ClickHandler() {
 
@@ -788,7 +788,8 @@ public class ViewManager extends FlowPanel {
 	}
 
 	public ImageButton getNextButton() {
-		nextButton = new ImageButton(Accounter.getFinanceImages().nextIcon());
+		nextButton = new ImageButton(Accounter.getFinanceImages().nextIcon(),
+				"next");
 		nextButton.getElement().setId("nextButton");
 		nextButton.setTitle(messages.clickThisToOpen(messages.next()));
 		nextButton.addClickHandler(new ClickHandler() {
@@ -804,7 +805,7 @@ public class ViewManager extends FlowPanel {
 
 	public ImageButton getPreviousButton() {
 		previousButton = new ImageButton(Accounter.getFinanceImages()
-				.previousIcon());
+				.previousIcon(), "previous");
 		previousButton.getElement().setId("previousButton");
 		previousButton.setTitle(messages.clickThisToOpen(messages.previous()));
 		previousButton.addClickHandler(new ClickHandler() {
@@ -820,7 +821,7 @@ public class ViewManager extends FlowPanel {
 
 	public ImageButton getCloseButton() {
 		closeButton = new ImageButton(Accounter.getFinanceImages()
-				.closeButton());
+				.closeButton(), "cancel");
 		closeButton.setTitle(messages.clickThisTo(messages.close(),
 				messages.view()));
 		closeButton.getElement().setId("closeButton");

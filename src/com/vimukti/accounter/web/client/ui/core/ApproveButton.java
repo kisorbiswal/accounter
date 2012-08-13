@@ -11,12 +11,12 @@ public class ApproveButton extends ImageButton {
 	private AbstractTransactionBaseView<?> view;
 
 	public ApproveButton(AbstractTransactionBaseView<?> baseView) {
-		super(messages.approve(), Accounter.getFinanceImages()
-				.saveAndClose());
+		super(messages.approve(), Accounter.getFinanceImages().saveAndClose(),
+				"save");
 		this.view = baseView;
 		this.addStyleName("saveAndClose-Btn");
-		this.setTitle(messages.clickThisTo(this.getText(),
-				view.getAction().getViewName()));
+		this.setTitle(messages.clickThisTo(this.getText(), view.getAction()
+				.getViewName()));
 		this.addClickHandler(new ClickHandler() {
 
 			@Override

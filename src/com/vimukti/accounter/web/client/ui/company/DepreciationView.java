@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.fixedassets.RollBackDepreciationDialog;
@@ -551,6 +550,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 				onSave(false);
 			}
 		});
+		updateButton.getElement().setAttribute("data-icon", "accept");
 		addButton(updateButton);
 		super.createButtons();
 	}

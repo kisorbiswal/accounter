@@ -699,11 +699,11 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 
 		if (Accounter.isIpadApp()) {
 			addVendorButton = new ImageButton(Accounter.getFinanceImages()
-					.ipadAdd());
+					.ipadAdd(), "add");
 		} else {
 			addVendorButton = new ImageButton(messages.addNew(Global.get()
 					.Vendor()), Accounter.getFinanceImages()
-					.portletPageSettings());
+					.portletPageSettings(), "add");
 		}
 
 		addVendorButton.addStyleName("settingsButton");

@@ -48,7 +48,7 @@ public class Migrator7 extends AbstractMigrator {
 		List<Transaction> list = query.list();
 		for (Transaction transaction : list) {
 			try {
-				migrate(transaction);
+				migrateTransaction(transaction);
 			} catch (Exception e) {
 				throw new RuntimeException();
 			}
@@ -62,7 +62,7 @@ public class Migrator7 extends AbstractMigrator {
 	 * @param transaction
 	 * @throws AccounterException
 	 */
-	private void migrate(Transaction transaction) throws AccounterException {
+	private void migrateTransaction(Transaction transaction) throws AccounterException {
 		int a = 0;
 		log.info("***Migrating Transaction ID: " + transaction.getID()
 				+ " Number: " + transaction.getNumber() + " " + transaction);
