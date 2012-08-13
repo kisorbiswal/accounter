@@ -28,37 +28,45 @@ public class ApplicationBar implements IButtonBar {
 	}
 
 	private native void initAppBar() /*-{
-										//this.appBar = $wnd.document.getElementById("appBar").winControl;
-										}-*/;
+	//	this.appBar = $wnd.document.getElementById("appBar").winControl;
+	}-*/;
 
 	public native void show() /*-{
-								//this.appBar.show();
-								}-*/;
+		//this.appBar.sticky = true;
+		//this.appBar.show();
+	}-*/;
 
 	public native void hide() /*-{
-								//this.appBar.hide();
-								}-*/;
+		//this.appBar.hide();
+	}-*/;
 
 	@Override
 	public void addPermanent(Button btn) {
 		Element element = btn.getElement();
-		element.setAttribute("data-win-control", "WinJS.UI.AppBarCommand");
+
+		element.removeAttribute("class");
+
+		String title = btn.getTitle();
+		String icon = element.getAttribute("data-icon");
 
 		String label = btn.getText();
 		if (label == null || label.isEmpty()) {
 			label = btn.getHTML();
 		}
 
+		element.setAttribute("data-win-control", "WinJS.UI.AppBarCommand");
+
 		element.setAttribute("data-win-options",
 				"{id:'cmd" + label.replace(" ", "") + "',label:'" + label
-						+ "',icon:'" + element.getAttribute("data-icon")
-						+ "',section:'global',tooltip:'" + btn.getTitle()
-						+ "'}");
-		element.setInnerHTML("");
-		element.setInnerText("");
+						+ "',icon:'" + icon + "',section:'global',tooltip:'"
+						+ title + "'}");
 		for (int i = 0; i < element.getChildCount(); i++) {
 			element.removeChild(element.getChild(i));
 		}
+
+		element.setInnerHTML(" ");
+		element.setInnerText("");
+
 		HTMLPanel appBar = getAppBar();
 		appBar.add(btn);
 		show();
