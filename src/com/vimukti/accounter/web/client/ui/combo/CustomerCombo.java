@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.QuickAddDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
 
 public class CustomerCombo extends CustomCombo<ClientCustomer> {
@@ -85,7 +86,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 				return null;
 			}
 		});
-		dialog.show();
+		ViewManager.getInstance().showDialog(dialog);
 
 	}
 

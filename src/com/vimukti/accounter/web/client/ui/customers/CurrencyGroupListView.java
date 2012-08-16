@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 
 public class CurrencyGroupListView extends BaseListView<ClientCurrency> {
@@ -23,8 +24,7 @@ public class CurrencyGroupListView extends BaseListView<ClientCurrency> {
 	public void ShowAddEditDialog(ClientCurrency currency) {
 		currencyListDialog = new NewCurrencyListDialog(this,
 				messages.addCurrency(), currency);
-		currencyListDialog.show();
-		currencyListDialog.center();
+		ViewManager.getInstance().showDialog(currencyListDialog);
 
 	}
 

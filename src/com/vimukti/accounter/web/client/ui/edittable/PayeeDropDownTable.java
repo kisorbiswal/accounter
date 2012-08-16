@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.banking.SelectPayeeDialog;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class PayeeDropDownTable extends AbstractDropDownTable<ClientPayee> {
 
@@ -20,7 +21,7 @@ public class PayeeDropDownTable extends AbstractDropDownTable<ClientPayee> {
 	List<Integer> canAddAccountTypes;
 
 	public PayeeDropDownTable(ListFilter<ClientPayee> filter) {
-		super(getPayees(filter),true);
+		super(getPayees(filter), true);
 		this.filter = filter;
 	}
 
@@ -91,7 +92,7 @@ public class PayeeDropDownTable extends AbstractDropDownTable<ClientPayee> {
 				selectRow(result);
 			}
 		});
-		dialog.show();
+		ViewManager.getInstance().showDialog(dialog);
 	}
 
 	@Override
@@ -108,7 +109,7 @@ public class PayeeDropDownTable extends AbstractDropDownTable<ClientPayee> {
 
 			}
 		});
-		dialog.show();
+		ViewManager.getInstance().showDialog(dialog);
 	}
 
 }

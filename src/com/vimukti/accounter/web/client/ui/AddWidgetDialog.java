@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.portlet.IPortletPage;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 
 public class AddWidgetDialog extends BaseDialog {
@@ -110,7 +111,7 @@ public class AddWidgetDialog extends BaseDialog {
 			mainLayout.add(bodyLayout);
 		}
 		add(mainLayout);
-		show();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	// private void getFundTransfered(final String portalName) {

@@ -2,9 +2,10 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class EditProfileAction extends Action {
-	
+
 	public EditProfileAction() {
 		super();
 	}
@@ -16,9 +17,9 @@ public class EditProfileAction extends Action {
 	}
 
 	private void runAsync(Object data) {
-		EditProfileDialog  view = new EditProfileDialog(messages.editProfile(), null);
-		view.show();
-		view.center();
+		EditProfileDialog view = new EditProfileDialog(messages.editProfile(),
+				null);
+		ViewManager.getInstance().showDialog(view);
 	}
 
 	@Override

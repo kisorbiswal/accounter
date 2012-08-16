@@ -121,6 +121,8 @@ public class WriteChequeView extends
 
 	private StyledPanel unassignedAmountPanel;
 
+	private StyledPanel vendorAccountFlowPanel;
+
 	// private CurrencyFactorWidget currencyWidget;
 
 	public WriteChequeView() {
@@ -987,25 +989,11 @@ public class WriteChequeView extends
 
 		transactionVendorAccountTable.setEnabled(!isInViewMode());
 
-		accountTableButton = new AddNewButton(messages.addNew(messages
-				.Account()));
-		accountTableButton.getElement().setAttribute("data-icon", "add");
-		accountTableButton.setEnabled(!isInViewMode());
-		accountTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addAccount();
-			}
-		});
-
-		StyledPanel vendorAccountFlowPanel = new StyledPanel(
-				"vendorAccountFlowPanel");
+		this.vendorAccountFlowPanel = new StyledPanel("vendorAccountFlowPanel");
 		vendorAccountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		vendorAccountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		vendorAccountFlowPanel.add(transactionVendorAccountTable);
-		addButton(vendorAccountFlowPanel, accountTableButton);
 		vendorAccountsDisclosurePanel.setContent(vendorAccountFlowPanel);
 		vendorAccountsDisclosurePanel.setOpen(true);
 		// vendorAccountsDisclosurePanel.setWidth("100%");
@@ -1585,4 +1573,16 @@ public class WriteChequeView extends
 		return false;
 	}
 
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		accountTableButton = getAccountAddNewButton();
+		addButton(vendorAccountFlowPanel, accountTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(vendorAccountFlowPanel, accountTableButton);
+	}
 }

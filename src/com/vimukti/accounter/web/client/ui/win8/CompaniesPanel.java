@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.win8;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -15,8 +16,10 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.CompanyDetails;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.AccounterInitialiser;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.WebsocketAccounterInitialiser;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 
 /**
  * 
@@ -126,6 +129,10 @@ public class CompaniesPanel extends FlowPanel {
 
 			@Override
 			public void onResultSuccess(Boolean result) {
+				discardCredentials(AccounterInitialiser.PASSWORD_CRED_RESOURCE);
+				ButtonBar appBar = GWT.create(ButtonBar.class);
+				appBar.remove();
+
 				CompaniesPanel.this.removeFromParent();
 				accounterInitialiser.showView(new LoginPanel(
 						accounterInitialiser));
@@ -153,6 +160,21 @@ public class CompaniesPanel extends FlowPanel {
 		mainPanel.add(buttonsPanel);
 		add(mainPanel);
 	}
+
+	protected native void discardCredentials(String resource) /*-{
+		var passwordVault = new Windows.Security.Credentials.PasswordVault;
+		var pcs;
+		try {
+			pcs = passwordVault.findAllByResource(resource);
+			if (!pcs) {
+				for (i = 0; i < pcs.size; i++) {
+					passwordVault.remove(pcs.getAt(i));
+				}
+			}
+		} catch (e) {
+			pcs = null;
+		}
+	}-*/;
 
 	private void loadCompany(final long comId) {
 		CompaniesPanel.this.removeFromParent();

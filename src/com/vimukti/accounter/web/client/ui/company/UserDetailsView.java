@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	private StyledPanel mainPanel;
@@ -70,8 +71,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 
 				});
 
-				dialog.center();
-				dialog.show();
+				ViewManager.getInstance().showDialog(dialog);
 			}
 		});
 		deleteAccountHtml = new Anchor(messages.deleteAccount());

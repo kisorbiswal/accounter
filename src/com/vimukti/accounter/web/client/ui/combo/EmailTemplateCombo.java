@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.combo;
 import com.vimukti.accounter.web.client.core.ClientEmailTemplate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.EmailTemplateDialog;
 
 public class EmailTemplateCombo extends CustomCombo<ClientEmailTemplate> {
@@ -44,7 +45,7 @@ public class EmailTemplateCombo extends CustomCombo<ClientEmailTemplate> {
 	public void onAddNew() {
 		emailTemplateDialog = new EmailTemplateDialog(messages.emaiTemplate(),
 				" ", transaction);
-		emailTemplateDialog.show();
+		ViewManager.getInstance().showDialog(emailTemplateDialog);
 		emailTemplateDialog
 				.setCallback(new ActionCallback<ClientEmailTemplate>() {
 

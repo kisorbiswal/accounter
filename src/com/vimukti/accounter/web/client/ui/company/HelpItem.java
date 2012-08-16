@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
@@ -66,7 +67,7 @@ public class HelpItem extends FlowPanel {
 				dialog.setPopupPosition(hyperlink.getAbsoluteLeft(),
 						hyperlink.getAbsoluteTop() - 360);
 				dialog.setAutoHideEnabled(true);
-				dialog.show();
+				ViewManager.getInstance().showDialog(dialog);
 
 			}
 		});

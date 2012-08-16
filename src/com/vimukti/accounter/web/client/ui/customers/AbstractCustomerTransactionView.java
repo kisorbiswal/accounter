@@ -1063,4 +1063,5 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		}
 		return null;
 	}
+
 }

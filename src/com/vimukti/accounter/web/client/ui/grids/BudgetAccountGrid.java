@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.company.AddBudgetAmountDialogue;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
@@ -208,8 +209,7 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 	@Override
 	public void onDoubleClick(final ClientBudgetItem obj) {
 		HashMap<String, String> map = new HashMap<String, String>();
-		String budgetTitle = messages.AddBudgetfor(
-				obj.getAccountsName());
+		String budgetTitle = messages.AddBudgetfor(obj.getAccountsName());
 		AddBudgetAmountDialogue assignAccountsTo1099Dialog = new AddBudgetAmountDialogue(
 				budgetTitle, "", map, obj);
 		assignAccountsTo1099Dialog
@@ -221,7 +221,7 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 
 					}
 				});
-		assignAccountsTo1099Dialog.show();
+		ViewManager.getInstance().showDialog(assignAccountsTo1099Dialog);
 
 	}
 
@@ -286,5 +286,5 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 				"jul-value", "aug-value", "sep-value", "oct-value",
 				"nov-value", "dec-value", "total-value", "add-value" };
 	}
-	
+
 }

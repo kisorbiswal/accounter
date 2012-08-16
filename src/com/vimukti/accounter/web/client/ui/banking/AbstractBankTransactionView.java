@@ -471,4 +471,5 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected abstract void classSelected(
 			ClientAccounterClass clientAccounterClass);
+
 }

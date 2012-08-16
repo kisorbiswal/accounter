@@ -176,10 +176,12 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	}
 
 	public void updateButtons() {
-		getButtonBar().clearDirectButtons();
+		clearButtons();
 		createButtons();
-		cancelButton = new CancelButton(this);
-		addButton(cancelButton);
+	}
+
+	protected void clearButtons() {
+		getButtonBar().clearDirectButtons();
 	}
 
 	protected void createButtons() {
@@ -214,7 +216,8 @@ public abstract class BaseView<T extends IAccounterCore> extends
 			}
 
 		}
-
+		cancelButton = new CancelButton(this);
+		addButton(cancelButton);
 	}
 
 	protected boolean isSaveButtonAllowed() {

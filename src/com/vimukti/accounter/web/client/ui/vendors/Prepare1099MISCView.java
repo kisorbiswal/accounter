@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -343,7 +344,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 							}
 						});
-				selectVendorsTo1099Dialog.show();
+				ViewManager.getInstance().showDialog(selectVendorsTo1099Dialog);
 			}
 		});
 
@@ -364,7 +365,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 								refreshView();
 							}
 						});
-				assignAccountsTo1099Dialog.show();
+				ViewManager.getInstance()
+						.showDialog(assignAccountsTo1099Dialog);
 			}
 		});
 

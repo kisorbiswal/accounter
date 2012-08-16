@@ -88,6 +88,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	private TextItem customerOrderText;
 	private DateField dueDateItem;
 	private Button emailButton;
+	private StyledPanel mainVLay;
 
 	public QuoteView() {
 		super(ClientTransaction.TYPE_ESTIMATE);
@@ -574,16 +575,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		};
 		customerTransactionTable.setEnabled(!isInViewMode());
 
-		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
-		itemTableButton.setEnabled(!isInViewMode());
-		itemTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addItem();
-			}
-		});
-
 		// final TextItem disabletextbox = new TextItem();
 		// disabletextbox.setVisible(false);
 
@@ -659,7 +650,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			currencyWidget.setEnabled(!isInViewMode());
 		}
 
-		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		this.mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
@@ -680,8 +671,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		gridPanel.add(itemTableTitle);
 		gridPanel.add(customerTransactionTable);
 		mainVLay.add(gridPanel);
-		itemTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(mainVLay, itemTableButton);
+
 		mainVLay.add(mainpanel);
 
 		// if (UIUtils.isMSIEBrowser()) {
@@ -1486,6 +1476,14 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				}
 			});
 		}
+		itemTableButton = getItemAddNewButton();
+		addButton(mainVLay, itemTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(mainVLay, itemTableButton);
 	}
 
 	public int getType() {

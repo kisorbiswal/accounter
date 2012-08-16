@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -65,6 +63,8 @@ public class CustomerCreditMemoView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private GwtDisclosurePanel accountsDisclosurePanel;
 	private GwtDisclosurePanel itemsDisclosurePanel;
+	private StyledPanel accountStyledPanel;
+	private StyledPanel itemsStyledPanel;
 
 	public CustomerCreditMemoView() {
 		super(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
@@ -203,24 +203,12 @@ public class CustomerCreditMemoView extends
 		};
 		customerAccountTransactionTable.setEnabled(!isInViewMode());
 
-		accountTableButton = new AddNewButton(messages.addNew(messages
-				.Account()));
-		accountTableButton.setEnabled(!isInViewMode());
-		accountTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addAccount();
-			}
-		});
-
-		StyledPanel accountStyledPanel = new StyledPanel("accountFlowPanel");
+		this.accountStyledPanel = new StyledPanel("accountFlowPanel");
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountStyledPanel.add(customerAccountTransactionTable);
-		accountTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(accountStyledPanel, accountTableButton);
+
 		accountsDisclosurePanel.setContent(accountStyledPanel);
 		// accountsDisclosurePanel.setOpen(true);
 
@@ -258,23 +246,13 @@ public class CustomerCreditMemoView extends
 		};
 		customerItemTransactionTable.setEnabled(!isInViewMode());
 
-		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
-		itemTableButton.setEnabled(!isInViewMode());
-		itemTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addItem();
-			}
-		});
 		currencyWidget = createCurrencyFactorWidget();
-		StyledPanel itemsStyledPanel = new StyledPanel("itemsFlowPanel");
+		this.itemsStyledPanel = new StyledPanel("itemsFlowPanel");
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsStyledPanel.add(customerItemTransactionTable);
-		itemTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(itemsStyledPanel, itemTableButton);
+
 		itemsDisclosurePanel.setContent(itemsStyledPanel);
 
 		DynamicForm form = new DynamicForm("boldtext");
@@ -1122,5 +1100,21 @@ public class CustomerCreditMemoView extends
 	@Override
 	public boolean allowEmptyTransactionItems() {
 		return false;
+	}
+
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		accountTableButton = getAccountAddNewButton();
+		itemTableButton = getItemAddNewButton();
+		addButton(accountStyledPanel, accountTableButton);
+		addButton(itemsStyledPanel, itemTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(itemsStyledPanel, itemTableButton);
+		removeButton(accountStyledPanel, accountTableButton);
 	}
 }

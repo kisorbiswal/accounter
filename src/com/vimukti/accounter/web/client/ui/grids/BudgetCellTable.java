@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.AddBudgetAmountDialogue;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
@@ -71,7 +72,7 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 
 		}
 
-//		this.setWidth("100%", true);
+		// this.setWidth("100%", true);
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
 		initTableColumns();
@@ -125,7 +126,8 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 									}
 
 								});
-						assignAccountsTo1099Dialog.show();
+						ViewManager.getInstance().showDialog(
+								assignAccountsTo1099Dialog);
 
 					}
 				});
@@ -455,21 +457,21 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 				.dec())));
 		obj.setTotalAmount(Double.parseDouble(result.get(messages.total())));
 
-//		 Double total;
-//		 total = Double.parseDouble(result.get(DayAndMonthUtil.jan()))
-//		 + Double.parseDouble(result.get(DayAndMonthUtil.feb()))
-//		 + Double.parseDouble(result.get(DayAndMonthUtil.mar()))
-//		 + Double.parseDouble(result.get(DayAndMonthUtil.apr()))
-//		 + Double.parseDouble(result.get(DayAndMonthUtil.mayS()))
-//		 + Double.parseDouble(result.get(DayAndMonthUtil.jun()))
-//		 + Double.parseDouble(result.get(DayAndMonthUtil.jul()))
-//		 + Double.parseDouble(result.get(DayAndMonthUtil.aug()))
-//		 + Double.parseDouble(result.get(DayAndMonthUtil.oct()))
-//		 + Double.parseDouble(result.get(DayAndMonthUtil.nov()))
-//		 + Double.parseDouble(result.get(DayAndMonthUtil.sep()))
-//		 + Double.parseDouble(result.get(DayAndMonthUtil.dec()));
-//		
-//		 obj.setTotalAmount(total);
+		// Double total;
+		// total = Double.parseDouble(result.get(DayAndMonthUtil.jan()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.feb()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.mar()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.apr()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.mayS()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.jun()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.jul()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.aug()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.oct()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.nov()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.sep()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.dec()));
+		//
+		// obj.setTotalAmount(total);
 
 		refreshAllRecords(obj);
 

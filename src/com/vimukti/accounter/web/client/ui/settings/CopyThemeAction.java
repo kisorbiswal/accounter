@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class CopyThemeAction extends Action {
 
@@ -29,9 +30,9 @@ public class CopyThemeAction extends Action {
 	@Override
 	public void run() {
 		try {
-			CopyThemeDialog copyThemeDialog = new CopyThemeDialog(messages.copyTheme(), "", (ClientBrandingTheme) data);
-			copyThemeDialog.center();
-			copyThemeDialog.show();
+			CopyThemeDialog copyThemeDialog = new CopyThemeDialog(
+					messages.copyTheme(), "", (ClientBrandingTheme) data);
+			ViewManager.getInstance().showDialog(copyThemeDialog);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

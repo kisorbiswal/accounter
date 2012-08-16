@@ -37,8 +37,7 @@ public class RecurringTransactionDialogAction extends
 		RecurringTransactionDialog comboDialog = new RecurringTransactionDialog(
 				null, data);
 
-		comboDialog.show();
-		comboDialog.center();
+		ViewManager.getInstance().showDialog(comboDialog);
 	}
 
 	@Override

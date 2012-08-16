@@ -455,7 +455,7 @@ public class SearchInputDialog extends BaseDialog {
 	}
 
 	protected void close() {
-		this.removeFromParent();
+		hide();
 	}
 
 	private List<String> getMatchIfComboList() {

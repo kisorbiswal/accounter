@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,7 +14,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
@@ -72,7 +70,6 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 	StyledPanel mainVLayPanel;
 	public StyledPanel errorPanel;
 	private final Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
-	private IButtonBar buttonBar;
 
 	private ActionCallback<T> callback;
 
@@ -98,7 +95,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		createControls();
 		sinkEvents(Event.ONKEYPRESS);
 		sinkEvents(Event.ONMOUSEOVER);
-		getButtonBar().clear();
+
 	}
 
 	public BaseDialog(String text, String desc) {
@@ -222,8 +219,9 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 			dialogHandler.onCancel();
 
 		}
-		if (onCancel())
-			removeFromParent();
+		if (onCancel()) {
+			hide();
+		}
 	}
 
 	protected void updateCompany() {
@@ -270,8 +268,9 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 			if (ok && dialogHandler != null) {
 				ok |= dialogHandler.onOK();
 			}
-			if (ok)
-				this.removeFromParent();
+			if (ok) {
+				hide();
+			}
 		}
 
 	}
@@ -472,40 +471,16 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		return true;
 	}
 
-	public IButtonBar getButtonBar() {
-		if (this.buttonBar == null) {
-			buttonBar = GWT.create(IButtonBar.class);
-		}
-		return buttonBar;
-	}
-
-	public void removeButton(HasWidgets parent, Button child) {
-		getButtonBar().removeButton(parent, child);
-	}
-
-	public void addButton(HasWidgets parent, Button child) {
-		getButtonBar().addButton(parent, child);
-	}
-
-	public void addButton(Button widget) {
-		getButtonBar().add(widget);
-	}
-
 	@Override
 	public void show() {
+		// TODO Auto-generated method stub
 		super.show();
-		if (isShowing()) {
-			return;
-		}
-		getButtonBar().show();
 	}
 
 	@Override
-	public void hide() {
-		super.hide();
-		if (!isShowing()) {
-			return;
-		}
-		getButtonBar().clear();
+	public void updateButtons() {
+		getButtonBar().clear(footerLayout);
+		createButtons(footerLayout);
 	}
+
 }

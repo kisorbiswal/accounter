@@ -49,6 +49,7 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.UploadStatementDialog;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -1749,7 +1750,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					ReconciliationDialog dialog = new ReconciliationDialog(
 							Global.get().messages().Reconciliation(),
 							clientReconciliation);
-					dialog.show();
+					ViewManager.getInstance().showDialog(dialog);
 				}
 			});
 			reconcileBtn.getElement().setAttribute("data-icon", "savelocal");
@@ -1762,7 +1763,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				public void onClick(ClickEvent event) {
 					UploadStatementDialog dialog = new UploadStatementDialog(
 							messages.uploadAttachment(), data);
-					dialog.show();
+					ViewManager.getInstance().showDialog(dialog);
 
 				}
 			});

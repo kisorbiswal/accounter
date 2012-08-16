@@ -30,7 +30,7 @@ public class PaymentDialogAction extends Action {
 	@Override
 	public void run() {
 		PaymentDialog diaog = new PaymentDialog();
-		diaog.show();
+		ViewManager.getInstance().showDialog(diaog);
 	}
 
 	@Override

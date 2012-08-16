@@ -3,15 +3,16 @@ package com.vimukti.accounter.web.client.ui.combo;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.ui.banking.SelectPayeeDialog;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class PayeeCombo extends CustomCombo<ClientPayee> {
 
 	public PayeeCombo(String title) {
-		super(title,"PayeeCombo");
+		super(title, "PayeeCombo");
 	}
 
 	public PayeeCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1,"PayeeCombo");
+		super(title, isAddNewRequired, 1, "PayeeCombo");
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class PayeeCombo extends CustomCombo<ClientPayee> {
 				addItemThenfireEvent(result);
 			}
 		});
-		dialog.show();
+		ViewManager.getInstance().showDialog(dialog);
 
 		// NewPayeeAction action = ActionFactory.getNewPayeeAction();
 		// action.setCallback(new ActionCallback<ClientPayee>() {

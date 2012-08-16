@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientStatementRecord;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.banking.MakeDepositAction;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.ReconcileCreateDialog;
 import com.vimukti.accounter.web.client.ui.customers.ReconcileItemsListDialog;
 
@@ -71,11 +72,11 @@ public class ReconcilListGrid extends BaseListGrid<ClientStatementRecord> {
 			}
 			ReconcileItemsListDialog dialog = new ReconcileItemsListDialog(
 					title, statementRecord, bankAccount);
-			dialog.show();
+			ViewManager.getInstance().showDialog(dialog);
 		} else if (value.equals(messages.create(""))) {
 			ReconcileCreateDialog createDialog = new ReconcileCreateDialog(
 					statementRecord);
-			createDialog.show();
+			ViewManager.getInstance().showDialog(createDialog);
 		}
 		setText(row, col, value.toString());
 	}

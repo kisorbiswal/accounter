@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -36,8 +37,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		createControls();
 		setPurchaseOrderList(purchaseOrderList);
 		this.getElement().setId("VendorPurchaseListDialog");
-		show();
-		center();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	private void createControls() {

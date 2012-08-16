@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.PaymentsListGrid;
 
@@ -64,7 +65,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 			return new WriteChecksAction();
 		} else if ((checkType == 0 || checkType == TYPE_ALL)
 				&& Accounter.getUser().canDoInvoiceTransactions()) {
-			new SelectPaymentTypeDialog().show();
+			ViewManager.getInstance().showDialog(new SelectPaymentTypeDialog());
 		} else {
 			return null;
 		}

@@ -10,34 +10,36 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ApplicationBar implements IButtonBar {
 
 	static HTMLPanel appBar;
-	private static HashMap<Widget, HasWidgets> map = new HashMap<Widget, HasWidgets>();
+	private static HashMap<Widget, Panel> map = new HashMap<Widget, Panel>();
 	static HashSet<Widget> direct = new HashSet<Widget>();
 	static HashSet<Button> permanent = new HashSet<Button>();
 
 	private HTMLPanel getAppBar() {
 		if (appBar == null) {
-			initAppBar();
 			appBar = HTMLPanel.wrap(Document.get().getElementById("appBar"));
 		}
 		return appBar;
 
 	}
 
-	private native void initAppBar() /*-{
-	//	this.appBar = $wnd.document.getElementById("appBar").winControl;
+	public native void hideAppBar() /*-{
+		//var appBar = $wnd.document.getElementById("appBar").winControl;
+		//appBar.hide();
 	}-*/;
 
-	public native void hide() /*-{
-		//this.appBar.hide();
+	public native void showAppBar() /*-{
+		//var appBar = $wnd.document.getElementById("appBar").winControl;
+		//appBar.show();
 	}-*/;
 
 	public native void process(Element e) /*-{
-		$wnd.WinJS.UI.process(e);
+		//$wnd.WinJS.UI.process(e);
 	}-*/;
 
 	@Override
@@ -48,6 +50,7 @@ public class ApplicationBar implements IButtonBar {
 	}
 
 	public void show() {
+		boolean showAppBar = false;
 		for (int x = 0; x < getAppBar().getWidgetCount(); x++) {
 			Widget w = getAppBar().getWidget(x);
 			if (direct.contains(w) || map.keySet().contains(w)
@@ -56,12 +59,24 @@ public class ApplicationBar implements IButtonBar {
 			}
 			getAppBar().remove(w);
 		}
+
 		for (Widget w : direct) {
+			showAppBar = true;
 			addToAppBar((Button) w);
 		}
 
-		for (Widget w : map.keySet()) {
-			addToAppBar((Button) w);
+		for (Entry<Widget, Panel> entry : map.entrySet()) {
+			Widget key = entry.getKey();
+			Panel parent = entry.getValue();
+			if (Boolean.valueOf(parent.getElement().getAttribute("data-group"))) {
+				showAppBar = true;
+			}
+			addToAppBar((Button) key);
+		}
+		if (showAppBar) {
+			showAppBar();
+		} else {
+			hideAppBar();
 		}
 	}
 
@@ -73,12 +88,12 @@ public class ApplicationBar implements IButtonBar {
 		String title = btn.getTitle();
 		String icon = element.getAttribute("data-icon");
 
+		String label = btn.getText();
 		for (int i = 0; i < element.getChildCount(); i++) {
 			element.removeChild(element.getChild(i));
 		}
-		String label = btn.getHTML();
-		if (label == null) {
-			label = btn.getText();
+		if (label == null || label.isEmpty()) {
+			label = btn.getHTML();
 		}
 
 		element.setAttribute("data-win-control", "WinJS.UI.AppBarCommand");
@@ -129,24 +144,27 @@ public class ApplicationBar implements IButtonBar {
 
 	}
 
-	public void removeButton(HasWidgets parent, Button child) {
+	public void removeButton(Panel parent, Button child) {
 		remove(child);
 		map.remove(child);
 	}
 
-	public void addButton(HasWidgets parent, Button child) {
+	public void addButton(Panel parent, Button child) {
 		map.put(child, parent);
 	}
 
 	@Override
 	public void remove(Button widget) {
+		if (widget == null) {
+			return;
+		}
 		getAppBar().remove(widget);
 	}
 
 	@Override
-	public void clear(HasWidgets group) {
+	public void clear(Panel group) {
 		HashSet<Widget> widgets = new HashSet<Widget>();
-		for (Entry<Widget, HasWidgets> entry : map.entrySet()) {
+		for (Entry<Widget, Panel> entry : map.entrySet()) {
 			if (group == entry.getValue()) {
 				Widget widget = entry.getKey();
 				widgets.add(widget);
@@ -181,8 +199,17 @@ public class ApplicationBar implements IButtonBar {
 	}
 
 	@Override
-	public void addPermanent(HasWidgets parent, Button child) {
+	public void addPermanent(Panel parent, Button child) {
 		addPermanent(child);
+	}
+
+	@Override
+	public void remove() {
+		getAppBar().clear();
+		permanent.clear();
+		direct.clear();
+		map.clear();
+		hideAppBar();
 	}
 
 }

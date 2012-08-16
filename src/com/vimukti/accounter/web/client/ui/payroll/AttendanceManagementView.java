@@ -19,6 +19,7 @@ public class AttendanceManagementView extends
 
 	AttendanceManagementTable table;
 	private AddNewButton itemTableButton;
+	private StyledPanel mainVLay;
 
 	public AttendanceManagementView() {
 		this.getElement().setId("AttendanceManagementView");
@@ -38,21 +39,9 @@ public class AttendanceManagementView extends
 		table = new AttendanceManagementTable();
 		table.setEnabled(!isInViewMode());
 
-		itemTableButton = new AddNewButton();
-		itemTableButton.setEnabled(!isInViewMode());
-		itemTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addItem();
-			}
-		});
-
-		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		this.mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(table);
-		itemTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(mainVLay, itemTableButton);
 
 		this.add(mainVLay);
 	}
@@ -116,4 +105,25 @@ public class AttendanceManagementView extends
 		data.setItems(table.getAllRows());
 	}
 
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		itemTableButton = new AddNewButton();
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
+
+		addButton(mainVLay, itemTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(mainVLay, itemTableButton);
+	}
 }

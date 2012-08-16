@@ -121,7 +121,7 @@ public class ActivityCustomizationDialog extends BaseDialog {
 
 	@Override
 	protected boolean onCancel() {
-		this.removeFromParent();
+		hide();
 		return true;
 	}
 

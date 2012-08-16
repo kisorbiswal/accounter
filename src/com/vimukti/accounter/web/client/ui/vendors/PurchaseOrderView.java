@@ -99,6 +99,8 @@ public class PurchaseOrderView extends
 	GwtDisclosurePanel accountsDisclosurePanel;
 	GwtDisclosurePanel itemsDisclosurePanel;
 	private Button emailButton;
+	private StyledPanel accountFlowPanel;
+	private StyledPanel itemsFlowPanel;
 
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER);
@@ -404,23 +406,12 @@ public class PurchaseOrderView extends
 
 		vendorAccountTransactionTable.setEnabled(!isInViewMode());
 
-		accountTableButton = new AddNewButton(messages.addNew(messages
-				.Account()));
-		accountTableButton.setEnabled(!isInViewMode());
-		accountTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addAccount();
-			}
-		});
-		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
+		this.accountFlowPanel = new StyledPanel("accountFlowPanel");
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
-		accountTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(accountFlowPanel, accountTableButton);
+
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
@@ -463,24 +454,15 @@ public class PurchaseOrderView extends
 
 		vendorItemTransactionTable.setEnabled(!isInViewMode());
 
-		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
-		itemTableButton.setEnabled(!isInViewMode());
-		itemTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addItem();
-			}
-		});
 		currencyWidget = createCurrencyFactorWidget();
-		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
+
+		this.itemsFlowPanel = new StyledPanel("itemsFlowPanel");
 
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
-		itemTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(itemsFlowPanel, itemTableButton);
+
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 		memoTextAreaItem = createMemoTextAreaItem();
 
@@ -1660,5 +1642,17 @@ public class PurchaseOrderView extends
 				}
 			});
 		}
+		accountTableButton = getAccountAddNewButton();
+		itemTableButton = getItemAddNewButton();
+
+		addButton(accountFlowPanel, accountTableButton);
+		addButton(itemsFlowPanel, itemTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(itemsFlowPanel, itemTableButton);
+		removeButton(accountFlowPanel, accountTableButton);
 	}
 }

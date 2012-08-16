@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.company.EmailAccountDialog;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -203,7 +204,7 @@ public class EmailView extends AbstractBaseView<ClientTransaction> {
 						emailBody.setValue(result.getEmailBody());
 					}
 				});
-				dialog.show();
+				ViewManager.getInstance().showDialog(dialog);
 			}
 		});
 		deleteButton = new Button(messages.delete());

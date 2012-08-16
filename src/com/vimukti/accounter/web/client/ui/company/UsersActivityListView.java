@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class UsersActivityListView extends BaseView implements IPrintableView {
@@ -122,7 +123,7 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 	protected void customiseActivityLog() {
 		customizationDialog = new ActivityCustomizationDialog(
 				messages.customize());
-		customizationDialog.show();
+		ViewManager.getInstance().showDialog(customizationDialog);
 		customizationDialog.showRelativeTo(customizeButton);
 		customizationDialog.setCallback(new ActionCallback<Long>() {
 

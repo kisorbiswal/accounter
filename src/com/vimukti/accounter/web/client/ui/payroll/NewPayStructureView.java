@@ -32,6 +32,7 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 	private EmployeesAndGroupsCombo copyFrom;
 	private PayStructureTable grid;
 	private AddNewButton itemTableButton;
+	private StyledPanel mainVLay;
 
 	public NewPayStructureView() {
 		this.getElement().setId("NewPayStructureView");
@@ -85,17 +86,7 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 		grid = new PayStructureTable();
 		grid.setEnabled(!isInViewMode());
 
-		itemTableButton = new AddNewButton();
-		itemTableButton.setEnabled(!isInViewMode());
-		itemTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addItem();
-			}
-		});
-
-		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		this.mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(empsAndGroups);
 		mainVLay.add(copyFrom);
@@ -106,8 +97,6 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 		itemPanel.add(payStrctTableTitle);
 		itemPanel.add(grid);
 		mainVLay.add(itemPanel);
-		itemTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(mainVLay, itemTableButton);
 
 		this.add(mainVLay);
 	}
@@ -278,4 +267,25 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 
 	}
 
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		itemTableButton = new AddNewButton();
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
+
+		addButton(mainVLay, itemTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(mainVLay, itemTableButton);
+	}
 }

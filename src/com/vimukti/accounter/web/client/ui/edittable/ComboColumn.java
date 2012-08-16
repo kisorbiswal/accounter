@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.google.gwt.user.client.ui.IsWidget;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public abstract class ComboColumn<T, C extends IAccounterCore> extends
 		EditColumn<T> {
@@ -46,9 +47,8 @@ public abstract class ComboColumn<T, C extends IAccounterCore> extends
 						return false;
 					}
 				};
-				dialog.show();
 				dialog.setModal(true);
-				dialog.center();
+				ViewManager.getInstance().showDialog(dialog);
 
 			}
 

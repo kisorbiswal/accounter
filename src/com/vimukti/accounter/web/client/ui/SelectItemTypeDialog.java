@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
@@ -71,7 +72,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 
 		setBodyLayout(mainVLay);
 		// setWidth("320px");
-		show();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	@Override

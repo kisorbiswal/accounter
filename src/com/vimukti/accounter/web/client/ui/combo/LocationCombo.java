@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.QuickAddDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.vendors.ManageSupportListView;
 
 /**
@@ -80,7 +81,7 @@ public class LocationCombo extends CustomCombo<ClientLocation> {
 				return null;
 			}
 		});
-		dialog.show();
+		ViewManager.getInstance().showDialog(dialog);
 	}
 
 	protected boolean isLocationExists(String text, QuickAddDialog dialog) {

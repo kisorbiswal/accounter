@@ -278,7 +278,7 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 	@Override
 	public void saveSuccess(IAccounterCore object) {
 		onCancel();
-		this.removeFromParent();
+		hide();
 	}
 
 	@Override

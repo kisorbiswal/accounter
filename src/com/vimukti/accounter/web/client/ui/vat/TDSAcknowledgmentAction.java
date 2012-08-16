@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.vat;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class TDSAcknowledgmentAction extends Action {
 
@@ -18,7 +19,7 @@ public class TDSAcknowledgmentAction extends Action {
 	@Override
 	public void run() {
 		TDSAcknowlegmentForm ackFormDialogue = new TDSAcknowlegmentForm();
-		ackFormDialogue.show();
+		ViewManager.getInstance().showDialog(ackFormDialogue);
 	}
 
 	@Override

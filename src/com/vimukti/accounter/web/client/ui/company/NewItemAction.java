@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.ui.ItemView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SelectItemTypeDialog;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
  * 
@@ -75,7 +76,7 @@ public class NewItemAction extends Action<ClientItem> {
 						dialog.setDependent(isDependent);
 						dialog.setCallback(getCallback());
 						dialog.setItemname(itemName);
-						dialog.show();
+						ViewManager.getInstance().showDialog(dialog);
 					} else {
 						if (data != null) {
 							type = data.getType();
@@ -110,7 +111,7 @@ public class NewItemAction extends Action<ClientItem> {
 							dialog.setDependent(isDependent);
 							dialog.setCallback(getCallback());
 							dialog.setItemname(itemName);
-							dialog.show();
+							ViewManager.getInstance().showDialog(dialog);
 						} else {
 							if (data != null) {
 								type = data.getType();

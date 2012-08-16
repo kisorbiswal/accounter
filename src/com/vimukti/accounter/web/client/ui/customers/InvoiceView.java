@@ -117,6 +117,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	protected ClientPriceLevel priceLevel;
 	protected List<ClientPaymentTerms> paymentTermsList;
 	protected AddNewButton itemTableButton;
+	private StyledPanel mainVLay;
 
 	private void initBalanceDue() {
 
@@ -403,16 +404,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		};
 
 		customerTransactionTable.setEnabled(!isInViewMode());
-		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
-		itemTableButton.setEnabled(!isInViewMode());
-		itemTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addItem();
-			}
-		});
-
 		brandingThemeTypeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientBrandingTheme>() {
 
@@ -621,7 +612,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			currencyWidget.setEnabled(!isInViewMode());
 		}
 
-		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		this.mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
@@ -641,8 +632,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		tableContainer.add(itemTableTitle);
 		tableContainer.add(customerTransactionTable);
 		mainVLay.add(tableContainer);
-		itemTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(mainVLay, itemTableButton);
 
 		mainVLay.add(panel11);
 
@@ -695,6 +684,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				}
 			});
 		}
+		itemTableButton = getItemAddNewButton();
+		addButton(mainVLay, itemTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(mainVLay, itemTableButton);
 	}
 
 	@Override

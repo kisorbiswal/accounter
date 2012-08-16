@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.TaxDialog;
 
 /**
@@ -21,17 +22,17 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 	 * @param title
 	 */
 	public VATItemCombo(String title) {
-		super(title,"VATItemCombo");
+		super(title, "VATItemCombo");
 		initCombo(getVATItmes());
 	}
 
 	public VATItemCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1,"VATItemCombo");
+		super(title, isAddNewRequired, 1, "VATItemCombo");
 		initCombo(getVATItmes());
 	}
 
 	public VATItemCombo(String title, ClientTAXAgency taxAgency) {
-		super(title,"VATItemCombo");
+		super(title, "VATItemCombo");
 		initCombo(getVATItmes());
 
 	}
@@ -179,7 +180,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 				addToCombo(result);
 			}
 		});
-		dialog.show();
+		ViewManager.getInstance().showDialog(dialog);
 		// NewVatItemAction action = ActionFactory.getNewVatItemAction();
 		// action.setCallback(new ActionCallback<ClientTAXItem>() {
 		//

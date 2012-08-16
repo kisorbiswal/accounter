@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class UploadCSVFileDialog extends BaseDialog {
@@ -174,8 +175,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 		mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(uploadForm);
 		add(mainPanel);
-		show();
-
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	protected int getType() {
@@ -257,7 +257,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 	protected void close() {
 		onCancel();
-		this.removeFromParent();
+		hide();
 	}
 
 	@Override

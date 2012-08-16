@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.FormatingConfilctDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
@@ -133,7 +134,7 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 
 		mainVLay.add(controlsPanel);
 
-//		mainVLay.setSize("100%", "100%");
+		// mainVLay.setSize("100%", "100%");
 
 		StyledPanel datePanel = new StyledPanel("datePanel");
 		dateFormat_Label = new Label(messages.DateFormat());
@@ -162,7 +163,7 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 		mainVLay.add(datePanel);
 
 		this.add(mainVLay);
-//		setSize("100%", "100%");
+		// setSize("100%", "100%");
 	}
 
 	/**
@@ -235,7 +236,8 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 										return true;
 									};
 								};
-								confilctDialog.show();
+								ViewManager.getInstance().showDialog(
+										confilctDialog);
 
 							} else {
 								List<String> list = new ArrayList<String>();

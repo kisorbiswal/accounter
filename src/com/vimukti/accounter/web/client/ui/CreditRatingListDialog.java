@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
 
 /**
@@ -104,7 +105,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 			inputDlg.setTextItemValue(0, creditRating.getName());
 		}
 
-		inputDlg.show();
+		ViewManager.getInstance().showDialog(this, inputDlg);
 	}
 
 	protected void EditCreditRatings() {

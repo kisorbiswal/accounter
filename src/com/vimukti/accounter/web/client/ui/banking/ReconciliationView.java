@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.SelectionChangedHandler;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -117,7 +118,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 								updateData(value);
 							}
 						});
-				dialog.show();
+				ViewManager.getInstance().showDialog(dialog);
 			}
 		});
 
@@ -234,26 +235,30 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	 */
 
 	private void getTransactions() {
-		rpcGetService.getAllTransactionsOfAccount(data.getAccount().getID(),
-				data.getStartDate(), data.getEndDate(),
-				new AccounterAsyncCallback<ArrayList<ClientReconciliationItem>>() {
+		rpcGetService
+				.getAllTransactionsOfAccount(
+						data.getAccount().getID(),
+						data.getStartDate(),
+						data.getEndDate(),
+						new AccounterAsyncCallback<ArrayList<ClientReconciliationItem>>() {
 
-					@Override
-					public void onException(AccounterException exception) {
-						Accounter.showError(messages.unableToGet(messages
-								.transactions()));
-					}
+							@Override
+							public void onException(AccounterException exception) {
+								Accounter.showError(messages
+										.unableToGet(messages.transactions()));
+							}
 
-					@Override
-					public void onResultSuccess(
-							ArrayList<ClientReconciliationItem> result) {
-						if (result == null) {
-							result = new ArrayList<ClientReconciliationItem>();
-						}
-						grid.setVisibleRangeAndClearData(new Range(0, 50), true);
-						grid.setData(result);
-					}
-				});
+							@Override
+							public void onResultSuccess(
+									ArrayList<ClientReconciliationItem> result) {
+								if (result == null) {
+									result = new ArrayList<ClientReconciliationItem>();
+								}
+								grid.setVisibleRangeAndClearData(new Range(0,
+										50), true);
+								grid.setData(result);
+							}
+						});
 	}
 
 	private void setOpeningBalance() {

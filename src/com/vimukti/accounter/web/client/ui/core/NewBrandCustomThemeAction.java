@@ -29,7 +29,7 @@ public class NewBrandCustomThemeAction extends Action {
 		if (getCallback() != null) {
 			customThemeDialog.setCallback(getCallback());
 		}
-		customThemeDialog.show();
+		ViewManager.getInstance().showDialog(customThemeDialog);
 
 	}
 

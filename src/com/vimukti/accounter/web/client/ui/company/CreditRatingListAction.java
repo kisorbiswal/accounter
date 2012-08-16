@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CreditRatingListDialog;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
  * 
@@ -25,9 +26,10 @@ public class CreditRatingListAction extends Action {
 
 			public void onSuccess() {
 				CreditRatingListDialog dialog = new CreditRatingListDialog(
-						messages.creditRatingList(), messages.toAddCreditRating());
-				dialog.show();
-				
+						messages.creditRatingList(), messages
+								.toAddCreditRating());
+				ViewManager.getInstance().showDialog(dialog);
+
 			}
 
 			public void onFailure(Throwable e) {
@@ -35,15 +37,15 @@ public class CreditRatingListAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		//
+		// }
+		//
+		// });
 	}
 
 	public ImageResource getBigImage() {

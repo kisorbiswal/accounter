@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.ui.combo.PayheadCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -95,6 +96,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	private DynamicForm userDefinedCalendarForm;
 	private DynamicForm attendanceTypeForm;
 	private PayheadCombo payheadCombo;
+	private StyledPanel tablePanel;
 
 	public NewPayHeadView() {
 		this.getElement().setId("NewPayHeadView");
@@ -359,17 +361,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		slabTable = new ComputationSlabTable();
 		slabTable.setEnabled(!isInViewMode());
 
-		itemTableButton = new AddNewButton();
-		itemTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				ClientComputationSlab row = new ClientComputationSlab();
-				slabTable.addRow(row);
-			}
-		});
-		itemTableButton.setEnabled(!isInViewMode());
-
 		formula = new LabelItem(messages.specifiedFormula(), "formula");
 
 		leftForm = new DynamicForm("leftForm");
@@ -433,8 +424,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			if (!formulas.isEmpty()) {
 				dialog.setData(formulas);
 			}
-			dialog.center();
-			dialog.show();
+			ViewManager.getInstance().showDialog(dialog);
 		} else {
 			dialog = null;
 			formulaForm.clear();
@@ -487,10 +477,8 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			computationForm = new DynamicForm("computationForm");
 			compuPeriodAndTypeForm = new DynamicForm("compuPeriodAndTypeForm");
 
-			StyledPanel tablePanel = new StyledPanel("addnew_edit_panel");
+			this.tablePanel = new StyledPanel("addnew_edit_panel");
 			tablePanel.add(slabTable);
-			itemTableButton.getElement().setAttribute("data-icon", "add");
-			addButton(tablePanel, itemTableButton);
 
 			compuPeriodAndTypeForm.add(calculationPeriodCombo,
 					computationTypeCombo);
@@ -702,4 +690,25 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		return null;
 	}
 
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		itemTableButton = new AddNewButton();
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ClientComputationSlab row = new ClientComputationSlab();
+				slabTable.addRow(row);
+			}
+		});
+		itemTableButton.setEnabled(!isInViewMode());
+		addButton(tablePanel, itemTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(tablePanel, itemTableButton);
+	}
 }

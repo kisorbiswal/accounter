@@ -101,6 +101,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 	private Label quantityUnitsLabel;
 	private CheckboxItem isellCheck;
 	private CheckboxItem ibuyCheck;
+	private StyledPanel mainVLay;
 
 	public InventoryAssemblyView() {
 		super();
@@ -388,7 +389,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 		purchzVPanel.add(purchaseInfoForm);
 
-		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		this.mainVLay = new StyledPanel("mainVLay");
 
 		// mainVLay.getElement().getStyle().setMarginBottom(15, Unit.PX);
 		mainVLay.add(hPanel);
@@ -490,17 +491,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		itemPanel.add(table);
 		mainVLay.add(itemPanel);
 		table.setEnabled(!isInViewMode());
-		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
-		itemTableButton.getElement().setAttribute("data-icon", "add");
-		itemTableButton.setEnabled(!isInViewMode());
-		itemTableButton.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				addItem();
-			}
-		});
-		addButton(mainVLay, itemTableButton);
 		totalLabel = new AmountLabel(messages.totalValueOfMaterialsCost());
 		DynamicForm amountLabelsForm = new DynamicForm("amountLabelsForm");
 		amountLabelsForm.add(totalLabel);
@@ -1124,4 +1115,25 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		return false;
 	}
 
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
+		itemTableButton.getElement().setAttribute("data-icon", "add");
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
+		addButton(mainVLay, itemTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(mainVLay, itemTableButton);
+	}
 }

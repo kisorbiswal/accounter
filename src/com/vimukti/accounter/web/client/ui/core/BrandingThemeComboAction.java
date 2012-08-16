@@ -41,17 +41,14 @@ public class BrandingThemeComboAction extends Action {
 
 		BrandingThemeComboDialog comboDialog = new BrandingThemeComboDialog(
 				messages.selectThemes(), "", listData);
-		comboDialog.show();
-		comboDialog.center();
+		ViewManager.getInstance().showDialog(comboDialog);
 
 	}
 
 	private void runAsync(Object data, Boolean isDependent) {
 		BrandingThemeComboDialog comboDialog = new BrandingThemeComboDialog(
-				messages.selectThemes(), "",
-				(ClientTransaction) data);
-		comboDialog.show();
-		comboDialog.center();
+				messages.selectThemes(), "", (ClientTransaction) data);
+		ViewManager.getInstance().showDialog(comboDialog);
 	}
 
 	@Override

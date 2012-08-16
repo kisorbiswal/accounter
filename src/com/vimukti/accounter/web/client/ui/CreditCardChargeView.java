@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -87,6 +85,8 @@ public class CreditCardChargeView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private TAXCodeCombo taxCodeSelect;
 	private GwtDisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private StyledPanel accountFlowPanel;
+	private StyledPanel itemsFlowPanel;
 
 	public CreditCardChargeView() {
 
@@ -561,25 +561,12 @@ public class CreditCardChargeView extends
 
 		vendorAccountTransactionTable.setEnabled(!isInViewMode());
 
-		accountTableButton = new AddNewButton(messages.addNew(messages
-				.Account()));
-		accountTableButton.getElement().setAttribute("data-icon", "add");
-		accountTableButton.setEnabled(!isInViewMode());
-		accountTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addAccount();
-			}
-		});
-
-		StyledPanel accountFlowPanel = new StyledPanel("StyledPanel");
+		this.accountFlowPanel = new StyledPanel("StyledPanel");
 
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
-		addButton(accountFlowPanel, accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
@@ -613,24 +600,13 @@ public class CreditCardChargeView extends
 
 		vendorItemTransactionTable.setEnabled(!isInViewMode());
 
-		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
-		itemTableButton.getElement().setAttribute("data-icon", "add");
-		itemTableButton.setEnabled(!isInViewMode());
-		itemTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addItem();
-			}
-		});
-
-		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
+		this.itemsFlowPanel = new StyledPanel("itemsFlowPanel");
 
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
-		addButton(itemsFlowPanel, itemTableButton);
+
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -1225,6 +1201,22 @@ public class CreditCardChargeView extends
 	@Override
 	public boolean allowEmptyTransactionItems() {
 		return false;
+	}
+
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		itemTableButton = getItemAddNewButton();
+		accountTableButton = getAccountAddNewButton();
+		addButton(itemsFlowPanel, itemTableButton);
+		addButton(accountFlowPanel, accountTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(itemsFlowPanel, itemTableButton);
+		removeButton(accountFlowPanel, accountTableButton);
 	}
 
 }

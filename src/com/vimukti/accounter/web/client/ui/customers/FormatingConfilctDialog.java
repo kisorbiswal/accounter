@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
  * 
@@ -67,8 +68,7 @@ public class FormatingConfilctDialog extends BaseDialog {
 		mainPanel
 				.add(new CustomLabel(messages.headingReassign(presentheading)));
 		setBodyLayout(mainPanel);
-		show();
-
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	@Override

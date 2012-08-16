@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.BrandingThemeComboDialog;
 import com.vimukti.accounter.web.client.ui.settings.NewBrandThemeAction;
 
@@ -59,7 +60,7 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 					if (result.getName() != null)
 						addItemThenfireEvent(result);
 					if (themeDialog != null) {
-						themeDialog.show();
+						ViewManager.getInstance().showDialog(themeDialog);
 					}
 				}
 			});

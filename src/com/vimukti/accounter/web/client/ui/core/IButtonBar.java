@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface IButtonBar {
@@ -51,21 +52,21 @@ public interface IButtonBar {
 	 * 
 	 * @param widget
 	 */
-	public void removeButton(HasWidgets parent, Button child);
+	public void removeButton(Panel parent, Button child);
 
 	/**
 	 * Add a view button to the group
 	 * 
 	 * @param widget
 	 */
-	public void addButton(HasWidgets parent, Button child);
+	public void addButton(Panel parent, Button child);
 
 	/**
 	 * Clear View buttons of the group
 	 * 
 	 * @param widget
 	 */
-	public void clear(HasWidgets group);
+	public void clear(Panel group);
 
 	/**
 	 * Clear everything exist in ButtonBar
@@ -81,5 +82,7 @@ public interface IButtonBar {
 
 	public void show();
 
-	public void addPermanent(HasWidgets parent, Button child);
+	public void addPermanent(Panel parent, Button child);
+
+	public void remove();
 }

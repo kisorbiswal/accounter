@@ -49,6 +49,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 	private AmountLabel totalLabel;
 	private ArrayList<DynamicForm> listforms;
 	private List<ClientTransactionDepositItem> transactionDepositItems;
+	private StyledPanel accountFlowPanel;
 
 	private DepositView() {
 		super(ClientTransaction.TYPE_MAKE_DEPOSIT);
@@ -264,23 +265,11 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			}
 		};
 
-		depositTableButton = new AddNewButton(messages.addNew(messages.payee()));
-		depositTableButton.getElement().setAttribute("data-icon", "add");
-		depositTableButton.setEnabled(!isInViewMode());
-		depositTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addAccount();
-			}
-		});
-
-		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
+		this.accountFlowPanel = new StyledPanel("accountFlowPanel");
 		Label tableTitle = new Label(messages2.table(messages.deposit()));
 		tableTitle.addStyleName("editTableTitle");
 		accountFlowPanel.add(tableTitle);
 		accountFlowPanel.add(transactionDepositTable);
-		addButton(accountFlowPanel, depositTableButton);
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setDisabled(this.isInViewMode());
@@ -650,4 +639,25 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		return false;
 	}
 
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		depositTableButton = new AddNewButton(messages.addNew(messages.payee()));
+		depositTableButton.getElement().setAttribute("data-icon", "add");
+		depositTableButton.setEnabled(!isInViewMode());
+		depositTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addAccount();
+			}
+		});
+		addButton(accountFlowPanel, depositTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(accountFlowPanel, depositTableButton);
+	}
 }

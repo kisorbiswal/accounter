@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -722,7 +723,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 						}
 					});
 		}
-		recurringDialog.show();
+		ViewManager.getInstance().showDialog(recurringDialog);
 	}
 
 	@Override
@@ -2153,5 +2154,33 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (action != null) {
 			action.run(null, false);
 		}
+	}
+
+	protected AddNewButton getItemAddNewButton() {
+		AddNewButton itemTableButton = new AddNewButton(
+				messages.addNew(messages.item()));
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
+		return itemTableButton;
+	}
+
+	protected AddNewButton getAccountAddNewButton() {
+		AddNewButton accountTableButton = new AddNewButton(
+				messages.addNew(messages.Account()));
+		accountTableButton.setEnabled(!isInViewMode());
+		accountTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addAccount();
+			}
+		});
+		return accountTableButton;
 	}
 }

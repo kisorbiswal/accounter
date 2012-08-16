@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SelectChallanTypeDialog;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 
@@ -61,7 +62,7 @@ public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 					};
 					dialog.setDependent(isDependent);
 					dialog.setCallback(getCallback());
-					dialog.show();
+					ViewManager.getInstance().showDialog(dialog);
 				} else {
 					if (data != null) {
 						type = data.getFormType();

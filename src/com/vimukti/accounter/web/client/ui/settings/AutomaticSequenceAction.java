@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class AutomaticSequenceAction extends Action {
 
@@ -29,8 +30,7 @@ public class AutomaticSequenceAction extends Action {
 		try {
 			AutomaticSequenceDialog automaticSequenceDialog = new AutomaticSequenceDialog(
 					messages.automaticSequencing(), "");
-			automaticSequenceDialog.show();
-			automaticSequenceDialog.center();
+			ViewManager.getInstance().showDialog(automaticSequenceDialog);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

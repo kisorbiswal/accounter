@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Panel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.CountryPreferences;
@@ -135,7 +135,7 @@ public abstract class AbstractView<T> extends FlowPanel {
 		setFocus();
 	}
 
-	public void removeButton(HasWidgets parent, Button child) {
+	public void removeButton(Panel parent, Button child) {
 		getButtonBar().removeButton(parent, child);
 	}
 
@@ -147,7 +147,7 @@ public abstract class AbstractView<T> extends FlowPanel {
 		return buttonBar;
 	}
 
-	public void addButton(HasWidgets parent, Button child) {
+	public void addButton(Panel parent, Button child) {
 		getButtonBar().addButton(parent, child);
 	}
 

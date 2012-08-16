@@ -133,7 +133,7 @@ public class PayRollActions extends Action {
 			break;
 		case NEW_EMP_GROUP:
 			dialog = new NewEmployeeGroupDialog(messages.newEmployeeGroup(),
-					(ClientEmployeeGroup) data,isFromEmployeeView());
+					(ClientEmployeeGroup) data, isFromEmployeeView());
 			break;
 		case EMP_GROUP_LIST:
 			dialog = new EmployeeGroupListDialog(messages.employeeGroup(),
@@ -141,7 +141,7 @@ public class PayRollActions extends Action {
 			break;
 		case NEW_PAYROLL_UNIT:
 			NewPayrollUnitDialog newPayrollUnitDialog = new NewPayrollUnitDialog(
-					messages.newPayrollUnit(),isFromEmployeeView());
+					messages.newPayrollUnit(), isFromEmployeeView());
 			newPayrollUnitDialog.setData((ClientPayrollUnit) data);
 			dialog = newPayrollUnitDialog;
 			break;
@@ -169,8 +169,7 @@ public class PayRollActions extends Action {
 		}
 
 		if (dialog != null) {
-			dialog.show();
-			dialog.center();
+			ViewManager.getInstance().showDialog(dialog);
 			dialog.setCallback(getCallback());
 		}
 	}

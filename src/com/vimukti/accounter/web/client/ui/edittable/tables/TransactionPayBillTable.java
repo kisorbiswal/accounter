@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.NewApplyCreditsDialog;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.AnchorEditColumn;
@@ -640,7 +641,7 @@ public abstract class TransactionPayBillTable extends
 					return true;
 				}
 			});
-			dialog.show();
+			ViewManager.getInstance().showDialog(dialog);
 
 		} else {
 			Accounter.showInformation(messages.noCreditsForThisVendor(Global
@@ -717,7 +718,7 @@ public abstract class TransactionPayBillTable extends
 				return true;
 			}
 		});
-		cashDiscountDialog.show();
+		ViewManager.getInstance().showDialog(cashDiscountDialog);
 	}
 
 	protected abstract void adjustPaymentValue(

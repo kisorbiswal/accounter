@@ -32,9 +32,9 @@ public class EmailThemeComboAction extends Action {
 	}
 
 	private void runAsync(Object data, Boolean isDependent) {
-		EmailThemeComboDialog comboDialog = new EmailThemeComboDialog(messages.selectThemes(), "", (ClientTransaction) data);
-		comboDialog.show();
-		comboDialog.center();
+		EmailThemeComboDialog comboDialog = new EmailThemeComboDialog(
+				messages.selectThemes(), "", (ClientTransaction) data);
+		ViewManager.getInstance().showDialog(comboDialog);
 	}
 
 	@Override

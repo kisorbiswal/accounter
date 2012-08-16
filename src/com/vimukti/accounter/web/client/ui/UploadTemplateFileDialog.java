@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.settings.InvoiceBrandingAction;
 
 @SuppressWarnings({ "deprecation" })
@@ -209,7 +210,7 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		mainLayout = new StyledPanel("mainLayout");
 		mainLayout.add(uploadFormLayout);
 		add(mainLayout);
-		show();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	/**

@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.NewApplyCreditsDialog;
 import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
@@ -127,7 +128,7 @@ public abstract class TransactionReceivePaymentTable extends
 				@Override
 				public String getValueAsString(
 						ClientTransactionReceivePayment row) {
-					return messages.dueDate()+getValue(row);
+					return messages.dueDate() + getValue(row);
 				}
 
 				@Override
@@ -210,7 +211,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionReceivePayment row) {
-				return  getColumnNameWithCurrency(messages.invoiceAmount())+" : "+getValue(row);
+				return getColumnNameWithCurrency(messages.invoiceAmount())
+						+ " : " + getValue(row);
 			}
 
 			@Override
@@ -253,7 +255,8 @@ public abstract class TransactionReceivePaymentTable extends
 				@Override
 				public String getValueAsString(
 						ClientTransactionReceivePayment row) {
-					return getColumnNameWithCurrency(messages.amountDue())+" : "+getValue(row);
+					return getColumnNameWithCurrency(messages.amountDue())
+							+ " : " + getValue(row);
 				}
 
 				@Override
@@ -293,7 +296,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionReceivePayment row) {
-				return  messages.discountDate()+" : "+getValue(row);
+				return messages.discountDate() + " : " + getValue(row);
 			}
 
 			@Override
@@ -334,7 +337,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionReceivePayment row) {
-				return getColumnNameWithCurrency(messages.cashDiscount())+" : "+getValue(row);
+				return getColumnNameWithCurrency(messages.cashDiscount())
+						+ " : " + getValue(row);
 			}
 
 			@Override
@@ -378,7 +382,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionReceivePayment row) {
-				return getColumnNameWithCurrency(messages.writeOff())+" : "+getValue(row);
+				return getColumnNameWithCurrency(messages.writeOff()) + " : "
+						+ getValue(row);
 			}
 
 			@Override
@@ -419,7 +424,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionReceivePayment row) {
-				return getColumnNameWithCurrency(messages.appliedCredits())+" : "+getValue(row);
+				return getColumnNameWithCurrency(messages.appliedCredits())
+						+ " : " + getValue(row);
 			}
 
 			@Override
@@ -491,7 +497,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionReceivePayment row) {
-				return getColumnNameWithCurrency(messages.payment())+" : "+getValue(row);
+				return getColumnNameWithCurrency(messages.payment()) + " : "
+						+ getValue(row);
 			}
 
 			@Override
@@ -608,7 +615,7 @@ public abstract class TransactionReceivePaymentTable extends
 				return true;
 			}
 		});
-		cashDiscountDialog.show();
+		ViewManager.getInstance().showDialog(cashDiscountDialog);
 	}
 
 	private ClientAccount getCashDiscountAccount(
@@ -651,7 +658,7 @@ public abstract class TransactionReceivePaymentTable extends
 					return true;
 				}
 			});
-			dialog.show();
+			ViewManager.getInstance().showDialog(dialog);
 
 		} else {
 			Accounter.showInformation(messages.noCreditsForThisVendor(Global
@@ -769,7 +776,7 @@ public abstract class TransactionReceivePaymentTable extends
 				return true;
 			}
 		});
-		writeOffDialog.show();
+		ViewManager.getInstance().showDialog(writeOffDialog);
 	}
 
 	private List<ClientAccount> getAccounts(

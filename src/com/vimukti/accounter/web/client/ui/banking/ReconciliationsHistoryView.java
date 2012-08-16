@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.ReconciliationAccountCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.InvoicePrintDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -161,7 +162,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 	public void showDialogBox(String description) {
 		InvoicePrintDialog printDialog = new InvoicePrintDialog(
 				messages.selectReports(), "", description);
-		printDialog.show();
+		ViewManager.getInstance().showDialog(printDialog);
 		printDialog.center();
 	}
 

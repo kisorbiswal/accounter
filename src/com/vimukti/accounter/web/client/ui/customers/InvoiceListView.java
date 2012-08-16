@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BrandingThemeComboAction;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.InvoiceListGrid;
 
 public class InvoiceListView extends TransactionsListView<InvoicesList>
@@ -315,8 +316,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	public void showDialogBox(String title, String description) {
 		InvoicePrintDialog printDialog = new InvoicePrintDialog(title, "",
 				description);
-		printDialog.show();
-		printDialog.center();
+		ViewManager.getInstance().showDialog(printDialog);
 	}
 
 	@Override

@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -62,6 +63,8 @@ public class ItemReceiptView extends
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
 	private GwtDisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private StyledPanel accountFlowPanel;
+	private StyledPanel itemsFlowPanel;
 
 	public ItemReceiptView() {
 		super(ClientTransaction.TYPE_ITEM_RECEIPT);
@@ -195,23 +198,12 @@ public class ItemReceiptView extends
 
 		vendorAccountTransactionTable.setEnabled(!isInViewMode());
 
-		accountTableButton = new AddNewButton(messages.addNew(messages
-				.Account()));
-		accountTableButton.setEnabled(!isInViewMode());
-		accountTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addAccount();
-			}
-		});
-		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
+		this.accountFlowPanel = new StyledPanel("accountFlowPanel");
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
-		accountTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(accountFlowPanel, accountTableButton);
+
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
 		// accountsDisclosurePanel.setWidth("100%");
@@ -246,22 +238,12 @@ public class ItemReceiptView extends
 
 		vendorItemTransactionTable.setEnabled(isInViewMode());
 
-		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
-		itemTableButton.setEnabled(!isInViewMode());
-		itemTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addItem();
-			}
-		});
-		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
+		this.itemsFlowPanel = new StyledPanel("itemsFlowPanel");
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
-		itemTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(itemsFlowPanel, itemTableButton);
+
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 		// itemsDisclosurePanel.setWidth("100%");
 		vatinclusiveCheck = getVATInclusiveCheckBox();
@@ -685,7 +667,7 @@ public class ItemReceiptView extends
 			} else
 				dialog = new VendorPurchaseListDialog(this, filteredList);
 
-			dialog.show();
+			ViewManager.getInstance().showDialog(dialog);
 		}
 
 	}
@@ -903,5 +885,21 @@ public class ItemReceiptView extends
 	@Override
 	public boolean allowEmptyTransactionItems() {
 		return false;
+	}
+
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		accountTableButton = getAccountAddNewButton();
+		itemTableButton = getItemAddNewButton();
+		addButton(accountFlowPanel, accountTableButton);
+		addButton(itemsFlowPanel, itemTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(itemsFlowPanel, itemTableButton);
+		removeButton(accountFlowPanel, accountTableButton);
 	}
 }

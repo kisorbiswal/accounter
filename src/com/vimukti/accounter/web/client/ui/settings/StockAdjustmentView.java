@@ -47,6 +47,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 	private ClientWarehouse wareHouse;
 
 	AccountCombo adjustmentAccountCombo;
+	private StyledPanel tablePanel;
 
 	public StockAdjustmentView() {
 		this.getElement().setId("StockAdjustmentView");
@@ -122,24 +123,12 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 		};
 		table.setEnabled(!isInViewMode());
 
-		addButton = new AddNewButton(messages.addNew(messages.item()));
-		addButton.setEnabled(!isInViewMode());
-		addButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				table.add(new ClientTransactionItem());
-			}
-		});
-
-		StyledPanel tablePanel = new StyledPanel("addnew_edit_panel");
+		this.tablePanel = new StyledPanel("addnew_edit_panel");
 		Label tableTitle = new Label(
 				messages2.table(messages.stockAdjustment()));
 		tableTitle.addStyleName("editTableTitle");
 		tablePanel.add(tableTitle);
 		tablePanel.add(table);
-		addButton.getElement().setAttribute("data-icon", "add");
-		addButton(tablePanel, addButton);
 
 		form = new DynamicForm("form");
 		form.add(wareHouseCombo, adjustmentAccountCombo);
@@ -356,5 +345,26 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 	@Override
 	public Double getCurrencyFactor() {
 		return 1.00D;
+	}
+
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		addButton = new AddNewButton(messages.addNew(messages.item()));
+		addButton.setEnabled(!isInViewMode());
+		addButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				table.add(new ClientTransactionItem());
+			}
+		});
+		addButton(tablePanel, addButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(tablePanel, addButton);
 	}
 }

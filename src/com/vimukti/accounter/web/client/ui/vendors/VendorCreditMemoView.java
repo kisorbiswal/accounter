@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -46,6 +44,8 @@ public class VendorCreditMemoView extends
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
 	private GwtDisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private StyledPanel accountFlowPanel;
+	private StyledPanel itemsFlowPanel;
 
 	public VendorCreditMemoView() {
 		super(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
@@ -302,24 +302,12 @@ public class VendorCreditMemoView extends
 		vendorAccountTransactionTable.getElement().getStyle()
 				.setMarginTop(10, Unit.PX);
 
-		accountTableButton = new AddNewButton(messages.addNew(messages
-				.Account()));
-		accountTableButton.setEnabled(!isInViewMode());
-		accountTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addAccount();
-			}
-		});
-
-		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
+		this.accountFlowPanel = new StyledPanel("accountFlowPanel");
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
-		accountTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(accountFlowPanel, accountTableButton);
+
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
 		// accountsDisclosurePanel.setWidth("100%");
@@ -356,24 +344,13 @@ public class VendorCreditMemoView extends
 		};
 
 		vendorItemTransactionTable.setEnabled(!isInViewMode());
-
-		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
-		itemTableButton.setEnabled(!isInViewMode());
-		itemTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addItem();
-			}
-		});
 		currencyWidget = createCurrencyFactorWidget();
-		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
+		this.itemsFlowPanel = new StyledPanel("itemsFlowPanel");
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
-		itemTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(itemsFlowPanel, itemTableButton);
+
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 
 		StyledPanel leftVLay = new StyledPanel("leftVLay");
@@ -943,5 +920,21 @@ public class VendorCreditMemoView extends
 	public boolean canExportToCsv() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		accountTableButton = getAccountAddNewButton();
+		itemTableButton = getItemAddNewButton();
+		addButton(accountFlowPanel, accountTableButton);
+		addButton(itemsFlowPanel, itemTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(itemsFlowPanel, itemTableButton);
+		removeButton(accountFlowPanel, accountTableButton);
 	}
 }

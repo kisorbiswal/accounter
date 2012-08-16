@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class NewItemDialog extends BaseDialog<ClientItem> {
 
@@ -9,7 +10,7 @@ public class NewItemDialog extends BaseDialog<ClientItem> {
 		super(title, desc);
 		this.getElement().setId("NewItemDialog");
 		// setWidth("300px");
-		show();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	@Override

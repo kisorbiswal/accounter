@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AddEditFiscalYearDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
@@ -123,7 +124,7 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 			ClientFiscalYear fiscalYear) {
 		addEditFiscalYear = new AddEditFiscalYearDialog(title, Description,
 				fiscalYear);
-		addEditFiscalYear.show();
+		ViewManager.getInstance().showDialog(addEditFiscalYear);
 
 	}
 

@@ -37,6 +37,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.MatchedReconcileItemsListGrid;
@@ -97,7 +98,7 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		// setWidth("800px");
 		createControls();
 		center();
-		show();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	@Override

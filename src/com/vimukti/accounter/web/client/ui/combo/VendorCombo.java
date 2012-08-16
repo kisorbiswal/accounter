@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.QuickAddDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 
 public class VendorCombo extends CustomCombo<ClientVendor> {
@@ -82,7 +83,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 				return super.getData(text);
 			}
 		});
-		dialog.show();
+		ViewManager.getInstance().showDialog(dialog);
 	}
 
 	protected boolean isVenodrExists(String text) {

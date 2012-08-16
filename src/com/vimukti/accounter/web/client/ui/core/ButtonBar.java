@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ButtonBar implements IButtonBar {
@@ -56,12 +57,18 @@ public class ButtonBar implements IButtonBar {
 	}
 
 	@Override
-	public void removeButton(HasWidgets parent, Button child) {
+	public void removeButton(Panel parent, Button child) {
+		if (child == null) {
+			return;
+		}
 		parent.remove(child);
 	}
 
 	@Override
-	public void addButton(HasWidgets parent, Button child) {
+	public void addButton(Panel parent, Button child) {
+		if (child == null) {
+			return;
+		}
 		parent.add(child);
 	}
 
@@ -71,7 +78,7 @@ public class ButtonBar implements IButtonBar {
 	}
 
 	@Override
-	public void clear(HasWidgets group) {
+	public void clear(Panel group) {
 		group.clear();
 	}
 
@@ -100,7 +107,12 @@ public class ButtonBar implements IButtonBar {
 	}
 
 	@Override
-	public void addPermanent(HasWidgets parent, Button child) {
+	public void addPermanent(Panel parent, Button child) {
 		parent.add(child);
+	}
+
+	public void remove() {
+		// TODO Auto-generated method stub
+
 	}
 }

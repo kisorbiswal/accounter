@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -37,7 +38,7 @@ public class NewJobDialog extends BaseDialog<ClientJob> {
 			ClientCustomer customer) {
 		super(title, desc);
 		this.getElement().setId("NewJobDialog");
-//		setWidth("300px");
+		// setWidth("300px");
 		this.job = job;
 		this.customer = customer;
 		createControls();
@@ -87,7 +88,7 @@ public class NewJobDialog extends BaseDialog<ClientJob> {
 
 		this.center();
 
-		show();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	/**

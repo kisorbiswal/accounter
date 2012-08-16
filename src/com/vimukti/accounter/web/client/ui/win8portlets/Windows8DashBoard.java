@@ -8,7 +8,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -52,7 +52,6 @@ public class Windows8DashBoard extends BaseHomeView implements IButtonContainer 
 
 	@Override
 	public void init() {
-		super.add(new HTML("<h2>" + Global.get().messages().dashBoard() + ""));
 		// super.init();
 		this.addStyleName("portlet_quicklinks");
 		add(createControl());
@@ -60,7 +59,11 @@ public class Windows8DashBoard extends BaseHomeView implements IButtonContainer 
 	}
 
 	private Widget createControl() {
+		Label lab1 = new Label(Global.get().messages().dashBoard());
+		lab1.setStyleName("label-title");
+
 		mainPanel = new StyledPanel("dashBoard");
+		mainPanel.add(lab1);
 		page = new PortletPage(PortletPage.DASHBOARD);
 		quicklinksPanel = new StyledPanel("quickLinks-panel");
 

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.win8;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
@@ -15,6 +16,7 @@ import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.WebsocketAccounterInitialiser;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.URLLauncher;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.PasswordItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -59,7 +61,14 @@ public class SignUpPanel extends FlowPanel {
 		// agreeterms = new CheckBox();
 		Anchor termaAndConditionsAnchor = new Anchor(Accounter.getMessages()
 				.termsConditions());
-		termaAndConditionsAnchor.setHref("/site/termsandconditions");
+		termaAndConditionsAnchor.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				URLLauncher launcher = GWT.create(URLLauncher.class);
+				launcher.launch("/site/termsandconditions");
+			}
+		});
 		// newsLetters = new CheckBox();
 		// newsLetters.setText(Accounter.getMessages().newsletter());
 		// newsLetters.setValue(true);

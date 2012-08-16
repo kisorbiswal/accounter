@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
 import com.vimukti.accounter.web.client.ui.banking.BankStatementAction;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.UploadStatementDialog;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
@@ -138,7 +139,7 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 							.hasPermission(Features.IMPORT_BANK_STATEMENTS)) {
 						UploadStatementDialog dialog = new UploadStatementDialog(
 								messages.uploadAttachment(), account);
-						dialog.show();
+						ViewManager.getInstance().showDialog(dialog);
 					} else {
 						Accounter.showSubscriptionWarning();
 					}

@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.banking.StatementImportViewAction;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class UploadStatementDialog extends BaseDialog implements
 		AsyncCallback<PaginationList<ClientStatement>> {
@@ -164,8 +165,7 @@ public class UploadStatementDialog extends BaseDialog implements
 		mainLayout = new StyledPanel("mainLayout");
 		mainLayout.add(uploadForm);
 		add(mainLayout);
-		show();
-
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	private void processOnUpload() {

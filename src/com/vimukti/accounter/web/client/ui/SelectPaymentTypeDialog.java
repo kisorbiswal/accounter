@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundAction;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -51,7 +52,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 
 		setBodyLayout(mainVLay);
 		// setWidth("300px");
-		show();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	@Override

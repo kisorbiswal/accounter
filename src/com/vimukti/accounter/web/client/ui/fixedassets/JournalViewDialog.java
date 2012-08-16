@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.ui.combo.RevenueAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.RevenueAndExpenseAccountCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -70,7 +71,7 @@ public class JournalViewDialog extends BaseDialog {
 		disposalSummarylabel.addStyleName("title-color");
 		disposalSummaryForm = getDisposalSummaryForm();
 
-//		disposalSummaryForm.setWidth("100%");
+		// disposalSummaryForm.setWidth("100%");
 		Label disposalJOurnallabel = new Label(messages.disposalJournal());
 		disposalJOurnallabel.setStyleName("label-title");
 		disposalJOurnallabel.addStyleName("title-color");
@@ -83,7 +84,7 @@ public class JournalViewDialog extends BaseDialog {
 
 		disposalJournalForm = getDisposalJournalForm();
 
-//		disposalJournalForm.setWidth("100%");
+		// disposalJournalForm.setWidth("100%");
 
 		okbtn = new Button(messages.post());
 		okbtn.addClickHandler(new ClickHandler() {
@@ -93,7 +94,7 @@ public class JournalViewDialog extends BaseDialog {
 				processOK();
 			}
 		});
-//		okbtn.setWidth("100px");
+		// okbtn.setWidth("100px");
 
 		footerLayout.clear();
 		// footerLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
@@ -109,8 +110,7 @@ public class JournalViewDialog extends BaseDialog {
 		mainLayout.add(disposalJOurnallabel);
 		mainLayout.add(disposalJournalForm);
 		setBodyLayout(mainLayout);
-		center();
-		show();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	@Override
@@ -246,7 +246,7 @@ public class JournalViewDialog extends BaseDialog {
 		HTML creditLabel = new HTML();
 		creditLabel.setHTML(messages.credit());
 		form.setText(0, 0, "");
-//		form.setWidth("100%");
+		// form.setWidth("100%");
 		form.setWidget(0, 1, debitLabel);
 		form.setText(0, 2, "");
 		form.setWidget(0, 3, creditLabel);

@@ -1,16 +1,20 @@
 package com.vimukti.accounter.web.client.ui.forms;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Panel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.core.IButtonBar;
 
 public class CustomDialog extends DialogBox {
 
@@ -117,7 +121,7 @@ public class CustomDialog extends DialogBox {
 			Element element = event.getTarget();
 			if (cross.getElement().equals(element)) {
 				if (onCancel())
-					CustomDialog.this.removeFromParent();
+					hide();
 			} else if (help.getElement().equals(element)) {
 				Window.open("http://help.accounterlive.com/", "_blank", "");
 				onHelp();
@@ -155,4 +159,30 @@ public class CustomDialog extends DialogBox {
 	protected void onHelp() {
 
 	}
+
+	private IButtonBar buttonBar;
+
+	public IButtonBar getButtonBar() {
+		if (this.buttonBar == null) {
+			buttonBar = GWT.create(IButtonBar.class);
+		}
+		return buttonBar;
+	}
+
+	public void removeButton(Panel parent, Button child) {
+		getButtonBar().removeButton(parent, child);
+	}
+
+	public void addButton(Panel parent, Button child) {
+		getButtonBar().addButton(parent, child);
+	}
+
+	public void addButton(Button widget) {
+		getButtonBar().add(widget);
+	}
+
+	public void updateButtons() {
+
+	}
+
 }

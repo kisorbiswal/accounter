@@ -11,6 +11,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.impl.CldrImpl;
@@ -22,6 +24,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
@@ -42,6 +45,7 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.TransactionMeterPanel;
 import com.vimukti.accounter.web.client.ui.company.TransactionsCenterView;
 import com.vimukti.accounter.web.client.ui.core.HistoryList.HistoryItem;
+import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 import com.vimukti.accounter.web.client.ui.settings.InventoryCentreView;
 
 /**
@@ -719,7 +723,7 @@ public class ViewManager extends FlowPanel {
 
 	public ImageButton getSearchButton() {
 
-		searchButton = new ImageButton(Accounter.getFinanceImages()
+		searchButton = new ImageButton("Search", Accounter.getFinanceImages()
 				.searchButton(), "find");
 		searchButton.setTitle(messages.clickThisTo(messages.open(),
 				messages.search()));
@@ -1028,6 +1032,34 @@ public class ViewManager extends FlowPanel {
 
 	public boolean isIpad() {
 		return false;
+	}
+
+	public void showDialog(CustomDialog dialog) {
+		dialog.addCloseHandler(new CloseHandler<PopupPanel>() {
+
+			@Override
+			public void onClose(CloseEvent<PopupPanel> event) {
+				existingView.getButtonBar().clear();
+				addRequiredButtons();
+				existingView.updateButtons();
+				existingView.showButtonBar();
+			}
+		});
+		dialog.center();
+		dialog.getButtonBar().show();
+	}
+
+	public void showDialog(final CustomDialog parent, CustomDialog child) {
+		child.addCloseHandler(new CloseHandler<PopupPanel>() {
+
+			@Override
+			public void onClose(CloseEvent<PopupPanel> event) {
+				parent.updateButtons();
+				parent.getButtonBar().show();
+			}
+		});
+		child.center();
+		child.getButtonBar().show();
 	}
 
 }

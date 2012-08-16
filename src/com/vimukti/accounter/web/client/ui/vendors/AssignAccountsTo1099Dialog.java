@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -182,7 +183,8 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 
 								}
 							});
-					selectItemsTo1099Dialog.show();
+					ViewManager.getInstance().showDialog(
+							selectItemsTo1099Dialog);
 
 				}
 			}

@@ -7,8 +7,6 @@ import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -89,6 +87,8 @@ public class CreditCardExpenseView extends
 	private GwtDisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	private TAXCodeCombo taxCodeSelect;
+	private StyledPanel accountFlowPanel;
+	private StyledPanel itemsFlowPanel;
 
 	public CreditCardExpenseView() {
 		super(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
@@ -378,23 +378,12 @@ public class CreditCardExpenseView extends
 
 		vendorAccountTransactionTable.setEnabled(!isInViewMode());
 
-		accountTableButton = new AddNewButton(messages.addNew(messages
-				.Account()));
-		accountTableButton.setEnabled(!isInViewMode());
-		accountTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addAccount();
-			}
-		});
-		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
+		this.accountFlowPanel = new StyledPanel("accountFlowPanel");
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
-		accountTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(accountFlowPanel, accountTableButton);
+
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
 		// accountsDisclosurePanel.setWidth("100%");
@@ -433,23 +422,12 @@ public class CreditCardExpenseView extends
 
 		vendorItemTransactionTable.setEnabled(!isInViewMode());
 
-		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
-		itemTableButton.setEnabled(!isInViewMode());
-		itemTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addItem();
-			}
-		});
-
-		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
+		this.itemsFlowPanel = new StyledPanel("itemsFlowPanel");
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
-		itemTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(itemsFlowPanel, itemTableButton);
+
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 		// itemsDisclosurePanel.setWidth("100%");
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -1358,5 +1336,21 @@ public class CreditCardExpenseView extends
 		updateTransaction();
 		UIUtils.downloadAttachment(transaction.getID(),
 				ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
+	}
+
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		accountTableButton = getAccountAddNewButton();
+		itemTableButton = getItemAddNewButton();
+		addButton(accountFlowPanel, accountTableButton);
+		addButton(itemsFlowPanel, itemTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(itemsFlowPanel, itemTableButton);
+		removeButton(accountFlowPanel, accountTableButton);
 	}
 }

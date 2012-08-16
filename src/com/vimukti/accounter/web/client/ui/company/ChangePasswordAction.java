@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class ChangePasswordAction extends Action {
 	private ChangePasswordDialog view;
@@ -32,9 +33,8 @@ public class ChangePasswordAction extends Action {
 	}
 
 	private void runAsync(Object data, Boolean isDependent) {
-		view = new ChangePasswordDialog(messages.changePassword(),
-				null);
-		view.show();
+		view = new ChangePasswordDialog(messages.changePassword(), null);
+		ViewManager.getInstance().showDialog(view);
 		view.center();
 	}
 

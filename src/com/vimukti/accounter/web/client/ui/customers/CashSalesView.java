@@ -97,6 +97,8 @@ public class CashSalesView extends
 	private Button emailButton;
 
 	TransactionsTree<PurchaseOrdersAndItemReceiptsList> transactionsTree;
+	private StyledPanel accountFlowPanel;
+	private StyledPanel itemsFlowPanel;
 
 	public CashSalesView() {
 		super(ClientTransaction.TYPE_CASH_SALES);
@@ -355,25 +357,13 @@ public class CashSalesView extends
 
 		customerAccountTransactionTable.setEnabled(!isInViewMode());
 
-		accountTableButton = new AddNewButton(messages.addNew(messages
-				.Account()));
-		accountTableButton.getElement().setAttribute("data-icon", "add");
-		accountTableButton.setEnabled(!isInViewMode());
-		accountTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addAccount();
-			}
-		});
-
-		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
+		this.accountFlowPanel = new StyledPanel("accountFlowPanel");
 
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(customerAccountTransactionTable);
-		addButton(accountFlowPanel, accountTableButton);
+
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		customerItemTransactionTable = new CustomerItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
@@ -408,20 +398,10 @@ public class CashSalesView extends
 			}
 		};
 		customerItemTransactionTable.setEnabled(!isInViewMode());
-		itemTableButton = new AddNewButton(messages.addNew(messages.item()));
-		itemTableButton.setEnabled(!isInViewMode());
-		itemTableButton.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				addItem();
-			}
-		});
-
-		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
+		this.itemsFlowPanel = new StyledPanel("itemsFlowPanel");
 		itemsFlowPanel.add(customerItemTransactionTable);
-		itemTableButton.getElement().setAttribute("data-icon", "add");
-		addButton(itemsFlowPanel, itemTableButton);
+
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
@@ -1661,6 +1641,17 @@ public class CashSalesView extends
 				}
 			});
 		}
+		accountTableButton = getAccountAddNewButton();
+		itemTableButton = getItemAddNewButton();
+		addButton(accountFlowPanel, accountTableButton);
+		addButton(itemsFlowPanel, itemTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(itemsFlowPanel, itemTableButton);
+		removeButton(accountFlowPanel, accountTableButton);
 	}
 
 }

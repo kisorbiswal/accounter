@@ -5,6 +5,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.AddMessageOrTaskDialog;
 
 public abstract class AddMessageOrTaskAction extends Action {
@@ -20,7 +21,7 @@ public abstract class AddMessageOrTaskAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				
+
 				AddMessageOrTaskDialog dialog = new AddMessageOrTaskDialog(
 						messages.messagesAndTasks()) {
 
@@ -30,7 +31,7 @@ public abstract class AddMessageOrTaskAction extends Action {
 					};
 				};
 				dialog.center();
-				dialog.show();
+				ViewManager.getInstance().showDialog(dialog);
 			}
 
 			public void onFailure(Throwable e) {
@@ -38,7 +39,6 @@ public abstract class AddMessageOrTaskAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-		
 
 	}
 

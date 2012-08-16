@@ -67,6 +67,7 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.edittable.tables.ContactsTable;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.CustomFieldForm;
@@ -816,8 +817,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			public void onClick(ClickEvent event) {
 				customFieldDialog = new CustomFieldDialog(VendorView.this,
 						messages.CustomField(), messages.ManageCustomFields());
-				customFieldDialog.show();
-				customFieldDialog.center();
+				ViewManager.getInstance().showDialog(customFieldDialog);
 			}
 		});
 		addCustomFieldButton.setEnabled(!isInViewMode());

@@ -6,6 +6,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
  * 
@@ -29,9 +30,8 @@ public class CountryRegionListAction extends Action {
 
 			public void onSuccess() {
 				CountryRegionDialog dialog = new CountryRegionDialog("", "");
-				dialog.show();
+				ViewManager.getInstance().showDialog(dialog);
 
-				
 			}
 
 			public void onFailure(Throwable e) {
@@ -39,14 +39,14 @@ public class CountryRegionListAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		// }
+		//
+		// });
 	}
 
 	public ImageResource getBigImage() {

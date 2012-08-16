@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
 
 public class EmployeeGroupListDialog extends GroupDialog<ClientEmployeeGroup> {
@@ -104,7 +105,7 @@ public class EmployeeGroupListDialog extends GroupDialog<ClientEmployeeGroup> {
 		if (employeeGroup != null) {
 			inputDlg.setTextItemValue(0, employeeGroup.getName());
 		}
-		inputDlg.show();
+		ViewManager.getInstance().showDialog(inputDlg);
 	}
 
 	@Override

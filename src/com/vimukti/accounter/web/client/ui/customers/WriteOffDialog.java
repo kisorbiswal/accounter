@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -120,7 +121,7 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 		mainVLay.add(form);
 
 		setBodyLayout(mainVLay);
-		show();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	public ValidationResult validate() {

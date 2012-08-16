@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vat;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class TDSForm16AAction extends Action {
 
@@ -25,7 +26,7 @@ public class TDSForm16AAction extends Action {
 	@Override
 	public void run() {
 		TdsForm16ACreationDialogue dialog = new TdsForm16ACreationDialogue();
-		dialog.show();
+		ViewManager.getInstance().showDialog(dialog);
 	}
 
 	@Override

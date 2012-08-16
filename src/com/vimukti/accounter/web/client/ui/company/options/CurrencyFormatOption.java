@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.company.CurrencyFormatDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class CurrencyFormatOption extends AbstractPreferenceOption {
@@ -38,8 +39,7 @@ public class CurrencyFormatOption extends AbstractPreferenceOption {
 			public void onClick(ClickEvent event) {
 				CurrencyFormatDialog dialog = new CurrencyFormatDialog(messages
 						.currencyFormat());
-				dialog.show();
-				dialog.center();
+				ViewManager.getInstance().showDialog(dialog);
 			}
 		});
 		add(currencyFormatLabel);

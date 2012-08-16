@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class DeleteThemeAction extends Action<ClientBrandingTheme> {
 
@@ -30,8 +31,7 @@ public class DeleteThemeAction extends Action<ClientBrandingTheme> {
 		try {
 			DeleteThemeDialog deleteThemeDialog = new DeleteThemeDialog(
 					messages.deleteThemeLabel(), "", (ClientBrandingTheme) data);
-			deleteThemeDialog.show();
-			deleteThemeDialog.center();
+			ViewManager.getInstance().showDialog(deleteThemeDialog);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

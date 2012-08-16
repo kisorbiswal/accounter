@@ -214,7 +214,7 @@ public abstract class AdminBaseDialog<T extends IAccounterCore> extends
 
 		}
 		if (onCancel())
-			removeFromParent();
+			hide();
 	}
 
 	protected void updateCompany() {
