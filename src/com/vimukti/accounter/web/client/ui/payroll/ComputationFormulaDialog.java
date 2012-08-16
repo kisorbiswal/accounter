@@ -35,6 +35,23 @@ public class ComputationFormulaDialog extends
 		mainForm = new DynamicForm("mainForm");
 
 		table = new ComputationFormulaTable();
+
+		StyledPanel attendanceTablePanel = new StyledPanel(
+				"ComputationFormulaTablePanel");
+		Label attTableTitle = new Label(Global.get().messages2()
+				.table(messages.attendance()));
+		attTableTitle.setStyleName("editTableTitle");
+		attendanceTablePanel.add(attTableTitle);
+		attendanceTablePanel.add(table);
+		mainForm.add(attendanceTablePanel);
+
+		bodyLayout.add(mainForm);
+	}
+
+	@Override
+	protected void createButtons(StyledPanel footer) {
+		super.createButtons(footer);
+
 		itemTableButton = new AddNewButton();
 		itemTableButton.getElement().setAttribute("data-icon", "add");
 		itemTableButton.addClickHandler(new ClickHandler() {
@@ -45,17 +62,8 @@ public class ComputationFormulaDialog extends
 				table.add(row);
 			}
 		});
-		StyledPanel attendanceTablePanel = new StyledPanel(
-				"ComputationFormulaTablePanel");
-		Label attTableTitle = new Label(Global.get().messages2()
-				.table(messages.attendance()));
-		attTableTitle.setStyleName("editTableTitle");
-		attendanceTablePanel.add(attTableTitle);
-		attendanceTablePanel.add(table);
-		mainForm.add(attendanceTablePanel);
-		getButtonBar().addButton(mainForm, itemTableButton);
 
-		bodyLayout.add(mainForm);
+		addButton(footer, itemTableButton);
 	}
 
 	@Override

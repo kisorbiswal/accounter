@@ -277,8 +277,6 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		emplVisaNumberDateItem.setEnteredDate(new ClientFinanceDate());
 		emplVisaNumberDateItem.setEnabled(!isInViewMode());
 		empOtherDetailsInfoForm = new DynamicForm("empOtherDetailsInfoForm");
-		customFieldDialog = new CustomFieldDialog(this, messages.CustomField(),
-				messages.ManageCustomFields());
 
 		empOtherDetailsRightForm = new DynamicForm("empOtherDetailsLeftForm");
 		empOtherDetailsRightForm.add(passportExpiryDateItem,
@@ -325,6 +323,8 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				customFieldDialog = new CustomFieldDialog(NewEmployeeView.this,
+						messages.CustomField(), messages.ManageCustomFields());
 				customFieldDialog.show();
 				customFieldDialog.center();
 			}

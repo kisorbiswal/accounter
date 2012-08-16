@@ -17,6 +17,7 @@ public class ApplicationBar implements IButtonBar {
 	static HTMLPanel appBar;
 	private static HashMap<Widget, HasWidgets> map = new HashMap<Widget, HasWidgets>();
 	static HashSet<Widget> direct = new HashSet<Widget>();
+	static HashSet<Button> permanent = new HashSet<Button>();
 
 	private HTMLPanel getAppBar() {
 		if (appBar == null) {
@@ -31,17 +32,40 @@ public class ApplicationBar implements IButtonBar {
 	//	this.appBar = $wnd.document.getElementById("appBar").winControl;
 	}-*/;
 
-	public native void show() /*-{
-		//this.appBar.sticky = true;
-		//this.appBar.show();
-	}-*/;
-
 	public native void hide() /*-{
 		//this.appBar.hide();
 	}-*/;
 
+	public native void process(Element e) /*-{
+		$wnd.WinJS.UI.process(e);
+	}-*/;
+
 	@Override
 	public void addPermanent(Button btn) {
+		btn.getElement().setAttribute("data-section", "selection");
+		permanent.add(btn);
+		addToAppBar(btn);
+	}
+
+	public void show() {
+		for (int x = 0; x < getAppBar().getWidgetCount(); x++) {
+			Widget w = getAppBar().getWidget(x);
+			if (direct.contains(w) || map.keySet().contains(w)
+					|| permanent.contains(w)) {
+				continue;
+			}
+			getAppBar().remove(w);
+		}
+		for (Widget w : direct) {
+			addToAppBar((Button) w);
+		}
+
+		for (Widget w : map.keySet()) {
+			addToAppBar((Button) w);
+		}
+	}
+
+	private void addToAppBar(Button btn) {
 		Element element = btn.getElement();
 
 		element.removeAttribute("class");
@@ -49,32 +73,37 @@ public class ApplicationBar implements IButtonBar {
 		String title = btn.getTitle();
 		String icon = element.getAttribute("data-icon");
 
-		String label = btn.getText();
-		if (label == null || label.isEmpty()) {
-			label = btn.getHTML();
-		}
-
-		element.setAttribute("data-win-control", "WinJS.UI.AppBarCommand");
-
-		element.setAttribute("data-win-options",
-				"{id:'cmd" + label.replace(" ", "") + "',label:'" + label
-						+ "',icon:'" + icon + "',section:'global',tooltip:'"
-						+ title + "'}");
 		for (int i = 0; i < element.getChildCount(); i++) {
 			element.removeChild(element.getChild(i));
 		}
+		String label = btn.getHTML();
+		if (label == null) {
+			label = btn.getText();
+		}
+
+		element.setAttribute("data-win-control", "WinJS.UI.AppBarCommand");
+		String section = element.getAttribute("data-section");
+		if (section == null || section.isEmpty()) {
+			section = "global";
+		}
+
+		element.setAttribute("data-win-options",
+				"{id:'cmd" + label.replace(" ", "") + "',label:'" + label
+						+ "',icon:'" + icon + "',section:'" + section
+						+ "',tooltip:'" + title + "'}");
 
 		element.setInnerHTML(" ");
-		element.setInnerText("");
+		element.setInnerText("  ");
 
 		HTMLPanel appBar = getAppBar();
-		appBar.add(btn);
-		show();
+		if (appBar.getWidgetIndex(btn) == -1) {
+			appBar.add(btn);
+			process(element);
+		}
 	}
 
 	@Override
 	public void add(Button btn) {
-		addPermanent(btn);
 		direct.add(btn);
 	}
 
@@ -107,7 +136,6 @@ public class ApplicationBar implements IButtonBar {
 
 	public void addButton(HasWidgets parent, Button child) {
 		map.put(child, parent);
-		addPermanent(child);
 	}
 
 	@Override
@@ -150,6 +178,11 @@ public class ApplicationBar implements IButtonBar {
 			getAppBar().remove(widget);
 		}
 		direct.clear();
+	}
+
+	@Override
+	public void addPermanent(HasWidgets parent, Button child) {
+		addPermanent(child);
 	}
 
 }

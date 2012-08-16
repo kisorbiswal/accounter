@@ -149,7 +149,7 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		panel.add(dynamicForm1);
 
 		goBtn = new Button(messages.search());
-		goBtn.getElement().setAttribute("data.icon", "search");
+		goBtn.getElement().setAttribute("data-icon", "search");
 		getButtonBar().addButton(panel, goBtn);
 		goBtn.addClickHandler(new ClickHandler() {
 			@Override

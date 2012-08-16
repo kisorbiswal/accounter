@@ -88,6 +88,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		} else {
 			setModal(true);
 		}
+		getButtonBar().clear();
 	}
 
 	public BaseDialog(String text) {
@@ -95,21 +96,14 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		setText(text);
 		initRPCService();
 		createControls();
-		okbtn.setFocus(true);
 		sinkEvents(Event.ONKEYPRESS);
 		sinkEvents(Event.ONMOUSEOVER);
+		getButtonBar().clear();
 	}
 
 	public BaseDialog(String text, String desc) {
-		this();
-		// setText(getViewTitle());
-		setText(text);
+		this(text);
 		this.description = desc;
-		initRPCService();
-		createControls();
-		okbtn.setFocus(true);
-		sinkEvents(Event.ONKEYPRESS);
-		sinkEvents(Event.ONMOUSEOVER);
 	}
 
 	protected void initRPCService() {
@@ -144,39 +138,6 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		// footerLayout.setSpacing(3);
 		// footerLayout.addStyleName("dialogfooter");
 
-		this.okbtn = new Button(messages.ok());
-		// okbtn.setWidth("80px");
-		okbtn.getElement().setAttribute("data.icon", "accept");
-		this.okbtn.setFocus(true);
-
-		okbtn.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-
-				processOK();
-			}
-		});
-		okbtn.setFocus(true);
-
-		cancelBtn = new Button(messages.cancel());
-		cancelBtn.getElement().setAttribute("data.icon", "cancel");
-		// cancelBtn.setWidth("80px");
-		cancelBtn.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-
-				processCancel();
-			}
-		});
-
-		// footerLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		getButtonBar().addButton(footerLayout, okbtn);
-		getButtonBar().addButton(footerLayout, cancelBtn);
-
-		okbtn.setEnabled(true);
-
-		cancelBtn.setEnabled(true);
-
 		// footerLayout.setCellHorizontalAlignment(okbtn,
 		// HasHorizontalAlignment.ALIGN_RIGHT);
 		// footerLayout.setCellHorizontalAlignment(cancelBtn,
@@ -206,7 +167,41 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		// HasHorizontalAlignment.ALIGN_RIGHT);
 
 		add(mainPanel);
+		createButtons(footerLayout);
+	}
 
+	protected void createButtons(StyledPanel footer) {
+		this.okbtn = new Button(messages.ok());
+		// okbtn.setWidth("80px");
+		okbtn.getElement().setAttribute("data-icon", "accept");
+		this.okbtn.setFocus(true);
+
+		okbtn.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+
+				processOK();
+			}
+		});
+		okbtn.setFocus(true);
+
+		cancelBtn = new Button(messages.cancel());
+		cancelBtn.getElement().setAttribute("data-icon", "cancel");
+		// cancelBtn.setWidth("80px");
+		cancelBtn.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+
+				processCancel();
+			}
+		});
+
+		okbtn.setEnabled(true);
+		cancelBtn.setEnabled(true);
+
+		getButtonBar().addButton(footer, okbtn);
+		getButtonBar().addButton(footer, cancelBtn);
+		okbtn.setFocus(true);
 	}
 
 	/**
@@ -494,5 +489,23 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 
 	public void addButton(Button widget) {
 		getButtonBar().add(widget);
+	}
+
+	@Override
+	public void show() {
+		super.show();
+		if (isShowing()) {
+			return;
+		}
+		getButtonBar().show();
+	}
+
+	@Override
+	public void hide() {
+		super.hide();
+		if (!isShowing()) {
+			return;
+		}
+		getButtonBar().clear();
 	}
 }

@@ -4083,6 +4083,12 @@
 
 </head>	
   <body style="-ms-grid-rows: 76px 36fr 592fr auto; -ms-grid-columns: 0px 1366fr; ">
+  <div id="loading" >
+        <div id="progress">
+            <progress class="win-ring withText"></progress>
+		    <label class="progressRingText">Signing in...</label>
+        </div>
+	</div>
 	<div id="mainWindow"></div>
 <script type="text/javascript" charset="utf-8">
         function MacReload() {
@@ -4099,6 +4105,9 @@
         }
 </script>
 	<script language="javascript" type="text/javascript" src="/accounter.client/accounter.client.nocache.js"></script>
-
+	<div id="appBar" data-win-control="WinJS.UI.AppBar" data-win-options="">
+             <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'cmdAddnew',label:'Add new',icon:'Add',section:'global',tooltip:'Add new'}" >
+             </button>
+        </div>
  </body>
 </html>

@@ -600,7 +600,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		return mainVlay;
 	}
 
-	protected StyledPanel getTopLayout(){
+	protected StyledPanel getTopLayout() {
 		return new StyledPanel("fields-panel");
 	}
 
@@ -808,15 +808,14 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 		}
 
-		customFieldDialog = new CustomFieldDialog(this, messages.CustomField(),
-				messages.ManageCustomFields());
-
 		addCustomFieldButton = new Button();
 		addCustomFieldButton.setText(messages.ManageCustomFields());
 		addCustomFieldButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				customFieldDialog = new CustomFieldDialog(VendorView.this,
+						messages.CustomField(), messages.ManageCustomFields());
 				customFieldDialog.show();
 				customFieldDialog.center();
 			}

@@ -351,6 +351,7 @@ public class ViewManager extends FlowPanel {
 
 		viewHolder.add(newview);
 		updateButtons();
+		existingView.showButtonBar();
 	}
 
 	private void createViewTitle(String catagory, String viewModeText) {
@@ -363,7 +364,7 @@ public class ViewManager extends FlowPanel {
 	}
 
 	public void removeEditButton() {
-		group4.remove(editButton);
+		existingView.removeButton(group4, editButton);
 	}
 
 	// public void removeConfigButton() {
@@ -380,16 +381,18 @@ public class ViewManager extends FlowPanel {
 
 	public void updateButtons() {
 		addRequiredButtons();
-		if (!isIpad()) {
-			existingView.addButton(group6, searchButton);
+		if (!isIpad() && searchButton == null) {
+			searchButton = getSearchButton();
+			existingView.getButtonBar().addPermanent(group6, searchButton);
 		}
+		existingView.removeButton(group4, editButton);
 		if (existingView instanceof IEditableView
 				&& ((IEditableView) existingView).canEdit()) {
+			editButton = getEditButton();
 			existingView.addButton(group4, editButton);
-		} else {
-			existingView.removeButton(group4, editButton);
 		}
 
+		existingView.removeButton(group9, addNewButton);
 		if ((existingView instanceof BaseListView)
 				|| (existingView instanceof TransactionsCenterView)
 				|| (existingView instanceof InventoryCentreView)) {
@@ -404,31 +407,27 @@ public class ViewManager extends FlowPanel {
 				labelString = ((BaseListView) existingView)
 						.getAddNewLabelString();
 			}
+			existingView.removeButton(group9, addNewButton);
 			if (labelString != null && !labelString.isEmpty()) {
+				addNewButton = getAddNewButton();
 				addNewButton.setText(labelString);
 				existingView.addButton(group9, addNewButton);
-			} else {
-				existingView.removeButton(group9, addNewButton);
 			}
-		} else {
-			existingView.removeButton(group9, addNewButton);
 		}
+
+		existingView.removeButton(group2, exportButton);
+		existingView.removeButton(group2, printButton);
 
 		if (existingView instanceof IPrintableView && !Accounter.isIpadApp()) {
 			if (((IPrintableView) existingView).canExportToCsv()) {
+				exportButton = getExportButton();
 				existingView.addButton(group2, exportButton);
-			} else {
-				existingView.removeButton(group2, exportButton);
 			}
-			if (((IPrintableView) existingView).canPrint()) {
-				existingView.addButton(group2, printButton);
-			} else {
-				existingView.removeButton(group2, printButton);
-			}
-		} else {
-			existingView.removeButton(group2, exportButton);
-			existingView.removeButton(group2, printButton);
 
+			if (((IPrintableView) existingView).canPrint()) {
+				printButton = createPrintButton();
+				existingView.addButton(group2, printButton);
+			}
 		}
 		// if (existingView instanceof DashBoardView) {
 		// group5.add(configButton);
@@ -451,7 +450,6 @@ public class ViewManager extends FlowPanel {
 		// } else {
 		// removeAddVendorButton();
 		// }
-
 	}
 
 	/**
@@ -531,6 +529,8 @@ public class ViewManager extends FlowPanel {
 			this.views.add(item);
 		}
 		updateButtons();
+		existingView.updateButtons();
+		existingView.showButtonBar();
 	}
 
 	/**
@@ -621,7 +621,7 @@ public class ViewManager extends FlowPanel {
 
 		closeButton = getCloseButton();
 
-		searchButton = getSearchButton();
+		// searchButton = getSearchButton();
 
 		addNewButton = getAddNewButton();
 
@@ -720,7 +720,7 @@ public class ViewManager extends FlowPanel {
 	public ImageButton getSearchButton() {
 
 		searchButton = new ImageButton(Accounter.getFinanceImages()
-				.searchButton(), "search");
+				.searchButton(), "find");
 		searchButton.setTitle(messages.clickThisTo(messages.open(),
 				messages.search()));
 		searchButton.getElement().setId("searchButton");

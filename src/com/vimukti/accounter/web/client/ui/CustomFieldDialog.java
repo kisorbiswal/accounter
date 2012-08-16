@@ -36,7 +36,7 @@ public class CustomFieldDialog extends BaseDialog {
 		super(title, description);
 		this.getElement().setId("CustomFieldDialog");
 		this.parentView = view;
-		okbtn.setText(messages.save());
+
 		createControls();
 		// setPopupPosition(200, 200);
 		initData();
@@ -51,9 +51,21 @@ public class CustomFieldDialog extends BaseDialog {
 		customFieldTable = new CustomFieldTable() {
 		};
 
+		StyledPanel layout = new StyledPanel("layout");
+		customFieldTable.addStyleName("customfileddialog");
+		Label customFieldTableTitle = new Label(Global.get().messages2()
+				.table(messages.CustomField()));
+		customFieldTableTitle.addStyleName("editTableTitle");
+		layout.add(customFieldTableTitle);
+		layout.add(customFieldTable);
+		setBodyLayout(layout);
+	}
+
+	@Override
+	protected void createButtons(StyledPanel footer) {
 		addNew = new Button();
 		addNew.setText(messages.add());
-		addNew.getElement().setAttribute("data.icon", "add");
+		addNew.getElement().setAttribute("data-icon", "add");
 		addNew.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -64,15 +76,9 @@ public class CustomFieldDialog extends BaseDialog {
 
 			}
 		});
-		StyledPanel layout = new StyledPanel("layout");
-		customFieldTable.addStyleName("customfileddialog");
-		Label customFieldTableTitle = new Label(Global.get().messages2()
-				.table(messages.CustomField()));
-		customFieldTableTitle.addStyleName("editTableTitle");
-		layout.add(customFieldTableTitle);
-		layout.add(customFieldTable);
-		getButtonBar().addButton(layout, addNew);
-		setBodyLayout(layout);
+		addButton(footer, addNew);
+		super.createButtons(footer);
+		okbtn.setText(messages.save());
 	}
 
 	@SuppressWarnings("unchecked")

@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.CompanyDetails;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.AccounterInitialiser;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.WebsocketAccounterInitialiser;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
@@ -55,8 +56,8 @@ public class LoginPanel extends FlowPanel {
 
 			@Override
 			public void onResultSuccess(ArrayList<CompanyDetails> result) {
-				// rememberCredentials(useritem.getValue(), password.getValue(),
-				// AccounterInitialiser.PASSWORD_CRED_RESOURCE);
+				rememberCredentials(useritem.getValue(), password.getValue(),
+						AccounterInitialiser.PASSWORD_CRED_RESOURCE);
 				if (result.size() == 1) {
 					loadCompany(result.get(0).getCompanyId());
 					return;

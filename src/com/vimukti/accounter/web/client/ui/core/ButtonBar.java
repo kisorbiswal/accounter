@@ -92,4 +92,15 @@ public class ButtonBar implements IButtonBar {
 		}
 		widgets.clear();
 	}
+
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void addPermanent(HasWidgets parent, Button child) {
+		parent.add(child);
+	}
 }

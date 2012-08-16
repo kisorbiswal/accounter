@@ -48,8 +48,14 @@ public class CreateIRASInformationFileDialog extends BaseDialog {
 		verticalPanel.add(label);
 		verticalPanel.add(mainForm);
 
+		setBodyLayout(verticalPanel);
+		// setWidth("370px");
+	}
+
+	@Override
+	protected void createButtons(StyledPanel footer) {
 		downloadXml = new Button(messages.downloadXmlFile());
-		downloadXml.getElement().setAttribute("data.icon", "download");
+		downloadXml.getElement().setAttribute("data-icon", "download");
 		downloadXml.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -59,7 +65,7 @@ public class CreateIRASInformationFileDialog extends BaseDialog {
 		});
 
 		downloadTxt = new Button(messages.downloadTxtFile());
-		downloadTxt.getElement().setAttribute("data.icon", "download");
+		downloadTxt.getElement().setAttribute("data-icon", "download");
 		downloadTxt.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -67,13 +73,9 @@ public class CreateIRASInformationFileDialog extends BaseDialog {
 				createFile(false);
 			}
 		});
-
-		getButtonBar().removeButton(footerLayout, okbtn);
-		getButtonBar().addButton(footerLayout, downloadXml);
-		getButtonBar().addButton(footerLayout, downloadTxt);
-
-		setBodyLayout(verticalPanel);
-		// setWidth("370px");
+		addButton(footer, downloadXml);
+		addButton(footer, downloadTxt);
+		super.createButtons(footer);
 	}
 
 	protected void createFile(final boolean isXml) {

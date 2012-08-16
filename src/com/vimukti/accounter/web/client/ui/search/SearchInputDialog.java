@@ -170,7 +170,7 @@ public class SearchInputDialog extends BaseDialog {
 
 		buttonPanel = new StyledPanel("buttonPanel");
 		findButton = new Button(messages.find());
-		findButton.getElement().setAttribute("data-icon", "search");
+		findButton.getElement().setAttribute("data-icon", "find");
 		findButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -213,6 +213,11 @@ public class SearchInputDialog extends BaseDialog {
 
 		setBodyLayout(mainPanel);
 		mainPanel.getElement().getParentElement().addClassName("search-width");
+	}
+
+	@Override
+	protected void createButtons(StyledPanel footer) {
+		// DO NOTHING
 	}
 
 	protected int getSearchByType(String value) {

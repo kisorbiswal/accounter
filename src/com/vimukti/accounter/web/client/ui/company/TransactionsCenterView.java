@@ -260,6 +260,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 			mainPanel.add(baseListView);
 		}
 		MainFinanceWindow.getViewManager().updateButtons();
+		baseListView.showButtonBar();
 		baseListView.init();
 		if (!isRestoreView) {
 			baseListView.initData();

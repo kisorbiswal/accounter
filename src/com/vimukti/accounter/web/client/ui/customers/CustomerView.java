@@ -1093,15 +1093,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		vatregno.setEnabled(!isInViewMode());
 		custTaxCode.setEnabled(!isInViewMode());
 
-		customFieldDialog = new CustomFieldDialog(this, messages.CustomField(),
-				messages.ManageCustomFields());
-
 		addCustomFieldButton = new Button();
 		addCustomFieldButton.setText(messages.ManageCustomFields());
 		addCustomFieldButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				customFieldDialog = new CustomFieldDialog(CustomerView.this,
+						messages.CustomField(), messages.ManageCustomFields());
 				customFieldDialog.show();
 				customFieldDialog.center();
 			}

@@ -150,4 +150,12 @@ public abstract class AbstractView<T> extends FlowPanel {
 	public void addButton(HasWidgets parent, Button child) {
 		getButtonBar().addButton(parent, child);
 	}
+
+	public void showButtonBar() {
+		getButtonBar().show();
+	}
+
+	public void updateButtons() {
+
+	}
 }

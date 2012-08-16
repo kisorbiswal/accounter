@@ -1756,6 +1756,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			addButton(reconcileBtn);
 
 			Button uploadStatementBtn = new Button(messages.uploadAttachment());
+			uploadStatementBtn.getElement().setAttribute("data-icon", "upload");
 			uploadStatementBtn.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {

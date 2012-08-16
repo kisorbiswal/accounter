@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -50,8 +49,7 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 
 	private void createControls() {
 		mainPanel = new StyledPanel("mainPanel");
-		customizationDialog = new ActivityCustomizationDialog(
-				messages.customize());
+
 		titleItem = new Label(messages.usersActivityLogTitle());
 		titleItem.setStyleName("label-title");
 
@@ -122,6 +120,8 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 	}
 
 	protected void customiseActivityLog() {
+		customizationDialog = new ActivityCustomizationDialog(
+				messages.customize());
 		customizationDialog.show();
 		customizationDialog.showRelativeTo(customizeButton);
 		customizationDialog.setCallback(new ActionCallback<Long>() {

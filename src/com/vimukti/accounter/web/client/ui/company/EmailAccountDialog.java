@@ -74,8 +74,15 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 		form.add(emailField, passwordField, mailServerField, portNumField,
 				sslField);
 
+		bodyLayout.add(form);
+		setBodyLayout(bodyLayout);
+	}
+
+	@Override
+	protected void createButtons(StyledPanel footer) {
+		super.createButtons(footer);
 		testButton = new Button(messages.test());
-		testButton.getElement().setAttribute("data.icon", "rename");
+		testButton.getElement().setAttribute("data-icon", "mail2");
 		testButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -88,9 +95,7 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 
 			}
 		});
-		getButtonBar().addButton(footerLayout, testButton);
-		bodyLayout.add(form);
-		setBodyLayout(bodyLayout);
+		addButton(footer, testButton);
 	}
 
 	protected void processTest() {

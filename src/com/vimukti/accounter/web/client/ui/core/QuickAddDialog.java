@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.QuickAddListener;
 import com.vimukti.accounter.web.client.ui.forms.TextBoxItem;
 
@@ -38,9 +39,16 @@ public class QuickAddDialog extends BaseDialog<IAccounterCore> {
 		bodyLayout.add(nameLabel);
 		bodyLayout.add(textBox);
 
+		center();
+
+	}
+
+	@Override
+	protected void createButtons(StyledPanel footer) {
+		super.createButtons(footer);
 		okbtn.setText(messages.QuickAdd());
 		Button addAllInfoBtn = new Button(messages.AddAllInfo());
-		addAllInfoBtn.getElement().setAttribute("data.icon", "contactinfo");
+		addAllInfoBtn.getElement().setAttribute("data-icon", "allapps");
 		addAllInfoBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -52,9 +60,8 @@ public class QuickAddDialog extends BaseDialog<IAccounterCore> {
 
 			}
 		});
-		getButtonBar().addButton(footerLayout, addAllInfoBtn);
-		center();
 
+		getButtonBar().addButton(footerLayout, addAllInfoBtn);
 	}
 
 	private void quickAdd() {

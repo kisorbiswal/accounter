@@ -175,32 +175,37 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		}
 	}
 
-	private void updateButtons() {
+	public void updateButtons() {
 		getButtonBar().clearDirectButtons();
 		createButtons();
+		cancelButton = new CancelButton(this);
 		addButton(cancelButton);
 	}
 
 	protected void createButtons() {
 
 		if (!isInViewMode()) {
-			if (saveAndCloseButton != null && isSaveButtonAllowed()) {
+			if (isSaveButtonAllowed()) {
+				saveAndCloseButton = new SaveAndCloseButton(this);
 				addButton(saveAndCloseButton);
 			}
-			if (saveAndNewButton != null && isSaveButtonAllowed()) {
+			if (isSaveButtonAllowed()) {
+				saveAndNewButton = new SaveAndNewButtom(this);
 				addButton(saveAndNewButton);
 			}
 		}
 
 		if (getMode() != null && getMode() != EditMode.CREATE) {
 
-			if (isSaveButtonAllowed() && canVoid() && voidButton != null) {
+			if (isSaveButtonAllowed() && canVoid()) {
+				voidButton = new VoidButton(this, getData());
 				addButton(voidButton);
 				// this.buttonBar.setCellHorizontalAlignment(voidButton,
 				// ALIGN_LEFT);
 			}
 
-			if (canDelete() && deleteButton != null) {
+			if (canDelete()) {
+				deleteButton = new DeleteButton(this, getData());
 				addButton(deleteButton);
 				// this.buttonBar.setCellHorizontalAlignment(deleteButton,
 				// ALIGN_LEFT);

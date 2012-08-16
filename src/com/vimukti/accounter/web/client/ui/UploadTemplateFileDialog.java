@@ -157,12 +157,12 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 
 		// Add a 'submit' button.
 		Button uploadSubmitButton = new Button(messages.save());
-		uploadSubmitButton.getElement().setAttribute("data.icon", "save");
+		uploadSubmitButton.getElement().setAttribute("data-icon", "save");
 		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
 		Button closeButton = new Button(messages.close());
-		closeButton.getElement().setAttribute("data.icon", "cancel");
+		closeButton.getElement().setAttribute("data-icon", "cancel");
 		buttonHlay = new StyledPanel("buttonHlay");
 		getButtonBar().addButton(buttonHlay, uploadSubmitButton);
 		getButtonBar().addButton(buttonHlay, closeButton);

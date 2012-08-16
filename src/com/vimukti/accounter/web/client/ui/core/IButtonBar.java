@@ -78,4 +78,8 @@ public interface IButtonBar {
 	 * Clear View buttons that are not added to Any group
 	 */
 	public void clearDirectButtons();
+
+	public void show();
+
+	public void addPermanent(HasWidgets parent, Button child);
 }

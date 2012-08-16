@@ -10,6 +10,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -172,7 +173,10 @@ public class MainFinanceWindow extends FlowPanel {
 
 		WebMenu menubar = GWT.create(WebMenu.class);
 		menubar.initialize(isTouch());
-		add(menubar.asWidget());
+		Widget asWidget = menubar.asWidget();
+		if (asWidget != null) {
+			add(asWidget);
+		}
 
 		add(viewManager);
 

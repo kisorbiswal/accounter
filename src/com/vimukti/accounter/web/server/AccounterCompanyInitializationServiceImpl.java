@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.server;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.hibernate.Transaction;
 
 import com.google.gdata.util.common.util.Base64;
 import com.google.gdata.util.common.util.Base64DecoderException;
+import com.google.gwt.user.server.rpc.RPCRequest;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.user.server.rpc.SerializationPolicy;
 import com.vimukti.accounter.core.AccounterThreadLocal;
@@ -61,6 +63,13 @@ public class AccounterCompanyInitializationServiceImpl extends
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	@Override
+	protected void onAfterRequestDeserialized(RPCRequest rpcRequest) {
+		Method method = rpcRequest.getMethod();
+		log(method.getDeclaringClass().getSimpleName() + "." + method.getName());
+		super.onAfterRequestDeserialized(rpcRequest);
+	}
 
 	protected final void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -455,6 +464,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 	public CountryPreferences getCountryPreferences(String countryName) {
 		return new CompanyManager().getCountryPreferences(countryName, "");
 	}
+
 	@Override
 	protected SerializationPolicy doGetSerializationPolicy(
 			HttpServletRequest request, String moduleBaseURL, String strongName) {
