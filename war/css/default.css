@@ -489,7 +489,7 @@ button#closeButton {
 }
 
 .quickLinks-panel {
-	width:33%;
+	width:35%;
 	margin-left: 10px;
 }
 #moreButton {
@@ -503,6 +503,10 @@ button#closeButton {
 	color: white;
 	padding: 15px 10px;
 }
+
+.quickLinks-panel button {
+	display: inline-block;
+}
 .quickLinks-panel a:hover{
 	background-color: gray !important;
 }
@@ -512,7 +516,7 @@ button#closeButton {
 	margin-top: 5px;
 	margin-right: 5px;
 	font-size: 20px;
-	width: 200px;
+	width: 185px;
 	border: 1px solid black;
 	color: white;
 	padding: 15px 10px;
@@ -835,8 +839,7 @@ button#closeButton {
 }
 
 #loginPanel h2 {
-	color: #703131;
-	display: none;
+	color: black;
 }
 
 #signUpPanel .gwt-Label {
@@ -1404,8 +1407,17 @@ button#closeButton {
 }
 
 .setup_panel .gwt-Button {
-	background-color: #535353;
-	border: 1px solid white;
+	background-color: #323232;
+	color:white;
+	margin-top: 20px;
+	margin-right: 20px;
+	margin-bottom: 10px;
+	float:right;
+}
+
+#activationPanel button {
+	background-color: #323232 !important;
+	color:white !important;
 	margin-top: 20px;
 	margin-right: 20px;
 	margin-bottom: 10px;
@@ -1416,6 +1428,7 @@ button#closeButton {
 	width: 100%;
 	padding: 25px 0 25px 0;
 	height: 500px;
+	margin-left: 50px 0 0 0;
 }
 
 .progress_panel_show .progressPanel .progress_header {
@@ -2159,7 +2172,7 @@ input[type=text]:disabled,textarea:disabled{
 	color:white;
 }
 .viewholder #PortletPage{
-	width:65%;
+	width:62%;
 	overflow-x: auto !important;
 	overflow-y: hidden !important;
 	padding-left: 10px;
@@ -2177,7 +2190,7 @@ input[type=text]:disabled,textarea:disabled{
 .biz-decor-panel{
 	border: 2px solid #ccc;
 	margin-right: 10px;
-	width:450px;
+	width:400px;
 }
 .biz-decor-panel .panel-title{
 	width:50%;
@@ -3038,4 +3051,26 @@ progress:indeterminate {
 
 .sell_panel .label{
 	color: black !important;
+}
+#resendActivationPanel{
+	padding-top: 150px ;
+	width: 500px;
+	margin: 0 auto;
+}
+
+#resendActivationPanel .gwt-Button button{
+	background-color: #323232;
+	color: white;
+	border: 1px solid white;
+	float: right;
+}
+
+#companiesPanel{
+	margin: 20px 100px 0 100px;
+}
+
+#companiesPanel button ,#changePasswordPanel button{
+	background-color: #323232;
+	color: white;
+	border: 1px solid white;
 }
