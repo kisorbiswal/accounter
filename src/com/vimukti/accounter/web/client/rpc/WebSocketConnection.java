@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.Header;
-import com.google.gwt.user.client.Window;
 
 public class WebSocketConnection {
 
@@ -30,7 +29,7 @@ public class WebSocketConnection {
 	List<Cookie> cookiesList = new ArrayList<WebSocketConnection.Cookie>();
 
 	WebSocketConnection() {
-		String baseURL = "https://websocket.accounterlive.com:8443/test";
+		String baseURL = "https://www.accounterlive.com:8443/test";
 		int split = baseURL.indexOf('/', 8);
 		String urlString = baseURL.substring(0, split).replace("https", "wss")
 				.replace("http", "ws");
@@ -38,7 +37,6 @@ public class WebSocketConnection {
 		try {
 			this.jsWebSocket = createJSWebSocket(url, this);
 		} catch (Exception e) {
-			Window.alert("Exception:"+ e.getMessage());
 		}
 	}
 
@@ -192,7 +190,6 @@ public class WebSocketConnection {
 		try {
 			this.jsWebSocket = createJSWebSocket(url, this);
 		} catch (Exception e) {
-			Window.alert("Exception:"+ e.getMessage());
 		}
 	}
 

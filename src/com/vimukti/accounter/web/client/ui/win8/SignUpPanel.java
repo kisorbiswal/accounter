@@ -66,7 +66,7 @@ public class SignUpPanel extends FlowPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				URLLauncher launcher = GWT.create(URLLauncher.class);
-				launcher.launch("/site/termsandconditions");
+				launcher.launch("http://www.accounterlive.com/site/termsandconditions");
 			}
 		});
 		// newsLetters = new CheckBox();

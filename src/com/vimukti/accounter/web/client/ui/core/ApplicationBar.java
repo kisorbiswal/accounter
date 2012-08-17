@@ -29,17 +29,17 @@ public class ApplicationBar implements IButtonBar {
 	}
 
 	public native void hideAppBar() /*-{
-		//var appBar = $wnd.document.getElementById("appBar").winControl;
-		//appBar.hide();
+		var appBar = $wnd.document.getElementById("appBar").winControl;
+		appBar.hide();
 	}-*/;
 
 	public native void showAppBar() /*-{
-		//var appBar = $wnd.document.getElementById("appBar").winControl;
-		//appBar.show();
+		var appBar = $wnd.document.getElementById("appBar").winControl;
+		appBar.show();
 	}-*/;
 
 	public native void process(Element e) /*-{
-		//$wnd.WinJS.UI.process(e);
+		$wnd.WinJS.UI.process(e);
 	}-*/;
 
 	@Override
@@ -85,6 +85,8 @@ public class ApplicationBar implements IButtonBar {
 		Element element = btn.getElement();
 
 		element.removeAttribute("class");
+		element.removeAttribute("type");
+		element.removeAttribute("id");
 
 		String title = btn.getTitle();
 		String icon = element.getAttribute("data-icon");

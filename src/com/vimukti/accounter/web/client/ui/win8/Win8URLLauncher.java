@@ -9,8 +9,8 @@ public class Win8URLLauncher extends URLLauncher {
 	}
 
 	protected native void launchURL(String url) /*-{
-		var uri = new Windows.Foundation.Uri(url);
-		Windows.System.Launcher.launchUriAsync(uri)
+		var uri = new $wnd.Windows.Foundation.Uri(url);
+		$wnd.Windows.System.Launcher.launchUriAsync(uri)
 	}-*/;
 
 }

@@ -147,7 +147,9 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	}
 
 	protected void enableAttachmentPanel(boolean b) {
-		transactionAttachmentPanel.setEnable(b);
+		if (transactionAttachmentPanel != null) {
+			transactionAttachmentPanel.setEnable(b);
+		}
 	}
 
 	/**

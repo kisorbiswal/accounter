@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AccounterInitialiser;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.WebsocketAccounterInitialiser;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.IButtonBar;
 
 /**
  * 
@@ -69,6 +69,8 @@ public class CompaniesPanel extends FlowPanel {
 		this.comapniesList = companiesList;
 		this.accounterInitialiser = accounterInitialiser;
 		createControls();
+		IButtonBar appBar = GWT.create(IButtonBar.class);
+		appBar.remove();
 	}
 
 	/**
@@ -131,9 +133,6 @@ public class CompaniesPanel extends FlowPanel {
 			@Override
 			public void onResultSuccess(Boolean result) {
 				discardCredentials(AccounterInitialiser.PASSWORD_CRED_RESOURCE);
-				ButtonBar appBar = GWT.create(ButtonBar.class);
-				appBar.remove();
-
 				CompaniesPanel.this.removeFromParent();
 				accounterInitialiser.showView(new LoginPanel(
 						accounterInitialiser));

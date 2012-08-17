@@ -16,7 +16,7 @@
 .vendorBillViewpanel .AmountLabel .label {
 	font-size: 70px;
 }
-#creditcardexpenseview .bottompanel .AmountLabel .label {
+#creditcardexpenseview .bottompanel .AmountLabel .label {>>
 	font-size: 70px;
 } */
 /* #customerprepaymentview .labeldateNoLayout {
@@ -353,7 +353,6 @@ button#closeButton {
 	min-width: 5px;
 	width: 43px;
 	height: 43px;
-	background-color: white;
 	background-repeat: no-repeat;
 	font-size: 0px;
 	background-image: url('/images/back.png');
@@ -465,9 +464,6 @@ button#closeButton {
 	right: 10px;
 }
 
-.image-button {
-	margin-right: 10px;
-}
 
 .saveandclosebutton {
 	background-color: #0C7A5C;
@@ -1544,11 +1540,6 @@ button#closeButton {
 	padding-top: 10px;
 }
 
-.buttonGroup {
-	margin-top: -13px;
-	margin-left: 100px;
-}
-
 #InvoiceListGrid .gridBody .gwt-Anchor {
 	display: block;
 }
@@ -1823,13 +1814,6 @@ button#closeButton {
 .main_loginpanel .linkItem a:hover{
 	text-decoration: underline;
 }
-.group-toolbar button:hover{
-	background: gray !important;
-}
-button:hover{
-	background-color: gray !important;
-	cursor: pointer;
-}
 button:disabled:hover,button:disabled:active{
 	background: rgba(202, 202, 202, 0.49) !important;
 	cursor: auto;
@@ -2079,9 +2063,7 @@ button{
 	top: 7% !important;
 	left: 8%;
 }
-button#closeButton:hover,.subMenuBack:hover{
-	background-image: url("../images/22.png") !important;
-}
+
 button#searchButton:hover{
 	background-image: url("../images/serchhover.png") !important;
 }
@@ -3024,17 +3006,22 @@ table.gridBody .gridEvenRow{
 	width:80px;
 }
 
-.win-ring {
+progress:indeterminate.win-ring {
 	margin: auto;
 	width: 100px;
 	position: relative;
 	display: block;
-}
-progress:indeterminate {
     color: white;
-	width: 100px;
 	height: 50px;
+   
 }
+progress:indeterminate.in-prog {
+    margin-top: 5px;
+	position: relative;
+	display: block;
+    color: gray;
+}
+
 .win-appbar {
     background-color: black;
     color: #FFFFFF;
@@ -3052,6 +3039,7 @@ progress:indeterminate {
 .sell_panel .label{
 	color: black !important;
 }
+
 #resendActivationPanel{
 	padding-top: 150px ;
 	width: 500px;
@@ -3074,3 +3062,4 @@ progress:indeterminate {
 	color: white;
 	border: 1px solid white;
 }
+

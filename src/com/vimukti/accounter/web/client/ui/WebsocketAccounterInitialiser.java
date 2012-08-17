@@ -90,6 +90,7 @@ public class WebsocketAccounterInitialiser extends AccounterInitialiser {
 	}
 
 	public void loadCompany(Long companyId) {
+		showProgress();
 		accounter.createWindowsRPCService().getCompany(companyId,
 				new AccounterAsyncCallback<CompanyAndFeatures>() {
 
@@ -101,6 +102,7 @@ public class WebsocketAccounterInitialiser extends AccounterInitialiser {
 					@Override
 					public void onResultSuccess(CompanyAndFeatures result) {
 						hideLoading();
+						hideProgress();
 						Set features = new HashSet(result.getFeatures());
 						accounter.setFeatures(features);
 						accounter.gotCompany(result.getClientCompany());
