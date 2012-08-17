@@ -27,7 +27,7 @@
 
 	<!-- Specify the app entry point class. -->
 	<entry-point class='com.vimukti.accounter.web.client.ui.Accounter' />
-	<set-property name="user.agent" value="gecko1_8,ie9" /> 
+	<set-property name="user.agent" value="ie9" /> 
 	<set-configuration-property name="UiBinder.useSafeHtmlTemplates"
 		value="true" />
 	<set-property name="ClientBundle.enableInlining" value="false" /> 
@@ -285,6 +285,11 @@
 	
 	<replace-with class="com.vimukti.accounter.web.client.ui.core.ApplicationBar">
 		<when-type-is class="com.vimukti.accounter.web.client.ui.core.IButtonBar" />
+		<when-property-is name="tablet.user.agent" value="ie10" />
+	</replace-with>
+	
+	<replace-with class="com.vimukti.accounter.web.client.ui.win8.Win8URLLauncher">
+		<when-type-is class="com.vimukti.accounter.web.client.ui.core.URLLauncher" />
 		<when-property-is name="tablet.user.agent" value="ie10" />
 	</replace-with>
 	

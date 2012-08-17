@@ -68,7 +68,8 @@ public class ApplicationBar implements IButtonBar {
 		for (Entry<Widget, Panel> entry : map.entrySet()) {
 			Widget key = entry.getKey();
 			Panel parent = entry.getValue();
-			if (Boolean.valueOf(parent.getElement().getAttribute("data-group"))) {
+			if (!Boolean
+					.valueOf(parent.getElement().getAttribute("data-group"))) {
 				showAppBar = true;
 			}
 			addToAppBar((Button) key);

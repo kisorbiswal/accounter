@@ -163,17 +163,15 @@ public class CompaniesPanel extends FlowPanel {
 	}
 
 	protected native void discardCredentials(String resource) /*-{
-		var passwordVault = new Windows.Security.Credentials.PasswordVault;
-		var pcs;
 		try {
-			pcs = passwordVault.findAllByResource(resource);
-			if (!pcs) {
+			var passwordVault = new Windows.Security.Credentials.PasswordVault;
+			var pcs = passwordVault.findAllByResource(resource);
+			if (pcs != null) {
 				for (i = 0; i < pcs.size; i++) {
 					passwordVault.remove(pcs.getAt(i));
 				}
 			}
 		} catch (e) {
-			pcs = null;
 		}
 	}-*/;
 

@@ -113,4 +113,12 @@ public class WebsocketAccounterInitialiser extends AccounterInitialiser {
 	public Boolean isIpad() {
 		return false;
 	}
+
+	public native void showProgress() /*-{
+		$wnd.document.getElementById('indeterminate').style.display = '';
+	}-*/;
+
+	public native void hideProgress() /*-{
+		$wnd.document.getElementById('indeterminate').style.display = 'none';
+	}-*/;
 }

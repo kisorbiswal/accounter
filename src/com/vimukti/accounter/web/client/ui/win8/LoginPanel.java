@@ -50,12 +50,14 @@ public class LoginPanel extends FlowPanel {
 
 			@Override
 			public void onException(AccounterException exception) {
+				accounterInitialiser.hideProgress();
 				submitbutton.setEnabled(true);
 				errorlLabel.setText(exception.getMessage());
 			}
 
 			@Override
 			public void onResultSuccess(ArrayList<CompanyDetails> result) {
+				accounterInitialiser.hideProgress();
 				rememberCredentials(useritem.getValue(), password.getValue(),
 						AccounterInitialiser.PASSWORD_CRED_RESOURCE);
 				if (result.size() == 1) {
@@ -132,7 +134,7 @@ public class LoginPanel extends FlowPanel {
 		var pcs;
 		try {
 			pcs = passwordVault.findAllByResource(resource);
-			if (!pcs) {
+			if (pcs != null) {
 				for (i = 0; i < pcs.size; i++) {
 					passwordVault.remove(pcs.getAt(i));
 				}
@@ -152,6 +154,7 @@ public class LoginPanel extends FlowPanel {
 		submitbutton.setEnabled(false);
 		errorlLabel.setText("");
 		if (validate()) {
+			accounterInitialiser.showProgress();
 			Accounter.createWindowsRPCService().login(useritem.getValue(),
 					password.getValue(), false, accounterAsyncCallback);
 

@@ -76,6 +76,7 @@ public class SignUpPanel extends FlowPanel {
 
 			@Override
 			public void onException(AccounterException exception) {
+				accounter.hideProgress();
 				submitbutton.setEnabled(true);
 				errorlLabel.setText(exception.getMessage());
 
@@ -83,6 +84,7 @@ public class SignUpPanel extends FlowPanel {
 
 			@Override
 			public void onResultSuccess(Boolean result) {
+				accounter.hideProgress();
 				accounter.showView(new ActivationPanel(accounter));
 
 			}
@@ -113,6 +115,7 @@ public class SignUpPanel extends FlowPanel {
 									.getSelectedValue());
 							signupDetails.setAcceptedTerms(true);
 							signupDetails.setSubscribeUpdates(true);
+							accounter.showProgress();
 							Accounter.createWindowsRPCService().signup(
 									signupDetails, accounterAsyncCallback);
 
