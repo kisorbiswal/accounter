@@ -219,7 +219,6 @@ a:ACTIVE,a:HOVER{
 }
 
 #loginPanel .gwt-Label {
-	color: white;
 	font-size: 22px;
 	text-align: left;
 	width: 100%;
@@ -232,9 +231,14 @@ a:ACTIVE,a:HOVER{
 	float: right;
 }
 
+#signUpPanel .gwt-Button {
+	background-color: #323232;
+	color: white;
+	float: right;
+}
+
 #loginPanel a {
 	cursor: pointer;
-	color: white;
 }
 
 .gwt-Button {
@@ -252,6 +256,9 @@ a:ACTIVE,a:HOVER{
 	padding: 10px;
 }
 
+#signUpPanel{
+	padding: 10px;
+}
 #forgotPasswordPanel .gwt-Button {
 	margin-right: 15px;
 	margin-top: 25px;
@@ -269,9 +276,8 @@ a:ACTIVE,a:HOVER{
 
 #signUpPanel button {
 	margin-left: 10px;
-	background-color: #545555;
-	color: white;
-	border: 1px solid white;
+	background-color: #323232;
+	color:white;
 }
 
 #popuppaneldropdown {
@@ -834,11 +840,9 @@ button#closeButton {
 }
 
 #signUpPanel .gwt-Label {
-	color: #FBF9F9;
 }
 
 #forgotPasswordPanel .gwt-HTML {
-	color: #FBF7F7;
 }
 
 #forgotPasswordPanel .gwt-Label {
@@ -1401,7 +1405,6 @@ button#closeButton {
 
 .setup_panel .gwt-Button {
 	background-color: #535353;
-	color: white;
 	border: 1px solid white;
 	margin-top: 20px;
 	margin-right: 20px;
@@ -1410,7 +1413,6 @@ button#closeButton {
 }
 
 .setup_panel {
-	background-color: #211E1E;
 	width: 100%;
 	padding: 25px 0 25px 0;
 	height: 500px;
@@ -1644,33 +1646,27 @@ button#closeButton {
 }
 
 #activationPanel h2 {
-	color: white;
 }
 
 #activationPanel .success,#activationPanel .cancel,#companiesPanel .success,#companiesPanel .cancel {
 	border: 1px solid white;
-	color: white;
 	margin-left: 10px;
 	margin-top: 10px;
 }
 
 #activationPanel .activationCode .NoWrapping {
-	color: white;
 }
 
 #companiesPanel h2 {
-	color: white;
 }
 
 .setup_panel .setup_Info {
-	color: white;
 	font-size: 18px;
 	margin-top: 10px;
 	margin-bottom: 20px;
 }
 
 .setup_panel .gwt-HTML {
-	color: white;
 	font-size: 16px;
 }
 
@@ -1734,13 +1730,12 @@ button#closeButton {
 }
 
 .main_loginpanel {
-	width: 500px;
-	margin: 50px auto 0;
-	background-color: #211E1E;
+	width: 450px;
+	margin: 100px auto 25px;
+	padding: 10px;
 }
 
 #loginPanel,#mainWindow/* ,.viewholder */{
-	background-color: #211E1E;
 }
 #mainWindow button {
 	border-width: 2px;
@@ -1749,7 +1744,6 @@ button#closeButton {
 }
 
 #forgotPasswordPanel h2 {
-	color: #F7F3F3;
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
@@ -1851,7 +1845,6 @@ select:hover{
 	background: white !important;
 }
 .setup_label{
-	color:white;
 }
 .setup_panel .viewButtonPanel .view_panel,.setup_panel .setup_common_head,
 .setup_panel .industry_subindustry_panel,#companiesPanel .companies-list,
@@ -2007,6 +2000,7 @@ label{
 #signUpPanel .centerPanel .signupForm{
     margin-right:30px;
 }
+
 button{
 	min-width: auto !important;
 	min-height: auto !important;
@@ -2092,9 +2086,9 @@ button#searchButton:hover{
 #NewVendorPaymentView .boldtext{
 	width:400px;
 	position: fixed;
-	bottom:5px;
+	bottom:100px;
 	font-weight:bold;
-	left:70px;
+	left:150px;
 	height: 80px;
 	display:-ms-flexbox;
 	-ms-flex-direction: column;
@@ -2426,11 +2420,10 @@ table.gridBody tr{
 	width: 150px;
 }
 #mainWindow #signUpPanel{
-	width: 800px;
-	margin: 0 auto;
+	width: 500px;
+	margin: 100px auto;
 }
 #signUpPanel h2{
-	color: white;
 }
 .portletPagePanel{
 	height: 100%;
@@ -2527,7 +2520,6 @@ table.gridBody tr{
 	padding-top: 120px;
 }
 .setup_panel .gwt-Label,.setup_panel div{
-	color: white;
 }
 table.gridBody tr:hover{
 	background: #B8BAB6 !important;
@@ -2587,7 +2579,6 @@ table.gridBody .gridEvenRow{
 	height: 100%;
 }
 #forgotPasswordPanel .gwt-Label{
-	color: white;
 }
 #forgotPasswordPanel .emailTxt{
 	margin: 20px 0px;
@@ -2681,7 +2672,6 @@ table.gridBody .gridEvenRow{
 #changePasswordPanel{
 	width: 500px;
 	margin: 200px auto 0px;
-	color: white;
 }
 #changePasswordPanel .gwt-Button{
 	margin: 30px 0 0 410px;
@@ -3044,4 +3034,8 @@ progress:indeterminate {
 .win-appbar .win-commandring {
     color: #FFFFFF;
     border-color: #FFFFFF;
+}
+
+.sell_panel .label{
+	color: black !important;
 }

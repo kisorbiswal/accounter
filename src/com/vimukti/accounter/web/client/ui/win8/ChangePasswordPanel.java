@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.CompanyDetails;
@@ -25,6 +26,7 @@ public class ChangePasswordPanel extends FlowPanel {
 	WebsocketAccounterInitialiser accounter;
 	Label errorlabel;
 	private Label description;
+	private HTML title;
 
 	public ChangePasswordPanel(WebsocketAccounterInitialiser accounter) {
 		getElement().setId("changePasswordPanel");
@@ -81,7 +83,9 @@ public class ChangePasswordPanel extends FlowPanel {
 			}
 		});
 
-		// this.add(accounterTitle);
+		title = new HTML("<h2>" + Accounter.getMessages().resetPassword()
+				+ "</h2>");
+		this.add(title);
 		this.add(description);
 		// this.add(accounterText);
 		this.add(newpasswordbox);

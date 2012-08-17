@@ -78,6 +78,7 @@ public class CompaniesPanel extends FlowPanel {
 
 		title = new HTML("<h2>" + Accounter.getMessages().companieslist()
 				+ "</h2>");
+		title.setStyleName("label-title");
 		Button createNewCompanyButton = new Button(Accounter.getMessages()
 				.createNewCompany());
 		createNewCompanyButton.setStyleName("success");
