@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ButtonGroup;
 import com.vimukti.accounter.web.client.ui.core.IButtonContainer;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.NewInvoiceAction;
 import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
@@ -212,7 +213,8 @@ public class Windows8DashBoard extends BaseHomeView implements IButtonContainer 
 
 			@Override
 			public void onClick(ClickEvent event) {
-				getPage().createSettingsDialog().showRelativeTo(configButton);
+				ViewManager.getInstance().showDialogRelativeTo(
+						getPage().createSettingsDialog(), configButton);
 			}
 		});
 		configButton.getElement().setAttribute("data-icon", "settings");

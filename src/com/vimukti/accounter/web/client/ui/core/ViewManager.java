@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
@@ -1032,6 +1033,21 @@ public class ViewManager extends FlowPanel {
 
 	public boolean isIpad() {
 		return false;
+	}
+
+	public void showDialogRelativeTo(CustomDialog dialog, UIObject obj) {
+		dialog.addCloseHandler(new CloseHandler<PopupPanel>() {
+
+			@Override
+			public void onClose(CloseEvent<PopupPanel> event) {
+				existingView.getButtonBar().clear();
+				addRequiredButtons();
+				existingView.updateButtons();
+				existingView.showButtonBar();
+			}
+		});
+		dialog.showRelativeTo(obj);
+		dialog.getButtonBar().show();
 	}
 
 	public void showDialog(CustomDialog dialog) {
