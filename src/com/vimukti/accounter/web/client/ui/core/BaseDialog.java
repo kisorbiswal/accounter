@@ -196,8 +196,8 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		okbtn.setEnabled(true);
 		cancelBtn.setEnabled(true);
 
-		getButtonBar().addButton(footer, okbtn);
-		getButtonBar().addButton(footer, cancelBtn);
+		addButton(footer, okbtn);
+		addButton(footer, cancelBtn);
 		okbtn.setFocus(true);
 	}
 
@@ -467,10 +467,6 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		return list;
 	}
 
-	protected boolean isViewDialog() {
-		return true;
-	}
-
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
@@ -483,4 +479,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		createButtons(footerLayout);
 	}
 
+	public boolean isViewDialog() {
+		return true;
+	}
 }

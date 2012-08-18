@@ -20,9 +20,10 @@ public class AddEditFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 
 	private void createControls(ClientFiscalYear fiscalYear) {
 
-		startDate = new DateItem(messages.startOfFiscalYear(),"startDate");
+		startDate = new DateItem(messages.startOfFiscalYear(), "startDate");
 
-		DateItem closeDate = new DateItem(messages.closeOfFiscalYear(),"closeDate");
+		DateItem closeDate = new DateItem(messages.closeOfFiscalYear(),
+				"closeDate");
 		StyledPanel bodyLayout = new StyledPanel("bodyLayout");
 		DynamicForm form = new DynamicForm("form");
 		form.add(startDate, closeDate);
@@ -69,7 +70,7 @@ public class AddEditFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 	}
 
 	@Override
-	protected boolean isViewDialog() {
+	public boolean isViewDialog() {
 		return false;
 	}
 

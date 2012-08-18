@@ -122,7 +122,7 @@ public class NewCurrencyListDialog extends BaseDialog<ClientCurrency> {
 	}
 
 	@Override
-	protected boolean isViewDialog() {
+	public boolean isViewDialog() {
 		// TODO Auto-generated method stub
 		return false;
 	}

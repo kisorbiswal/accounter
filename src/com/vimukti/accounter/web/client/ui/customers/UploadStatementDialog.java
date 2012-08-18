@@ -99,8 +99,8 @@ public class UploadStatementDialog extends BaseDialog implements
 		closeButton.getElement().setAttribute("data-icon", "cancel");
 		// closeButton.setWidth("80px");
 		buttonHlay = new StyledPanel("buttonHlay");
-		getButtonBar().addButton(buttonHlay, uploadSubmitButton);
-		getButtonBar().addButton(buttonHlay, closeButton);
+		addButton(buttonHlay, uploadSubmitButton);
+		addButton(buttonHlay, closeButton);
 		buttonHlay.setStyleName("panel-right-align");
 		vpaPanel.add(buttonHlay);
 		/* Make align three Element on there position */
@@ -350,7 +350,7 @@ public class UploadStatementDialog extends BaseDialog implements
 	}
 
 	@Override
-	protected boolean isViewDialog() {
+	public boolean isViewDialog() {
 		// TODO Auto-generated method stub
 		return false;
 	}

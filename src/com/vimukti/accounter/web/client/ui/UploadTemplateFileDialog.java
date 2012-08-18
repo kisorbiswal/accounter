@@ -165,8 +165,8 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		Button closeButton = new Button(messages.close());
 		closeButton.getElement().setAttribute("data-icon", "cancel");
 		buttonHlay = new StyledPanel("buttonHlay");
-		getButtonBar().addButton(buttonHlay, uploadSubmitButton);
-		getButtonBar().addButton(buttonHlay, closeButton);
+		addButton(buttonHlay, uploadSubmitButton);
+		addButton(buttonHlay, closeButton);
 		buttonHlay.setStyleName("panel-right-align");
 		vpaPanel.add(buttonHlay);
 		/* Make align three Element on there position */

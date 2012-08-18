@@ -30,7 +30,7 @@ public class NewItemDialog extends BaseDialog<ClientItem> {
 	}
 
 	@Override
-	protected boolean isViewDialog() {
+	public boolean isViewDialog() {
 		// TODO Auto-generated method stub
 		return false;
 	}

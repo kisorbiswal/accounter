@@ -99,8 +99,8 @@ public class UploadCSVFileDialog extends BaseDialog {
 		Button closeButton = new Button(messages.close());
 		closeButton.getElement().setAttribute("data-icon", "cancel");
 		StyledPanel buttonHlay = new StyledPanel("buttonHlay");
-		getButtonBar().addButton(buttonHlay, uploadSubmitButton);
-		getButtonBar().addButton(buttonHlay, closeButton);
+		addButton(buttonHlay, uploadSubmitButton);
+		addButton(buttonHlay, closeButton);
 		buttonHlay.setStyleName("panel-right-align");
 		vpaPanel.add(buttonHlay);
 
@@ -261,7 +261,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 	}
 
 	@Override
-	protected boolean isViewDialog() {
+	public boolean isViewDialog() {
 		// TODO Auto-generated method stub
 		return false;
 	}

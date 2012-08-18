@@ -61,7 +61,7 @@ public class QuickAddDialog extends BaseDialog<IAccounterCore> {
 			}
 		});
 
-		getButtonBar().addButton(footerLayout, addAllInfoBtn);
+		addButton(footerLayout, addAllInfoBtn);
 	}
 
 	private void quickAdd() {
@@ -123,7 +123,7 @@ public class QuickAddDialog extends BaseDialog<IAccounterCore> {
 	}
 
 	@Override
-	protected boolean isViewDialog() {
+	public boolean isViewDialog() {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -174,15 +174,19 @@ public class CustomDialog extends DialogBox {
 	}
 
 	public void addButton(Panel parent, Button child) {
-		getButtonBar().addButton(parent, child);
-	}
-
-	public void addButton(Button widget) {
-		getButtonBar().add(widget);
+		if (isViewDialog()) {
+			getButtonBar().addButton(parent, child);
+		} else {
+			parent.add(child);
+		}
 	}
 
 	public void updateButtons() {
 
+	}
+
+	public boolean isViewDialog() {
+		return false;
 	}
 
 }

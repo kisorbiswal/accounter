@@ -161,7 +161,7 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 	}
 
 	@Override
-	protected boolean isViewDialog() {
+	public boolean isViewDialog() {
 		// TODO Auto-generated method stub
 		return false;
 	}

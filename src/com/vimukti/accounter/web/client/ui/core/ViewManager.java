@@ -1051,6 +1051,10 @@ public class ViewManager extends FlowPanel {
 	}
 
 	public void showDialog(CustomDialog dialog) {
+		if (!dialog.isViewDialog()) {
+			dialog.center();
+			return;
+		}
 		dialog.addCloseHandler(new CloseHandler<PopupPanel>() {
 
 			@Override
@@ -1066,6 +1070,10 @@ public class ViewManager extends FlowPanel {
 	}
 
 	public void showDialog(final CustomDialog parent, CustomDialog child) {
+		if (!child.isViewDialog()) {
+			child.center();
+			return;
+		}
 		child.addCloseHandler(new CloseHandler<PopupPanel>() {
 
 			@Override

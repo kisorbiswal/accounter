@@ -124,7 +124,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 			}
 
 		});
-		getButtonBar().addButton(helpButtonLayout, helpButton);
+		addButton(helpButtonLayout, helpButton);
 
 		StyledPanel okButtonLayout = new StyledPanel("okButtonLayout");
 		Button okButton = new Button(messages.ok());
@@ -142,7 +142,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 			}
 
 		});
-		getButtonBar().addButton(okButtonLayout, okButton);
+		addButton(okButtonLayout, okButton);
 		Button cancelButton = new Button(messages.cancel());
 		cancelButton.getElement().setAttribute("data-icon", "cancel");
 		// cancelButton.setWidth("100px");
@@ -153,7 +153,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 			}
 
 		});
-		getButtonBar().addButton(okButtonLayout, cancelButton);
+		addButton(okButtonLayout, cancelButton);
 
 		StyledPanel buttonLayout = new StyledPanel("buttonLayout");
 		buttonLayout.add(okButtonLayout);
@@ -238,7 +238,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 	}
 
 	@Override
-	protected boolean isViewDialog() {
+	public boolean isViewDialog() {
 		// TODO Auto-generated method stub
 		return false;
 	}
