@@ -380,7 +380,7 @@ button#closeButton {
 }
 
 .gwt-DialogBox {
-	background-color: #3D7416;
+	background-color: #3d5e62;
 	color: white;
 	display: -ms-flexbox;
 	-ms-flex-direction: column;
@@ -453,7 +453,7 @@ button#closeButton {
 }
 
 .gwt-DialogBox>div {
-	color: #020202;
+	padding-right: 10px;
 }
 
 .button_bar,.view-gwt-dialog .footerLayout {
@@ -463,8 +463,6 @@ button#closeButton {
 	bottom: 10px;
 	right: 10px;
 }
-
-
 .saveandclosebutton {
 	background-color: #0C7A5C;
 	color: white;
@@ -1399,7 +1397,6 @@ button#closeButton {
 }
 
 .setup_panel .setup_header_label {
-	display: none;
 }
 
 .setup_panel .gwt-Button {
@@ -1843,7 +1840,6 @@ select:hover{
 }
 .setup_label{
 }
-.setup_panel .viewButtonPanel .view_panel,.setup_panel .setup_common_head,
 .setup_panel .industry_subindustry_panel,#companiesPanel .companies-list,
 .abstract_base_view .mainVLay,#InvoiceView .mainVLay,#PreferenceSettingsView .preferences_page,
 .customerCenter .rightPanel,#vendorCenterView .rightVpPanel,#CheckPrintingSettingView .allPanel,.companyInfoPanel .CompanyInfoOption,
@@ -1969,7 +1965,6 @@ label{
    display: -ms-flexbox;
    -ms-flex-pack:justify;	
    padding: 3px 0;
-   background-color: #255403;
    color: white;
    -ms-flex-pack: justify;
 }
@@ -1985,7 +1980,7 @@ label{
 	display: -ms-flexbox;
 }
 .gwt-DialogBox table .dialogMiddle .headerLayout .gwt-HTML{
-	padding-top:15px;
+	padding-top:50px;
 }
 .gwt-DialogBox table .dialogMiddle .buttonLayout{
 	float:right;
@@ -2298,12 +2293,10 @@ a:hover,.subMenuName:hover{
 	width: 100%;
 }
 .dialogMiddleLeft,.dialogMiddleRight,.dialogBottomLeft,.dialogBottomRight,.dialogTopLeft,.dialogTopRight{
-	width: 10px;
-	background-color: #255403;
+	width: 25%;
 }
 .dialogBottomCenter{
 	height: 10px;
-	background-color: #255403;
 }
 .gwt-DialogBox table .bodyLayout{
 	padding-top: 10px;
@@ -2971,7 +2964,7 @@ table.gridBody .gridEvenRow{
 	position: absolute;
 	top:-12px;
 	color: #F0991D !important;
-	font-size:35px;
+	font-size:40px;
 	left: 35px;
 }
 .view-dialog-child{
@@ -3036,7 +3029,7 @@ progress:indeterminate.in-prog {
     border-color: #FFFFFF;
 }
 
-.sell_panel .label{
+.sell_panel .gwt-RadioButton label, .subtrackortax .gwt-RadioButton label, .subtrackortax .setup_check_box label, .estimate_stmt_acc .employee_yesno label, .bills_panel .employee_yesno label, .subPanel .setup_check_box label{
 	color: black !important;
 }
 
@@ -3062,4 +3055,23 @@ progress:indeterminate.in-prog {
 	color: white;
 	border: 1px solid white;
 }
-
+.companyInfoPanel .header label{
+	color: black !important;
+}
+.gwt-DialogBox{
+	width: 100% !important;
+}
+.gwt-DialogBox .imageStyledPanel img, .gwt-DialogBox .imageLayout img{
+	display: none;
+}
+.dialogMiddleCenter{
+	width: 30%;
+}
+.setup_panel .setup_common_head {
+	display: -ms-flexbox;
+	height: 450px;
+	-ms-flex-direction: column;
+}
+.setup_panel .viewButtonPanel .view_panel{
+	height: 500px;
+}
