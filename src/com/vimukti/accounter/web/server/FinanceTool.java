@@ -308,14 +308,20 @@ public class FinanceTool {
 			if (serverObject instanceof Transaction) {
 
 				org.hibernate.Transaction ht = session.beginTransaction();
+				Transaction tt = (Transaction) serverObject;
 				try {
-					Transaction tt = (Transaction) serverObject;
 					List<Item> inventory = tt.getInventoryUsed();
-					InventoryUtils.remapSalesPurchases(inventory);
+					ItemUtils.remapSalesPurchases(inventory);
 					ht.commit();
 				} catch (Exception e) {
 					e.printStackTrace();
 					ht.rollback();
+				}
+				int type = tt.getType();
+				if (type == Transaction.TYPE_ENTER_BILL
+						|| type == Transaction.TYPE_CASH_PURCHASE
+						|| type == Transaction.TYPE_VENDOR_CREDIT_MEMO) {
+					ItemUtils.updateAverageCost(tt.getItemsUsed());
 				}
 			}
 
@@ -586,7 +592,7 @@ public class FinanceTool {
 				try {
 					Transaction tt = (Transaction) serverObject;
 					List<Item> inventory = tt.getInventoryUsed();
-					InventoryUtils.remapSalesPurchases(inventory);
+					ItemUtils.remapSalesPurchases(inventory);
 					ht.commit();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -767,7 +773,7 @@ public class FinanceTool {
 				try {
 					Transaction tt = (Transaction) serverObject;
 					List<Item> inventory = tt.getInventoryUsed();
-					InventoryUtils.remapSalesPurchases(inventory);
+					ItemUtils.remapSalesPurchases(inventory);
 					ht.commit();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -2556,8 +2562,8 @@ public class FinanceTool {
 		if (company == null) {
 			return null;
 		}
-		return getPrintManager().generatePDFFile(company, brandingTheme,
-				type, objectID, startDate, endDate);
+		return getPrintManager().generatePDFFile(company, brandingTheme, type,
+				objectID, startDate, endDate);
 	}
 
 	/**

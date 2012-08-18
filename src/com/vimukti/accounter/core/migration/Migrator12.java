@@ -2,7 +2,7 @@ package com.vimukti.accounter.core.migration;
 
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.server.InventoryUtils;
+import com.vimukti.accounter.web.server.ItemUtils;
 
 public class Migrator12 extends AbstractMigrator {
 
@@ -10,7 +10,7 @@ public class Migrator12 extends AbstractMigrator {
 	public void migrate(Company company) throws AccounterException {
 		log.info("Started Migrator12.");
 
-		InventoryUtils.remapAllInventory(company);
+		ItemUtils.remapAllInventory(company);
 
 		log.info("Finished Migrator12.");
 	}

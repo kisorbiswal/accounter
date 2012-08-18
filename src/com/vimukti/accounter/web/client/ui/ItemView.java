@@ -341,12 +341,6 @@ public class ItemView extends BaseView<ClientItem> {
 		asOfDate.setEnabled(!isInViewMode());
 		asOfDate.setEnteredDate(new ClientFinanceDate());
 
-		this.inventoryInfoForm = new DynamicForm("inventoryInfoForm");
-		inventoryInfoForm.add(assetsAccount, onHandQuantity, itemTotalValue, /*
-																			 * avarageCost
-																			 * ,
-																			 */
-				asOfDate);
 		itemTotalValue.setVisible(!isInViewMode());
 		avarageCost.setVisible(isInViewMode());
 
@@ -513,7 +507,18 @@ public class ItemView extends BaseView<ClientItem> {
 		// salesPriceText, accountCombo, itemTaxCheck, comCheck,
 		// stdCostText);
 		salesInfoForm.add(isellCheck, salesDescArea, salesPriceText,
-				accountCombo, itemTaxCheck, comCheck, stdCostText);
+				accountCombo, itemTaxCheck, comCheck);
+
+		this.inventoryInfoForm = new DynamicForm("inventoryInfoForm");
+
+		if (getType() != ClientItem.TYPE_INVENTORY_PART) {
+			salesInfoForm.add(stdCostText);
+			inventoryInfoForm.add(assetsAccount, onHandQuantity,
+					itemTotalValue, asOfDate);
+		} else {
+			inventoryInfoForm.add(assetsAccount, stdCostText, onHandQuantity,
+					itemTotalValue, asOfDate);
+		}
 
 		if (!getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine())
@@ -750,7 +755,6 @@ public class ItemView extends BaseView<ClientItem> {
 		salesPriceText.setEnabled(!isEdit);
 		accountCombo.setEnabled(!isEdit);
 		comCheck.setEnabled(!isEdit);
-		stdCostText.setEnabled(!isEdit);
 	}
 
 	/**
@@ -779,12 +783,13 @@ public class ItemView extends BaseView<ClientItem> {
 		if (selectItemGroup != null) {
 			data.setItemGroup(selectItemGroup.getID());
 		}
-		data.setStandardCost(stdCostText.getAmount());
-
-		data.setUPCorSKU(skuText.getValue());
 
 		data.setISellThisItem(getBooleanValue(isellCheck));
 		data.setIBuyThisItem(getBooleanValue(ibuyCheck));
+
+		data.setStandardCost(stdCostText.getAmount());
+
+		data.setUPCorSKU(skuText.getValue());
 
 		if ((getType() == ClientItem.TYPE_NON_INVENTORY_PART || getType() == ClientItem.TYPE_INVENTORY_PART)
 				&& weightText.getNumber() != null) {
@@ -929,6 +934,12 @@ public class ItemView extends BaseView<ClientItem> {
 		vendItemNumText.setEnabled(!isDisable);
 		expAccCombo.setEnabled(!isDisable);
 		prefVendorCombo.setEnabled(!isDisable);
+
+		if (!isInViewMode()) {
+			if (type != ClientItem.TYPE_INVENTORY_PART) {
+				stdCostText.setEnabled(isDisable);
+			}
+		}
 
 	}
 
@@ -1290,7 +1301,10 @@ public class ItemView extends BaseView<ClientItem> {
 		salesDescArea.setEnabled(!isInViewMode());
 		salesPriceText.setEnabled(!isInViewMode());
 		accountCombo.setEnabled(!isInViewMode());
-		stdCostText.setEnabled(!isInViewMode());
+		if (type != ClientItem.TYPE_INVENTORY_PART) {
+			stdCostText.setEnabled(!ibuyCheck.getValue() && !isInViewMode());
+		}
+
 		itemGroupCombo.setEnabled(!isInViewMode());
 		taxCode.setEnabled(!isInViewMode());
 		isellCheck.setEnabled(!isInViewMode());

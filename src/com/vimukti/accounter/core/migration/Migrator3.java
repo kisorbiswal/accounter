@@ -9,7 +9,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.server.InventoryUtils;
+import com.vimukti.accounter.web.server.ItemUtils;
 
 public class Migrator3 extends AbstractMigrator {
 
@@ -41,7 +41,7 @@ public class Migrator3 extends AbstractMigrator {
 		getSession().getNamedQuery("delete.InventoryPurchases.Of.Company")
 				.setParameter("companyId", company.getId()).executeUpdate();
 
-		InventoryUtils.remapSalesPurchases(items);
+		ItemUtils.remapSalesPurchases(items);
 	}
 
 	@Override

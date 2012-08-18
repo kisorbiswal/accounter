@@ -4,7 +4,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
-import com.vimukti.accounter.web.server.InventoryUtils;
+import com.vimukti.accounter.web.server.ItemUtils;
 
 public class ItemUpdate extends CreatableObject {
 
@@ -124,7 +124,7 @@ public class ItemUpdate extends CreatableObject {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 
-		double averageCost = InventoryUtils.getAverageCost(getItem(),
+		double averageCost = ItemUtils.getAverageCost(getItem(),
 				getQuantity().reverse(), getUnitPrice());
 		getItem().setAverageCost(averageCost);
 

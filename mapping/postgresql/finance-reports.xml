@@ -1537,7 +1537,7 @@
 				       SUM(CASE
 				             WHEN T.T_TYPE = 1
 				                   OR T.T_TYPE = 8 THEN ( CASE
-				             WHEN TI.TYPE = 1 THEN -1 * IT.SATNDARD_COST
+				             WHEN TI.TYPE = 1 THEN -1 * IT.AVERAGE_COST
 				             ELSE 0.0
 				                                          END )
 				             WHEN T.T_TYPE = 4
@@ -1549,7 +1549,7 @@
 				                                              FROM   INVENTORY_PURCHASE IP
 				                                              WHERE
 				                                           IP.TRANSACTION_ITEM_ID = TI.ID)
-				                                             ELSE IT.SATNDARD_COST
+				                                             ELSE IT.AVERAGE_COST
 				                                                                   END
 				                                             ELSE 0.0
 				                                           END )
@@ -1559,13 +1559,13 @@
 				             WHEN T.T_TYPE = 4
 				                   OR T.T_TYPE = 15 THEN ( CASE
 				                                             WHEN TI.TYPE = 1 THEN -1 * (
-				                                             TI.LINE_TOTAL - IT.SATNDARD_COST )
+				                                             TI.LINE_TOTAL - IT.AVERAGE_COST )
 				                                             ELSE TI.LINE_TOTAL
 				                                           END )
 				             WHEN T.T_TYPE = 1
 				                   OR T.T_TYPE = 8 THEN ( CASE
 				                                            WHEN TI.TYPE = 1 THEN (
-				                                            TI.LINE_TOTAL - IT.SATNDARD_COST )
+				                                            TI.LINE_TOTAL - IT.AVERAGE_COST )
 				                                            ELSE TI.LINE_TOTAL
 				                                          END )
 				             ELSE 0.0
@@ -1653,7 +1653,7 @@
 				       ( CASE
 				           WHEN T.T_TYPE = 1
 				                 OR T.T_TYPE = 8 THEN ( CASE
-				           WHEN TI.TYPE = 1 THEN -1 * IT.SATNDARD_COST
+				           WHEN TI.TYPE = 1 THEN -1 * IT.AVERAGE_COST
 				           ELSE 0.0
 				                                        END )
 				           WHEN T.T_TYPE = 4
@@ -1665,7 +1665,7 @@
 				                                            FROM   INVENTORY_PURCHASE IP
 				                                            WHERE
 				                                         IP.TRANSACTION_ITEM_ID = TI.ID)
-				                                           ELSE IT.SATNDARD_COST
+				                                           ELSE IT.AVERAGE_COST
 				                                                                 END
 				                                           ELSE 0.0
 				                                         END )
@@ -1675,13 +1675,13 @@
 				           WHEN T.T_TYPE = 4
 				                 OR T.T_TYPE = 15 THEN ( CASE
 				                                           WHEN TI.TYPE = 1 THEN -1 * (
-				                                           TI.LINE_TOTAL - IT.SATNDARD_COST )
+				                                           TI.LINE_TOTAL - IT.AVERAGE_COST )
 				                                           ELSE TI.LINE_TOTAL
 				                                         END )
 				           WHEN T.T_TYPE = 1
 				                 OR T.T_TYPE = 8 THEN ( CASE
 				                                          WHEN TI.TYPE = 1 THEN (
-				                                          TI.LINE_TOTAL - IT.SATNDARD_COST )
+				                                          TI.LINE_TOTAL - IT.AVERAGE_COST )
 				                                          ELSE TI.LINE_TOTAL
 				                                        END )
 				           ELSE 0.0
@@ -1690,14 +1690,14 @@
 				                 WHEN T.T_TYPE = 4
 				                       OR T.T_TYPE = 15 THEN -1 * ( CASE
 				                                                      WHEN TI.TYPE = 1 THEN
-				               ( ( TI.LINE_TOTAL - IT.SATNDARD_COST ) / TI.LINE_TOTAL ) * 100
+				               ( ( TI.LINE_TOTAL - IT.AVERAGE_COST ) / TI.LINE_TOTAL ) * 100
 				               ELSE 100
 				               END )
 				                 WHEN T.T_TYPE = 1
 				                       OR T.T_TYPE = 8 THEN ( CASE
 				                                                WHEN TI.TYPE = 1 THEN
 				                                                (
-				                 ( TI.LINE_TOTAL - IT.SATNDARD_COST ) / TI.LINE_TOTAL ) * 100
+				                 ( TI.LINE_TOTAL - IT.AVERAGE_COST ) / TI.LINE_TOTAL ) * 100
 				                                                ELSE 100
 				                                              END )
 				                 ELSE 100

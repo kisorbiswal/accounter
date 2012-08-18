@@ -1522,6 +1522,24 @@ public abstract class Transaction extends CreatableObject implements
 		return inventory;
 	}
 
+	public List<Item> getItemsUsed() {
+		List<Item> inventory = new ArrayList<Item>();
+		if (this.isDraftOrTemplate() || (isVoid() && this.isVoidBefore)) {
+			return inventory;
+		}
+		for (TransactionItem tItem : getTransactionItems()) {
+			if (tItem.getType() != TransactionItem.TYPE_ITEM
+					|| (tItem.getItem().getType() == Item.TYPE_INVENTORY_PART && tItem
+							.getItem().getType() == Item.TYPE_INVENTORY_ASSEMBLY)) {
+				continue;
+			}
+			if (!inventory.contains(tItem.getItem())) {
+				inventory.add(tItem.getItem());
+			}
+		}
+		return inventory;
+	}
+
 	public Job getJob() {
 		return job;
 	}

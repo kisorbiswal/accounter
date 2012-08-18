@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.server.InventoryUtils;
+import com.vimukti.accounter.web.server.ItemUtils;
 
 public class Migrator15 extends AbstractMigrator {
 
@@ -21,7 +21,7 @@ public class Migrator15 extends AbstractMigrator {
 				.setEntity("company", company);
 		List<Item> items = query.list();
 
-		InventoryUtils.remapSalesPurchases(items);
+		ItemUtils.remapSalesPurchases(items);
 
 		log.info("Finished Migrator15.");
 	}

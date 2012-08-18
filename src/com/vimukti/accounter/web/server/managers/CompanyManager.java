@@ -67,7 +67,7 @@ import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
-import com.vimukti.accounter.web.server.InventoryUtils;
+import com.vimukti.accounter.web.server.ItemUtils;
 import com.vimukti.accounter.web.server.OperationContext;
 import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.server.util.ICountryPreferences;
@@ -342,7 +342,7 @@ public class CompanyManager extends Manager {
 			session.update(cmp);
 
 			if (oldInventoryScheme != newInventoryScheme) {
-				InventoryUtils.remapAllInventory(cmp);
+				ItemUtils.remapAllInventory(cmp);
 			}
 
 			transaction.commit();

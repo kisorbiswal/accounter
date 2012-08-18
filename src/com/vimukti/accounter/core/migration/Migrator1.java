@@ -11,7 +11,7 @@ import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.server.InventoryUtils;
+import com.vimukti.accounter.web.server.ItemUtils;
 
 /**
  * This Migration will Create 'Cost of Goods Sold' account for Company.
@@ -84,7 +84,7 @@ public class Migrator1 extends AbstractMigrator {
 			}
 		}
 
-		InventoryUtils.remapSalesPurchases(list);
+		ItemUtils.remapSalesPurchases(list);
 		log.info("Finished Migrator1");
 	}
 

@@ -6,7 +6,7 @@ import org.hibernate.Query;
 
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Item;
-import com.vimukti.accounter.web.server.InventoryUtils;
+import com.vimukti.accounter.web.server.ItemUtils;
 
 /**
  * Will Set the average cost to the Items which Zero average cost
@@ -23,7 +23,7 @@ public class Migrator9 extends AbstractMigrator {
 				.setEntity("company", company);
 		List<Item> items = query.list();
 		for (Item item : items) {
-			double averageCost = InventoryUtils.getAverageCost(item);
+			double averageCost = ItemUtils.getAverageCost(item);
 			item.setAverageCost(averageCost);
 			getSession().saveOrUpdate(item);
 		}

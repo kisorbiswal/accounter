@@ -443,6 +443,12 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		this.isOnSaveProccessed = true;
 		if (type == TYPE_INVENTORY_PART || type == TYPE_INVENTORY_ASSEMBLY) {
 			doCreateEffectForInventoryItem();
+		} else {
+			if (isIBuyThisItem()) {
+				averageCost = purchasePrice;
+			} else {
+				averageCost = standardCost;
+			}
 		}
 		ChangeTracker.put(this);
 		setDepth(getDepthCount());
@@ -485,7 +491,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			return;
 		}
 		if (!onHandQty.isEmpty()) {
-			averageCost = purchasePrice;
+			averageCost = standardCost;
 			Session session = HibernateUtil.getCurrentSession();
 			StockAdjustment adjustment = createStockAdjustment();
 			session.save(adjustment);

@@ -20,12 +20,18 @@ import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class InventoryUtils {
+public class ItemUtils {
 
-	public static void remapSalesPurchases(Collection<Item> items)
+	/**
+	 * Given items should be inventoryItems
+	 * 
+	 * @param inventoryItems
+	 * @throws AccounterException
+	 */
+	public static void remapSalesPurchases(Collection<Item> inventoryItems)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		for (Item item : items) {
+		for (Item item : inventoryItems) {
 			long itemID = item.getID();
 			List<TransactionItem> sales = getSales(itemID);
 			int inventoryScheme = item.getActiveInventoryScheme();
@@ -200,7 +206,20 @@ public class InventoryUtils {
 				"company", company);
 		List<Item> items = query.list();
 
-		InventoryUtils.remapSalesPurchases(items);
+		ItemUtils.remapSalesPurchases(items);
+	}
+
+	/**
+	 * Given items should be Non-Inventory
+	 * 
+	 * @param nonInventory
+	 */
+	public static void updateAverageCost(List<Item> nonInventory) {
+		Session session = HibernateUtil.getCurrentSession();
+		for (Item item : nonInventory) {
+			session.getNamedQuery("update.averagePurchaseCost.of.Item")
+					.setParameter("itemId", item.getID()).executeUpdate();
+		}
 	}
 
 }
