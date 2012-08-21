@@ -10,6 +10,11 @@ public class Migrator16 extends AbstractMigrator {
 	public void migrate(Company company) throws AccounterException {
 		log.info("Started Migrator16");
 		for (Transaction t : company.getTransactions()) {
+			// (201,202,204)
+			int status = t.getSaveStatus();
+			if (status == 201 || status == 202 || status == 204) {
+				continue;
+			}
 			migrate(t);
 		}
 		log.info("Finished Migrator16");
