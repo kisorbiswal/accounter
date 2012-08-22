@@ -12,6 +12,12 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
+import com.vimukti.accounter.mobile.AccounterChatServer;
+import com.vimukti.accounter.mobile.AccounterMobileException;
+import com.vimukti.accounter.mobile.MobileServer;
+import com.vimukti.accounter.mobile.store.CommandsFactory;
+import com.vimukti.accounter.mobile.store.PatternStore;
+
 public class ServerMain extends Main {
 	private static boolean isDebug;
 
@@ -31,8 +37,31 @@ public class ServerMain extends Main {
 				ServerConfiguration.getKeyStore(),
 				ServerConfiguration.getKeyStorePassword(),
 				ServerConfiguration.getKeyPassword());
-		JettyServer.jettyServer.join();
+		
 
+		stratChatServers();
+		
+		JettyServer.jettyServer.join();
+	}
+
+	private static void stratChatServers() throws AccounterMobileException {
+		boolean isEnableCommands = ServerConfiguration
+				.isEnableConsoleChatServer();
+
+		if (ServerConfiguration.isEnableIMChatServer()) {
+			new AccounterChatServer().start();
+			isEnableCommands = true;
+		}
+
+		if (ServerConfiguration.isEnableMobileChatServer()) {
+			new MobileServer().strat();
+			isEnableCommands = true;
+		}
+
+		if (isEnableCommands) {
+			CommandsFactory.INSTANCE.reload();
+			PatternStore.INSTANCE.reload();
+		}
 	}
 
 	private static void openInBrowser() {

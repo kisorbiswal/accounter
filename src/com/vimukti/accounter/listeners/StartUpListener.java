@@ -77,7 +77,6 @@ public class StartUpListener implements ServletContextListener {
 						// Creating Email Log listener
 						createMailLogListener();
 
-						stratChatServers();
 					} else {
 						if (DatabaseManager.isDBConfigured()) {
 							Session session = HibernateUtil.openSession();
@@ -210,26 +209,6 @@ public class StartUpListener implements ServletContextListener {
 			}
 		}
 
-	}
-
-	private static void stratChatServers() throws AccounterMobileException {
-		boolean isEnableCommands = ServerConfiguration
-				.isEnableConsoleChatServer();
-
-		if (ServerConfiguration.isEnableIMChatServer()) {
-			new AccounterChatServer().start();
-			isEnableCommands = true;
-		}
-
-		if (ServerConfiguration.isEnableMobileChatServer()) {
-			new MobileServer().strat();
-			isEnableCommands = true;
-		}
-
-		if (isEnableCommands) {
-			CommandsFactory.INSTANCE.reload();
-			PatternStore.INSTANCE.reload();
-		}
 	}
 
 }
