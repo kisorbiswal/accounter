@@ -1,4 +1,4 @@
-package com.vimukti.accounter;
+package com.vimukti.accounter.android;
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -9,7 +9,7 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-import com.vimukti.accounter.ui.UIDesigner;
+import com.vimukti.accounter.android.ui.UIDesigner;
 
 public class AccounterActivity extends Activity {
 	private UIDesigner designer;

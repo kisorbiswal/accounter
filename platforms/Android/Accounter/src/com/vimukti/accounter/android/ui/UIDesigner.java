@@ -1,4 +1,4 @@
-package com.vimukti.accounter.ui;
+package com.vimukti.accounter.android.ui;
 
 import java.util.Date;
 import java.util.List;
@@ -20,24 +20,24 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.DatePicker.OnDateChangedListener;
-import android.widget.LinearLayout.LayoutParams;
 
-import com.vimukti.accounter.AccounterConnection;
-import com.vimukti.accounter.ConnectionListener;
-import com.vimukti.accounter.R;
-import com.vimukti.accounter.result.Cell;
-import com.vimukti.accounter.result.Command;
-import com.vimukti.accounter.result.CommandList;
-import com.vimukti.accounter.result.InputType;
-import com.vimukti.accounter.result.Record;
-import com.vimukti.accounter.result.Result;
-import com.vimukti.accounter.result.ResultList;
+import com.vimukti.accounter.android.AccounterConnection;
+import com.vimukti.accounter.android.ConnectionListener;
+import com.vimukti.accounter.android.R;
+import com.vimukti.accounter.android.result.Cell;
+import com.vimukti.accounter.android.result.Command;
+import com.vimukti.accounter.android.result.CommandList;
+import com.vimukti.accounter.android.result.InputType;
+import com.vimukti.accounter.android.result.Record;
+import com.vimukti.accounter.android.result.Result;
+import com.vimukti.accounter.android.result.ResultList;
 
 public class UIDesigner implements ConnectionListener {
 	private static int MAX_CONNECTION_ATTEMPTS = 20;
@@ -169,19 +169,19 @@ public class UIDesigner implements ConnectionListener {
 				date = new Date();
 			} else {
 				date = new Date(Integer.parseInt(value.substring(0, 4)) - 1900,
-						Integer.parseInt(value.substring(4, 6)) - 1, Integer
-								.parseInt(value.substring(6, 8)));
+						Integer.parseInt(value.substring(4, 6)) - 1,
+						Integer.parseInt(value.substring(6, 8)));
 			}
 			final DatePicker datePicker = new DatePicker(activity);
-			datePicker.init(1900 + date.getYear(), date.getMonth(), date
-					.getDate(), new OnDateChangedListener() {
+			datePicker.init(1900 + date.getYear(), date.getMonth(),
+					date.getDate(), new OnDateChangedListener() {
 
-				@Override
-				public void onDateChanged(DatePicker view, int year,
-						int monthOfYear, int dayOfMonth) {
+						@Override
+						public void onDateChanged(DatePicker view, int year,
+								int monthOfYear, int dayOfMonth) {
 
-				}
-			});
+						}
+					});
 
 			Button button = new Button(activity);
 			button.setText("Set Date");
@@ -219,12 +219,10 @@ public class UIDesigner implements ConnectionListener {
 		if (type == InputType.INPUT_TYPE_NUMBER) {
 			editText.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
 		} else if (type == InputType.INPUT_TYPE_AMOUNT) {
-			editText
-					.setInputType(android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
-							| android.text.InputType.TYPE_CLASS_NUMBER);
+			editText.setInputType(android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
+					| android.text.InputType.TYPE_CLASS_NUMBER);
 		} else if (type == InputType.INPUT_TYPE_EMAIL) {
-			editText
-					.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+			editText.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 		} else if (type == InputType.INPUT_TYPE_PASSWORD) {
 			editText.setInputType(editText.getInputType()
 					| EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS
@@ -236,8 +234,7 @@ public class UIDesigner implements ConnectionListener {
 		} else if (type == InputType.INPUT_TYPE_STRING) {
 			editText.setInputType(android.text.InputType.TYPE_CLASS_TEXT);
 		} else if (type == InputType.INPUT_TYPE_URL) {
-			editText
-					.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_URI);
+			editText.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_URI);
 		}
 		editText.requestFocus();
 		if (type != InputType.INPUT_TYPE_PASSWORD) {

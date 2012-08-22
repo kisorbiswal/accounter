@@ -1,4 +1,4 @@
-package com.vimukti.accounter;
+package com.vimukti.accounter.android;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -14,8 +14,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.vimukti.accounter.result.Result;
-import com.vimukti.accounter.result.ResultJsonDeserializer;
+import com.vimukti.accounter.android.result.Result;
+import com.vimukti.accounter.android.result.ResultJsonDeserializer;
 
 /**
  * This class is used to open the Socket Connection

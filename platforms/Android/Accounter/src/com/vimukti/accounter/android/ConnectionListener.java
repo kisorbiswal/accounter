@@ -1,6 +1,6 @@
-package com.vimukti.accounter;
+package com.vimukti.accounter.android;
 
-import com.vimukti.accounter.result.Result;
+import com.vimukti.accounter.android.result.Result;
 
 public interface ConnectionListener {
 

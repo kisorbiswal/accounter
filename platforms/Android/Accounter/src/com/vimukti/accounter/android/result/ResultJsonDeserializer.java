@@ -1,4 +1,4 @@
-package com.vimukti.accounter.result;
+package com.vimukti.accounter.android.result;
 
 import java.lang.reflect.Type;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.vimukti.accounter.result;
+package com.vimukti.accounter.android.result;
 
 import java.util.ArrayList;
 import java.util.List;

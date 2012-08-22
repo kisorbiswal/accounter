@@ -1,4 +1,4 @@
-package com.vimukti.accounter.result;
+package com.vimukti.accounter.android.result;
 
 public class Command {
 	private String name;
