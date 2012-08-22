@@ -184,18 +184,15 @@
 				DROP TRIGGER  IF EXISTS  updatePathCount ON ACCOUNTER_CLASS; 
 				CREATE OR REPLACE FUNCTION updatePathCount() RETURNS trigger AS $updatePathCount$
 				DECLARE
-						companyId bigint;
 						path integer;
 						parentcount integer;
 						count integer;
 						pathName text;  
 				BEGIN
-				 		companyId=NEW.COMPANY_ID;
 				IF( NEW.PARENT_ID  IS NULL) THEN
-						 path = (SELECT CLASS_COUNT FROM COMPANY WHERE ID=companyId);
+						 path =  (SELECT MAX(CASE WHEN AC.PATH IS NULL OR AC.PATH='' THEN 0 ELSE CAST(AC.PATH  AS INTEGER ) END) FROM ACCOUNTER_CLASS AC WHERE AC.COMPANY_ID=NEW.COMPANY_ID AND AC.PARENT_ID IS NULL);
 						 New.PATH=path+1;
-						 UPDATE COMPANY SET CLASS_COUNT =path+1 ;
-                      RETURN NEW;
+                      	 RETURN NEW;
                 ELSE 
 	                 pathName=(SELECT AC.PATH FROM ACCOUNTER_CLASS AC WHERE AC.ID=NEW.PARENT_ID); 
                      count=(SELECT count(*) FROM ACCOUNTER_CLASS AC WHERE AC.PARENT_ID=NEW.PARENT_ID);
@@ -220,10 +217,9 @@
 							  
 				BEGIN
 				IF( NEW.PARENT_ID  IS NULL) THEN
-						 path = (SELECT ITEM_COUNT FROM COMPANY WHERE ID =NEW.COMPANY_ID);
+						 path =  (SELECT MAX(CASE WHEN I.PATH IS NULL OR I.PATH='' THEN 0 ELSE CAST(I.PATH  AS INTEGER ) END) FROM ITEM I WHERE I.COMPANY_ID=NEW.COMPANY_ID AND I.PARENT_ID IS NULL);
 						 New.PATH=path+1;
-						 UPDATE COMPANY SET ITEM_COUNT =path+1 ;
-                      RETURN NEW;
+                      	 RETURN NEW;
                 ELSE 
 				 pathName=(SELECT I.PATH FROM ITEM I WHERE I.ID=NEW.PARENT_ID); 
                      count= (SELECT count(*) FROM ITEM I WHERE I.PARENT_ID=NEW.PARENT_ID);
