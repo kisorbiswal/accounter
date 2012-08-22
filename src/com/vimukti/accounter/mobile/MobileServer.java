@@ -1,7 +1,5 @@
 package com.vimukti.accounter.mobile;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.net.InetSocketAddress;
 import java.security.KeyStore;
 import java.util.concurrent.Executors;
@@ -33,22 +31,18 @@ public class MobileServer {
 
 	private void createContext() {
 		try {
-			KeyStore ks = KeyStore.getInstance("PKCS12");
+			KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
 
-			char[] passphrase = "***REMOVED***".toCharArray();
-
-			ks.load(new FileInputStream(ServerConfiguration.getMobileStore()
-					+ File.separator + "keystore.accounter"), passphrase);
-
-			// ts.load(new FileInputStream(ServerConfiguration.getMobileStore()
-			// + File.separator + "keystore"), passphrase);
+			// get user password and file input stream
+			char[] password = ServerConfiguration.getKeyStorePassword()
+					.toCharArray();
+			java.io.FileInputStream fis = new java.io.FileInputStream(
+					ServerConfiguration.getKeyStore());
+			ks.load(fis, password);
+			fis.close();
 
 			KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
-			kmf.init(ks, passphrase);
-
-			// TrustManagerFactory tmf = TrustManagerFactory
-			// .getInstance("SunX509");
-			// tmf.init(ts);
+			kmf.init(ks, ServerConfiguration.getKeyPassword().toCharArray());
 
 			sslCtx = SSLContext.getInstance("TLS");
 

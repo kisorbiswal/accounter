@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <title>Accounter</title>
     <!-- WinJS references -->
-    <link href="//Microsoft.WinJS.1.0.RC/css/ui-light.css" rel="stylesheet" />
-    <script src="//Microsoft.WinJS.1.0.RC/js/base.js"></script>
-    <script src="//Microsoft.WinJS.1.0.RC/js/ui.js"></script>
+    <link href="//Microsoft.WinJS.1.0/css/ui-light.css" rel="stylesheet" />
+    <script src="//Microsoft.WinJS.1.0/js/base.js"></script>
+    <script src="//Microsoft.WinJS.1.0/js/ui.js"></script>
     <!-- Accounter references -->
     <link href="/css/default.css" rel="stylesheet" />
     <script src="/js/default.js"></script>
@@ -4033,7 +4033,7 @@
 	  				'licenseKey' : 'License Key',
 	  				'licenseExpired' : 'License Expired',
 	  				'invalidLicense' : 'Invalid License',
-	  				'newTermsOfUse' : 'By signing up here you agree to '
+	  				'newTermsOfUse' : 'By signing up here you agree to ',
 };
 /* ACCOUNTER MESSAGES END */
         var accounter_locale = {
@@ -4112,6 +4112,9 @@
 		<script type="text/javascript" src="/accounter.client/accounter.client.nocache.js"></script>
 		<div id="appBar" data-win-control="WinJS.UI.AppBar" data-win-options="{placement:'bottom', sticky:true}">
             
+        </div>
+        <div id="settingsContainer" data-win-control="WinJS.UI.SettingsFlyout" data-win-options="{settingsCommandId:'setThisAtRuntime', width:'wide'}">
+            <button> Test</button>
         </div>
  </body>
 </html>
