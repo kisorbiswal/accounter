@@ -11256,7 +11256,7 @@
 			                              AND t.save_status NOT IN ( 201, 202, 204 )
 			                              AND ti.item_id = :itemId
 			                       GROUP  BY item_id)
-			WHERE  id = :itemId;  
+			WHERE  id = :itemId  
 		]]>
 
 	</sql-query>

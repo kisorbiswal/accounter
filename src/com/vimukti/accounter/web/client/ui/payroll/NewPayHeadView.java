@@ -379,7 +379,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		panel.add(mainform);
 		panel.add(calculationForm);
 		this.add(panel);
-
 		setSize("100%", "100%");
 	}
 
@@ -476,7 +475,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			formulaForm = new DynamicForm("computationForm");
 			computationForm = new DynamicForm("computationForm");
 			compuPeriodAndTypeForm = new DynamicForm("compuPeriodAndTypeForm");
-
 			this.tablePanel = new StyledPanel("addnew_edit_panel");
 			tablePanel.add(slabTable);
 
@@ -493,6 +491,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			calculationForm.add(flatrateForm);
 
 		}
+		updateButtons();
 	}
 
 	@Override
@@ -693,6 +692,23 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	@Override
 	protected void createButtons() {
 		super.createButtons();
+		if (tablePanel == null) {
+			return;
+		}
+		itemTableButton = getItemButton();
+		addButton(tablePanel, itemTableButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		if (tablePanel == null) {
+			return;
+		}
+		removeButton(tablePanel, itemTableButton);
+	}
+
+	private AddNewButton getItemButton() {
 		itemTableButton = new AddNewButton();
 		itemTableButton.addClickHandler(new ClickHandler() {
 
@@ -703,12 +719,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			}
 		});
 		itemTableButton.setEnabled(!isInViewMode());
-		addButton(tablePanel, itemTableButton);
-	}
-
-	@Override
-	protected void clearButtons() {
-		super.clearButtons();
-		removeButton(tablePanel, itemTableButton);
+		return itemTableButton;
 	}
 }
