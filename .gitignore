@@ -18,3 +18,6 @@ platforms/windows 8/Accounter/css/default.css
 platforms/windows 8/Accounter/Debug
 platforms/windows 8/Accounter/bin
 platforms/windows 8/Accounter/bld
+platforms/Android/Accounter/bin
+platforms/Android/Accounter/gen
+platforms/WindowsPhone7/Accounter/obj
