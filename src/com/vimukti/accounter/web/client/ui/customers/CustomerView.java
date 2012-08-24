@@ -251,7 +251,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	private void createControls() {
 
 		tabSet = (GwtTabPanel) GWT.create(GwtTabPanel.class);
-
+		Label title = new Label(Global.get().Customer());
+		title.setStyleName("label-title");
 		listforms = new ArrayList<DynamicForm>();
 		tabSet.add(getGeneralTab(), messages.general());
 		tabSet.add(getDetailsTab(), messages.details());
@@ -259,6 +260,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		createCustomFieldControls();
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		mainVLay.add(title);
 		mainVLay.add(tabSet.getPanel());
 
 		this.add(mainVLay);

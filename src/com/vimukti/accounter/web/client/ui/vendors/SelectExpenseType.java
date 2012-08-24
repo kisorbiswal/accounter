@@ -103,7 +103,7 @@ public class SelectExpenseType extends BaseDialog {
 			}
 
 		}
-		removeFromParent();
+		this.removeFromParent();
 		return true;
 	}
 

@@ -73,9 +73,8 @@ public class TrackDiscountsOption extends AbstractPreferenceOption {
 		oneperTransactionLabel = new LabelItem(messages.onepertransaction()
 				+ " : " + messages.onePerTransactionDescription(),
 				"organisation_comment");
-		oneperdetaillineLabel = new LabelItem(
-				messages.onePerDetailLineDescription() + " : "
-						+ messages.onePerDetailLineDescription(),
+		oneperdetaillineLabel = new LabelItem(messages.oneperdetailline()
+				+ " : " + messages.onePerDetailLineDescription(),
 				"organisation_comment");
 
 		oneperdetaillineTransctiongroup = new RadioGroupItem();

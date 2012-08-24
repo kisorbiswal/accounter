@@ -71,7 +71,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 	private HashMap<Integer, String> transactiontypebyStatusMap;
 	private boolean isActiveAccounts = true;
 	private StyledPanel deleteButtonPanel;
-	private StyledPanel rightVpPanel;
+	private StyledPanel rightVpPanel, dummyPanel;
 	private Button transactionButton;
 
 	public VendorCenterView() {
@@ -103,7 +103,9 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 		initVendorListGrid();
 		leftVpPanel.add(vendorlistGrid);
 		vendorlistGrid.setStyleName("cusotmerCentrGrid");
+
 		rightVpPanel = new StyledPanel("rightVpPanel");
+		dummyPanel = new StyledPanel("dummyPanel");
 		detailsPanel = new VendorDetailsPanel(selectedVendor);
 		rightVpPanel.add(detailsPanel);
 		vendorlistGrid
@@ -163,11 +165,12 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 			});
 
 		} else {
-			rightVpPanel.add(transactionGridpanel);
-			rightVpPanel.add(vendHistoryGrid);
-			rightVpPanel.add(pager);
+			dummyPanel.add(transactionGridpanel);
+			dummyPanel.add(vendHistoryGrid);
+			dummyPanel.add(pager);
 		}
-		// vendHistoryGrid.setHeight("494px");
+
+		rightVpPanel.add(dummyPanel);
 		Label labelTitle = new Label(messages.customerCentre(Global.get()
 				.Vendor()));
 		labelTitle.setStyleName("label-title");
@@ -695,7 +698,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 
 	@Override
 	public void addButtons(ButtonGroup group) {
-		ImageButton addVendorButton;
+		ImageButton addVendorButton = null;
 
 		if (Accounter.isIpadApp()) {
 			addVendorButton = new ImageButton(Accounter.getFinanceImages()
@@ -715,7 +718,8 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 				ActionFactory.getNewVendorAction().run();
 			}
 		});
-		group.add(addVendorButton);
+		addVendorButton.getElement().setAttribute("data-icon", "add");
+		addButton(group, addVendorButton);
 	}
 
 }

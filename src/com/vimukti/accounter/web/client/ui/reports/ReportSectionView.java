@@ -46,7 +46,7 @@ public class ReportSectionView extends BaseHomeView {
 	private StyledPanel createControl() {
 
 		Label reportLabel = new Label(messages.reports());
-		reportLabel.setStyleName("name-label");
+		reportLabel.setStyleName("label-title");
 
 		companyAndFinancialMap = new HashMap<String, String>();
 		customersAndRecievableMap = new HashMap<String, String>();
@@ -466,7 +466,7 @@ public class ReportSectionView extends BaseHomeView {
 			payroll.add(payRollPanel);
 			rightPanel.add(payroll);
 		}
-
+		mainPanel.add(reportLabel);
 		mainPanel.add(leftPanel);
 		mainPanel.add(rightPanel);
 		mainPanel.addStyleName("report-section");

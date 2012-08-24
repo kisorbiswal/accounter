@@ -8488,3 +8488,6 @@ table.no_records tr td {
 .general-setting-invoice{
 	   max-width: 630px;
 }
+.report-section .label-title, #InventoryCentreView .label-title, #CustomerCenterView .label-title, #vendorCenterView .label-title, #preferenceSettingsView .label-title{
+	display: none
+}

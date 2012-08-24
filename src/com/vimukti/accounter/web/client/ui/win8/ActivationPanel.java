@@ -21,6 +21,7 @@ public class ActivationPanel extends FlowPanel {
 	WebsocketAccounterInitialiser accounter;
 	boolean isForgotPassword;
 	HTML title;
+	private HTML accounterText;
 
 	public ActivationPanel(WebsocketAccounterInitialiser accounter) {
 		getElement().setId("activationPanel");
@@ -33,10 +34,14 @@ public class ActivationPanel extends FlowPanel {
 				+ "</h2>");
 		errorlabel = new Label();
 		errorlabel.setStyleName("errors");
+
+		accounterText = new HTML(Accounter.getMessages()
+				.pleaseentertheactivationcodeyougotinthemail());
 		activationCode = new TextItem(
 				Accounter.getMessages().validActivation(), "activationCode");
 		add(title);
 		add(errorlabel);
+		add(accounterText);
 		add(activationCode);
 		final AccounterAsyncCallback<Boolean> accounterAsyncCallback = new AccounterAsyncCallback<Boolean>() {
 

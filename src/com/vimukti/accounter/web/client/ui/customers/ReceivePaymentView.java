@@ -681,7 +681,7 @@ public class ReceivePaymentView extends
 						.getFormalName()), getCompany().getPrimaryCurrency());
 		unUsedPaymentsText.setEnabled(false);
 
-		DynamicForm textForm = new DynamicForm("textForm");
+		DynamicForm textForm = new DynamicForm("boldtext");
 		textForm.add(unUsedCreditsText, unUsedPaymentsText);
 		unUsedCreditsText.setVisible(!isInViewMode());
 
@@ -751,7 +751,7 @@ public class ReceivePaymentView extends
 
 	}
 
-	protected StyledPanel getTopLayout(){
+	protected StyledPanel getTopLayout() {
 		return new StyledPanel("topHLay");
 	}
 

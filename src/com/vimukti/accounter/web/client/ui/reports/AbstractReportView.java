@@ -240,13 +240,13 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 
 	@Override
 	public void init() {
-		if (UIUtils.isMSIEBrowser())
+		if (UIUtils.isMSIEBrowser()) {
 			createControlsForIE();
-		else
+		} else {
 			createControls();
+		}
 
-		reportTypeTitle.setHTML("<strong>" + "<h3>"
-				+ this.getAction().getText() + "</h3>" + "</strong>");
+		reportTypeTitle.setHTML(this.getAction().getText());
 
 	}
 
@@ -267,6 +267,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		// topLayout.add(companyLabel);
 		reportTypeTitle = new HTML();
 		reportTypeTitle.getElement().getStyle().setMarginLeft(10, Unit.PX);
+		reportTypeTitle.setStyleName("label-title");
 		topLayout.add(reportTypeTitle);
 		/*
 		 * dateRange = new HTML(); updateDateRangeLayout(toolbar.getStartDate(),
@@ -336,6 +337,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		// topLayout.add(companyLabel);
 		reportTypeTitle = new HTML();
 		topLayout.add(reportTypeTitle);
+		reportTypeTitle.setStyleName("label-title");
 		/*
 		 * dateRange = new HTML(); updateDateRangeLayout(toolbar.getStartDate(),
 		 * toolbar.getEndDate());

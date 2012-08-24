@@ -72,7 +72,7 @@ public class CustomerCenterView<T> extends
 	private boolean isActiveAccounts = true;
 	private StyledPanel deleteButtonPanel;
 	private Button transactionButton;
-	private StyledPanel rightVpPanel;
+	private StyledPanel rightVpPanel, dummyPanel;
 
 	public CustomerCenterView() {
 
@@ -110,7 +110,10 @@ public class CustomerCenterView<T> extends
 		leftVpPanel.add(custGrid);
 
 		custGrid.setStyleName("cusotmerCentrGrid");
+
 		rightVpPanel = new StyledPanel("rightPanel");
+		dummyPanel = new StyledPanel("dummyPanel");
+
 		detailsPanel = new CustomerDetailsPanel(selectedCustomer);
 		rightVpPanel.add(detailsPanel);
 		custGrid.setCustomerSelectionListener(new CustomerSelectionListener() {
@@ -166,14 +169,15 @@ public class CustomerCenterView<T> extends
 			});
 
 		} else {
-
-			rightVpPanel.add(transactionGridpanel);
-			rightVpPanel.add(custHistoryGrid);
-			rightVpPanel.add(pager);
+			dummyPanel.add(transactionGridpanel);
+			dummyPanel.add(custHistoryGrid);
+			dummyPanel.add(pager);
 		}
+		rightVpPanel.add(dummyPanel);
 		Label labelTitle = new Label(messages.customerCentre(Global.get()
 				.Customer()));
 		labelTitle.setStyleName("label-title");
+
 		mainPanel.add(leftVpPanel);
 		mainPanel.add(rightVpPanel);
 		deleteButtonPanel = new StyledPanel("deleteButtonPanel");

@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.ui.WebsocketAccounterInitialiser;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class ResendActivationCodePanel extends FlowPanel {
-	HTML accounterText;
+	HTML title;
 	TextItem emailTxt;
 	Button getNewActivCode;
 
@@ -22,6 +22,7 @@ public class ResendActivationCodePanel extends FlowPanel {
 	WebsocketAccounterInitialiser accounterInitialiser;
 	Label errorlabel;
 	private boolean isForgotPassword;
+	private HTML accounterText;
 
 	public ResendActivationCodePanel(WebsocketAccounterInitialiser accounter) {
 		getElement().setId("resendActivationPanel");
@@ -31,8 +32,9 @@ public class ResendActivationCodePanel extends FlowPanel {
 
 	private void createControls() {
 		errorlabel = new Label();
-		accounterText = new HTML("<h2>"
-				+ Accounter.getMessages().activationCode() + "</h2>");
+		title = new HTML("<h2>"
+				+ Accounter.getMessages().resendActivationcode() + "</h2>");
+		accounterText = new HTML(Accounter.getMessages().forgotpasswordMsg());
 		emailTxt = new TextItem(Accounter.getMessages().email(), "emailTxt");
 		getNewActivCode = new Button(Accounter.getMessages().submit());
 		final AccounterAsyncCallback<Boolean> accounterAsyncCallback = new AccounterAsyncCallback<Boolean>() {
@@ -87,9 +89,10 @@ public class ResendActivationCodePanel extends FlowPanel {
 				});
 		cancelButton.setStyleName("cancel");
 
+		add(title);
+		add(errorlabel);
 		add(accounterText);
 		add(emailTxt);
-		add(errorlabel);
 		add(getNewActivCode);
 		add(cancelButton);
 	}

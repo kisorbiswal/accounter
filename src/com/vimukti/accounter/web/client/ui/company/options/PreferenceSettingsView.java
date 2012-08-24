@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.company.PreferencePage;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
 import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -82,6 +81,11 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 		}
 		createPage(preferencePagesTitle.get(0), 0);
+
+		Label titleLabel = new Label(messages.companySettingsTitle());
+		titleLabel.setStyleName("label-title");
+
+		mainPanel.add(titleLabel);
 		mainPanel.add(titlesPanel);
 		mainPanel.add(pageDetailsPanel);
 		titlesPanel.getElement().getParentElement()

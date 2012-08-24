@@ -70,7 +70,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			messages.expenses(), messages.salesOrders(),
 			messages.purchaseOrders() };
 	private Button transactionButton;
-	private StyledPanel rightVpPanel;
+	private StyledPanel rightVpPanel, dummyPanel;
 
 	public InventoryCentreView() {
 		this.getElement().setId("InventoryCentreView");
@@ -95,7 +95,9 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		leftVpPanel.add(itemsListGrid);
 
 		itemsListGrid.setStyleName("cusotmerCentrGrid");
+
 		rightVpPanel = new StyledPanel("rightVpPanel");
+		dummyPanel = new StyledPanel("dummyPanel");
 		itemDetailsPanel = new ItemDetailsPanel(selectedItem);
 		rightVpPanel.add(itemDetailsPanel);
 		itemsListGrid.setItemSelectionListener(new ItemSelectionListener() {
@@ -167,10 +169,13 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			});
 
 		} else {
-			rightVpPanel.add(transactionGridpanel);
-			rightVpPanel.add(transactionHistoryGrid);
-			rightVpPanel.add(pager);
+			dummyPanel.add(transactionGridpanel);
+			dummyPanel.add(transactionHistoryGrid);
+			dummyPanel.add(pager);
 		}
+
+		rightVpPanel.add(dummyPanel);
+
 		Label labelTitle = new Label(messages.inventoryCentre());
 		labelTitle.setStyleName("label-title");
 		mainPanel.add(leftVpPanel);

@@ -195,6 +195,9 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		tabSet = (GwtTabPanel) GWT.create(GwtTabPanel.class);
 
+		Label title = new Label(Global.get().Vendor());
+		title.setStyleName("label-title");
+
 		listforms = new ArrayList<DynamicForm>();
 		tabSet.add(getGeneralTab(), messages.general());
 		tabSet.add(getDetailsTab(), messages.details());
@@ -202,6 +205,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		createCustomFieldControls();
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
+
+		mainVLay.add(title);
 		mainVLay.add(tabSet.getPanel());
 
 		this.add(mainVLay);
