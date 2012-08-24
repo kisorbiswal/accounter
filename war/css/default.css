@@ -2112,7 +2112,6 @@ a:hover,.subMenuName:hover{
 	height: 122% !important;
 	margin-top: -40px;
 	margin-left: 50px;
-	margin-left: 20px;
 }
 .detailsTab,#itemView .topHLay ,#itemView .topPanel2,#TAXAgencyView .topHLay{
 	display: -ms-flexbox;
@@ -2694,7 +2693,7 @@ table.gridBody .gridEvenRow{
 	width: 100px;
 }
 .view-gwt-dialog .mainPanel{
-	width: 84%;
+	width: 100%;
 }
 #InputDialog .mainPanel{
 	width: 100%;
@@ -2907,8 +2906,17 @@ progress:indeterminate.in-prog {
 .history_notes_view{
 	margin-bottom: 10px;
 	top: 10%;
+	display: none;
 }
 #InvoiceView{
+	display: -ms-flexbox;
+	-ms-flex-direction: row;
+	-ms-flex-wrap: wrap;
+}
+#InventoryCentreView .mainPanel{
+	height: 100%;
+}
+#TDSDeductorDetailsView .panel2{
 	display: -ms-flexbox;
 	-ms-flex-direction: row;
 	-ms-flex-wrap: wrap;

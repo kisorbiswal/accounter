@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.ItemCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.CancelButton;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -45,19 +46,6 @@ public class ItemMergeView extends BaseView<ClientItem> {
 	@Override
 	public void init() {
 		super.init();
-		ImageButton meregButton = new ImageButton(messages.merge(), Accounter
-				.getFinanceImages().saveAndClose(), "remote");
-		meregButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				validate();
-				mergeItem();
-
-			}
-		});
-
-		addButton(meregButton);
 		createControls();
 	}
 
@@ -235,4 +223,21 @@ public class ItemMergeView extends BaseView<ClientItem> {
 
 	}
 
+	@Override
+	protected void createButtons() {
+		ImageButton meregButton = new ImageButton(messages.merge(), Accounter
+				.getFinanceImages().saveAndClose(), "remote");
+		meregButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				validate();
+				mergeItem();
+
+			}
+		});
+		cancelButton = new CancelButton(this);
+		addButton(meregButton);
+		addButton(cancelButton);
+	}
 }

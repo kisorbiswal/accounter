@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.CancelButton;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -47,21 +48,6 @@ public class CustomerMergeView extends BaseView<ClientCustomer> {
 	@Override
 	public void init() {
 		super.init();
-
-		ImageButton meregButton = new ImageButton(messages.merge(), Accounter
-				.getFinanceImages().saveAndClose(), "remote");
-		meregButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				validate();
-				mergeCustomers();
-
-			}
-		});
-
-		addButton(meregButton);
-
 		createControls();
 	}
 
@@ -250,6 +236,24 @@ public class CustomerMergeView extends BaseView<ClientCustomer> {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected void createButtons() {
+		ImageButton meregButton = new ImageButton(messages.merge(), Accounter
+				.getFinanceImages().saveAndClose(), "remote");
+		meregButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				validate();
+				mergeCustomers();
+
+			}
+		});
+		cancelButton = new CancelButton(this);
+		addButton(meregButton);
+		addButton(cancelButton);
 	}
 
 }
