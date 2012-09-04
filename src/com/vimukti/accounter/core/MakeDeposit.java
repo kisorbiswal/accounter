@@ -353,4 +353,12 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 
 	}
 
+	public Account getDepositTo() {
+		return depositTo;
+	}
+
+	public void setDepositTo(Account depositTo) {
+		this.depositTo = depositTo;
+	}
+
 }

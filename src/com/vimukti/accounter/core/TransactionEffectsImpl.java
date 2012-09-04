@@ -109,6 +109,14 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 
 	public void saveOrUpdate() throws AccounterException {
 		checkTrailBalance();
+		for (AccountTransaction at : newATs) {
+			if (at.getAccount().getCompany().getId() != AccounterThreadLocal
+					.get().getCompany().getId()) {
+				throw new AccounterException(
+						AccounterException.ERROR_ILLEGAL_ARGUMENT,
+						"Invalid Account");
+			}
+		}
 		Session session = HibernateUtil.getCurrentSession();
 		mergeAccountTransactions(session);
 		mergePayeeUpdates(session);

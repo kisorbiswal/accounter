@@ -169,7 +169,11 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 	@Override
 	public void selfValidate() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 }

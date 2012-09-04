@@ -516,4 +516,8 @@ public class CustomerCreditMemo extends Transaction implements
 		checkNetAmountNegative();
 
 	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 }

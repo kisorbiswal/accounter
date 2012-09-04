@@ -267,4 +267,16 @@
 		order by it.id
 	</query>
 	
+	<query name="get.Incorrect.AccountTransactions">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.AccountTransaction at where at.company= :company 
+		and at.company!=at.account.company 
+	</query>
+	
+	<query name="get.Account.By.Name">
+		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
+		from com.vimukti.accounter.core.Account a where a.company=:company and a.name=:name
+	</query>
+	
 </hibernate-mapping>
