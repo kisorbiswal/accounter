@@ -279,4 +279,23 @@
 		from com.vimukti.accounter.core.Account a where a.company=:company and a.name=:name
 	</query>
 	
+	<sql-query name="get.Incorrect.Accounts">
+		<query-param name="cid" type="long"/>
+		
+		<return-scalar column="account_id" type="long" />
+		<return-scalar column="at_sum" type="double" />
+		<return-scalar column="current_balance" type="double" />
+		SELECT account_id,
+		       at_sum,
+		       current_balance
+		FROM   (SELECT a.id              AS account_id,
+		               SUM(at.amount)    AS at_sum,
+		               a.current_balance AS current_balance
+		        FROM   account a
+		               left join account_transaction at
+		                      ON at.account_id = a.id
+		        WHERE  a.company_id = :cid
+		        GROUP  BY a.id) AS tab
+		WHERE  Abs(tab.at_sum - tab.current_balance) > 0.001;  
+	</sql-query>
 </hibernate-mapping>

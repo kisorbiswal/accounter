@@ -41,6 +41,7 @@ import com.vimukti.accounter.core.TransactionReceivePayment;
 import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.VendorPrePayment;
 import com.vimukti.accounter.core.WriteCheck;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class Migrator17 extends AbstractMigrator {
@@ -48,6 +49,7 @@ public class Migrator17 extends AbstractMigrator {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void migrate(Company company) throws AccounterException {
+		log.info("Started Migrator17");
 		Query query = getSession().getNamedQuery(
 				"get.Incorrect.AccountTransactions").setEntity("company",
 				company);
@@ -70,10 +72,12 @@ public class Migrator17 extends AbstractMigrator {
 			}
 			correctTransaction(at.getTransaction(), correctAcc, wrongAccount);
 		}
+		log.info("Finished Migrator17");
 	}
 
 	private void correctTransaction(Transaction transaction,
 			Account correctAcc, Account wrongAccount) throws AccounterException {
+		transaction = HibernateUtil.initializeAndUnproxy(transaction);
 		switch (transaction.getType()) {
 		case Transaction.TYPE_CASH_SALES:
 			CashSales sale = (CashSales) transaction;
