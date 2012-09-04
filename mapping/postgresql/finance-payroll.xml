@@ -58,7 +58,7 @@
 		<many-to-one name="employeeGroup" column="EMPLOYEE_GROUP"
 			class="EmployeeGroup">
 		</many-to-one>
-		<list name="items" cascade="save-update,delete">
+		<list name="items" cascade="save-update,delete-orphan">
 			<key column="PAY_STRUCTURE" />
 			<list-index column="IDX" />
 			<one-to-many class="PayStructureItem" />
