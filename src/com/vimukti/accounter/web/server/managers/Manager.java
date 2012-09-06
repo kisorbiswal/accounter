@@ -198,10 +198,10 @@ public class Manager {
 		if ((iterator).hasNext()) {
 
 			object = (Object[]) iterator.next();
-			startDate = (object[0] == null ? null : new ClientFinanceDate(
-					(Long) object[0]));
-			endDate = (object[1] == null ? null : new ClientFinanceDate(
-					(Long) object[1]));
+			startDate = (object[0] == null ? new ClientFinanceDate()
+					: new ClientFinanceDate((Long) object[0]));
+			endDate = (object[1] == null ? new ClientFinanceDate()
+					: new ClientFinanceDate((Long) object[1]));
 		}
 		return new ClientFinanceDate[] { startDate, endDate };
 	}

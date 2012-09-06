@@ -92,7 +92,9 @@ public class TaxItemsForm extends DynamicForm {
 		}
 
 		for (ClientTransactionItem transactionItem : transactionItems) {
-
+			if (!transactionItem.isTaxable()) {
+				continue;
+			}
 			ClientTAXCode taxCode = company.getTAXCode(transactionItem
 					.getTaxCode());
 			if (taxCode == null) {

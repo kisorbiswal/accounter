@@ -830,8 +830,10 @@ public class CashPurchase extends Transaction {
 	@Override
 	public void getEffects(ITransactionEffects e) {
 		for (TransactionItem tItem : getTransactionItems()) {
-			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
-					- tItem.getVATfraction() : tItem.getLineTotal();
+			boolean isTaxable = tItem.isTaxable() && tItem.getTaxCode() != null;
+			double amount = isTaxable && tItem.isAmountIncludeTAX() ? tItem
+					.getLineTotal() - tItem.getVATfraction() : tItem
+					.getLineTotal();
 			// This is Not Positive Transaction
 			amount = -amount;
 			switch (tItem.getType()) {
@@ -858,7 +860,7 @@ public class CashPurchase extends Transaction {
 			default:
 				break;
 			}
-			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+			if (isTaxable) {
 				TAXItemGroup taxItemGroup = tItem.getTaxCode()
 						.getTAXItemGrpForPurchases();
 				e.add(taxItemGroup, amount);

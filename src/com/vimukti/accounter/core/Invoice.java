@@ -1034,8 +1034,10 @@ public class Invoice extends Transaction implements Lifecycle {
 	@Override
 	public void getEffects(ITransactionEffects e) {
 		for (TransactionItem tItem : getTransactionItems()) {
-			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
-					- tItem.getVATfraction() : tItem.getLineTotal();
+			boolean isTaxable = tItem.isTaxable() && tItem.getTaxCode() != null;
+			double amount = isTaxable && tItem.isAmountIncludeTAX() ? tItem
+					.getLineTotal() - tItem.getVATfraction() : tItem
+					.getLineTotal();
 			switch (tItem.getType()) {
 			case TransactionItem.TYPE_ACCOUNT:
 				e.add(tItem.getAccount(), amount);
@@ -1053,7 +1055,7 @@ public class Invoice extends Transaction implements Lifecycle {
 			default:
 				break;
 			}
-			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+			if (isTaxable) {
 				TAXItemGroup taxItemGroup = tItem.getTaxCode()
 						.getTAXItemGrpForSales();
 				e.add(taxItemGroup, amount);

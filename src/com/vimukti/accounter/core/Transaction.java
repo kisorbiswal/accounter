@@ -1387,8 +1387,9 @@ public abstract class Transaction extends CreatableObject implements
 		double netAmtTot = 0.0;
 		for (TransactionItem item : this.transactionItems) {
 			netAmtTot += item.getReferringTransactionItem() == null ? item
-					.isAmountIncludeTAX() ? item.getLineTotal()
-					- item.getVATfraction() : item.getLineTotal() : 0.0;
+					.isTaxable() && item.isAmountIncludeTAX() ? item
+					.getLineTotal() - item.getVATfraction() : item
+					.getLineTotal() : 0.0;
 		}
 
 		return netAmtTot;

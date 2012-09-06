@@ -393,7 +393,7 @@ public class Estimate extends Transaction {
 		for (TransactionItem record : this.getTransactionItems()) {
 			Double lineTotalAmt = record.getLineTotal();
 			Double vaTfraction = record.getVATfraction();
-			if (record.isAmountIncludeTAX()) {
+			if (record.isTaxable() && record.isAmountIncludeTAX()) {
 				lineTotalAmt = lineTotalAmt - vaTfraction;
 			}
 

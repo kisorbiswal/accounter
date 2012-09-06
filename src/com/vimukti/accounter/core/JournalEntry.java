@@ -147,7 +147,6 @@ public class JournalEntry extends Transaction {
 		return false;
 	}
 
-
 	private void checkCreditsAndDebits() throws AccounterException {
 		double creditTotal = 0, debitTotal = 0;
 		for (TransactionItem rec : getTransactionItems()) {
@@ -159,7 +158,7 @@ public class JournalEntry extends Transaction {
 				}
 			}
 		}
-		if (creditTotal != debitTotal) {
+		if (!DecimalUtil.isEquals(creditTotal, debitTotal)) {
 			throw new AccounterException(
 					AccounterException.ERROR_CREDIT_DEBIT_TOTALS_NOT_EQUAL);
 		} else {

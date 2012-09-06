@@ -457,7 +457,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	public Double getEffectiveAmount() {
 		Double amount = (isPositiveTransaction() ? -1d : 1d)
-				* (this.isAmountIncludeTAX() ? this.lineTotal
+				* (isTaxable() && this.isAmountIncludeTAX() ? this.lineTotal
 						- this.VATfraction : this.lineTotal);
 		return amount;
 	}
