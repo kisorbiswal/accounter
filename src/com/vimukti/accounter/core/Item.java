@@ -520,7 +520,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		item.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
 		item.setTransaction(adjustment);
 		item.setWareHouse(warehouse);
-		item.setLineTotal(itemTotalValue);
+		item.setLineTotal(onHandQty.calculate(standardCost));
 
 		// Empty OnHandQty.Because StockAdjustment will update onHandQty
 		onHandQty.setValue(0);

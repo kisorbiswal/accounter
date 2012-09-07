@@ -325,7 +325,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				Double amount = purchasePriceTxt.getAmount();
+				Double amount = stdCostText.getAmount();
 				if (onHandQuantity.getValue().length() > 0) {
 					Double amount2 = Double.valueOf(onHandQuantity.getValue());
 					itemTotalValue.setAmount(amount * amount2);
@@ -361,6 +361,15 @@ public class ItemView extends BaseView<ClientItem> {
 		// stdCostText.setWidth(100);
 		stdCostText.setEnabled(!isInViewMode());
 
+		stdCostText.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				itemTotalValue.setAmount(stdCostText.getAmount()
+						* onHandQuantity.getNumber());
+			}
+		});
+
 		itemGroupCombo = new ItemGroupCombo(messages.itemGroup());
 		itemGroupCombo.setEnabled(!isInViewMode());
 		itemGroupCombo
@@ -394,14 +403,6 @@ public class ItemView extends BaseView<ClientItem> {
 				getBaseCurrency(), "purchasePriceTxt");
 		// purchasePriceTxt.setWidth(100);
 		purchasePriceTxt.setEnabled(!isInViewMode());
-		purchasePriceTxt.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				itemTotalValue.setAmount(purchasePriceTxt.getAmount()
-						* onHandQuantity.getNumber());
-			}
-		});
 
 		expAccCombo = new PurchaseItemCombo(
 				getType() == ClientItem.TYPE_INVENTORY_PART ? messages
