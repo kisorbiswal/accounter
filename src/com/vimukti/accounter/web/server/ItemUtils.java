@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.ItemUpdate;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Unit;
@@ -199,6 +200,7 @@ public class ItemUtils {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static void remapAllInventory(Company company)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -220,6 +222,71 @@ public class ItemUtils {
 			session.getNamedQuery("update.averagePurchaseCost.of.Item")
 					.setParameter("itemId", item.getID()).executeUpdate();
 		}
+	}
+
+	/**
+	 * This should be inventoryItem
+	 * 
+	 * @param item
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static double getAssetValueOfItem(Item item) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery(
+				"getItemUpdates.of.Item.oderby.transactionDate").setEntity(
+				"item", item);
+		List<ItemUpdate> list = query.list();
+
+		List<ItemUpdate> remaining = new ArrayList<ItemUpdate>();
+
+		for (ItemUpdate iu : list) {
+			Quantity quantity = iu.getQuantity().copy();
+			Quantity resultQuantity = quantity;
+
+			Iterator<ItemUpdate> itr = remaining.iterator();
+			while (itr.hasNext()) {
+				ItemUpdate ex1 = itr.next();
+				if (resultQuantity.isPositive() != ex1.getQuantity()
+						.isPositive()) {
+					resultQuantity = ex1.getQuantity().add(resultQuantity);
+					if (resultQuantity.isEmpty()) {
+						itr.remove();
+						break;
+					} else if (quantity.isPositive() != resultQuantity
+							.isPositive()) {
+						// Did we cross 0 in this operation
+						ex1.setQuantity(resultQuantity.copy());
+						resultQuantity.setValue(0);
+						break;
+					} else {
+						itr.remove();
+					}
+				} else {
+					break;
+				}
+			}
+			if (!resultQuantity.isEmpty()) {
+				iu.setQuantity(resultQuantity);
+				remaining.add(iu);
+			}
+
+		}
+
+		double assetValue = 0.00D;
+		for (ItemUpdate entry : remaining) {
+			assetValue += entry.getQuantity().calculatePrice(
+					entry.getUnitPrice());
+		}
+		return assetValue;
+	}
+
+	public static List<Item> getInventoryItems(Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getInventoryItem").setParameter(
+				"companyId", companyId);
+		List<Item> list = query.list();
+		return list;
 	}
 
 }

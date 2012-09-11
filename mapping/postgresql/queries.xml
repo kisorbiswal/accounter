@@ -2410,4 +2410,14 @@
 			set customer.id=:toID
 			where customer.id=:fromID
 	</query>	
+	
+	<query name="getItemUpdates.of.Item.oderby.transactionDate" >
+	    <query-param name="item" type="Item"/>
+		from com.vimukti.accounter.core.ItemUpdate iu where iu.item= :item 
+		order by iu.transaction.transactionDate 
+	</query>
+	<query name="getInventoryItem">
+	    <query-param name="companyId" type="long"/>
+	    from com.vimukti.accounter.core.Item item where item.type in (2,4) and item.company.id= :companyId
+	</query>
 </hibernate-mapping>

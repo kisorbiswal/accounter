@@ -44,6 +44,7 @@ import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
+import com.vimukti.accounter.web.server.ItemUtils;
 
 public class InventoryManager extends Manager {
 
@@ -471,16 +472,14 @@ public class InventoryManager extends Manager {
 	}
 
 	public Map<Long, Double> getAssetValuesOfAllInventory(Long companyId) {
-		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getAssetValueOfAllInventory")
-				.setParameter("companyId", companyId);
-		List<Object[]> list = query.list();
-		Iterator<Object[]> iterator = list.iterator();
+
+		List<Item> inventory = ItemUtils.getInventoryItems(companyId);
 		Map<Long, Double> result = new HashMap<Long, Double>();
-		while (iterator.hasNext()) {
-			Object[] next = iterator.next();
-			result.put((Long) next[0], (Double) next[1]);
+		for (Item item : inventory) {
+			double assetValue = ItemUtils.getAssetValueOfItem(item);
+			result.put(item.getID(), assetValue);
 		}
+
 		return result;
 	}
 

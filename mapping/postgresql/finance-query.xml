@@ -11246,16 +11246,18 @@
 		
 		<![CDATA[
 			UPDATE item
-			SET    average_cost = (SELECT ( SUM(unit_price * qty_value) / SUM(qty_value) )
-			                              AS cost
-			                       FROM   transaction_item ti
-			                              left join TRANSACTION t
-			                                     ON ti.transaction_id = t.id
-			                       WHERE  ti.TYPE = 1
-			                              AND t.t_type IN ( 2, 6, 14 )
-			                              AND t.save_status NOT IN ( 201, 202, 204 )
-			                              AND ti.item_id = :itemId
-			                       GROUP  BY item_id)
+			SET    average_cost = Coalesce((SELECT ( SUM(unit_price * qty_value) / SUM(
+			                                         qty_value) )
+			                                              AS avg_cost
+			                                FROM   transaction_item ti
+			                                       left join TRANSACTION t
+			                                              ON ti.transaction_id = t.id
+			                                WHERE  ti.TYPE = 1
+			                                       AND t.t_type IN ( 2, 6, 14 )
+			                                       AND t.save_status NOT IN
+			                                           ( 201, 202, 204 )
+			                                       AND ti.item_id = :itemId
+			                                GROUP  BY item_id), 0)
 			WHERE  id = :itemId  
 		]]>
 
