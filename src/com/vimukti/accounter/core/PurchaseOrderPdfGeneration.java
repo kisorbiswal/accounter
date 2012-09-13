@@ -9,6 +9,7 @@ import com.vimukti.accounter.main.ServerConfiguration;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.images.ClassPathImageProvider;
+import fr.opensagres.xdocreport.document.images.FileImageProvider;
 import fr.opensagres.xdocreport.document.images.IImageProvider;
 import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
@@ -32,16 +33,15 @@ public class PurchaseOrderPdfGeneration extends TransactionPDFGeneration {
 
 		try {
 
-			IImageProvider logo = new ClassPathImageProvider(
-					InvoicePdfGeneration.class, getImage());
+			IImageProvider logo = new FileImageProvider(new File(getImage()));
 			IImageProvider footerImg = new ClassPathImageProvider(
 					InvoicePdfGeneration.class, "templetes" + File.separator
 							+ "footer-print-img.jpg");
 
-			FieldsMetadata imgMetaData = new FieldsMetadata();
-			imgMetaData.addFieldAsImage("logo");
-			imgMetaData.addFieldAsImage("companyImg");
-			report.setFieldsMetadata(imgMetaData);
+			FieldsMetadata filedsMetaData = new FieldsMetadata();
+			filedsMetaData.addFieldAsImage("logo");
+			filedsMetaData.addFieldAsImage("companyImg");
+			report.setFieldsMetadata(filedsMetaData);
 			BrandingTheme brandingTheme = getBrandingTheme();
 			Company company = getCompany();
 			PurchaseOrder purchaseOrder = (PurchaseOrder) getTransaction();
@@ -128,16 +128,14 @@ public class PurchaseOrderPdfGeneration extends TransactionPDFGeneration {
 
 			// for transactions
 
-			FieldsMetadata headersMetaData = new FieldsMetadata();
-			headersMetaData.addFieldAsList("item.name");
-			headersMetaData.addFieldAsList("item.description");
-			headersMetaData.addFieldAsList("item.quantity");
-			headersMetaData.addFieldAsList("item.itemUnitPrice");
-			headersMetaData.addFieldAsList("item.discount");
-			headersMetaData.addFieldAsList("item.itemTotalPrice");
-			headersMetaData.addFieldAsList("item.itemVatRate");
-			headersMetaData.addFieldAsList("item.itemVatAmount");
-			report.setFieldsMetadata(headersMetaData);
+			filedsMetaData.addFieldAsList("item.name");
+			filedsMetaData.addFieldAsList("item.description");
+			filedsMetaData.addFieldAsList("item.quantity");
+			filedsMetaData.addFieldAsList("item.itemUnitPrice");
+			filedsMetaData.addFieldAsList("item.discount");
+			filedsMetaData.addFieldAsList("item.itemTotalPrice");
+			filedsMetaData.addFieldAsList("item.itemVatRate");
+			filedsMetaData.addFieldAsList("item.itemVatAmount");
 			List<ItemList> itemList = new ArrayList<ItemList>();
 			List<TransactionItem> transactionItems = purchaseOrder
 					.getTransactionItems();
@@ -570,7 +568,7 @@ public class PurchaseOrderPdfGeneration extends TransactionPDFGeneration {
 		Company company = getCompany();
 		if (brandingTheme.getPurchaseOrderTemplateName().contains(
 				"Classic Template")) {
-			return "templetes" + File.separator + "PurchaseOrder.docx";
+			return "templetes" + File.separator + "PurchaseOrder.odt";
 		}
 
 		return ServerConfiguration.getAttachmentsDir() + "/" + company.getId()

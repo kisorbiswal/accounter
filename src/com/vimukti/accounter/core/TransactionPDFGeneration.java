@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import java.io.File;
+
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -105,8 +107,24 @@ public abstract class TransactionPDFGeneration {
 		Company company = getCompany();
 		BrandingTheme brandingTheme = getBrandingTheme();
 		StringBuffer original = new StringBuffer();
-		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ company.getId() + "/" + brandingTheme.getFileName());
+
+		File file = new File(ServerConfiguration.getAttachmentsDir()
+				+ File.separator + company.getId() + File.separator
+				+ "thumbnail" + File.separator + brandingTheme.getFileName());
+		if (file.exists()) {
+			original.append(ServerConfiguration.getAttachmentsDir()
+					+ File.separator + company.getId() + File.separator
+					+ "thumbnail" + File.separator
+					+ brandingTheme.getFileName());
+		} else {
+			original.append(ServerConfiguration.getAttachmentsDir()
+					+ File.separator + company.getId() + File.separator
+					+ brandingTheme.getFileName());
+		}
+
+		if (original.toString().contains("null")) {
+			return "";
+		}
 
 		return original.toString();
 
@@ -125,7 +143,7 @@ public abstract class TransactionPDFGeneration {
 		}
 		return "";
 	}
-	
+
 	public class ItemList {
 		private String name;
 		private String description;
