@@ -3,7 +3,6 @@
  */
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -161,13 +160,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 		ChangeTracker.put(accounterCore);
 
 		return false;
-	}
-
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
-	@Override
-	public void onLoad(Session s, Serializable id) {
 	}
 
 	public boolean isDefaultWarehouse() {

@@ -81,6 +81,7 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
+		super.onLoad(arg0, arg1);
 		this.tempitems = new ArrayList<Item>();
 		if (this.items != null)
 			this.tempitems.addAll(this.items);
@@ -189,6 +190,6 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public void selfValidate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -70,7 +70,7 @@ public class CustomerManager extends PayeeManager {
 					.setEntity("company", company)
 					.setParameter("fromDate", fromDate)
 					.setParameter("toDate", toDate)
-					.setParameter("viewId",viewId);
+					.setParameter("viewId", viewId);
 			List list = query.list();
 
 			if (list != null) {
@@ -554,7 +554,7 @@ public class CustomerManager extends PayeeManager {
 
 	public void mergeCustomer(ClientCustomer fromClientCustomer,
 			ClientCustomer toClientCustomer, long companyId)
-			throws DAOException {
+			throws DAOException, AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
@@ -562,6 +562,19 @@ public class CustomerManager extends PayeeManager {
 				+ toClientCustomer.getBalance();
 		Company company = getCompany(companyId);
 		// Updating
+
+		Customer from = (Customer) session.get(Customer.class,
+				fromClientCustomer.getID());
+		Customer to = (Customer) session.get(Customer.class,
+				toClientCustomer.getID());
+
+		if (from.getCompany().getId() != companyId
+				|| to.getCompany().getId() != companyId) {
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT,
+					"Illegal Access for the Object");
+		}
+
 		try {
 			session.getNamedQuery(
 					"update.merge.Payee.mergeoldbalance.tonewbalance")

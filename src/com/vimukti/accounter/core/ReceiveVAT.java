@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -175,11 +174,6 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	public String toString() {
 
 		return AccounterServerConstants.TYPE_RECEIVE_VAT;
-	}
-
-	@Override
-	public void onLoad(Session s, Serializable id) {
-
 	}
 
 	@Override

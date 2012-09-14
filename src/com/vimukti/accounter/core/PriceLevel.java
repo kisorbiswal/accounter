@@ -1,7 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
-
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.dialect.EncryptedStringType;
@@ -86,11 +84,6 @@ public class PriceLevel extends CreatableObject implements
 		accounterCore.setObjectType(AccounterCoreType.PRICE_LEVEL);
 		ChangeTracker.put(accounterCore);
 		return false;
-	}
-
-	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
-		// NOTHING TO DO.
 	}
 
 	@Override

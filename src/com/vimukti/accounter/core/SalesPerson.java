@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
@@ -291,11 +290,6 @@ public class SalesPerson extends CreatableObject implements
 		accounterCore.setObjectType(AccounterCoreType.SALES_PERSON);
 		ChangeTracker.put(accounterCore);
 		return false;
-	}
-
-	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
-		// NOTHING TO DO.
 	}
 
 	@Override

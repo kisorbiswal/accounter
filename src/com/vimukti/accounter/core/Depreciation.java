@@ -528,6 +528,7 @@ public class Depreciation extends CreatableObject implements
 
 	@Override
 	public void onLoad(Session s, Serializable id) {
+		super.onLoad(s, id);
 		this.previousStatus = status;
 	}
 

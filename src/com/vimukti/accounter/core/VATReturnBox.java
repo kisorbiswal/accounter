@@ -1,7 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
-
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
@@ -111,11 +109,6 @@ public class VATReturnBox extends CreatableObject implements
 	}
 
 	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
-
-	}
-
-	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
@@ -160,6 +153,6 @@ public class VATReturnBox extends CreatableObject implements
 	@Override
 	public void selfValidate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

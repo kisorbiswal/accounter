@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -427,10 +426,6 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		accounterCore.setObjectType(AccounterCoreType.ITEM);
 		ChangeTracker.put(accounterCore);
 		return false;
-	}
-
-	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
 	}
 
 	@Override

@@ -4,8 +4,12 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.dialect.EncryptedStringType;
+import org.hibernate.event.PreUpdateEvent;
+import org.hibernate.event.PreUpdateEventListener;
 import org.hibernate.proxy.HibernateProxy;
 
+import com.vimukti.accounter.core.AccounterThreadLocal;
+import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.setup.server.DatabaseManager;
 
@@ -41,7 +45,28 @@ public class HibernateUtil {
 		config.getTypeResolver().registerTypeOverride(
 				EncryptedStringType.INSTANCE);
 		addMapping(config);
+		config.setListener("pre-update", new PreUpdateEventListener() {
+
+			/*
+			  
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean onPreUpdate(PreUpdateEvent event) {
+				Object entity = event.getEntity();
+				if (entity instanceof CreatableObject) {
+					if (((CreatableObject) entity).getCompany().getId() != AccounterThreadLocal
+							.get().getCompany().getId()) {
+						return true;
+					}
+				}
+				return false;
+			}
+		});
+
 		config.configure();
+
 		return config.buildSessionFactory();
 	}
 

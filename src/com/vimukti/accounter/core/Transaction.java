@@ -696,6 +696,7 @@ public abstract class Transaction extends CreatableObject implements
 	 */
 	@Override
 	public void onLoad(Session session, Serializable arg1) {
+		super.onLoad(session, arg1);
 		this.previousTotal = total;
 		this.isVoidBefore = isVoid();
 		this.previousCurrencyFactor = getCurrencyFactor();

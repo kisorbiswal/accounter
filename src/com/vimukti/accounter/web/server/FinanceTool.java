@@ -2260,7 +2260,21 @@ public class FinanceTool {
 	public ClientAccount mergeAcoount(ClientAccount fromClientAccount,
 			ClientAccount toClientAccount, long companyId)
 			throws AccounterException {
+
 		Session session = HibernateUtil.getCurrentSession();
+
+		Account fromAcc = (Account) session.get(Account.class,
+				fromClientAccount.getID());
+		Account toAcc = (Account) session.get(Account.class,
+				toClientAccount.getID());
+
+		if (fromAcc.getCompany().getId() != companyId
+				|| toAcc.getCompany().getId() != companyId) {
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT,
+					"Illegal Access for the Object");
+		}
+
 		org.hibernate.Transaction tx = session.beginTransaction();
 		Company company = getCompany(companyId);
 		double mergeBalance = toClientAccount
@@ -2407,6 +2421,16 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
 		Company company = getCompany(companyId);
+
+		Item from = (Item) session.get(Item.class, fromClientItem.getID());
+		Item to = (Item) session.get(Item.class, toClientItem.getID());
+
+		if (from.getCompany().getId() != companyId
+				|| to.getCompany().getId() != companyId) {
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT,
+					"Illegal Access for the Object");
+		}
 
 		try {
 
@@ -4845,10 +4869,24 @@ public class FinanceTool {
 	}
 
 	public void mergeClass(ClientAccounterClass fromClass,
-			ClientAccounterClass toClass, Long companyId) {
+			ClientAccounterClass toClass, Long companyId)
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
 		Company company = getCompany(companyId);
+
+		AccounterClass from = (AccounterClass) session.get(
+				AccounterClass.class, fromClass.getID());
+		AccounterClass to = (AccounterClass) session.get(AccounterClass.class,
+				toClass.getID());
+
+		if (from.getCompany().getId() != companyId
+				|| to.getCompany().getId() != companyId) {
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT,
+					"Illegal Access for the Object");
+		}
+
 		try {
 			session.getNamedQuery(
 					"update.merge.transactionitem.class.old.tonew")
@@ -4889,10 +4927,24 @@ public class FinanceTool {
 	}
 
 	public void mergeLocation(ClientLocation fromLocation,
-			ClientLocation toLocation, Long companyId) {
+			ClientLocation toLocation, Long companyId)
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
 		Company company = getCompany(companyId);
+
+		Location from = (Location) session.get(Location.class,
+				fromLocation.getID());
+		Location to = (Location) session.get(Location.class,
+				fromLocation.getID());
+
+		if (from.getCompany().getId() != companyId
+				|| to.getCompany().getId() != companyId) {
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT,
+					"Illegal Access for the Object");
+		}
+
 		try {
 			session.getNamedQuery("update.merge.transaction.location.old.tonew")
 					.setLong("fromID", fromLocation.getID())

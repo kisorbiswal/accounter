@@ -1,7 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
-
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
@@ -65,11 +63,6 @@ public class CreditRating extends CreatableObject implements
 	}
 
 	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
-		// NOTHING TO DO
-	}
-
-	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
 		if (isOnSaveProccessed)
 			return true;
@@ -128,6 +121,6 @@ public class CreditRating extends CreatableObject implements
 		if (name == null || name.trim().isEmpty()) {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().creditRating());
-		}		
+		}
 	}
 }

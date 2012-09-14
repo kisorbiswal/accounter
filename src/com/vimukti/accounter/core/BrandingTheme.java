@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -561,11 +560,6 @@ public class BrandingTheme extends CreatableObject implements
 		accounterCore.setObjectType(AccounterCoreType.BRANDINGTHEME);
 		ChangeTracker.put(accounterCore);
 		return false;
-	}
-
-	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
-		// NOTHING TO DO
 	}
 
 	@Override

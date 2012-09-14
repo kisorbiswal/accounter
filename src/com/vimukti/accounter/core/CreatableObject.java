@@ -87,8 +87,15 @@ public abstract class CreatableObject implements Lifecycle {
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-
+		// if (AccounterThreadLocal.get() == null
+		// || AccounterThreadLocal.get().getCompany() == null
+		// || getCompany() == null) {
+		// return;
+		// }
+		// if (getCompany().getId() != AccounterThreadLocal.get().getCompany()
+		// .getId()) {
+		// throw new RuntimeException("Illegal Access for the Object");
+		// }
 	}
 
 	public int getVersion() {

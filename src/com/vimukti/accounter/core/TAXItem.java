@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -130,11 +129,6 @@ public class TAXItem extends TAXItemGroup {
 		ChangeTracker.put(accounterCore);
 
 		return super.onDelete(session);
-	}
-
-	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
-
 	}
 
 	@Override

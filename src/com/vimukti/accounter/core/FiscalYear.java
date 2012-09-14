@@ -164,6 +164,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 
 	@Override
 	public void onLoad(Session s, Serializable id) {
+		super.onLoad(s, id);
 		this.previousStartDate = this.startDate;
 		this.previousStatus = this.status;
 		this.previousEndDate = this.endDate;
@@ -561,6 +562,6 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 	@Override
 	public void selfValidate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

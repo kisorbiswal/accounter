@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -432,11 +431,6 @@ public class TransactionPayBill extends CreatableObject implements
 		return false;
 	}
 
-	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
-
-	}
-
 	public void setAmountDue(Double amountDue) {
 		this.amountDue = amountDue;
 	}
@@ -627,7 +621,7 @@ public class TransactionPayBill extends CreatableObject implements
 	@Override
 	public void selfValidate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

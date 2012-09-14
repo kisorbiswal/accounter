@@ -1,7 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
-
 import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
@@ -111,12 +109,6 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 			this.balanceDue = 0;
 		}
 		return super.onDelete(session);
-	}
-
-	@Override
-	public void onLoad(Session s, Serializable id) {
-		// currently not using anywhere in the project.
-
 	}
 
 	public Account getEffectingAccount() {

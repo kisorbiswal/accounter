@@ -653,6 +653,7 @@ public class FixedAsset extends CreatableObject implements
 
 	@Override
 	public void onLoad(Session session, Serializable id) {
+		super.onLoad(session, id);
 		this.oldLinkedAccumulatedDepreciationAccount = accumulatedDepreciationAccount;
 		this.oldStatus = status;
 	}

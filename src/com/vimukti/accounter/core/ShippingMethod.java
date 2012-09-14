@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.CallbackException;
@@ -79,11 +78,6 @@ public class ShippingMethod extends CreatableObject implements
 		accounterCore.setObjectType(AccounterCoreType.SHIPPING_METHOD);
 		ChangeTracker.put(accounterCore);
 		return false;
-	}
-
-	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
-		// NOTHING TO DO.
 	}
 
 	@Override

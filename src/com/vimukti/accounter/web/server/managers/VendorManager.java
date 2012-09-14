@@ -1446,6 +1446,17 @@ public class VendorManager extends PayeeManager {
 		org.hibernate.Transaction tx = session.beginTransaction();
 		double mergeBalance = fromClientVendor.getBalance()
 				+ toClientVendor.getBalance();
+
+		Vendor from = (Vendor) session.get(Vendor.class,
+				fromClientVendor.getID());
+		Vendor to = (Vendor) session.get(Vendor.class, toClientVendor.getID());
+
+		if (from.getCompany().getId() != companyId
+				|| to.getCompany().getId() != companyId) {
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT,
+					"Illegal Access for the Object");
+		}
 		try {
 			session.getNamedQuery(
 					"update.mergeVendor.Payee.mergeoldbalance.tonewbalance")

@@ -118,7 +118,7 @@ public class AccountMergeView extends BaseView<ClientAccount> {
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						toAccount = selectItem;
-						customerSelected1(selectItem);
+						accountSelected1(selectItem);
 
 					}
 
@@ -138,7 +138,7 @@ public class AccountMergeView extends BaseView<ClientAccount> {
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						fromAccount = selectItem;
-						customerSelected(selectItem);
+						acccountSelected(selectItem);
 
 					}
 
@@ -147,22 +147,22 @@ public class AccountMergeView extends BaseView<ClientAccount> {
 		return accountCombo;
 	}
 
-	private void customerSelected(ClientAccount selectItem) {
+	private void acccountSelected(ClientAccount selectItem) {
 
 		accountNumberTextItem.setValue(String.valueOf(selectItem.getNumber()));
 		balanceTextItem.setValue(DataUtils
 				.getAmountAsStringInPrimaryCurrency(selectItem
-						.getOpeningBalance()));
+						.getCurrentBalance()));
 
 		name.setValue(selectItem.getName());
 
 	}
 
-	private void customerSelected1(ClientAccount selectItem) {
+	private void accountSelected1(ClientAccount selectItem) {
 		accountNumberTextItem1.setValue(String.valueOf(selectItem.getNumber()));
 		balanceTextItem1.setValue(DataUtils
 				.getAmountAsStringInPrimaryCurrency(selectItem
-						.getOpeningBalance()));
+						.getCurrentBalance()));
 
 		name1.setValue(selectItem.getName());
 

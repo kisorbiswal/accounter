@@ -761,6 +761,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
+		super.onLoad(arg0, arg1);
 		this.oldParent = parent;
 		this.previousOpeningBalance = openingBalance;
 		this.previousCurrencyFactor = currencyFactor;

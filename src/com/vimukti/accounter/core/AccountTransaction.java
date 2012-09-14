@@ -233,12 +233,6 @@ public class AccountTransaction extends CreatableObject implements
 	// return false;
 	// }
 
-	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
-		// TODO Auto-generated method stub
-		super.onLoad(arg0, arg1);
-	}
-
 	public void add(AccountTransaction at) {
 		if (getTransaction().getID() != at.getTransaction().getID()
 				|| getAccount().getID() != at.getAccount().getID()) {

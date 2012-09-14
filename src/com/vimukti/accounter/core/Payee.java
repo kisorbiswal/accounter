@@ -551,6 +551,7 @@ public abstract class Payee extends CreatableObject implements
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
+		super.onLoad(arg0, arg1);
 		this.previousOpeningBal = openingBalance;
 		this.previousCurrencyFactor = currencyFactor;
 	}
