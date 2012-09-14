@@ -175,20 +175,19 @@ public class StockAdjustment extends Transaction implements INamedObject {
 			tItem.setWareHouse(getWareHouse());
 			tItem.setTransaction(this);
 			Item item = tItem.getItem();
-			if (tItem.getQuantity().getValue() > 0) {
-				double adjustmentValue = tItem.getQuantity().calculatePrice(
-						tItem.getUnitPrice());
+
+			Quantity quantity = tItem.getQuantity();
+			e.add(item, quantity, tItem.getUnitPriceInBaseCurrency(),
+					tItem.getWareHouse());
+			if (quantity.getValue() > 0) {
+				double adjustmentValue = quantity.calculatePrice(tItem
+						.getUnitPrice());
 				totalAdjustment += adjustmentValue;
-				e.add(item, tItem.getQuantity(),
-						tItem.getUnitPriceInBaseCurrency(),
-						tItem.getWareHouse());
-				double calculatePrice = tItem.getQuantity().calculatePrice(
-						tItem.getUnitPriceInBaseCurrency());
+
+				double calculatePrice = quantity.calculatePrice(tItem
+						.getUnitPriceInBaseCurrency());
 				e.add(item.getAssestsAccount(), -calculatePrice, 1);
 			} else {
-				e.add(item, tItem.getQuantity().reverse(),
-						tItem.getUnitPriceInBaseCurrency(),
-						tItem.getWareHouse());
 				tItem.addPurchasesEffects(e);
 			}
 		}
