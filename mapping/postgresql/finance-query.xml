@@ -11194,7 +11194,7 @@
 			       AND T.t_type IN ( 2, 6, 4, 26, 27, 36, 37 )
 			       AND T.save_status NOT IN ( 201, 202, 204 )
 			       AND qty_value > 0
-			ORDER  BY t.t_date DESC;  
+			ORDER  BY t.t_date DESC, t.number DESC;  
 				]]>
 
 	</sql-query>
@@ -11220,7 +11220,7 @@
 			       AND T.t_type IN ( 2, 6, 4, 26, 27, 36, 37 )
 			       AND T.save_status NOT IN ( 201, 202, 204 )
 			       AND qty_value > 0
-			ORDER  BY t.t_date DESC; 
+			ORDER  BY t.t_date ASC, t.number ASC; 
 				]]>
 
 	</sql-query>
@@ -11299,7 +11299,7 @@
 				       ti.id                                       AS transaction_item_id,
 				       it.company_id                               AS company,
 				       it.id                                       AS item_id,
-				       it.as_of_date                               AS transaction_date,
+				       t.t_date		                               AS transaction_date,
 				       t.t_type                                    AS transaction_type,
 				       t.number                                    AS transaction_number,
 				       CASE
