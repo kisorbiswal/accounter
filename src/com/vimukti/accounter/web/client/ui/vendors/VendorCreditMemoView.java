@@ -173,7 +173,6 @@ public class VendorCreditMemoView extends
 					.getLocation(transaction.getLocation()));
 		initMemoAndReference();
 		super.initTransactionViewData();
-		initTransactionNumber();
 		accountsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ACCOUNT, true));

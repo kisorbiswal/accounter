@@ -274,7 +274,6 @@ public class CustomerPrePaymentView extends
 			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
 		}
 		initMemoAndReference();
-		initTransactionNumber();
 		initCustomers();
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();

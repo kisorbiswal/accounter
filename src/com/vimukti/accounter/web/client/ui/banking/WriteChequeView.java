@@ -1409,7 +1409,6 @@ public class WriteChequeView extends
 			}
 			initMemoAndReference();
 		}
-		initTransactionNumber();
 		initPayToCombo();
 
 		setDisableFields();

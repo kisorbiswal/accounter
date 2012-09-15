@@ -935,7 +935,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					.getPaymentTerm());
 			this.shippingTerm = company.getShippingTerms(transaction
 					.getShippingTerm());
-			initTransactionNumber();
 			initTransactionsItems();
 			previousEstimates = transaction.getEstimates();
 			this.orderNumText
@@ -1090,8 +1089,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	}
 
 	private void superinitTransactionViewData() {
-
-		initTransactionNumber();
 
 		initCustomers();
 

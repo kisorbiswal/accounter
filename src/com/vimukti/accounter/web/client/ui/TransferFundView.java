@@ -288,8 +288,6 @@ public class TransferFundView extends
 	@Override
 	public void init() {
 		super.init();
-		initTransactionNumber();
-
 		// createControls();
 		// setSize("100%", "100%");
 		// setOverflow(Overflow.AUTO);
@@ -641,7 +639,7 @@ public class TransferFundView extends
 		// form2.setWidth("50%");
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
-		/*topHLay.setWidth("100%");*/
+		/* topHLay.setWidth("100%"); */
 		topHLay.addStyleName("fields-panel");
 		topHLay.add(depoForm);
 
@@ -822,7 +820,6 @@ public class TransferFundView extends
 		return result;
 
 	}
-
 
 	@Override
 	public List<DynamicForm> getForms() {

@@ -779,7 +779,6 @@ public class CreditCardExpenseView extends
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		initMemoAndReference();
-		initTransactionNumber();
 		addVendorsList();
 		accountsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),

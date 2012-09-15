@@ -254,9 +254,8 @@ public class PayEmployeeView extends
 				currencyWidget.setEnabled(!isInViewMode());
 			}
 		} else {
-			transaction = new ClientPayEmployee();
+			setData(new ClientPayEmployee());
 		}
-		initTransactionNumber();
 	}
 
 	@Override

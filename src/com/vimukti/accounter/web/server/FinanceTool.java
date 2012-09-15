@@ -2458,6 +2458,24 @@ public class FinanceTool {
 					.setLong("fromID", fromClientItem.getID())
 					.setLong("toID", toClientItem.getID()).executeUpdate();
 
+			if (fromClientItem.isInventory()) {
+				session.getNamedQuery("update.merge.itemUpdate.old.tonew")
+						.setLong("fromID", fromClientItem.getID())
+						.setLong("toID", toClientItem.getID()).executeUpdate();
+
+				session.getNamedQuery("update.merge.inventoryHistory.old.tonew")
+						.setLong("fromID", fromClientItem.getID())
+						.setLong("toID", toClientItem.getID()).executeUpdate();
+				ItemUtils.remapSalesPurchases(to);
+
+				session.getNamedQuery(
+						"update.merge.inventoryAssembly.old.tonew")
+						.setLong("fromID", fromClientItem.getID())
+						.setLong("toID", toClientItem.getID()).executeUpdate();
+				ItemUtils.remapSalesPurchases(to);
+
+			}
+
 			Item toItem = (Item) session.get(Item.class, toClientItem.getID());
 
 			Item fromItem = (Item) session.get(Item.class,

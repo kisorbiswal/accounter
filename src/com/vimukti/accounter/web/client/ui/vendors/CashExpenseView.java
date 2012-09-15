@@ -744,7 +744,6 @@ public class CashExpenseView extends
 			}
 		}
 		super.initTransactionViewData();
-		initTransactionNumber();
 		initPayFromAccounts();
 
 		accountsDisclosurePanel.setOpen(checkOpen(

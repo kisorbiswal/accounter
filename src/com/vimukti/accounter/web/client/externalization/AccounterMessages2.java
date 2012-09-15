@@ -252,4 +252,6 @@ public interface AccounterMessages2 extends Messages {
 	public String invalidLicense();
 
 	public String newTermsOfUse();
+
+	public String measurementMustBeSame(String items);
 }

@@ -267,7 +267,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	}
 
-	protected StyledPanel getTopLayout(){
+	protected StyledPanel getTopLayout() {
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
 		return topHLay;
@@ -380,7 +380,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		initTaxAgencies();
 		if (transaction == null) {
 			setData(new ClientPayTAX());
-			initTransactionNumber();
 			fillGrid();
 			initPayFromAccounts();
 			return;
@@ -420,7 +419,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		billsDue.setEnteredDate(new ClientFinanceDate(transaction
 				.getBillsDueOnOrBefore()));
 		transactionDateItem.setEnteredDate(transaction.getDate());
-		initTransactionNumber();
 
 		if (selectedPayFromAccount != null) {
 			endingBalanceText.setAmount(selectedPayFromAccount

@@ -953,7 +953,6 @@ public class ReceivePaymentView extends
 				gridView.addEmptyMessage(messages.noRecordsToShow());
 			}
 		}
-		initTransactionNumber();
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));

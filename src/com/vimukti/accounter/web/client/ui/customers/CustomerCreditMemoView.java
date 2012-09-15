@@ -493,7 +493,6 @@ public class CustomerCreditMemoView extends
 					transaction.getPriceLevel());
 			this.transactionItems = transaction.getTransactionItems();
 
-			initTransactionNumber();
 			if (getCustomer() != null)
 				customerCombo.setComboItem(getCustomer());
 			// billToaddressSelected(this.billingAddress);
@@ -574,8 +573,6 @@ public class CustomerCreditMemoView extends
 	}
 
 	private void superinitTransactionViewData() {
-
-		initTransactionNumber();
 
 		initCustomers();
 

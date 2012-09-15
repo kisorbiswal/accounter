@@ -12546,6 +12546,28 @@
 				]]>
 
 	</sql-query>
+	
+		
+	<sql-query name="get.Last.Transaction.Number">
+		<query-param name="transactionType" type="int" />
+		<query-param name="companyId" type="long" />
+		
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		
+		SELECT T.NUMBER FROM TRANSACTION T WHERE T.T_TYPE= :transactionType AND T.COMPANY_ID= :companyId
+		ORDER BY T.ID desc LIMIT 1
+	</sql-query>
+	
+	
+	<sql-query name="get.Transaction.Number.by.Number.Id">
+		<query-param name="transactionType" type="int" />
+		<query-param name="companyId" type="long" />
+		
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		
+		SELECT T.NUMBER FROM TRANSACTION T WHERE T.T_TYPE= :transactionType AND T.COMPANY_ID= :companyId
+		ORDER BY T.number desc, t.id desc
+	</sql-query>
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

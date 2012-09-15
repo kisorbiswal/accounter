@@ -991,7 +991,6 @@ public class CashSalesView extends
 			this.depositInAccount = company.getAccount(transaction
 					.getDepositIn());
 
-			initTransactionNumber();
 			if (getCustomer() != null) {
 				customerCombo.setComboItem(getCustomer());
 			}
@@ -1093,8 +1092,6 @@ public class CashSalesView extends
 	}
 
 	private void superinitTransactionViewData() {
-
-		initTransactionNumber();
 
 		initCustomers();
 

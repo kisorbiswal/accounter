@@ -205,7 +205,6 @@ public class VendorBillView extends
 					.getLocation(transaction.getLocation()));
 
 		super.initTransactionViewData();
-		initTransactionNumber();
 		initPaymentTerms();
 
 		accountsDisclosurePanel.setOpen(checkOpen(

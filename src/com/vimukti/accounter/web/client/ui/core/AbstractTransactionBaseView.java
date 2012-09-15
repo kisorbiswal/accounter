@@ -900,11 +900,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	@Override
 	public void setData(T data) {
 		super.setData(data);
-		if (data != null)
-			transaction = data;
-		else
-			transaction = null;
-
+		transaction = data;
+		initTransactionNumber();
 	}
 
 	@Override

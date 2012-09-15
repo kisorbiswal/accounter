@@ -464,7 +464,6 @@ public class ItemReceiptView extends
 		}
 		super.initTransactionViewData();
 		initPaymentTerms();
-		initTransactionNumber();
 
 		accountsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),

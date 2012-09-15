@@ -80,7 +80,6 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 	public void init() {
 		super.init();
 		this.getElement().setId("DepositView");
-		initTransactionNumber();
 	}
 
 	@Override

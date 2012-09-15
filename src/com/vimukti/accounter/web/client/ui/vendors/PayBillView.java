@@ -978,7 +978,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 			initListGridData(this.transaction.getTransactionPayBill());
 			initTransactionTotalNonEditableItem();
 			initMemoAndReference();
-			initTransactionNumber();
 			adjustAmountAndEndingBalance();
 			ClientTAXItem taxItem = getCompany().getTAXItem(
 					transaction.getTdsTaxItem());
@@ -991,7 +990,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 		}
 
 		initVendors();
-		initTransactionNumber();
 		initTransactionTotalNonEditableItem();
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()

@@ -522,7 +522,6 @@ public class CustomerRefundView extends
 		}
 		initRPCService();
 
-		initTransactionNumber();
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));

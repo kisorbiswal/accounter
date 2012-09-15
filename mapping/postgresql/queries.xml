@@ -444,7 +444,7 @@
 		select t.number from com.vimukti.accounter.core.Transaction t where
 		t.type =:transactionType and t.company=:company
 	</query>
-
+	
 	<query name="getFlow.by.Id.from.Account">
 		<query-param name="company" type="Company" />
 		select a.flow from com.vimukti.accounter.core.Account
@@ -1830,7 +1830,31 @@
 		where
 		item.id=:fromID
 	</query>
-
+	
+	<query name="update.merge.itemUpdate.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.ItemUpdate set item.id=:toID
+		where
+		item.id=:fromID
+	</query>
+	
+	<query name="update.merge.inventoryHistory.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.InventoryHistory set item.id=:toID
+		where
+		item.id=:fromID
+	</query>
+	
+	<query name="update.merge.inventoryAssembly.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.InventoryAssemblyItem set inventoryItem.id=:toID
+		where
+		inventoryItem.id=:fromID
+	</query>
+	
 	<!-- queries for account merging -->
 
 	<query name="update.merge.accounttransaction.old.tonew">

@@ -161,6 +161,11 @@ public class ItemMergeView extends BaseView<ClientItem> {
 				result.addError(fromClientItem,
 						messages.typesMustbeSame(messages.items()));
 			}
+			if (fromClientItem.getMeasurement() != toClientItem
+					.getMeasurement()) {
+				result.addError(fromClientItem,
+						messages2.measurementMustBeSame(messages.items()));
+			}
 			return result;
 		}
 		return result;

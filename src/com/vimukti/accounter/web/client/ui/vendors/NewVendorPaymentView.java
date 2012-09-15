@@ -157,7 +157,6 @@ public class NewVendorPaymentView extends
 					transaction.getAccounterClass()));
 		}
 		initMemoAndReference();
-		initTransactionNumber();
 		initPayFromAccounts();
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()

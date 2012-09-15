@@ -740,7 +740,6 @@ public class PurchaseOrderView extends
 			// + " (" + status + ")");
 
 			this.transactionItems = transaction.getTransactionItems();
-			initTransactionNumber();
 			this.setVendor(company.getVendor(transaction.getVendor()));
 			vendorCombo.setComboItem(vendor);
 			vendorItemTransactionTable.setPayee(vendor);
@@ -849,7 +848,6 @@ public class PurchaseOrderView extends
 		itemsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ITEM, false));
-		initTransactionNumber();
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}

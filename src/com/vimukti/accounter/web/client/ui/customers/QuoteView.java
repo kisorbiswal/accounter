@@ -884,7 +884,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 					.getPriceLevel(transaction.getPriceLevel());
 			this.salesPerson = company.getSalesPerson(transaction
 					.getSalesPerson());
-			initTransactionNumber();
 			if (getCustomer() != null) {
 				customerCombo.setComboItem(getCustomer());
 			}
@@ -1013,8 +1012,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	}
 
 	private void superinitTransactionViewData() {
-
-		initTransactionNumber();
 
 		initCustomers();
 

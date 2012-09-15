@@ -494,7 +494,6 @@ public class AdjustTAXView extends
 				currencyWidget.setEnabled(!isInViewMode());
 			}
 		}
-		initTransactionNumber();
 	}
 
 	@Override

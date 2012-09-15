@@ -18,10 +18,12 @@ public class NumberUtils {
 	public static String getNextTransactionNumber(int transactionType,
 			Company company) {
 
-		String prevNumber = getPreviousTransactionNumber(transactionType,
-				company);
+		return getNextTransactionNumber(transactionType, company.getId());
 
-		return getStringwithIncreamentedDigit(prevNumber);
+		// String prevNumber = getPreviousTransactionNumber(transactionType,
+		// company);
+		//
+		// return getStringwithIncreamentedDigit(prevNumber);
 	}
 
 	public static String getPreviousTransactionNumber(int transactionType,
@@ -318,6 +320,64 @@ public class NumberUtils {
 		default:
 			return 0;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static String getNextTransactionNumber(int transactionType,
+			long company) {
+
+		Session session = HibernateUtil.getCurrentSession();
+		String lastNum = ((String) session
+				.getNamedQuery("get.Last.Transaction.Number")
+				.setParameter("transactionType", transactionType)
+				.setParameter("companyId", company).uniqueResult());
+		if (lastNum == null) {
+			return "1";
+		}
+		char[] lastNumber = lastNum.toCharArray();
+		List<String> list = session
+				.getNamedQuery("get.Transaction.Number.by.Number.Id")
+				.setParameter("transactionType", transactionType)
+				.setParameter("companyId", company).list();
+
+		int nonCharIndex = -1;
+		for (int i = lastNumber.length - 1; i >= 0; i--) {
+			if (!Character.isDigit(lastNumber[i])) {
+				nonCharIndex = i;
+				break;
+			}
+		}
+
+		String preNumber = lastNum;
+		long max = 0;
+		label: for (String s : list) {
+			char[] charArray = s.toCharArray();
+			for (int idx = 0; idx < charArray.length; idx++) {
+				char ch = charArray[idx];
+				if (idx <= nonCharIndex) {
+					if (ch != lastNumber[idx]) {
+						continue label;
+					}
+				} else {
+					if (!Character.isDigit(ch)) {
+						continue label;
+					}
+				}
+			}
+			if (nonCharIndex != s.length() - 1) {
+				long parseInt = Long.parseLong(s.substring(nonCharIndex + 1));
+				if (parseInt > max) {
+					max = parseInt;
+				}
+			}
+		}
+
+		StringBuffer buff = new StringBuffer();
+		if (nonCharIndex != -1) {
+			buff.append(preNumber.substring(0, nonCharIndex + 1));
+		}
+		buff.append(max + 1);
+		return buff.toString();
 	}
 
 }

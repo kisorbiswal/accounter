@@ -31,21 +31,23 @@ public class ItemUtils {
 	 */
 	public static void remapSalesPurchases(Collection<Item> inventoryItems)
 			throws AccounterException {
-		Session session = HibernateUtil.getCurrentSession();
 		for (Item item : inventoryItems) {
-			long itemID = item.getID();
-			List<TransactionItem> sales = getSales(itemID);
-			int inventoryScheme = item.getActiveInventoryScheme();
-			List<InventoryDetails> purchases = getPurchases(itemID,
-					inventoryScheme);
-			item.setAverageCost(getAverageCost(item));
-			adjustSales(
-					item,
-					inventoryScheme == CompanyPreferences.INVENTORY_SCHME_AVERAGE,
-					sales, purchases);
-			item.onUpdate(session);
-			session.saveOrUpdate(item);
+			remapSalesPurchases(item);
 		}
+	}
+
+	public static void remapSalesPurchases(Item item) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		long itemID = item.getID();
+		List<TransactionItem> sales = getSales(itemID);
+		int inventoryScheme = item.getActiveInventoryScheme();
+		List<InventoryDetails> purchases = getPurchases(itemID, inventoryScheme);
+		item.setAverageCost(getAverageCost(item));
+		adjustSales(item,
+				inventoryScheme == CompanyPreferences.INVENTORY_SCHME_AVERAGE,
+				sales, purchases);
+		item.onUpdate(session);
+		session.saveOrUpdate(item);
 	}
 
 	private static void adjustSales(Item item, boolean isSchemeAvarage,

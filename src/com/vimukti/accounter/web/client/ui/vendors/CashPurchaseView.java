@@ -684,7 +684,6 @@ public class CashPurchaseView extends
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		super.initTransactionViewData();
-		initTransactionNumber();
 		initPayFromAccounts();
 		accountsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),

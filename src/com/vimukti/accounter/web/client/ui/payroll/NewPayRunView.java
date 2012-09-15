@@ -432,8 +432,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 			initViewData(getData());
 		}
 
-		initTransactionNumber();
-
 		super.initData();
 	}
 
