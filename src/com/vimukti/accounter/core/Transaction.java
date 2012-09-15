@@ -255,6 +255,8 @@ public abstract class Transaction extends CreatableObject implements
 	private AccounterClass accounterClass;
 	private List<TransactionLog> history;
 
+	private Set<InventoryHistory> inventoryHistory = new HashSet<InventoryHistory>();
+
 	/**
 	 * This will be true when a transaction created automatically by recurring
 	 * or anything else.
@@ -1658,5 +1660,13 @@ public abstract class Transaction extends CreatableObject implements
 
 	public double getPreviousCurrencyFactor() {
 		return previousCurrencyFactor;
+	}
+
+	public Set<InventoryHistory> getInventoryHistory() {
+		return inventoryHistory;
+	}
+
+	public void setInventoryHistory(Set<InventoryHistory> inventoryHistory) {
+		this.inventoryHistory = inventoryHistory;
 	}
 }

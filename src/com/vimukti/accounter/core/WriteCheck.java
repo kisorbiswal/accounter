@@ -564,6 +564,10 @@ public class WriteCheck extends Transaction {
 					double calculatePrice = tItem.getQuantity().calculatePrice(
 							tItem.getUnitPriceInBaseCurrency());
 					e.add(item.getAssestsAccount(), -calculatePrice, 1);
+
+					// ADDING INVENTORY HISTORY
+					e.addInventoryHistory(item, tItem.getQuantity(),
+							tItem.getUnitPriceInBaseCurrency());
 				} else {
 					e.add(item.getExpenseAccount(), amount);
 				}

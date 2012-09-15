@@ -11396,36 +11396,45 @@
 		<return-scalar column="AVG_COST" type="double" />
 		<return-scalar column="ESTIMATE_TYPE" type="int" />
 		<![CDATA[
-				SELECT TRANSACTION_ID,
-				       TRANSACTION_DATE,
-				       TRANSACTION_TYPE,
-				       TRANSACTION_NUMBER,
-				       QTY_VALUE,
-				       QTYUNIT.TYPE AS  QTY_UNIT,
-				       COST,
-				       ITEM_TOTAL_QUANTITY,
-				       U.TYPE AS ITEM_UNITS,
-				       ITEM_NAME,
-				       ITEM_ID,
-				       PAYEE_NAME,
-				       PAYEE_ID,
-				       I.AVERAGE_COST AS AVG_COST ,
-				       E.ESTIMATETYPE AS ESTIMATE_TYPE
-				FROM   INVENTORY_HISTORY_VIEW V
-				LEFT JOIN ITEM I ON I.ID = V.ITEM_ID
-				LEFT JOIN UNIT U ON U.ID = V.ITEM_UNITS
-				LEFT JOIN UNIT QTYUNIT ON QTYUNIT.ID = V.QTY_UNIT
-				LEFT OUTER JOIN TRANSACTION T ON T.ID = TRANSACTION_ID
-				LEFT OUTER JOIN ESTIMATE E ON E.ID = T.ID
-				WHERE  V.COMPANY = :companyId AND V.ITEM_TYPE IN (2,4)
-				       AND ( V.TRANSACTION_DATE IS NULL
-				              OR V.TRANSACTION_DATE BETWEEN :fromDate AND :toDate )
+				SELECT t.id                AS TRANSACTION_ID,
+				       t.t_date            AS TRANSACTION_DATE,
+				       t.t_type            AS TRANSACTION_TYPE,
+				       t.number            AS TRANSACTION_NUMBER,
+				       qty_value           AS QTY_VALUE,
+				       qu.TYPE             AS QTY_UNIT,
+				       unit_price          AS COST,
+				       i.on_hand_qty_value AS ITEM_TOTAL_QUANTITY,
+				       ohu.TYPE            AS ITEM_UNITS,
+				       i.name              AS ITEM_NAME,
+				       i.id                AS ITEM_ID,
+				       p.name              AS PAYEE_NAME,
+				       p.id                AS PAYEE_ID,
+				       i.average_cost      AS AVG_COST,
+				       E.estimatetype      AS ESTIMATE_TYPE
+				FROM   inventory_history ih
+				       left join TRANSACTION t
+				              ON t.id = ih.TRANSACTION
+				       left join item i
+				              ON i.id = ih.item
+				       left join payee p
+				              ON p.id = ih.payee
+				       left join estimate e
+				              ON e.id = t.id
+				       left join unit ohu
+				              ON ohu.id = i.on_hand_qty_unit
+				       left join unit qu
+				              ON qu.id = ih.qty_unit
+				WHERE  T.t_date BETWEEN :fromDate AND :toDate
+				       AND T.save_status NOT IN ( 201, 202, 204 )
+				       AND T.company_id = :companyId
+				       AND I.company_id = :companyId
 				       AND CASE
 				             WHEN 0 = :itemID THEN TRUE
-				             ELSE ( V.ITEM_ID = :itemID )
+				             ELSE ( ih.item = :itemID )
 				           END
-				       AND T.SAVE_STATUS NOT IN (201,202,204)
-				ORDER  BY ITEM_NAME,TRANSACTION_ID;  
+				ORDER  BY i.id,
+				          t.t_date,
+				          t.id;   
 				]]>
 
 	</sql-query>

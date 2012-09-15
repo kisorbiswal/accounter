@@ -365,6 +365,10 @@ public class CreditCardCharge extends Transaction {
 							* disc / 100))
 							: calculatePrice;
 					e.add(item.getAssestsAccount(), -calculatePrice, 1);
+
+					// ADDING INVENTORY HISTORY
+					e.addInventoryHistory(item, tItem.getQuantity(),
+							tItem.getUnitPriceInBaseCurrency());
 				} else {
 					e.add(item.getExpenseAccount(), amount);
 				}

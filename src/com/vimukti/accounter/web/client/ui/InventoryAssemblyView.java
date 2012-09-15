@@ -679,7 +679,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 		data.setAsOfDate(asOfDate.getValue());
 		data.setTaxable(getBooleanValue(itemTaxCheck));
-		data.setStandardCost(totalLabel.getAmount());
+		data.setStandardCost(purchasePriceTxt.getAmount());
 
 	}
 

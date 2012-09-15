@@ -28,6 +28,9 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 	/** New TAX Rate Calculations */
 	List<TAXRateCalculation> newTRCs = new ArrayList<TAXRateCalculation>();
 
+	/** New Inventory History */
+	List<InventoryHistory> newIHs = new ArrayList<InventoryHistory>();
+
 	private Transaction transaction;
 
 	public TransactionEffectsImpl(Transaction transaction) {
@@ -70,6 +73,13 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 		}
 		newIUs.add(new ItemUpdate(transaction, item, quantity, unitPrice,
 				wareHouse));
+	}
+
+	@Override
+	public void addInventoryHistory(Item item, Quantity quantity,
+			Double unitPrice) {
+		newIHs.add(new InventoryHistory(item, transaction, transaction
+				.getInvolvedPayee(), quantity, unitPrice));
 	}
 
 	@Override
@@ -122,11 +132,47 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 		mergePayeeUpdates(session);
 		mergeTAXRateCalculation(session);
 		mergeItemUpdates(session);
+		mergeInventoryHistory(session);
 
 		for (TAXRateCalculation trc : newTRCs) {
 			session.save(trc);
 		}
 
+	}
+
+	private void mergeInventoryHistory(Session session) {
+		Set<InventoryHistory> oldIHs = new HashSet<InventoryHistory>(
+				transaction.getInventoryHistory());
+
+		findOutIntersectionUHs(oldIHs, newIHs);
+
+		transaction.getInventoryHistory().removeAll(oldIHs);
+		transaction.getInventoryHistory().addAll(newIHs);
+	}
+
+	private void findOutIntersectionUHs(Set<InventoryHistory> oldIHs,
+			List<InventoryHistory> newIHs) {
+		Iterator<InventoryHistory> oldIHsIterator = oldIHs.iterator();
+		while (oldIHsIterator.hasNext()) {
+			InventoryHistory oldIH = oldIHsIterator.next();
+			Iterator<InventoryHistory> newIHsIterator = newIHs.iterator();
+			while (newIHsIterator.hasNext()) {
+				InventoryHistory newIH = newIHsIterator.next();
+				if (oldIH.getTransaction() == newIH.getTransaction()
+						&& oldIH.getItem() == newIH.getItem()
+						&& oldIH.getQuantity() != null
+						&& newIH.getQuantity() != null
+						&& oldIH.getQuantity().equals(newIH.getQuantity())
+						&& DecimalUtil.isEquals(oldIH.getUnitPrice(),
+								newIH.getUnitPrice())
+						&& DecimalUtil.isEquals(oldIH.getAssetValue(),
+								newIH.getAssetValue())) {
+					newIHsIterator.remove();
+					oldIHsIterator.remove();
+					break;
+				}
+			}
+		}
 	}
 
 	private void mergeAccountTransactions(Session session) {
@@ -150,7 +196,6 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 				AccountTransaction newAT = newATsIterator.next();
 				if (oldAT.getTransaction() == newAT.getTransaction()
 						&& oldAT.getAccount() == newAT.getAccount()
-
 						&& DecimalUtil.isEquals(oldAT.getAmount(),
 								newAT.getAmount())) {
 					newATsIterator.remove();
@@ -306,4 +351,9 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 	public List<ItemUpdate> getNewIUs() {
 		return newIUs;
 	}
+
+	public List<InventoryHistory> getNewIHs() {
+		return newIHs;
+	}
+
 }

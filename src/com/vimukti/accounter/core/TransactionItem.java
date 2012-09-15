@@ -981,11 +981,28 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	}
 
 	public void addPurchasesEffects(ITransactionEffects e) {
+		if (getPurchases().isEmpty()) {
+			return;
+		}
+
+		Quantity quantity = null;
+		double cost = 0.00D;
+
 		for (InventoryPurchase purchase : getPurchases()) {
+			if (quantity == null) {
+				quantity = purchase.getQuantity();
+			} else {
+				quantity = quantity.add(purchase.getQuantity());
+			}
+			cost += purchase.getQuantity().calculatePrice(purchase.getCost());
 			double purchaseCost = purchase.getQuantity().calculate(
 					purchase.getCost());
 			e.add(item.getAssestsAccount(), purchaseCost, 1);
 			e.add(purchase.getEffectingAccount(), -purchaseCost, 1);
+		}
+		if (!quantity.isEmpty()) {
+			cost = cost / quantity.getValue();
+			e.addInventoryHistory(getItem(), quantity.reverse(), cost);
 		}
 	}
 }

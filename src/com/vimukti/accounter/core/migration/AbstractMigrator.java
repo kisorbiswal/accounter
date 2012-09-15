@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.AccountTransaction;
+import com.vimukti.accounter.core.InventoryHistory;
 import com.vimukti.accounter.core.ItemUpdate;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Transaction;
@@ -76,7 +77,48 @@ public abstract class AbstractMigrator implements IMigrator {
 			log.warn("Creating IUs : " + newIUs);
 			transaction.getItemUpdates().addAll(newIUs);
 		}
+
+		List<InventoryHistory> newIHs = tEffects.getNewIHs();
+
+		Set<InventoryHistory> oldIHs = new HashSet<InventoryHistory>(
+				transaction.getInventoryHistory());
+
+		findOutIntersectionUHs(oldIHs, newIHs);
+
+		if (!oldIHs.isEmpty() || !newIHs.isEmpty()) {
+			log.warn("Removing IHs : " + oldIHs);
+			transaction.getInventoryHistory().removeAll(oldIHs);
+
+			log.warn("Creating IHs : " + newIHs);
+			transaction.getInventoryHistory().addAll(newIHs);
+		}
+
 		getSession().save(transaction);
+	}
+
+	private void findOutIntersectionUHs(Set<InventoryHistory> oldIHs,
+			List<InventoryHistory> newIHs) {
+		Iterator<InventoryHistory> oldIHsIterator = oldIHs.iterator();
+		while (oldIHsIterator.hasNext()) {
+			InventoryHistory oldIH = oldIHsIterator.next();
+			Iterator<InventoryHistory> newIHsIterator = newIHs.iterator();
+			while (newIHsIterator.hasNext()) {
+				InventoryHistory newIH = newIHsIterator.next();
+				if (oldIH.getTransaction() == newIH.getTransaction()
+						&& oldIH.getItem() == newIH.getItem()
+						&& oldIH.getQuantity() != null
+						&& newIH.getQuantity() != null
+						&& oldIH.getQuantity().equals(newIH.getQuantity())
+						&& DecimalUtil.isEquals(oldIH.getUnitPrice(),
+								newIH.getUnitPrice())
+						&& DecimalUtil.isEquals(oldIH.getAssetValue(),
+								newIH.getAssetValue())) {
+					newIHsIterator.remove();
+					oldIHsIterator.remove();
+					break;
+				}
+			}
+		}
 	}
 
 	private void findOutIntersectionIUs(Set<ItemUpdate> oldIUs,

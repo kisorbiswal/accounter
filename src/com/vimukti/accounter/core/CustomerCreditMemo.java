@@ -495,6 +495,10 @@ public class CustomerCreditMemo extends Transaction implements
 							: purchaseCost;
 					e.add(item.getAssestsAccount(), -purchaseCost, 1);
 					e.add(item.getExpenseAccount(), purchaseCost, 1);
+
+					// ADDING INVENTORY HISTORY
+					e.addInventoryHistory(item, tItem.getQuantity(),
+							tItem.getUnitPriceInBaseCurrency());
 				}
 				break;
 			default:

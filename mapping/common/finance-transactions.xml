@@ -107,6 +107,12 @@
 			<one-to-many class="ItemUpdate" />
 		</set>
 		
+		<set name="inventoryHistory" inverse="true"
+			cascade="all-delete-orphan">
+			<key column="TRANSACTION"></key>
+			<one-to-many class="InventoryHistory" />
+		</set>
+		
 		<many-to-one name="lastActivity" class="Activity" column="LAST_ACTIVITY"></many-to-one>
 
 		<!-- <joined-subclass name="PayTAX" table="PAY_TAX"> <key column="ID" /> 
@@ -1696,5 +1702,35 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 	</class>
+	
+	<class name="InventoryHistory" table="INVENTORY_HISTORY">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
+		</many-to-one>
+		
+		<many-to-one name="item" class="Item" column="ITEM" not-null="true"/>
+		<many-to-one name="transaction" class="Transaction"	column="TRANSACTION" 
+		    not-null="true"/>
+		<many-to-one name="payee" class="Payee"	column="PAYEE"/>
+		
+		<component name="quantity" class="Quantity">
+			<property name="value" column="QTY_VALUE"></property>
+			<many-to-one name="unit" class="Unit" column="QTY_UNIT"></many-to-one>
+		</component>
+		<property name="unitPrice" column="UNIT_PRICE"/>
+		<property name="assetValue" column="ASSET_VALUE"/>
+		
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			not-null="true"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			not-null="true" />
+	</class>
+	
 	
 </hibernate-mapping>

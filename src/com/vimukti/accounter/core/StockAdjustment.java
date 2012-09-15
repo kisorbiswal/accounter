@@ -187,6 +187,10 @@ public class StockAdjustment extends Transaction implements INamedObject {
 				double calculatePrice = quantity.calculatePrice(tItem
 						.getUnitPriceInBaseCurrency());
 				e.add(item.getAssestsAccount(), -calculatePrice, 1);
+
+				// ADDING INVENTORY HISTORY
+				e.addInventoryHistory(item, tItem.getQuantity(),
+						tItem.getUnitPriceInBaseCurrency());
 			} else {
 				tItem.addPurchasesEffects(e);
 			}

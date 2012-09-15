@@ -495,8 +495,8 @@ public class MenuBar {
 				HistoryTokens.INVENTORY_VALUATION_DETAIL_REPORT);
 		inventoryMenuBar.addMenuItem(messages.inventoryStockStatusByItem(),
 				HistoryTokens.INVENTORY_STOCK_STATUS_BY_ITEM_REPORT);
-		inventoryMenuBar.addMenuItem(messages.inventoryStockStatusByVendor(),
-				HistoryTokens.INVENTORY_STOCK_STATUS_BY_VENDOR_REPORT);
+		// inventoryMenuBar.addMenuItem(messages.inventoryStockStatusByVendor(),
+		// HistoryTokens.INVENTORY_STOCK_STATUS_BY_VENDOR_REPORT);
 		inventoryMenuBar.addMenuItem(messages.inventoryDetails(),
 				HistoryTokens.INVENTORY_DETAILS);
 		return inventoryMenuBar;
