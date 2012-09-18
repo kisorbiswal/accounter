@@ -1166,6 +1166,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			if (parentAccount != null) {
 				data.setParent(parentAccount.getID());
 			}
+		} else {
+			data.setParent(0);
 		}
 		switch (accountType) {
 		case ClientAccount.TYPE_BANK:

@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.Window;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.banking.MakeDepositAction;
@@ -71,12 +69,12 @@ public class DepositsTransfersListView extends
 
 	@Override
 	protected void filterList(boolean isActive) {
-		onPageChange(0, getPageSize());
+		onPageChange(start, getPageSize());
 	}
 
 	@Override
 	protected void filterList(String selectedValue) {
-		onPageChange(0, getPageSize());
+		onPageChange(start, getPageSize());
 	}
 
 	@Override

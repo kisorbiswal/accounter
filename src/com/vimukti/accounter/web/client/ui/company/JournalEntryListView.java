@@ -163,7 +163,7 @@ public class JournalEntryListView extends
 		// }
 		grid.removeAllRecords();
 		grid.addLoadingImagePanel();
-		onPageChange(0, getPageSize());
+		onPageChange(start, getPageSize());
 
 	}
 

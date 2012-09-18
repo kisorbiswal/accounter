@@ -108,7 +108,7 @@ public class CustomerRefundListView extends
 	protected void filterList(String text) {
 		grid.removeAllRecords();
 		checkViewType(text);
-		onPageChange(0, getPageSize());
+		onPageChange(start, getPageSize());
 	}
 
 	@Override

@@ -480,19 +480,21 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		if (map == null || map.isEmpty()) {
 			return;
 		}
+		String currentView = null;
 		if (viewSelect != null) {
-			String currentView = (String) map.get("currentView");
+			currentView = (String) map.get("currentView");
 			viewSelect.setComboItem(currentView);
 			this.setViewType(currentView);
 		}
 		String dateRange1 = (String) map.get("dateRange");
 		dateRangeSelector.setComboItem(dateRange1);
-		dateRangeChanged(dateRange1);
+		// dateRangeChanged(dateRange1);
 		ClientFinanceDate startDate1 = (ClientFinanceDate) map.get("startDate");
 		setStartDate(startDate1);
 		ClientFinanceDate endDate1 = (ClientFinanceDate) map.get("endDate");
 		setEndDate(endDate1);
 		start = (Integer) map.get("start");
+		restoreView(currentView, dateRange1);
 	}
 
 	@Override

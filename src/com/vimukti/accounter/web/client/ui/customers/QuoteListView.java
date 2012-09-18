@@ -136,7 +136,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 	@Override
 	protected void filterList(String text) {
 		this.setViewType(text);
-		onPageChange(0, getPageSize());
+		onPageChange(start, getPageSize());
 		// grid.removeAllRecords();
 		// for (ClientEstimate estimate : listOfEstimates) {
 		// if (text.equals(messages.open())) {

@@ -152,7 +152,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 
 	@Override
 	protected void filterList(String text) {
-		onPageChange(0, getPageSize());
+		onPageChange(start, getPageSize());
 	}
 
 	@Override

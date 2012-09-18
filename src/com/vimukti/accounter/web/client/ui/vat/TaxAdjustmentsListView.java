@@ -130,7 +130,7 @@ public class TaxAdjustmentsListView extends
 		} else if (text.equalsIgnoreCase(messages.all())) {
 			setViewId(VIEW_ALL);
 		}
-		onPageChange(0, getPageSize());
+		onPageChange(start, getPageSize());
 	}
 
 	public int getViewId() {

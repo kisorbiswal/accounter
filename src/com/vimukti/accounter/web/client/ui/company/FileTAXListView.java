@@ -5,15 +5,12 @@ import java.util.List;
 
 import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.vat.FileTAXAction;
-import com.vimukti.accounter.web.client.ui.vat.PayTAXAction;
-import com.vimukti.accounter.web.client.ui.vat.ReceiveVATAction;
 
 public class FileTAXListView extends TransactionsListView<ClientTAXReturn>
 		implements IPrintableView {
@@ -65,7 +62,7 @@ public class FileTAXListView extends TransactionsListView<ClientTAXReturn>
 
 	@Override
 	protected void filterList(String selectedValue) {
-		onPageChange(0, getPageSize());
+		onPageChange(start, getPageSize());
 	}
 
 	@Override

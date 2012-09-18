@@ -71,7 +71,7 @@ public class TaxRefundListView extends TransactionsListView<ClientReceiveVAT>
 			setViewId(VIEW_ALL);
 		}
 
-		onPageChange(0, getPageSize());
+		onPageChange(start, getPageSize());
 	}
 
 	@Override

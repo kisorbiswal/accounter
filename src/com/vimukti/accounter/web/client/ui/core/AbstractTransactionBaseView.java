@@ -881,6 +881,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					transaction.getAttachments()));
 		}
 		super.initData();
+		initTransactionNumber();
 
 	}
 
@@ -901,7 +902,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public void setData(T data) {
 		super.setData(data);
 		transaction = data;
-		initTransactionNumber();
 	}
 
 	@Override

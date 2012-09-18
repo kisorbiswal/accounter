@@ -153,7 +153,7 @@ public class BillListView extends TransactionsListView<BillsList> implements
 		this.setViewType(text);
 		grid.removeAllRecords();
 		grid.addLoadingImagePanel();
-		onPageChange(0, getPageSize());
+		onPageChange(start, getPageSize());
 	}
 
 	@Override

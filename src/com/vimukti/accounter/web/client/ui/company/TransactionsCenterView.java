@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -386,11 +385,12 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 	@Override
 	public HashMap<String, Object> saveView() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("currentView", baseListView.getViewType());
-		map.put("dateRange", baseListView.getDateRange());
-		map.put("startDate", baseListView.getStartDate());
-		map.put("endDate", baseListView.getEndDate());
+		// map.put("currentView", baseListView.getViewType());
+		// map.put("dateRange", baseListView.getDateRange());
+		// map.put("startDate", baseListView.getStartDate());
+		// map.put("endDate", baseListView.getEndDate());
 		map.put("selectedItem", selectedItem);
+		map.put("listView", baseListView.saveView());
 		return map;
 
 	}
@@ -405,15 +405,18 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 			initGridData(selectedItem, true);
 			listPanel.setMenuSelected(selectedItem);
 		}
-		String currentView = (String) map.get("currentView");
-		baseListView.setViewType(currentView);
-		String dateRange1 = (String) map.get("dateRange");
-		baseListView.setDateRange(dateRange1);
-		ClientFinanceDate startDate1 = (ClientFinanceDate) map.get("startDate");
-		baseListView.setStartDate(startDate1);
-		ClientFinanceDate endDate1 = (ClientFinanceDate) map.get("endDate");
-		baseListView.setEndDate(endDate1);
-		baseListView.restoreView(currentView, dateRange1);
+		// String currentView = (String) map.get("currentView");
+		// baseListView.setViewType(currentView);
+		// String dateRange1 = (String) map.get("dateRange");
+		// baseListView.setDateRange(dateRange1);
+		// ClientFinanceDate startDate1 = (ClientFinanceDate)
+		// map.get("startDate");
+		// baseListView.setStartDate(startDate1);
+		// ClientFinanceDate endDate1 = (ClientFinanceDate) map.get("endDate");
+		// baseListView.setEndDate(endDate1);
+		HashMap<String, Object> listViewMap = (HashMap<String, Object>) map
+				.get("listView");
+		baseListView.restoreView(listViewMap);
 	}
 
 	// @Override

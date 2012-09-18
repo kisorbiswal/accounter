@@ -162,8 +162,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 				@Override
 				public void onRangeChange(RangeChangeEvent event) {
-					onPageChange(event.getNewRange().getStart(), event
-							.getNewRange().getLength());
+					start = event.getNewRange().getStart();
+					onPageChange(start, event.getNewRange().getLength());
 				}
 			});
 			SimplePager pager = new SimplePager(TextLocation.CENTER,

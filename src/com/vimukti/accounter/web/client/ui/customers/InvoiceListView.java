@@ -178,7 +178,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 			setViewId(VIEW_DRAFT);
 		}
 
-		onPageChange(0, getPageSize());
+		onPageChange(start, getPageSize());
 
 		// grid.removeAllRecords();
 		// if (text.equals(messages.all())) {

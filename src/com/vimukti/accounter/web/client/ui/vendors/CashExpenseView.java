@@ -286,9 +286,8 @@ public class CashExpenseView extends
 		// labeldateNoLayout.add(titlelabel);
 		labeldateNoLayout.add(datepanel);
 
-		if (this.isInViewMode())
-			// --the form need to be disabled here
-			dateNoForm.setEnabled(true);
+		// --the form need to be disabled here
+		dateNoForm.setEnabled(!this.isInViewMode());
 
 		// formItems.add(transactionDateItem);
 		// formItems.add(transactionNumber);

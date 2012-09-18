@@ -14,14 +14,14 @@ public class DateField extends DateItem {
 	private ClientFinanceDate startDate;
 
 	private ClientFinanceDate endDate;
-	protected static AccounterMessages messages=Global.get().messages();
+	protected static AccounterMessages messages = Global.get().messages();
 
 	// private Date enteredDate;
 
 	// private Date defaultDate;
 
-	public DateField(final String name,String styleName) {
-		super(name,styleName);
+	public DateField(final String name, String styleName) {
+		super(name, styleName);
 		addBlurHandler(getBlurHandler());
 		addValueChangeHandler(getValueChangedHandler());
 	}
@@ -47,8 +47,7 @@ public class DateField extends DateItem {
 					// enteredDate = getDate();
 
 					if (startDate != null && getDate().compareTo(startDate) < 0)
-						throw new Exception(messages.cantearlierThanStart()
-								);
+						throw new Exception(messages.cantearlierThanStart());
 
 					if (endDate != null && getDate().compareTo(endDate) > 0)
 						throw new Exception(messages.cantbeAfterEnd());
@@ -57,8 +56,7 @@ public class DateField extends DateItem {
 
 				} catch (Exception e) {
 					// if (enteredDate == null)
-					Accounter
-							.showError(messages.incorrectInformation());
+					Accounter.showError(messages.incorrectInformation());
 
 				}
 			}

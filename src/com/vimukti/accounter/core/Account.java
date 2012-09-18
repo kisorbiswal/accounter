@@ -1062,75 +1062,88 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		log.info("Update Account: " + this.getName() + "Balace:"
 				+ this.totalBalance);
 
-		if (this.getID() != 0
-				&& this.parent != null
-				&& ((this.oldParent != null && this.oldParent != this.parent) || this.oldParent == null)) {
+		// updating the flow
+		String oldFlow = this.flow;
 
-			// While changing parents we give factor 1.0 as we will not allow to
-			// change parents for other currency accounts
-			parent.updateTotalBalance(this.totalBalance, 1);
-			// updating the flow
+		if (this.getID() != 0) {
+			if ((oldParent == null && parent == null)
+					|| (oldParent != null && parent != null && (oldParent
+							.getID() == parent.getID()))) {
+				// NOTHING TO DO HERE, BECAUSE BOTH ARE SAME
+			} else {
+				if (oldParent != null) {
+					this.oldParent
+							.updateTotalBalance(-1 * this.totalBalance, 1);
+					session.update(this.oldParent);
+				}
+				if (parent != null) {
+					// While changing parents we give factor 1.0 as we will not
+					// allow to
+					// change parents for other currency accounts
+					parent.updateTotalBalance(this.totalBalance, 1);
 
-			String oldFlow = this.flow;
+					Query query = session
+							.getNamedQuery("getCountOfParentAccount")
+							.setParameter("companyId",
+									this.getCompany().getID())
+							.setParameter("parentId", this.parent.getID());
+					List l = query.list();
+					// List l = session.createQuery(
+					// "select count(*) from Account a where a.parent=:parent")
+					// .setParameter("parent", this.parent).list();
+					if (l != null) {
+						long count = ((BigInteger) l.get(0)).longValue();
+						count++;
+						this.flow = this.parent.flow + "." + count;
+					}
+					if (oldParent != null) {
+						// While changing parents we give factor 1.0 as we will
+						// not
+						// allow to
+						// change parents for other currency accounts
 
-			Query query = session.getNamedQuery("getCountOfParentAccount")
-					.setParameter("companyId", this.getCompany().getID())
-					.setParameter("parentId", this.parent.getID());
-			List l = query.list();
-			// List l = session.createQuery(
-			// "select count(*) from Account a where a.parent=:parent")
-			// .setParameter("parent", this.parent).list();
-			if (l != null) {
-				long count = ((BigInteger) l.get(0)).longValue();
-				count++;
-				this.flow = this.parent.flow + "." + count;
-			}
+						int i = Integer.parseInt(oldFlow.substring(oldFlow
+								.length() - 1));
 
-			if (this.oldParent != null && this.oldParent != this.parent) {
+						// Query query1 =
+						// session.getNamedQuery("getAccountDetails").setParameter("parentId",
+						// this.oldParent.getID()).setParameter("flow",
+						// oldFlow);
 
-				// While changing parents we give factor 1.0 as we will not
-				// allow to
-				// change parents for other currency accounts
-				this.oldParent.updateTotalBalance(-1 * this.totalBalance, 1);
-				session.update(this.oldParent);
+						Query query1 = session
+								.getNamedQuery("getFlowList.form.Account.byId")
+								.setParameter("parentId",
+										this.oldParent.getID())
+								.setParameter("flow", oldFlow,
+										EncryptedStringType.INSTANCE)
+								.setEntity("company", getCompany());
+						List<Account> l2 = query1.list();
 
-				int i = Integer
-						.parseInt(oldFlow.substring(oldFlow.length() - 1));
+						// List<Account> l2 = session
+						// .createQuery(
+						// "from com.vimukti.accounter.core.Account a where a.parent=:parent and a.flow =:flow order by a.id")
+						// .setParameter("parent", this.oldParent).setParameter(
+						// "flow", oldFlow).list();
 
-				// Query query1 =
-				// session.getNamedQuery("getAccountDetails").setParameter("parentId",
-				// this.oldParent.getID()).setParameter("flow", oldFlow);
+						if (l2 != null) {
+							for (Account account : l2) {
 
-				Query query1 = session
-						.getNamedQuery("getFlowList.form.Account.byId")
-						.setParameter("parentId", this.oldParent.getID())
-						.setParameter("flow", oldFlow,
-								EncryptedStringType.INSTANCE)
-						.setEntity("company", getCompany());
-				List<Account> l2 = query1.list();
+								if (Integer.parseInt(account.flow
+										.substring(oldFlow.length() - 1)) > i) {
 
-				// List<Account> l2 = session
-				// .createQuery(
-				// "from com.vimukti.accounter.core.Account a where a.parent=:parent and a.flow =:flow order by a.id")
-				// .setParameter("parent", this.oldParent).setParameter(
-				// "flow", oldFlow).list();
+									account.flow = account.flow.substring(0,
+											account.flow.length() - 1).concat(
+											"" + i);
+									session.update(account);
+									i++;
+								}
 
-				if (l2 != null) {
-					for (Account account : l2) {
-
-						if (Integer.parseInt(account.flow.substring(oldFlow
-								.length() - 1)) > i) {
-
-							account.flow = account.flow.substring(0,
-									account.flow.length() - 1).concat("" + i);
-							session.update(account);
-							i++;
+							}
 						}
-
 					}
 				}
-
 			}
+
 		}
 
 		if (isOpenBalanceFieldsChanged()) {

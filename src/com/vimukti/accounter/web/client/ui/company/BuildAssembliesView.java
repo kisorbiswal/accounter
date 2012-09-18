@@ -58,7 +58,7 @@ public class BuildAssembliesView extends
 
 	@Override
 	protected void filterList(String selectedValue) {
-		onPageChange(0, getPageSize());
+		onPageChange(start, getPageSize());
 	}
 
 	@Override

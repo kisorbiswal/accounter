@@ -101,7 +101,7 @@ public class ReceivedPaymentListView extends
 	@Override
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		onPageChange(0, getPageSize());
+		onPageChange(start, getPageSize());
 	}
 
 	@Override

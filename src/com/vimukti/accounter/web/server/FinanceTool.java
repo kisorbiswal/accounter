@@ -1478,32 +1478,24 @@ public class FinanceTool {
 		return new ArrayList<ClientFinanceDate>(startDates);
 	}
 
-	public long getSub(long accountId, long companyId, List<Long> list) {
-		if (accountId == 0) {
-			return 0;
-		} else {
-
-			for (Account account : getCompany(companyId).getAccounts()) {
-				if (account.getParent() != null
-						&& account.getParent().getID() == accountId) {
-					list.add(account.getID());
-					return getSub(account.getID(), companyId, list);
-				}
-			}
+	public List<Long> getSubAccounts(long accountId, long companyId) {
+		ArrayList<Long> list = new ArrayList<Long>();
+		if (accountId != 0) {
+			Set<Account> accounts = getCompany(companyId).getAccounts();
+			addSubAccounts(accounts, accountId, list);
 		}
-		return 0;
+		return list;
 	}
 
-	public List<Long> getSubAccs(long accountId, long companyId) {
-		ArrayList<Long> list = new ArrayList<Long>();
-		if (accountId == 0) {
-			return new ArrayList<Long>();
-		} else {
-			if (getSub(accountId, companyId, list) == 0) {
-				return list;
+	public void addSubAccounts(Set<Account> accounts, long accountId,
+			List<Long> list) {
+		for (Account account : accounts) {
+			if (account.getParent() != null
+					&& account.getParent().getID() == accountId) {
+				list.add(account.getID());
+				addSubAccounts(accounts, account.getID(), list);
 			}
 		}
-		return new ArrayList<Long>();
 	}
 
 	public PaginationList<AccountRegister> getAccountRegister(
@@ -1513,11 +1505,11 @@ public class FinanceTool {
 		int total = 0;
 		List<Long> parents = new ArrayList<Long>();
 		parents.add(accountId);
-		parents.addAll(getSubAccs(accountId, companyId));
-		List<AccountRegister> queryResult = new ArrayList<AccountRegister>();
+		parents.addAll(getSubAccounts(accountId, companyId));
+
 		PaginationList<AccountRegister> result = new PaginationList<AccountRegister>();
 		for (Long account : parents) {
-
+			List<AccountRegister> queryResult = new ArrayList<AccountRegister>();
 			Session session = HibernateUtil.getCurrentSession();
 			Query balanceQuery = session
 					.getNamedQuery("getAccountRegisterOpeningBalance")
