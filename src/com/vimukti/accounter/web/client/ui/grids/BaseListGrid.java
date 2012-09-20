@@ -26,7 +26,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	private final List<Integer> cellsWidth = new ArrayList<Integer>();
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
-	private final int[] columnType;
+	private int[] columnType;
 	protected double total;
 	protected String viewType;
 
@@ -48,30 +48,26 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	public BaseListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+	}
+
+	@Override
+	public void init() {
 		initRPCService();
 		this.columnType = setColTypes();
 		this.headerStyles = setHeaderStyle();
 		this.rowElementStyles = setRowElementsStyle();
+		super.init();
 	}
 
 	int type;
 
 	public BaseListGrid(boolean isMultiSelectionEnable, int type) {
 		super(isMultiSelectionEnable);
-		initRPCService();
 		this.type = type;
-		this.columnType = setColTypes();
-		this.headerStyles = setHeaderStyle();
-		this.rowElementStyles = setRowElementsStyle();
-
 	}
 
 	public BaseListGrid(boolean isMultiSelectionEnable, boolean showFooter) {
 		super(isMultiSelectionEnable, showFooter);
-		initRPCService();
-		this.columnType = setColTypes();
-		this.headerStyles = setHeaderStyle();
-		this.rowElementStyles = setRowElementsStyle();
 	}
 
 	@Override

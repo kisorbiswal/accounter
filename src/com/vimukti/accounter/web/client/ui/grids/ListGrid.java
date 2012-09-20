@@ -710,7 +710,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		});
 		if (value != null)
 			checkBox.setValue(value);
-		if (disable) {
+		if (disable || !isEnableCheckBox) {
 			checkBox.setEnabled(false);
 		}
 		setWidget(currentRow, currentCol, checkBox);

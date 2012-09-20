@@ -1781,7 +1781,7 @@
 		<query-param name="type" type="int" />
 		from com.vimukti.accounter.core.Account a where a.type=:type and
 		a.company.id =:companyId
-		order by a.number desc
+		order by a.number asc
 	</query>
 
 	<sql-query name="getBankAccountsOfType">

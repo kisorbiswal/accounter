@@ -124,9 +124,8 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> implements
 			return;
 		}
 		grid.setRecords(result);
-		grid.sort(1, false);
+		// grid.sort(1, false);
 		Window.scrollTo(0, 0);
-		grid.enableOrDisableCheckBox(false);
 		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
 		start = result.getStart();
@@ -142,6 +141,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> implements
 	protected void initGrid() {
 		grid = new ChartOfAccountsListGrid(false);
 		grid.init();
+		grid.enableOrDisableCheckBox(false);
 		// grid.setHeight("200");
 	}
 

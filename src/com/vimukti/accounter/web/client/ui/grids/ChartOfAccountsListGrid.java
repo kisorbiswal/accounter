@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	ClientCurrency currency = getCompany().getPrimaryCurrency();
+	private boolean useAccountNumbers = getPreferences().getUseAccountNumbers();;
 
 	public ChartOfAccountsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
@@ -30,7 +31,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	@Override
 	protected Object getColumnValue(ClientAccount obj, int col) {
 
-		if (getPreferences().getUseAccountNumbers() == true) {
+		if (useAccountNumbers) {
 			switch (col) {
 			case 0:
 				return obj.getIsActive();
@@ -79,7 +80,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	@Override
 	protected String[] getColumns() {
 
-		if (getPreferences().getUseAccountNumbers() == true) {
+		if (useAccountNumbers == true) {
 			return new String[] { messages.active(), messages.no(),
 					messages.name(), messages.type(), messages.balance(),
 					messages.register(), "" };
@@ -125,7 +126,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	protected int[] setColTypes() {
-		if (getPreferences().getUseAccountNumbers() == true) {
+		if (useAccountNumbers) {
 			return new int[] { ListGrid.COLUMN_TYPE_CHECK,
 					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 					ListGrid.COLUMN_TYPE_TEXT,
@@ -142,7 +143,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (getPreferences().getUseAccountNumbers() == true) {
+		if (useAccountNumbers) {
 			if (index == 6) {
 				if (UIUtils.isMSIEBrowser())
 					return 25;

@@ -192,8 +192,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		hierarchy = new String("");
 		accTypeSelect = new SelectCombo(messages.accountType());
 		accTypeMap = new ArrayList<String>();
-		accTypeMap.add(messages.creditCard());
-		accTypeMap.add(messages.paypal());
 		accTypeSelect.initCombo(accTypeMap);
 		// accTypeSelect.setWidth(100);
 		accTypeSelect.setEnabled(!isInViewMode());
@@ -1246,7 +1244,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					: new ClientBankAccount(getCompany().getPrimaryCurrency()
 							.getID());
 			setData(account);
-			initAccountTypeSelect();
 		} else {
 			accountType = data.getType();
 			if (accountType != ClientAccount.TYPE_BANK
@@ -1255,7 +1252,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 			if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
 				accounttype_selected();
-				initAccountTypeSelect();
 				int subBaseType = UIUtils.getAccountSubBaseType(accountType);
 				Integer[] ranges = getCompany()
 						.getNominalCodeRange(subBaseType);
@@ -1268,6 +1264,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			initView();
 			super.initData();
 		}
+		initAccountTypeSelect();
 		// if (takenAccount == null)
 		// getNextAccountNumber();
 
@@ -1694,7 +1691,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (creditCardForm != null) {
 			creditCardForm.setEnabled(!isInViewMode());
 		}
-		accTypeSelect.setEnabled(!isInViewMode());
+		// accTypeSelect.setEnabled(!isInViewMode());
 
 		// if (currencyCombo != null && data.isAllowCurrencyChange()) {
 		currencyCombo.setEnabled(isInViewMode(), !isInViewMode());

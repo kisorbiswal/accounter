@@ -357,6 +357,8 @@ public class ViewManager extends FlowPanel {
 		viewHolder.add(newview);
 		updateButtons();
 		existingView.showButtonBar();
+
+		Window.scrollTo(0, 0);
 	}
 
 	private void createViewTitle(String catagory, String viewModeText) {

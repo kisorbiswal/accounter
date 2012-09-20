@@ -299,6 +299,8 @@ public abstract class CustomTable extends FlowPanel {
 
 	}
 
+	protected boolean isEnableCheckBox = true;
+
 	/**
 	 * Enable or Disable check boxs when header checkbox clicked
 	 * 
@@ -308,6 +310,7 @@ public abstract class CustomTable extends FlowPanel {
 	public void enableOrDisableCheckBox(boolean isEnable) {
 		if (disable)
 			return;
+		isEnableCheckBox = isEnable;
 		for (int i = 0; i < this.getTableRowCount(); i++) {
 			Widget wdget = this.getWidget(i, 0);
 			if (wdget != null && wdget instanceof CheckBox) {
