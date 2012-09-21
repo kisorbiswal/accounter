@@ -673,7 +673,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		else {
 			selectedBank = null;
-			accTypeSelect.setSelected(selectedId);
+				accTypeSelect.setSelected(selectedId);
 
 			if (accountType == ClientAccount.TYPE_BANK) {
 
@@ -953,7 +953,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				// }
 			}
 			if (accountType != ClientAccount.TYPE_BANK
-					&& accountType != ClientAccount.TYPE_CREDIT_CARD) {
+					&& accountType != ClientAccount.TYPE_CREDIT_CARD
+					&& accountType != ClientAccount.TYPE_PAYPAL) {
 				defaultId = String.valueOf(UIUtils.accountTypes[0]);
 				accountType = UIUtils.accountTypes[0];
 			}
@@ -1424,6 +1425,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		super.setData(data);
 		if (data != null) {
 			setAccountType(data.getType());
+			resetView();
 		}
 	}
 
