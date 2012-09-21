@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTable;
@@ -1197,8 +1198,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 		}
 		for (ClientTransactionPayBill bill : transaction
 				.getTransactionPayBill()) {
-			bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits()
-					+ bill.getCashDiscount());
+			if (DecimalUtil.isEquals(bill.getAmountDue(), 0.00D)) {
+				bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits()
+						+ bill.getCashDiscount());
+			}
 			bill.setPayment(0.00D);
 			bill.setTdsAmount(0.00D);
 			bill.setAppliedCredits(0.00D, false);

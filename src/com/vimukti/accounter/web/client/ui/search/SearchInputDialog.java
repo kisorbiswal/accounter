@@ -55,51 +55,15 @@ public class SearchInputDialog extends BaseDialog {
 	private AmountField amountField;
 	private SimplePager pager;
 
-	private final String[] transactionNames = { messages.all(),
-			messages.billPayment(), messages.cashExpense(),
-			messages.creditCardExpense(),
-			messages.customerCreditNote(Global.get().Customer()),
-			messages.customerRefund(Global.get().Customer()),
-			messages.cashSale(), messages.deposit(), messages.invoice(),
-			messages.journalEntry(), messages.paymentFromCustomer(),
-			messages.payeeCredit(Global.get().Vendor()), messages.transfer(),
-			messages.writeCheck() };
-
-	private final String[] searchByAll = { messages.amount(), messages.date(),
-			messages.descOrMemo(), messages.payee() };
-
-	private final String[] searchByPayee = { messages.payee(),
-			messages.Account(), messages.amount(), messages.date(),
-			messages.descOrMemo() };
-
-	private final String[] searchByJournalOptions = { messages.Account(),
-			messages.date(), messages.descOrMemo(), messages.journalEntryNo() };
-	private final String[] searchByCustomerTransactionOptions = {
-			Global.get().Customer(), messages.amount(), messages.date(),
-			messages.descOrMemo(), messages.productOrService() };
-
-	private final String[] searchBySupplierTransactionOptions = {
-			Global.get().Vendor(), messages.amount(), messages.Account(),
-			messages.date(), messages.descOrMemo(), messages.productOrService() };
-	private final String[] searchByCustomerOptions = { Global.get().Customer(),
-			messages.Account(), messages.amount(), messages.date(),
-			messages.dueDate(), messages.invoiceDate(), messages.descOrMemo(),
-			messages.productOrService() };
-
-	private final String[] searchByDepositOptions = { messages.amount(),
-			messages.Account(), messages.date(), messages.descOrMemo() };
-
-	private final String[] matchIfoptions = { messages.contains(),
-			messages.exact(), messages.greater(), messages.Less() };
-	private final String[] searchByVatOptions = { messages.Account(),
-			messages.date(), messages.descOrMemo() };
-
 	private TextItem findByItem;
+	private boolean isViewInitialized;
 
 	public SearchInputDialog(String string) {
 		super(string);
 		this.getElement().setId("searchInputDialog");
-		createControls();
+		if (!isViewInitialized) {
+			createControls();
+		}
 	}
 
 	public void createControls() {
@@ -107,8 +71,9 @@ public class SearchInputDialog extends BaseDialog {
 		mainForm = new DynamicForm("mainForm");
 		typePanel = new StyledPanel("typePanel");
 		transactionTypeCombo = new SelectCombo(messages.transactionType());
-		transactionTypeCombo.initCombo(getTransactionsList());
-		transactionTypeCombo.setComboItem(getTransactionsList().get(0));
+		List<String> transactionsList = getTransactionsList();
+		transactionTypeCombo.initCombo(transactionsList);
+		transactionTypeCombo.setComboItem(transactionsList.get(0));
 		transactionTypeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -126,8 +91,10 @@ public class SearchInputDialog extends BaseDialog {
 		amountField.addStyleName("search_combo_width");
 		searchTypeForm = new DynamicForm("searchTypeForm");
 		searchByTypeCombo = new SelectCombo(messages.search());
-		searchByTypeCombo.initCombo(allList());
-		searchByTypeCombo.setComboItem(allList().get(0));
+
+		List<String> allList = allList();
+		searchByTypeCombo.initCombo(allList);
+		searchByTypeCombo.setComboItem(allList.get(0));
 		searchByTypeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -152,8 +119,10 @@ public class SearchInputDialog extends BaseDialog {
 		findByCombo = new SelectCombo(messages.findBy());
 		findByCombo.addStyleName("search_select_combo");
 		matchIfCombo = new SelectCombo(messages.match(), false);
-		matchIfCombo.initCombo(getMatchByNumber());
-		matchIfCombo.setComboItem(getMatchByNumber().get(0));
+
+		List<String> matchByNumber = getMatchByNumber();
+		matchIfCombo.initCombo(matchByNumber);
+		matchIfCombo.setComboItem(matchByNumber.get(0));
 		searchTypeForm.add(searchByTypeCombo);
 
 		findbyForm = new DynamicForm("findbyForm");
@@ -169,26 +138,7 @@ public class SearchInputDialog extends BaseDialog {
 		allFormPanel.addStyleName("search_textbox_labels");
 
 		buttonPanel = new StyledPanel("buttonPanel");
-		findButton = new Button(messages.find());
-		findButton.getElement().setAttribute("data-icon", "find");
-		findButton.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				makeResult();
-			}
-		});
-		closeButton = new Button(messages.close());
-		closeButton.getElement().setAttribute("data-icon", "cancel");
-		closeButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				onCancel();
-			}
-		});
-		addButton(buttonPanel, findButton);
-		addButton(buttonPanel, closeButton);
 		buttonPanel.addStyleName("search_buttons");
 
 		panel = new StyledPanel("panel");
@@ -213,11 +163,37 @@ public class SearchInputDialog extends BaseDialog {
 
 		setBodyLayout(mainPanel);
 		mainPanel.getElement().getParentElement().addClassName("search-width");
+		isViewInitialized = true;
 	}
 
 	@Override
 	protected void createButtons(StyledPanel footer) {
-		// DO NOTHING
+		if (!isViewInitialized) {
+			createControls();
+		}
+
+		findButton = new Button(messages.find());
+		findButton.getElement().setAttribute("data-icon", "find");
+		findButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				makeResult();
+			}
+		});
+
+		closeButton = new Button(messages.close());
+		closeButton.getElement().setAttribute("data-icon", "cancel");
+		closeButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				onCancel();
+			}
+		});
+
+		addButton(buttonPanel, findButton);
+		addButton(buttonPanel, closeButton);
 	}
 
 	protected int getSearchByType(String value) {
@@ -460,7 +436,7 @@ public class SearchInputDialog extends BaseDialog {
 
 	private List<String> getMatchIfComboList() {
 		List<String> list = new ArrayList<String>();
-		for (String string : matchIfoptions) {
+		for (String string : getMatchIfoptions()) {
 			list.add(string);
 		}
 		list.remove(2);
@@ -470,7 +446,7 @@ public class SearchInputDialog extends BaseDialog {
 
 	private List<String> getMatchByNumber() {
 		List<String> list = new ArrayList<String>();
-		for (String string : matchIfoptions) {
+		for (String string : getMatchIfoptions()) {
 			list.add(string);
 		}
 		list.remove(0);
@@ -479,7 +455,7 @@ public class SearchInputDialog extends BaseDialog {
 
 	private List<String> getMatchByDate() {
 		List<String> list = new ArrayList<String>();
-		for (String string : matchIfoptions) {
+		for (String string : getMatchIfoptions()) {
 			list.add(string);
 		}
 		list.remove(0);
@@ -696,7 +672,7 @@ public class SearchInputDialog extends BaseDialog {
 		searchTypeForm.clear();
 		findbyForm.clear();
 		List<String> list = new ArrayList<String>();
-		for (String string : searchByDepositOptions) {
+		for (String string : getSearchByDepositOptions()) {
 			list.add(string);
 		}
 		searchByTypeCombo.initCombo(list);
@@ -710,7 +686,7 @@ public class SearchInputDialog extends BaseDialog {
 		searchTypeForm.clear();
 		findbyForm.clear();
 		List<String> list = new ArrayList<String>();
-		for (String string : searchByPayee) {
+		for (String string : getSearchByPayee()) {
 			list.add(string);
 		}
 		if (selectItem.equals(messages.purchaseOrder())) {
@@ -748,7 +724,7 @@ public class SearchInputDialog extends BaseDialog {
 		searchTypeForm.clear();
 		findbyForm.clear();
 		List<String> searchAll = new ArrayList<String>();
-		for (String string : searchByAll) {
+		for (String string : getSearchByAll()) {
 			searchAll.add(string);
 		}
 		searchByTypeCombo.initCombo(searchAll);
@@ -763,7 +739,7 @@ public class SearchInputDialog extends BaseDialog {
 		searchTypeForm.clear();
 		findbyForm.clear();
 		List<String> list = new ArrayList<String>();
-		for (String string : searchBySupplierTransactionOptions) {
+		for (String string : getSearchBySupplierTransactionOptions()) {
 			list.add(string);
 		}
 		if (selectItem.equals(messages.billPayment())) {
@@ -783,7 +759,7 @@ public class SearchInputDialog extends BaseDialog {
 		searchTypeForm.clear();
 		findbyForm.clear();
 		List<String> list = new ArrayList<String>();
-		for (String string : searchByCustomerTransactionOptions) {
+		for (String string : getSearchByCustomerTransactionOptions()) {
 			list.add(string);
 		}
 		if (selectItem.equals(messages.customerRefund(Global.get().Customer()))) {
@@ -822,7 +798,7 @@ public class SearchInputDialog extends BaseDialog {
 		searchTypeForm.clear();
 		findbyForm.clear();
 		List<String> list = new ArrayList<String>();
-		for (String string : searchByJournalOptions) {
+		for (String string : getSearchByJournalOption()) {
 			list.add(string);
 		}
 		searchByTypeCombo.initCombo(list);
@@ -836,7 +812,7 @@ public class SearchInputDialog extends BaseDialog {
 		searchTypeForm.clear();
 		findbyForm.clear();
 		List<String> list = new ArrayList<String>();
-		for (String string : searchByVatOptions) {
+		for (String string : getSearchByVatOptions()) {
 			list.add(string);
 		}
 		if (selectItem.equals(messages.transfer())) {
@@ -854,7 +830,7 @@ public class SearchInputDialog extends BaseDialog {
 		searchTypeForm.clear();
 		findbyForm.clear();
 		List<String> list = new ArrayList<String>();
-		for (String string : searchByCustomerOptions) {
+		for (String string : getSearchByCustomerOptions()) {
 			list.add(string);
 		}
 		if (slectItem.equals(messages.charge())
@@ -873,7 +849,7 @@ public class SearchInputDialog extends BaseDialog {
 
 	private List<String> allList() {
 		List<String> searchAll = new ArrayList<String>();
-		for (String string : searchByAll) {
+		for (String string : getSearchByAll()) {
 			searchAll.add(string);
 		}
 		return searchAll;
@@ -881,7 +857,7 @@ public class SearchInputDialog extends BaseDialog {
 
 	private List<String> getTransactionsList() {
 		List<String> transactionTypes = new ArrayList<String>();
-		for (String string : transactionNames) {
+		for (String string : getTransactionNames()) {
 			transactionTypes.add(string);
 		}
 		if (getCompany().getPreferences().isKeepTrackofBills()) {
@@ -928,5 +904,65 @@ public class SearchInputDialog extends BaseDialog {
 		}
 		close();
 		return true;
+	}
+
+	private String[] getTransactionNames() {
+		return new String[] { messages.all(), messages.billPayment(),
+				messages.cashExpense(), messages.creditCardExpense(),
+				messages.customerCreditNote(Global.get().Customer()),
+				messages.customerRefund(Global.get().Customer()),
+				messages.cashSale(), messages.deposit(), messages.invoice(),
+				messages.journalEntry(), messages.paymentFromCustomer(),
+				messages.payeeCredit(Global.get().Vendor()),
+				messages.transfer(), messages.writeCheck() };
+	}
+
+	private String[] getSearchByAll() {
+		return new String[] { messages.amount(), messages.date(),
+				messages.descOrMemo(), messages.payee() };
+	}
+
+	private String[] getSearchByPayee() {
+		return new String[] { messages.payee(), messages.Account(),
+				messages.amount(), messages.date(), messages.descOrMemo() };
+	}
+
+	private String[] getSearchByJournalOption() {
+		return new String[] { messages.Account(), messages.date(),
+				messages.descOrMemo(), messages.journalEntryNo() };
+	}
+
+	private String[] getSearchByCustomerTransactionOptions() {
+		return new String[] { Global.get().Customer(), messages.amount(),
+				messages.date(), messages.descOrMemo(),
+				messages.productOrService() };
+	}
+
+	private String[] getSearchBySupplierTransactionOptions() {
+		return new String[] { Global.get().Vendor(), messages.amount(),
+				messages.Account(), messages.date(), messages.descOrMemo(),
+				messages.productOrService() };
+	}
+
+	private String[] getSearchByCustomerOptions() {
+		return new String[] { Global.get().Customer(), messages.Account(),
+				messages.amount(), messages.date(), messages.dueDate(),
+				messages.invoiceDate(), messages.descOrMemo(),
+				messages.productOrService() };
+	}
+
+	private String[] getSearchByDepositOptions() {
+		return new String[] { messages.amount(), messages.Account(),
+				messages.date(), messages.descOrMemo() };
+	}
+
+	private String[] getMatchIfoptions() {
+		return new String[] { messages.contains(), messages.exact(),
+				messages.greater(), messages.Less() };
+	}
+
+	private String[] getSearchByVatOptions() {
+		return new String[] { messages.Account(), messages.date(),
+				messages.descOrMemo() };
 	}
 }

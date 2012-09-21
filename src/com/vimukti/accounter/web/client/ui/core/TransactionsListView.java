@@ -468,9 +468,15 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		if (viewSelect != null) {
 			map.put("currentView", viewSelect.getValue().toString());
 		}
-		map.put("dateRange", dateRangeSelector.getValue().toString());
-		map.put("startDate", startDate);
-		map.put("endDate", endDate);
+		if (dateRangeSelector != null) {
+			map.put("dateRange", dateRangeSelector.getValue().toString());
+		}
+		if (fromItem != null) {
+			map.put("startDate", fromItem.getValue());
+		}
+		if (toItem != null) {
+			map.put("endDate", toItem.getValue());
+		}
 		map.put("start", start);
 		return map;
 	}
@@ -486,15 +492,17 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 			viewSelect.setComboItem(currentView);
 			this.setViewType(currentView);
 		}
-		String dateRange1 = (String) map.get("dateRange");
-		dateRangeSelector.setComboItem(dateRange1);
+		String dateRange = (String) map.get("dateRange");
+		if (dateRangeSelector != null) {
+			dateRangeSelector.setComboItem(dateRange);
+		}
 		// dateRangeChanged(dateRange1);
-		ClientFinanceDate startDate1 = (ClientFinanceDate) map.get("startDate");
-		setStartDate(startDate1);
-		ClientFinanceDate endDate1 = (ClientFinanceDate) map.get("endDate");
-		setEndDate(endDate1);
+		ClientFinanceDate startDate = (ClientFinanceDate) map.get("startDate");
+		setStartDate(startDate);
+		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
+		setEndDate(endDate);
 		start = (Integer) map.get("start");
-		restoreView(currentView, dateRange1);
+		restoreView(currentView, dateRange);
 	}
 
 	@Override
@@ -527,12 +535,16 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 
 	@Override
 	public void restoreView(String currentView, String dateRange) {
-		if (dateRange != null) {
+		if (dateRange != null && dateRangeSelector != null) {
 			dateRangeSelector.setComboItem(dateRange);
 			setDateRange(dateRange);
 		}
-		fromItem.setEnteredDate(getStartDate());
-		toItem.setEnteredDate(getEndDate());
+		if (fromItem != null && !getStartDate().isEmpty()) {
+			fromItem.setEnteredDate(getStartDate());
+		}
+		if (toItem != null && !getEndDate().isEmpty()) {
+			toItem.setEnteredDate(getEndDate());
+		}
 		filterList(currentView);
 	}
 }

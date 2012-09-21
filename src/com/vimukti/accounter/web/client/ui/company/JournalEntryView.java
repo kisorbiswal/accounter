@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -662,6 +663,10 @@ public class JournalEntryView extends
 			ClientPayee payee = getCompany().getPayee(
 					transaction.getInvolvedPayee());
 			showEditWarnDialog(payee);
+		} else if (transaction.getInvolvedAccount() != 0) {
+			ClientAccount account = getCompany().getAccount(
+					transaction.getInvolvedAccount());
+			showEditWarnDialog();
 		} else {
 			AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
 
@@ -750,6 +755,48 @@ public class JournalEntryView extends
 		}
 		Accounter.createGETService().getObjectById(type,
 				transaction.getInvolvedPayee(), callback);
+	}
+
+	private void showEditWarnDialog() {
+		String warning = messages2.W_118();
+		Accounter.showWarning(warning, AccounterType.WARNING,
+				new ErrorDialogHandler() {
+
+					@Override
+					public boolean onCancelClick() {
+						return true;
+					}
+
+					@Override
+					public boolean onNoClick() {
+						return true;
+					}
+
+					@Override
+					public boolean onYesClick() {
+						editAccount();
+						return true;
+					}
+				});
+	}
+
+	protected void editAccount() {
+		AccounterAsyncCallback<ClientAccount> callback = new AccounterAsyncCallback<ClientAccount>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+			}
+
+			@Override
+			public void onResultSuccess(ClientAccount result) {
+				if (result != null) {
+					new NewAccountAction(result.getType()).run(result, false);
+				}
+			}
+
+		};
+		Accounter.createGETService().getObjectById(AccounterCoreType.ACCOUNT,
+				transaction.getInvolvedAccount(), callback);
 	}
 
 	@Override

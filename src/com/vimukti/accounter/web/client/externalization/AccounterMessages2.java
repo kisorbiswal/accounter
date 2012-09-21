@@ -254,4 +254,6 @@ public interface AccounterMessages2 extends Messages {
 	public String newTermsOfUse();
 
 	public String measurementMustBeSame(String items);
+
+	public String W_118();
 }

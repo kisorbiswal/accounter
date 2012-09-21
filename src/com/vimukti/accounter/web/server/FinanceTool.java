@@ -288,6 +288,8 @@ public class FinanceTool {
 			if (serverObject instanceof Currency) {
 				((Currency) serverObject)
 						.createAccountsReveivablesAndPayables(session);
+			} else if (serverObject instanceof Item) {
+				((Item) serverObject).doCreateEffectForInventoryItem();
 			}
 
 			transaction.commit();

@@ -436,9 +436,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		}
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
-		if (type == TYPE_INVENTORY_PART || type == TYPE_INVENTORY_ASSEMBLY) {
-			doCreateEffectForInventoryItem();
-		} else {
+		if (!isInventory()) {
 			if (isIBuyThisItem()) {
 				averageCost = purchasePrice;
 			} else {
@@ -482,7 +480,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	}
 
 	public void doCreateEffectForInventoryItem() {
-		if (warehouse == null) {
+		if (!isInventory() || warehouse == null) {
 			return;
 		}
 		if (!onHandQty.isEmpty()) {

@@ -673,7 +673,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		else {
 			selectedBank = null;
-				accTypeSelect.setSelected(selectedId);
+			accTypeSelect.setSelected(selectedId);
 
 			if (accountType == ClientAccount.TYPE_BANK) {
 
@@ -1228,10 +1228,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 	}
 
+	boolean isInitialised = false;
+
 	@Override
 	public void init() {
 		super.init();
 		createControls();
+		isInitialised = true;
 		// setSize("100%", "100%");
 		// setOverflow(Overflow.AUTO);
 
@@ -1425,7 +1428,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		super.setData(data);
 		if (data != null) {
 			setAccountType(data.getType());
-			resetView();
+			if (isInitialised) {
+				resetView();
+			}
 		}
 	}
 

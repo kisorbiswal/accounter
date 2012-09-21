@@ -15,6 +15,7 @@ import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.AttendancePayHead;
+import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Box;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
@@ -41,6 +42,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
+import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
@@ -243,6 +245,7 @@ public class Manager {
 		return clazz;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
 			long id, long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -271,6 +274,9 @@ public class Manager {
 			} else if (serverObject instanceof UserDefinedPayHead) {
 				t = (T) new ClientConvertUtil().toClientObject(serverObject,
 						ClientUserDefinedPayHead.class);
+			} else if (serverObject instanceof BankAccount) {
+				t = (T) new ClientConvertUtil().toClientObject(serverObject,
+						ClientBankAccount.class);
 			} else {
 
 				t = (T) new ClientConvertUtil().toClientObject(serverObject,

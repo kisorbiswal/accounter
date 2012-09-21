@@ -1052,15 +1052,22 @@ public class ViewManager extends FlowPanel {
 		dialog.getButtonBar().show();
 	}
 
+	CustomDialog existingDialog = null;
+
 	public void showDialog(CustomDialog dialog) {
 		if (!dialog.isViewDialog()) {
 			dialog.center();
+			return;
+		}
+		if (existingDialog != null) {
+			showDialog(existingDialog, dialog);
 			return;
 		}
 		dialog.addCloseHandler(new CloseHandler<PopupPanel>() {
 
 			@Override
 			public void onClose(CloseEvent<PopupPanel> event) {
+				existingDialog = null;
 				existingView.getButtonBar().clear();
 				addRequiredButtons();
 				existingView.updateButtons();
@@ -1069,6 +1076,7 @@ public class ViewManager extends FlowPanel {
 		});
 		dialog.center();
 		dialog.getButtonBar().show();
+		existingDialog = dialog;
 	}
 
 	public void showDialog(final CustomDialog parent, CustomDialog child) {
@@ -1080,12 +1088,15 @@ public class ViewManager extends FlowPanel {
 
 			@Override
 			public void onClose(CloseEvent<PopupPanel> event) {
-				parent.updateButtons();
-				parent.getButtonBar().show();
+				existingDialog = parent;
+				existingDialog.getButtonBar().clear();
+				existingDialog.updateButtons();
+				existingDialog.getButtonBar().show();
 			}
 		});
 		child.center();
 		child.getButtonBar().show();
+		existingDialog = child;
 	}
 
 }
