@@ -99,7 +99,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> implements
 		}
 		isActive = (Boolean) viewDate.get("isActive");
 		start = (Integer) viewDate.get("start");
-		onPageChange(start, getPageSize());
+		// onPageChange(start, getPageSize());
 		if (isActive) {
 			viewSelect.setComboItem(messages.active());
 		} else {

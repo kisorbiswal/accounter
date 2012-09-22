@@ -225,6 +225,7 @@ public class ViewManager extends FlowPanel {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void showView(final AbstractView<?> newview, final Action action,
 			boolean shouldAskToSave) {
 		if (this.existingView != null) {
@@ -291,6 +292,7 @@ public class ViewManager extends FlowPanel {
 				});
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void showNewView(AbstractView newview, Action action) {
 		Object input = action.getInput();
 		String token = action.getHistoryToken();
@@ -298,8 +300,7 @@ public class ViewManager extends FlowPanel {
 		if (existingView != null) {
 			// Save history
 			if (existingView instanceof ISavableView) {
-				viewDataHistory.put(existingView.getAction().getHistoryToken(),
-						((ISavableView) existingView).saveView());
+				saveView(existingView);
 			}
 			existingView.removeFromParent();
 		}
@@ -316,7 +317,7 @@ public class ViewManager extends FlowPanel {
 			if (input == null && newview instanceof ISavableView) {
 				Object object = viewDataHistory.get(action.getHistoryToken());
 				if (object != null) {
-					((ISavableView) newview).restoreView(object);
+					restoreView(newview, object);
 				}
 			}
 			newview.initData();
@@ -361,6 +362,19 @@ public class ViewManager extends FlowPanel {
 		Window.scrollTo(0, 0);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void restoreView(AbstractView view, Object object) {
+		view.setStatus(AbstractView.STATUS_RESTORED);
+		((ISavableView) view).restoreView(object);
+	}
+
+	@SuppressWarnings("rawtypes")
+	private void saveView(AbstractView<?> view) {
+		view.setStatus(AbstractView.STATUS_SAVED);
+		viewDataHistory.put(view.getAction().getHistoryToken(),
+				((ISavableView) view).saveView());
+	}
+
 	private void createViewTitle(String catagory, String viewModeText) {
 		if (catagory != null && catagory.length() > 1) {
 			viewTitleLabel.setText(catagory + "  >  " + viewModeText);
@@ -386,6 +400,7 @@ public class ViewManager extends FlowPanel {
 	// group8.remove(addVendorButton);
 	// }
 
+	@SuppressWarnings("rawtypes")
 	public void updateButtons() {
 		addRequiredButtons();
 		if (!isIpad() && searchButton == null) {
@@ -476,7 +491,7 @@ public class ViewManager extends FlowPanel {
 	/**
 	 * Called when we want to remove current view and put previous view back
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void closeCurrentView(boolean restorePreviousView) {
 
 		if (this.existingView == null) {
@@ -507,9 +522,7 @@ public class ViewManager extends FlowPanel {
 			} else {
 				// Save history
 				if (existingView instanceof ISavableView) {
-					viewDataHistory.put(existingView.getAction()
-							.getHistoryToken(), ((ISavableView) existingView)
-							.saveView());
+					saveView(existingView);
 				}
 				existingView.removeFromParent();
 				existingView.getButtonBar().clear();
@@ -571,6 +584,7 @@ public class ViewManager extends FlowPanel {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void showView(AbstractView<?> view, Object data,
 			Boolean isDependent, Action action) {
 		if (!isDependent) {
@@ -699,6 +713,7 @@ public class ViewManager extends FlowPanel {
 		addNewButton.getElement().setId("addNewButton");
 		addNewButton.addClickHandler(new ClickHandler() {
 
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
 			public void onClick(ClickEvent event) {
 				BaseListView baseListView;

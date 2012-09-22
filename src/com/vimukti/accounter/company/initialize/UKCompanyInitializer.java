@@ -78,7 +78,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	private void initDefaultUKAccounts() {
 
 		// This is the Account created by default for the purpose of UK VAT
-		Account vATliabilityAccount = createAccount(
+		Account vATliabilityAccount = createDefaultAccount(
 				Account.TYPE_OTHER_CURRENT_LIABILITY,
 				AccounterServerConstants.TAX_VAT_UNFILED,
 				Account.CASH_FLOW_CATEGORY_OPERATING);

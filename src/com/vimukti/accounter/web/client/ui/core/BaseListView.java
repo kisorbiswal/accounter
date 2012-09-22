@@ -163,6 +163,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				@Override
 				public void onRangeChange(RangeChangeEvent event) {
 					start = event.getNewRange().getStart();
+					showLoading();
 					onPageChange(start, event.getNewRange().getLength());
 				}
 			});
@@ -287,9 +288,9 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	protected abstract String getAddNewLabelString();
 
 	public void initListCallback() {
-		grid.removeAllRecords();
-		grid.addLoadingImagePanel();
+		showLoading();
 		if (getPageSize() != -1) {
+			start = 0;
 			grid.setVisibleRange(start, getPageSize());
 		}
 	}
@@ -447,5 +448,10 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	protected void restoreView(String currentView, String dateRange) {
 
+	}
+
+	public void showLoading() {
+		grid.removeAllRecords();
+		grid.addLoadingImagePanel();
 	}
 }

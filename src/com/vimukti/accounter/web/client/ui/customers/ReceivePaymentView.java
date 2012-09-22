@@ -683,7 +683,7 @@ public class ReceivePaymentView extends
 						.getFormalName()), getCompany().getPrimaryCurrency());
 		unUsedPaymentsText.setEnabled(false);
 
-		DynamicForm textForm = new DynamicForm("boldtext");
+		DynamicForm textForm = new DynamicForm("textForm");
 		textForm.add(unUsedCreditsText, unUsedPaymentsText);
 		unUsedCreditsText.setVisible(!isInViewMode());
 

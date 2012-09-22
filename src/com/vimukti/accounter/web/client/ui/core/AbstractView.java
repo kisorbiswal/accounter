@@ -12,6 +12,15 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class AbstractView<T> extends FlowPanel {
+
+	public static final int STATUS_NEW = 1;
+
+	public static final int STATUS_SAVED = 2;
+
+	public static final int STATUS_RESTORED = 3;
+
+	protected int status = STATUS_NEW;
+
 	private IButtonBar buttonBar;
 
 	protected abstract void init();
@@ -157,5 +166,9 @@ public abstract class AbstractView<T> extends FlowPanel {
 
 	public void updateButtons() {
 
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }

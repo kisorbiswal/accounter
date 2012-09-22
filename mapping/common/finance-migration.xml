@@ -298,4 +298,10 @@
 		        GROUP  BY a.id) AS tab
 		WHERE  Abs(tab.at_sum - tab.current_balance) > 0.001;  
 	</sql-query>
+	
+	
+	<query name="getDefaultAccounts">
+		<query-param name="company" type="Company"/>
+		from com.vimukti.accounter.core.Account a where a.isDefault=true and a.company= :company
+	</query>
 </hibernate-mapping>

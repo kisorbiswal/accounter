@@ -71,8 +71,8 @@ public abstract class CompanyInitializer {
 
 		// This is the direct references to the Opening Balances Account for the
 		// purpose of the Transactions.
-		Account openingBalancesAccount = createAccount(Account.TYPE_EQUITY,
-				AccounterServerConstants.OPENING_BALANCE,
+		Account openingBalancesAccount = createDefaultAccount(
+				Account.TYPE_EQUITY, AccounterServerConstants.OPENING_BALANCE,
 				Account.CASH_FLOW_CATEGORY_FINANCING);
 
 		company.setOpeningBalancesAccount(openingBalancesAccount);
@@ -136,11 +136,52 @@ public abstract class CompanyInitializer {
 	}
 
 	private void createDefaultFiledAccount() {
-		Account tAXFiledLiabilityAccount = createAccount(
+		Account tAXFiledLiabilityAccount = createDefaultAccount(
 				Account.TYPE_OTHER_CURRENT_LIABILITY,
 				AccounterServerConstants.TAX_VAT_FILED,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 		company.setTAXFiledLiabilityAccount(tAXFiledLiabilityAccount);
+	}
+
+	/**
+	 * Creates a Default Account
+	 * 
+	 * @param type
+	 * @param name
+	 * @param cashFlowCategory
+	 * @param isConsiderAsCashAccount
+	 * @param isOpeningBalanceEditable
+	 * @return
+	 */
+	protected Account createDefaultAccount(int type, String name,
+			int cashFlowCategory) {
+		return createAccount(type, name, cashFlowCategory, true);
+	}
+
+	/**
+	 * Creates Account
+	 * 
+	 * @param type
+	 * @param name
+	 * @param cashFlowCategory
+	 * @param isConsiderAsCashAccount
+	 * @param isOpeningBalanceEditable
+	 * @return
+	 */
+	private Account createAccount(int type, String name, int cashFlowCategory,
+			boolean isDefault) {
+		Session session = HibernateUtil.getCurrentSession();
+		int subBaseType = Utility.getAccountSubBaseType(type);
+		Integer nextAccoutNo = accountNoMap.get(subBaseType);
+		if (nextAccoutNo == null) {
+			nextAccoutNo = getMinimumRange(type);
+		}
+		Account account = new Account(type, String.valueOf(nextAccoutNo), name,
+				cashFlowCategory, isDefault);
+		account.setCompany(company);
+		session.saveOrUpdate(account);
+		accountNoMap.put(subBaseType, nextAccoutNo + 1);
+		return account;
 	}
 
 	/**
@@ -154,18 +195,7 @@ public abstract class CompanyInitializer {
 	 * @return
 	 */
 	protected Account createAccount(int type, String name, int cashFlowCategory) {
-		Session session = HibernateUtil.getCurrentSession();
-		int subBaseType = Utility.getAccountSubBaseType(type);
-		Integer nextAccoutNo = accountNoMap.get(subBaseType);
-		if (nextAccoutNo == null) {
-			nextAccoutNo = getMinimumRange(type);
-		}
-		Account account = new Account(type, String.valueOf(nextAccoutNo), name,
-				cashFlowCategory);
-		account.setCompany(company);
-		session.saveOrUpdate(account);
-		accountNoMap.put(subBaseType, nextAccoutNo + 1);
-		return account;
+		return createAccount(type, name, cashFlowCategory, false);
 	}
 
 	private int getMinimumRange(int accountType) {
@@ -400,13 +430,13 @@ public abstract class CompanyInitializer {
 
 		// This is the direct references to Cash Discounts Given to track the
 		// discounts taken.
-		Account cashDiscountsTaken = createAccount(
+		Account cashDiscountsTaken = createDefaultAccount(
 				Account.TYPE_COST_OF_GOODS_SOLD,
 				AccounterServerConstants.CASH_DISCOUNT_TAKEN,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 		company.setCashDiscountsTaken(cashDiscountsTaken);
 
-		Account costOfGoodsSold = createAccount(
+		Account costOfGoodsSold = createDefaultAccount(
 				Account.TYPE_COST_OF_GOODS_SOLD,
 				AccounterServerConstants.COST_OF_GOODS_SOLD,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
@@ -418,14 +448,14 @@ public abstract class CompanyInitializer {
 				AccounterServerConstants.OTHER_CASH_EXPENSE,
 				Account.CASH_FLOW_CATEGORY_FINANCING);
 
-		Account exchangeLossOrGainAccount = createAccount(
+		Account exchangeLossOrGainAccount = createDefaultAccount(
 				Account.TYPE_OTHER_EXPENSE,
 				AccounterServerConstants.EXCHANGE_LOSS_OR_GAIN,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		company.setExchangeLossOrGainAccount(exchangeLossOrGainAccount);
 
-		Account salariesPayableAccount = createAccount(
+		Account salariesPayableAccount = createDefaultAccount(
 				Account.TYPE_OTHER_CURRENT_LIABILITY,
 				AccounterServerConstants.SALARIES_PAYABLE,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
@@ -761,7 +791,7 @@ public abstract class CompanyInitializer {
 
 		// This is the direct references to Cash Discounts Given to track the
 		// discounts given.
-		Account cashDiscountsGiven = createAccount(Account.TYPE_INCOME,
+		Account cashDiscountsGiven = createDefaultAccount(Account.TYPE_INCOME,
 				AccounterServerConstants.CASH_DISCOUNT_GIVEN,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 		company.setCashDiscountsGiven(cashDiscountsGiven);
@@ -806,7 +836,7 @@ public abstract class CompanyInitializer {
 		// This is the direct references to the Accounts Receivable Account for
 		// the purpose of the Transactions.
 		// Current Accounts
-		Account accountsReceivableAccount = createAccount(
+		Account accountsReceivableAccount = createDefaultAccount(
 				Account.TYPE_OTHER_CURRENT_ASSET,
 				AccounterServerConstants.ACCOUNTS_RECEIVABLE,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
@@ -816,7 +846,7 @@ public abstract class CompanyInitializer {
 		 * this inventory assets account is used while creating the inventory
 		 * item
 		 */
-		createAccount(Account.TYPE_INVENTORY_ASSET, "Inventory Assets",
+		createDefaultAccount(Account.TYPE_INVENTORY_ASSET, "Inventory Assets",
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		// createAccount(Account.TYPE_OTHER_CURRENT_ASSET,
@@ -1004,7 +1034,7 @@ public abstract class CompanyInitializer {
 
 		// This is the direct references to the Accounts Payable Account for the
 		// purpose of the Transactions.
-		Account accountsPayableAccount = createAccount(
+		Account accountsPayableAccount = createDefaultAccount(
 				Account.TYPE_OTHER_CURRENT_LIABILITY,
 				AccounterServerConstants.ACCOUNTS_PAYABLE,
 				Account.CASH_FLOW_CATEGORY_OPERATING);

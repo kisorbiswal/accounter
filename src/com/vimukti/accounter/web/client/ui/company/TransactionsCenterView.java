@@ -39,7 +39,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		IPrintableView, ISavableView<HashMap<String, Object>> {
 
 	public TransactionsListView<T> baseListView;
-	private final StyledPanel mainPanel;
+	private StyledPanel mainPanel;
 	private String selectedItem = null;
 	private TreeListPanel listPanel;
 
@@ -48,13 +48,21 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 	// private String searchString;
 
 	public TransactionsCenterView() {
+		// setSize("100%", "100%");
+		// mainPanel.setWidth("100");
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		createControls();
+	}
+
+	private void createControls() {
 		mainPanel = new StyledPanel("mainPanel");
 		mainPanel.setStyleName("Transactions_center");
 		createTreeItems();
 		this.add(mainPanel);
-
-		// setSize("100%", "100%");
-		// mainPanel.setWidth("100");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -70,7 +78,8 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 				if (Accounter.isIpadApp()) {
 					ActionFactory.getTransactionListView(menuItemName).run();
 				} else {
-					initGridData(menuItemName, false);
+					initGridData(menuItemName);
+					baseListView.initListCallback();
 				}
 			}
 		};
@@ -95,7 +104,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 
 		baseListView = (TransactionsListView<T>) new InvoiceListView();
 
-		initGridData(getMessages().invoices(), false);
+		initGridData(getMessages().invoices());
 	}
 
 	private List<String> getInventoryCenterList() {
@@ -129,7 +138,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 	}
 
 	@SuppressWarnings("unchecked")
-	protected void initGridData(String itemName, boolean isRestoreView) {
+	protected void initGridData(String itemName) {
 		selectedItem = itemName;
 		baseListView.clear();
 		mainPanel.remove(baseListView);
@@ -261,10 +270,14 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		MainFinanceWindow.getViewManager().updateButtons();
 		baseListView.showButtonBar();
 		baseListView.init();
-		if (!isRestoreView) {
-			baseListView.initData();
-		}
 		baseListView.removeStyleName("abstract_base_view");
+		baseListView.setStatus(status);
+	}
+
+	@Override
+	public void initData() {
+		super.initData();
+		baseListView.initData();
 	}
 
 	private ArrayList<String> getVendorCenterItems() {
@@ -402,7 +415,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		}
 		String selectedItem = (String) map.get("selectedItem");
 		if (selectedItem != null) {
-			initGridData(selectedItem, true);
+			initGridData(selectedItem);
 			listPanel.setMenuSelected(selectedItem);
 		}
 		// String currentView = (String) map.get("currentView");

@@ -309,7 +309,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	 * @param isOpeningBalanceEditable
 	 * 
 	 */
-	public Account(int type, String number, String name, int cashFlowCategory) {
+	public Account(int type, String number, String name, int cashFlowCategory,
+			boolean isDefault) {
 		this.type = type;
 		this.number = number;
 		this.name = name;
@@ -317,7 +318,22 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		this.cashFlowCategory = cashFlowCategory;
 		this.isOpeningBalanceEditable = true;
 		this.flow = String.valueOf(number);
-		this.isDefault = true;
+		this.isDefault = isDefault;
+	}
+
+	/**
+	 * Creates new Instance Used to Create Default Accounts
+	 * 
+	 * @param type
+	 * @param number
+	 * @param name
+	 * @param cashFlowCategory
+	 * @param isConsiderAsCashAccount
+	 * @param isOpeningBalanceEditable
+	 * 
+	 */
+	public Account(int type, String number, String name, int cashFlowCategory) {
+		this(type, number, name, cashFlowCategory, false);
 	}
 
 	/**

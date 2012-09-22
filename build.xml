@@ -11,7 +11,7 @@
 	<property name="win-lib.dir" value="${setup.dir}/windows/libs" />
 	<property name="tmp.dir" value="${build.dir}/tmp" />
 	<property name="gwt.sdk" location="${env.GWT_SDK}" />
-	<property name="version-number" value="1.0.9.8.7"/>
+	<property name="version-number" value="1.0.9.8.8"/>
 	<property name="name-version" value="${ant.project.name}-${version-number}" />
 	
 	<property name="jar" value="${build.dir}/${name-version}.jar"/>

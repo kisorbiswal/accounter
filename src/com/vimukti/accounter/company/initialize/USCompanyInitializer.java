@@ -90,7 +90,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 		// setDefaultsUSValues();
 
 		// This is the Account created by default for the purpose of US SalesTax
-		Account salesTaxPayable = createAccount(
+		Account salesTaxPayable = createDefaultAccount(
 				Account.TYPE_OTHER_CURRENT_LIABILITY,
 				AccounterServerConstants.SALES_TAX_PAYABLE,
 				Account.CASH_FLOW_CATEGORY_OPERATING);

@@ -53,6 +53,10 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 				AccounterServerConstants.TDS_TAX_PAYABLE,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 
+		Account tdsDeductedByOthers = createAccount(Account.TYPE_OTHER_ASSET,
+				AccounterServerConstants.TDS_DEDUCTED_BY_OTHERS,
+				Account.CASH_FLOW_CATEGORY_INVESTING);
+
 		Account serviceTaxPayable = createAccount(
 				Account.TYPE_OTHER_CURRENT_LIABILITY,
 				AccounterServerConstants.SERVICE_TAX_PAYABLE,
@@ -76,7 +80,7 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		defaultTDSAgency.setName("TDS Tax Agency");
 		defaultTDSAgency.setVATReturn(0);
 		defaultTDSAgency.setPurchaseLiabilityAccount(tdsPayable);
-		defaultTDSAgency.setSalesLiabilityAccount(tdsPayable);
+		defaultTDSAgency.setSalesLiabilityAccount(tdsDeductedByOthers);
 		defaultTDSAgency.setDefault(true);
 		defaultTDSAgency.setCompany(company);
 		defaultTDSAgency.setPaymentTerm(paymentTerms);
@@ -115,7 +119,7 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem1.setDefault(true);
 		tdsItem1.setPercentage(true);
 		session.save(tdsItem1);
-		
+
 		TAXItem tdsItem2 = new TAXItem(company);
 		tdsItem2.setName("Professional");
 		tdsItem2.setActive(true);
@@ -156,8 +160,6 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		none.setActive(true);
 		session.save(none);
 
-				
-		
 		// TAXCode tdsCode1 = new TAXCode();
 		//
 		// tdsCode1.setName("E");

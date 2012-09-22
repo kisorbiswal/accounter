@@ -88,6 +88,9 @@ public class TDSChalanDetailsView extends
 	@Override
 	protected void createControls() {
 		Label label = new Label(messages.tdsChallan());
+
+		transactionDateItem = createTransactionDateItem();
+
 		label.setStyleName("label-title");
 		selectFormTypeCombo = new SelectCombo(messages.formType());
 		// selectFormTypeCombo.setHelpInformation(true);
@@ -383,9 +386,20 @@ public class TDSChalanDetailsView extends
 		};
 		table.setEnabled(!isInViewMode());
 
+		DynamicForm dateNoForm = new DynamicForm("dateNoForm");
+		dateNoForm.add(transactionDateItem);
+		dateNoForm.setStyleName("datenumber-panel");
+
+		StyledPanel datepanel = new StyledPanel("datepanel");
+		datepanel.add(dateNoForm);
+
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
+		labeldateNoLayout.add(datepanel);
+
 		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
 		verticalPanel.add(label);
 		verticalPanel.add(voidedPanel);
+		verticalPanel.add(labeldateNoLayout);
 		StyledPanel horizontalPanel1 = getFirstPanel();
 		if (horizontalPanel1 != null) {
 			horizontalPanel1.add(taxDynamicForm);
@@ -535,6 +549,9 @@ public class TDSChalanDetailsView extends
 				+ Integer.toString(transaction.getAssessmentYearEnd() - 1));
 		financialYearSelected = true;
 		table.setAllRows(transaction.getTdsTransactionItems());
+
+		transactionDateItem.setEnteredDate(transaction.getDate());
+		setTransactionDate(transaction.getDate());
 
 	}
 
@@ -740,7 +757,7 @@ public class TDSChalanDetailsView extends
 	protected void updateTransaction() {
 		// super.updateTransaction();
 
-		transaction.setDate(new ClientFinanceDate().getDate());
+		transaction.setDate(getTransactionDate().getDate());
 		transaction.setType(ClientTransaction.TYPE_TDS_CHALLAN);
 
 		transaction.setFormType(getFormTypeSeclected());
@@ -878,6 +895,7 @@ public class TDSChalanDetailsView extends
 		financialYearCombo.setEnabled(true);
 		// endingBalanceText.setEnabled(false);
 		payFromAccCombo.setEnabled(true);
+		transactionDateItem.setEnabled(!isInViewMode());
 
 		super.onEdit();
 	}

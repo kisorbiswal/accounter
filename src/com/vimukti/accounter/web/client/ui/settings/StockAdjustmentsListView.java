@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -77,22 +76,6 @@ public class StockAdjustmentsListView extends
 			return InventoryActions.stockAdjustment();
 		else
 			return null;
-	}
-
-	@Override
-	public HashMap<String, Object> saveView() {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("start", start);
-		return map;
-	}
-
-	@Override
-	public void restoreView(HashMap<String, Object> viewDate) {
-
-		if (viewDate == null || viewDate.isEmpty()) {
-			return;
-		}
-		start = (Integer) viewDate.get("start");
 	}
 
 	@Override

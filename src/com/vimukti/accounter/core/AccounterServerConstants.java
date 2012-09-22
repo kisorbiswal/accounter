@@ -729,6 +729,7 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String yyyyMMdd = "yyyy/MM/dd";
 
 	public static final String TDS_TAX_PAYABLE = "TDS Tax Payable";
+	public static final String TDS_DEDUCTED_BY_OTHERS = "TDS Deducted by Others";
 	public static final String SERVICE_TAX_PAYABLE = "Service Tax Payable";
 	public static final String CENTRAL_SALES_TAX_PAYABLE = "Central Sales Tax Payable";
 	public static final String EXCHANGE_LOSS_OR_GAIN = "Exchange Loss or Gain";

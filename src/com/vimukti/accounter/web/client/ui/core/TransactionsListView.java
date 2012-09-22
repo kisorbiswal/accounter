@@ -55,6 +55,13 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 	}
 
 	@Override
+	public void initData() {
+		if (status == STATUS_NEW) {
+			initListCallback();
+		}
+	}
+
+	@Override
 	protected void createListForm(DynamicForm form) {
 		super.createListForm(form);
 		dateRangeSelector = getDateRangeSelectItem();
@@ -546,5 +553,8 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 			toItem.setEnteredDate(getEndDate());
 		}
 		filterList(currentView);
+		if (grid != null) {
+			showLoading();
+		}
 	}
 }
