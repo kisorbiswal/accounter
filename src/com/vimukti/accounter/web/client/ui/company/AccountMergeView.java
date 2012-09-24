@@ -2,8 +2,6 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -12,12 +10,12 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
+import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -54,15 +52,14 @@ public class AccountMergeView extends BaseView<ClientAccount> {
 
 					@Override
 					public void onException(AccounterException exception) {
-						Accounter.showInformation("Merge Sucessful");
-						onClose();
+						Accounter.showError(exception.getMessage());
 					}
 
 					@Override
 					public void onResultSuccess(ClientAccount result) {
 						getCompany().deleteAccount(fromAccount.getID());
 						getCompany().processUpdateOrCreateObject(result);
-						com.google.gwt.user.client.History.back();
+						onClose();
 					}
 
 				});
@@ -225,20 +222,18 @@ public class AccountMergeView extends BaseView<ClientAccount> {
 	}
 
 	@Override
+	public void saveAndUpdateView() {
+		mergeAccounts();
+	}
+
+	@Override
 	protected void createButtons() {
-		ImageButton meregButton = new ImageButton(messages.merge(), Accounter
-				.getFinanceImages().saveAndClose(), "remote");
-		meregButton.addClickHandler(new ClickHandler() {
+		saveAndCloseButton = new SaveAndCloseButton(this);
+		saveAndCloseButton.setText(messages.merge());
+		saveAndCloseButton.getElement().setAttribute("data-icon", "remote");
+		addButton(saveAndCloseButton);
 
-			@Override
-			public void onClick(ClickEvent event) {
-				validate();
-				mergeAccounts();
-
-			}
-		});
 		cancelButton = new CancelButton(this);
-		addButton(meregButton);
 		addButton(cancelButton);
 	}
 }

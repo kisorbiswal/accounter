@@ -2,20 +2,19 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.LocationCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.CancelButton;
+import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -41,19 +40,6 @@ public class LocationMergeView extends BaseView<ClientLocation> {
 	@Override
 	public void init() {
 		super.init();
-		ImageButton meregButton = new ImageButton(messages.merge(), Accounter
-				.getFinanceImages().saveAndClose(), "remote");
-		meregButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				validate();
-				mergeLocations();
-
-			}
-		});
-
-		addButton(meregButton);
 		createControls();
 	}
 
@@ -150,21 +136,18 @@ public class LocationMergeView extends BaseView<ClientLocation> {
 			}
 		}
 		Accounter.createHomeService().mergeLocation(clientFromLocation,
-				clientToLocation, new AsyncCallback<Void>() {
+				clientToLocation, new AccounterAsyncCallback<Void>() {
 
 					@Override
-					public void onSuccess(Void result) {
-						Accounter.showInformation("Merge Sucessful");
+					public void onException(AccounterException exception) {
+						Accounter.showError(exception.getMessage());
+					}
+
+					@Override
+					public void onResultSuccess(Void result) {
 						onClose();
 					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
-					}
 				});
-		com.google.gwt.user.client.History.back();
 	}
 
 	@Override
@@ -192,4 +175,19 @@ public class LocationMergeView extends BaseView<ClientLocation> {
 
 	}
 
+	@Override
+	public void saveAndUpdateView() {
+		mergeLocations();
+	}
+
+	@Override
+	protected void createButtons() {
+		saveAndCloseButton = new SaveAndCloseButton(this);
+		saveAndCloseButton.setText(messages.merge());
+		saveAndCloseButton.getElement().setAttribute("data-icon", "remote");
+		addButton(saveAndCloseButton);
+
+		cancelButton = new CancelButton(this);
+		addButton(cancelButton);
+	}
 }
