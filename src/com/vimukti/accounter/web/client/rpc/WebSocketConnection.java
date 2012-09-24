@@ -18,6 +18,8 @@ public class WebSocketConnection {
 	}
 
 	static final WebSocketConnection instance = new WebSocketConnection();
+	private static final int MAX_MESSAGE = 16000;
+	private static final String MESSAGE_END = "#*";
 	private String url;
 	int requestCounter = 0;
 	int sent = 0;
@@ -48,7 +50,15 @@ public class WebSocketConnection {
 		requestCounter++;
 		requests.put(requestCounter, wsr);
 		if (isConnected) {
-			send(requestCounter + ":" + wsr.getRequest());
+			String request = wsr.getRequest();
+
+			while (request.length() > MAX_MESSAGE) {
+				String substring = request.substring(0, MAX_MESSAGE);
+				substring += MESSAGE_END;
+				send(requestCounter + ":" + substring);
+				request = request.substring(MAX_MESSAGE);
+			}
+			send(requestCounter + ":" + request);
 			sent++;
 		}
 	}
