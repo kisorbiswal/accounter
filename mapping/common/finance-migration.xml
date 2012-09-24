@@ -304,4 +304,39 @@
 		<query-param name="company" type="Company"/>
 		from com.vimukti.accounter.core.Account a where a.isDefault=true and a.company= :company
 	</query>
+	
+	<sql-query name="insert.Payee.update">
+		<query-param name="payeeId" type="long"/>
+		<query-param name="transactionId" type="long"/>
+		<query-param name="companyId" type="long"/>
+		<query-param name="createdBy" type="long"/>
+		<query-param name="amount" type="long"/>
+		INSERT INTO payee_update
+		            (company_id,
+		             payee,
+		             TRANSACTION,
+		             amount,
+		             created_by,
+		             last_modifier,
+		             created_date,
+		             last_modified_date)
+		VALUES     (:companyId,
+		            :payeeId,
+		            :transactionId,
+		            :amount,
+		            :createdBy,
+		            :createdBy,
+		            current_timestamp,
+		            current_timestamp );  
+	</sql-query>
+	
+	<sql-query name="get.Payee.Balance">
+		<query-param name="payeeId" type="long"/>
+		
+		<return-scalar column="PAYEE_BALANCE" type="double"/>
+		
+		SELECT (p.opening_balance+SUM(amount)) AS PAYEE_BALANCE
+		FROM   payee_update pu left join payee p on p.id=pu.payee
+		WHERE  p.id=:payeeId group by p.id;
+	</sql-query>
 </hibernate-mapping>

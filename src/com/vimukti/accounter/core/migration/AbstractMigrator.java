@@ -12,6 +12,7 @@ import com.vimukti.accounter.core.AccountTransaction;
 import com.vimukti.accounter.core.InventoryHistory;
 import com.vimukti.accounter.core.ItemUpdate;
 import com.vimukti.accounter.core.NumberUtils;
+import com.vimukti.accounter.core.PayeeUpdate;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionEffectsImpl;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -38,6 +39,9 @@ public abstract class AbstractMigrator implements IMigrator {
 				transaction.getItemUpdates());
 		Set<AccountTransaction> oldATs = new HashSet<AccountTransaction>(
 				transaction.getAccountTransactionEntriesList());
+
+		Set<PayeeUpdate> oldPUs = new HashSet<PayeeUpdate>(
+				transaction.getPayeeUpdates());
 
 		Set<AccountTransaction> missingAts = new HashSet<AccountTransaction>();
 		// for (TransactionItem tItem : transaction.getTransactionItems()) {
@@ -91,6 +95,21 @@ public abstract class AbstractMigrator implements IMigrator {
 
 			log.warn("Creating IHs : " + newIHs);
 			transaction.getInventoryHistory().addAll(newIHs);
+		}
+
+		if (getVersion() > 23) {
+
+			List<PayeeUpdate> newPUs = tEffects.getNewPUs();
+
+			findOutIntersectionPUs(oldPUs, newPUs);
+
+			if (!oldPUs.isEmpty() || !newPUs.isEmpty()) {
+				log.warn("Removing PUs : " + oldPUs);
+				transaction.getPayeeUpdates().removeAll(oldPUs);
+
+				log.warn("Creating PUs : " + newPUs);
+				transaction.getPayeeUpdates().addAll(newPUs);
+			}
 		}
 
 		getSession().save(transaction);
@@ -161,6 +180,27 @@ public abstract class AbstractMigrator implements IMigrator {
 					oldAtsIterator.remove();
 					oldAT.setUpdateAccount(true);
 					getSession().saveOrUpdate(oldAT);
+					break;
+				}
+			}
+		}
+	}
+
+	protected void findOutIntersectionPUs(Set<PayeeUpdate> oldPUs,
+			List<PayeeUpdate> newPUs) {
+		Iterator<PayeeUpdate> oldPUsIterator = oldPUs.iterator();
+		while (oldPUsIterator.hasNext()) {
+			PayeeUpdate oldPU = oldPUsIterator.next();
+			Iterator<PayeeUpdate> newIUsIterator = newPUs.iterator();
+			while (newIUsIterator.hasNext()) {
+				PayeeUpdate newPU = newIUsIterator.next();
+				if (oldPU.getPayee().getID() == newPU.getPayee().getID()
+						&& oldPU.getTransaction().getID() == newPU
+								.getTransaction().getID()
+						&& DecimalUtil.isEquals(oldPU.getAmount(),
+								newPU.getAmount())) {
+					newIUsIterator.remove();
+					oldPUsIterator.remove();
 					break;
 				}
 			}

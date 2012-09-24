@@ -17,7 +17,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * Payee is the object which represents a real-time entity of either
@@ -29,7 +28,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 public abstract class Payee extends CreatableObject implements
 		IAccounterServerCore, INamedObject {
 
-	Logger log = Logger.getLogger(FinanceTool.class);
+	Logger log = Logger.getLogger(Payee.class);
 
 	/**
 	 * 

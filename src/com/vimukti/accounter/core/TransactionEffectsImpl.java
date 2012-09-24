@@ -356,4 +356,8 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 		return newIHs;
 	}
 
+	public List<PayeeUpdate> getNewPUs() {
+		return newPUs;
+	}
+
 }

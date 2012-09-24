@@ -1199,6 +1199,8 @@ public abstract class Transaction extends CreatableObject implements
 
 		clone.setPayeeUpdates(new HashSet<PayeeUpdate>());
 		clone.setItemUpdates(new HashSet<ItemUpdate>());
+		clone.setInventoryHistory(new HashSet<InventoryHistory>());
+		
 
 		return clone;
 	}

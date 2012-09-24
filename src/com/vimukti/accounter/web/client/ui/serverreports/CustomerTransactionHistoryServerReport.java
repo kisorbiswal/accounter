@@ -24,25 +24,19 @@ public class CustomerTransactionHistoryServerReport extends
 	}
 
 	private String sectionName = "";
-	private double customerBalance;
-
-	private String currentCustomer = "";
 
 	@Override
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
 				COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER, COLUMN_TYPE_TEXT,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
+				COLUMN_TYPE_AMOUNT };
 	}
 
 	@Override
 	public String[] getColunms() {
 
-		return new String[] {
-				Global.get().customer(),
-				getMessages().date(),
-				getMessages().type(),
-				getMessages().noDot(),
+		return new String[] { Global.get().customer(), getMessages().date(),
+				getMessages().type(), getMessages().noDot(),
 				// ".invoicedAmount(),
 				// ".paidAmount(),
 				// ".paymentTerms(),
@@ -50,8 +44,7 @@ public class CustomerTransactionHistoryServerReport extends
 				// ".debit(),
 				// ".credit(),
 				// ".reference(),
-				getMessages().Account(), getMessages().amount(),
-				getMessages().balance() };
+				getMessages().Account(), getMessages().amount() };
 
 	}
 
@@ -66,15 +59,14 @@ public class CustomerTransactionHistoryServerReport extends
 		case 1:
 			return 130;
 		case 2:
-			return 100;
+			return 200;
 		case 3:
 			return 80;
 		case 4:
 			return 150;
 		case 5:
 			return 135;
-		case 6:
-			return 135;
+
 		default:
 			return -1;
 		}
@@ -131,16 +123,6 @@ public class CustomerTransactionHistoryServerReport extends
 			// return record.getDebitanotherString();
 			// case 8:
 			// return record.getCredit();
-		case 6:
-			if (!currentCustomer.equals(record.getName())) {
-				currentCustomer = record.getName();
-				customerBalance = 0.00D;
-			}
-			double amount = DecimalUtil.isEquals(record.getInvoicedAmount(),
-					0.0) ? record.getPaidAmount() : Math.abs(record
-					.getInvoicedAmount());
-			this.customerBalance += amount;
-			return this.customerBalance;
 		}
 		return null;
 	}
