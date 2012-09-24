@@ -56,6 +56,9 @@ public class BuildAssemblyView extends
 	@Override
 	protected void createControls() {
 
+		Label lab1 = new Label(messages.buildAssembly());
+		lab1.setStyleName("label-title");
+
 		itemCombo = new InventoryAssemblyItemCombo(messages.assemblyItem());
 		itemCombo.setRequired(true);
 
@@ -175,6 +178,7 @@ public class BuildAssemblyView extends
 		bottomPanel.add(panel);
 
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
+		mainPanel.add(lab1);
 		mainPanel.add(topPanel);
 		Label assemblyTableTitle = new Label(messages2.table(messages
 				.assemblyItem()));
@@ -182,6 +186,7 @@ public class BuildAssemblyView extends
 		StyledPanel itemPanel = new StyledPanel("assemblyTableContainer");
 		itemPanel.add(assemblyTableTitle);
 		itemPanel.add(itemTable);
+
 		mainPanel.add(itemPanel);
 		mainPanel.add(bottomPanel);
 

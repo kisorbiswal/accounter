@@ -3,11 +3,11 @@ package com.vimukti.accounter.web.client.ui.settings;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
+import com.vimukti.accounter.web.client.ui.GwtTabPanel;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -44,7 +45,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	private Label pageSizeLabel, logoLabel, termsLabel;
-	private DecoratedTabPanel tabSet;
+	private GwtTabPanel tabSet;
 	private RadioButton a4Button, usLetterButton, leftRadioButton,
 			rightRadioButton, cmButton, inchButton;
 	private StyledPanel checkBoxPanel, radioButtonPanel,
@@ -85,11 +86,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	public void init() {
 		super.init();
 		this.getElement().setId("NewBrandingThemeView");
-		try {
-			createControls();
-		} catch (Exception e) {
-			System.err.println(e);
-		}
+		createControls();
 	}
 
 	@Override
@@ -142,14 +139,15 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	}
 
 	private void createControls() {
-		tabSet = new DecoratedTabPanel();
-
+		tabSet = (GwtTabPanel) GWT.create(GwtTabPanel.class);
 		tabSet.add(getGeneralLayout(), messages.general());
 		tabSet.add(getTemplateLayout(), messages.templates());
 		tabSet.selectTab(0);
 		// tabSet.setSize("100%", "100%");
 
-		this.add(tabSet);
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		mainVLay.add(tabSet.getPanel());
+		this.add(mainVLay);
 	}
 
 	private StyledPanel getGeneralLayout() {

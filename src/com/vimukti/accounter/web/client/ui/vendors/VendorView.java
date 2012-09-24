@@ -162,6 +162,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	private ArrayList<DynamicForm> listforms;
 
+	private StyledPanel hPanel;
 	protected ClientTAXCode selectTaxCodeFromDetailsTab;
 	protected ClientTAXItem selectTaxItemFromDetailsTab;
 	public CustomFieldDialog customFieldDialog;
@@ -479,21 +480,6 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		Label l1 = new Label(messages.contacts());
 
-		addButton = new AddButton(messages.contact());
-
-		addButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				ClientContact clientContact = new ClientContact();
-				gridView.setEnabled(true);
-				if (gridView.getRecords().isEmpty()) {
-					clientContact.setPrimary(true);
-				}
-				gridView.add(clientContact);
-			}
-		});
-
 		gridView = new ContactsTable() {
 
 			@Override
@@ -517,12 +503,11 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 		};
 		panel.add(l1);
-		StyledPanel hPanel = new StyledPanel("addnew_edit_panel");
+		hPanel = new StyledPanel("addnew_edit_panel");
 		Label contactTableTitle = new Label(messages.contacts());
 		contactTableTitle.addStyleName("editTableTitle");
 		hPanel.add(contactTableTitle);
 		hPanel.add(gridView);
-		hPanel.add(addButton);
 		panel.add(hPanel);
 		addButton.setEnabled(!isInViewMode());
 
@@ -1576,5 +1561,30 @@ public class VendorView extends BaseView<ClientVendor> {
 	@Override
 	protected boolean canVoid() {
 		return false;
+	}
+
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+
+		addButton = getAddButton();
+		addButton(hPanel, addButton);
+	}
+
+	private AddButton getAddButton() {
+		AddButton addButton = new AddButton(messages.addNew(messages.contact()));
+		addButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ClientContact clientContact = new ClientContact();
+				gridView.setEnabled(true);
+				if (gridView.getRecords().isEmpty()) {
+					clientContact.setPrimary(true);
+				}
+				gridView.add(clientContact);
+			}
+		});
+		return addButton;
 	}
 }

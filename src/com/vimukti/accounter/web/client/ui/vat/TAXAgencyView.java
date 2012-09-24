@@ -87,6 +87,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private TAXFilingFrequencyCombo tAXFilingFrequency;
 
+	private StyledPanel mainVLay;
+	private StyledPanel contactsPanel;
+
 	public TAXAgencyView() {
 		super();
 		this.getElement().setId("TAXAgencyView");
@@ -110,7 +113,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		StyledPanel topLayout = getTopLayout();
 
-		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		mainVLay = new StyledPanel("mainVLay");
 		// mainVLay.setSize("100%", "100%");
 		mainVLay.add(topLayout);
 
@@ -304,7 +307,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	}
 
-	protected StyledPanel getTopLayout(){
+	protected StyledPanel getTopLayout() {
 		Label lab;
 		lab = new Label(messages.taxAgency());
 		taxAgencyText = new TextItem(messages.taxAgency(), "taxAgencyText");
@@ -452,19 +455,18 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoForm.add(memoArea);
 		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		addButton = new AddButton(messages.contact());
-		addButton.setEnabled(!isInViewMode());
-		// addButton.setStyleName("addButton");
-		addButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				ClientContact clientContact = new ClientContact();
-				gridView.setEnabled(!isInViewMode());
-				// clientContact.setName("");
-				gridView.add(clientContact);
-			}
-		});
+		// addButton = new AddButton(messages.contact());
+		// addButton.setEnabled(!isInViewMode());
+		// // addButton.setStyleName("addButton");
+		// addButton.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// ClientContact clientContact = new ClientContact();
+		// gridView.setEnabled(!isInViewMode());
+		// gridView.add(clientContact);
+		// }
+		// });
 
 		// For Editing taxAgency
 
@@ -530,9 +532,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		}
 		mainVlay.add(contHLay);
 
-		StyledPanel contactsPanel = new StyledPanel("addnew_edit_panel");
+		contactsPanel = new StyledPanel("addnew_edit_panel");
 		contactsPanel.add(gridView);
-		contactsPanel.add(addButton);
+		// contactsPanel.add(addButton);
 
 		StyledPanel panel = new StyledPanel("panel");
 		// panel.getElement().getStyle().setMarginTop(8, Unit.PX);
@@ -1007,5 +1009,33 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	@Override
 	protected boolean canVoid() {
 		return false;
+	}
+
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		addButton = getAddButton();
+		addButton(contactsPanel, addButton);
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(contactsPanel, addButton);
+	}
+
+	private AddButton getAddButton() {
+		AddButton addButton = new AddButton(messages.addNew(messages.contact()));
+		addButton.setEnabled(!isInViewMode());
+		addButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ClientContact clientContact = new ClientContact();
+				gridView.setEnabled(!isInViewMode());
+				gridView.add(clientContact);
+			}
+		});
+		return addButton;
 	}
 }

@@ -1682,17 +1682,17 @@ select:hover{
 }
 .setup_panel .industry_subindustry_panel,#companiesPanel .companies-list,
 .abstract_base_view .mainVLay,#InvoiceView .mainVLay,#PreferenceSettingsView .preferences_page,#CheckPrintingSettingView .allPanel,.companyInfoPanel .CompanyInfoOption,
-#TDSDeductorDetailsView .panel1,#TDSDeductorDetailsView .panel1 .taxDynamicForm,#TDSResponsiblePersonDetailsView .horizontalPanel,
+#TDSDeductorDetailsView .panel2,#TDSDeductorDetailsView .panel1 .taxDynamicForm,#TDSResponsiblePersonDetailsView .horizontalPanel,
 #EmailView .mainPanel,#paybillview,#paybillview .gridLayout,.groupPanel .generalTab .topHLay,.groupPanel .detailsTab,
 .progress_panel_show .viewPanel .company_Info_table,#TAXAgencyView .mainVlay,#InventoryAssemblyView .topHLay,
-#InventoryAssemblyView .topPanel2,#NewFixedAssetView .mainVPanel,#CustomerView .rightVLay,#VendorView .rVLayout,
+#InventoryAssemblyView .topPanel2,#NewFixedAssetView .mainVPanel,#CustomerView .rightVLay,#NewBrandingThemeView .mainLayoutPanel,#NewBrandingThemeView .hPanel,#VendorView .rVLayout,
 .trackTaxhidePanel,#ReceivePaymentView .gridLayout,#WareHouseView .mainHLay,#DepositView .mainPanel,
 #TDSDeductorDetailsView .panel1 .otherDynamicForm,#TDSChalanDetailsView .verticalPanel,#CashPurchaseView .itemsFlowPanel .win8editrowPanel,
 .report-section .report-left-panel,.report-section .report-right-panel,#customercreditmemoview .customerCreditMemoViewPanel,
 #NewEmployeeView .mainPanel,#NewEmployeeView .firstPanel .empDetailsInfoForm,.attachment_panel .attachmentTable,
 .attachment_panel .mainPanel,#invoicebrandingview .mainPanel,#invoicebrandingview .mainPanel .setting-class-panel,
 .view-gwt-dialog .mainPanel,#ETdsFillingView .win8editrowPanel,#CheckPrintingSettingView .checkprintbox .allFields,
-#CheckPrintingSettingView .allPanel .verticalPanel .chequeLeftScal,#CustomerView .customFields{
+#CheckPrintingSettingView .allPanel .verticalPanel .chequeLeftScal,#CustomerView .customFields,#BuildAssemblyView .mainPanel,#TDSResponsiblePersonDetailsView .verticalPanel{
 	/* height: 100%;
 	column-width: 300px; */
 	
@@ -1734,7 +1734,7 @@ select:hover{
 }
 .progress_panel_show .view_panel,.setup_panel .setup_common_head,.abstract_base_view,.portletPagePanel,
 .abstract_base_view .mainVLay,#TDSDeductorDetailsView .panel1,#EmailView .mainPanel,#PreferenceSettingsView .mainPanel,
-.companies-list,.report-section,#NewEmployeeView .mainPanel,.view-gwt-dialog .mainPanel{
+.companies-list,.report-section,#NewEmployeeView .mainPanel,.view-gwt-dialog .mainPanel,#TDSResponsiblePersonDetailsView .verticalPanel,#TDSDeductorDetailsView .panel2{
     overflow-x: auto;
     overflow-y: hidden;
     /*width:100%;*/
@@ -2102,7 +2102,7 @@ a:hover,.subMenuName:hover{
 }
 #VendorView .tabPanel,#VendorView .generalTab,#VendorView .fields-panel,#AbstractFileTAXView .topLayout,
 #CustomerView .tabPanel,#CustomerView .generalTab,#CustomerView .fields-panel,.groupPanel .generalTab,
-#AbstractFileTAXView .topLayout .topForm{
+#AbstractFileTAXView .topLayout .topForm,#NewBrandingThemeView .tabPanel,#NewBrandingThemeView .button_textBoxPanel{
 	display:-ms-flexbox;
 }
 .tabTitle{
@@ -2182,12 +2182,6 @@ table.gridBody tr{
 .disclosurePanelcontent .itemsFlowPanel,.tabPanel,#TransactionsListView .form,#SalesTaxGroupListView .bodyLayout,
 #CustomerRefundView .hLay{
 	display: -ms-flexbox;
-}
-#TDSDeductorDetailsView .panel2{
-	height: 100%;
-}
-#TDSDeductorDetailsView .panel1 .taxDynamicForm,#TDSDeductorDetailsView .panel1 .otherDynamicForm{
-	height: 550px !important;
 }
 .portletPage .fTablePortlet{
 	width: 100%;
@@ -2369,7 +2363,7 @@ table.gridBody .gridEvenRow{
 	margin-top: 11px;
 	position: relative;
 }
-.customComboItem,#CustomerView .panel{
+.customComboItem,#CustomerView .panel,#NewBrandingThemeView .panel{
 	display: -ms-flexbox;
 }
 .gridBodyContainer div:first-child,.gridBody,.gridHeader,.gridBody tbody{
@@ -2916,8 +2910,6 @@ progress:indeterminate.in-prog {
 #InventoryCentreView .mainPanel{
 	height: 100%;
 }
-#TDSDeductorDetailsView .panel2{
-	display: -ms-flexbox;
-	-ms-flex-direction: row;
-	-ms-flex-wrap: wrap;
+.contHLay {
+    display:none;
 }

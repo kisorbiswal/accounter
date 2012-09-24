@@ -75,6 +75,7 @@ public class JournalEntryView extends
 	private ArrayList<DynamicForm> listforms;
 	private AddButton addButton;
 	private final boolean locationTrackingEnabled;
+	private StyledPanel mainVLay;
 
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY);
@@ -332,27 +333,27 @@ public class JournalEntryView extends
 		initListGrid();
 		// grid.initTransactionData();
 		gridPanel = new StyledPanel("gridPanel");
-		addButton = new AddButton(messages.transaction());
-		addButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addEmptRecords();
-			}
-		});
+		// addButton = new AddButton(messages.transaction());
+		// addButton.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// addEmptRecords();
+		// }
+		// });
 		Label tableTitle = new Label(messages2.table(messages.journalEntries()));
 		tableTitle.addStyleName("editTableTitle");
 		gridPanel.add(tableTitle);
 		gridPanel.add(grid);
 
-		StyledPanel hPanel = new StyledPanel("hPanel");
-		hPanel.add(addButton);
+		// StyledPanel hPanel = new StyledPanel("hPanel");
+		// hPanel.add(addButton);
 		// hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 		// hPanel.getElement().getStyle().setFloat(Float.LEFT);
 
-		gridPanel.add(hPanel);
+		// gridPanel.add(hPanel);
 
-		addButton.setEnabled(!isInViewMode());
+		// addButton.setEnabled(!isInViewMode());
 		dateForm = new DynamicForm("dateForm");
 		dateForm.setStyleName("datenumber-panel");
 
@@ -434,7 +435,7 @@ public class JournalEntryView extends
 		if (isMultiCurrencyEnabled())
 			leftVLay.add(currencyCombo);
 
-		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		mainVLay = new StyledPanel("mainVLay");
 
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
@@ -864,5 +865,31 @@ public class JournalEntryView extends
 	@Override
 	public boolean allowEmptyTransactionItems() {
 		return false;
+	}
+
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		addButton = getAddNewButton();
+		addButton(gridPanel, addButton);
+	}
+
+	private AddButton getAddNewButton() {
+		AddButton addButton = new AddButton(messages.addNew(messages.Account()));
+		addButton.setEnabled(!isInViewMode());
+		addButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addEmptRecords();
+			}
+		});
+		return addButton;
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(gridPanel, addButton);
 	}
 }
