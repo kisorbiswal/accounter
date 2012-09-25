@@ -1,15 +1,26 @@
 package com.vimukti.accounter.ws;
 
+import java.util.HashMap;
+
+import org.apache.log4j.Logger;
 import org.eclipse.jetty.io.ByteArrayBuffer;
 import org.eclipse.jetty.server.LocalConnector;
 import org.eclipse.jetty.websocket.WebSocket.OnTextMessage;
 
 class AccounterWebSocket implements OnTextMessage {
 
+	Logger log = Logger.getLogger(AccounterWebSocket.class);
+
+	private static final int MAX_MESSAGE = 16000;
+
+	private static final String MESSAGE_END = "#*";
+
 	/**
 	 * 
 	 */
 	private final WebSocketHandler webSocketHandler;
+
+	private HashMap<Integer, String> message = new HashMap<Integer, String>();
 
 	/**
 	 * @param webSocketHandler
@@ -42,11 +53,30 @@ class AccounterWebSocket implements OnTextMessage {
 				return;
 			}
 			int id = Integer.parseInt(req.substring(0, index));
+
 			req = req.substring(index + 1);
-			ByteArrayBuffer responses = connector.getResponses(
-					new ByteArrayBuffer(req, "UTF-8"), true);
-			String resp = responses.toString("UTF-8");
-			connection.sendMessage(id + ":" + resp);
+
+			String fullMessage = "";
+			if (message.get(id) != null) {
+				fullMessage = message.get(id);
+				log.info("Got next part of messages.");
+			}
+
+			if (req.length() > MAX_MESSAGE && req.endsWith(MESSAGE_END)) {
+				log.info("Got partial messages. Waiting for next part...");
+				fullMessage += req.substring(0, req.length() - 2);
+				message.put(id, fullMessage);
+			} else {
+				fullMessage += req;
+				System.out.println(fullMessage);
+				log.info("Got complete message. Processing it...");
+				ByteArrayBuffer responses = connector.getResponses(
+						new ByteArrayBuffer(fullMessage, "UTF-8"), true);
+				String resp = responses.toString("UTF-8");
+
+				connection.sendMessage(id + ":" + resp);
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
