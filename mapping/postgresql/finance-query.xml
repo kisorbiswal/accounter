@@ -870,6 +870,7 @@
 				       AND T.SAVE_STATUS != 202
 				       AND ( EB.BALANCE_DUE > 0.0 )
 				       AND T.COMPANY_ID = :companyId  
+				ORDER BY T.T_DATE, T.ID
 				]]>
 
 	</sql-query>
@@ -942,6 +943,7 @@
 				       AND ( EB.BALANCE_DUE > 0.0 )
 				       AND ( EB.VENDOR_ID = :vendorId )
 				       AND T.COMPANY_ID = :companyId  
+				ORDER BY T.T_DATE, T.ID
 				]]>
 
 	</sql-query>
@@ -1002,6 +1004,7 @@
 				              OR CR.CUSTOMER_ID = :customerId )
 				       AND T.SAVE_STATUS = 203
 				       AND T.COMPANY_ID = :companyId  
+				ORDER BY T.T_DATE, T.ID
 				]]>
 
 	</sql-query>
@@ -5279,8 +5282,7 @@
 				             OR P.ID = CP.VENDOR_ID
 				             OR P.ID = EX.ID
 				       LEFT OUTER JOIN COMPANY CM ON CM.ID =:companyId      
-				WHERE  T.T_TYPE IN ( 3, 6, 11, 14,
-				                     15, 16, 25, 26, 27 )
+				WHERE  T.T_TYPE IN (6, 11, 14, 16, 25 )
 				       AND P.ID = :payeeId
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				       AND T.SAVE_STATUS =203
