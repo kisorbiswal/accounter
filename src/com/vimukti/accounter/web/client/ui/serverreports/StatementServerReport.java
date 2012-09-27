@@ -47,6 +47,16 @@ public class StatementServerReport extends
 		case 2:
 			return record.getTransactionNumber();
 		case 3:
+			if (record.getTotal() == 0) {
+				return record.getBalance();
+			} else {
+				Boolean positive = isVendor ? record.isPositiveForVendor()
+						: record.isPositiveForCustomer();
+				if (positive != null) {
+					double total = (positive ? 1 : -1) * record.getTotal();
+					return total;
+				}
+			}
 			return record.getTotal();
 		case 4:
 			if (sectionName == null

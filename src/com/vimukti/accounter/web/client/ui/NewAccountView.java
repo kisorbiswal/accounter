@@ -956,7 +956,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					&& accountType != ClientAccount.TYPE_CREDIT_CARD
 					&& accountType != ClientAccount.TYPE_PAYPAL) {
 				defaultId = String.valueOf(UIUtils.accountTypes[0]);
-				accountType = UIUtils.accountTypes[0];
+				if (accountType == 0) {
+					accountType = UIUtils.accountTypes[0];
+				}
 			}
 		}
 		return list;
