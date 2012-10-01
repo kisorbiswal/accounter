@@ -1,0 +1,8 @@
+*.cs     text=auto diff=csharp 
+*.java   text=auto
+*.html   text=auto
+*.css    text=auto
+*.js     text=auto
+*.sql    text=auto
+*.xml    text=auto
+*.css    text=auto
