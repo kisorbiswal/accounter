@@ -228,7 +228,7 @@ public class AccounterWindowsHomeServiceImpl extends
 					// Send to SignUp Success View
 					transaction.commit();
 				} else {
-					errorMsg = "This Email ID is already registered with Accounter, try to signup with another Email ID. If you are the registered user click <a href=\"/main/login\">here</a> to login.";
+					errorMsg = "This Email ID is already registered with Accounter, try to signup with another Email ID";
 					throw new StartupException(errorMsg);
 				}
 			} else {

@@ -2881,7 +2881,7 @@ progress:indeterminate.in-prog {
 }
 .setup_panel .setup_common_head {
 	display: -ms-flexbox;
-	height: 450px;
+	height: 480px;
 	-ms-flex-direction: column;
 }
 .setup_panel .viewButtonPanel .view_panel{
