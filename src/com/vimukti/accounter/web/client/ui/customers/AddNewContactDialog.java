@@ -25,7 +25,6 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 		super(title, descript);
 		this.getElement().setId("AddNewContactDialog");
 		createControls();
-		center();
 	}
 
 	private void createControls() {

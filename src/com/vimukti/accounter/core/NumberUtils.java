@@ -351,6 +351,9 @@ public class NumberUtils {
 		String preNumber = lastNum;
 		long max = 0;
 		label: for (String s : list) {
+			if (s.isEmpty()) {
+				continue;
+			}
 			char[] charArray = s.toCharArray();
 			for (int idx = 0; idx < charArray.length; idx++) {
 				char ch = charArray[idx];

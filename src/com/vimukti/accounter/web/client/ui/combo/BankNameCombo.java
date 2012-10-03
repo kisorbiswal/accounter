@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientBank;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.company.AddBankDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class BankNameCombo extends CustomCombo<ClientBank> {
 
@@ -39,6 +40,7 @@ public class BankNameCombo extends CustomCombo<ClientBank> {
 				createAddNewCallBack().onException(exception);
 			}
 		});
+		ViewManager.getInstance().showDialog(bankNameDialog);
 	}
 
 	@Override

@@ -1630,6 +1630,7 @@
 		<property name="daysInAdvanceToCreate" column="DAYS_IN_ADVANCE"></property>
 		<property name="daysBeforeToRemind" column="DAYS_BEFORE_REMIND"></property>
 		<property name="type" column="RECURRING_TYPE"></property>
+		<property name="status" column="STATUS"></property>
 		<set name="reminders" inverse="true" cascade="all-delete-orphan"
 			lazy="false">
 			<key column="RECURRING_TRANSACTION"></key>

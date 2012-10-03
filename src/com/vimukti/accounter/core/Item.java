@@ -442,6 +442,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			} else {
 				averageCost = standardCost;
 			}
+		} else {
+			if (onHandQty != null && onHandQty.getUnit() == null) {
+				onHandQty.setUnit(getMeasurement().getDefaultUnit());
+			}
 		}
 		ChangeTracker.put(this);
 		setDepth(getDepthCount());

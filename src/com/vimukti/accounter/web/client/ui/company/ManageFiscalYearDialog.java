@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class ManageFiscalYearDialog extends BaseDialog {
@@ -138,8 +139,9 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new ChangeFiscalYearStartDateDialog(messages.changeStartDate(),
-						"", listOfperiods);
+				ChangeFiscalYearStartDateDialog dialog = new ChangeFiscalYearStartDateDialog(
+						messages.changeStartDate(), "", listOfperiods);
+				ViewManager.getInstance().showDialog(dialog);
 			}
 		});
 

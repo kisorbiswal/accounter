@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -190,11 +189,15 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 		if (saveAndClose) {
 			getManager().closeCurrentView();
 		} else {
-			if (!History.getToken().equals(getAction().getHistoryToken())) {
-
+			// if (!History.getToken().equals(getAction().getHistoryToken())) {
+			//
+			// }
+			if (getManager() != null) {
+				getManager().closeCurrentView(false);
 			}
-			getManager().closeCurrentView(false);
-			getAction().run(null, getAction().isDependent());
+			if (getAction() != null) {
+				getAction().run(null, getAction().isDependent());
+			}
 		}
 	}
 

@@ -56,7 +56,6 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		this.brandingTheme = theme;
 		this.fileTypes = new String[] { "odt", "docx" };
 		doCreateContents();
-		center();
 	}
 
 	protected void doCreateContents() {

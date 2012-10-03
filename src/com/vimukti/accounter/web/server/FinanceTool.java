@@ -2511,56 +2511,61 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		FlushMode flushMode = session.getFlushMode();
 		session.setFlushMode(FlushMode.COMMIT);
+		try {
+			Transaction transaction = recurringTransaction.getTransaction();
 
-		Transaction transaction = recurringTransaction.getTransaction();
-
-		Transaction newTransaction = transaction.clone();
-		newTransaction.setCompany(recurringTransaction.getCompany());
-		newTransaction.setRecurringTransaction(recurringTransaction);
-		newTransaction.setNumber(NumberUtils.getNextTransactionNumber(
-				newTransaction.getType(), recurringTransaction.getCompany()));
-		for (TransactionItem transactionItem : newTransaction
-				.getTransactionItems()) {
-			transactionItem.setTransaction(newTransaction);
-			transactionItem.setReferringTransactionItem(null);
-			transactionItem.setPurchases(new HashSet<InventoryPurchase>());
-		}
-		FinanceDate transactionDate = recurringTransaction
-				.getNextScheduledTransactionDate();
-		if (transactionDate != null) {
-			newTransaction.setDate(transactionDate);
-			if (newTransaction instanceof Invoice) {
-				((Invoice) newTransaction).setDueDate(transactionDate);
-				((Invoice) newTransaction).setDeliverydate(transactionDate);
-			} else if (newTransaction instanceof EnterBill) {
-				((EnterBill) newTransaction).setDueDate(transactionDate);
-				((EnterBill) newTransaction).setDeliveryDate(transactionDate);
-			} else if (newTransaction instanceof CashPurchase) {
-				((CashPurchase) newTransaction)
-						.setDeliveryDate(transactionDate);
-			} else if (newTransaction instanceof Estimate) {
-				((Estimate) newTransaction).setExpirationDate(transactionDate);
-				((Estimate) newTransaction).setDeliveryDate(transactionDate);
-			} else if (newTransaction instanceof MakeDeposit) {
-				for (TransactionDepositItem transactionItem : ((MakeDeposit) newTransaction)
-						.getTransactionDepositItems()) {
-					transactionItem.setTransaction(newTransaction);
+			Transaction newTransaction = transaction.clone();
+			newTransaction.setCompany(recurringTransaction.getCompany());
+			newTransaction.setRecurringTransaction(recurringTransaction);
+			newTransaction
+					.setNumber(NumberUtils.getNextTransactionNumber(
+							newTransaction.getType(),
+							recurringTransaction.getCompany()));
+			for (TransactionItem transactionItem : newTransaction
+					.getTransactionItems()) {
+				transactionItem.setTransaction(newTransaction);
+				transactionItem.setReferringTransactionItem(null);
+				transactionItem.setPurchases(new HashSet<InventoryPurchase>());
+			}
+			FinanceDate transactionDate = recurringTransaction
+					.getNextScheduledTransactionDate();
+			if (transactionDate != null) {
+				newTransaction.setDate(transactionDate);
+				if (newTransaction instanceof Invoice) {
+					((Invoice) newTransaction).setDueDate(transactionDate);
+					((Invoice) newTransaction).setDeliverydate(transactionDate);
+				} else if (newTransaction instanceof EnterBill) {
+					((EnterBill) newTransaction).setDueDate(transactionDate);
+					((EnterBill) newTransaction)
+							.setDeliveryDate(transactionDate);
+				} else if (newTransaction instanceof CashPurchase) {
+					((CashPurchase) newTransaction)
+							.setDeliveryDate(transactionDate);
+				} else if (newTransaction instanceof Estimate) {
+					((Estimate) newTransaction)
+							.setExpirationDate(transactionDate);
+					((Estimate) newTransaction)
+							.setDeliveryDate(transactionDate);
+				} else if (newTransaction instanceof MakeDeposit) {
+					for (TransactionDepositItem transactionItem : ((MakeDeposit) newTransaction)
+							.getTransactionDepositItems()) {
+						transactionItem.setTransaction(newTransaction);
+					}
 				}
 			}
+			newTransaction
+					.setAccountTransactionEntriesList(new HashSet<AccountTransaction>());
+			newTransaction
+					.setTaxRateCalculationEntriesList(new HashSet<TAXRateCalculation>());
+			newTransaction
+					.setReconciliationItems(new HashSet<ReconciliationItem>());
+			newTransaction.setAttachments(new HashSet<Attachment>());
+			newTransaction.setLastActivity(null);
+			newTransaction.setHistory(null);
+			return newTransaction;
+		} finally {
+			session.setFlushMode(flushMode);
 		}
-		newTransaction
-				.setAccountTransactionEntriesList(new HashSet<AccountTransaction>());
-		newTransaction
-				.setTaxRateCalculationEntriesList(new HashSet<TAXRateCalculation>());
-		newTransaction
-				.setReconciliationItems(new HashSet<ReconciliationItem>());
-		newTransaction.setAttachments(new HashSet<Attachment>());
-		newTransaction.setLastActivity(null);
-		newTransaction.setHistory(null);
-
-		session.setFlushMode(flushMode);
-
-		return newTransaction;
 	}
 
 	/**

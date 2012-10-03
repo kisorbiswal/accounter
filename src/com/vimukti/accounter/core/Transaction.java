@@ -1200,7 +1200,6 @@ public abstract class Transaction extends CreatableObject implements
 		clone.setPayeeUpdates(new HashSet<PayeeUpdate>());
 		clone.setItemUpdates(new HashSet<ItemUpdate>());
 		clone.setInventoryHistory(new HashSet<InventoryHistory>());
-		
 
 		return clone;
 	}
@@ -1627,13 +1626,13 @@ public abstract class Transaction extends CreatableObject implements
 			if (getAccounterClass() != null) {
 				throw new AccounterException(
 						AccounterException.ERROR_PERMISSION_DENIED,
-						"You can't use Class");
+						"Class feature is not available for you");
 			}
 			for (TransactionItem item : transactionItems) {
 				if (item.getAccounterClass() != null) {
 					throw new AccounterException(
 							AccounterException.ERROR_PERMISSION_DENIED,
-							"You can't use Class");
+							"Class feature is not available for you");
 				}
 			}
 		}
@@ -1642,7 +1641,7 @@ public abstract class Transaction extends CreatableObject implements
 			if (!attachments.isEmpty()) {
 				throw new AccounterException(
 						AccounterException.ERROR_PERMISSION_DENIED,
-						"You can't add Attchments");
+						"Attachment feature is not available for you");
 			}
 		}
 
@@ -1653,7 +1652,7 @@ public abstract class Transaction extends CreatableObject implements
 							|| item.getItem().getType() == Item.TYPE_INVENTORY_PART) {
 						throw new AccounterException(
 								AccounterException.ERROR_PERMISSION_DENIED,
-								"You can't use Class");
+								"Inventory feature is not available for you");
 					}
 				}
 			}

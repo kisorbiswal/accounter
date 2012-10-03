@@ -24,7 +24,6 @@ public class AddBankDialog extends BaseDialog {
 		this.getElement().setId("AddBankDialog");
 
 		createControls();
-		center();
 	}
 
 	private void createControls() {

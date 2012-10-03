@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.AddNewContactDialog;
 
 public class ContactCombo extends CustomCombo<ClientContact> {
@@ -9,11 +10,11 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 	private ValueCallBack<ClientContact> newContactHandler;
 
 	public ContactCombo(String title) {
-		super(title, false, 1,"contactCombo");
+		super(title, false, 1, "contactCombo");
 	}
 
 	public ContactCombo(String contact, boolean b) {
-		super(contact, b, 1,"contactCombo");
+		super(contact, b, 1, "contactCombo");
 	}
 
 	@Override
@@ -36,6 +37,7 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 			}
 		};
 		addNewContactDialog.addSuccessCallback(newContactHandler);
+		ViewManager.getInstance().showDialog(addNewContactDialog);
 	}
 
 	public void setDefaultToFirstOption(boolean b) {

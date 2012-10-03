@@ -59,17 +59,14 @@ class AccounterWebSocket implements OnTextMessage {
 			String fullMessage = "";
 			if (message.get(id) != null) {
 				fullMessage = message.get(id);
-				log.info("Got next part of messages.");
 			}
 
 			if (req.length() > MAX_MESSAGE && req.endsWith(MESSAGE_END)) {
-				log.info("Got partial messages. Waiting for next part...");
 				fullMessage += req.substring(0, req.length() - 2);
 				message.put(id, fullMessage);
 			} else {
 				fullMessage += req;
-				System.out.println(fullMessage);
-				log.info("Got complete message. Processing it...");
+				log.info("Got message from WebSocket. Processing it...");
 				ByteArrayBuffer responses = connector.getResponses(
 						new ByteArrayBuffer(fullMessage, "UTF-8"), true);
 				String resp = responses.toString("UTF-8");

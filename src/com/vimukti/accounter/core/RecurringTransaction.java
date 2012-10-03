@@ -86,6 +86,13 @@ public class RecurringTransaction extends CreatableObject implements
 	public final static int ACTION_APPROVE = 1;
 	public final static int ACTION_APPROVE_SEND = 2;
 
+	/*-------------
+	 * STATUS
+	 *-------------*/
+
+	public static final int STATUS_SUCCESS = 1;
+	public static final int STATUS_FAILED = 2;
+
 	private FinanceDate startDate;
 	private FinanceDate endDate; // Optional
 
@@ -173,6 +180,8 @@ public class RecurringTransaction extends CreatableObject implements
 	 * won't create next schedule.
 	 */
 	private boolean stopped;
+
+	private int status;
 
 	public RecurringTransaction() {
 
@@ -892,5 +901,13 @@ public class RecurringTransaction extends CreatableObject implements
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().startDate());
 		}
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }

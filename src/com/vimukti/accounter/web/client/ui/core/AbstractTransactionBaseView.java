@@ -637,10 +637,18 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (caught.getMessage() != null) {
 			message = caught.getMessage();
 		}
+		String errMsg = null;
 		if (exception.getErrorCode() != 0) {
-			message = AccounterExceptions.getErrorString(exception);
+			errMsg = AccounterExceptions.getErrorString(exception);
 		} else {
-			message = messages.failedTransaction(transName);
+			errMsg = messages.failedTransaction(transName);
+		}
+
+		if (message == null) {
+			message = "";
+		}
+		if (errMsg != null) {
+			message = errMsg + "<br/>" + message;
 		}
 
 		Accounter.showError(message);

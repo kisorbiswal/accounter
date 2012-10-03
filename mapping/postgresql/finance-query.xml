@@ -12172,12 +12172,14 @@
 		]]>
 	</sql-query>
 	<sql-query name="getPresentRecurringTransactions">
+		<return-scalar column="RECURRING_ID" type="long" />
 		<![CDATA[
-				SELECT r.*
+				SELECT r.id as RECURRING_ID
 				FROM   recurring_transaction r
 				       left join company c
 				         ON c.id = r.company_id
 				WHERE  r.stopped = false
+					   AND r.status!=2
 				       AND r.recurring_type != 2
 				       AND ( ( Cast(
 				       				To_char(Cast(
@@ -12570,6 +12572,13 @@
 		SELECT T.NUMBER FROM TRANSACTION T WHERE T.T_TYPE= :transactionType AND T.COMPANY_ID= :companyId
 		ORDER BY T.number desc, t.id desc
 	</sql-query>
+	
+	<sql-query name="make.RecurringTranscation.Fail">
+		<query-param name="rtId" type="long" />
+		UPDATE RECURRING_TRANSACTION SET STATUS=2 WHERE ID=	:rtId
+	</sql-query>
+		
+	
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.UploadTemplateFileDialog;
 import com.vimukti.accounter.web.client.ui.core.NewBrandCustomThemeAction;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 /**
@@ -280,6 +281,7 @@ public class InvoiceBrandingView<T> extends
 				};
 				UploadTemplateFileDialog uploadDialog = new UploadTemplateFileDialog(
 						"Upload Custom Templates", "parent", callback, theme);
+				ViewManager.getInstance().showDialog(uploadDialog);
 			}
 		});
 

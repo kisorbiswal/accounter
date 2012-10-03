@@ -30,8 +30,6 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 		this.listofperiods = listOfperiods;
 		createControls();
 		initData();
-		center();
-
 	}
 
 	private void initData() {
