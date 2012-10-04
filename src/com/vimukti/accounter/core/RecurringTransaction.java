@@ -238,6 +238,10 @@ public class RecurringTransaction extends CreatableObject implements
 		return nextScheduleOn == null ? startDate : nextScheduleOn;
 	}
 
+	private FinanceDate getInitialDateForPreviousSchedule() {
+		return prevScheduleOn == null ? startDate : prevScheduleOn;
+	}
+
 	public int getIntervalPeriod() {
 		return intervalPeriod;
 	}
@@ -482,6 +486,23 @@ public class RecurringTransaction extends CreatableObject implements
 			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
 					.getTime() : null;
 		}
+
+		@Override
+		public Date previous() {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(getInitialDateForPreviousSchedule()
+					.getAsDateObject());
+			// This is condition is placed because for the first time no need to
+			// add interval period.
+			if (isScheduled()) {
+				calendar.add(Calendar.DATE, -intervalPeriod);
+			} else {
+				// add the daysInAdvanceToCreate days from actual date.
+				// calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
+			}
+			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
+					.getTime() : null;
+		}
 	}
 
 	/**
@@ -507,6 +528,32 @@ public class RecurringTransaction extends CreatableObject implements
 
 			if (isScheduled()) {
 				calendar.add(Calendar.MONTH, intervalPeriod);
+			} else {
+				// not scheduled yet, so we need to reduce the
+				// daysInAdvanced from the actual date
+				// calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
+			}
+
+			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
+					.getTime() : null;
+		}
+
+		@Override
+		public Date previous() {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(getInitialDateForPreviousSchedule()
+					.getAsDateObject());
+			int lastDayOfMonth = dayOfMonth;
+			if (lastDayOfMonth == -1) {
+				lastDayOfMonth = calendar
+						.getActualMaximum(Calendar.DAY_OF_MONTH);
+			}
+			while (calendar.get(Calendar.DAY_OF_MONTH) != lastDayOfMonth) {
+				calendar.add(Calendar.DAY_OF_MONTH, -1);
+			}
+
+			if (isScheduled()) {
+				calendar.add(Calendar.MONTH, -intervalPeriod);
 			} else {
 				// not scheduled yet, so we need to reduce the
 				// daysInAdvanced from the actual date
@@ -570,6 +617,50 @@ public class RecurringTransaction extends CreatableObject implements
 					.getTime() : null;
 		}
 
+		@Override
+		public Date previous() {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(getInitialDateForPreviousSchedule()
+					.getAsDateObject());
+
+			while (calendar.get(Calendar.DAY_OF_WEEK) != weekDay) {
+				calendar.add(Calendar.DAY_OF_MONTH, -1);
+			}
+
+			while (calendar.get(Calendar.WEEK_OF_MONTH) != weekOfMonth) {
+				calendar.add(Calendar.DAY_OF_MONTH, -DAYS_PER_WEEK);
+			}
+
+			if (isScheduled()) {
+				calendar.set(Calendar.DATE, 1);
+				calendar.add(Calendar.MONTH, -intervalPeriod);
+
+				int month;
+
+				do {
+					month = calendar.get(Calendar.MONTH);
+					while (calendar.get(Calendar.DAY_OF_WEEK) != weekDay) {
+						calendar.add(Calendar.DAY_OF_MONTH, -1);
+					}
+
+					while (calendar.get(Calendar.WEEK_OF_MONTH) != weekOfMonth) {
+						calendar.add(Calendar.DAY_OF_MONTH, -DAYS_PER_WEEK);
+						if (calendar.get(Calendar.MONTH) != month)
+							break; // month has been changed.
+					}
+				} while (calendar.get(Calendar.MONTH) != month);
+			}
+
+			if (!isScheduled()) {
+				// not yet scheduled, reduce the daysInAdvance from the actual
+				// date.
+				// calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
+			}
+
+			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
+					.getTime() : null;
+		}
+
 	}
 
 	/**
@@ -607,6 +698,35 @@ public class RecurringTransaction extends CreatableObject implements
 			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
 					.getTime() : null;
 		}
+
+		@Override
+		public Date previous() {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(getInitialDateForPreviousSchedule()
+					.getAsDateObject());
+			int lastDayOfMonth = dayOfMonth;
+			if (lastDayOfMonth == -1) {
+				lastDayOfMonth = calendar
+						.getActualMaximum(Calendar.DAY_OF_MONTH);
+			}
+			while (calendar.get(Calendar.DAY_OF_MONTH) != lastDayOfMonth) {
+				calendar.add(Calendar.DAY_OF_MONTH, -1);
+			}
+
+			while (calendar.get(Calendar.MONTH) != month) {
+				calendar.add(Calendar.MONTH, -1);
+			}
+
+			if (isScheduled()) {
+				calendar.add(Calendar.YEAR, -intervalPeriod);
+			} else {
+				// not yet scheduled, reduce the daysInAdvance from actual date
+				// calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
+			}
+
+			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
+					.getTime() : null;
+		}
 	}
 
 	/**
@@ -625,6 +745,15 @@ public class RecurringTransaction extends CreatableObject implements
 		 */
 		@Nullable
 		Date next();
+
+		/**
+		 * Gives previous scheduling date/time.
+		 * 
+		 * @return date for previous schedule. <b>null</b> if there is no
+		 *         previous schedule.
+		 */
+		@Nullable
+		Date previous();
 	}
 
 	/**
@@ -647,6 +776,28 @@ public class RecurringTransaction extends CreatableObject implements
 			if (isScheduled()) {
 				// 1week = 7 days.
 				calendar.add(Calendar.DATE, intervalPeriod * DAYS_PER_WEEK);
+			} else {
+				// not yet scheduled, reduce the daysInAdvance from the actual
+				// date
+				// calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
+			}
+			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
+					.getTime() : null;
+		}
+
+		@Override
+		public Date previous() {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(getInitialDateForPreviousSchedule()
+					.getAsDateObject());
+
+			while (calendar.get(Calendar.DAY_OF_WEEK) != weekDay) {
+				calendar.add(Calendar.DAY_OF_MONTH, -1);
+			}
+
+			if (isScheduled()) {
+				// 1week = 7 days.
+				calendar.add(Calendar.DATE, -intervalPeriod * DAYS_PER_WEEK);
 			} else {
 				// not yet scheduled, reduce the daysInAdvance from the actual
 				// date
@@ -748,6 +899,30 @@ public class RecurringTransaction extends CreatableObject implements
 		}
 
 		nextScheduleOn = new FinanceDate(nextDate);
+		return true;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean schedulePrevious() {
+		if (isScheduled()) {
+			// checks only if nextScheduleOn available. nextScheduleOn will be
+			// updated next below.
+			occurencesCompleted--;
+		}
+		nextScheduleOn = prevScheduleOn;
+
+		Date prevDate = isStopped() ? null : createScheduleIterator()
+				.previous();
+		if (prevDate == null) {
+			// can't schedule next again.
+			prevScheduleOn = null;
+			return false;
+		}
+
+		prevScheduleOn = new FinanceDate(prevDate);
 		return true;
 	}
 

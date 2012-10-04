@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.server;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -21,7 +22,6 @@ import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.Reminder;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.listeners.StartupScriptRunner;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
@@ -39,17 +39,15 @@ public class RecurringTool extends Thread {
 	@Override
 	public void run() {
 
-		if (ServerConfiguration.shouldRunStartupScripts()) {
-			if (ServerConfiguration.isRunningScript()) {
+		File startupScript = new File("StartupScript");
+
+		if (startupScript.exists()) {
+			StartupScriptRunner instance = StartupScriptRunner.getInstance();
+			if (instance.isRunning()) {
 				return;
 			}
-
-			if (!ServerConfiguration.isScriptRunnerCompleted()) {
-				ServerConfiguration.startScriptRunning();
-				StartupScriptRunner scriptRunner = new StartupScriptRunner();
-				scriptRunner.run();
-				ServerConfiguration.completeScriptRunner();
-			}
+			instance.run();
+			startupScript.delete();
 		}
 
 		log.info("Recurring schedule Started.");
