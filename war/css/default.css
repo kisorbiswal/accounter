@@ -1909,12 +1909,11 @@ button#searchButton:hover{
 #JournalEntryView .textbold,#NewVendorPaymentView .hLay .tdsPanel .boldtext,#CreditCardExpenseView .boldtext,
 #QuoteView .boldtext,#paybillview .unused-payments,#VendorBillView .boldtext,#DepositView .bottomLayout .boldtext,
 #NewVendorPaymentView .boldtext, #ReceivePaymentView .boldtext{
-	width:400px;
 	position: fixed;
 	bottom:100px;
 	font-weight:bold;
 	left:150px;
-	height: 80px;
+	height: 90px;
 	display:-ms-flexbox;
 	-ms-flex-direction: column;
 	-ms-flex-wrap: wrap;
@@ -2579,7 +2578,7 @@ table.gridBody .gridEvenRow{
 	overflow-x: hidden;
 }
 #CustomerCenterView,#vendorCenterView,#InventoryCentreView,#ChartOfAccountsView{
-	height: 115% !important;
+	/*height: 115% !important;*/
 }
 #CustomerCenterView .transactionViewform,#vendorCenterView .transactionViewform,#InventoryCentreView .viewform,
 .transaction_attachment_hpanel,#AddMeasurementView .win8EditTable,#adjusttaxview .memoForm .formItem{
@@ -2912,4 +2911,7 @@ progress:indeterminate.in-prog {
 }
 .contHLay {
     display:none;
+}
+#InvoiceView .panel11,#JournalEntryView .bottomPanel,#QuoteView .mainpanel{
+    margin-bottom: 50px;
 }
