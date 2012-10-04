@@ -12586,6 +12586,11 @@
 		       AND is_automatic_transaction = TRUE
 	</sql-query>
 	
+	<sql-query name="get.recurringTransactions">
+		<return-scalar column="R_ID" type="long" />
+		SELECT id as R_ID
+		FROM RECURRING_TRANSACTION
+	</sql-query>
 	
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
