@@ -61,6 +61,10 @@ public class ServerConfiguration {
 	private static String keyStorePassword;
 	private static String keyPassword;
 
+	private static boolean runStartupScripts;
+	private static boolean isScriptRunnerCompleted;
+	private static boolean isRunningScript;
+
 	public static String getAdminPassword() {
 		return adminpassword;
 	}
@@ -207,6 +211,9 @@ public class ServerConfiguration {
 
 			isDesktopApp = prop.getProperty("isDesktopApp", "true").equals(
 					"true");
+
+			runStartupScripts = prop.getProperty("runStartupScripts", "false")
+					.equals("true");
 
 		} catch (NumberFormatException ne) {
 			System.err
@@ -488,4 +495,24 @@ public class ServerConfiguration {
 		return keyPassword;
 	}
 
+	public static boolean shouldRunStartupScripts() {
+		return runStartupScripts;
+	}
+
+	public static boolean isScriptRunnerCompleted() {
+		return isScriptRunnerCompleted;
+	}
+
+	public static void completeScriptRunner() {
+		isScriptRunnerCompleted = true;
+		isRunningScript = false;
+	}
+
+	public static boolean isRunningScript() {
+		return isRunningScript;
+	}
+
+	public static void startScriptRunning() {
+		isRunningScript = true;
+	}
 }

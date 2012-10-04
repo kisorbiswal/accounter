@@ -1019,6 +1019,7 @@ public abstract class Transaction extends CreatableObject implements
 			}
 			voidTransactionItems();
 			doDeleteEffect(clonedObject);
+			addVoidHistory();
 
 		} else {
 			TransactionEffectsImpl instance = new TransactionEffectsImpl(this);
@@ -1040,9 +1041,9 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	private void doDeleteEffect(Transaction clonedObject) {
-		this.voidCreditsAndPayments(this);
-		addVoidHistory();
 		updateTAxReturnEntries();
+
+		this.voidCreditsAndPayments(this);
 
 		TransactionEffectsImpl instance = new TransactionEffectsImpl(this);
 		instance.doVoid();
@@ -1050,6 +1051,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	private void updateTAxReturnEntries() {
 		Session session = HibernateUtil.getCurrentSession();
+
 		session.getNamedQuery("update.TaxReturnEntry.make.Transaction.null")
 				.setLong("transactionId", getID()).executeUpdate();
 	}

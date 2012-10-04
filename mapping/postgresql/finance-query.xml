@@ -12578,6 +12578,14 @@
 		UPDATE RECURRING_TRANSACTION SET STATUS=2 WHERE ID=	:rtId
 	</sql-query>
 		
+	<sql-query name="get.All.Incorrect.Auto.Transactions">
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		SELECT t.id as TRANSACTION_ID
+		FROM   TRANSACTION t
+		WHERE  t.t_date >= 20120907
+		       AND is_automatic_transaction = TRUE
+	</sql-query>
+	
 	
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

@@ -23,11 +23,6 @@ import com.vimukti.accounter.main.MailLogTailerListener;
 import com.vimukti.accounter.main.MessageLoader;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerGlobal;
-import com.vimukti.accounter.mobile.AccounterChatServer;
-import com.vimukti.accounter.mobile.AccounterMobileException;
-import com.vimukti.accounter.mobile.MobileServer;
-import com.vimukti.accounter.mobile.store.CommandsFactory;
-import com.vimukti.accounter.mobile.store.PatternStore;
 import com.vimukti.accounter.setup.server.DatabaseManager;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
@@ -101,6 +96,7 @@ public class StartUpListener implements ServletContextListener {
 							Global.set(new ServerGlobal());
 						}
 					}
+
 					ServerConfiguration.completeStartup();
 				} catch (Exception e) {
 					e.printStackTrace();
