@@ -166,7 +166,7 @@ public abstract class AbstractView<T> extends FlowPanel {
 	}
 
 	public void updateButtons() {
-
+		showButtonBar();
 	}
 
 	public void setStatus(int status) {

@@ -81,10 +81,8 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		this.getElement().setId("BaseDialog");
 		if (isViewDialog()) {
 			addStyleName("view-gwt-dialog");
-			setModal(false);
-		} else {
-			setModal(true);
 		}
+		setModal(true);
 		getButtonBar().clear();
 	}
 

@@ -480,6 +480,7 @@ public class CustomerCenterView<T> extends
 		detailsPanel.showCustomerDetails(selectedCustomer);
 		custHistoryGrid.setSelectedCustomer(selectedCustomer);
 		MainFinanceWindow.getViewManager().updateButtons();
+		showButtonBar();
 		callRPC(0, getPageSize());
 	}
 

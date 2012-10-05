@@ -509,7 +509,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		hPanel.add(contactTableTitle);
 		hPanel.add(gridView);
 		panel.add(hPanel);
-		addButton.setEnabled(!isInViewMode());
 
 		memoArea = new TextAreaItem(messages.memo(), "memoArea");
 		memoArea.setToolTip(messages.writeCommentsForThis(this.getAction()
@@ -1568,6 +1567,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		super.createButtons();
 
 		addButton = getAddButton();
+		addButton.setEnabled(!isInViewMode());
 		addButton(hPanel, addButton);
 	}
 

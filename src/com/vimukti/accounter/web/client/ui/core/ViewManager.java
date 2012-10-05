@@ -357,7 +357,7 @@ public class ViewManager extends FlowPanel {
 
 		viewHolder.add(newview);
 		updateButtons();
-		existingView.showButtonBar();
+		existingView.updateButtons();
 
 		Window.scrollTo(0, 0);
 	}
@@ -550,7 +550,6 @@ public class ViewManager extends FlowPanel {
 		}
 		updateButtons();
 		existingView.updateButtons();
-		existingView.showButtonBar();
 	}
 
 	/**
@@ -851,7 +850,11 @@ public class ViewManager extends FlowPanel {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				existingView.cancel();
+				if (existingDialog != null) {
+					existingDialog.cancel();
+				} else {
+					existingView.cancel();
+				}
 			}
 		});
 		return closeButton;
@@ -1057,10 +1060,10 @@ public class ViewManager extends FlowPanel {
 
 			@Override
 			public void onClose(CloseEvent<PopupPanel> event) {
+				existingDialog = null;
 				existingView.getButtonBar().clear();
 				addRequiredButtons();
 				existingView.updateButtons();
-				existingView.showButtonBar();
 			}
 		});
 		dialog.showRelativeTo(obj);
@@ -1086,7 +1089,6 @@ public class ViewManager extends FlowPanel {
 				existingView.getButtonBar().clear();
 				addRequiredButtons();
 				existingView.updateButtons();
-				existingView.showButtonBar();
 			}
 		});
 		dialog.center();

@@ -424,6 +424,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 		detailsPanel.showVendorDetails(selectedVendor);
 		vendHistoryGrid.setSelectedVendor(selectedVendor);
 		MainFinanceWindow.getViewManager().updateButtons();
+		showButtonBar();
 		callRPC(0, getPageSize());
 	}
 

@@ -189,4 +189,9 @@ public class CustomDialog extends DialogBox {
 		return false;
 	}
 
+	public void cancel() {
+		onCancel();
+		hide();
+	}
+
 }

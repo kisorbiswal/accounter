@@ -330,7 +330,7 @@ public class PrintPDFManager extends Manager {
 							".pdf");
 					java.io.FileOutputStream fos = new java.io.FileOutputStream(
 							file);
-					result.add(file.getAbsolutePath());
+					result.add(file.getName());
 					if (isMultipleId) {
 						mergePDFDocuments(fileNames, fos, true);
 					} else {

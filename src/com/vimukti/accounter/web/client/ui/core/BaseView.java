@@ -180,6 +180,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	public void updateButtons() {
 		clearButtons();
 		createButtons();
+		super.updateButtons();
 	}
 
 	protected void clearButtons() {
