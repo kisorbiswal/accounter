@@ -324,8 +324,8 @@ public class ViewManager extends FlowPanel {
 		}
 
 		if (input instanceof IAccounterCore) {
-			token = HistoryTokenUtils.getTokenWithID(token,
-					(IAccounterCore) input);
+			token = ((HistoryTokenUtils) GWT.create(HistoryTokenUtils.class))
+					.getTokenWithID(token, (IAccounterCore) input);
 		}
 		this.views.add(new HistoryItem(newview, action, token));
 		History.newItem(token, false);

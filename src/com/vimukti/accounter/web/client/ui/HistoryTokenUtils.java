@@ -11,9 +11,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
  */
 public class HistoryTokenUtils {
 
-
-	public static String getTokenWithID(String historyToken,
-			IAccounterCore object) {
+	public String getTokenWithID(String historyToken, IAccounterCore object) {
 		StringBuffer buffer = new StringBuffer(historyToken);
 		if (object != null) {
 			buffer.append('?');
