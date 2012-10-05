@@ -223,19 +223,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			StyledPanel bookValueVPanel = new StyledPanel("bookValueVPanel");
 			mainVPanel.add(bookValueVPanel);
 
-			/*
-			 * In edit mode,if the asset is other than the pending
-			 * item,"Register" button should be hide
-			 */
-			if (isInViewMode()
-					&& (data.getStatus() == ClientFixedAsset.STATUS_REGISTERED || data
-							.getStatus() == ClientFixedAsset.STATUS_REGISTERED)) {
-				registerButton.setVisible(false);
-			} else if (isInViewMode()
-					&& (data.getStatus() == ClientFixedAsset.STATUS_SOLD_OR_DISPOSED)) {
-				registerButton.setVisible(false);
-				saveAndCloseButton.setVisible(false);
-			}
 			selectedAssetAccount = getCompany().getAccount(
 					data.getAssetAccount());
 			disableFields(isInViewMode());
@@ -1082,6 +1069,20 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			}
 		});
 		addButton(this.cancelButton);
+
+		/*
+		 * In edit mode,if the asset is other than the pending item,"Register"
+		 * button should be hide
+		 */
+		if (data != null && isInViewMode()) {
+			if (data.getStatus() == ClientFixedAsset.STATUS_REGISTERED
+					|| data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
+				registerButton.setVisible(false);
+			} else if (data.getStatus() == ClientFixedAsset.STATUS_SOLD_OR_DISPOSED) {
+				registerButton.setVisible(false);
+				saveAndCloseButton.setVisible(false);
+			}
+		}
 	}
 
 	protected void registerAsset() {
