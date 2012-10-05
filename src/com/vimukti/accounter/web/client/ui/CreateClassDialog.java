@@ -105,8 +105,6 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 
 		setBodyLayout(verticalPanel);
 
-		this.center();
-
 		ViewManager.getInstance().showDialog(this);
 
 	}

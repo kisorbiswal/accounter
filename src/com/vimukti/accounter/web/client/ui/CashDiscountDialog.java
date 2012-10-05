@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.core.IGenericCallback;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -44,7 +45,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 		this.allAccounts = allAccounts;
 		this.cashDiscountValue = cashDiscountValue;
 		createControls();
-		center();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	public CashDiscountDialog() {
@@ -62,7 +63,6 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 		this.canEdit = canEdit;
 		this.selectedDiscountAccount = account;
 		createControls();
-		center();
 	}
 
 	public void setAllAccounts(List<ClientAccount> allAccounts) {

@@ -337,7 +337,7 @@ public class EmailView extends AbstractBaseView<ClientTransaction> {
 				fromAddcombo.setComboItem(result);
 			}
 		});
-		dialog.center();
+		ViewManager.getInstance().showDialog(dialog);
 	}
 
 	private String getValidMail(String email) {

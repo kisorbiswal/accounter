@@ -25,7 +25,6 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 		this.brandingTheme = brandingTheme;
 		this.isEdit = isNew;
 		createControls();
-		center();
 	}
 
 	private void createControls() {

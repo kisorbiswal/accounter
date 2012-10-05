@@ -25,8 +25,6 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 		this.getElement().setId("SelectPayeeDialog");
 		// company = FinanceApplication.getCompany();
 		createControls();
-		center();
-
 	}
 
 	private void createControls() {

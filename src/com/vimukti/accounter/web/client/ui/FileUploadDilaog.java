@@ -64,7 +64,6 @@ public class FileUploadDilaog extends CustomDialog {
 		closeAfterUploaded = true;
 		this.isCustomTemplateUpload = forCusotomTemplateUpload;
 		doCreateContents();
-		center();
 	}
 
 	protected void doCreateContents() {
@@ -164,7 +163,7 @@ public class FileUploadDilaog extends CustomDialog {
 		}
 		// Add a 'submit' button.
 		Button uploadSubmitButton = new Button(messages.upload());
-//		uploadSubmitButton.setWidth("80px");
+		// uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
 		Button closeButton = new Button(messages.close());
@@ -298,8 +297,8 @@ public class FileUploadDilaog extends CustomDialog {
 				panel.removeFromParent();
 				uploadItems.remove(upload);
 				count--;
-//				uploadFormLayout.setHeight(new StringBuilder(uploadFormLayout
-//						.getOffsetHeight() - 30).toString());
+				// uploadFormLayout.setHeight(new StringBuilder(uploadFormLayout
+				// .getOffsetHeight() - 30).toString());
 			}
 		});
 

@@ -6,6 +6,7 @@ import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.EmailAccountDialog;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class EmailCombo extends CustomCombo<ClientEmailAccount> {
 
@@ -56,7 +57,7 @@ public class EmailCombo extends CustomCombo<ClientEmailAccount> {
 	public void onAddNew() {
 		EmailAccountDialog dialog = new EmailAccountDialog(null);
 		dialog.setCallback(getActionCallBack());
-		dialog.center();
+		ViewManager.getInstance().showDialog(dialog);
 	}
 
 	private ActionCallback<ClientEmailAccount> getActionCallBack() {

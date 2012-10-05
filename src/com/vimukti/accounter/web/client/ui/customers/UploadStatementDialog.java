@@ -49,7 +49,6 @@ public class UploadStatementDialog extends BaseDialog implements
 		this.account = account;
 		getStatementRecordsByAccountId();
 		doCreateContents();
-		center();
 	}
 
 	public UploadStatementDialog() {

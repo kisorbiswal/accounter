@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -18,7 +19,7 @@ public class AddItemTaxDialog extends BaseDialog<ClientTAXItem> {
 		super(title, desc);
 		this.getElement().setId("AddItemTaxDialog");
 		initiliase();
-		center();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	private void initiliase() {

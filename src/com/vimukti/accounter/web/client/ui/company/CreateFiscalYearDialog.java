@@ -30,7 +30,6 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 		this.title = title;
 		this.listOfFiscalYear = listOfperiods;
 		createControls();
-		center();
 		if (title.equalsIgnoreCase(messages.editFiscalYear())) {
 			initData();
 		} else {

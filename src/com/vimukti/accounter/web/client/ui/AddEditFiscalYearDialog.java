@@ -15,7 +15,6 @@ public class AddEditFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 		super(title, desc);
 		this.getElement().setId("AddEditFiscalYearDialog");
 		createControls(fiscalYear);
-		center();
 	}
 
 	private void createControls(ClientFiscalYear fiscalYear) {

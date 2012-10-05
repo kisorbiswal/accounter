@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class CompanyAndFinancialReportsAction extends Action {
 
@@ -94,8 +95,9 @@ public class CompanyAndFinancialReportsAction extends Action {
 					report = urlgReport;
 					break;
 				case TYPE_EXCHANGE_RATES:
-					EnterExchangeRatesDialog dialog = new EnterExchangeRatesDialog(isFromReportsHome());
-					dialog.center();
+					EnterExchangeRatesDialog dialog = new EnterExchangeRatesDialog(
+							isFromReportsHome());
+					ViewManager.getInstance().showDialog(dialog);
 					break;
 				case TYPE_PROFIT_AND_LOSS:
 					report = new ProfitAndLossReport();

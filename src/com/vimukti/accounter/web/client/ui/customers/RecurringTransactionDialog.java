@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.RecurringConfirmDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -104,7 +105,6 @@ public class RecurringTransactionDialog extends
 		}
 		data = transaction;
 		init();
-		center();
 	}
 
 	protected void init() {
@@ -714,7 +714,7 @@ public class RecurringTransactionDialog extends
 			transactionObject.setID(transctionId);
 		}
 		RecurringConfirmDialog success = new RecurringConfirmDialog();
-		success.center();
+		ViewManager.getInstance().showDialog(success);
 		transctionId = 0;
 	}
 

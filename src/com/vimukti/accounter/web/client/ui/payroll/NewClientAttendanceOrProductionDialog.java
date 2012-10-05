@@ -41,7 +41,6 @@ public class NewClientAttendanceOrProductionDialog extends
 			selectedAttendanceOrProductionType = new ClientAttendanceOrProductionType();
 		}
 		createControl();
-		center();
 	}
 
 	private void createControl() {

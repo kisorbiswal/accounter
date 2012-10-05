@@ -86,8 +86,6 @@ public class NewJobDialog extends BaseDialog<ClientJob> {
 
 		setBodyLayout(mainLayout);
 
-		this.center();
-
 		ViewManager.getInstance().showDialog(this);
 	}
 

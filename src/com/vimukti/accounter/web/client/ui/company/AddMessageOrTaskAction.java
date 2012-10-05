@@ -30,7 +30,6 @@ public abstract class AddMessageOrTaskAction extends Action {
 						updateData();
 					};
 				};
-				dialog.center();
 				ViewManager.getInstance().showDialog(dialog);
 			}
 

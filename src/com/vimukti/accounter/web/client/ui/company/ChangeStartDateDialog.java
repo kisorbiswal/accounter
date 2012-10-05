@@ -11,8 +11,6 @@ public class ChangeStartDateDialog extends CustomDialog {
 		super(false, true);
 		this.getElement().setId("ChangeStartDateDialog");
 		createControls();
-		center();
-
 	}
 
 	private void createControls() {

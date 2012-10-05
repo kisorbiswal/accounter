@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
@@ -26,7 +27,6 @@ public class SelectExpenseType extends BaseDialog {
 		this.getElement().setId("SelectExpenseType");
 		setText(messages.recordExpenses());
 		createControls();
-		center();
 	}
 
 	public SelectExpenseType(AccounterAsyncCallback<IAccounterCore> callBack) {
@@ -34,7 +34,7 @@ public class SelectExpenseType extends BaseDialog {
 		this.getElement().setId("SelectExpenseType");
 		setText(messages.recordExpenses());
 		createControls();
-		center();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	private void createControls() {

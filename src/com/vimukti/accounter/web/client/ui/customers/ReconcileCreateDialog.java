@@ -34,7 +34,6 @@ public class ReconcileCreateDialog extends BaseDialog {
 		this.getElement().setId("ReconcileCreateDialog");
 		createControls();
 		// setWidth("500px");
-		center();
 	}
 
 	/**

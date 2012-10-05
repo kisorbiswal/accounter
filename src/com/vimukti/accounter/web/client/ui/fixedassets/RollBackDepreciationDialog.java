@@ -31,7 +31,6 @@ public class RollBackDepreciationDialog extends BaseDialog {
 		this.lastDepreciationDate = lastDepreciationDate2;
 		getAllDepreciationDates();
 		createControl();
-		center();
 	}
 
 	private void createControl() {

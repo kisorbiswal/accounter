@@ -767,7 +767,7 @@ public class InvoiceBrandingView<T> extends
 		String[] filetypes = { "png", "jpg", "gif", "jpeg" };
 		FileUploadDilaog dilaog = new FileUploadDilaog("Upload file", "parent",
 				callback, filetypes, theme, false);
-		dilaog.center();
+		ViewManager.getInstance().showDialog(dilaog);
 
 	}
 

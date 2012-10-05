@@ -27,7 +27,6 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 		this.fromReportsHome = fromReportsHome;
 		this.getElement().setId("EnterExchangeRatesDialog");
 		createControls();
-		center();
 	}
 
 	private void createControls() {

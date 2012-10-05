@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.PasswordItem;
@@ -101,7 +102,7 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 	protected void processTest() {
 		updateData();
 		EmailTestDialog testDialog = new EmailTestDialog(data);
-		testDialog.center();
+		ViewManager.getInstance().showDialog(testDialog);
 	}
 
 	private void updateData() {

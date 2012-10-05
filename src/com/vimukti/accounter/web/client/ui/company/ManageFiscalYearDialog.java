@@ -37,8 +37,6 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		this.getElement().setId("ManageFiscalYearDialog");
 		createControls();
 		// setWidth("550px");
-		center();
-
 	}
 
 	public void createControls() {
@@ -79,8 +77,9 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new CreateFiscalYearDialog(messages.createFascalYear(), "",
-						listOfperiods);
+				CreateFiscalYearDialog dialog = new CreateFiscalYearDialog(
+						messages.createFascalYear(), "", listOfperiods);
+				ViewManager.getInstance().showDialog(dialog);
 			}
 		});
 		closeFiscalYearButton = new Button();
@@ -292,8 +291,9 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			// .getSelection()
 			// || listOfperiods.getRecordByIndex(0) == listOfperiods
 			// .getSelection()) {
-			new CreateFiscalYearDialog(messages.editFiscalYear(), "",
-					listOfperiods);
+			CreateFiscalYearDialog dialog = new CreateFiscalYearDialog(
+					messages.editFiscalYear(), "", listOfperiods);
+			ViewManager.getInstance().showDialog(dialog);
 			enableEditRemoveButtons(false);
 			// }
 
