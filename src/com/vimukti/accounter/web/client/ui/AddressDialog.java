@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -38,7 +39,7 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 		this.addressType = addressType;
 		this.allAddresses = allAddresses;
 		createControls(textAreaItem, allAddresses);
-
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	protected void createControls(TextAreaItem textAreaItem,
@@ -86,7 +87,6 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 
 		setBodyLayout(v1);
 		setAddressToTextAread(new ValidationResult());
-		center();
 
 	}
 

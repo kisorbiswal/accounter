@@ -79,7 +79,6 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 		}
 
 		setBodyLayout(flexTable);
-		center();
 	}
 
 	private void addRow(String string, final int boxNo) {

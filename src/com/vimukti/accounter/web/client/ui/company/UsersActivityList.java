@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.NewBrandCustomThemeAction;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
 import com.vimukti.accounter.web.client.ui.grids.columns.ClickImage;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -406,7 +407,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 					EmailAccountDialog dialog = new EmailAccountDialog(
 							clientEmailAccount);
 					dialog.setCallback(getActionCallBack());
-					dialog.center();
+					ViewManager.getInstance().showDialog(dialog);
 					break;
 				}
 			}

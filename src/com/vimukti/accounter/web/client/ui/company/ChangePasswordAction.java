@@ -35,7 +35,6 @@ public class ChangePasswordAction extends Action {
 	private void runAsync(Object data, Boolean isDependent) {
 		view = new ChangePasswordDialog(messages.changePassword(), null);
 		ViewManager.getInstance().showDialog(view);
-		view.center();
 	}
 
 	@Override

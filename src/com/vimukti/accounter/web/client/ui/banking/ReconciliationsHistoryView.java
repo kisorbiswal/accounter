@@ -163,7 +163,6 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 		InvoicePrintDialog printDialog = new InvoicePrintDialog(
 				messages.selectReports(), "", description);
 		ViewManager.getInstance().showDialog(printDialog);
-		printDialog.center();
 	}
 
 	@Override

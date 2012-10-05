@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.company.DepreciationAction;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public class StartDateDialog extends BaseDialog {
@@ -37,7 +38,7 @@ public class StartDateDialog extends BaseDialog {
 			@Override
 			public void run() {
 				createControl();
-				center();
+				ViewManager.getInstance().showDialog(StartDateDialog.this);
 			}
 		};
 		timer.schedule(300);

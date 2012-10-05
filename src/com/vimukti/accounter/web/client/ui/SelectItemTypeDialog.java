@@ -31,7 +31,6 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 		this.forCustomer = isGeneratedFromCustomer;
 		this.getElement().setId("SelectItemTypeDialog");
 		createControls();
-		center();
 	}
 
 	private void createControls() {

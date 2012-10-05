@@ -69,8 +69,6 @@ public class CopyBudgetDialogue extends BaseDialog {
 		verticalPanel.add(horizontalPanel);
 
 		setBodyLayout(verticalPanel);
-		center();
-
 	}
 
 	@Override

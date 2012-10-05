@@ -59,7 +59,6 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 		this.canEdit = canEdit;
 		this.getElement().setId("WriteOffDialog");
 		createControls();
-		center();
 		setCashDiscountValue(record.getWriteOff());
 
 	}

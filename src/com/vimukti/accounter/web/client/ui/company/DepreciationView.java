@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.fixedassets.RollBackDepreciationDialog;
 import com.vimukti.accounter.web.client.ui.fixedassets.StartDateDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -175,7 +176,9 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			@Override
 			public void onResultSuccess(ClientFinanceDate result) {
 				lastDepreciationDate = result;
-				new RollBackDepreciationDialog(lastDepreciationDate);
+				RollBackDepreciationDialog dialog = new RollBackDepreciationDialog(
+						lastDepreciationDate);
+				ViewManager.getInstance().showDialog(dialog);
 			}
 
 		};

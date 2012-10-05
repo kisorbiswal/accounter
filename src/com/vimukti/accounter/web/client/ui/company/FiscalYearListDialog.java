@@ -27,7 +27,7 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		this.getElement().setId("FiscalYearListDialog");
 		initialise();
 		getListFiscalYear();
-		center();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	private void getListFiscalYear() {
@@ -90,8 +90,9 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		addButton(changeButton);
 		changeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				new ChangeStartDateDialog(messages.title(), messages
-						.description()).show();
+				ViewManager.getInstance().showDialog(
+						new ChangeStartDateDialog(messages.title(), messages
+								.description()));
 			}
 		});
 		// setHeight(250);

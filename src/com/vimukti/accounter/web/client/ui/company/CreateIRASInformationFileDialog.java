@@ -25,7 +25,6 @@ public class CreateIRASInformationFileDialog extends BaseDialog {
 		super(messages.createGST(), null);
 		this.getElement().setId("CreateIRASInformationFileDialog");
 		createControls();
-		center();
 	}
 
 	private void createControls() {

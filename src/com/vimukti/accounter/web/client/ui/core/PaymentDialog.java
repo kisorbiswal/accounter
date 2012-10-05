@@ -19,7 +19,6 @@ public class PaymentDialog extends BaseDialog {
 		this.getElement().setId("PaymentDialog");
 		setText(messages.payments());
 		createControls();
-		center();
 	}
 
 	public PaymentDialog(AccounterAsyncCallback<IAccounterCore> callBack) {
@@ -27,7 +26,7 @@ public class PaymentDialog extends BaseDialog {
 		this.getElement().setId("PaymentDialog");
 		setText(messages.payments());
 		createControls();
-		center();
+		ViewManager.getInstance().showDialog(this);
 	}
 
 	public void createControls() {

@@ -80,7 +80,6 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		}
 		footerLayout.add(coveringLetter);
 		createControls();
-		center();
 	}
 
 	@SuppressWarnings({ "unchecked" })

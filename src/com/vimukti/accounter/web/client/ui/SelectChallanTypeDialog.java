@@ -20,8 +20,6 @@ public class SelectChallanTypeDialog extends BaseDialog<ClientTDSChalanDetail> {
 		super(messages.selectItemType(), messages.selectOneOfItem());
 		this.getElement().setId("SelectChallanTypeDialog");
 		createControls();
-
-		center();
 	}
 
 	private void createControls() {

@@ -31,7 +31,6 @@ public class ImporterDialog extends CustomDialog {
 		this.result = result;
 		setText(mesg);
 		createControls();
-		show();
 
 		// if (type == AccounterType.INFORMATION) {
 		// Timer timer = new Timer() {
@@ -120,7 +119,6 @@ public class ImporterDialog extends CustomDialog {
 		errorPanel.add(okButton);
 
 		add(errorPanel);
-		center();
 	}
 
 	protected void closeView() {

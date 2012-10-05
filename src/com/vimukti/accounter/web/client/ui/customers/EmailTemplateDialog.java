@@ -21,14 +21,13 @@ public class EmailTemplateDialog extends BaseDialog<ClientEmailTemplate> {
 		super(title, desc);
 		this.template = emailTemplate;
 		createContrls();
-		center();
 	}
 
-	public EmailTemplateDialog(String title, String desc, ClientTransaction transaction) {
+	public EmailTemplateDialog(String title, String desc,
+			ClientTransaction transaction) {
 		super(title, desc);
 		this.transaction = transaction;
 		createContrls();
-		center();
 	}
 
 	private void createContrls() {
@@ -44,8 +43,8 @@ public class EmailTemplateDialog extends BaseDialog<ClientEmailTemplate> {
 				.get()
 				.messages()
 				.invoiceMailMessage(Global.get().Customer(),
-						this.transaction.getNumber(), transaction.getDate()) : template
-				.getEmailBody());
+						this.transaction.getNumber(), transaction.getDate())
+				: template.getEmailBody());
 		emailPanel.add(emailTemplateNameText);
 		emailPanel.add(emailBody);
 		setBodyLayout(emailPanel);

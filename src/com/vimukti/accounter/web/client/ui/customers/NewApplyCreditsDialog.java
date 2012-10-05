@@ -124,7 +124,6 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		mainVLay.add(amountUseForm);
 
 		setBodyLayout(mainVLay);
-		center();
 	}
 
 	private void getInitialAmountUse() {

@@ -30,7 +30,6 @@ public class EmployeeGroupListDialog extends GroupDialog<ClientEmployeeGroup> {
 		this.getElement().setId("EmployeeGroupListDialog");
 		setWidth("380px");
 		initialise();
-		center();
 		initList();
 	}
 

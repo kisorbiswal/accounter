@@ -36,8 +36,6 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		super(title, desc);
 		this.getElement().setId("SelectItemsTo1099Dialog");
 		createControls();
-
-		center();
 	}
 
 	private void fillSelectedVendors() {
@@ -232,7 +230,6 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		mainPanel.add(selectItemsGrid);
 
 		setBodyLayout(mainPanel);
-		center();
 	}
 
 	private void setSelectedVendorsGridFields() {

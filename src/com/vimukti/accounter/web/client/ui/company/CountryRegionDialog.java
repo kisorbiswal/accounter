@@ -17,7 +17,6 @@ public class CountryRegionDialog extends BaseDialog {
 		super(title, desc);
 		this.getElement().setId("CountryRegionDialog");
 		createControls();
-		center();
 	}
 
 	private void createControls() {
@@ -53,7 +52,7 @@ public class CountryRegionDialog extends BaseDialog {
 
 		setBodyLayout(bodyLayout);
 
-//		setWidth("350px");
+		// setWidth("350px");
 
 	}
 

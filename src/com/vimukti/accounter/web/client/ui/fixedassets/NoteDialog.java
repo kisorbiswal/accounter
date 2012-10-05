@@ -17,7 +17,6 @@ public class NoteDialog extends BaseDialog {
 		super(title, desc);
 		this.getElement().setId("NoteDialog");
 		createControl();
-		center();
 	}
 
 	private void createControl() {

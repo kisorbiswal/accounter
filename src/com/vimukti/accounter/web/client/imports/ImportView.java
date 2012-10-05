@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.ImporterDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class ImportView extends AbstractBaseView {
 
@@ -484,6 +485,7 @@ public class ImportView extends AbstractBaseView {
 									}
 								}
 							};
+							ViewManager.getInstance().showDialog(dialog);
 						}
 					});
 			super.saveAndUpdateView();

@@ -97,7 +97,6 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		setText(title);
 		// setWidth("800px");
 		createControls();
-		center();
 		ViewManager.getInstance().showDialog(this);
 	}
 

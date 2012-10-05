@@ -38,9 +38,6 @@ public class QuickAddDialog extends BaseDialog<IAccounterCore> {
 
 		bodyLayout.add(nameLabel);
 		bodyLayout.add(textBox);
-
-		center();
-
 	}
 
 	@Override

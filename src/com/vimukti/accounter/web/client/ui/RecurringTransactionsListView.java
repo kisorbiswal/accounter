@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.RecurringsListGrid;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -107,7 +108,7 @@ public class RecurringTransactionsListView extends
 
 	protected void openNewRecurrableTemplate() {
 		CreateRecurringTemplateDialog createRecurringTemplateDialog = new CreateRecurringTemplateDialog();
-		createRecurringTemplateDialog.center();
+		ViewManager.getInstance().showDialog(createRecurringTemplateDialog);
 	}
 
 	protected void openUsableTransactionView() {

@@ -22,16 +22,14 @@ public class CreateRecurringTemplateDialog extends
 	public static String CASH_EXPENSE = messages.cashExpense();
 	public static String CASH_SALES = messages.cashSale();
 	public static String CASH_PURCHASE = messages.cashPurchase();
-	public static String CREDIT_CARD_EXPENSE = messages
-			.creditCardExpense();
+	public static String CREDIT_CARD_EXPENSE = messages.creditCardExpense();
 	public static String CUSTOMER_CREDIT_MEMO = messages
 			.customerCreditNote(Global.get().Customer());
 	public static String DEPOSIT_TRANSFER_FUNDS = messages
 			.depositTransferFunds();
 	public static String INVOICE = messages.invoice();
 	public static String QUOTE = messages.quote();
-	public static String VENDOR_CREDIT_MEMO = messages
-			.vendorCreditMemo();
+	public static String VENDOR_CREDIT_MEMO = messages.vendorCreditMemo();
 	public static String WRITE_CHECK = messages.writeCheck();
 
 	Map<String, Integer> typesMap = new HashMap<String, Integer>();
@@ -44,7 +42,6 @@ public class CreateRecurringTemplateDialog extends
 		super(messages.selectTransactionType(), "");
 		this.getElement().setId("CreateRecurringTemplateDialog");
 		createControls();
-		center();
 	}
 
 	private void createControls() {
@@ -52,7 +49,7 @@ public class CreateRecurringTemplateDialog extends
 		initTypesMap();
 
 		form = new DynamicForm("form");
-//		form.setWidth("100%");
+		// form.setWidth("100%");
 		transactionTypeCombo = new SelectCombo(messages.transactionType());
 		transactionTypeCombo
 				.initCombo(new ArrayList<String>(typesMap.keySet()));
@@ -74,7 +71,7 @@ public class CreateRecurringTemplateDialog extends
 	@Override
 	protected boolean onOK() {
 		int type = typesMap.get(transactionTypeCombo.getSelectedValue());
-		
+
 		ClientTransaction transaction = UIUtils.getTransactionObject(type);
 		transaction.setSaveStatus(ClientTransaction.STATUS_TEMPLATE);
 		transaction.setType(type);

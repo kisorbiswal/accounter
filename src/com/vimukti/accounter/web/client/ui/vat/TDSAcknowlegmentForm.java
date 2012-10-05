@@ -42,7 +42,6 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 		// setWidth("650px");
 		this.getElement().setId("TDSAcknowlegmentForm");
 		createControls();
-		center();
 	}
 
 	private void createControls() {

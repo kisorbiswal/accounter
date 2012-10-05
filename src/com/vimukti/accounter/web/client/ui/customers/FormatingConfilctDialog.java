@@ -35,7 +35,6 @@ public class FormatingConfilctDialog extends BaseDialog {
 		this.presentheading = presentheading;
 		this.nextSelectIndexValue = nextSelectIndexValue;
 		this.createControls();
-		center();
 	}
 
 	/**

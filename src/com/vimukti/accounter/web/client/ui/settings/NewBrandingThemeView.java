@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.combo.TemplateCombo;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -655,6 +656,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 				FileUploadDilaog dilaog = new FileUploadDilaog("Upload Logo",
 						"parent", callback, filetypes, getData(), false);
+				ViewManager.getInstance().showDialog(dilaog);
 			}
 		});
 

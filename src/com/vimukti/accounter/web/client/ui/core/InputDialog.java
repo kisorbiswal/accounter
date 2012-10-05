@@ -35,7 +35,6 @@ public class InputDialog extends BaseDialog {
 		this.getElement().setId("InputDialog");
 		this.itemsNames = itemNames;
 		initialise();
-		center();
 		this.parent = parentDialog;
 	}
 
@@ -45,7 +44,6 @@ public class InputDialog extends BaseDialog {
 		this.getElement().setId("InputDialog");
 		this.itemsNames = itemNames;
 		initialise();
-		center();
 		this.parent = null;
 		this.parentView = vendorGroupListDialog;
 	}

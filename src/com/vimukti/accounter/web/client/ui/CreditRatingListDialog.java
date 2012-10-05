@@ -29,7 +29,6 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 		// setSize("400", "330");
 		// setWidth("400px");
 		initialise();
-		center();
 	}
 
 	private void initialise() {

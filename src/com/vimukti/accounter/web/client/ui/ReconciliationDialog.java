@@ -47,7 +47,6 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 		this.getElement().setId("ReconciliationDialog");
 		// setWidth("400px");
 		createControls();
-		center();
 	}
 
 	private void createControls() {
