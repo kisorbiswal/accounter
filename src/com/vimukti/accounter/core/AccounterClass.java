@@ -1,10 +1,14 @@
 package com.vimukti.accounter.core;
 
+import java.io.Serializable;
+
 import org.hibernate.CallbackException;
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -24,6 +28,8 @@ public class AccounterClass extends CreatableObject implements
 
 	private String path;
 
+	private AccounterClass oldParent;
+
 	/**
 	 * 
 	 */
@@ -32,6 +38,7 @@ public class AccounterClass extends CreatableObject implements
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		this.parentCount = getparents();
+		updatePath();
 		return super.onUpdate(session);
 	}
 
@@ -44,6 +51,7 @@ public class AccounterClass extends CreatableObject implements
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		this.parentCount = getparents();
+		updatePath();
 		return super.onSave(session);
 	}
 
@@ -136,4 +144,39 @@ public class AccounterClass extends CreatableObject implements
 		this.path = path;
 	}
 
+	@Override
+	public void onLoad(Session arg0, Serializable arg1) {
+		this.oldParent = this.parent;
+		super.onLoad(arg0, arg1);
+	}
+
+	private void updatePath() {
+
+		Session session = HibernateUtil.getCurrentSession();
+		FlushMode flushMode = session.getFlushMode();
+		session.setFlushMode(FlushMode.COMMIT);
+		try {
+			if (getID() == 0
+					|| ((parent == null && oldParent != null)
+							|| (parent != null & oldParent == null) || (parent
+							.getID() != oldParent.getID()))) {
+				if (parent == null) {
+					Integer path = (Integer) session
+							.getNamedQuery("get.max.Path.Of.Classes")
+							.setParameter("classId", getID()).uniqueResult();
+					path++;
+					setPath(path + "");
+				} else {
+					Long chldCount = (Long) session
+							.getNamedQuery("get.child.count.of.Class")
+							.setParameter("classId", parent.getID())
+							.uniqueResult();
+					chldCount++;
+					setPath(parent.getPath() + '.' + chldCount);
+				}
+			}
+		} finally {
+			session.setFlushMode(flushMode);
+		}
+	}
 }

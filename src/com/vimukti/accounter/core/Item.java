@@ -1,10 +1,12 @@
 package com.vimukti.accounter.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
+import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.dialect.EncryptedStringType;
@@ -144,6 +146,8 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	private int depth;
 	private boolean isSubItemOf;
 	private String path;
+
+	private Item oldParentItem;
 
 	// TaxCode VATCode;
 
@@ -447,9 +451,11 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 				onHandQty.setUnit(getMeasurement().getDefaultUnit());
 			}
 		}
-		ChangeTracker.put(this);
-		setDepth(getDepthCount());
 
+		setDepth(getDepthCount());
+		updatePath();
+
+		ChangeTracker.put(this);
 		return false;
 
 	}
@@ -559,6 +565,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		}
 		super.onUpdate(arg0);
 		setDepth(getDepthCount());
+		updatePath();
 		ChangeTracker.put(this);
 		return false;
 	}
@@ -571,19 +578,26 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-
-		Item item = (Item) clientObject;
-		Query query = session.getNamedQuery("getItem.by.Name")
-				.setParameter("name", item.name, EncryptedStringType.INSTANCE)
-				.setEntity("company", item.getCompany());
-		List list = query.list();
-		if (list != null && list.size() > 0) {
-			Item newItem = (Item) list.get(0);
-			if (item.getID() != newItem.getID()) {
-				throw new AccounterException(
-						AccounterException.ERROR_NAME_CONFLICT);
-				// "An Item already exists with this Name");
+		FlushMode flushMode = session.getFlushMode();
+		session.setFlushMode(FlushMode.COMMIT);
+		try {
+			Item item = (Item) clientObject;
+			Query query = session
+					.getNamedQuery("getItem.by.Name")
+					.setParameter("name", item.name,
+							EncryptedStringType.INSTANCE)
+					.setEntity("company", item.getCompany());
+			List list = query.list();
+			if (list != null && list.size() > 0) {
+				Item newItem = (Item) list.get(0);
+				if (item.getID() != newItem.getID()) {
+					throw new AccounterException(
+							AccounterException.ERROR_NAME_CONFLICT);
+					// "An Item already exists with this Name");
+				}
 			}
+		} finally {
+			session.setFlushMode(flushMode);
 		}
 
 		return true;
@@ -738,4 +752,39 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		checkAccountsNull();
 	}
 
+	@Override
+	public void onLoad(Session arg0, Serializable arg1) {
+		this.oldParentItem = this.parentItem;
+		super.onLoad(arg0, arg1);
+	}
+
+	private void updatePath() {
+
+		Session session = HibernateUtil.getCurrentSession();
+		FlushMode flushMode = session.getFlushMode();
+		session.setFlushMode(FlushMode.COMMIT);
+		try {
+			if (getID() == 0
+					|| ((parentItem == null && oldParentItem != null)
+							|| (parentItem != null && oldParentItem == null) || (parentItem
+							.getID() != oldParentItem.getID()))) {
+				if (parentItem == null) {
+					Integer path = (Integer) session
+							.getNamedQuery("get.max.Path.Of.Items")
+							.setParameter("itemId", getID()).uniqueResult();
+					path++;
+					setPath(path + "");
+				} else {
+					Long chldCount = (Long) session
+							.getNamedQuery("get.child.count.of.Item")
+							.setParameter("itemId", parentItem.getID())
+							.uniqueResult();
+					chldCount++;
+					setPath(parentItem.getPath() + '.' + chldCount);
+				}
+			}
+		} finally {
+			session.setFlushMode(flushMode);
+		}
+	}
 }

@@ -12592,6 +12592,45 @@
 		FROM RECURRING_TRANSACTION
 	</sql-query>
 	
+	<sql-query name="get.max.Path.Of.Items">
+		<query-param name="itemId" type="long" />
+		<return-scalar column="MAX_PATH" type="integer" />
+		SELECT Coalesce(Max(CASE
+		                      WHEN I.path IS NULL
+		                            OR I.path = '' THEN 0
+		                      ELSE Cast(I.path AS INTEGER)
+		                    END), 0) AS MAX_PATH
+		FROM   item I
+		WHERE  I.parent_id IS NULL
+		       AND I.id != :itemId  
+	</sql-query>
+	
+	<sql-query name="get.child.count.of.Item">
+		<query-param name="itemId" type="long" />
+		<return-scalar column="CH_COUNT" type="long" />
+		SELECT Count(*) AS CH_COUNT
+		FROM   item I
+		WHERE  I.parent_id = :itemId  
+	</sql-query>
+	
+	<sql-query name="get.max.Path.Of.Classes">
+		<query-param name="classId" type="long" />
+		<return-scalar column="MAX_PATH" type="integer" />
+		SELECT Coalesce(Max(CASE
+		                      WHEN AC.path IS NULL
+		                            OR AC.path = '' THEN 0
+		                      ELSE Cast(AC.path AS INTEGER)
+		                    END), 0) AS MAX_PATH
+		FROM   accounter_class AC
+		WHERE  AC.parent_id IS NULL
+		       AND AC.id != :classId   
+	</sql-query>
+	
+	<sql-query name="get.child.count.of.Class">
+		<query-param name="classId" type="long" />
+		<return-scalar column="CH_COUNT" type="long" />
+		SELECT count(*) as CH_COUNT FROM ACCOUNTER_CLASS AC WHERE AC.PARENT_ID= :classId
+	</sql-query>
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

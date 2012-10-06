@@ -98,6 +98,7 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 		if (accounterClass != null && !accounterClass.getClassName().isEmpty()) {
 			createClassTextItem.setValue(accounterClass.getClassName());
 			statusCheck.setValue(accounterClass.getParent() != 0);
+			classListCombo.setEnabled(statusCheck.getValue());
 			classListCombo.setComboItem(getCompany().getAccounterClass(
 					accounterClass.getParent()));
 		}
@@ -168,6 +169,8 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 			if (parentclass != null) {
 				accounterClass.setParent(parentclass.getID());
 			}
+		} else {
+			accounterClass.setParent(0);
 		}
 		return accounterClass;
 	}

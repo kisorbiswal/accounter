@@ -1776,9 +1776,9 @@ public class FinanceTool {
 		session.getNamedQuery("clientUpdateTrigger").executeUpdate();
 		session.getNamedQuery("userInsertTrigger").executeUpdate();
 		session.getNamedQuery("transactionsUpdateCountTrigger").executeUpdate();
-		session.getNamedQuery("updateAccounterClassPathTrigger")
-				.executeUpdate();
-		session.getNamedQuery("updateItemPathTrigger").executeUpdate();
+		// session.getNamedQuery("updateAccounterClassPathTrigger")
+		// .executeUpdate();
+		// session.getNamedQuery("updateItemPathTrigger").executeUpdate();
 
 		transaction.commit();
 	}

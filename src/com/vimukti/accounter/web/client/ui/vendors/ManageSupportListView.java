@@ -17,8 +17,10 @@ import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CreateClassDialog;
+import com.vimukti.accounter.web.client.ui.ISaveCallback;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
@@ -54,24 +56,20 @@ public class ManageSupportListView extends BaseListView<IAccounterCore> {
 						@Override
 						public void execute(
 								final ClientAccounterClass accounterClass) {
-							Accounter.createCRUDService().create(
-									accounterClass, new AsyncCallback<Long>() {
 
-										@Override
-										public void onSuccess(Long result) {
-											accounterClass.setID(result);
-											Accounter
-													.getCompany()
-													.processUpdateOrCreateObject(
-															accounterClass);
-											initListCallback();
-										}
+							Accounter.createOrUpdate(new ISaveCallback() {
 
-										@Override
-										public void onFailure(Throwable caught) {
-											caught.printStackTrace();
-										}
-									});
+								@Override
+								public void saveSuccess(IAccounterCore object) {
+									initListCallback();
+								}
+
+								@Override
+								public void saveFailed(
+										AccounterException exception) {
+									Accounter.showError(exception.getMessage());
+								}
+							}, accounterClass);
 						}
 					});
 		} else {
@@ -276,13 +274,14 @@ public class ManageSupportListView extends BaseListView<IAccounterCore> {
 	}
 
 	private List<ClientEmployeeGroup> getEmployeeGroups() {
-		if(employeeGroups==null){
+		if (employeeGroups == null) {
 			Accounter.createPayrollService().getEmployeeGroups(
 					new AsyncCallback<ArrayList<ClientEmployeeGroup>>() {
 
 						@Override
-						public void onSuccess(ArrayList<ClientEmployeeGroup> result) {
-							if(result==null){
+						public void onSuccess(
+								ArrayList<ClientEmployeeGroup> result) {
+							if (result == null) {
 								result = new ArrayList<ClientEmployeeGroup>();
 							}
 							grid.addRecords(result);
@@ -296,7 +295,7 @@ public class ManageSupportListView extends BaseListView<IAccounterCore> {
 					});
 			return new ArrayList<ClientEmployeeGroup>();
 		}
-		
+
 		return employeeGroups;
 	}
 

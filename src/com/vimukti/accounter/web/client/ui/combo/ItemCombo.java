@@ -57,16 +57,7 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 			setValue("");
 			return;
 		}
-		StringBuffer buffer = new StringBuffer();
-		ClientItem parentClass = object;
-		while (parentClass.getParentItem() != 0) {
-			buffer.append(parentClass.getName());
-			parentClass = getCompany().getItem(parentClass.getParentItem());
-			buffer.append(":");
-		}
-		buffer.append(parentClass.getName());
-		buffer = getReverseBuffer(buffer.toString());
-		setValue(buffer.toString());
+		setValue(getDisplayName(object));
 	}
 
 	/**
@@ -155,10 +146,21 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 
 	@Override
 	protected String getDisplayName(ClientItem object) {
-		if (object != null)
-			return object.getName() != null ? object.getName() : "";
-		else
-			return "";
+
+		if (object == null) {
+			return null;
+		}
+
+		StringBuffer buffer = new StringBuffer();
+		ClientItem parentClass = object;
+		while (parentClass.getParentItem() != 0) {
+			buffer.append(parentClass.getName());
+			parentClass = getCompany().getItem(parentClass.getParentItem());
+			buffer.append(":");
+		}
+		buffer.append(parentClass.getName());
+		buffer = getReverseBuffer(buffer.toString());
+		return buffer.toString();
 	}
 
 	@Override
