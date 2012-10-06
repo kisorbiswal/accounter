@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.ui.payroll.PayEmployeeView;
 import com.vimukti.accounter.web.client.ui.payroll.PayStructureListView;
 import com.vimukti.accounter.web.client.ui.payroll.PayheadListView;
 import com.vimukti.accounter.web.client.ui.payroll.PayrollUnitListView;
+import com.vimukti.accounter.web.client.ui.vendors.ManageSupportListView;
 
 public class PayRollActions extends Action {
 
@@ -136,8 +137,7 @@ public class PayRollActions extends Action {
 					(ClientEmployeeGroup) data, isFromEmployeeView());
 			break;
 		case EMP_GROUP_LIST:
-			dialog = new EmployeeGroupListDialog(messages.employeeGroup(),
-					messages.toAddPayeeGroup(messages.employee()));
+			view = new ManageSupportListView(IAccounterCore.EMPLOYEE_GROUP);
 			break;
 		case NEW_PAYROLL_UNIT:
 			NewPayrollUnitDialog newPayrollUnitDialog = new NewPayrollUnitDialog(

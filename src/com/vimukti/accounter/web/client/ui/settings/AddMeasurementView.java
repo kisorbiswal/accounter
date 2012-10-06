@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -29,9 +29,10 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 	private TextItem nameItem;
 	private TextAreaItem description;
 	private UnitsTable unitsTable;
-	private Button addUnitButton;
+	private AddNewButton addUnitButton;
 	private DynamicForm addMeasurmentForm;
 	private AccounterMessages settingsMessages = messages;
+	private StyledPanel unitsPanel;
 
 	public AddMeasurementView() {
 
@@ -100,7 +101,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		};
 		unitsTable.setEnabled(!isInViewMode());
 
-		StyledPanel unitsPanel = new StyledPanel("addnew_edit_panel");
+		unitsPanel = new StyledPanel("addnew_edit_panel");
 		Label tableTitle = new Label(messages2.table(messages.units()));
 		tableTitle.addStyleName("editTableTitle");
 		unitsPanel.add(tableTitle);
@@ -231,28 +232,33 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 	@Override
 	protected void createButtons() {
 		super.createButtons();
-		Button addUnitButton = getAddUnitButton();
-		
+		addUnitButton = getAddUnitButton();
+
 		addUnitButton.setEnabled(!isInViewMode());
-		addButton(unitsTable, addUnitButton);
+		addButton(unitsPanel, addUnitButton);
 	}
 
-	private Button getAddUnitButton() {
-		Button addUnitButton = getAddUnitButton();
-		new Button();
-		addUnitButton.setText(settingsMessages.addUnitButton());
+	private AddNewButton getAddUnitButton() {
+		AddNewButton addUnitButton = new AddNewButton(settingsMessages.addUnitButton());
 		addUnitButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				ClientUnit clientUnit = new ClientUnit();
-				// unitsTable.setDisabled(false);
-				if (unitsTable.getRecords().isEmpty()) {
+				if (unitsTable.getAllRows().isEmpty()) {
 					clientUnit.setDefault(true);
+					clientUnit.setFactor(1);
+				}else{
 					clientUnit.setFactor(1);
 				}
 				unitsTable.add(clientUnit);
 			}
 		});
 		return addUnitButton;
+	}
+
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(unitsPanel, addUnitButton);
 	}
 }

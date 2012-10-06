@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
+import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
@@ -35,6 +36,7 @@ public class ManageSupportListView extends BaseListView<IAccounterCore> {
 
 	private InputDialog inputDlg;
 	private int coreType;
+	private ArrayList<ClientEmployeeGroup> employeeGroups;
 
 	public ManageSupportListView(int coreType) {
 		super();
@@ -116,6 +118,8 @@ public class ManageSupportListView extends BaseListView<IAccounterCore> {
 			return messages.locationsList(Global.get().Location());
 		} else if (coreType == IAccounterCore.PRICE_LEVEL) {
 			return messages.priceLevelList();
+		} else if (coreType == IAccounterCore.EMPLOYEE_GROUP) {
+			return messages.employeeGroupList();
 		}
 		return null;
 	}
@@ -152,6 +156,8 @@ public class ManageSupportListView extends BaseListView<IAccounterCore> {
 			return new String[] { messages.location(), messages.delete() };
 		} else if (coreType == IAccounterCore.CURRENCY) {
 			return new String[] { messages.currency(), messages.delete() };
+		} else if (coreType == IAccounterCore.EMPLOYEE_GROUP) {
+			return new String[] { messages.employeeGroup(), messages.delete() };
 		}
 		return new String[] { messages.name(), messages.delete() };
 	}
@@ -218,6 +224,13 @@ public class ManageSupportListView extends BaseListView<IAccounterCore> {
 			return getCompany().getPriceLevelByName(vendorName);
 		} else if (coreType == IAccounterCore.CURRENCY) {
 			return getCompany().getCurrency(vendorName);
+		} else if (coreType == IAccounterCore.EMPLOYEE_GROUP) {
+			List<ClientEmployeeGroup> groups = getEmployeeGroups();
+			for (ClientEmployeeGroup group : groups) {
+				if (group.getName().equals(vendorName)) {
+					return group;
+				}
+			}
 		}
 		return null;
 	}
@@ -256,8 +269,35 @@ public class ManageSupportListView extends BaseListView<IAccounterCore> {
 			return getCompany().getPriceLevels();
 		} else if (coreType == IAccounterCore.CURRENCY) {
 			return getCompany().getCurrencies();
+		} else if (coreType == IAccounterCore.EMPLOYEE_GROUP) {
+			return getEmployeeGroups();
 		}
 		return null;
+	}
+
+	private List<ClientEmployeeGroup> getEmployeeGroups() {
+		if(employeeGroups==null){
+			Accounter.createPayrollService().getEmployeeGroups(
+					new AsyncCallback<ArrayList<ClientEmployeeGroup>>() {
+
+						@Override
+						public void onSuccess(ArrayList<ClientEmployeeGroup> result) {
+							if(result==null){
+								result = new ArrayList<ClientEmployeeGroup>();
+							}
+							grid.addRecords(result);
+							employeeGroups = result;
+						}
+
+						@Override
+						public void onFailure(Throwable caught) {
+
+						}
+					});
+			return new ArrayList<ClientEmployeeGroup>();
+		}
+		
+		return employeeGroups;
 	}
 
 	@Override
@@ -360,6 +400,8 @@ public class ManageSupportListView extends BaseListView<IAccounterCore> {
 			return messages.priceLevelList();
 		} else if (coreType == IAccounterCore.CURRENCY) {
 			return messages.currencyList();
+		} else if (coreType == IAccounterCore.EMPLOYEE_GROUP) {
+			return messages.employeeGroupList();
 		}
 		return null;
 
@@ -392,6 +434,8 @@ public class ManageSupportListView extends BaseListView<IAccounterCore> {
 			return messages.addaNew(messages.priceLevel());
 		} else if (coreType == IAccounterCore.CURRENCY) {
 			return messages.addaNew(messages.currency());
+		} else if (coreType == IAccounterCore.EMPLOYEE_GROUP) {
+			return messages.addaNew(messages.employeeGroup());
 		}
 		return null;
 	}
@@ -465,6 +509,13 @@ public class ManageSupportListView extends BaseListView<IAccounterCore> {
 			shippingMethod.setName(name);
 			shippingMethod.setDescription(description);
 			selection = shippingMethod;
+		} else if (coreType == IAccounterCore.EMPLOYEE_GROUP) {
+			ClientEmployeeGroup group = new ClientEmployeeGroup();
+			if (selection != null) {
+				group = (ClientEmployeeGroup) selection;
+			}
+			group.setName(name);
+			selection = group;
 		}
 
 		saveOrUpdate(selection);
