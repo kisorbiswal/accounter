@@ -100,28 +100,11 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		};
 		unitsTable.setEnabled(!isInViewMode());
 
-		addUnitButton = new Button();
-		addUnitButton.setText(settingsMessages.addUnitButton());
-		addUnitButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				ClientUnit clientUnit = new ClientUnit();
-				// unitsTable.setDisabled(false);
-				if (unitsTable.getRecords().isEmpty()) {
-					clientUnit.setDefault(true);
-					clientUnit.setFactor(1);
-				}
-				unitsTable.add(clientUnit);
-			}
-		});
-		addUnitButton.setEnabled(!isInViewMode());
-
 		StyledPanel unitsPanel = new StyledPanel("addnew_edit_panel");
 		Label tableTitle = new Label(messages2.table(messages.units()));
 		tableTitle.addStyleName("editTableTitle");
 		unitsPanel.add(tableTitle);
 		unitsPanel.add(unitsTable);
-		unitsPanel.add(addUnitButton);
 
 		addMeasurmentForm.add(nameItem, description);
 		addMeasurmentForm.addStyleName("fields-panel");
@@ -243,5 +226,33 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 
 		Accounter.showError(message);
 
+	}
+
+	@Override
+	protected void createButtons() {
+		super.createButtons();
+		Button addUnitButton = getAddUnitButton();
+		
+		addUnitButton.setEnabled(!isInViewMode());
+		addButton(unitsTable, addUnitButton);
+	}
+
+	private Button getAddUnitButton() {
+		Button addUnitButton = getAddUnitButton();
+		new Button();
+		addUnitButton.setText(settingsMessages.addUnitButton());
+		addUnitButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				ClientUnit clientUnit = new ClientUnit();
+				// unitsTable.setDisabled(false);
+				if (unitsTable.getRecords().isEmpty()) {
+					clientUnit.setDefault(true);
+					clientUnit.setFactor(1);
+				}
+				unitsTable.add(clientUnit);
+			}
+		});
+		return addUnitButton;
 	}
 }

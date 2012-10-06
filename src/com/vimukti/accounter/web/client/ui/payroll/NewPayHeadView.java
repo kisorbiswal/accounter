@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
@@ -378,6 +379,9 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		panel.add(mainform);
 		panel.add(calculationForm);
+		Label lab1=new Label(messages.payhead());
+		lab1.setStyleName("label-title");
+		this.add(lab1);
 		this.add(panel);
 		setSize("100%", "100%");
 	}

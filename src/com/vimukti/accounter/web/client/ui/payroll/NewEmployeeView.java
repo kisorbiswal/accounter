@@ -17,6 +17,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -241,7 +242,10 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 
 		mainPanel.add(firstPanel);
 		mainPanel.add(secondPanel);
-
+		
+		Label lab1=new Label(messages.employee());
+		lab1.setStyleName("label-title");
+		this.add(lab1);
 		this.add(mainPanel);
 
 		setSize("100%", "100%");

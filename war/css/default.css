@@ -135,7 +135,7 @@ body {
 	-ms-grid-column-align: center;
 	/* -ms-grid-row-align: center; */
 	width: 100%;
-	height:85%;
+	height:82%;
 	-ms-flex-pack: center;
 	-ms-flex-align: center;
 	-ms-flex: 0;
@@ -2896,7 +2896,7 @@ progress:indeterminate.in-prog {
 .InventoryCentreView .mainPanel{
 	height: 100%;
 }
-.history_notes_view{
+.history_notes_view{	
 	margin-bottom: 10px;
 	top: 10%;
 	display: none;
@@ -2912,6 +2912,27 @@ progress:indeterminate.in-prog {
 .contHLay {
     display:none;
 }
-#InvoiceView .panel11,#JournalEntryView .bottomPanel,#QuoteView .mainpanel{
+#InvoiceView .panel11,#QuoteView .mainpanel,#DepositView .bottompanel{
     margin-bottom: 50px;
+}
+#JournalEntryView .bottomPanel{
+	 margin-bottom: 100px;
+}
+.bill-tree{
+	display: -ms-flexbox;
+    -ms-flex-direction: column;
+}
+.child_transaction_tree{
+	display: -ms-flexbox;
+    -ms-flex-direction: column;
+}
+.child_transaction_display{
+	display: -ms-flexbox;
+}
+.transaction_tree{
+	margin-top: 50px;
+}
+.main-tree{
+	margin-bottom: 100px;
+    margin-top: 80px;
 }

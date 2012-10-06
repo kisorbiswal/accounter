@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
@@ -67,6 +68,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		tree = new Tree() {
 		};
 		this.add(tree);
+		tree.setStyleName("transaction_tree");
 	}
 
 	@Override
@@ -91,6 +93,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			}
 		});
 		tree.addItem(checkBox);
+		tree.setStyleName("main-tree");
 	}
 
 	public void setAllrows(ArrayList<EstimatesAndSalesOrdersList> result,
@@ -122,11 +125,15 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		if (purchaseOrderTree == null) {
 			purchaseOrderTree = getTransactionsTree(isSelected,
 					messages.purchaseOrderList());
+			purchaseOrderTree.setStyleName("bill-tree");
 			tree.addItem(purchaseOrderTree);
 		}
 		String transactionLink = messages.purchaseOrder();
-		purchaseOrderTree.addItem(getChildTransactionTree(transactionLink,
-				clientPurchaseOrder, isSelected));
+		TreeItem childTransactionTree = getChildTransactionTree(
+				transactionLink, clientPurchaseOrder, isSelected);
+		purchaseOrderTree.addItem(childTransactionTree);
+		childTransactionTree.getElement().getParentElement()
+				.addClassName("child_transaction_display");
 	}
 
 	protected void addSalesOrderTransactionTreeItem(ClientEstimate salesOrder,
@@ -134,11 +141,16 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		if (salesOrderTree == null) {
 			salesOrderTree = getTransactionsTree(isSelected,
 					messages.salesOrderList());
+			salesOrderTree.setStyleName("bill-tree");
 			tree.addItem(salesOrderTree);
 		}
 		String transactionLink = messages.salesOrder();
-		salesOrderTree.addItem(getChildTransactionTree(transactionLink,
-				salesOrder, isSelected));
+		TreeItem childTransactionTree = getChildTransactionTree(
+				transactionLink, salesOrder, isSelected);
+		salesOrderTree.addItem(childTransactionTree);
+		childTransactionTree.getElement().getParentElement()
+				.addClassName("child_transaction_display");
+
 	}
 
 	private void addQuotesTreeItem(EstimatesAndSalesOrdersList result) {
@@ -181,6 +193,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private TreeItem getChildTransactionTree(String transactionLink,
 			final ClientTransaction transaction, boolean isSelected) {
 		final TreeItem transactionTree = new TreeItem();
+		transactionTree.setStyleName("child_transaction_tree");
 		transactionTree.setUserObject(transaction);
 		CheckBox checkBox = new CheckBox();
 		checkBox.setValue(isSelected);
@@ -316,11 +329,16 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		if (billableTree == null) {
 			billableTree = getTransactionsTree(isSelected,
 					messages.billabelList());
+			billableTree.setStyleName("bill-tree");
 			tree.addItem(billableTree);
 		}
 		String transactionLink = messages.billabe();
-		billableTree.addItem(getChildTransactionTree(transactionLink, estimate,
-				isSelected));
+		TreeItem childTransactionTree = getChildTransactionTree(
+				transactionLink, estimate, isSelected);
+		billableTree.addItem(childTransactionTree);
+		childTransactionTree.getElement().getParentElement()
+				.addClassName("child_transaction_display");
+
 	}
 
 	public void refreshBillableTransactionTree() {
@@ -374,11 +392,15 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			boolean isSelected) {
 		if (quotesTree == null) {
 			quotesTree = getTransactionsTree(isSelected, messages.quotesList());
+			quotesTree.setStyleName("bill-tree");
 			tree.addItem(quotesTree);
 		}
 		String transactionLink = messages.quote();
-		quotesTree.addItem(getChildTransactionTree(transactionLink, estimate,
-				isSelected));
+		TreeItem childTransactionTree = getChildTransactionTree(
+				transactionLink, estimate, isSelected);
+		quotesTree.addItem(childTransactionTree);
+		childTransactionTree.getElement().getParentElement()
+				.addClassName("child_transaction_display");
 	}
 
 	public abstract boolean isinViewMode();
@@ -388,11 +410,15 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		if (chargesTree == null) {
 			chargesTree = getTransactionsTree(isSelected,
 					messages.chargesList());
+			chargesTree.setStyleName("bill-tree");
 			tree.addItem(chargesTree);
 		}
 		String transactionLink = messages.charge();
-		chargesTree.addItem(getChildTransactionTree(transactionLink, estimate,
-				isSelected));
+		TreeItem childTransactionTree = getChildTransactionTree(
+				transactionLink, estimate, isSelected);
+		chargesTree.addItem(childTransactionTree);
+		childTransactionTree.getElement().getParentElement()
+				.addClassName("child_transaction_display");
 	}
 
 	private void addCreditsTransactionTreeItem(final ClientEstimate estimate,
@@ -400,10 +426,14 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		if (creditsTree == null) {
 			creditsTree = getTransactionsTree(isSelected,
 					messages.creditsList());
+			creditsTree.setStyleName("bill-tree");
 			tree.addItem(creditsTree);
 		}
-		creditsTree.addItem(getChildTransactionTree(messages.credit(),
-				estimate, isSelected));
+		TreeItem childTransactionTree = getChildTransactionTree(
+				messages.credit(), estimate, isSelected);
+		creditsTree.addItem(childTransactionTree);
+		childTransactionTree.getElement().getParentElement()
+				.addClassName("child_transaction_display");
 	}
 
 	protected void onSelectionChanged(Boolean value, TreeItem treeItem) {
