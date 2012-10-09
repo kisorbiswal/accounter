@@ -1571,6 +1571,12 @@ public class VendorView extends BaseView<ClientVendor> {
 		addButton(hPanel, addButton);
 	}
 
+	@Override
+	protected void clearButtons() {
+		super.clearButtons();
+		removeButton(hPanel, addButton);
+	}
+
 	private AddButton getAddButton() {
 		AddButton addButton = new AddButton(messages.addNew(messages.contact()));
 		addButton.addClickHandler(new ClickHandler() {
