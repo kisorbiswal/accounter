@@ -641,6 +641,9 @@ public abstract class Payee extends CreatableObject implements
 
 		Set<Payee> payees = getCompany().getPayees();
 		for (Payee payee : payees) {
+			if (payee.getID() == getID()) {
+				continue;
+			}
 			if (payee.getName().equalsIgnoreCase(getName())) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_ALREADY_EXIST,

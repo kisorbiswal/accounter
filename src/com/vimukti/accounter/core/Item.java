@@ -760,6 +760,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	private void updatePath() {
 
+		if (parentItem == null && oldParentItem == null) {
+			return;
+		}
+
 		Session session = HibernateUtil.getCurrentSession();
 		FlushMode flushMode = session.getFlushMode();
 		session.setFlushMode(FlushMode.COMMIT);
