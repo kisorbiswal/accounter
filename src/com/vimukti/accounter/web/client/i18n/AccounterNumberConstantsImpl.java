@@ -89,4 +89,14 @@ public class AccounterNumberConstantsImpl implements NumberConstantsImpl {
 		return $wnd['accounter_locale']['zeroDigit'];
 	}-*/;
 
+	@Override
+	public native String globalCurrencyPattern() /*-{
+		return $wnd['accounter_locale']['currencyPattern'];
+	}-*/;
+
+	@Override
+	public native String simpleCurrencyPattern() /*-{
+		return $wnd['accounter_locale']['currencyPattern'];
+	}-*/;
+
 }

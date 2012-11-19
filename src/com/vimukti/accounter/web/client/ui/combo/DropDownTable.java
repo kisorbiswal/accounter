@@ -206,7 +206,7 @@ public abstract class DropDownTable<T> extends CellTable<T> {
 	}
 
 	@Override
-	protected int getKeyboardSelectedRow() {
+	public int getKeyboardSelectedRow() {
 		return super.getKeyboardSelectedRow();
 	}
 

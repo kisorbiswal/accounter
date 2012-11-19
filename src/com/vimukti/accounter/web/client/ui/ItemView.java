@@ -489,6 +489,7 @@ public class ItemView extends BaseView<ClientItem> {
 		if (getType() == ClientItem.TYPE_INVENTORY_PART) {
 			isellCheck.setValue(true);
 			ibuyCheck.setValue(true);
+			ibuyCheck.setVisible(false);
 		} else if (!isInViewMode()) {
 			if (isGeneratedFromCustomer()) {
 				isellCheck.setValue(isGeneratedFromCustomer());

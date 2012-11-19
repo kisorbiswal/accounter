@@ -454,6 +454,16 @@ public class AccounterNumberFormat {
 			public String zeroDigit() {
 				return "0";
 			}
+
+			@Override
+			public String globalCurrencyPattern() {
+				return orig.globalCurrencyPattern();
+			}
+
+			@Override
+			public String simpleCurrencyPattern() {
+				return orig.simpleCurrencyPattern();
+			}
 		};
 	}
 

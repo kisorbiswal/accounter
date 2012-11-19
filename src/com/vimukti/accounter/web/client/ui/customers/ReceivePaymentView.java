@@ -209,12 +209,12 @@ public class ReceivePaymentView extends
 
 								receivePaymentTransactionList = result;
 
+								gridView.initCreditsAndPayments(selectedCustomer);
 								if (!result.isEmpty()
 										|| !transaction
 												.getTransactionReceivePayment()
 												.isEmpty()) {
 									gridView.removeAllRecords();
-									gridView.initCreditsAndPayments(selectedCustomer);
 									addTransactionRecievePayments(result);
 								} else {
 									gridView.removeAllRecords();

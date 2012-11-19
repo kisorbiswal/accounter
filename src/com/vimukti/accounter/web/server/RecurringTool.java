@@ -220,6 +220,7 @@ public class RecurringTool extends Thread {
 			session.saveOrUpdate(message);
 
 		}
+		rTransaction.setStatus(RecurringTransaction.STATUS_SUCCESS);
 		session.saveOrUpdate(rTransaction);
 	}
 

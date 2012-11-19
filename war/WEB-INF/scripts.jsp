@@ -20,6 +20,7 @@ $.src='//cdn.zopim.com/?5ORBx6zz1Cq3OWAmSSLzY2AtW9vSmSOx';z.t=+new Date;$.
 type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
 
  $zopim(function() {
+ 	 $zopim.livechat.noFlash = true;
 <%
 {
 	String email=(String)request.getSession().getAttribute("emailId");
