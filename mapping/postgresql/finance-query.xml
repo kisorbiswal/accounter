@@ -5050,12 +5050,12 @@
 		<return-scalar column="TOTAL" type="double" />
 		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
-		<return-scalar column="ADDRESS1" type="encryptedstring" />
+		<!-- <return-scalar column="ADDRESS1" type="encryptedstring" />
 		<return-scalar column="ADDRESS2" type="encryptedstring" />
 		<return-scalar column="CITY" type="encryptedstring" />
 		<return-scalar column="STATE" type="encryptedstring" />
 		<return-scalar column="COUNTRY" type="encryptedstring" />
-		<return-scalar column="ZIP" type="encryptedstring" />
+		<return-scalar column="ZIP" type="encryptedstring" /> -->
 		<return-scalar column="SALES_PERSON_NAME" type="encryptedstring" />
 		<return-scalar column="SHIPPING_METHOD_NAME" type="encryptedstring" />
 		<return-scalar column="PAYMENT_TERM_NAME" type="encryptedstring" />
@@ -5082,12 +5082,6 @@
 				         WHEN T.T_TYPE = 29 THEN -1 * CPP.BALANCE_DUE
 				       END                AS BALANCE,
 				       P.NAME             AS CUSTOMER_NAME,
-				       PA.ADDRESS1        AS ADDRESS1,
-				       PA.STREET          AS ADDRESS2,
-				       PA.CITY            AS CITY,
-				       PA.STATE           AS STATE,
-				       PA.COUNTRY         AS COUNTRY,
-				       PA.ZIP             AS ZIP,
 				       SP.FIRST_NAME      AS SALES_PERSON_NAME,
 				       SM.NAME            AS SHIPPING_METHOD_NAME,
 				       PT.NAME            AS PAYMENT_TERM_NAME,
@@ -5115,8 +5109,6 @@
 				             OR P.ID = RP.CUSTOMER_ID
 				             OR P.ID = JE.PAYEE_ID
 				             OR P.ID = CPP.CUSTOMER_ID
-				       LEFT OUTER JOIN PAYEE_ADDRESS PA
-				         ON PA.PAYEE_ID = P.ID
 				       LEFT OUTER JOIN CUSTOMER C
 				         ON C.ID = P.ID
 				       LEFT OUTER JOIN SALES_PERSON SP
@@ -5131,12 +5123,6 @@
 				       AND T.T_TYPE IN ( 4, 5, 8, 12,
 				                         16, 29 )
 				       AND T.SAVE_STATUS = 203
-				       AND CASE
-				             WHEN (SELECT COUNT(PA2.TYPE)
-				                   FROM   PAYEE_ADDRESS PA2
-				                   WHERE  PA2.PAYEE_ID = P.ID) != 0 THEN PA.TYPE = 2
-				             ELSE TRUE
-				           END
 				       AND CASE
 				             WHEN 1 = :viewType THEN ( I.BALANCE_DUE > 0.0
 				                                       AND T.STATUS != 2

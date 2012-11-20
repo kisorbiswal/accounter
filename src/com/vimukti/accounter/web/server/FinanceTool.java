@@ -1518,13 +1518,14 @@ public class FinanceTool {
 					.setParameter("companyId", companyId)
 					.setParameter("accountId", account)
 					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate())
 					.setParameter("openingBalance",
 							AccounterServerConstants.OPENING_BALANCE,
 							EncryptedStringType.INSTANCE)
 					.setParameter("limit", start);
 			Double balance = (java.lang.Double) balanceQuery.uniqueResult();
-
+			if (balance == null) {
+				balance = 0.00D;
+			}
 			Query query = session
 					.getNamedQuery("getAccountRegister")
 					.setParameter("companyId", companyId)
@@ -1550,6 +1551,7 @@ public class FinanceTool {
 				PayeeList payeeList = null;
 				Iterator iterator = l.iterator();
 
+				int index = 0;
 				while ((iterator).hasNext()) {
 
 					AccountRegister accountRegister = new AccountRegister();
@@ -1593,10 +1595,16 @@ public class FinanceTool {
 					accountRegister.setCurrencyfactor(object[11] == null ? 0
 							: (Double) object[11]);
 					queryResult.add(accountRegister);
+
+					// if(index<start){
+					// balance +=accountRegister.getAmount();
+					// }
+
+					index++;
 				}
 				total += queryResult.size();
 				AccountRegister ar = new AccountRegister();
-				ar.setAmount(balance == null ? 0 : balance);
+				ar.setAmount(balance);
 				if (result.isEmpty()) {
 					result.add(0, ar);
 				} else {

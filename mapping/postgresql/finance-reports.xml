@@ -4143,7 +4143,6 @@
 	<sql-query name="getAccountRegisterOpeningBalance">
 		<query-param name="accountId" type="long" />
 		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
 		<query-param name="companyId" type="long" />
 		<query-param name="openingBalance" type="encryptedString" />
 		<query-param name="limit" type="int" />
@@ -4186,7 +4185,7 @@
 						       
 						WHERE  A.ID = :accountId
 						       AND A.COMPANY_ID = :companyId
-						       AND T.T_DATE BETWEEN :startDate AND :endDate
+						       AND T.T_DATE < :startDate 
 						GROUP  BY T.ID,
 						          AT.TRANSACTION_ID,
 						          A.ID,
@@ -4194,7 +4193,7 @@
 						          COM.ID
 						          
 						ORDER  BY T.T_DATE,
-						          AT.TRANSACTION_ID  LIMIT :limit) AS A
+						          AT.TRANSACTION_ID LIMIT CASE WHEN :limit<=0 THEN null ELSE :limit END) AS A
 				]]>
 
 	</sql-query>

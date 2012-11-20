@@ -335,8 +335,13 @@
 		
 		<return-scalar column="PAYEE_BALANCE" type="double"/>
 		
-		SELECT (p.opening_balance+SUM(amount)) AS PAYEE_BALANCE
-		FROM   payee_update pu left join payee p on p.id=pu.payee
-		WHERE  p.id=:payeeId group by p.id;
+		SELECT ( CASE WHEN p.TYPE=1 THEN -p.opening_balance ELSE p.opening_balance END +
+		         SUM(
+		                amount) ) AS PAYEE_BALANCE
+		FROM   payee_update pu
+		       left join payee p
+		              ON p.id = pu.payee
+		WHERE  p.id = :payeeId
+		GROUP  BY p.id;  
 	</sql-query>
 </hibernate-mapping>

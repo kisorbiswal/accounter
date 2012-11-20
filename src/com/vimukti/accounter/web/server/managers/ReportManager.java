@@ -20,6 +20,7 @@ import org.hibernate.dialect.EncryptedStringType;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.AccounterServerConstants;
+import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Box;
 import com.vimukti.accounter.core.Budget;
 import com.vimukti.accounter.core.BudgetItem;
@@ -27,6 +28,7 @@ import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXAdjustment;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
@@ -3077,6 +3079,19 @@ public class ReportManager extends Manager {
 				queryResult.add(balanceStatementsList);
 			}
 
+			Payee payee = (Payee) session.get(Payee.class, id);
+			List<Address> address = new ArrayList<Address>(payee.getAddress());
+			Collections.sort(address, new Comparator<Address>() {
+
+				@Override
+				public int compare(Address o1, Address o2) {
+					return o2.getType() - o1.getType();
+				}
+			});
+			ClientAddress billToAddr = address.isEmpty() ? null
+					: new ClientConvertUtil().toClientObject(address.get(0),
+							ClientAddress.class);
+
 			Query query = session
 					.getNamedQuery("getCreatableStatementForCustomer")
 					.setParameter("startDate", fromDate.getDate())
@@ -3108,42 +3123,27 @@ public class ReportManager extends Manager {
 							.setPayeeName(((String) object[6]) == null ? null
 									: (String) object[6]);
 
-					ClientAddress clientAddress = new ClientAddress();
-					clientAddress
-							.setAddress1(((String) object[7]) == null ? null
-									: ((String) object[7]));
-					clientAddress.setStreet(((String) object[8]) == null ? null
-							: ((String) object[8]));
-					clientAddress.setCity(((String) object[9]) == null ? null
-							: ((String) object[9]));
-					clientAddress
-							.setStateOrProvinence(((String) object[10]) == null ? null
-									: ((String) object[10]));
-					clientAddress
-							.setCountryOrRegion(((String) object[11]) == null ? null
-									: ((String) object[11]));
-					clientAddress
-							.setZipOrPostalCode(((String) object[12]) == null ? null
-									: ((String) object[12]));
-					statementsList.setBillingAddress(clientAddress);
+					if (billToAddr != null) {
+						statementsList.setBillingAddress(billToAddr);
+					}
 
-					statementsList.setSalesPerson(object[13] == null ? null
-							: (String) object[13]);
-					statementsList.setShippingMethod(object[14] == null ? null
-							: (String) object[14]);
-					statementsList.setPaymentTerm(object[15] == null ? null
-							: (String) object[15]);
-					statementsList.setTransactionId(object[16] == null ? null
-							: ((Long) object[16]).longValue());
+					statementsList.setSalesPerson(object[7] == null ? null
+							: (String) object[7]);
+					statementsList.setShippingMethod(object[8] == null ? null
+							: (String) object[8]);
+					statementsList.setPaymentTerm(object[9] == null ? null
+							: (String) object[9]);
+					statementsList.setTransactionId(object[10] == null ? null
+							: ((Long) object[10]).longValue());
 					long ageing = getAgeing(
 							statementsList.getTransactionDate(),
 							statementsList.getDueDate(), toDate, companyId);
 					statementsList.setAgeing(ageing);
 					// statementsList.setCategory(getCategory(ageing));
 
-					statementsList.setCurrency((Long) object[17]);
-					statementsList.setCurrencyFactor((Double) object[18]);
-					statementsList.setSaveStatus((Integer) object[19]);
+					statementsList.setCurrency((Long) object[11]);
+					statementsList.setCurrencyFactor((Double) object[12]);
+					statementsList.setSaveStatus((Integer) object[13]);
 					statementsList.setpayeeId(id);
 
 					queryResult.add(statementsList);
