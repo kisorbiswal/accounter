@@ -1635,10 +1635,15 @@ public class UIUtils {
 
 	public native static void downloadCustomFiles(String fileName)/*-{
 		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src", "/downloads/" + fileName);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
+			if (window.downloadFile) {
+				window.downloadFile("https://www.accounterlive.com/downloads/"
+						+ fileName, filename);
+			} else {
+				var frame = document.createElement("IFRAME");
+				frame.setAttribute("src", "/downloads/" + fileName);
+				frame.style.visibility = "hidden";
+				document.body.appendChild(frame);
+			}
 		} catch (e) {
 			alert(e);
 		}
@@ -1664,14 +1669,25 @@ public class UIUtils {
 			String brandingThemeId, String vendorID, String horizontalValue,
 			String verticalValue)/*-{
 		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src", "/do/finance/miscInfoServlet?objectId="
-					+ objectID + "&type=" + type + "&brandingThemeId="
-					+ brandingThemeId + "&vendorID=" + vendorID
-					+ "&horizontalValue=" + horizontalValue + "&verticalValue="
-					+ verticalValue);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
+			if (window.downloadFile) {
+				window.downloadFile(
+						"https://www.accounterlive.com/do/finance/miscInfoServlet?objectId="
+								+ objectID + "&type=" + type
+								+ "&brandingThemeId=" + brandingThemeId
+								+ "&vendorID=" + vendorID + "&horizontalValue="
+								+ horizontalValue + "&verticalValue="
+								+ verticalValue, "1099MISCForm.pdf");
+			} else {
+				var frame = document.createElement("IFRAME");
+				frame.setAttribute("src",
+						"/do/finance/miscInfoServlet?objectId=" + objectID
+								+ "&type=" + type + "&brandingThemeId="
+								+ brandingThemeId + "&vendorID=" + vendorID
+								+ "&horizontalValue=" + horizontalValue
+								+ "&verticalValue=" + verticalValue);
+				frame.style.visibility = "hidden";
+				document.body.appendChild(frame);
+			}
 		} catch (e) {
 			alert(e);
 		}
@@ -2081,11 +2097,18 @@ public class UIUtils {
 	public native static void downloadTransactionAttachment(
 			String attachmentId, String name)/*-{
 		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src", "/do/downloadattachment?attachmentId="
-					+ attachmentId + "&name=" + name);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
+			if (window.downloadFile) {
+				window.downloadFile(
+						"https://www.accounterlive.com/do/downloadattachment?attachmentId="
+								+ attachmentId + "&name=" + name, name);
+			} else {
+				var frame = document.createElement("IFRAME");
+				frame.setAttribute("src",
+						"/do/downloadattachment?attachmentId=" + attachmentId
+								+ "&name=" + name);
+				frame.style.visibility = "hidden";
+				document.body.appendChild(frame);
+			}
 		} catch (e) {
 			alert(e);
 		}
@@ -2094,12 +2117,20 @@ public class UIUtils {
 	public native static void downloadFileFromTemp(String fileName,
 			String attachId)/*-{
 		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src", "/do/downloadtempfile?filename="
-					+ encodeURIComponent(fileName) + "&attachmentId="
-					+ encodeURIComponent(attachId));
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
+			if (window.downloadFile) {
+				window.downloadFile(
+						"https://www.accounterlive.com/do/downloadtempfile?filename="
+								+ encodeURIComponent(fileName)
+								+ "&attachmentId="
+								+ encodeURIComponent(attachId), fileName);
+			} else {
+				var frame = document.createElement("IFRAME");
+				frame.setAttribute("src", "/do/downloadtempfile?filename="
+						+ encodeURIComponent(fileName) + "&attachmentId="
+						+ encodeURIComponent(attachId));
+				frame.style.visibility = "hidden";
+				document.body.appendChild(frame);
+			}
 		} catch (e) {
 			alert(e);
 		}
