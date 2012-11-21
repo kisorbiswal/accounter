@@ -6,6 +6,7 @@
     var app = WinJS.Application;
     var activation = Windows.ApplicationModel.Activation;
     WinJS.strictProcessing();
+    
 
     app.onactivated = function (args) {
         if (args.detail.kind === activation.ActivationKind.launch) {
@@ -66,6 +67,54 @@
         // asynchronous operation before your application is suspended, call
         // args.setPromise().
     };
+    WinJS.Application.onerror = function (e) {
 
+        // The first argument give us details of the exception:
+        var message = e.detail.message;
+        var description = e.detail.description;
+        var code = e.detail.number;
+        var stackTrace = e.detail.stack;
+
+        // ...
+
+        // By returning true, we signal that the exception was handled,
+        // preventing the application from being terminated
+        return true;
+    };
+
+    window.downloadFile= function(url,name) {
+
+        // Verify that we are currently not snapped, or that we can unsnap to open the picker
+        var currentState = Windows.UI.ViewManagement.ApplicationView.value;
+        if (currentState === Windows.UI.ViewManagement.ApplicationViewState.snapped &&
+            !Windows.UI.ViewManagement.ApplicationView.tryUnsnap()) {
+            // Fail silently if we can't unsnap
+            return;
+        }
+
+        // Create the picker object and set options
+        var savePicker = new Windows.Storage.Pickers.FolderPicker();
+        savePicker.fileTypeFilter.replaceAll(["*"]);
+        savePicker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.documentsLibrary;
+
+        savePicker.pickSingleFolderAsync().then(function (folder) {
+            if (folder) {
+                // write to file
+                var uri = new Windows.Foundation.Uri(url);
+                if (!name) {
+                    name = uri.queryParsed.getFirstValueByName("filename");
+                }
+                var downloader = new Windows.Networking.BackgroundTransfer.BackgroundDownloader();;
+                folder.createFileAsync(name,
+                    Windows.Storage.CreationCollisionOption.ReplaceExisting).then(function (file) {;
+                        downloader.createDownload(uri, file).startAsync().done(function () {
+                            WinJS.log && WinJS.log("Operation cancelled.", "sample", "status");
+                        });
+                    });
+            } else {
+                WinJS.log && WinJS.log("Operation cancelled.", "sample", "status");
+            }
+        });
+    };
     app.start();
 })();

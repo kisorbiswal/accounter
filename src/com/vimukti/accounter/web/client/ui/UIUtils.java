@@ -1669,8 +1669,8 @@ public class UIUtils {
 			String brandingThemeId, String vendorID, String horizontalValue,
 			String verticalValue)/*-{
 		try {
-			if (window.downloadFile) {
-				window.downloadFile(
+			if ($wnd.downloadFile) {
+				$wnd.downloadFile(
 						"https://www.accounterlive.com/do/finance/miscInfoServlet?objectId="
 								+ objectID + "&type=" + type
 								+ "&brandingThemeId=" + brandingThemeId
@@ -2097,8 +2097,8 @@ public class UIUtils {
 	public native static void downloadTransactionAttachment(
 			String attachmentId, String name)/*-{
 		try {
-			if (window.downloadFile) {
-				window.downloadFile(
+			if ($wnd.downloadFile) {
+				$wnd.downloadFile(
 						"https://www.accounterlive.com/do/downloadattachment?attachmentId="
 								+ attachmentId + "&name=" + name, name);
 			} else {
@@ -2117,8 +2117,8 @@ public class UIUtils {
 	public native static void downloadFileFromTemp(String fileName,
 			String attachId)/*-{
 		try {
-			if (window.downloadFile) {
-				window.downloadFile(
+			if ($wnd.downloadFile) {
+				$wnd.downloadFile(
 						"https://www.accounterlive.com/do/downloadtempfile?filename="
 								+ encodeURIComponent(fileName)
 								+ "&attachmentId="
