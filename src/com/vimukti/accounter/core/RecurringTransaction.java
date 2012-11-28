@@ -12,7 +12,6 @@ import org.hibernate.Session;
 import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
-import com.sun.istack.internal.Nullable;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -743,7 +742,6 @@ public class RecurringTransaction extends CreatableObject implements
 		 * @return date for next schedule. <b>null</b> if there is no next
 		 *         schedule.
 		 */
-		@Nullable
 		Date next();
 
 		/**
@@ -752,7 +750,6 @@ public class RecurringTransaction extends CreatableObject implements
 		 * @return date for previous schedule. <b>null</b> if there is no
 		 *         previous schedule.
 		 */
-		@Nullable
 		Date previous();
 	}
 

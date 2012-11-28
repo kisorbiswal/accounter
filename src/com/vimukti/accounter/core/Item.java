@@ -447,7 +447,13 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 				averageCost = standardCost;
 			}
 		} else {
-			if (onHandQty != null && onHandQty.getUnit() == null) {
+			if (onHandQty == null) {
+				onHandQty = new Quantity();
+			}
+			if (measurement == null) {
+				measurement = getCompany().getDefaultMeasurement();
+			}
+			if (onHandQty.getUnit() == null) {
 				onHandQty.setUnit(getMeasurement().getDefaultUnit());
 			}
 		}
@@ -555,6 +561,17 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		if (name == null || name.trim().length() == 0) {
 			throw new AccounterException(
 					AccounterException.ERROR_ITEM_NAME_NULL);
+		}
+
+		Set<Item> items = getCompany().getItems();
+		for (Item item : items) {
+			if (item.getID() == getID()) {
+				continue;
+			}
+			if (item.getName().equalsIgnoreCase(getName())) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_ALREADY_EXIST, getName());
+			}
 		}
 	}
 
