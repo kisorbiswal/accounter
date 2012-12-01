@@ -9,13 +9,13 @@ public class Migrator20 extends AbstractMigrator {
 
 	@Override
 	public void migrate(Company company) throws AccounterException {
-		log.info("Started Migrator20");
+		log.info("Started Migrator" + getVersion());
 
 		if (company.getPreferences().getActiveInventoryScheme() != CompanyPreferences.INVENTORY_SCHME_AVERAGE) {
 			ItemUtils.remapAllInventory(company);
 		}
 
-		log.info("Finished Migrator20");
+		log.info("Finished Migrator" + getVersion());
 
 	}
 

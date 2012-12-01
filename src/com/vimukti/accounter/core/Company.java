@@ -41,7 +41,7 @@ public class Company implements IAccounterServerCore {
 
 	public static final String OTHER = "Other";
 
-	public static final int CURRENT_VERSION = 24;
+	public static final int CURRENT_VERSION = 25;
 
 	private long id;
 	private int version;

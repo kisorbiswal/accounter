@@ -10,8 +10,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.mortbay.util.UrlEncoded;
-
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import org.postgresql.util.Base64;
 
 public class NormalTest {
 	private static final String SIGNATURE = "Signature";
@@ -44,7 +43,7 @@ public class NormalTest {
 			Mac mac = Mac.getInstance(ALGORITHM);
 			mac.init(keySpec);
 			byte[] doFinal = mac.doFinal(url.getBytes());
-			String encode = Base64.encode(doFinal);
+			String encode = Base64.encodeBytes(doFinal);
 			return encode;
 		} catch (Exception e) {
 			e.printStackTrace();
