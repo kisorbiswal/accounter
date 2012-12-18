@@ -8,7 +8,16 @@ public class DecimalUtil {
 
 		long thisBits = doubleToLongBits(val1);
 		long anotherBits = doubleToLongBits(val2);
-		return thisBits == anotherBits;
+
+		if (thisBits != anotherBits) {
+			return false;
+		}
+
+		int val1Index = String.valueOf(val1).indexOf('.');
+		int val2Index = String.valueOf(val2).indexOf('.');
+
+		return val1Index == val2Index;
+
 	}
 
 	private static long doubleToLongBits(double val) {

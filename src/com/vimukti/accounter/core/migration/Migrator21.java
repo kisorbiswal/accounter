@@ -8,7 +8,7 @@ public class Migrator21 extends AbstractMigrator {
 
 	@Override
 	public void migrate(Company company) throws AccounterException {
-		log.info("Started Migrator21");
+		log.info("Started Migrator" + getVersion());
 		for (Transaction t : company.getTransactions()) {
 			// (201,202,204)
 			int status = t.getSaveStatus();
@@ -17,13 +17,12 @@ public class Migrator21 extends AbstractMigrator {
 			}
 			migrate(t);
 		}
-		log.info("Finished Migrator21");
+		log.info("Finished Migrator" + getVersion());
 	}
 
 	@Override
 	public int getVersion() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 21;
 	}
 
 }
