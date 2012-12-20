@@ -6,7 +6,6 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.CallableStatement;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -40,7 +39,6 @@ import com.vimukti.accounter.core.SupportedUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.services.SubscryptionTool;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -252,20 +250,13 @@ public class AccounterWindowsHomeServiceImpl extends
 				client.setPhoneNo(details.getPhoneNum());
 				client.setCountry(details.getCountry());
 				client.setSubscribedToNewsLetters(details.isSubscribeUpdates());
+
 				ClientSubscription clientSubscription = new ClientSubscription();
 				clientSubscription.setCreatedDate(new Date());
 				clientSubscription.setSubscription(Subscription
-						.getInstance(Subscription.PREMIUM_USER));
-				Calendar instance = Calendar.getInstance();
-				instance.add(Calendar.MONTH, 12);
-				Date expiredDate = instance.getTime();
-				clientSubscription.setPremiumType(ClientSubscription.ONE_USER);
-				clientSubscription
-						.setDurationType(ClientSubscription.YEARLY_USER);
-				clientSubscription.setExpiredDate(expiredDate);
-				clientSubscription.setGracePeriodDate(SubscryptionTool
-						.getGracePeriodDate());
+						.getInstance(Subscription.FREE_CLIENT));
 				saveEntry(clientSubscription);
+
 				client.setClientSubscription(clientSubscription);
 				client.setDeleted(false);
 				saveEntry(client);

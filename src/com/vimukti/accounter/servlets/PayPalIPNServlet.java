@@ -294,6 +294,7 @@ public abstract class PayPalIPNServlet extends BaseServlet {
 			details.setResidenceCountry(params.get("residence_country"));
 			details.setTransactionSubject(params.get("transaction_subject"));
 			details.setIpnTrackId(params.get("ipn_track_id"));
+			session.save(details);
 			transaction.commit();
 		} catch (Exception e) {
 			log.error("Error While Saving Request : ", e);
