@@ -344,4 +344,9 @@
 		WHERE  p.id = :payeeId
 		GROUP  BY p.id;  
 	</sql-query>
+	
+	<query name="get.All.Transactions">
+		<query-param name="companyID" type="long"/>
+		from com.vimukti.accounter.core.Transaction t where t.company.id=:companyID order by t.transactionDate ASC, t.number ASC
+	</query>
 </hibernate-mapping>

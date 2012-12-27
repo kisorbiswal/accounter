@@ -453,6 +453,9 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			if (measurement == null) {
 				measurement = getCompany().getDefaultMeasurement();
 			}
+			if (warehouse == null) {
+				warehouse = getCompany().getDefaultWarehouse();
+			}
 			if (onHandQty.getUnit() == null) {
 				onHandQty.setUnit(getMeasurement().getDefaultUnit());
 			}
@@ -496,8 +499,11 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	}
 
 	public void doCreateEffectForInventoryItem() {
-		if (!isInventory() || warehouse == null) {
+		if (!isInventory()) {
 			return;
+		}
+		if (warehouse == null) {
+			warehouse = getCompany().getDefaultWarehouse();
 		}
 		if (!onHandQty.isEmpty()) {
 			averageCost = standardCost;
