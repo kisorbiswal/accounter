@@ -64,15 +64,12 @@
 
 
 //this checks teh receipt of the application before starting the app.
-
--(void)applicationDidFinishLaunching:(NSNotification *)notification{
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] appStoreReceiptURL] path]] == NO) 
-    {
-      // exit(173);
-    }
-    
-
-}
+//
+//-(void)applicationDidFinishLaunching:(NSNotification *)notification{
+//    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+//    [prefs setObject:@"1212121" forKey:@"cacheVersion"];
+//    [prefs synchronize];
+//}
 
 - (void)appDidLaunch:(NSNotification*)note
 {
@@ -80,16 +77,16 @@
         applicationOpen = TRUE;
         
         /*  enable the following lines if you want to enable debugging dialogue. This will enable application to open any address*/
-                [localaddressTextField setEnabled:FALSE];
-                [NSApp beginSheet:openingURLpanel modalForWindow:mainWindow modalDelegate:self didEndSelector: NULL contextInfo:nil];
+             //  [localaddressTextField setEnabled:FALSE];
+             //   [NSApp beginSheet:openingURLpanel modalForWindow:mainWindow modalDelegate:self didEndSelector: NULL contextInfo:nil];
                
         
         /*add these lines and comment the above two lines while releasing in live to remove the debugging dialogue and anble app to get live server address*/       
-      /*  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
+       [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
         [self InitiateURL:mainPathLocation];
         NSString *xmlFinalPath = [[NSString alloc]init];
         xmlFinalPath = [[NSString alloc]initWithString:[mainPathLocation stringByAppendingString:@"desktop/mac/newmenu"]];         
-        menuCreator = [[AccounterMenuCreator alloc]initWith:xmlFinalPath :mainMenu :accounterMenu :self];*/
+        menuCreator = [[AccounterMenuCreator alloc]initWith:xmlFinalPath :mainMenu :accounterMenu :self];
         
     }
 }
@@ -115,11 +112,8 @@
  **/
 -(void)LoadOpeningURL:(NSString *)url
 {
-    
-    
+
     NSString *openingUrl = [url stringByAppendingString:@"main/login"];
-    
-    
     
     /*
      Add cacheupdater class to enable saving the files in the disk.
@@ -128,7 +122,12 @@
     CacheUpdater *updater = [[CacheUpdater alloc]init];
     [updater setMainWindow:mainWindow :cacheUpdaterView];
     [updater initUpdating:url];
+ 
     
+    /*
+     add custom url protocol cache
+     */
+    [CustomURLProtocol registerSpecialProtocol];
     
     /*
      this will make sure the previous file saved by webview(not cache) are deleted. this is needed to make sure our changes in css appear
@@ -142,14 +141,8 @@
     [[webPage mainFrame] loadRequest:mainRequest];
     [webPage setPolicyDelegate:self];
 	[webPage setUIDelegate:self];
-    
-
-    
-    /*
-     add custom url protocol cache
-     */
-    [CustomURLProtocol registerSpecialProtocol];
-    
+    NSLog(@"Launching server connectin to : %@",[mainRequest URL]);
+        
     /*
      for showing progress bar for the application.
      */
@@ -309,18 +302,16 @@
     
 }
 
+
 #pragma mark -
 #pragma mark opening url actions
 
 - (IBAction)lanchUrlSelected:(id)sender {
-    
-    [openingURLpanel orderOut:nil];
-    [NSApp endSheet:openingURLpanel];
-    if([checkButton state] == NSOnState){
-        localServer = FALSE;
+       
+    if(localServer==FALSE){
         [self InitiateURL:mainPathLocation];
-    }else{
-        localServer = TRUE;
+
+    }else if (localServer==TRUE) {
         [self InitiateURL:[localaddressTextField stringValue]];
     }
     
@@ -330,16 +321,28 @@
     }else{
         xmlFinalPath = [[NSString alloc]initWithString:[[localaddressTextField stringValue] stringByAppendingString:@"desktop/mac/newmenu"]];    
     }
+    [openingURLpanel orderOut:nil];
+    [NSApp endSheet:openingURLpanel];
     
     menuCreator = [[AccounterMenuCreator alloc]initWith:xmlFinalPath :mainMenu :accounterMenu :self];
     
 }
 
 - (IBAction)changeLaunchUrl:(id)sender {
-    if([checkButton state] == NSOnState){
+    NSButtonCell *sellCel = [checkURLs selectedCell];
+    int tag = [sellCel tag];
+    
+    if(tag==1){
         [localaddressTextField setEnabled:FALSE];
-    }else{
+        localServer = FALSE;
+    }else if(tag==2){
+        [localaddressTextField setEnabled:FALSE];
+         localServer = FALSE;
+        mainPathLocation = @"https://next.accounterlive.com/";
+    }else if(tag ==3){
         [localaddressTextField setEnabled:TRUE];
+        localServer = TRUE;
+
     }
 }
 
@@ -409,15 +412,9 @@ decisionListener:(id)listener
     NSString *host = [[request URL]absoluteString];
     NSLog(@"host:%@",host);
 
-    NSString *string = @"gopremium";
-    if ([host rangeOfString:string].location == NSNotFound) {
-        NSLog(@"string does not contain gopremium");
         [self _sendBrowserRequest: request forAction: actionInformation];
         [listener ignore];
-    } else {
-        NSLog(@"string contains gopremium!");
-        [self OnPurchaseInitiate];
-    }
+
 }
 
 
@@ -493,8 +490,6 @@ decisionListener:(id)listener
 {
     
     NSDictionary *headers = [request allHTTPHeaderFields];
-    
-//    NSLog(@"URL:%@",[[request URL]absoluteString]);
     NSMutableURLRequest *newRequest = [[request mutableCopy]autorelease];
     
     if([headers valueForKey:@"Nativeapp"]== nil)
@@ -522,6 +517,15 @@ decisionListener:(id)listener
             [[webPage mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlMaking]]];
     }
     
+}
+
+-(void)webView:(WebView *)sender plugInFailedWithError:(NSError *)error dataSource:(WebDataSource *)dataSource{
+    NSLog(@"error : %@",[error localizedDescription]);
+}
+
+
+-(void)webView:(WebView *)sender didFailLoadWithError:(NSError *)error forFrame:(WebFrame *)frame{
+    NSLog(@"error : %@",[error localizedDescription]);
 }
 
 /*
@@ -594,6 +598,13 @@ decisionListener:(id)listener
                                   nil, mainWindow, self,                  
                                   @selector(sheetDidEndShouldClose:returnCode:contextInfo:),NULL,NULL,               
                                   @"Accounter is unable to access the xml file. Gateway to the host server is down. Please check your internet connection or contact the developer.");
+                
+                NSString* filePath = [[NSBundle mainBundle] pathForResource:@"NoConnection" 
+                                                                     ofType:@"html"
+                                                                inDirectory:@""];
+                NSURL* fileURL = [NSURL fileURLWithPath:filePath];
+                NSURLRequest* request = [NSURLRequest requestWithURL:fileURL];
+                [[webPage mainFrame] loadRequest:request];
             }
             break;
         }

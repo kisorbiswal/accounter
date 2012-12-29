@@ -8,7 +8,7 @@
 
 #import "WebKit/WebKit.h"
 #import <Foundation/Foundation.h>
-
+NSMutableArray *cacheArray;
 
 @interface ConnectionInProgress:NSObject {
     NSURLConnection *connection;
@@ -35,6 +35,7 @@
 + (NSString*) specialProtocolVarsKey;
 + (void) registerSpecialProtocol;
 
++(void)addURL:(NSString*)url;
 - (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection;

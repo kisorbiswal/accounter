@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		90D7E0AD13C8849700A684DC /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D7E0AC13C8849700A684DC /* Reachability.m */; };
-		90EB1BF913BEE8A20066C9C2 /* AccounterIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 90EB1BF813BEE8A20066C9C2 /* AccounterIcon.icns */; };
 		90EE738613BDCAF6008152AC /* XMLPath.plist in Resources */ = {isa = PBXBuildFile; fileRef = 90EE738513BDCAF6008152AC /* XMLPath.plist */; };
 		90FEB97213B5A26600F1F05D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 90FEB97013B5A26600F1F05D /* InfoPlist.strings */; };
 		90FEB97513B5A26600F1F05D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FEB97413B5A26600F1F05D /* main.m */; };
@@ -16,6 +15,8 @@
 		90FEB97E13B5A26700F1F05D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90FEB97C13B5A26700F1F05D /* MainMenu.xib */; };
 		90FEB98113B5A26700F1F05D /* WebView.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 90FEB97F13B5A26700F1F05D /* WebView.xcdatamodeld */; };
 		90FEB98913B5A2D000F1F05D /* MainClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FEB98813B5A2CF00F1F05D /* MainClass.m */; };
+		CB5BD5EA168F1DAC00D5587A /* AccounterIcon_512x512.icns in Resources */ = {isa = PBXBuildFile; fileRef = CB5BD5E8168F1DAC00D5587A /* AccounterIcon_512x512.icns */; };
+		CB5BD5EB168F1DAC00D5587A /* AccounterIcon_512x512@2x.icns in Resources */ = {isa = PBXBuildFile; fileRef = CB5BD5E9168F1DAC00D5587A /* AccounterIcon_512x512@2x.icns */; };
 		CB7F6A6F151B25770098A483 /* purchase.xml in Resources */ = {isa = PBXBuildFile; fileRef = CB7F6A6E151B25770098A483 /* purchase.xml */; };
 		CB8409C4152B2E830030F807 /* libcrypto.0.9.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB8409C3152B2E830030F807 /* libcrypto.0.9.8.dylib */; };
 		CB8409C6152B2ECF0030F807 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB8409C5152B2ECF0030F807 /* libcrypto.dylib */; };
@@ -81,7 +82,6 @@
 /* Begin PBXFileReference section */
 		90D7E0AB13C8849700A684DC /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		90D7E0AC13C8849700A684DC /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		90EB1BF813BEE8A20066C9C2 /* AccounterIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AccounterIcon.icns; path = ../AccounterIcon.icns; sourceTree = "<group>"; };
 		90EE738513BDCAF6008152AC /* XMLPath.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = XMLPath.plist; sourceTree = "<group>"; };
 		90FEB96313B5A26600F1F05D /* Accounter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Accounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90FEB96A13B5A26600F1F05D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -97,6 +97,8 @@
 		90FEB98713B5A2CF00F1F05D /* MainClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainClass.h; sourceTree = "<group>"; };
 		90FEB98813B5A2CF00F1F05D /* MainClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainClass.m; sourceTree = "<group>"; };
 		CB2F6852152ADA8A005A29F5 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		CB5BD5E8168F1DAC00D5587A /* AccounterIcon_512x512.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AccounterIcon_512x512.icns; sourceTree = "<group>"; };
+		CB5BD5E9168F1DAC00D5587A /* AccounterIcon_512x512@2x.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "AccounterIcon_512x512@2x.icns"; sourceTree = "<group>"; };
 		CB7F6A6E151B25770098A483 /* purchase.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = purchase.xml; sourceTree = "<group>"; };
 		CB8409C1152B2DAA0030F807 /* libssl.0.9.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.0.9.8.dylib; path = usr/lib/libssl.0.9.8.dylib; sourceTree = SDKROOT; };
 		CB8409C3152B2E830030F807 /* libcrypto.0.9.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.0.9.8.dylib; path = usr/lib/libcrypto.0.9.8.dylib; sourceTree = SDKROOT; };
@@ -104,6 +106,7 @@
 		CB8E047E14E0E1CB009BC947 /* NoConnection.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = NoConnection.html; sourceTree = "<group>"; };
 		CB8E048114E0E32E009BC947 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../icon.png; sourceTree = "<group>"; };
 		CB8E7B60151B472E009D0AC4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		CB9326341567A37500C7587B /* Accounter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Accounter.entitlements; sourceTree = "<group>"; };
 		CBA609271495B99000A26DA5 /* AccounterMenuCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccounterMenuCreator.h; sourceTree = "<group>"; };
 		CBA609281495B99000A26DA5 /* AccounterMenuCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccounterMenuCreator.m; sourceTree = "<group>"; };
 		CBD4959D152C535D00C1C4AF /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
@@ -189,6 +192,7 @@
 		90FEB95813B5A26500F1F05D = {
 			isa = PBXGroup;
 			children = (
+				CB9326341567A37500C7587B /* Accounter.entitlements */,
 				90FEB96D13B5A26600F1F05D /* Accounter Files */,
 				90FEB96613B5A26600F1F05D /* Frameworks */,
 				90FEB96413B5A26600F1F05D /* Products */,
@@ -261,7 +265,8 @@
 				CB8E048114E0E32E009BC947 /* icon.png */,
 				90FEB97C13B5A26700F1F05D /* MainMenu.xib */,
 				90FEB97F13B5A26700F1F05D /* WebView.xcdatamodeld */,
-				90EB1BF813BEE8A20066C9C2 /* AccounterIcon.icns */,
+				CB5BD5E8168F1DAC00D5587A /* AccounterIcon_512x512.icns */,
+				CB5BD5E9168F1DAC00D5587A /* AccounterIcon_512x512@2x.icns */,
 				90FEB96F13B5A26600F1F05D /* Accounter.In-Info.plist */,
 				90FEB97013B5A26600F1F05D /* InfoPlist.strings */,
 				90FEB97313B5A26600F1F05D /* Accounter.In-Prefix.pch */,
@@ -378,7 +383,7 @@
 		90FEB95A13B5A26500F1F05D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = 90FEB95D13B5A26500F1F05D /* Build configuration list for PBXProject "Accounter" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -406,10 +411,11 @@
 				90FEB97813B5A26600F1F05D /* Credits.rtf in Resources */,
 				90FEB97E13B5A26700F1F05D /* MainMenu.xib in Resources */,
 				90EE738613BDCAF6008152AC /* XMLPath.plist in Resources */,
-				90EB1BF913BEE8A20066C9C2 /* AccounterIcon.icns in Resources */,
 				CB8E047F14E0E1CB009BC947 /* NoConnection.html in Resources */,
 				CB8E048214E0E32E009BC947 /* icon.png in Resources */,
 				CB7F6A6F151B25770098A483 /* purchase.xml in Resources */,
+				CB5BD5EA168F1DAC00D5587A /* AccounterIcon_512x512.icns in Resources */,
+				CB5BD5EB168F1DAC00D5587A /* AccounterIcon_512x512@2x.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,6 +502,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				VALID_ARCHS = "x86_64 i386";
 			};
@@ -512,6 +519,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				VALID_ARCHS = "i386 x86_64";
 				"VALID_ARCHS[sdk=*]" = "";
@@ -523,6 +531,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CODE_SIGN_ENTITLEMENTS = Accounter.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Vimukti Technologies Private Limited";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -541,6 +550,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-lcrypto";
 				PRODUCT_NAME = Accounter;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				VALID_ARCHS = "i386 x86_64";
 				WRAPPER_EXTENSION = app;
@@ -552,6 +562,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CODE_SIGN_ENTITLEMENTS = Accounter.entitlements;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Vimukti Technologies Private Limited";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -569,6 +580,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-lcrypto";
 				PRODUCT_NAME = Accounter;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				VALID_ARCHS = "i386 x86_64";
 				WRAPPER_EXTENSION = app;

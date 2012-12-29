@@ -11,6 +11,7 @@
 @implementation CacheUpdater
 
 
+
 - (id)init
 {
     self = [super init];
@@ -20,6 +21,7 @@
     }
     return self;
 }
+
 
 -(void)setMainWindow:(NSWindow*)window:(NSPanel*)panel{
     mainWindow = window;
@@ -34,7 +36,6 @@
     mainPath = [[NSString alloc ]initWithString:urlPath];
     
     NSURL *url = [NSURL URLWithString:[mainPath stringByAppendingString:@"main/cache/mac"]];
-    
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request setDelegate:self];
@@ -65,6 +66,9 @@
  start downloading the files and save the version number in NSUserDefaults
  */
 -(void)startUpdating:(NSString*)versionNumber{
+    
+    NSLog(@"---Downloading new files---");
+    
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs setObject:versionNumber forKey:@"cacheVersion"];
     [prefs synchronize];
@@ -78,24 +82,29 @@
 }
 
 -(void)downLoadFileFromList:(NSArray*)fileArray:(NSString*)path{
-    
+  
+
     
     [[ NSFileManager defaultManager ] removeItemAtPath:folderPath error:nil];
     [ [ NSFileManager defaultManager ] createDirectoryAtPath: folderPath withIntermediateDirectories: YES attributes: nil error: NULL ];
     
-    for (int i = 1; i<[fileArray count]-1; i++) {
+    for (int i = 1; i<[fileArray count]-2; i++) {
         
-        NSURL *url = [NSURL URLWithString:[path stringByAppendingString:[[fileArray objectAtIndex:i]substringWithRange:NSMakeRange(1, [[fileArray objectAtIndex:i] length]-1)]]];
+        NSString *fileobj = [fileArray objectAtIndex:i];
+        NSURL *url = [NSURL URLWithString:[path stringByAppendingString:[fileobj substringWithRange:NSMakeRange(1, [fileobj length]-1)]]];
         NSLog(@"%@",[url absoluteString]);
         
         ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
         [request setDelegate:self];
         [request startAsynchronous];
-        
     }
+   // [queue go];
+
     
 }
-
+-(void)queueCompleted:(ASINetworkQueue*)queue{
+    NSLog(@"comelpeted");
+}
 /*
  called by ASIHTTPRequest after each request is completed.
  */
@@ -105,10 +114,16 @@
         initialFile = TRUE;
         if([request responseStatusCode]==200){
             [self downLoadMain:request];
+        }else {
+            NSLog(@"cache files text not found");
         }
     }else {
-        // NSLog(@"request : %@",[request url]);
-        [self downLoadOthers:request];
+        if([request responseStatusCode]==200){
+              [self downLoadOthers:request];
+        }else {
+            NSLog(@"file downloading failed for : %@",[request url]);
+        }
+      
     }
 }
 
@@ -119,7 +134,7 @@
 
 -(void)reuest:(ASIHTTPRequest *)request didReceiveData:(NSData *)data{
     
-    // NSLog(@"started reading file : %@",[request url]);
+  
 }
 
 /*
@@ -128,8 +143,13 @@
 -(void)downLoadMain:(ASIHTTPRequest*)request{
     
     NSString *filedata= [[NSString alloc]initWithContentsOfURL:[request url] encoding:NSUTF8StringEncoding error:NULL];
-    fileItems = [filedata componentsSeparatedByString:@"\r\n"];
-  
+    if([filedata rangeOfString:@"\r\n"].length>0){
+        fileItems = [filedata componentsSeparatedByString:@"\r\n"];
+    }else if([filedata rangeOfString:@"\n"].length>0) {
+        fileItems = [filedata componentsSeparatedByString:@"\n"];
+    }
+    NSLog(@"---Reading cache files----");
+    
     if(fileItems.count>1){
         folderPath = [NSHomeDirectory() stringByAppendingFormat:@"/Library/Application Support/Accounter/"];
         [ [ NSFileManager defaultManager ] createDirectoryAtPath: folderPath withIntermediateDirectories: YES attributes: nil error: NULL ];
@@ -156,6 +176,12 @@
     
     NSData *data = [NSData dataWithContentsOfURL:[request url]];
     [data writeToFile:path options:NSAtomicWrite error:&err];
+    
+    [CustomURLProtocol addURL:[mainPath stringByAppendingString:[[request url]absoluteString]]];
+    
+    NSLog(@"Downloaded:%d",countNumber);
+    
+    
     if (err) {
         NSLog(@"oops: %@", err);
     }

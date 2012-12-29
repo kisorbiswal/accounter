@@ -54,26 +54,46 @@
  */
 + (BOOL) canInitWithRequest:(NSURLRequest*)request
 {
-    
     if ([[request HTTPMethod] isEqualToString:@"POST"]) {
+        NSLog(@"not supported : %@",[[request URL]absoluteURL]);
         return NO;
     }
     NSString* scheme=[[request URL] absoluteString];
+    
+       
     if (![scheme hasPrefix:@"http://"] && ![scheme hasPrefix:@"https://"]) {
         return NO;
     }
     
     if([[[request URL]lastPathComponent]isEqualToString:@"accounter"]){
         return NO;
-        
     }
-    NSString* value=[request valueForHTTPHeaderField:@"OurKey"];
-    if(value==Nil){
+    
+    NSString *folderPath = [NSHomeDirectory() stringByAppendingFormat:@"/Library/Application Support/Accounter/"];
+    NSString *relativePath = request.URL.relativePath;
+    if([relativePath isEqualToString:@"/"]){
+        return NO;
+    }
+    NSString* storagePath = [NSString stringWithFormat:@"%@%@", folderPath, request.URL.relativePath];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:storagePath]) {
+        NSLog(@"found : %@",[[request URL]absoluteURL]);
         return YES;
+    }else {
+        NSLog(@"not found : %@",[[request URL]absoluteURL]);
+        return NO;
     }
+
     return NO;
 }
 
+
+
++(void)addURL:(NSString*)url{
+    if(cacheArray!=nil){
+        cacheArray = [[NSMutableArray alloc]init];
+    }
+    [cacheArray addObject:url];
+}
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)newRequest
 {
@@ -106,7 +126,7 @@
     
     NSCachedURLResponse* cacheResponse = nil;
     if ([[NSFileManager defaultManager] fileExistsAtPath:storagePath]) {
-//        NSLog(@"CACHE FOUND for %@", request.URL.relativePath);
+      //  NSLog(@"CACHE FOUND for %@", request.URL.relativePath);
         content = [[NSData dataWithContentsOfFile:storagePath] retain];
         
         NSURLResponse* response = [[NSURLResponse alloc] initWithURL:request.URL MIMEType:@"" expectedContentLength:[content length] textEncodingName:nil];
@@ -115,10 +135,10 @@
     }
     
     
-    if(cacheResponse == nil){
-        
+   if(cacheResponse == nil){
         NSMutableURLRequest *ourRequest = [request mutableCopy];
         [ourRequest setValue:@"Accounter.live.in" forHTTPHeaderField:@"OurKey"]; 
+     
         [self readFromRequest:ourRequest];
         
     }else{

@@ -58,9 +58,9 @@
     //opening ulr controls
     IBOutlet NSPanel *openingURLpanel;
     IBOutlet NSTextField *localaddressTextField;
-    IBOutlet NSButton *checkButton;
     AccounterMenuCreator * menuCreator;
     
+    IBOutlet NSMatrix *checkURLs;
 
     IBOutlet NSPanel *inAppPurchsePanel;
     IBOutlet NSProgressIndicator *progressPanel;

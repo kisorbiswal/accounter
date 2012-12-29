@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "ASIHTTPRequest.h"
+#import "CustomURLProtocol.h"
+#import "ASINetworkQueue.h"
 
 @interface CacheUpdater : NSObject<ASIHTTPRequestDelegate,NSURLConnectionDelegate>{
 
@@ -24,6 +26,10 @@
     bool initialFile;
     int countNumber;
     
+    
+    
+
+    
 }
 
 -(void)initUpdating:(NSString*)urlPath;
@@ -35,5 +41,7 @@
 -(void)startUpdating:(NSString*)versionNumber;
 -(void)downLoadMain:(ASIHTTPRequest*)request;
 -(void)downLoadOthers:(ASIHTTPRequest*)request;
+
+-(void)queueCompleted:(ASINetworkQueue*)queue;
 
 @end
