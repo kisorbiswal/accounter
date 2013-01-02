@@ -100,23 +100,25 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		item.setReorderPoint(getInteger("reOrderPts"));
 		int itemType = getItemType();
 
-		if ((itemType == ClientItem.TYPE_NON_INVENTORY_PART || itemType == ClientItem.TYPE_INVENTORY_PART)
-				&& getInteger("weight") != 0) {
+		if (getInteger("weight") != 0) {
 			item.setWeight(getInteger("weight"));
-			if (itemType == ClientItem.TYPE_INVENTORY_PART) {
-				item.setIBuyThisItem(true);
-				item.setISellThisItem(true);
-				item.setMinStockAlertLevel(null);
-				item.setMaxStockAlertLevel(null);
-				item.setWarehouse(getWarehouse("wareHouse"));
-				item.setMeasurement(getMeasurement("measurement") != 0 ? measurmentId
-						: getDefaultMeasurmentId());
-				if (getLong("onHandQuantity") != 0) {
-					item.setOnhandQty(getClientQty("onHandQuantity"));
-				}
-				item.setAsOfDate(getFinanceDate("asOf") == null ? new ClientFinanceDate()
-						: getFinanceDate("asOf"));
+		}
+		if (itemType == ClientItem.TYPE_INVENTORY_PART
+				|| itemType == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
+			item.setIBuyThisItem(true);
+			item.setISellThisItem(true);
+			item.setMinStockAlertLevel(null);
+			item.setMaxStockAlertLevel(null);
+			item.setWarehouse(getWarehouse("wareHouse"));
+			item.setMeasurement(getMeasurement("measurement") != 0 ? measurmentId
+					: getDefaultMeasurmentId());
+			if (getLong("onHandQuantity") != 0) {
+				ClientQuantity clientQty = getClientQty("onHandQuantity");
+				clientQty.setUnit(getDefaultUnits(item.getMeasurement()));
+				item.setOnhandQty(clientQty);
 			}
+			item.setAsOfDate(getFinanceDate("asOf") == null ? new ClientFinanceDate()
+					: getFinanceDate("asOf"));
 		}
 		item.setItemGroup(getItemsGroup("itemGroup"));
 		item.setPurchasePrice(getDouble("purchasePrice"));
@@ -135,6 +137,14 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		item.setVendorItemNumber(getString("vendorServiceNo"));
 		return item;
 
+	}
+
+	private long getDefaultUnits(long measurementID) {
+		Set<Measurement> measurements = getCompanyById(getCompanyId())
+				.getMeasurements();
+		Measurement measurement = ImporterUtils.getMeasurementByID(
+				measurements, measurementID);
+		return measurement.getDefaultUnit().getID();
 	}
 
 	private int getItemType() {
@@ -163,16 +173,7 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 	private ClientQuantity getClientQty(String quantity) {
 		ClientQuantity qty = new ClientQuantity();
 		qty.setValue(getLong(quantity));
-		qty.setUnit(getMeasurmentByID(measurmentId));
 		return qty;
-	}
-
-	private long getMeasurmentByID(long measurmentId2) {
-		Set<Measurement> measurements = getCompanyById(getCompanyId())
-				.getMeasurements();
-		Measurement measurement = ImporterUtils.getMeasurementByID(
-				measurements, measurmentId2);
-		return measurement.getID();
 	}
 
 	private long getDefaultMeasurmentId() {
