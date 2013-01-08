@@ -11436,25 +11436,31 @@
 		<return-scalar column="ASSET_TOTAL" type="double" />
 		
 		<![CDATA[
-				SELECT SUM(at.amount) AS ASSET_TOTAL
-				        FROM   account_transaction at
-				               left join transaction t2
-				                 ON at.transaction_id = t2.id
-				               left join transaction_item ti2
-				                 ON ti2.TYPE = 1
-				                    AND ti2.transaction_id = t2.id
-				               left join item it2
-				                 ON it2.TYPE IN ( 2, 4 )
-				                    AND it2.id = ti2.item_id
-				        WHERE  at.account_id = it2.assets_account_id
-				        	    AND  CASE WHEN 0!=:wareHouseId
-						            then it2.warehouse=:wareHouseId
-						            else
-						            true
-						            end
-				               AND at.company_id = :companyId
-				               AND it2.company_id = :companyId
-				               AND it2.AS_OF_DATE BETWEEN :fromDate AND :toDate
+			 SELECT SUM(CASE
+			             WHEN asset_value IS NULL THEN average_cost * on_hand
+			             ELSE asset_value
+			           END) AS ASSET_TOTAL
+			FROM   (SELECT SUM(iss.qty_value)                AS On_Hand,
+			               i.average_cost,
+			               SUM(iu.qty_value * iu.unit_price) AS ASSET_VALUE
+			        FROM   item_status iss
+			               left join item i
+			                      ON i.id = iss.item_id
+			               left join item_update iu
+			                      ON iss.ware_house = iu.ware_house
+			                         AND iu.item = i.id
+			               left join TRANSACTION t
+			                      ON t.id = iu.TRANSACTION
+			        WHERE  i.company_id = :companyId
+			               AND CASE
+			                     WHEN 0 != :wareHouseId THEN iss.ware_house = :wareHouseId
+			                     ELSE TRUE
+			                   END
+			               AND CASE
+			                     WHEN t.id IS NULL THEN TRUE
+			                     ELSE t.t_date BETWEEN :fromDate AND :toDate
+			                   END
+			        GROUP  BY i.id) AS tab  
 				]]>
 
 	</sql-query>
@@ -11474,58 +11480,53 @@
 		<return-scalar column="ITEM_SALE_PRICE" type="double" />
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="ASSET_VALUE" type="double" />
-		<return-scalar column="RETAIL_VALUE" type="double" />
 		<return-scalar column="TOTAL_RETAIL" type="double" />
 		
 		<![CDATA[
-				SELECT ITEM_NAME,
-				       ITEM_PURCHASE_DESCRIPTION                  DESCRIPTION,
-				       ITEM_TOTAL_QUANTITY,
-				       V.UNIT AS ITEM_UNITS,
-				       I.AVERAGE_COST AS COST,
-				       ITEM_SALE_PRICE,
-				       ITEM_ID,	
-				       S.ASSET_VALUE,
-				       (ITEM_SALE_PRICE * ITEM_TOTAL_QUANTITY)          AS RETAIL_VALUE,
-				       (SELECT SUM(SALES_PRICE*ON_HAND_QTY_VALUE) FROM ITEM WHERE TYPE IN (2,4)) AS TOTAL_RETAIL
-				FROM   INVENTORY_HISTORY_VIEW V
-				LEFT JOIN ITEM I ON I.ID = V.ITEM_ID
-				
-				LEFT JOIN (SELECT it2.id,SUM(at.amount) AS asset_value
-				        FROM   account_transaction at
-				               left join transaction t2
-				                 ON at.transaction_id = t2.id
-				               left join transaction_item ti2
-				                 ON ti2.TYPE = 1
-				                    AND ti2.transaction_id = t2.id
-				               left join item it2
-				                 ON it2.TYPE IN ( 2, 4 )
-				                    AND it2.id = ti2.item_id
-				        WHERE  at.account_id = it2.assets_account_id
-				        	    AND  CASE WHEN 0 != :wareHouseId
-						            then it2.warehouse = :wareHouseId
-						            else
-						            true
-						            end
-				               AND at.company_id = :companyId
-				               AND it2.company_id = :companyId
-				               AND it2.AS_OF_DATE BETWEEN :fromDate AND :toDate 
-				        GROUP  BY it2.id)  AS S ON S.ID = I.ID
-
-				WHERE  V.COMPANY = :companyId
-				       AND ( V.ASOFDATE BETWEEN :fromDate AND :toDate )
-				       AND  CASE WHEN 0!=:wareHouseId
-				            then I.warehouse=:wareHouseId
-				            else
-				            true
-				            end
-				GROUP  BY ITEM_ID,
-				          ITEM_NAME,
-				          ITEM_TOTAL_QUANTITY,
-				          ITEM_UNITS,
-				          ITEM_SALE_PRICE,
-						  S.ASSET_VALUE,
-				          ITEM_PURCHASE_DESCRIPTION,V.UNIT,I.AVERAGE_COST,I.COMPANY_ID;   
+			 SELECT name                 AS ITEM_NAME,
+			       purchase_description AS DESCRIPTION,
+			       on_hand              AS ITEM_TOTAL_QUANTITY,
+			       units                AS ITEM_UNITS,
+			       average_cost         AS COST,
+			       sales_price          AS ITEM_SALE_PRICE,
+			       id                   AS ITEM_ID,
+			       CASE
+			         WHEN asset_total IS NULL THEN average_cost * on_hand
+			         ELSE asset_total
+			       END                  AS ASSET_VALUE,
+			       total_retail         AS TOTAL_RETAIL
+			FROM   (SELECT i.name,
+			               i.purchase_description,
+			               SUM(iss.qty_value)                AS On_Hand,
+			               u .TYPE                           AS units,
+			               i.average_cost,
+			               i.sales_price,
+			               i.id,
+			               SUM(iu.qty_value * iu.unit_price) AS ASSET_TOTAL,
+			               (SELECT SUM(sales_price * on_hand_qty_value)
+			                FROM   item
+			                WHERE  TYPE IN ( 2, 4 ))         AS TOTAL_RETAIL
+			        FROM   item_status iss
+			               left join item i
+			                      ON i.id = iss.item_id
+			               left join item_update iu
+			                      ON iss.ware_house = iu.ware_house
+			                         AND iu.item = i.id
+			               left join TRANSACTION t
+			                      ON t.id = iu.TRANSACTION
+			               left join unit u
+			                      ON u.id = i.on_hand_qty_unit
+			        WHERE  i.company_id = :companyId
+			               AND CASE
+			                     WHEN 0 != :wareHouseId THEN iss.ware_house = :wareHouseId
+			                     ELSE TRUE
+			                   END
+			               AND CASE
+			                     WHEN t.id IS NULL THEN TRUE
+			                     ELSE t.t_date BETWEEN :fromDate AND :toDate
+			                   END
+			        GROUP  BY i.id,
+			                  u.id) AS tab   
 				]]>
 
 	</sql-query>

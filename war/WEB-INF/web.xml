@@ -678,11 +678,23 @@
 		<filter-name>ServerMaintananceFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	
+	<filter>
+		<filter-name>ThreadLocalFilter</filter-name>
+		<filter-class>com.vimukti.accounter.servlets.ThreadLocalFilter
+		</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>ThreadLocalFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 
 	<context-param>
 		<param-name>version</param-name>
-		<param-value>1.0.9.10.5</param-value>
+		<param-value>1.0.9.10.7</param-value>
 	</context-param>
 
 	<servlet>

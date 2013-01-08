@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 public class ChangeTracker {
 	static Logger log = Logger.getLogger(Account.class);
 
-	public static ThreadLocal<List<IAccounterCore>> clientobjects=new ThreadLocal<List<IAccounterCore>>();
+	public static ThreadLocal<List<IAccounterCore>> clientobjects = new ThreadLocal<List<IAccounterCore>>();
 
 	public static void put(IAccounterServerCore obj) {
 		if (obj == null || obj.getID() == 0)
@@ -46,13 +46,12 @@ public class ChangeTracker {
 
 	private static List<IAccounterCore> get() {
 		List<IAccounterCore> list = clientobjects.get();
-		if(list==null){
-			list=new ArrayList<IAccounterCore>();
+		if (list == null) {
+			list = new ArrayList<IAccounterCore>();
 			clientobjects.set(list);
 		}
 		return list;
 	}
-
 
 	public static IAccounterCore[] getChanges() {
 		List<IAccounterCore> list = get();
@@ -101,4 +100,7 @@ public class ChangeTracker {
 		Utility.updateClientList(cmd, get());
 	}
 
+	public static void init() {
+		clientobjects.set(new ArrayList<IAccounterCore>());
+	}
 }
