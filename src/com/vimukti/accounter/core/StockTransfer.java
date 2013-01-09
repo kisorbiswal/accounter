@@ -2,6 +2,8 @@ package com.vimukti.accounter.core;
 
 import java.util.Set;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.Global;
@@ -65,6 +67,14 @@ public class StockTransfer extends Transaction implements IAccounterServerCore,
 
 	public void setMemo(String memo) {
 		this.memo = memo;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		if (transactionDate == null) {
+			setDate(new FinanceDate());
+		}
+		return super.onSave(session);
 	}
 
 	@Override

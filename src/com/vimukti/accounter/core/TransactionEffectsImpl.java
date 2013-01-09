@@ -320,7 +320,7 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 
 	public boolean isEmpty() {
 		if (!newATs.isEmpty() || !newPUs.isEmpty() || !newTRCs.isEmpty()
-				|| !newIUs.isEmpty()) {
+				|| !newIUs.isEmpty() || !newIHs.isEmpty()) {
 			return false;
 		}
 		return true;
