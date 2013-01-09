@@ -1199,6 +1199,21 @@
 				<one-to-many class="TransactionPayEmployee" />
 			</list>
 		</joined-subclass>
+		
+		<joined-subclass name="StockTransfer" table="WAREHOUSE_TRANSFER">
+			<key column="ID" />	
+			<many-to-one name="fromWarehouse" column="FROM_WAREHOUSE"
+				class="Warehouse">
+			</many-to-one>
+			<many-to-one name="toWarehouse" column="TO_WAREHOUSE"
+				class="Warehouse">
+			</many-to-one>
+	
+			<set name="stockTransferItems" cascade="save-update,delete-orphan">
+				<key column="WAREHOUSE_TRANSFER"></key>
+				<one-to-many class="StockTransferItem" />
+			</set>
+		</joined-subclass>
 	</class>
 
 	<class name="Attachment" table="ATTACHMENTS">
@@ -1731,6 +1746,7 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
+		<many-to-one name="warehouse" class="Warehouse" column="WAREHOUSE"/>
 	</class>
 	
 	

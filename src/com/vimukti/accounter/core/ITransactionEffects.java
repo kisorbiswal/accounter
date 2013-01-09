@@ -13,6 +13,7 @@ public interface ITransactionEffects {
 
 	public void add(Account account, Double amount, double currencyFactor);
 
-	void addInventoryHistory(Item item, Quantity quantity, Double unitPrice);
+	void addInventoryHistory(Item item, Quantity quantity, Double unitPrice,
+			Warehouse warehouse);
 
 }

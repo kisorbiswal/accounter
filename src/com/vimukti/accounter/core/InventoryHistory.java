@@ -35,12 +35,14 @@ public class InventoryHistory extends CreatableObject {
 	 */
 	private double assetValue;
 
+	private Warehouse warehouse;
+
 	public InventoryHistory() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public InventoryHistory(Item item, Transaction transaction, Payee payee,
-			Quantity qty, double unitPrice) {
+			Quantity qty, double unitPrice, Warehouse warehouse) {
 		setCompany(transaction.getCompany());
 		this.item = item;
 		this.transaction = transaction;
@@ -48,6 +50,7 @@ public class InventoryHistory extends CreatableObject {
 		this.quantity = qty;
 		this.unitPrice = unitPrice;
 		this.assetValue = quantity.calculatePrice(unitPrice);
+		this.warehouse = warehouse;
 	}
 
 	public Item getItem() {
@@ -96,6 +99,21 @@ public class InventoryHistory extends CreatableObject {
 
 	public void setPayee(Payee payee) {
 		this.payee = payee;
+	}
+
+	/**
+	 * @return the warehouse
+	 */
+	public Warehouse getWarehouse() {
+		return warehouse;
+	}
+
+	/**
+	 * @param warehouse
+	 *            the warehouse to set
+	 */
+	public void setWarehouse(Warehouse warehouse) {
+		this.warehouse = warehouse;
 	}
 
 }

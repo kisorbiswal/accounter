@@ -2,11 +2,8 @@ package com.vimukti.accounter.core;
 
 import java.util.Set;
 
-import org.hibernate.CallbackException;
-import org.hibernate.Session;
 import org.json.JSONException;
 
-import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -18,8 +15,8 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
  * @author Srikanth J
  * 
  */
-public class StockTransfer extends CreatableObject implements
-		IAccounterServerCore, INamedObject {
+public class StockTransfer extends Transaction implements IAccounterServerCore,
+		INamedObject {
 
 	/**
 	 * 
@@ -35,6 +32,7 @@ public class StockTransfer extends CreatableObject implements
 
 	public StockTransfer() {
 		super();
+		setType(Transaction.TYPE_STOCK_TRANSFER);
 	}
 
 	public Warehouse getFromWarehouse() {
@@ -67,48 +65,6 @@ public class StockTransfer extends CreatableObject implements
 
 	public void setMemo(String memo) {
 		this.memo = memo;
-	}
-
-	@Override
-	public boolean onSave(Session session) throws CallbackException {
-
-		for (StockTransferItem item : stockTransferItems) {
-			ItemStatus fromitemStatus = fromWarehouse.getItemStatus(item
-					.getItem());
-			double value = (item.getQuantity().getValue() * item.getQuantity()
-					.getUnit().getFactor())
-					/ fromitemStatus.getQuantity().getUnit().getFactor();
-
-			fromWarehouse.updateItemStatus(item.getItem(), -value);
-
-			toWarehouse.updateItemStatus(item.getItem(), value);
-			item.setCompany(getCompany());
-		}
-		session.saveOrUpdate(fromWarehouse);
-		session.saveOrUpdate(toWarehouse);
-		ChangeTracker.put(fromWarehouse);
-		ChangeTracker.put(toWarehouse);
-		return super.onSave(session);
-	}
-
-	@Override
-	public boolean onDelete(Session session) throws CallbackException {
-		for (StockTransferItem item : stockTransferItems) {
-			ItemStatus fromitemStatus = toWarehouse.getItemStatus(item
-					.getItem());
-			if (fromitemStatus != null) {
-				double value = (item.getQuantity().getValue() * item
-						.getQuantity().getUnit().getFactor())
-						/ fromitemStatus.getQuantity().getUnit().getFactor();
-				fromWarehouse.updateItemStatus(item.getItem(), value);
-				toWarehouse.updateItemStatus(item.getItem(), -value);
-			}
-		}
-		session.saveOrUpdate(fromWarehouse);
-		session.saveOrUpdate(toWarehouse);
-		ChangeTracker.put(fromWarehouse);
-		ChangeTracker.put(toWarehouse);
-		return super.onDelete(session);
 	}
 
 	@Override
@@ -168,6 +124,52 @@ public class StockTransfer extends CreatableObject implements
 		if (stockTransferItems == null || stockTransferItems.isEmpty()) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					Global.get().messages().stockTransferItem());
+		}
+	}
+
+	@Override
+	public boolean isPositiveTransaction() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isDebitTransaction() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int getTransactionCategory() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Payee getInvolvedPayee() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (StockTransferItem sItem : stockTransferItems) {
+			sItem.setCompany(getCompany());
+			Item item = sItem.getItem();
+
+			Quantity quantity = sItem.getQuantity();
+
+			double averageCost = item.getAverageCost();
+
+			e.addInventoryHistory(item, quantity.reverse(), averageCost,
+					fromWarehouse);
+			e.addInventoryHistory(item, quantity, averageCost, toWarehouse);
 		}
 	}
 }

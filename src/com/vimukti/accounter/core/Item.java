@@ -133,8 +133,6 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	private Warehouse warehouse;
 	private Measurement measurement;
 
-	Set<ItemStatus> itemStatuses;
-
 	private FinanceDate asOfDate;
 	private Account assestsAccount;
 	private int reorderPoint;

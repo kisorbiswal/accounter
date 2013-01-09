@@ -87,6 +87,8 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int TYPE_PAY_RUN = 39;
 	public static final int TYPE_PAY_EMPLOYEE = 40;
 
+	public static final int TYPE_STOCK_TRANSFER = 41;
+
 	public static final int STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED = 0;
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
 	public static final int STATUS_PAID_OR_APPLIED_OR_ISSUED = 2;

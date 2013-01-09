@@ -137,7 +137,7 @@ public class BuildAssembly extends Transaction {
 		e.add(getInventoryAssembly(), quantityToBuild, getTotal(),
 				inventoryAssembly.getWarehouse());
 		e.addInventoryHistory(getInventoryAssembly(), quantityToBuild,
-				getTotal());
+				getTotal(), inventoryAssembly.getWarehouse());
 		for (TransactionItem tItem : getTransactionItems()) {
 			Item item = tItem.getItem();
 			e.add(item, tItem.getQuantity().reverse(), tItem.getLineTotal(),

@@ -107,12 +107,6 @@ public class ItemUpdate extends CreatableObject {
 		Quantity onhandQty = getItem().getOnhandQty();
 		getItem().setOnhandQuantity(onhandQty.add(getQuantity()));
 
-		Unit selectedUnit = quantity.getUnit();
-		Measurement defaultMeasurement = item.getMeasurement();
-		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
-		Double value = (quantity.getValue() * selectedUnit.getFactor())
-				/ defaultUnit.getFactor();
-		warehouse.updateItemStatus(item, value);
 		warehouse.onUpdate(session);
 		session.saveOrUpdate(warehouse);
 		session.saveOrUpdate(item);
@@ -124,19 +118,13 @@ public class ItemUpdate extends CreatableObject {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 
-		double averageCost = ItemUtils.getAverageCost(getItem(),
-				getQuantity().reverse(), getUnitPrice());
+		double averageCost = ItemUtils.getAverageCost(getItem(), getQuantity()
+				.reverse(), getUnitPrice());
 		getItem().setAverageCost(averageCost);
 
 		Quantity onhandQty = getItem().getOnhandQty();
 		getItem().setOnhandQuantity(onhandQty.subtract(getQuantity()));
 
-		Unit selectedUnit = getQuantity().getUnit();
-		Measurement defaultMeasurement = getItem().getMeasurement();
-		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
-		Double value = (getQuantity().getValue() * selectedUnit.getFactor())
-				/ defaultUnit.getFactor();
-		getWarehouse().updateItemStatus(getItem(), -value);
 		getWarehouse().onUpdate(session);
 		session.saveOrUpdate(getWarehouse());
 		session.saveOrUpdate(getItem());

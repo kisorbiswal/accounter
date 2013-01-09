@@ -1002,7 +1002,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 		if (!quantity.isEmpty()) {
 			cost = cost / quantity.getValue();
-			e.addInventoryHistory(getItem(), quantity.reverse(), cost);
+			e.addInventoryHistory(getItem(), quantity.reverse(), cost,
+					getWareHouse());
 		}
 	}
 }

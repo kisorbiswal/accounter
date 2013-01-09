@@ -349,4 +349,50 @@
 		<query-param name="companyID" type="long"/>
 		from com.vimukti.accounter.core.Transaction t where t.company.id=:companyID order by t.transactionDate ASC, t.number ASC
 	</query>
+	
+	<sql-query name="getStockTransfers">
+		<query-param name="companyId" type="long"/>
+		
+		<return-scalar column="created_by" type="long"/>
+		<return-scalar column="last_modifier" type="long"/>
+		<return-scalar column="created_on" type="java.sql.Timestamp"/>
+		<return-scalar column="last_modified_on" type="java.sql.Timestamp"/>
+		<return-scalar column="from_warehouse" type="long"/>
+		<return-scalar column="to_warehouse" type="long"/>
+		<return-scalar column="sf_id" type="long"/>
+		
+		SELECT created_by,
+		       last_modifier,
+		       created_on,
+		       last_modified_on,
+		       from_warehouse,
+		       to_warehouse,
+		       id as sf_id
+		FROM   stock_transfer
+		WHERE  company_id = :companyId
+	</sql-query>
+	
+	<sql-query name="getStockTransfersItems">
+		<query-param name="stockTranfer" type="long"/>
+		
+		SELECT sti.*
+		FROM   stock_transfer_item sti
+		WHERE  stock_transfer = :stockTranfer
+	</sql-query>
+	
+	<sql-query name="updateInventoryHistory">
+		<query-param name="companyId" type="long"/>
+		<query-param name="warehouse" type="long"/>
+		UPDATE inventory_history IH
+		SET    warehouse = :warehouse
+		WHERE  IH.company_id = :companyId  
+	</sql-query>
+	
+	<sql-query name="delete.StockTransfer">
+		<query-param name="stockTranfer" type="long"/>
+		DELETE FROM stock_transfer
+		WHERE  id = :stockTranfer
+	</sql-query>
+	
+	
 </hibernate-mapping>

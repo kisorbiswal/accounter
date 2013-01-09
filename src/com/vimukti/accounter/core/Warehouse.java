@@ -3,10 +3,8 @@
  */
 package com.vimukti.accounter.core;
 
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
@@ -38,7 +36,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	private static final long serialVersionUID = 640523202925694992L;
 
 	private Address address;
-	private Set<ItemStatus> itemStatuses = new HashSet<ItemStatus>();
 
 	private String name;
 	private String warehouseCode;
@@ -64,20 +61,12 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 		return address;
 	}
 
-	public Set<ItemStatus> getItemStatuses() {
-		return itemStatuses;
-	}
-
 	public String getName() {
 		return name;
 	}
 
 	public void setAddress(Address address) {
 		this.address = address;
-	}
-
-	public void setItemStatuses(Set<ItemStatus> itemStatuses) {
-		this.itemStatuses = itemStatuses;
 	}
 
 	public void setName(String name) {
@@ -132,9 +121,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(s);
 		isOnSaveProccessed = true;
-		for (ItemStatus itemStatus : itemStatuses) {
-			itemStatus.setWarehouse(this);
-		}
 		return false;
 	}
 
@@ -144,9 +130,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 			return false;
 		}
 		super.onUpdate(s);
-		for (ItemStatus itemStatus : itemStatuses) {
-			itemStatus.setWarehouse(this);
-		}
 		return false;
 	}
 
@@ -176,35 +159,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 	public void setWarehouseCode(String warehouseCode) {
 		this.warehouseCode = warehouseCode;
-	}
-
-	public void updateItemStatus(Item item, double value) {
-		ItemStatus itemStatus = getItemStatus(item);
-		if (itemStatus != null) {
-			Quantity tempQ = itemStatus.getQuantity();
-			itemStatus.getQuantity().setValue(tempQ.getValue() + value);
-		} else {
-			if (this.itemStatuses == null) {
-				this.itemStatuses = new HashSet<ItemStatus>();
-			}
-			ItemStatus newItemStatus = new ItemStatus();
-			newItemStatus.setItem(item);
-			Quantity quantity = new Quantity();
-			quantity.setUnit(item.getMeasurement().getDefaultUnit());
-			quantity.setValue(value);
-			newItemStatus.setQuantity(quantity);
-			newItemStatus.setWarehouse(this);
-			this.itemStatuses.add(newItemStatus);
-		}
-	}
-
-	public ItemStatus getItemStatus(Item item) {
-		for (ItemStatus itemStatus : itemStatuses) {
-			if (itemStatus.getItem().equals(item)) {
-				return itemStatus;
-			}
-		}
-		return null;
 	}
 
 	public String getDDINumber() {

@@ -11436,31 +11436,23 @@
 		<return-scalar column="ASSET_TOTAL" type="double" />
 		
 		<![CDATA[
-			 SELECT SUM(CASE
-			             WHEN asset_value IS NULL THEN average_cost * on_hand
-			             ELSE asset_value
-			           END) AS ASSET_TOTAL
-			FROM   (SELECT SUM(iss.qty_value)                AS On_Hand,
-			               i.average_cost,
-			               SUM(iu.qty_value * iu.unit_price) AS ASSET_VALUE
-			        FROM   item_status iss
+			SELECT SUM(asset_value) AS ASSET_TOTAL
+			FROM   (SELECT SUM(ih.asset_value) AS ASSET_VALUE
+			        FROM   inventory_history ih
 			               left join item i
-			                      ON i.id = iss.item_id
-			               left join item_update iu
-			                      ON iss.ware_house = iu.ware_house
-			                         AND iu.item = i.id
+			                      ON i.id = ih.item
 			               left join TRANSACTION t
-			                      ON t.id = iu.TRANSACTION
+			                      ON t.id = ih.TRANSACTION
 			        WHERE  i.company_id = :companyId
 			               AND CASE
-			                     WHEN 0 != :wareHouseId THEN iss.ware_house = :wareHouseId
+			                     WHEN 0 != :wareHouseId THEN ih.warehouse = :wareHouseId
 			                     ELSE TRUE
 			                   END
 			               AND CASE
 			                     WHEN t.id IS NULL THEN TRUE
 			                     ELSE t.t_date BETWEEN :fromDate AND :toDate
 			                   END
-			        GROUP  BY i.id) AS tab  
+			        GROUP  BY i.id) AS foo  
 				]]>
 
 	</sql-query>
@@ -11483,50 +11475,35 @@
 		<return-scalar column="TOTAL_RETAIL" type="double" />
 		
 		<![CDATA[
-			 SELECT name                 AS ITEM_NAME,
-			       purchase_description AS DESCRIPTION,
-			       on_hand              AS ITEM_TOTAL_QUANTITY,
-			       units                AS ITEM_UNITS,
-			       average_cost         AS COST,
-			       sales_price          AS ITEM_SALE_PRICE,
-			       id                   AS ITEM_ID,
-			       CASE
-			         WHEN asset_total IS NULL THEN average_cost * on_hand
-			         ELSE asset_total
-			       END                  AS ASSET_VALUE,
-			       total_retail         AS TOTAL_RETAIL
-			FROM   (SELECT i.name,
-			               i.purchase_description,
-			               SUM(iss.qty_value)                AS On_Hand,
-			               u .TYPE                           AS units,
-			               i.average_cost,
-			               i.sales_price,
-			               i.id,
-			               SUM(iu.qty_value * iu.unit_price) AS ASSET_TOTAL,
-			               (SELECT SUM(sales_price * on_hand_qty_value)
-			                FROM   item
-			                WHERE  TYPE IN ( 2, 4 ))         AS TOTAL_RETAIL
-			        FROM   item_status iss
-			               left join item i
-			                      ON i.id = iss.item_id
-			               left join item_update iu
-			                      ON iss.ware_house = iu.ware_house
-			                         AND iu.item = i.id
-			               left join TRANSACTION t
-			                      ON t.id = iu.TRANSACTION
-			               left join unit u
-			                      ON u.id = i.on_hand_qty_unit
-			        WHERE  i.company_id = :companyId
-			               AND CASE
-			                     WHEN 0 != :wareHouseId THEN iss.ware_house = :wareHouseId
-			                     ELSE TRUE
-			                   END
-			               AND CASE
-			                     WHEN t.id IS NULL THEN TRUE
-			                     ELSE t.t_date BETWEEN :fromDate AND :toDate
-			                   END
-			        GROUP  BY i.id,
-			                  u.id) AS tab   
+			 SELECT i.name                    AS ITEM_NAME,
+			       i.purchase_description    AS DESCRIPTION,
+			       SUM(ih.qty_value)         AS ITEM_TOTAL_QUANTITY,
+			       u .TYPE                   AS ITEM_UNITS,
+			       i.average_cost            AS COST,
+			       i.sales_price             AS ITEM_SALE_PRICE,
+			       i.id                      AS ITEM_ID,
+			       SUM(ih.asset_value)       AS ASSET_VALUE,
+			       (SELECT SUM(sales_price * on_hand_qty_value)
+			        FROM   item
+			        WHERE  TYPE IN ( 2, 4 )) AS TOTAL_RETAIL
+			FROM   inventory_history ih
+			       left join item i
+			              ON i.id = ih.item
+			       left join TRANSACTION t
+			              ON t.id = ih.TRANSACTION
+			       left join unit u
+			              ON u.id = i.on_hand_qty_unit
+			WHERE  i.company_id = :companyId
+			       AND CASE
+			             WHEN 0 != :wareHouseId THEN ih.warehouse = :wareHouseId
+			             ELSE TRUE
+			           END
+			       AND CASE
+			             WHEN t.id IS NULL THEN TRUE
+			             ELSE t.t_date BETWEEN :fromDate AND :toDate
+			           END
+			GROUP  BY i.id,
+			          u.id  
 				]]>
 
 	</sql-query>

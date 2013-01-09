@@ -77,9 +77,9 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 
 	@Override
 	public void addInventoryHistory(Item item, Quantity quantity,
-			Double unitPrice) {
+			Double unitPrice, Warehouse warehouse) {
 		newIHs.add(new InventoryHistory(item, transaction, transaction
-				.getInvolvedPayee(), quantity, unitPrice));
+				.getInvolvedPayee(), quantity, unitPrice, warehouse));
 	}
 
 	@Override
@@ -144,13 +144,13 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 		Set<InventoryHistory> oldIHs = new HashSet<InventoryHistory>(
 				transaction.getInventoryHistory());
 
-		findOutIntersectionUHs(oldIHs, newIHs);
+		findOutIntersectionIHs(oldIHs, newIHs);
 
 		transaction.getInventoryHistory().removeAll(oldIHs);
 		transaction.getInventoryHistory().addAll(newIHs);
 	}
 
-	private void findOutIntersectionUHs(Set<InventoryHistory> oldIHs,
+	private void findOutIntersectionIHs(Set<InventoryHistory> oldIHs,
 			List<InventoryHistory> newIHs) {
 		Iterator<InventoryHistory> oldIHsIterator = oldIHs.iterator();
 		while (oldIHsIterator.hasNext()) {
@@ -166,7 +166,8 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 						&& DecimalUtil.isEquals(oldIH.getUnitPrice(),
 								newIH.getUnitPrice())
 						&& DecimalUtil.isEquals(oldIH.getAssetValue(),
-								newIH.getAssetValue())) {
+								newIH.getAssetValue())
+						&& oldIH.getWarehouse() == newIH.getWarehouse()) {
 					newIHsIterator.remove();
 					oldIHsIterator.remove();
 					break;

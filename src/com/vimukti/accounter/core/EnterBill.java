@@ -1254,7 +1254,8 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 					// ADDING INVENTORY HISTORY
 					e.addInventoryHistory(item, tItem.getQuantity(),
-							tItem.getUnitPriceInBaseCurrency());
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
 				} else {
 					e.add(item.getExpenseAccount(), amount);
 				}

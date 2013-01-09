@@ -846,10 +846,6 @@
 		</component>
 
 		<property name="itemTotalValue" column="ITEM_TOTAL_VALUE"></property>
-		<set name="itemStatuses" inverse="true" cascade="delete">
-			<key column="ITEM_ID" />
-			<one-to-many class="ItemStatus" />
-		</set>
 		<joined-subclass name="InventoryAssembly" table="INVENTORY_ASSEMBLY">
 			<key column="ID" />
 			<set name="components" table="INVENTORY_ASSEMBLY_ITEM" cascade="save-update,delete-orphan">
@@ -1835,26 +1831,6 @@
 			<property name="email" type="encryptedstring" column="CONTACT_EMAIL"></property>
 		</component>
 
-		<set name="itemStatuses" inverse="true" cascade="save-update,delete-orphan">
-			<key column="WARE_HOUSE" />
-			<one-to-many class="ItemStatus" />
-		</set>
-
-	</class>
-
-	<class name="ItemStatus" table="ITEM_STATUS">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<many-to-one name="warehouse" column="WARE_HOUSE" class="Warehouse">
-		</many-to-one>
-		<many-to-one name="item" column="ITEM_ID" class="Item">
-		</many-to-one>
-		<component name="quantity" class="Quantity">
-			<property name="value" column="QTY_VALUE" />
-			<many-to-one name="unit" column="UNIT" class="Unit"
-				cascade="save-update" />
-		</component>
 	</class>
 
 	<class name="AdjustmentReason" table="ADJUSTMENT_REASON">
@@ -1923,36 +1899,6 @@
 			<many-to-one name="unit" column="QTY_UNIT" class="Unit"
 				cascade="save-update" />
 		</component>
-
-	</class>
-
-	<class name="StockTransfer" table="STOCK_TRANSFER">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true">
-		</many-to-one>
-		<many-to-one name="createdBy" class="User" column="CREATED_BY"
-			not-null="true" />
-		<many-to-one name="lastModifier" class="User" column="LAST_MODIFIER"
-			not-null="true" />
-		<property name="createdDate" column="CREATED_ON" not-null="true" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_ON"
-			not-null="true" />
-
-
-		<many-to-one name="fromWarehouse" column="FROM_WAREHOUSE"
-			class="Warehouse">
-		</many-to-one>
-		<many-to-one name="toWarehouse" column="TO_WAREHOUSE"
-			class="Warehouse">
-		</many-to-one>
-
-		<set name="stockTransferItems" cascade="save-update,delete-orphan">
-			<key column="STOCK_TRANSFER"></key>
-			<one-to-many class="StockTransferItem" />
-		</set>
 
 	</class>
 

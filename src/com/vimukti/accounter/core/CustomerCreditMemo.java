@@ -498,7 +498,8 @@ public class CustomerCreditMemo extends Transaction implements
 
 					// ADDING INVENTORY HISTORY
 					e.addInventoryHistory(item, tItem.getQuantity(),
-							tItem.getUnitPriceInBaseCurrency());
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
 				}
 				break;
 			default:

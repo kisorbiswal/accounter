@@ -2443,7 +2443,7 @@ public class FinanceTool {
 					.setDouble("p_Price", fromClientItem.getPurchasePrice())
 					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("update.merge.itemstatus.old.tonew")
+			session.getNamedQuery("update.merge.itemUpdates.old.tonew")
 					.setLong("fromID", fromClientItem.getID())
 					.setLong("toID", toClientItem.getID()).executeUpdate();
 

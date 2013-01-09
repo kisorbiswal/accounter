@@ -15,7 +15,6 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Item;
-import com.vimukti.accounter.core.ItemStatus;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.StockAdjustment;
 import com.vimukti.accounter.core.StockTransfer;
@@ -397,18 +396,16 @@ public class InventoryManager extends Manager {
 	public ArrayList<ClientStockTransferItem> getStockTransferItems(
 			Long companyId, long wareHouse) {
 		Session session = HibernateUtil.getCurrentSession();
-		List<ItemStatus> itemStatuses = session
-				.getNamedQuery("getItemStatuses")
-				.setLong("wareHouse", wareHouse)
-				.setLong("companyId", companyId).list();
+		List<Object[]> itemStatuses = session.getNamedQuery("getItemStatuses")
+				.setLong("wareHouse", wareHouse).list();
 
 		ArrayList<ClientStockTransferItem> stockTransferItems = new ArrayList<ClientStockTransferItem>();
-		for (ItemStatus record : itemStatuses) {
+		for (Object[] record : itemStatuses) {
 			ClientStockTransferItem item = new ClientStockTransferItem();
-			item.setItem(record.getItem().getID());
+			item.setItem((Long) record[0]);
 			ClientQuantity quantity = new ClientQuantity();
-			quantity.setValue(record.getQuantity().getValue());
-			quantity.setUnit(record.getQuantity().getUnit().getID());
+			quantity.setValue((Double) record[1]);
+			quantity.setUnit((Long) record[2]);
 			item.setQuantity(new ClientQuantity());
 			item.setTotalQuantity(quantity);
 			stockTransferItems.add(item);
@@ -457,16 +454,20 @@ public class InventoryManager extends Manager {
 	public ArrayList<ClientItemStatus> getItemStatuses(long wareHouse,
 			Long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		List<ItemStatus> itemStatuses = session
-				.getNamedQuery("getItemStatuses")
-				.setLong("wareHouse", wareHouse)
-				.setLong("companyId", companyId).list();
+		List<Object[]> itemStatuses = session.getNamedQuery("getItemStatuses")
+				.setLong("wareHouse", wareHouse).list();
 
 		ArrayList<ClientItemStatus> result = new ArrayList<ClientItemStatus>();
-		for (ItemStatus record : itemStatuses) {
-			ClientItemStatus clientRecord = new ClientConvertUtil()
-					.toClientObject(record, ClientItemStatus.class);
-			result.add(clientRecord);
+		for (Object[] record : itemStatuses) {
+			ClientItemStatus itemStatus = new ClientItemStatus();
+			itemStatus.setItem((Long) record[0]);
+			itemStatus.setWarehouse(wareHouse);
+
+			ClientQuantity qty = new ClientQuantity();
+			qty.setValue((Double) record[1]);
+			qty.setUnit((Long) record[2]);
+			itemStatus.setQuantity(qty);
+			result.add(itemStatus);
 		}
 		return result;
 	}

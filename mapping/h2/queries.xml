@@ -1749,12 +1749,24 @@
 		from com.vimukti.accounter.core.News
 	</query>
 
-	<query name="getItemStatuses">
+	<sql-query name="getItemStatuses">
 		<query-param name="wareHouse" type="long" />
 		<query-param name="companyId" type="long" />
-		from com.vimukti.accounter.core.ItemStatus i where
-		i.warehouse.id=:wareHouse and i.warehouse.company.id=:companyId
-	</query>
+		
+		<return-scalar column="ITEM_ID" type="long" />
+		<return-scalar column="QTY_VALUE" type="double" />
+		<return-scalar column="QTY_UNIT" type="long" />
+		
+		SELECT I.id               AS ITEM_ID,
+		       SUM(qty_value)     AS QTY_VALUE,
+		       I.on_hand_qty_unit AS QTY_UNIT
+		FROM   item_update IU
+		       left join item I
+		              ON I.id = IU.item
+		WHERE  ware_house = :wareHouse
+		GROUP  BY I.id;  
+		
+	</sql-query>
 
 	<query name="list.TAXReturns">
 		<query-param name="company" type="Company" />
@@ -1812,10 +1824,10 @@
 		type="Company" /> update com.vimukti.accounter.core.ItemBackUp set item.id=:toID 
 		where item.id=:fromID and company=:company </query> -->
 
-	<query name="update.merge.itemstatus.old.tonew">
+	<query name="update.merge.itemUpdates.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
-		update com.vimukti.accounter.core.ItemStatus set item.id=:toID where
+		update com.vimukti.accounter.core.itemUpdate set item.id=:toID where
 		item.id=:fromID
 	</query>
 

@@ -352,10 +352,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 
 		// Logging the Customer info.
 		if (this.number == null || this.number.trim().isEmpty()) {
-			if (getCompany().getPreferences().getUseCustomerId()) {
-				this.number = NumberUtils
-						.getNextAutoCustomerNumber(getCompany());
-			}
+			this.number = NumberUtils.getNextAutoCustomerNumber(getCompany());
 		}
 		return onUpdate(session);
 	}

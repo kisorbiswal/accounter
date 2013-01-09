@@ -131,7 +131,8 @@ public abstract class AbstractMigrator implements IMigrator {
 						&& DecimalUtil.isEquals(oldIH.getUnitPrice(),
 								newIH.getUnitPrice())
 						&& DecimalUtil.isEquals(oldIH.getAssetValue(),
-								newIH.getAssetValue())) {
+								newIH.getAssetValue())
+						&& oldIH.getWarehouse() == newIH.getWarehouse()) {
 					newIHsIterator.remove();
 					oldIHsIterator.remove();
 					break;

@@ -18,7 +18,6 @@ import com.vimukti.accounter.core.*;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
-import com.vimukti.accounter.web.client.ui.combo.PayheadCombo;
 
 public class Encrypter extends Thread {
 	private Logger log = Logger.getLogger(Encrypter.class);
@@ -106,10 +105,9 @@ public class Encrypter extends Thread {
 				IRASGeneralLedgerLineInfo.class, IRASInformation.class,
 				IRASPurchaseLineInfo.class, IRASSupplyLineInfo.class,
 				Item.class, ItemGroup.class, ITemplate.class,
-				ItemReceipt.class, ItemStatus.class, Job.class,
-				JournalEntry.class, Location.class, LongUseType.class,
-				MaintananceInfoUser.class, MakeDeposit.class,
-				Measurement.class, MessageOrTask.class,
+				ItemReceipt.class, Job.class, JournalEntry.class,
+				Location.class, LongUseType.class, MaintananceInfoUser.class,
+				MakeDeposit.class, Measurement.class, MessageOrTask.class,
 				Misc1099PDFTemplate.class, Misc1099SamplePDFTemplate.class,
 				MISCInformationTemplate.class, MobileCookie.class, News.class,
 				NominalCodeRange.class, NumberUtils.class,

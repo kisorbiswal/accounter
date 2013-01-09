@@ -369,7 +369,8 @@ public class VendorCreditMemo extends Transaction {
 
 					// ADDING INVENTORY HISTORY
 					e.addInventoryHistory(item, tItem.getQuantity(),
-							tItem.getUnitPriceInBaseCurrency());
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
 				} else {
 					e.add(item.getExpenseAccount(), amount);
 				}

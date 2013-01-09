@@ -190,7 +190,8 @@ public class StockAdjustment extends Transaction implements INamedObject {
 
 				// ADDING INVENTORY HISTORY
 				e.addInventoryHistory(item, tItem.getQuantity(),
-						tItem.getUnitPriceInBaseCurrency());
+						tItem.getUnitPriceInBaseCurrency(),
+						tItem.getWareHouse());
 			} else {
 				tItem.addPurchasesEffects(e);
 			}
