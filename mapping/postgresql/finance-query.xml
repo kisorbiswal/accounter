@@ -109,7 +109,7 @@
 				       ( T.TOTAL - (SELECT SUM(TI.INVOICED + ( TI.VAT_FRACTION * (
 				                                               TI.INVOICED / TI.LINE_TOTAL ) ))
 				                    FROM   TRANSACTION_ITEM TI
-				                    WHERE  TI.TRANSACTION_ID = T.ID) ) AS REMAINING_TOTAL
+				                    WHERE  TI.TRANSACTION_ID = T.ID AND TI.LINE_TOTAL !=0) ) AS REMAINING_TOTAL
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN COMPANY C
 				         ON C.ID = :companyId
