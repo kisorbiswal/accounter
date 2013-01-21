@@ -5050,12 +5050,11 @@
 		<return-scalar column="TOTAL" type="double" />
 		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
-		<!-- <return-scalar column="ADDRESS1" type="encryptedstring" />
-		<return-scalar column="ADDRESS2" type="encryptedstring" />
-		<return-scalar column="CITY" type="encryptedstring" />
-		<return-scalar column="STATE" type="encryptedstring" />
-		<return-scalar column="COUNTRY" type="encryptedstring" />
-		<return-scalar column="ZIP" type="encryptedstring" /> -->
+		<!-- <return-scalar column="ADDRESS1" type="encryptedstring" /> <return-scalar 
+			column="ADDRESS2" type="encryptedstring" /> <return-scalar column="CITY" 
+			type="encryptedstring" /> <return-scalar column="STATE" type="encryptedstring" 
+			/> <return-scalar column="COUNTRY" type="encryptedstring" /> <return-scalar 
+			column="ZIP" type="encryptedstring" /> -->
 		<return-scalar column="SALES_PERSON_NAME" type="encryptedstring" />
 		<return-scalar column="SHIPPING_METHOD_NAME" type="encryptedstring" />
 		<return-scalar column="PAYMENT_TERM_NAME" type="encryptedstring" />
@@ -5150,7 +5149,10 @@
 		<return-scalar column="BALANCE" type="double" />
 
 		<![CDATA[
-				SELECT SUM(T.TOTAL) AS BALANCE
+				SELECT SUM(CASE				         
+				         	WHEN T.T_TYPE IN(5,8,16) THEN 1*T.TOTAL
+				         	ELSE -1*T.TOTAL		    
+				       		END   ) AS BALANCE
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN INVOICE I
 				         ON I.ID = T.ID
@@ -5320,7 +5322,10 @@
 		<return-scalar column="BALANCE" type="double" />
 		
 		<![CDATA[
-				SELECT SUM(T.TOTAL) AS BALANCE
+				SELECT SUM(CASE				         
+				         	WHEN T.T_TYPE =6 THEN 1*T.TOTAL
+				         	ELSE -1*T.TOTAL		    
+				       		END   ) AS BALANCE
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN ENTER_BILL E
 				         ON E.ID = T.ID
@@ -11228,7 +11233,7 @@
 				]]>
 
 	</sql-query>
-	
+
 	<sql-query name="update.averagePurchaseCost.of.Item">
 		<query-param name="itemId" type="long" />
 		
@@ -11250,7 +11255,7 @@
 		]]>
 
 	</sql-query>
-	
+
 
 	<sql-query name="getAssetValueOfAllInventory">
 		<query-param name="companyId" type="long" />
@@ -12514,86 +12519,90 @@
 				]]>
 
 	</sql-query>
-	
-		
+
+
 	<sql-query name="get.Last.Transaction.Number">
 		<query-param name="transactionType" type="int" />
 		<query-param name="companyId" type="long" />
-		
+
 		<return-scalar column="NUMBER" type="encryptedstring" />
-		
-		SELECT T.NUMBER FROM TRANSACTION T WHERE T.T_TYPE= :transactionType AND T.COMPANY_ID= :companyId
+
+		SELECT T.NUMBER FROM TRANSACTION T WHERE T.T_TYPE= :transactionType
+		AND T.COMPANY_ID= :companyId
 		ORDER BY T.ID desc LIMIT 1
 	</sql-query>
-	
-	
+
+
 	<sql-query name="get.Transaction.Number.by.Number.Id">
 		<query-param name="transactionType" type="int" />
 		<query-param name="companyId" type="long" />
-		
+
 		<return-scalar column="NUMBER" type="encryptedstring" />
-		
-		SELECT T.NUMBER FROM TRANSACTION T WHERE T.T_TYPE= :transactionType AND T.COMPANY_ID= :companyId
+
+		SELECT T.NUMBER FROM TRANSACTION T WHERE T.T_TYPE= :transactionType
+		AND T.COMPANY_ID= :companyId
 		ORDER BY T.number desc, t.id desc
 	</sql-query>
-	
+
 	<sql-query name="make.RecurringTranscation.Fail">
 		<query-param name="rtId" type="long" />
-		UPDATE RECURRING_TRANSACTION SET STATUS=2 WHERE ID=	:rtId
+		UPDATE RECURRING_TRANSACTION SET STATUS=2 WHERE ID= :rtId
 	</sql-query>
-		
+
 	<sql-query name="get.All.Incorrect.Auto.Transactions">
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		SELECT t.id as TRANSACTION_ID
-		FROM   TRANSACTION t
-		WHERE  t.t_date >= 20120907
-		       AND is_automatic_transaction = TRUE
+		FROM TRANSACTION t
+		WHERE t.t_date >=
+		20120907
+		AND is_automatic_transaction = TRUE
 	</sql-query>
-	
+
 	<sql-query name="get.recurringTransactions">
 		<return-scalar column="R_ID" type="long" />
 		SELECT id as R_ID
 		FROM RECURRING_TRANSACTION
 	</sql-query>
-	
+
 	<sql-query name="get.max.Path.Of.Items">
 		<query-param name="itemId" type="long" />
 		<return-scalar column="MAX_PATH" type="integer" />
 		SELECT Coalesce(Max(CASE
-		                      WHEN I.path IS NULL
-		                            OR I.path = '' THEN 0
-		                      ELSE Cast(I.path AS INTEGER)
-		                    END), 0) AS MAX_PATH
-		FROM   item I
-		WHERE  I.parent_id IS NULL
-		       AND I.id != :itemId  
+		WHEN I.path IS NULL
+		OR I.path = '' THEN 0
+		ELSE Cast(I.path AS INTEGER)
+		END), 0) AS MAX_PATH
+		FROM item I
+		WHERE I.parent_id IS NULL
+		AND I.id != :itemId
 	</sql-query>
-	
+
 	<sql-query name="get.child.count.of.Item">
 		<query-param name="itemId" type="long" />
 		<return-scalar column="CH_COUNT" type="long" />
 		SELECT Count(*) AS CH_COUNT
-		FROM   item I
-		WHERE  I.parent_id = :itemId  
+		FROM item I
+		WHERE I.parent_id = :itemId
 	</sql-query>
-	
+
 	<sql-query name="get.max.Path.Of.Classes">
 		<query-param name="classId" type="long" />
 		<return-scalar column="MAX_PATH" type="integer" />
 		SELECT Coalesce(Max(CASE
-		                      WHEN AC.path IS NULL
-		                            OR AC.path = '' THEN 0
-		                      ELSE Cast(AC.path AS INTEGER)
-		                    END), 0) AS MAX_PATH
-		FROM   accounter_class AC
-		WHERE  AC.parent_id IS NULL
-		       AND AC.id != :classId   
+		WHEN AC.path IS NULL
+		OR AC.path = '' THEN 0
+		ELSE Cast(AC.path AS INTEGER)
+		END), 0) AS MAX_PATH
+		FROM accounter_class AC
+		WHERE AC.parent_id IS NULL
+		AND AC.id != :classId
 	</sql-query>
-	
+
 	<sql-query name="get.child.count.of.Class">
 		<query-param name="classId" type="long" />
 		<return-scalar column="CH_COUNT" type="long" />
-		SELECT count(*) as CH_COUNT FROM ACCOUNTER_CLASS AC WHERE AC.PARENT_ID= :classId
+		SELECT count(*) as CH_COUNT FROM ACCOUNTER_CLASS AC WHERE
+		AC.PARENT_ID= :classId
 	</sql-query>
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

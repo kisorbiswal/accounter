@@ -5161,7 +5161,10 @@
 		<return-scalar column="BALANCE" type="double" />
 
 		<![CDATA[
-				SELECT SUM(T.TOTAL) AS BALANCE
+				SELECT SELECT SUM(CASE				         
+				         		WHEN T.T_TYPE IN(5,8,16) THEN 1*T.TOTAL
+			         			ELSE -1*T.TOTAL		    
+			       				END   ) AS BALANCE
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN INVOICE I
 				         ON I.ID = T.ID
@@ -5332,7 +5335,10 @@
 		<return-scalar column="BALANCE" type="double" />
 		
 		<![CDATA[
-				SELECT SUM(T.TOTAL) AS BALANCE
+				SELECT SUM(CASE				         
+					       	WHEN T.T_TYPE =6 THEN 1*T.TOTAL
+				         	ELSE -1*T.TOTAL		    
+				       		END   ) AS BALANCE
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN ENTER_BILL E
 				         ON E.ID = T.ID
