@@ -644,7 +644,7 @@ public class GeneratePDFservlet extends BaseServlet {
 						IXDocReport report = (IXDocReport) map.get("report");
 
 						Options options = Options.getTo(ConverterTypeTo.PDF)
-								.via(ConverterTypeVia.ITEXT);
+								.via(ConverterTypeVia.XWPF);
 						report.convert(context, options, sos);
 					}
 					break;
@@ -697,7 +697,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			FontFactory.setFontImp(new FontFactoryImpEx());
 			if (isMultipleId) {
 				Options options = Options.getTo(ConverterTypeTo.PDF).via(
-						ConverterTypeVia.ITEXT);
+						ConverterTypeVia.XWPF);
 
 				File file = File.createTempFile(fileName.replace(" ", ""),
 						".pdf");
@@ -997,7 +997,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			FontFactory.setFontImp(new FontFactoryImpEx());
 			HashMap objects = new HashMap();
 			Options options = Options.getTo(ConverterTypeTo.PDF).via(
-					ConverterTypeVia.ITEXT);
+					ConverterTypeVia.XWPF);
 
 			File file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
 			FileOutputStream fos = new FileOutputStream(file);

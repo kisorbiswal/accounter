@@ -39,7 +39,7 @@ public abstract class IndianVATReportGenerator {
 
 	public void createPDF(OutputStream os) throws Exception {
 		Options options = Options.getTo(ConverterTypeTo.PDF).via(
-				ConverterTypeVia.ITEXT);
+				ConverterTypeVia.XWPF);
 		if (report != null) {
 			report.convert(context, options, os);
 		}

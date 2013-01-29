@@ -314,7 +314,7 @@ public class PrintPDFManager extends Manager {
 						context = pdfGenerator.assignValues(context, report);
 						FontFactory.setFontImp(new FontFactoryImpEx());
 						Options options = Options.getTo(ConverterTypeTo.PDF)
-								.via(ConverterTypeVia.ITEXT);
+								.via(ConverterTypeVia.XWPF);
 
 						File file = File.createTempFile(pdfGenerator
 								.getFileName().replace(" ", ""), ".pdf");
@@ -343,7 +343,7 @@ public class PrintPDFManager extends Manager {
 						context = pdfGenerator.assignValues(context, report);
 						FontFactory.setFontImp(new FontFactoryImpEx());
 						Options options = Options.getTo(ConverterTypeTo.PDF)
-								.via(ConverterTypeVia.ITEXT);
+								.via(ConverterTypeVia.XWPF);
 						report.convert(context, options, fos);
 					}
 				}
@@ -383,7 +383,7 @@ public class PrintPDFManager extends Manager {
 			context = pdfGeneration.assignValues(context, report);
 			FontFactory.setFontImp(new FontFactoryImpEx());
 			Options options = Options.getTo(ConverterTypeTo.PDF).via(
-					ConverterTypeVia.ITEXT);
+					ConverterTypeVia.XWPF);
 
 			File file = File.createTempFile(pdfGeneration.getFileName()
 					.replace(" ", ""), ".pdf");
@@ -913,7 +913,7 @@ public class PrintPDFManager extends Manager {
 
 			FontFactory.setFontImp(new FontFactoryImpEx());
 			Options options = Options.getTo(ConverterTypeTo.PDF).via(
-					ConverterTypeVia.ITEXT);
+					ConverterTypeVia.XWPF);
 
 			File file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
 			List<String> result = new ArrayList<String>();

@@ -179,7 +179,7 @@ public class Form16ApdfGenerationServlet extends BaseServlet {
 			}
 			FontFactory.setFontImp(new FontFactoryImpEx());
 			Options options = Options.getTo(ConverterTypeTo.PDF).via(
-					ConverterTypeVia.ITEXT);
+					ConverterTypeVia.XWPF);
 
 			resp.setContentType("application/pdf");
 			resp.setHeader("Content-disposition", "attachment; filename="
