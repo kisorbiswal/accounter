@@ -21,3 +21,4 @@ platforms/windows 8/Accounter/bld
 platforms/Android/Accounter/bin
 platforms/Android/Accounter/gen
 platforms/WindowsPhone7/Accounter/obj
+.settings/*

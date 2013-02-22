@@ -6,9 +6,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import fr.opensagres.xdocreport.converter.ConverterTypeTo;
-import fr.opensagres.xdocreport.converter.ConverterTypeVia;
-import fr.opensagres.xdocreport.converter.Options;
+import com.vimukti.accounter.web.server.util.ExportUtils;
+
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
 import fr.opensagres.xdocreport.template.IContext;
@@ -38,10 +37,12 @@ public abstract class IndianVATReportGenerator {
 	}
 
 	public void createPDF(OutputStream os) throws Exception {
-		Options options = Options.getTo(ConverterTypeTo.PDF).via(
-				ConverterTypeVia.XWPF);
-		if (report != null) {
-			report.convert(context, options, os);
+		if (report == null) {
+			return;
 		}
+
+		File templateFile = getTemplateFile();
+		String template = templateFile != null ? templateFile.getName() : null;
+		ExportUtils.exportToPDF(report, context, os, template);
 	}
 }

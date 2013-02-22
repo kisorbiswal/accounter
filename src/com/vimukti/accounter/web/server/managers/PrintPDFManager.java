@@ -98,6 +98,7 @@ import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.reports.ETDsFilingData;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.util.ExportUtils;
 
 import fr.opensagres.xdocreport.converter.ConverterTypeTo;
 import fr.opensagres.xdocreport.converter.ConverterTypeVia;
@@ -313,14 +314,13 @@ public class PrintPDFManager extends Manager {
 						IContext context = report.createContext();
 						context = pdfGenerator.assignValues(context, report);
 						FontFactory.setFontImp(new FontFactoryImpEx());
-						Options options = Options.getTo(ConverterTypeTo.PDF)
-								.via(ConverterTypeVia.XWPF);
 
 						File file = File.createTempFile(pdfGenerator
 								.getFileName().replace(" ", ""), ".pdf");
 						java.io.FileOutputStream fos = new java.io.FileOutputStream(
 								file);
-						report.convert(context, options, fos);
+						ExportUtils.exportToPDF(report, context, fos,
+								pdfGenerator.getTemplateName());
 						fileNames.add(file.getAbsolutePath());
 					}
 				}
@@ -334,17 +334,16 @@ public class PrintPDFManager extends Manager {
 					if (isMultipleId) {
 						mergePDFDocuments(fileNames, fos, true);
 					} else {
+						String templateName = pdfGenerator.getTemplateName();
 						InputStream in = new BufferedInputStream(
-								new FileInputStream(
-										pdfGenerator.getTemplateName()));
+								new FileInputStream(templateName));
 						IXDocReport report = XDocReportRegistry.getRegistry()
 								.loadReport(in, TemplateEngineKind.Velocity);
 						IContext context = report.createContext();
 						context = pdfGenerator.assignValues(context, report);
 						FontFactory.setFontImp(new FontFactoryImpEx());
-						Options options = Options.getTo(ConverterTypeTo.PDF)
-								.via(ConverterTypeVia.XWPF);
-						report.convert(context, options, fos);
+						ExportUtils.exportToPDF(report, context, fos,
+								templateName);
 					}
 				}
 				System.err.println("Pdf created");
@@ -374,21 +373,20 @@ public class PrintPDFManager extends Manager {
 		try {
 			PaySlipPdfGeneration pdfGeneration = new PaySlipPdfGeneration(
 					employee, startDate, endDate);
+			String templateName = pdfGeneration.getTemplateName();
 			InputStream in = new BufferedInputStream(new FileInputStream(
-					pdfGeneration.getTemplateName()));
+					templateName));
 
 			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
 					in, TemplateEngineKind.Velocity);
 			IContext context = report.createContext();
 			context = pdfGeneration.assignValues(context, report);
 			FontFactory.setFontImp(new FontFactoryImpEx());
-			Options options = Options.getTo(ConverterTypeTo.PDF).via(
-					ConverterTypeVia.XWPF);
 
 			File file = File.createTempFile(pdfGeneration.getFileName()
 					.replace(" ", ""), ".pdf");
 			java.io.FileOutputStream fos = new java.io.FileOutputStream(file);
-			report.convert(context, options, fos);
+			ExportUtils.exportToPDF(report, context, fos, templateName);
 			return pdfGeneration;
 
 		} catch (Exception e) {
@@ -850,10 +848,10 @@ public class PrintPDFManager extends Manager {
 			String fromDate = split[0];
 			String toDate = split[1];
 			FinanceTool financeTool = new FinanceTool();
+			String templeteName = null;
 			if (type == 0) {
 				fileName = "Form16A";
-				String templeteName = "templetes" + File.separator
-						+ "Form16a.docx";
+				templeteName = "templetes" + File.separator + "Form16a.docx";
 				ClientFinanceDate cEndDate = new ClientFinanceDate(toDate);
 				ClientFinanceDate cStartDate = new ClientFinanceDate(fromDate);
 				FinanceDate startDate = new FinanceDate(cStartDate);
@@ -895,7 +893,6 @@ public class PrintPDFManager extends Manager {
 
 			} else {
 				fileName = "CoveringLetter" + vendor.getName();
-				String templeteName = null;
 				templeteName = "templetes" + File.separator
 						+ "CoveringLetter.docx";
 				TDSCoveringLetterTemplate coveringLetterTemp = new TDSCoveringLetterTemplate();
@@ -912,15 +909,14 @@ public class PrintPDFManager extends Manager {
 			}
 
 			FontFactory.setFontImp(new FontFactoryImpEx());
-			Options options = Options.getTo(ConverterTypeTo.PDF).via(
-					ConverterTypeVia.XWPF);
 
 			File file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
 			List<String> result = new ArrayList<String>();
 			result.add(fileName + ".pdf");
 			result.add(file.getName());
 			FileOutputStream outputStream = new FileOutputStream(file);
-			report.convert(context, options, outputStream);
+			ExportUtils
+					.exportToPDF(report, context, outputStream, templeteName);
 			System.err.println("From 16A Pdf created");
 			return result;
 		} catch (Exception e) {

@@ -32,10 +32,8 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.util.ExportUtils;
 
-import fr.opensagres.xdocreport.converter.ConverterTypeTo;
-import fr.opensagres.xdocreport.converter.ConverterTypeVia;
-import fr.opensagres.xdocreport.converter.Options;
 import fr.opensagres.xdocreport.core.XDocReportException;
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
@@ -105,10 +103,10 @@ public class Form16ApdfGenerationServlet extends BaseServlet {
 					|| tdsResposiblePerson == null) {
 				return;
 			}
+			String templeteName = null;
 			if (type == 0) {
 				fileName = "Form16A";
-				String templeteName = "templetes" + File.separator
-						+ "Form16a.docx";
+				templeteName = "templetes" + File.separator + "Form16a.docx";
 				ClientFinanceDate cEndDate = new ClientFinanceDate(toDate);
 				ClientFinanceDate cStartDate = new ClientFinanceDate(fromDate);
 				FinanceDate startDate = new FinanceDate(cStartDate);
@@ -156,7 +154,6 @@ public class Form16ApdfGenerationServlet extends BaseServlet {
 
 			} else {
 				fileName = "CoveringLetter" + vendor.getName();
-				String templeteName = null;
 				templeteName = "templetes" + File.separator
 						+ "CoveringLetter.docx";
 				TDSCoveringLetterTemplate coveringLetterTemp = new TDSCoveringLetterTemplate();
@@ -178,8 +175,6 @@ public class Form16ApdfGenerationServlet extends BaseServlet {
 				context = coveringLetterTemp.assignValues(context, report);
 			}
 			FontFactory.setFontImp(new FontFactoryImpEx());
-			Options options = Options.getTo(ConverterTypeTo.PDF).via(
-					ConverterTypeVia.XWPF);
 
 			resp.setContentType("application/pdf");
 			resp.setHeader("Content-disposition", "attachment; filename="
@@ -187,7 +182,7 @@ public class Form16ApdfGenerationServlet extends BaseServlet {
 
 			sos = resp.getOutputStream();
 
-			report.convert(context, options, sos);
+			ExportUtils.exportToPDF(report, context, sos, templeteName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -92,10 +92,8 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.countries.India;
+import com.vimukti.accounter.web.server.util.ExportUtils;
 
-import fr.opensagres.xdocreport.converter.ConverterTypeTo;
-import fr.opensagres.xdocreport.converter.ConverterTypeVia;
-import fr.opensagres.xdocreport.converter.Options;
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
 import fr.opensagres.xdocreport.template.IContext;
@@ -558,8 +556,7 @@ public class GeneratePDFservlet extends BaseServlet {
 
 						if (transactionType == 116) {
 							Employee payrun = (Employee) financetool
-									.getManager()
-									.getServerObjectForid(
+									.getManager().getServerObjectForid(
 											AccounterCoreType.EMPLOYEE,
 											Long.parseLong(ids[i]));
 							fileName = "PaySlip_" + payrun.getNumber();
@@ -643,9 +640,8 @@ public class GeneratePDFservlet extends BaseServlet {
 						IContext context = (IContext) map.get("context");
 						IXDocReport report = (IXDocReport) map.get("report");
 
-						Options options = Options.getTo(ConverterTypeTo.PDF)
-								.via(ConverterTypeVia.XWPF);
-						report.convert(context, options, sos);
+						ExportUtils.exportToPDF(report, context, sos,
+								(String) map.get("TemplateName"));
 					}
 					break;
 
@@ -674,6 +670,7 @@ public class GeneratePDFservlet extends BaseServlet {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private HashMap printEmployeePaySlip(Employee employee, Company company,
 			HttpServletRequest request, boolean isMultipleId,
 			List<String> fileNames) {
@@ -696,14 +693,12 @@ public class GeneratePDFservlet extends BaseServlet {
 			context = generation.assignValues(context, report);
 			FontFactory.setFontImp(new FontFactoryImpEx());
 			if (isMultipleId) {
-				Options options = Options.getTo(ConverterTypeTo.PDF).via(
-						ConverterTypeVia.XWPF);
 
 				File file = File.createTempFile(fileName.replace(" ", ""),
 						".pdf");
 				java.io.FileOutputStream fos = new java.io.FileOutputStream(
 						file);
-				report.convert(context, options, fos);
+				ExportUtils.exportToPDF(report, context, fos, templeteName);
 				fileNames.add(file.getAbsolutePath());
 
 			}
@@ -711,6 +706,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			HashMap objects = new HashMap();
 			objects.put("context", context);
 			objects.put("report", report);
+			objects.put("templateName", templeteName);
 			return objects;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -883,6 +879,7 @@ public class GeneratePDFservlet extends BaseServlet {
 		return null;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private HashMap Odt2PdfGeneration(Transaction transaction, Company company,
 			BrandingTheme brandingTheme, boolean multipleIds,
 			List<String> fileNames) {
@@ -985,6 +982,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			}
 
 			String templeteName = pdfGeneration.getTemplateName();
+
 			String fileName = pdfGeneration.getFileName();
 			InputStream in = new BufferedInputStream(new FileInputStream(
 					templeteName));
@@ -996,18 +994,16 @@ public class GeneratePDFservlet extends BaseServlet {
 			context = pdfGeneration.assignValues(context, report);
 			FontFactory.setFontImp(new FontFactoryImpEx());
 			HashMap objects = new HashMap();
-			Options options = Options.getTo(ConverterTypeTo.PDF).via(
-					ConverterTypeVia.XWPF);
 
 			File file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
 			FileOutputStream fos = new FileOutputStream(file);
 			objects.put("fileName", file.getName());
 			objects.put("output", fos);
 			if (multipleIds) {
-				report.convert(context, options, fos);
+				ExportUtils.exportToPDF(report, context, fos, templeteName);
 				fileNames.add(file.getAbsolutePath());
-
 			}
+			objects.put("templateName", templeteName);
 			objects.put("context", context);
 			objects.put("report", report);
 			return objects;
