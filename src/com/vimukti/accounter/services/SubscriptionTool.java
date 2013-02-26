@@ -83,6 +83,7 @@ public class SubscriptionTool extends Thread {
 			// If Expired GracePeriod also, then Expire Subscription
 			if (subscription.isGracePeriodExpired()) {
 				doExpireSubscription(client);
+				transaction.commit();
 				return;
 			}
 
