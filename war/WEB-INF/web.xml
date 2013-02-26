@@ -706,7 +706,7 @@
 
 	<context-param>
 		<param-name>version</param-name>
-		<param-value>1.0.9.11</param-value>
+		<param-value>1.0.9.11.1</param-value>
 	</context-param>
 
 	<servlet>

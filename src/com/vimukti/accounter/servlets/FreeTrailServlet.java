@@ -40,7 +40,7 @@ public class FreeTrailServlet extends BaseServlet {
 	public void upgradeClient(HttpServletRequest req, HttpServletResponse resp,
 			Client client) {
 		Session session = HibernateUtil.getCurrentSession();
-		Transaction beginTransaction = session.beginTransaction();
+		Transaction transaction = session.beginTransaction();
 		try {
 			ClientSubscription clientSubscription = client
 					.getClientSubscription();
@@ -55,12 +55,15 @@ public class FreeTrailServlet extends BaseServlet {
 				clientSubscription.setSubscription(Subscription
 						.getInstance(Subscription.PREMIUM_USER));
 				client.setPremiumTrailDone(true);
+				client.setSubscriptionType(clientSubscription.getSubscription()
+						.getType());
 				session.saveOrUpdate(clientSubscription);
-				beginTransaction.commit();
+				session.saveOrUpdate(client);
+				transaction.commit();
 				dispatch(req, resp, view);
 			}
 		} catch (Exception e) {
-			beginTransaction.rollback();
+			transaction.rollback();
 		}
 
 	}

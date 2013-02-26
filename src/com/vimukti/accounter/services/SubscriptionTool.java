@@ -105,6 +105,7 @@ public class SubscriptionTool extends Thread {
 				subscription.setLastModified(new Date());
 				subscription.setGracePeriodDate(gracePeriodDate);
 				session.saveOrUpdate(subscription);
+				session.saveOrUpdate(client);
 				// SEND EMAIL
 				try {
 					UsersMailSendar.sendMailToSubscriptionExpiredUser(client,

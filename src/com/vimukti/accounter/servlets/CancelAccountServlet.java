@@ -109,6 +109,7 @@ public class CancelAccountServlet extends BaseServlet {
 			subscription.setPremiumType(0);
 			subscription.setDurationType(0);
 			subscription.setLastModified(new Date());
+			client.setSubscriptionType(Subscription.FREE_CLIENT);
 			session.saveOrUpdate(client);
 			session.saveOrUpdate(subscription);
 			transaction.commit();
