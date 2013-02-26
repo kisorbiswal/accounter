@@ -5,6 +5,7 @@ import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -107,7 +108,9 @@ public class CancelAccountServlet extends BaseServlet {
 					.getInstance(Subscription.FREE_CLIENT));
 			subscription.setPremiumType(0);
 			subscription.setDurationType(0);
+			subscription.setLastModified(new Date());
 			session.saveOrUpdate(client);
+			session.saveOrUpdate(subscription);
 			transaction.commit();
 			httpSession.setAttribute(ACCOUNT_DELETION_STATUS, "Success");
 		} catch (Exception e) {

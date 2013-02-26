@@ -487,7 +487,43 @@ public class UsersMailSendar {
 		return "";
 	}
 
-	public static void sendMailToSubscriptionExpiredUser(Client client)
+	public static void sendMailToSubscriptionExpiredUser(Client client,
+			int premiumType) throws IOException {
+		try {
+			initPropertyParserToInviteUser();
+			LOG.info("Subscription Expired Email is being sent to user");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new IOException();
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new IOException();
+		}
+
+		ClientSubscription subscription = client.getClientSubscription();
+		String content = propertyParser.getProperty(
+				"contentForSubscriptionExpiredUser", "");
+		content = content
+				.replaceAll("%USER%", getUserName(client.getEmailId()))
+				.replaceAll("%TYPE%", getTypeStringByType(premiumType))
+				.replaceAll("%EXPIRY%", subscription.getExpiredDateAsString())
+				.replaceAll("%GRACE_PERIOD%",
+						ServerConfiguration.getGracePeriod() + "")
+				.replaceAll("%GRACE_PERIOD_DATE%",
+						subscription.getGracePeriodDateAsString());
+
+		String subject = propertyParser.getProperty(
+				"subjectForSubscriptionExpiredUser", "");
+
+		EMailMessage emailMsg = new EMailMessage();
+		emailMsg.setContent(content);
+		emailMsg.setSubject(subject);
+		emailMsg.setRecepeant(client.getEmailId());
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
+		EmailManager.getInstance().addJob(job);
+	}
+
+	public static void sendMailToSubsGracePeriodExpiredUser(Client client)
 			throws IOException {
 		try {
 			initPropertyParserToInviteUser();
@@ -501,18 +537,12 @@ public class UsersMailSendar {
 		}
 
 		String content = propertyParser.getProperty(
-				"contentForSubscriptionExpiredUser", "");
+				"contentForSubsGracperiodExpiredUser", "");
 		content = content
-				.replaceAll("%USER%", getUserName(client.getEmailId()))
-				.replaceAll(
-						"%TYPE%",
-						getTypeStringByType(client.getClientSubscription()
-								.getPremiumType()))
-				.replaceAll("%EXPIRY%",
-						client.getClientSubscription().getExpiredDateAsString());
+				.replaceAll("%USER%", getUserName(client.getEmailId()));
 
 		String subject = propertyParser.getProperty(
-				"subjectForSubscriptionExpiredUser", "");
+				"contentForSubsGracperiodExpiredUser", "");
 
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);

@@ -25,7 +25,8 @@ public class SubscriptionManagementServlet extends BaseServlet {
 			throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		if (session == null) {
-			resp.sendRedirect(LOGIN_URL);
+			resp.sendRedirect(LOGIN_URL + "?destination="
+					+ MANAGE_SUBSCRIPTION_URL);
 			return;
 		}
 		String emailId = (String) req.getSession().getAttribute(EMAIL_ID);
@@ -43,7 +44,8 @@ public class SubscriptionManagementServlet extends BaseServlet {
 			showSubscriptionManagementDetails(client,
 					clientSubscription.getMembers(), req, resp);
 		} else {
-			resp.sendRedirect(LOGIN_URL);
+			resp.sendRedirect(LOGIN_URL + "?destination="
+					+ MANAGE_SUBSCRIPTION_URL);
 			return;
 		}
 	}

@@ -63,7 +63,7 @@ public class WebsocketAccounterInitialiser extends AccounterInitialiser {
 		$wnd.document.getElementById('loading').style.display = 'none';
 	}-*/;
 
-	private native String[] autoLogin(String resource) /*-{
+	public native String[] autoLogin(String resource) /*-{
 		try {
 			var passwordVault = new Windows.Security.Credentials.PasswordVault;
 
@@ -91,7 +91,7 @@ public class WebsocketAccounterInitialiser extends AccounterInitialiser {
 
 	public void loadCompany(Long companyId) {
 		showProgress();
-		accounter.createWindowsRPCService().getCompany(companyId,
+		Accounter.createWindowsRPCService().getCompany(companyId,
 				new AccounterAsyncCallback<CompanyAndFeatures>() {
 
 					@Override
@@ -103,9 +103,10 @@ public class WebsocketAccounterInitialiser extends AccounterInitialiser {
 					public void onResultSuccess(CompanyAndFeatures result) {
 						hideLoading();
 						hideProgress();
-						Set features = new HashSet(result.getFeatures());
-						accounter.setFeatures(features);
-						accounter.gotCompany(result.getClientCompany());
+						Set<String> features = new HashSet<String>(result
+								.getFeatures());
+						Accounter.setFeatures(features);
+						Accounter.gotCompany(result.getClientCompany());
 
 					}
 				});

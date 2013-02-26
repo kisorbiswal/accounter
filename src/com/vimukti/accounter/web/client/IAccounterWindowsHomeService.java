@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.CompanyDetails;
 import com.vimukti.accounter.web.client.core.SignupDetails;
 import com.vimukti.accounter.web.client.core.StartupException;
+import com.vimukti.accounter.web.client.core.SubscriptionDetails;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public interface IAccounterWindowsHomeService extends RemoteService {
@@ -31,4 +32,6 @@ public interface IAccounterWindowsHomeService extends RemoteService {
 
 	CompanyAndFeatures getCompany(Long companyId) throws AccounterException;
 
+	SubscriptionDetails getSubscriptionDetails(String emai)
+			throws AccounterException;
 }

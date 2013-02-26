@@ -45,6 +45,7 @@ public class FreeTrailServlet extends BaseServlet {
 			ClientSubscription clientSubscription = client
 					.getClientSubscription();
 			if (!client.isPremiumTrailDone()) {
+				clientSubscription.setLastModified(new Date());
 				clientSubscription
 						.setPremiumType(ClientSubscription.TRIAL_USER);
 				clientSubscription

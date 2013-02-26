@@ -12,7 +12,8 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.mail.UsersMailSendar;
-import com.vimukti.accounter.services.SubscryptionTool;
+import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.services.SubscriptionTool;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class SubscriptionIPNServlet extends PayPalIPNServlet {
@@ -29,9 +30,16 @@ public class SubscriptionIPNServlet extends PayPalIPNServlet {
 		Transaction transaction = session.beginTransaction();
 		try {
 			Client client = getClient(emailId);
-			client.getClientSubscription().setSubscription(
-					Subscription.getInstance(Subscription.FREE_CLIENT));
-			client.getClientSubscription().setPremiumType(0);
+			ClientSubscription clientSubscription = client
+					.getClientSubscription();
+			clientSubscription.setLastModified(new Date());
+
+			Calendar c = Calendar.getInstance();
+			c.setTime(clientSubscription.getExpiredDate());
+			c.add(Calendar.DATE, ServerConfiguration.getGracePeriod());
+
+			clientSubscription.setGracePeriodDate(c.getTime());
+			session.saveOrUpdate(clientSubscription);
 			session.saveOrUpdate(client);
 			transaction.commit();
 		} catch (Exception e) {
@@ -94,7 +102,7 @@ public class SubscriptionIPNServlet extends PayPalIPNServlet {
 			clientSubscription.getMembers().add(emailId);
 			if (clientSubscription.getPremiumType() != ClientSubscription.TRIAL_USER
 					&& clientSubscription.getPremiumType() > paymentType) {
-				clientSubscription.setGracePeriodDate(SubscryptionTool
+				clientSubscription.setGracePeriodDate(SubscriptionTool
 						.getGracePeriodDate());
 			} else {
 				clientSubscription.setGracePeriodDate(null);
@@ -104,7 +112,7 @@ public class SubscriptionIPNServlet extends PayPalIPNServlet {
 			clientSubscription.setExpiredDate(expiredDate);
 			clientSubscription.setSubscription(Subscription
 					.getInstance(Subscription.PREMIUM_USER));
-			String paypalSubscriptionProfileId = client.getClientSubscription()
+			String paypalSubscriptionProfileId = clientSubscription
 					.getPaypalSubscriptionProfileId();
 			if (paypalSubscriptionProfileId != null
 					&& !paypalSubscriptionProfileId.trim().isEmpty()) {
@@ -112,6 +120,8 @@ public class SubscriptionIPNServlet extends PayPalIPNServlet {
 			}
 			clientSubscription.setPaypalSubscriptionProfileId(params
 					.get("subscr_id"));
+			client.setClientSubscription(clientSubscription);
+			session.saveOrUpdate(client);
 			session.saveOrUpdate(clientSubscription);
 			transaction.commit();
 		} catch (Exception e) {

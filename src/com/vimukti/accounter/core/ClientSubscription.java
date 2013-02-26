@@ -56,6 +56,7 @@ public class ClientSubscription implements IsSerializable {
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+		this.lastModified = createdDate;
 	}
 
 	public Date getLastModified() {
@@ -112,7 +113,7 @@ public class ClientSubscription implements IsSerializable {
 		return gracePeriodDate.after(new Date());
 	}
 
-	public boolean isTracePeriodExpired() {
+	public boolean isGracePeriodExpired() {
 		if (gracePeriodDate == null) {
 			return false;
 		}
@@ -125,6 +126,21 @@ public class ClientSubscription implements IsSerializable {
 
 	public Date getGracePeriodDate() {
 		return gracePeriodDate;
+	}
+
+	public String getGracePeriodDateAsString() {
+		if (gracePeriodDate == null) {
+			return "";
+		}
+		if (Global.get().preferences() != null) {
+			String dateInSelectedFormat = Utility
+					.getDateInSelectedFormat(new FinanceDate(gracePeriodDate));
+			return dateInSelectedFormat;
+		}
+		SimpleDateFormat dateformatMMDDYYYY = new SimpleDateFormat(
+				"MMM dd, yyyy");
+		return dateformatMMDDYYYY.format(gracePeriodDate);
+
 	}
 
 	public void setGracePeriodDate(Date gracePeriodDate) {

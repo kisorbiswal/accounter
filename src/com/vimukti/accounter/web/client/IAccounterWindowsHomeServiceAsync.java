@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.CompanyDetails;
 import com.vimukti.accounter.web.client.core.SignupDetails;
+import com.vimukti.accounter.web.client.core.SubscriptionDetails;
 
 public interface IAccounterWindowsHomeServiceAsync {
 
@@ -29,5 +30,8 @@ public interface IAccounterWindowsHomeServiceAsync {
 
 	void getCompany(Long companyId,
 			AsyncCallback<CompanyAndFeatures> accounterAsyncCallback);
+
+	void getSubscriptionDetails(String email,
+			AsyncCallback<SubscriptionDetails> callback);
 
 }

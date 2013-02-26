@@ -51,6 +51,7 @@ import com.vimukti.accounter.web.client.core.CompanyDetails;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.SignupDetails;
 import com.vimukti.accounter.web.client.core.StartupException;
+import com.vimukti.accounter.web.client.core.SubscriptionDetails;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class AccounterWindowsHomeServiceImpl extends
@@ -919,5 +920,33 @@ public class AccounterWindowsHomeServiceImpl extends
 	protected String getUserEmail() {
 		return (String) getThreadLocalRequest().getSession().getAttribute(
 				BaseServlet.EMAIL_ID);
+	}
+
+	@Override
+	public SubscriptionDetails getSubscriptionDetails(String email)
+			throws AccounterException {
+		Client client = getClient(email);
+		if (client == null) {
+			return null;
+		}
+		ClientSubscription clientSubscription = client.getClientSubscription();
+		if (clientSubscription.getPremiumType() == 0) {
+			new AccounterException("Your not premium user");
+		}
+
+		SubscriptionDetails subDetails = new SubscriptionDetails();
+
+		Set<String> members = clientSubscription.getMembers();
+		members.remove(client.getEmailId());
+		subDetails.setAllowedEmails(new HashSet<String>(members));
+
+		subDetails.setEmailId(client.getEmailId());
+		subDetails.setSubscriptionType(clientSubscription.getPremiumType());
+		subDetails.setDurationType(clientSubscription.getDurationType());
+		subDetails.setExpiresOn(clientSubscription.getExpiredDateAsString());
+		subDetails.setPaidUser(clientSubscription.isPaidUser());
+		subDetails.setFreeTrailDone(client.isPremiumTrailDone());
+
+		return subDetails;
 	}
 }

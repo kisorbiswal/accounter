@@ -23,7 +23,7 @@ import com.vimukti.accounter.core.License;
 import com.vimukti.accounter.core.SupportedUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.services.SubscryptionTool;
+import com.vimukti.accounter.services.SubscriptionTool;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Features;
@@ -227,7 +227,7 @@ public class CompaniesServlet extends BaseServlet {
 		req.setAttribute("remainigDays", days);
 		req.setAttribute("userName", client.getFullName());
 		req.setAttribute("premiumType", subscription.getPremiumType());
-		Set<String> members = SubscryptionTool.getDeletedMembers(
+		Set<String> members = SubscriptionTool.getDeletedMembers(
 				subscription.getMembers(), client.getEmailId(),
 				subscription.getPremiumType());
 		if (members.isEmpty()) {

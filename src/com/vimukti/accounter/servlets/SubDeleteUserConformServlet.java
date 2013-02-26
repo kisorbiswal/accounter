@@ -2,6 +2,7 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
-import com.vimukti.accounter.services.SubscryptionTool;
+import com.vimukti.accounter.services.SubscriptionTool;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -71,7 +72,7 @@ public class SubDeleteUserConformServlet extends BaseServlet {
 			redirectExternal(req, resp, "/main/subscriptionmanagement");
 			return;
 		}
-		Set<String> oldMembers = client.getClientSubscription().getMembers();
+		Set<String> oldMembers = clientSubscription.getMembers();
 		List<String> existedUsers = getExistedUsers(oldMembers);
 		Set<String> members = getMembers(string);
 		members.add(emailId);
@@ -83,7 +84,7 @@ public class SubDeleteUserConformServlet extends BaseServlet {
 			return;
 		}
 		clientSubscription.setMembers(members);
-
+		clientSubscription.setLastModified(new Date());
 		saveEntry(clientSubscription);
 
 		try {
@@ -92,7 +93,7 @@ public class SubDeleteUserConformServlet extends BaseServlet {
 			if (!mergeUsers.isEmpty()) {
 				if (isConfirmed) {
 					for (String s : mergeUsers) {
-						SubscryptionTool.deleteUser(client, s);
+						SubscriptionTool.deleteUser(client, s);
 					}
 				} else {
 					req.getSession().setAttribute("userMailds", string);

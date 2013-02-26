@@ -890,6 +890,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		super.initData();
 		initTransactionNumber();
+		refreshTransactionGrid();
 
 	}
 

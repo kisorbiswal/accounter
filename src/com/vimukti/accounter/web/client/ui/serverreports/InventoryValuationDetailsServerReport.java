@@ -59,6 +59,7 @@ public class InventoryValuationDetailsServerReport extends
 	public void processRecord(InventoryValutionDetail record) {
 		if (sectionDepth == 0) {
 			this.sectionName = record.getItemName();
+			this.unitName = record.getUnit();
 			addSection(
 					new String[] { sectionName },
 					new String[] { getMessages().totalOf()
@@ -66,7 +67,6 @@ public class InventoryValuationDetailsServerReport extends
 			// addSection(sectionName, "", new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
-			this.unitName = record.getUnit();
 			if (!sectionName.equals(record.getItemName())) {
 				endSection();
 			} else {

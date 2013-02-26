@@ -71,6 +71,8 @@
 			boolean isPaid=(Boolean) request.getAttribute("isPaid");
 			boolean freeTrial=(Boolean) request.getAttribute("freeTrial");
   		%>
+  		var freeTrial = <%= freeTrial %>;
+  		var isPaid= <%= isPaid %>;
 	</script>
 		
     

@@ -10,6 +10,7 @@ import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.EU;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
@@ -194,6 +195,7 @@ public class SignupCommand extends AbstractCommand {
 		}
 		Client client = new Client();
 		client.setActive(false);
+		client.setCreatedDate(new FinanceDate());
 		client.setUsers(new HashSet<User>());
 		String emailId = get(EMAIL).getValue();
 		client.setEmailId(emailId.toLowerCase());

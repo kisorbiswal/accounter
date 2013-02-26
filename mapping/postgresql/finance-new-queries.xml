@@ -387,9 +387,22 @@
 		c.preferences.tradingName=:tradingName
 	</query>
 
-	<query name="get.all.clients">
-		from com.vimukti.accounter.core.Client
-	</query>
+	<sql-query name="get.all.clients">
+		<return-scalar column="CLIENT_ID" type="long" />
+		<![CDATA[
+			SELECT C.id AS CLIENT_ID
+			FROM   client C
+			       left join client_subscription CS
+			              ON CS.id = C.client_subscription
+			WHERE  is_deleted = FALSE
+			       AND ( CS.expired_date < current_timestamp
+			             AND CASE
+			                   WHEN CS.graceperiod_date IS NOT NULL THEN
+			                   CS.graceperiod_date < current_timestamp
+			                   ELSE TRUE
+			                 END )
+		 ]]>
+	</sql-query>
 
 	<query name="get.subscription">
 		<query-param name="type" type="int" />

@@ -11389,45 +11389,45 @@
 		<return-scalar column="AVG_COST" type="double" />
 		<return-scalar column="ESTIMATE_TYPE" type="int" />
 		<![CDATA[
-				SELECT t.id                AS TRANSACTION_ID,
-				       t.t_date            AS TRANSACTION_DATE,
-				       t.t_type            AS TRANSACTION_TYPE,
-				       t.number            AS TRANSACTION_NUMBER,
-				       qty_value           AS QTY_VALUE,
-				       qu.TYPE             AS QTY_UNIT,
-				       unit_price          AS COST,
-				       i.on_hand_qty_value AS ITEM_TOTAL_QUANTITY,
-				       ohu.TYPE            AS ITEM_UNITS,
-				       i.name              AS ITEM_NAME,
-				       i.id                AS ITEM_ID,
-				       p.name              AS PAYEE_NAME,
-				       p.id                AS PAYEE_ID,
-				       i.average_cost      AS AVG_COST,
-				       E.estimatetype      AS ESTIMATE_TYPE
-				FROM   inventory_history ih
-				       left join TRANSACTION t
-				              ON t.id = ih.TRANSACTION
-				       left join item i
-				              ON i.id = ih.item
-				       left join payee p
-				              ON p.id = ih.payee
-				       left join estimate e
-				              ON e.id = t.id
-				       left join unit ohu
-				              ON ohu.id = i.on_hand_qty_unit
-				       left join unit qu
-				              ON qu.id = ih.qty_unit
-				WHERE  T.t_date BETWEEN :fromDate AND :toDate
-				       AND T.save_status NOT IN ( 201, 202, 204 )
-				       AND T.company_id = :companyId
-				       AND I.company_id = :companyId
-				       AND CASE
-				             WHEN 0 = :itemID THEN TRUE
-				             ELSE ( ih.item = :itemID )
-				           END
-				ORDER  BY i.id,
-				          t.t_date,
-				          t.id;   
+			 SELECT t.id                                       AS TRANSACTION_ID,
+			       t.t_date                                   AS TRANSACTION_DATE,
+			       t.t_type                                   AS TRANSACTION_TYPE,
+			       t.number                                   AS TRANSACTION_NUMBER,
+			       ( ( qu.factor / ohu.factor ) * qty_value ) AS QTY_VALUE,
+			       ohu.TYPE                                   AS QTY_UNIT,
+			       unit_price                                 AS COST,
+			       i.on_hand_qty_value                        AS ITEM_TOTAL_QUANTITY,
+			       ohu.TYPE                                   AS ITEM_UNITS,
+			       i.name                                     AS ITEM_NAME,
+			       i.id                                       AS ITEM_ID,
+			       p.name                                     AS PAYEE_NAME,
+			       p.id                                       AS PAYEE_ID,
+			       i.average_cost                             AS AVG_COST,
+			       E.estimatetype                             AS ESTIMATE_TYPE
+			FROM   inventory_history ih
+			       left join TRANSACTION t
+			              ON t.id = ih.TRANSACTION
+			       left join item i
+			              ON i.id = ih.item
+			       left join payee p
+			              ON p.id = ih.payee
+			       left join estimate e
+			              ON e.id = t.id
+			       left join unit ohu
+			              ON ohu.id = i.on_hand_qty_unit
+			       left join unit qu
+			              ON qu.id = ih.qty_unit
+			WHERE  T.t_date BETWEEN :fromDate AND :toDate
+			       AND T.save_status NOT IN ( 201, 202, 204 )
+			       AND T.company_id = :companyId
+			       AND I.company_id = :companyId
+			       AND CASE
+			             WHEN 0 = :itemID THEN TRUE
+			             ELSE ( ih.item = :itemID )
+			           END
+			ORDER  BY i.id,
+			          t.t_date,
+			          t.id;   
 				]]>
 
 	</sql-query>

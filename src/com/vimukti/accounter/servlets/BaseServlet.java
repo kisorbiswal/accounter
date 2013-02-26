@@ -78,6 +78,7 @@ public class BaseServlet extends HttpServlet {
 	protected static final String CREATE_COMPANY_URL = "/main/createcompany";
 	protected static final String DELETE_COMPANY_URL = "/main/deletecompany";
 	protected static final String GO_PREMIUM_URL = "/main/subscription/gopremium";
+	protected static final String MANAGE_SUBSCRIPTION_URL = "/main/subscriptionmanagement";
 	protected static final String MANAGE_LICENSE = "/main/managelicense";
 	protected static final String PURCHASE_LICENSE = "/main/purchaseLicense";
 

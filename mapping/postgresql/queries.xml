@@ -1747,13 +1747,17 @@
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="QTY_VALUE" type="double" />
 		<return-scalar column="QTY_UNIT" type="long" />
-		
-		SELECT I.id               AS ITEM_ID,
-		       SUM(qty_value)     AS QTY_VALUE,
-		       I.on_hand_qty_unit AS QTY_UNIT
+				
+		 SELECT I.id                                        AS ITEM_ID,
+		       SUM(( qu.factor / ohu.factor ) * qty_value) AS QTY_VALUE,
+		       I.on_hand_qty_unit                          AS QTY_UNIT
 		FROM   inventory_history IH
 		       left join item I
 		              ON I.id = IH.item
+		       left join unit qu
+		              ON qu.id = ih.qty_unit
+		       left join unit ohu
+		              ON ohu.id = i.on_hand_qty_unit
 		WHERE  IH.warehouse = :wareHouse
 		GROUP  BY I.id;  
 		

@@ -14,7 +14,7 @@ import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.upload.AttachmentFileServer;
 import com.vimukti.accounter.mobile.ConsoleChatServer;
-import com.vimukti.accounter.services.SubscryptionTool;
+import com.vimukti.accounter.services.SubscriptionTool;
 import com.vimukti.accounter.setup.server.DatabaseManager;
 import com.vimukti.accounter.web.server.RecurringTool;
 
@@ -58,7 +58,7 @@ public class ServicesStartUpListener implements ServletContextListener {
 					TimeUnit.HOURS);
 
 			subsciption = Executors.newSingleThreadScheduledExecutor();
-			subsciption.scheduleAtFixedRate(new SubscryptionTool(), 0, 1,
+			subsciption.scheduleAtFixedRate(new SubscriptionTool(), 0, 1,
 					TimeUnit.DAYS);
 		} else {
 			if (DatabaseManager.isDBConfigured()) {
