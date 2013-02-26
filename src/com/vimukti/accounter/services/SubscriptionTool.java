@@ -98,6 +98,8 @@ public class SubscriptionTool extends Thread {
 				int premiumType = subscription.getPremiumType();
 				subscription.setSubscription(Subscription
 						.getInstance(Subscription.FREE_CLIENT));
+				client.setSubscriptionType(subscription.getSubscription()
+						.getType());
 				subscription.setPremiumType(0);
 				subscription.setDurationType(0);
 				subscription.setLastModified(new Date());
