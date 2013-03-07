@@ -53,7 +53,10 @@ if(isSandBoxPaypal ==null){
 	<c:when test="<%= freeTrail %>">
 		<tr id="trail-button-row">
 			<td align="center">
-			<a class="trailbutton target="_blank" href="/main/freetrail?emailId=<%= emailId %>">Go for 30 days Trail</a>	
+			<a class="trailbutton target="_blank" href="/main/freetrail?emailId=<%= emailId %>"> 30 days Premium Trial</a>	
+			</td>
+			<td align="center">
+			<label for="nocreditcardRwuired">No Credit Card Required</label>
 			</td>
 		</tr>
 		<tr align="center" class="or">

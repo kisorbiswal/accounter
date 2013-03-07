@@ -6,9 +6,11 @@
 * {
 	outline: none;
 }
-body,html{
-	height:auto;
+
+body,html {
+	height: auto;
 }
+
 button::-moz-focus-inner,input[type="reset"]::-moz-focus-inner,input[type="button"]::-moz-focus-inner,input[type="submit"]::-moz-focus-inner,input [type="checkbox"]::-moz-focus-inner,input[type="file"]>input[type="button"]::-moz-focus-inner
 	{
 	border: none;
@@ -468,7 +470,7 @@ input[type="text"] {
 	padding: 0 5px;
 }
 
-.signup-left .accounterForm input[type=text]{
+.signup-left .accounterForm input[type=text] {
 	background: url("../images/text-box.png") no-repeat scroll left top
 		transparent;
 	border: medium none;
@@ -722,7 +724,8 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity =     0.5) !important;
+	filter: alpha(opacity =                                           0.5)
+		!important;
 }
 
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus {
@@ -779,6 +782,7 @@ input[type="submit"]:FOCUS {
 form {
 	font-weight: normal;
 }
+
 .cancel_accountform #commanContainer {
 	width: 410px;
 }
@@ -837,9 +841,11 @@ form {
 	/*white-space: pre-wrap;*/
 	word-wrap: break-word;
 }
-#subscription_complition_form textarea{
-	height:50px;
+
+#subscription_complition_form textarea {
+	height: 50px;
 }
+
 #subscription_complition_form {
 	overflow: hidden;
 }
@@ -896,7 +902,7 @@ input [type="checkbox"] {
 	width: 100%;
 }
 
-.form-bottom-options a,#commanContainer a,#commanNewContainer a {
+.commanContainer a,#commanNewContainer a {
 	color: #28757D;
 	text-decoration: underline;
 }
@@ -923,6 +929,34 @@ input [type="checkbox"] {
 	margin: 0 0 16px 8px;
 	padding: 12px;
 	font-size: 12px;
+}
+
+.button-links {
+	border-radius: 5px 5px 5px 5px;
+	display: block;
+	font-weight: bold;
+	height: 20px;
+	padding: 10px;
+	text-align: center;
+	width: 115px;
+}
+
+.go-premium {
+	background-image: -moz-linear-gradient(center top, #FFC154, #E47601);
+	color: white;
+}
+
+.logout {
+	background-image: -moz-linear-gradient(center top, #FEFEFE, #E0DCD5);
+	color: black !important;
+}
+.login-thankyou{
+	background-image: -moz-linear-gradient(center top, #FEFEFE, #E0DCD5);
+	color: black !important;
+}
+.delete-account {
+	background-image: -moz-linear-gradient(center top, #FEFEFE, #E0DCD5);
+	color: black !important;
 }
 
 #login_error {
@@ -1380,45 +1414,54 @@ a#fdbk_tab:hover {
 	margin-top: 10px;
 	padding-left: 10px;
 }
-#delete_user_confirm{
-	min-height:120px;
+
+#delete_user_confirm {
+	min-height: 120px;
 }
-#company-locked p{
-color: #28757D;
-    font-size: 15px;
-    margin-top: 70px;
-    text-align: center;
+
+#company-locked p {
+	color: #28757D;
+	font-size: 15px;
+	margin-top: 70px;
+	text-align: center;
 }
-.form-bottom-options a{
-	font-size:13px;
+
+.form-bottom-options a {
+	font-size: 13px;
 }
-#accounterForm .encryptiondiv{
+
+#accounterForm .encryptiondiv {
 	margin: 10px;
-    width: 300px;
+	width: 300px;
 }
-#accounterForm #content div{
+
+#accounterForm #content div {
 	text-align: left;
 	margin-bottom: 15px;
 }
-.api_registration{
-	 width: 500px !important;
-	  margin: 30px auto !important;
+
+.api_registration {
+	width: 500px !important;
+	margin: 30px auto !important;
 }
-#company-locked table{
-	width:100%;
+
+#company-locked table {
+	width: 100%;
 }
-#company-locked table td{
-	padding:5px;
+
+#company-locked table td {
+	padding: 5px;
 }
+
 #trail-button-row .trailbutton {
 	background: none repeat scroll 0 0 #28757D;
-    border-radius: 5px 5px 5px 5px;
-    color: #FFFFFF;
-    height: 25px;
-    padding: 8px 30px;
-    text-align: center;
-    text-decoration: none;
-    width: 150px;
+	border-radius: 5px 5px 5px 5px;
+	color: #FFFFFF;
+	height: 25px;
+	padding: 8px 30px;
+	text-align: center;
+	text-decoration: none;
+	width: 150px;
 }
 
 #trail-button-row td,#premium-option-row {
@@ -1429,59 +1472,73 @@ color: #28757D;
 	padding-top: 30px;
 }
 
-#combo-row td{
+#combo-row td {
 	padding-bottom: 30px;
 }
-#trail-button-row, #premium-table {
+
+#trail-button-row,#premium-table {
 	width: 100%;
 }
+
 .or td {
-    border-bottom: 1px dotted gray;
+	border-bottom: 1px dotted gray;
 }
-.main-class{
-   width:900px;
-   margin:0 auto;
-   border:1px solid #ccc;
-   padding:15px;
-   border-collapse: collapse;
-}
-.main-class #licenseContainer{
-   border-collapse: collapse;
-   width: 100%;
-}
-.main-class #licenseContainer .under-line td{
-   padding:5px;
-}
-.main-class #licenseContainer td input[type=submit]{
-   margin-top:10px;
-}
-#licenseContainer .under-line{
-   border-bottom: 1px solid #ccc;
-}
-#licenseInfo .main-class{
-   width:900px;
-   margin:0 auto;
-   border:1px solid #ccc;
-   padding:15px;
-   border-collapse: collapse;
-}
-.main-class #licenseContainer{
-   border-collapse: collapse;
-   width: 100%;
-}
-.main-class #licenseContainer .under-line td{
-   padding:5px;
-}
-.main-class #licenseContainer td input[type=submit]{
-   margin-top:10px;
-}
-#licenseContainer .under-line{
-   border-bottom: 1px solid #ccc;
-}
-#licenseInfo h1{
+
+.main-class {
+	width: 900px;
 	margin: 0 auto;
-    width: 932px;
+	border: 1px solid #ccc;
+	padding: 15px;
+	border-collapse: collapse;
 }
+
+.main-class #licenseContainer {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.main-class #licenseContainer .under-line td {
+	padding: 5px;
+}
+
+.main-class #licenseContainer td input[type=submit] {
+	margin-top: 10px;
+}
+
+#licenseContainer .under-line {
+	border-bottom: 1px solid #ccc;
+}
+
+#licenseInfo .main-class {
+	width: 900px;
+	margin: 0 auto;
+	border: 1px solid #ccc;
+	padding: 15px;
+	border-collapse: collapse;
+}
+
+.main-class #licenseContainer {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.main-class #licenseContainer .under-line td {
+	padding: 5px;
+}
+
+.main-class #licenseContainer td input[type=submit] {
+	margin-top: 10px;
+}
+
+#licenseContainer .under-line {
+	border-bottom: 1px solid #ccc;
+}
+
+#licenseInfo h1 {
+	margin: 0 auto;
+	width: 932px;
+}
+
 #licenseInfo {
 	text-align: left;
 }

@@ -15,19 +15,22 @@
 </head>
 	<body>
 		<div id="commanContainer" class="thankyou-form">
-		   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
+		    <div id="accounterlogofield" class="new_logo_field">
+			    <a class="accounterLogoimage" href="/site/home"></a>
+			  </div>
 		    <div class="thank-you-data">	
 			   <div class="thankyou-header">
 				    <p> Thank you</p>
-				     Your subscription is successfully updated.
 			    </div>
+			    <br>
 			    <div>
 			    <p>
-			   	Please close this page and relogin to your Accounter to use the updated subscription features.
+			        Your subscription is successfully updated.
+			   		Please Login to your Accounter to use the updated subscription features.
+			   		You can manage your subscription by clicking "Manage Subscription" link after login.
 			   	</p>
-			   	<p>
-			    You can manage your subscription by clicking "Manage Subscription" link after login.
-			    </p>
+			   	<br>
+			   	 <a class="login-thankyou button-links" href="/main/login">Login</a>
 			    </br>
 			   </div>
 		   </div>

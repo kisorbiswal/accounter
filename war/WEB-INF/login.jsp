@@ -74,7 +74,7 @@
 		timerStarted();
 			for(var i=0; i <  news.list.length; i++){
 				$(news.list[i]).attr("clientid" ,i);
-				var listItemDiv = $("<li id="+news.list[i].clientid+"><a target=_blank href="+news.list[i].url+"</a>"+news.list[i].title+"</li></br>");
+				var listItemDiv = $("<li id="+news.list[i].clientid+"><a target=_blank href='"+news.list[i].url+"'>"+news.list[i].title+"</a></li>");
 					$('#feedDivUl').append($(listItemDiv));
 			}
 			
