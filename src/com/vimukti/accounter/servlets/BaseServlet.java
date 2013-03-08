@@ -332,6 +332,15 @@ public class BaseServlet extends HttpServlet {
 		UsersMailSendar.sendActivationMail(token, client);
 	}
 
+	/**
+	 * Send Welcome Mail to User.
+	 * 
+	 * @param emailId
+	 */
+	protected void sendWelComeMail(String emailId) {
+		UsersMailSendar.sendWelComeMail(emailId);
+	}
+
 	protected void sendMailToInvitedUser(Client user, String password,
 			String companyName) {
 		UsersMailSendar.sendMailToInvitedUser(user, password, companyName);

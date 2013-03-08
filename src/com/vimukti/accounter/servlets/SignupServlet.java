@@ -110,7 +110,7 @@ public class SignupServlet extends BaseServlet {
 							.fullName(firstName, lastName));
 					client.setPassword(passwordWithHash);
 					client.setPasswordRecoveryKey(EU.encryptPassword(password));
-					 client.setPhoneNo("");
+					client.setPhoneNo("");
 					client.setCountry(country);
 					client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
 					ClientSubscription clientSubscription = new ClientSubscription();
@@ -154,6 +154,7 @@ public class SignupServlet extends BaseServlet {
 							+ Global.get().messages().toLogin());
 					dispatch(req, resp, view);
 					return;
+
 				}
 			} else {
 				// else
@@ -201,6 +202,9 @@ public class SignupServlet extends BaseServlet {
 				saveEntry(client);
 				session.setAttribute(EMAIL_ID, emailId);
 
+				// SEND WELCOME MAIL TO SIGNUP USER
+				sendWelComeMail(emailId);
+
 				// Email to that user.
 				/*
 				 * sendActivationEmail(token, client); // Send to SignUp Success
@@ -232,4 +236,5 @@ public class SignupServlet extends BaseServlet {
 
 		return;
 	}
+
 }

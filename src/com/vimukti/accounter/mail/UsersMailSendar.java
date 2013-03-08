@@ -580,4 +580,35 @@ public class UsersMailSendar {
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
 		EmailManager.getInstance().addJob(job);
 	}
+
+	/**
+	 * 
+	 * Welcome Mail For Signup User
+	 * 
+	 * @param emailId
+	 */
+	public static void sendWelComeMail(String emailId) {
+		try {
+			initPropertyParserToInviteUser();
+			LOG.info("Sent Welcome Mail to Sign Up User");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		String content = propertyParser.getProperty(
+				"contentforAccounterWelcomeMail", "");
+		content = content.replaceAll("%USER%", getUserName(emailId));
+		String subject = propertyParser.getProperty(
+				"subjectForaccounterWelcomeMail", "");
+
+		EMailMessage emailMsg = new EMailMessage();
+		emailMsg.setContent(content);
+		emailMsg.setSubject(subject);
+		emailMsg.setRecepeant(emailId);
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
+		EmailManager.getInstance().addJob(job);
+	}
 }
