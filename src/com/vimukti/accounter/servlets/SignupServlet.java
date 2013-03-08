@@ -145,6 +145,9 @@ public class SignupServlet extends BaseServlet {
 						redirectExternal(req, resp, COMPANIES_URL);
 					}
 					transaction.commit();
+
+					// SEND WELCOME MAIL TO SIGNUP USER
+					sendWelComeMail(emailId);
 				} else {
 					req.setAttribute("errormessage", Global.get().messages()
 							.alreadyRegisteredWithAccounter()
