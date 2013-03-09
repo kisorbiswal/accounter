@@ -413,7 +413,7 @@ a:visited {
 }
 
 ul li a {
-	color: #3299A4;
+	color: #3299A4 !important;
 }
 
 ul li a:HOVER,ul li a:FOCUS {
@@ -724,7 +724,7 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity =                                           0.5)
+	filter: alpha(opacity =                                                   0.5)
 		!important;
 }
 
@@ -950,10 +950,12 @@ input [type="checkbox"] {
 	background-image: -moz-linear-gradient(center top, #FEFEFE, #E0DCD5);
 	color: black !important;
 }
-.login-thankyou{
+
+.login-thankyou {
 	background-image: -moz-linear-gradient(center top, #FEFEFE, #E0DCD5);
 	color: black !important;
 }
+
 .delete-account {
 	background-image: -moz-linear-gradient(center top, #FEFEFE, #E0DCD5);
 	color: black !important;
