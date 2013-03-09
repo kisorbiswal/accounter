@@ -97,8 +97,10 @@ public class CompaniesServlet extends BaseServlet {
 				canEncrypt = true;
 			}
 
-			boolean freeTrial = client.getClientSubscription().isPaidUser() ? false
-					: !client.isPremiumTrailDone();
+			// boolean freeTrial = client.getClientSubscription().isPaidUser() ?
+			// false
+			// : !client.isPremiumTrailDone();
+			boolean freeTrial = !client.isPremiumTrailDone();
 
 			req.setAttribute("emailId", emailID);
 			req.setAttribute("enableEncryption", client.getClientSubscription()

@@ -121,6 +121,7 @@ public class SubscriptionIPNServlet extends PayPalIPNServlet {
 			clientSubscription.setPaypalSubscriptionProfileId(params
 					.get("subscr_id"));
 			client.setClientSubscription(clientSubscription);
+			client.setPremiumTrailDone(true);
 			session.saveOrUpdate(client);
 			session.saveOrUpdate(clientSubscription);
 			transaction.commit();
