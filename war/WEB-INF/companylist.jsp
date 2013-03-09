@@ -158,12 +158,12 @@
 							</c:when>
 							<c:when test="<%=freeTrial%>">
 								<td><a target="_blank" class="go-premium button-links"
-									href="/main/30-days-premium-trial?emailId=<%=userEmail%>"> 30 Days Premium
-										Trial</a></td>
+									href="/content/30-days-premium-trial?emailId=<%=userEmail%>">
+										Premium Trial</a></td>
 							</c:when>
 							<c:otherwise>
 								<td><a target="_blank" class="go-premium button-links"
-									href="/main/gopremium?emailId=<%=userEmail%>">Go Premium</a></td>
+									href="/content/go-premium?emailId=<%=userEmail%>">Go Premium</a></td>
 							</c:otherwise>
 						</c:choose>
 

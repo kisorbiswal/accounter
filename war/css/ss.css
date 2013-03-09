@@ -413,7 +413,7 @@ a:visited {
 }
 
 ul li a {
-	color: #3299A4 !important;
+	color: #3299A4;
 }
 
 ul li a:HOVER,ul li a:FOCUS {
@@ -724,8 +724,8 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity =                                                   0.5)
-		!important;
+	filter: alpha(opacity =                                                        
+		  0.5) !important;
 }
 
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus {
@@ -902,7 +902,7 @@ input [type="checkbox"] {
 	width: 100%;
 }
 
-.commanContainer a,#commanNewContainer a {
+.form-bottom-options a,#commanContainer a,#commanNewContainer a {
 	color: #28757D;
 	text-decoration: underline;
 }
@@ -935,30 +935,27 @@ input [type="checkbox"] {
 	border-radius: 5px 5px 5px 5px;
 	display: block;
 	font-weight: bold;
-	height: 25px;
+	height: 21px;
 	padding: 10px;
-	text-align: center;
-	width: 115px;
+	text-align: center; 
+	width: 104px;
+	color: black !important;
 }
-
+.form-bottom-options tr a{
+	text-decoration: none !important;
+}
 .go-premium {
 	background-image: -moz-linear-gradient(center top, #FFC154, #E47601);
-	color: white;
+	background-image: -webkit-linear-gradient(top, #FFC154, #E47601);
+	background-image: -o-linear-gradient(top left, #FFC154 #E47601);
+	background-image: linear-gradient(to bottom right, #FFC154, #E47601);
 }
 
-.logout {
+.logout,.login-thankyou,.delete-account {
 	background-image: -moz-linear-gradient(center top, #FEFEFE, #E0DCD5);
-	color: black !important;
-}
-
-.login-thankyou {
-	background-image: -moz-linear-gradient(center top, #FEFEFE, #E0DCD5);
-	color: black !important;
-}
-
-.delete-account {
-	background-image: -moz-linear-gradient(center top, #FEFEFE, #E0DCD5);
-	color: black !important;
+	background-image: -webkit-linear-gradient(top, #FEFEFE, #E0DCD5);
+	background-image: -o-linear-gradient(top left, #FEFEFE #E0DCD5);
+	background-image: linear-gradient(to bottom right, #FEFEFE, #E0DCD5);
 }
 
 #login_error {
