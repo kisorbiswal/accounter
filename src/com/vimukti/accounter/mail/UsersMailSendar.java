@@ -542,7 +542,7 @@ public class UsersMailSendar {
 				.replaceAll("%USER%", getUserName(client.getEmailId()));
 
 		String subject = propertyParser.getProperty(
-				"contentForSubsGracperiodExpiredUser", "");
+				"subjectForSubsGracperiodExpiredUser", "");
 
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);

@@ -115,6 +115,7 @@ public class SignupServlet extends BaseServlet {
 					client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
 					ClientSubscription clientSubscription = new ClientSubscription();
 					clientSubscription.setCreatedDate(new Date());
+					clientSubscription.setLastModified(new Date());
 					if (!ServerConfiguration.isDesktopApp()) {
 						clientSubscription.setSubscription(Subscription
 								.getInstance(Subscription.FREE_CLIENT));

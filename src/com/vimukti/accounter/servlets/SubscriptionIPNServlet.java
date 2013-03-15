@@ -109,6 +109,7 @@ public class SubscriptionIPNServlet extends PayPalIPNServlet {
 			}
 			clientSubscription.setPremiumType(paymentType);
 			clientSubscription.setDurationType(durationType);
+			clientSubscription.setLastModified(new Date());
 			clientSubscription.setExpiredDate(expiredDate);
 			clientSubscription.setSubscription(Subscription
 					.getInstance(Subscription.PREMIUM_USER));

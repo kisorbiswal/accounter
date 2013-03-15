@@ -78,7 +78,10 @@ public class SubscriptionTool extends Thread {
 		Transaction transaction = session.beginTransaction();
 		try {
 			Client client = (Client) session.get(Client.class, clientID);
+			log.info("Client's Subscription EmailID  : " + client.getEmailId());
 			ClientSubscription subscription = client.getClientSubscription();
+			log.info("Before Subscription Expired  Client Sunscription Details :"
+					+ subscription.toString());
 
 			// If Expired GracePeriod also, then Expire Subscription
 			if (subscription.isGracePeriodExpired()) {
@@ -106,10 +109,14 @@ public class SubscriptionTool extends Thread {
 				subscription.setGracePeriodDate(gracePeriodDate);
 				session.saveOrUpdate(subscription);
 				session.saveOrUpdate(client);
+				log.info("After Subscription Expired  Client Sunscription Details :"
+						+ subscription.toString());
 				// SEND EMAIL
 				try {
 					UsersMailSendar.sendMailToSubscriptionExpiredUser(client,
 							premiumType);
+					log.info("Sent Mail To Subscription Expired User  :"
+							+ client.getEmailId());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -256,6 +256,7 @@ public class AccounterWindowsHomeServiceImpl extends
 				clientSubscription.setCreatedDate(new Date());
 				clientSubscription.setSubscription(Subscription
 						.getInstance(Subscription.FREE_CLIENT));
+				clientSubscription.setLastModified(new Date());
 				saveEntry(clientSubscription);
 
 				client.setClientSubscription(clientSubscription);

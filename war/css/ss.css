@@ -935,7 +935,7 @@ input [type="checkbox"] {
 	border-radius: 5px 5px 5px 5px;
 	display: block;
 	font-weight: bold;
-	height: 21px;
+	height: 25px;
 	padding: 10px;
 	text-align: center; 
 	width: 104px;
@@ -944,7 +944,7 @@ input [type="checkbox"] {
 .form-bottom-options tr a{
 	text-decoration: none !important;
 }
-.go-premium {
+.go-premium ,.manage-subscription{
 	background-image: -moz-linear-gradient(center top, #FFC154, #E47601);
 	background-image: -webkit-linear-gradient(top, #FFC154, #E47601);
 	background-image: -o-linear-gradient(top left, #FFC154 #E47601);

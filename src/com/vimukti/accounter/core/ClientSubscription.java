@@ -168,4 +168,15 @@ public class ClientSubscription implements IsSerializable {
 	public boolean isPaidUser() {
 		return getPremiumType() != TRIAL_USER && subscription.isPaidUser();
 	}
+
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("CREATED DATE :" + createdDate);
+		buffer.append("PREMIUM TYPE  :" + premiumType);
+		buffer.append("EXPIRY DATE :" + expiredDate);
+		buffer.append("SUBSCRIPTION TYPE :" + subscription.getType());
+		buffer.append("GRACE PERIOD :" + gracePeriodDate);
+		return buffer.toString();
+	}
 }

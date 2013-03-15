@@ -406,6 +406,7 @@ public class UserManager extends Manager {
 					.encryptPassword(randomString));
 			ClientSubscription clientSubscription = new ClientSubscription();
 			clientSubscription.setCreatedDate(new Date());
+			clientSubscription.setLastModified(new Date());
 
 			clientSubscription.setSubscription(Subscription
 					.getInstance(Subscription.FREE_CLIENT));

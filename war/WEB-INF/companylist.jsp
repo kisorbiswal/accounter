@@ -153,7 +153,7 @@
 					<tr>
 						<c:choose>
 							<c:when test="<%=isPaid%>">
-								<td><a href="/main/subscriptionmanagement"><i18n:i18n
+								<td><a class="manage-subscription button-links" href="/main/subscriptionmanagement"><i18n:i18n
 											msg='subscriptionManagement' /></a></td>
 							</c:when>
 							<c:when test="<%=freeTrial%>">
