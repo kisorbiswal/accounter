@@ -5,11 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.vimukti.accounter.text.FieldType;
-import com.vimukti.accounter.text.TextClass;
-import com.vimukti.accounter.text.TextField;
-
-@TextClass(embeded = false, name = "customer", fields = { "" })
 public class ClientCustomer extends ClientPayee {
 
 	public static final int CUSTOMER = 0;
@@ -31,10 +26,8 @@ public class ClientCustomer extends ClientPayee {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@TextField(type = FieldType.DATE)
 	long balanceAsOf;
 
-	@TextField(type = FieldType.STRING)
 	String number;
 
 	double creditLimit = 0D;
@@ -49,7 +42,6 @@ public class ClientCustomer extends ClientPayee {
 
 	long paymentTerm;
 
-	@TextField(type = FieldType.STRING)
 	long customerGroup;
 
 	String taxGroup;
