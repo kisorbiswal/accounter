@@ -17,6 +17,4 @@ public interface ITextCommand {
 
 	public void process(ITextResponse respnse);
 
-	public String type();
-
 }

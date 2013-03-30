@@ -18,9 +18,4 @@ public class FileTAXCommand extends CreateOrUpdateCommand {
 
 	}
 
-	@Override
-	public String type() {
-		return null;
-	}
-
 }

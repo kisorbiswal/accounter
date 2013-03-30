@@ -7,7 +7,6 @@ import org.hibernate.criterion.Restrictions;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.text.CommandsFactory;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -71,8 +70,4 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 		session.save(customer);
 	}
 
-	@Override
-	public String type() {
-		return CommandsFactory.CUSTOMER;
-	}
 }

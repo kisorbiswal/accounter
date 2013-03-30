@@ -12,7 +12,6 @@ import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.TransactionItem;
-import com.vimukti.accounter.text.CommandsFactory;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.text.commands.CreateOrUpdateCommand;
@@ -147,11 +146,6 @@ public class InvoiceCommand extends CreateOrUpdateCommand {
 		invoice.setTotal(total);
 
 		session.save(invoice);
-	}
-
-	@Override
-	public String type() {
-		return CommandsFactory.INVOICE;
 	}
 
 	class TransctionItem {

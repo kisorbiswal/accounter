@@ -18,8 +18,4 @@ public class PayTaxCommand extends CreateOrUpdateCommand {
 
 	}
 
-	@Override
-	public String type() {
-		return null;
-	}
 }

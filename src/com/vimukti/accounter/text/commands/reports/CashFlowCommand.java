@@ -18,10 +18,4 @@ public class CashFlowCommand extends AbstractReportCommand {
 
 	}
 
-	@Override
-	public String type() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

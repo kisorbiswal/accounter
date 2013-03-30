@@ -8,7 +8,6 @@ import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Vendor;
-import com.vimukti.accounter.text.CommandsFactory;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -52,7 +51,7 @@ public class VendorCommand extends CreateOrUpdateCommand {
 		phone = data.nextString("");
 		fax = data.nextString("");
 
-		return false;
+		return true;
 	}
 
 	@Override
@@ -76,10 +75,5 @@ public class VendorCommand extends CreateOrUpdateCommand {
 
 		session.save(vendor);
 
-	}
-
-	@Override
-	public String type() {
-		return CommandsFactory.VENDOR;
 	}
 }

@@ -7,7 +7,6 @@ import org.hibernate.criterion.Restrictions;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.text.CommandsFactory;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -61,8 +60,4 @@ public class AccountCommand extends CreateOrUpdateCommand {
 		session.save(account);
 	}
 
-	@Override
-	public String type() {
-		return CommandsFactory.ACCOUNT;
-	}
 }
