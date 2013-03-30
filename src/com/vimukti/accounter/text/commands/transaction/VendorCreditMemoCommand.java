@@ -7,15 +7,21 @@ import com.vimukti.accounter.text.commands.CreateOrUpdateCommand;
 public class VendorCreditMemoCommand extends CreateOrUpdateCommand {
 
 	@Override
-	public void parse(ITextData data, ITextResponse respnse) {
+	public boolean parse(ITextData data, ITextResponse respnse) {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
 
 	@Override
 	public void process(ITextResponse respnse) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String type() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -19,7 +19,7 @@ public class AccountCommand extends CreateOrUpdateCommand {
 	private FinanceDate asOf;
 
 	@Override
-	public void parse(ITextData data, ITextResponse respnse) {
+	public boolean parse(ITextData data, ITextResponse respnse) {
 		name = data.nextString("");
 		if (!data.isDouble()) {
 			respnse.addError("Invalid Double for Opening Balance");
@@ -29,6 +29,7 @@ public class AccountCommand extends CreateOrUpdateCommand {
 			respnse.addError("Invalid Date format for As Of Date");
 		}
 		asOf = data.nextDate(new FinanceDate());
+		return false;
 	}
 
 	@Override
@@ -51,6 +52,12 @@ public class AccountCommand extends CreateOrUpdateCommand {
 		}
 
 		session.save(account);
+	}
+
+	@Override
+	public String type() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -24,7 +24,7 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 	private String fax;
 
 	@Override
-	public void parse(ITextData data, ITextResponse respnse) {
+	public boolean parse(ITextData data, ITextResponse respnse) {
 		name = data.nextString("");
 		if (!data.isDate()) {
 			respnse.addError("Invalid Date format for date field");
@@ -39,6 +39,7 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 		email = data.nextString("");
 		phone = data.nextString("");
 		fax = data.nextString("");
+		return false;
 	}
 
 	@Override
@@ -61,5 +62,11 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 		customer.setFaxNo(fax);
 
 		session.save(customer);
+	}
+
+	@Override
+	public String type() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

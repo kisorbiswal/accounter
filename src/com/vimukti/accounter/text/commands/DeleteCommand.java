@@ -6,9 +6,10 @@ import com.vimukti.accounter.text.ITextResponse;
 public abstract class DeleteCommand implements ITextCommand {
 
 	@Override
-	public void parse(ITextData data, ITextResponse respnse) {
-		// TODO Auto-generated method stub
+	public boolean parse(ITextData data, ITextResponse respnse) {
 
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
