@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.text.FieldType;
+import com.vimukti.accounter.text.TextField;
+
 public abstract class ClientPayee implements IAccounterCore {
 
 	/**
@@ -23,8 +26,10 @@ public abstract class ClientPayee implements IAccounterCore {
 
 	public static final int TYPE_EMPLOYEE = 3;
 
+	@TextField(type = FieldType.STRING)
 	String name;
 
+	@TextField(type = FieldType.DATE)
 	long payeeSince;
 
 	String fileAs;
@@ -37,6 +42,7 @@ public abstract class ClientPayee implements IAccounterCore {
 
 	long date;
 
+	@TextField(type = FieldType.CURRENCY)
 	double balance;
 
 	double currencyFactor = 1;
@@ -50,7 +56,9 @@ public abstract class ClientPayee implements IAccounterCore {
 	String tinNumber;
 	private long currency;
 
+	@TextField(type = FieldType.ADDRESS, collection = true)
 	Set<ClientAddress> address = new HashSet<ClientAddress>();
+
 	Set<ClientPhone> phoneNumbers = new HashSet<ClientPhone>();
 	Set<ClientFax> faxNumbers = new HashSet<ClientFax>();
 	Set<ClientEmail> emails = new HashSet<ClientEmail>();
@@ -61,9 +69,14 @@ public abstract class ClientPayee implements IAccounterCore {
 	boolean isActive = Boolean.TRUE;
 	String memo;
 	String paymentMethod;
+
+	@TextField(type = FieldType.PHONE)
 	private String phoneNo;
+
+	@TextField(type = FieldType.FAX)
 	private String faxNo;
 
+	@TextField(type = FieldType.CURRENCY)
 	protected double openingBalance = 0D;
 
 	private HashMap<String, String> payeeFields = new HashMap<String, String>();
@@ -91,6 +104,8 @@ public abstract class ClientPayee implements IAccounterCore {
 	}
 
 	boolean isOpeningBalanceEditable = Boolean.TRUE;
+
+	@TextField(type = FieldType.EMAIL)
 	private String email;
 	boolean isDefault;
 

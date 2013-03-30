@@ -1,4 +1,4 @@
-package com.vimukti.accounter.mailcommands;
+package com.vimukti.accounter.text;
 
 import java.io.BufferedReader;
 import java.io.IOException;

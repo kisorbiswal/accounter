@@ -3,9 +3,6 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.text.CreateFromText;
-
-@CreateFromText(embeded=true)
 public class ClientAddress implements IAccounterCore {
 
 	/**
@@ -239,7 +236,6 @@ public class ClientAddress implements IAccounterCore {
 		// this.id=id;
 
 	}
-
 
 	public ClientAddress clone() {
 		ClientAddress clientAddress = (ClientAddress) this.clone();

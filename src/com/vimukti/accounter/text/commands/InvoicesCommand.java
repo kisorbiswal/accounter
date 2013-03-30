@@ -1,4 +1,4 @@
-package com.vimukti.accounter.mailcommands;
+package com.vimukti.accounter.text.commands;
 
 public class InvoicesCommand extends MailCommand {
 

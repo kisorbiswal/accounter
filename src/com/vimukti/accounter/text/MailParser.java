@@ -1,6 +1,8 @@
-package com.vimukti.accounter.mailcommands;
+package com.vimukti.accounter.text;
 
 import java.util.List;
+
+import com.vimukti.accounter.text.commands.MailCommand;
 
 import net.sf.json.JSONObject;
 
