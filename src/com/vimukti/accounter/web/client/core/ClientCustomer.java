@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.text.CreateFromText;
+
+@CreateFromText
 public class ClientCustomer extends ClientPayee {
 
 	public static final int CUSTOMER = 0;
