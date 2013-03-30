@@ -5,8 +5,18 @@ import com.vimukti.accounter.text.ITextResponse;
 
 public interface ITextCommand {
 
-	public void parse(ITextData data, ITextResponse respnse);
+	/**
+	 * If given data is not type of this command, then return false otherwise
+	 * true
+	 * 
+	 * @param data
+	 * @param respnse
+	 * @return
+	 */
+	public boolean parse(ITextData data, ITextResponse respnse);
 
 	public void process(ITextResponse respnse);
+
+	public String type();
 
 }

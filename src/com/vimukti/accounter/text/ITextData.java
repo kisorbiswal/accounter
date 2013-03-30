@@ -6,6 +6,8 @@ import com.vimukti.accounter.core.Quantity;
 
 public interface ITextData {
 
+	public String getType();
+
 	public String nextString(String defVal);
 
 	public Long nextNumber();
@@ -23,4 +25,8 @@ public interface ITextData {
 	public boolean hasNext();
 
 	public boolean isDouble();
+
+	public Double nextDouble();
+
+	public void reset();
 }
