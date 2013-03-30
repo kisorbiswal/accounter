@@ -22,7 +22,6 @@ public class MailHookeServlet extends BaseServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		JSONObject jsonObj = requestDataToJSON(req);
-		MailParser mailParser = new MailParser(jsonObj);
 		// TODO
 		super.doPost(req, resp);
 	}

@@ -3,7 +3,7 @@ package com.vimukti.accounter.text.commands;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 
-public class CustomerCommand extends CreateOrUpdateCommand {
+public abstract class ReportCommand implements ITextCommand {
 
 	@Override
 	public void parse(ITextData data, ITextResponse respnse) {
