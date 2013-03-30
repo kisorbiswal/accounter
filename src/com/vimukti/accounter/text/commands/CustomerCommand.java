@@ -1,7 +1,8 @@
 package com.vimukti.accounter.text.commands;
 
-import org.hibernate.Query;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Customer;
@@ -24,25 +25,28 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 
 	@Override
 	public void parse(ITextData data, ITextResponse respnse) {
-		name = data.nextString();
+		name = data.nextString("");
 		if (!data.isDate()) {
 			respnse.addError("Invalid Date format for date field");
 		}
-		customerSince = data.nextDate();
-		openingBalance = data.nextDouble();
-		address = data.nextAddress();
-		webAddress = data.nextString();
-		email = data.nextString();
-		phone = data.nextString();
-		fax = data.nextString();
+		customerSince = data.nextDate(new FinanceDate());
+		if (!data.isDouble()) {
+			respnse.addError("Invalid Double for Opening Balance");
+		}
+		openingBalance = data.nextDouble(0);
+		address = data.nextAddress(null);
+		webAddress = data.nextString("");
+		email = data.nextString("");
+		phone = data.nextString("");
+		fax = data.nextString("");
 	}
 
 	@Override
 	public void process(ITextResponse respnse) {
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getCustomerByname")
-				.setParameter("company", getCompany())
-				.setParameter("name", name);
+		Criteria query = session.createCriteria(Customer.class);
+		query.add(Restrictions.eq("company", getCompany()));
+		query.add(Restrictions.eq("name", name));
 		Customer customer = (Customer) query.uniqueResult();
 		if (customer == null) {
 			customer = new Customer();
@@ -58,5 +62,4 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 
 		session.save(customer);
 	}
-
 }

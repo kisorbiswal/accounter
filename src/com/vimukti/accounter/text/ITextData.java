@@ -6,17 +6,21 @@ import com.vimukti.accounter.core.Quantity;
 
 public interface ITextData {
 
-	public String nextString();
+	public String nextString(String defVal);
 
 	public Long nextNumber();
 
-	public FinanceDate nextDate();
+	public FinanceDate nextDate(FinanceDate defVal);
 
-	public Address nextAddress();
+	public Address nextAddress(Address defVal);
 
 	public Quantity nextQuantity();
 
 	public boolean isDate();
 
-	public Double nextDouble();
+	public double nextDouble(double defVal);
+
+	public boolean hasNext();
+
+	public boolean isDouble();
 }
