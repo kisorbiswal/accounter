@@ -7,11 +7,17 @@ import org.hibernate.criterion.Restrictions;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.text.CommandsFactory;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.utils.HibernateUtil;
 
-// This is only for BankAccount. name, openingBalance, asOf
+/**
+ * This is only for BankAccount. name, openingBalance, asOf
+ * 
+ * @author Umasree
+ * 
+ */
 public class AccountCommand extends CreateOrUpdateCommand {
 
 	private String name;
@@ -29,7 +35,8 @@ public class AccountCommand extends CreateOrUpdateCommand {
 			respnse.addError("Invalid Date format for As Of Date");
 		}
 		asOf = data.nextDate(new FinanceDate());
-		return false;
+
+		return true;
 	}
 
 	@Override
@@ -56,8 +63,6 @@ public class AccountCommand extends CreateOrUpdateCommand {
 
 	@Override
 	public String type() {
-		// TODO Auto-generated method stub
-		return null;
+		return CommandsFactory.ACCOUNT;
 	}
-
 }

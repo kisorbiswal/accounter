@@ -12,6 +12,7 @@ public class CommandsFactory {
 	public static final String BILL = "bill";
 	public static final String ITEM = "item";
 	public static final String CASH_EXPENSE = "cashexpense";
+	public static final String ACCOUNT = "account";
 
 	static HashMap<String, Class<? extends ITextCommand>> commands = new HashMap<String, Class<? extends ITextCommand>>();
 	static {

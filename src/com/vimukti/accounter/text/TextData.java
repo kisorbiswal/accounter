@@ -44,7 +44,7 @@ public class TextData implements ITextData {
 	}
 
 	@Override
-	public Quantity nextQuantity() {
+	public Quantity nextQuantity(Quantity defVal) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -83,6 +83,12 @@ public class TextData implements ITextData {
 	public void reset() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean isQuantity() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

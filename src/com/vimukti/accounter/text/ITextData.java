@@ -16,7 +16,7 @@ public interface ITextData {
 
 	public Address nextAddress(Address defVal);
 
-	public Quantity nextQuantity();
+	public Quantity nextQuantity(Quantity defVal);
 
 	public boolean isDate();
 
@@ -29,4 +29,6 @@ public interface ITextData {
 	public Double nextDouble();
 
 	public void reset();
+
+	public boolean isQuantity();
 }

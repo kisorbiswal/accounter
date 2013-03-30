@@ -7,11 +7,17 @@ import org.hibernate.criterion.Restrictions;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.text.CommandsFactory;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.utils.HibernateUtil;
 
-//name,customerSince,openingBalance,address,webaddress,email,phone,fax
+/**
+ * name,customerSince,openingBalance,address,webaddress,email,phone,fax
+ * 
+ * @author Umasree
+ * 
+ */
 public class CustomerCommand extends CreateOrUpdateCommand {
 
 	private String name;
@@ -39,7 +45,8 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 		email = data.nextString("");
 		phone = data.nextString("");
 		fax = data.nextString("");
-		return false;
+
+		return true;
 	}
 
 	@Override
@@ -66,7 +73,6 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 
 	@Override
 	public String type() {
-		// TODO Auto-generated method stub
-		return null;
+		return CommandsFactory.CUSTOMER;
 	}
 }
