@@ -1,8 +1,7 @@
 package com.vimukti.accounter.text;
 
-import java.util.Date;
-
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Quantity;
 
 public interface ITextData {
@@ -11,9 +10,13 @@ public interface ITextData {
 
 	public Long nextNumber();
 
-	public Date nextDate();
+	public FinanceDate nextDate();
 
 	public Address nextAddress();
 
 	public Quantity nextQuantity();
+
+	public boolean isDate();
+
+	public Double nextDouble();
 }

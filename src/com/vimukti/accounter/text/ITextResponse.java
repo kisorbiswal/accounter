@@ -4,7 +4,7 @@ import java.io.File;
 
 public interface ITextResponse {
 
-	public void addError(String error, Throwable t);
+	public void addError(String error);
 
 	public boolean hasErrors();
 
