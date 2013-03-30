@@ -1,9 +1,10 @@
-package com.vimukti.accounter.text.commands;
+package com.vimukti.accounter.text.reports.commands;
 
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
+import com.vimukti.accounter.text.commands.AbstractReportCommand;
 
-public abstract class ReportCommand implements ITextCommand {
+public class VendorsStatementCommnad extends AbstractReportCommand {
 
 	@Override
 	public void parse(ITextData data, ITextResponse respnse) {
