@@ -1,15 +1,17 @@
 package com.vimukti.accounter.text;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.StringWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
+import org.apache.commons.io.IOUtils;
+import org.hibernate.Session;
 
 import com.vimukti.accounter.servlets.BaseServlet;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public class MailHookeServlet extends BaseServlet {
 
@@ -21,29 +23,23 @@ public class MailHookeServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		JSONObject jsonObj = requestDataToJSON(req);
-		// TODO
-		super.doPost(req, resp);
-	}
 
-	/**
-	 * Parsing Request data to Json Object
-	 * 
-	 * @param HttpServletRequest
-	 */
-	private JSONObject requestDataToJSON(HttpServletRequest req) {
-		JSONObject jsonObject = null;
+		// Read Json Request
+		StringWriter writter = new StringWriter();
+		IOUtils.copy(req.getReader(), writter);
+		Mail request = Mail.parse(writter.toString());
+
+		// Open Hiberante Session
+		Session session = HibernateUtil.openSession();
 		try {
-			String line = null;
-			StringBuffer jb = new StringBuffer();
-			BufferedReader reader = req.getReader();
-			while ((line = reader.readLine()) != null) {
-				jb.append(line);
-			}
-			jsonObject = JSONObject.fromObject(jb.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
+			// Process Request
+			TextRequestProcessor.getInstance().process(request);
+		} finally {
+			// FInally close it
+			session.close();
 		}
-		return jsonObject;
+
+		// Send status 200 if request succeed
+		resp.setStatus(200);
 	}
 }

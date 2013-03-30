@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class TextCommandParser {
 
-	public ArrayList<ITextData> parse(String text) {
+	public static ArrayList<ITextData> parse(String text) {
 		ArrayList<ITextData> commands = new ArrayList<ITextData>();
 
 		Scanner scanner = new Scanner(text);
@@ -26,9 +26,9 @@ public class TextCommandParser {
 			} else {
 				// If current line is not a command, then just append it to
 				// previous
-				if (!nextLine.endsWith(",")) {
+				if (!command.endsWith(",")) {
 					// If Not ends with comma(,), then append it
-					nextLine += ",";
+					command += ",";
 				}
 				command = command + nextLine;
 			}
@@ -43,12 +43,11 @@ public class TextCommandParser {
 		return commands;
 	}
 
-	private boolean isCommand(String first) {
-		// TODO Auto-generated method stub
-		return false;
+	private static boolean isCommand(String first) {
+		return CommandsFactory.getCommand(first) != null;
 	}
 
-	private String getFirst(String line) {
+	private static String getFirst(String line) {
 		if (line == null || line.isEmpty()) {
 			return null;
 		}

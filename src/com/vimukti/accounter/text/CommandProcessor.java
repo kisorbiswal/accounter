@@ -7,30 +7,66 @@ import com.vimukti.accounter.text.commands.ITextCommand;
 
 public class CommandProcessor {
 
-	public void processCommands(ArrayList<ITextData> datas) throws Exception {
+	private static CommandProcessor processor;
+
+	public static CommandProcessor getInstance() {
+		if (processor == null) {
+			processor = new CommandProcessor();
+		}
+		return processor;
+	}
+
+	public void processCommands(ArrayList<ITextData> datas,
+			ITextResponse response) {
 
 		Iterator<ITextData> iterator = datas.iterator();
 
-		Class<? extends ITextCommand> commandClass = null;
-
 		while (iterator.hasNext()) {
+			// get next
 			ITextData data = iterator.next();
-			if (commandClass == null) {
-				commandClass = CommandsFactory.getCommand(data.getType());
-			}
-			ITextCommand command = commandClass.newInstance();
-			ITextResponse response = newResponse();
-			boolean isSameCommand = command.parse(data, response);
-			if (isSameCommand) {
+
+			Class<? extends ITextCommand> commandClass = CommandsFactory
+					.getCommand(data.getType());
+			ITextCommand command = null;
+			try {
+				command = commandClass.newInstance();
+			} catch (ReflectiveOperationException e) {
+				// Send response as Invalid command
+				response.addError("Invalid command");
 				continue;
 			}
-			data.reset();
+
+			// Parse command
+			parseRequest(command, data, response, iterator);
+
+			if (response.hasErrors()) {
+				// SEND ERRORS AS RESPONSE
+				continue;
+			}
+
+			// PROCESS COMMAND
 			command.process(response);
+
+			if (response.hasErrors()) {
+				// SEND ERRORS AS RESPONSE
+				continue;
+			}
 		}
 	}
 
-	private ITextResponse newResponse() {
-		return new CommandResponse();
+	private void parseRequest(ITextCommand command, ITextData data,
+			ITextResponse response, Iterator<ITextData> iterator) {
+		// PARSE COMMAND DATA
+		boolean isPaseSuccess = command.parse(data, response);
+
+		// Is Same as Previous, then parse next command
+		if (isPaseSuccess) {
+			parseRequest(command, iterator.next(), response, iterator);
+		} else {
+			// If not same as Previous, then just process it as first data
+			// already read by this command
+			data.reset();
+		}
 	}
 
 }
