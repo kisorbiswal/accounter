@@ -18,4 +18,10 @@ public class TransactionDetailbyAccountCommand extends AbstractReportCommand {
 
 	}
 
+	@Override
+	public int getReportType() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
