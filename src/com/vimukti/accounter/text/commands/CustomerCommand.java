@@ -33,10 +33,12 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 		name = data.nextString("");
 		if (!data.isDate()) {
 			respnse.addError("Invalid Date format for date field");
+			return false;
 		}
 		customerSince = data.nextDate(new FinanceDate());
 		if (!data.isDouble()) {
 			respnse.addError("Invalid Double for Opening Balance");
+			return false;
 		}
 		openingBalance = data.nextDouble(0);
 		address = data.nextAddress(null);

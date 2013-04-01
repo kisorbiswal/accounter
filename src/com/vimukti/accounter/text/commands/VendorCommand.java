@@ -38,11 +38,13 @@ public class VendorCommand extends CreateOrUpdateCommand {
 		name = data.nextString("");
 		if (!data.isDate()) {
 			respnse.addError("Invalid Date format for date field");
+			return false;
 		}
 		// if next date is null,then set the default present date
 		vendorSince = data.nextDate(new FinanceDate());
 		if (!data.isDouble()) {
 			respnse.addError("Invalid Double for Opening Balance");
+			return false;
 		}
 		openingBalance = data.nextDouble(0);
 		address = data.nextAddress(null);

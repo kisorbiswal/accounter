@@ -38,6 +38,7 @@ public class CashExpenseCommand extends CreateOrUpdateCommand {
 
 		if (!data.isDate()) {
 			respnse.addError("Invalid Date format for date field");
+			return false;
 		}
 		// if next date is null,then set the default present date
 		transactionDate = data.nextDate(new FinanceDate());
@@ -55,6 +56,7 @@ public class CashExpenseCommand extends CreateOrUpdateCommand {
 		item.setName(itemName);
 		if (!data.isDouble()) {
 			respnse.addError("Invalid Double for Amount field");
+			return false;
 		}
 		item.setAmount(data.nextDouble(0));
 		item.setTax(data.nextString(null));

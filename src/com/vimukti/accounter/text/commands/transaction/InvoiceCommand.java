@@ -40,6 +40,7 @@ public class InvoiceCommand extends CreateOrUpdateCommand {
 		customerName = data.nextString("");
 		if (!data.isDate()) {
 			respnse.addError("Invalid Date format for date field");
+			return false;
 		}
 		date = data.nextDate(new FinanceDate());
 
@@ -48,10 +49,12 @@ public class InvoiceCommand extends CreateOrUpdateCommand {
 		item.setName(itemName);
 		if (!data.isDouble()) {
 			respnse.addError("Invalid Double for Unit Price field");
+			return false;
 		}
 		item.setUnitPrice(data.nextDouble(0));
 		if (!data.isQuantity()) {
 			respnse.addError("Invalid Quantity format for quantity field");
+			return false;
 		}
 		item.setQuantity(data.nextQuantity(null));
 		item.setTax(data.nextString(null));
