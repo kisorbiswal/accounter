@@ -196,4 +196,10 @@ public class TextDataImpl implements ITextData {
 		return actual;
 	}
 
+	@Override
+	public void forward(int position) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

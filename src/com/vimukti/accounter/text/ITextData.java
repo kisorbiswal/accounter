@@ -31,4 +31,9 @@ public interface ITextData {
 	public void reset();
 
 	public boolean isQuantity();
+
+	/**
+	 * forward the positions
+	 */
+	public void forward(int position);
 }

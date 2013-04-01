@@ -4,88 +4,98 @@ import java.util.ArrayList;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.BankAccount;
+import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
-/**
- * number,customer,date,itemname,unit price,quantity,tax,item description,my
- * comments
- * 
- * @author Umasree
- * 
- */
-public class InvoiceCommand extends AbstractTransactionCommand {
+public class CashSaleCommand extends AbstractTransactionCommand {
+
 	private String number;
 	private String customerName;
-	private FinanceDate date;
-	private ArrayList<TransctionItem> items = new ArrayList<TransctionItem>();
-	private Address billingAddress;
 	private String memo;
+	private String paymentmethod;
+	private String despositIn;
 
 	@Override
 	public boolean parse(ITextData data, ITextResponse respnse) {
+
+		// Number
 		String num = data.nextString("");
 		if (number != null && !number.equals(num)) {
 			return false;
 		}
+		// customer
 		customerName = data.nextString("");
+
 		boolean parseTransactionDate = parseTransactionDate(data, respnse);
 		if (!parseTransactionDate) {
 			return false;
 		}
-		billingAddress = data.nextAddress(null);
-		if (billingAddress != null) {
-			billingAddress.setType(Address.TYPE_BILL_TO);
-		}
+
 		// Transaction Item
 		boolean parseTransactionItem = parseTransactionItem(data, respnse);
 		if (!parseTransactionItem) {
 			return false;
 		}
+		// paymentMethod
+		paymentmethod = data.nextString("");
+		// desposit in Account
+		despositIn = data.nextString("");
+		// memo
 		memo = data.nextString(null);
 
 		return true;
 	}
 
 	@Override
-	public void process(ITextResponse respnse) {
+	public void process(ITextResponse respnse) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 
-		Invoice invoice = getObject(Invoice.class, "number", number);
-		if (invoice == null) {
-			invoice = new Invoice();
+		CashSales cashSales = getObject(Invoice.class, "number", number);
+		if (cashSales == null) {
+			cashSales = new CashSales();
 		}
-		invoice.setNumber(number);
 
+		cashSales.setNumber(number);
 		Customer customer = getObject(Customer.class, "name", customerName);
 		if (customer == null) {
 			customer = new Customer();
 			customer.setName(customerName);
 			session.save(customer);
 		}
-		invoice.setCustomer(customer);
+		cashSales.setCustomer(customer);
 
-		invoice.setDate(date);
-		if (billingAddress != null) {
-			invoice.setBillingAddress(billingAddress);
+		cashSales.setDate(transactionDate);
+
+		BankAccount bankAccount = getObject(BankAccount.class, "name",
+				despositIn);
+		if (bankAccount == null) {
+			bankAccount = new BankAccount();
+			bankAccount.setName(this.despositIn);
+			session.save(bankAccount);
 		}
+
+		cashSales.setDepositIn(bankAccount);
+		// Processed Transaction Items
 		ArrayList<TransactionItem> processTransactionItems = processTransactionItem();
-		invoice.setTransactionItems(processTransactionItems);
 
-		if (memo != null) {
-			invoice.setMemo(memo);
-		}
-		// getting Transaction Total
-		double total = getTransactionTotal(processTransactionItems);
-		invoice.setTotal(total);
+		cashSales.setTransactionItems(processTransactionItems);
+		// geting the transaction Total
+		double transactionTotal = getTransactionTotal(processTransactionItems);
 
-		session.save(invoice);
+		cashSales.setTotal(transactionTotal);
+
+		cashSales.setMemo(memo);
+
+		cashSales.setPaymentMethod(paymentmethod);
+
+		saveOrUpdate(cashSales);
 	}
 
 }

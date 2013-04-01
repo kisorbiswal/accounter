@@ -1,7 +1,5 @@
 package com.vimukti.accounter.text.commands;
 
-import java.util.ArrayList;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -11,7 +9,6 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Quantity;
-import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public abstract class CreateOrUpdateCommand extends AbstractTextCommand {
@@ -40,48 +37,6 @@ public abstract class CreateOrUpdateCommand extends AbstractTextCommand {
 			transaction.rollback();
 			throw new AccounterException("Error while saving.");
 		}
-	}
-
-	/**
-	 * Calculating the Line Total With Tax.
-	 * 
-	 * @param itemTotal
-	 * @param tax
-	 * @return {@link Double} Line Total
-	 */
-	protected Double getLineTotal(Double itemTotal, String tax) {
-		double lineTotal = itemTotal;
-		if (tax != null) {
-			double taxTotal = 0;
-			// checking Tax is Percentage Value..
-			if (tax.contains("%")) {
-				double taxRate = Double.valueOf(tax.replace("%", ""));
-				// calculating the Tax Total On Item Total
-				taxTotal = (itemTotal / 100) * taxRate;
-			} else {
-				double taxAmount = Double.valueOf(tax);
-				taxTotal = taxAmount;
-			}
-			// adding Tax Value To Item Total
-			lineTotal += taxTotal;
-		}
-		return lineTotal;
-	}
-
-	/**
-	 * Calculating the Transaction Total
-	 * 
-	 * @param transactionItems
-	 *            Transaction Items
-	 * @return {@link Double} Transaction Total
-	 */
-	protected double getTransactionTotal(
-			ArrayList<TransactionItem> transactionItems) {
-		double total = 0.0;
-		for (TransactionItem transactionItem : transactionItems) {
-			total += transactionItem.getLineTotal();
-		}
-		return total;
 	}
 
 	public class TransctionItem {
@@ -149,6 +104,5 @@ public abstract class CreateOrUpdateCommand extends AbstractTextCommand {
 		public void setItem(String item) {
 			this.item = item;
 		}
-
 	}
 }
