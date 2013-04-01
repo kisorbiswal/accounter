@@ -132,7 +132,7 @@ public class Mail {
 
 	private String toName;
 
-	private Mail() {
+	Mail() {
 
 	}
 
@@ -423,5 +423,21 @@ public class Mail {
 	 */
 	public String getToName() {
 		return toName;
+	}
+
+	/**
+	 * @param from
+	 *            the from to set
+	 */
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
+	/**
+	 * @param textBody
+	 *            the textBody to set
+	 */
+	public void setTextBody(String textBody) {
+		this.textBody = textBody;
 	}
 }

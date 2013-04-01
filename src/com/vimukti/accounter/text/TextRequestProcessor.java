@@ -1,13 +1,22 @@
 package com.vimukti.accounter.text;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Subscription;
+import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.mail.EMailJob;
+import com.vimukti.accounter.mail.EMailMessage;
+import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -24,7 +33,8 @@ public class TextRequestProcessor {
 		return processor;
 	}
 
-	public void process(Mail request) {
+	@SuppressWarnings("rawtypes")
+	public void process(Mail request) throws IOException {
 		// Check it sign up request
 		if (SIGNUP_EMAIL.equals(request.getTo())) {
 			signup(request);
@@ -32,19 +42,74 @@ public class TextRequestProcessor {
 		}
 
 		// TODO AUTHENTICATE
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("get.users.by.email").setParameter(
+				"email", request.getFrom());
+		List list = query.list();
+		if (list.isEmpty()) {
+			// No companies yet, Need to create a new company before doing this
+			// operation
+			sendResponse(request,
+					"You don't have companies yet, please create a company");
+			return;
+		}
+
+		// Set User to Thread
+		User user = (User) list.get(0);
+		AccounterThreadLocal.set(user);
 
 		String textBody = request.getTextBody();
 
 		ArrayList<ITextData> datas = TextCommandParser.parse(textBody);
 
-		ITextResponse response = newResponse();
+		CommandsQueue queue = new CommandsQueue(datas);
 
-		CommandProcessor.getInstance().processCommands(datas, response);
+		ArrayList<CommandResponseImpl> responses = CommandProcessor
+				.getInstance().processCommands(queue);
+
+		sendResponse(request, responses);
 
 	}
 
-	private ITextResponse newResponse() {
-		return new CommandResponse();
+	private void sendResponse(Mail request,
+			ArrayList<CommandResponseImpl> responses) {
+		StringBuffer buff = new StringBuffer();
+		ArrayList<File> files = new ArrayList<File>();
+		for (CommandResponseImpl response : responses) {
+
+			// Add input commands first
+			ArrayList<ITextData> cData = response.getData();
+			for (ITextData data : cData) {
+				buff.append(data.toString());
+				buff.append("\n");
+			}
+
+			// Then It's response
+			// Add Errors first
+			buff.append("\t");
+			buff.append("Errors : ");
+			for (String error : response.getErrors()) {
+				buff.append("\n\t\t");
+				buff.append(error);
+			}
+
+			// Add then messages
+			buff.append("\n\t");
+			buff.append("Messages : ");
+			for (String msg : response.getMessages()) {
+				buff.append("\n\t\t");
+				buff.append(msg);
+			}
+
+			// Finally files
+			for (String file : response.getFiles()) {
+				files.add(new File(file));
+			}
+
+			// Finaly new line
+			buff.append("\n\n");
+		}
+		sendResponse(request, buff.toString(), files.toArray(new File[] {}));
 	}
 
 	/**
@@ -85,6 +150,37 @@ public class TextRequestProcessor {
 		session.saveOrUpdate(clientSubscription);
 
 		client.setClientSubscription(clientSubscription);
+		session.saveOrUpdate(client);
 
+		sendResponse(request, "Signp Success");
+
+	}
+
+	private void sendResponse(Mail request, String message) {
+		sendResponse(request, message, (File[]) null);
+	}
+
+	private void sendResponse(Mail request, String message, File... files) {
+		EMailMessage msg = new EMailMessage();
+		msg.setFrom(request.getFrom());
+		msg.setRecepeant(request.getFrom());
+		msg.isPlain = true;
+
+		// Set content
+		msg.setContent(message);
+		if (files != null) {
+			// Add Attachments
+			for (File file : files) {
+				msg.setAttachment(file);
+			}
+		}
+
+		ArrayList<EMailMessage> messages = new ArrayList<EMailMessage>();
+		messages.add(msg);
+
+		EMailJob job = new EMailJob();
+		job.setMessages(messages);
+
+		EmailManager.getInstance().addJob(job);
 	}
 }

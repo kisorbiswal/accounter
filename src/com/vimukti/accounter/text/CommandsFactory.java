@@ -1,6 +1,7 @@
 package com.vimukti.accounter.text;
 
-import com.google.gwt.dev.util.collect.HashMap;
+import java.util.HashMap;
+
 import com.vimukti.accounter.text.commands.CustomerCommand;
 import com.vimukti.accounter.text.commands.ITextCommand;
 

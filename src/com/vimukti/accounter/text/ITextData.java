@@ -10,7 +10,7 @@ public interface ITextData {
 
 	public String nextString(String defVal);
 
-	public Long nextNumber();
+	public Long nextNumber(Long defVal);
 
 	public FinanceDate nextDate(FinanceDate defVal);
 

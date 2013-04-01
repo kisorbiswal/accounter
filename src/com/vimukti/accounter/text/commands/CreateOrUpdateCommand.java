@@ -2,15 +2,44 @@ package com.vimukti.accounter.text.commands;
 
 import java.util.ArrayList;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.vimukti.accounter.core.Activity;
+import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.CreatableObject;
+import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.TransactionItem;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public abstract class CreateOrUpdateCommand implements ITextCommand {
+public abstract class CreateOrUpdateCommand extends AbstractTextCommand {
 
-	protected Company getCompany() {
-		// TODO Auto-generated method stub
-		return null;
+	protected void saveOrUpdate(IAccounterServerCore serverObj)
+			throws AccounterException {
+		Company company = getCompany();
+		if (serverObj instanceof CreatableObject) {
+			((CreatableObject) serverObj).setCompany(company);
+		}
+		serverObj.selfValidate();
+		Session session = getSession();
+		boolean isAdd = serverObj.getID() == 0;
+		Transaction transaction = session.beginTransaction();
+		try {
+			// Save or Update Object
+			session.saveOrUpdate(serverObj);
+
+			// Create Activity
+			Activity activity = new Activity(company, getUser(),
+					(isAdd ? ActivityType.ADD : ActivityType.EDIT), serverObj);
+			session.save(activity);
+
+			transaction.commit();
+		} catch (Exception e) {
+			transaction.rollback();
+			throw new AccounterException("Error while saving.");
+		}
 	}
 
 	/**

@@ -80,12 +80,12 @@
 
 	<servlet>
 		<servlet-name>mailHookeServlet</servlet-name>
-		<servlet-class>com.vimukti.accounter.mailcommands.MailHookeServlet
+		<servlet-class>com.vimukti.accounter.text.MailHookeServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>mailHookeServlet</servlet-name>
-		<url-pattern>TODO</url-pattern>
+		<url-pattern>/mail/mailhook/postmark</url-pattern>
 	</servlet-mapping>
 
 	<!-- <servlet-mapping> <servlet-name>new signup</servlet-name> <url-pattern>/signup</url-pattern> 

@@ -1,9 +1,9 @@
 package com.vimukti.accounter.text;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.vimukti.accounter.text.commands.ITextCommand;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class CommandProcessor {
 
@@ -16,57 +16,77 @@ public class CommandProcessor {
 		return processor;
 	}
 
-	public void processCommands(ArrayList<ITextData> datas,
-			ITextResponse response) {
+	public ArrayList<CommandResponseImpl> processCommands(CommandsQueue queue) {
 
-		Iterator<ITextData> iterator = datas.iterator();
+		ArrayList<CommandResponseImpl> responses = new ArrayList<CommandResponseImpl>();
 
-		while (iterator.hasNext()) {
-			// get next
-			ITextData data = iterator.next();
-
-			Class<? extends ITextCommand> commandClass = CommandsFactory
-					.getCommand(data.getType());
-			ITextCommand command = null;
-			try {
-				command = commandClass.newInstance();
-			} catch (ReflectiveOperationException e) {
-				// Send response as Invalid command
-				response.addError("Invalid command");
-				continue;
-			}
-
-			// Parse command
-			parseRequest(command, data, response, iterator);
-
-			if (response.hasErrors()) {
-				// SEND ERRORS AS RESPONSE
-				continue;
-			}
-
-			// PROCESS COMMAND
-			command.process(response);
-
-			if (response.hasErrors()) {
-				// SEND ERRORS AS RESPONSE
-				continue;
+		while (queue.hasNext()) {
+			CommandResponseImpl cResponse = new CommandResponseImpl();
+			processCommand(queue, cResponse);
+			responses.add(cResponse);
+			if (!cResponse.hasErrors()) {
+				cResponse.addMessage("Request successfull!!");
 			}
 		}
+
+		return responses;
+	}
+
+	private void processCommand(CommandsQueue queue,
+			CommandResponseImpl response) {
+		// get next
+		ITextData data = queue.take();
+		response.addData(data);
+
+		Class<? extends ITextCommand> commandClass = CommandsFactory
+				.getCommand(data.getType());
+		ITextCommand command = null;
+		try {
+			command = commandClass.newInstance();
+		} catch (ReflectiveOperationException e) {
+			// Send response as Invalid command
+			response.addError("Invalid command");
+		}
+
+		// Parse command
+		parseRequest(command, data, response, queue);
+
+		// Got errors in parsing, don't process this
+		if (response.hasErrors()) {
+			return;
+		}
+
+		// PROCESS COMMAND
+		try {
+			command.process(response);
+		} catch (AccounterException e) {
+			// Add Error to response
+			response.addError(e.getMessage());
+		}
+
 	}
 
 	private void parseRequest(ITextCommand command, ITextData data,
-			ITextResponse response, Iterator<ITextData> iterator) {
+			CommandResponseImpl response, CommandsQueue queue) {
 		// PARSE COMMAND DATA
-		boolean isPaseSuccess = command.parse(data, response);
+		boolean isParseSuccess = command.parse(data, response);
+
+		// If Has errors, just return
+		if (response.hasErrors()) {
+			return;
+		}
 
 		// Is Same as Previous, then parse next command
-		if (isPaseSuccess) {
-			parseRequest(command, iterator.next(), response, iterator);
+		if (isParseSuccess && queue.hasNext()) {
+			response.addData(data);
+			parseRequest(command, queue.take(), response, queue);
 		} else {
 			// If not same as Previous, then just process it as first data
 			// already read by this command
 			data.reset();
+			if (!isParseSuccess) {
+				queue.revertPrevious();
+			}
 		}
 	}
-
 }

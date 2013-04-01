@@ -7,9 +7,11 @@ import org.hibernate.criterion.Restrictions;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * name,customerSince,openingBalance,address,webaddress,email,phone,fax
@@ -54,7 +56,7 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 	}
 
 	@Override
-	public void process(ITextResponse respnse) {
+	public void process(ITextResponse respnse) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Criteria query = session.createCriteria(Customer.class);
 		query.add(Restrictions.eq("company", getCompany()));
@@ -62,6 +64,7 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 		Customer customer = (Customer) query.uniqueResult();
 		if (customer == null) {
 			customer = new Customer();
+			customer.setType(Payee.TYPE_CUSTOMER);
 		}
 		customer.setName(name);
 		customer.setPayeeSince(customerSince);
@@ -74,7 +77,7 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 		customer.setPhoneNo(phone);
 		customer.setFaxNo(fax);
 
-		session.save(customer);
+		saveOrUpdate(customer);
 	}
 
 }

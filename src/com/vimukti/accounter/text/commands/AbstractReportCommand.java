@@ -3,16 +3,14 @@ package com.vimukti.accounter.text.commands;
 import java.util.Arrays;
 import java.util.List;
 
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.web.client.core.ReportInput;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.managers.ExportManager;
 
-public abstract class AbstractReportCommand implements ITextCommand {
+public abstract class AbstractReportCommand extends AbstractTextCommand {
 
 	private FinanceDate startDate;
 	private FinanceDate endDate;
@@ -53,26 +51,6 @@ public abstract class AbstractReportCommand implements ITextCommand {
 		// if next date is null,then set the default present date
 		endDate = data.nextDate(new FinanceDate());
 		return true;
-	}
-
-	/**
-	 * Get the Company
-	 * 
-	 * @return
-	 */
-	protected Company getCompany() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * Get Finance Tool
-	 * 
-	 * @return
-	 */
-	protected FinanceTool getFinanceTool() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/**
