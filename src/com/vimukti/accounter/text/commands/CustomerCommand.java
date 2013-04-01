@@ -42,6 +42,9 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 		}
 		openingBalance = data.nextDouble(0);
 		address = data.nextAddress(null);
+		if (address != null) {
+			address.setType(Address.TYPE_BILL_TO);
+		}
 		webAddress = data.nextString("");
 		email = data.nextString("");
 		phone = data.nextString("");
@@ -63,7 +66,9 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 		customer.setName(name);
 		customer.setPayeeSince(customerSince);
 		customer.setOpeningBalance(openingBalance);
-		customer.getAddress().add(address);
+		if (address != null) {
+			customer.getAddress().add(address);
+		}
 		customer.setWebPageAddress(webAddress);
 		customer.setEmail(email);
 		customer.setPhoneNo(phone);

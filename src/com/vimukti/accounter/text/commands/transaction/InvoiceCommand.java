@@ -6,11 +6,11 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Item;
-import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
@@ -29,6 +29,7 @@ public class InvoiceCommand extends CreateOrUpdateCommand {
 	private String customerName;
 	private FinanceDate date;
 	private ArrayList<TransctionItem> items = new ArrayList<TransctionItem>();
+	private Address billingAddress;
 	private String memo;
 
 	@Override
@@ -43,10 +44,13 @@ public class InvoiceCommand extends CreateOrUpdateCommand {
 			return false;
 		}
 		date = data.nextDate(new FinanceDate());
-
+		billingAddress = data.nextAddress(null);
+		if (billingAddress != null) {
+			billingAddress.setType(Address.TYPE_BILL_TO);
+		}
 		String itemName = data.nextString("");
 		TransctionItem item = new TransctionItem();
-		item.setName(itemName);
+		item.setItem(itemName);
 		if (!data.isDouble()) {
 			respnse.addError("Invalid Double for Unit Price field");
 			return false;
@@ -92,12 +96,14 @@ public class InvoiceCommand extends CreateOrUpdateCommand {
 		invoice.setCustomer(customer);
 
 		invoice.setDate(date);
-
+		if (billingAddress != null) {
+			invoice.setBillingAddress(billingAddress);
+		}
 		ArrayList<TransactionItem> transactionItems = new ArrayList<TransactionItem>();
 		for (TransctionItem titem : items) {
 			TransactionItem transcItem = new TransactionItem();
 
-			String itemName = titem.getName();
+			String itemName = titem.getItem();
 			Criteria itemQuery = session.createCriteria(Item.class);
 			itemQuery.add(Restrictions.eq("company", getCompany()));
 			itemQuery.add(Restrictions.eq("name", itemName));
@@ -114,20 +120,10 @@ public class InvoiceCommand extends CreateOrUpdateCommand {
 
 			Double itemTotal = transcItem.getUnitPrice()
 					* transcItem.getQuantity().getValue();
-
 			String tax = titem.getTax();
-			if (tax != null) {
-				double taxTotal = 0;
-				if (tax.contains("%")) {
-					double taxRate = Double.valueOf(tax.replace("%", ""));
-					taxTotal = (itemTotal / 100) * taxRate;
-				} else {
-					double taxAmount = Double.valueOf(tax);
-					taxTotal = taxAmount;
-				}
-				itemTotal += taxTotal;
-			}
-			transcItem.setLineTotal(itemTotal);
+			// getting Line Total
+			Double lineTotal = getLineTotal(itemTotal, tax);
+			transcItem.setLineTotal(lineTotal);
 
 			String desc = titem.getDescription();
 			if (desc != null) {
@@ -140,64 +136,11 @@ public class InvoiceCommand extends CreateOrUpdateCommand {
 		if (memo != null) {
 			invoice.setMemo(memo);
 		}
-
-		double total = 0;
-		for (TransactionItem txItem : transactionItems) {
-			total += txItem.getLineTotal();
-
-		}
+		// getting Transaction Total
+		double total = getTransactionTotal(transactionItems);
 		invoice.setTotal(total);
 
 		session.save(invoice);
 	}
 
-	class TransctionItem {
-
-		private String name;
-		private Double unitPrice;
-		private Quantity quantity;
-		private String tax;
-		private String description;
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getDescription() {
-			return description;
-		}
-
-		public String getTax() {
-			return this.tax;
-		}
-
-		public Quantity getQuantity() {
-			return this.quantity;
-		}
-
-		public Double getUnitPrice() {
-			return this.unitPrice;
-		}
-
-		public String getName() {
-			return this.name;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
-
-		public void setTax(String tax) {
-			this.tax = tax;
-		}
-
-		public void setQuantity(Quantity quantity) {
-			this.quantity = quantity;
-		}
-
-		public void setUnitPrice(Double unitPrice) {
-			this.unitPrice = unitPrice;
-		}
-
-	}
 }

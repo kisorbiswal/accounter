@@ -53,7 +53,7 @@ public class CashExpenseCommand extends CreateOrUpdateCommand {
 
 		String itemName = data.nextString("");
 		TransctionItem item = new TransctionItem();
-		item.setName(itemName);
+		item.setAccount(itemName);
 		if (!data.isDouble()) {
 			respnse.addError("Invalid Double for Amount field");
 			return false;
@@ -95,7 +95,7 @@ public class CashExpenseCommand extends CreateOrUpdateCommand {
 		for (TransctionItem titem : items) {
 			TransactionItem transcItem = new TransactionItem();
 
-			String accountName = titem.getName();
+			String accountName = titem.getAccount();
 			Criteria accountQuery = session.createCriteria(Account.class);
 			accountQuery.add(Restrictions.eq("company", getCompany()));
 			accountQuery.add(Restrictions.eq("name", accountName));
@@ -106,22 +106,10 @@ public class CashExpenseCommand extends CreateOrUpdateCommand {
 				session.save(account);
 			}
 			transcItem.setAccount(account);
-
-			Double itemTotal = titem.getAmount();
-
-			String tax = titem.getTax();
-			if (tax != null) {
-				double taxTotal = 0;
-				if (tax.contains("%")) {
-					double taxRate = Double.valueOf(tax.replace("%", ""));
-					taxTotal = (itemTotal / 100) * taxRate;
-				} else {
-					double taxAmount = Double.valueOf(tax);
-					taxTotal = taxAmount;
-				}
-				itemTotal += taxTotal;
-			}
-			transcItem.setLineTotal(itemTotal);
+			transcItem.setUnitPrice(titem.getAmount());
+			// getting Line Total
+			Double lineTotal = getLineTotal(titem.getAmount(), titem.getTax());
+			transcItem.setLineTotal(lineTotal);
 
 			String desc = titem.getDescription();
 			if (desc != null) {
@@ -129,61 +117,16 @@ public class CashExpenseCommand extends CreateOrUpdateCommand {
 			}
 			transactionItems.add(transcItem);
 		}
-
 		expense.setTransactionItems(transactionItems);
 		if (memo != null) {
 			expense.setMemo(memo);
 		}
-
-		double total = 0;
-		for (TransactionItem txItem : transactionItems) {
-			total += txItem.getLineTotal();
-
-		}
+		// getting Transaction
+		double total = getTransactionTotal(transactionItems);
 		expense.setTotal(total);
 
 		session.save(expense);
 
-	}
-
-	class TransctionItem {
-
-		private String name;
-		private String description;
-		private String tax;
-		private Double amount;
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public Double getAmount() {
-			return amount;
-		}
-
-		public void setAmount(Double amount) {
-			this.amount = amount;
-		}
-
-		public String getTax() {
-			return tax;
-		}
-
-		public void setTax(String tax) {
-			this.tax = tax;
-		}
-
-		public String getDescription() {
-			return description;
-		}
-
-		public void setDescription(String description) {
-			this.description = description;
-		}
 	}
 
 }
