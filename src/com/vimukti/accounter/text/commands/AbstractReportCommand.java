@@ -36,11 +36,11 @@ public abstract class AbstractReportCommand implements ITextCommand {
 	 * @param data
 	 * @param respnse
 	 */
-	public void parseDates(ITextData data, ITextResponse respnse) {
+	public boolean parseDates(ITextData data, ITextResponse respnse) {
 		// START DATE
 		if (!data.isDate()) {
 			respnse.addError("Invalid Date format for date field");
-			return;
+			return false;
 		}
 		// if next date is null,then set the default present date
 		startDate = data.nextDate(new FinanceDate());
@@ -48,10 +48,11 @@ public abstract class AbstractReportCommand implements ITextCommand {
 		// END DATE
 		if (!data.isDate()) {
 			respnse.addError("Invalid Date format for date field");
-			return;
+			return false;
 		}
 		// if next date is null,then set the default present date
 		endDate = data.nextDate(new FinanceDate());
+		return true;
 	}
 
 	/**
