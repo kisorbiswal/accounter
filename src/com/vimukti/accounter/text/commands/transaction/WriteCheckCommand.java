@@ -33,16 +33,14 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			return false;
 		}
 
-		boolean parseTransactionDate = parseTransactionDate(data, respnse);
-		if (!parseTransactionDate) {
-			return false;
+		if (!parseTransactionDate(data, respnse)) {
+			return true;
 		}
 		payTo = data.nextString("");
 		bankAccountName = data.nextString("");
 		checkNumber = data.nextString("");
-		boolean parseTransactionItem = parseTransactionItem(data, respnse);
-		if (!parseTransactionItem) {
-			return false;
+		if (!parseTransactionItem(data, respnse)) {
+			return true;
 		}
 		memo = data.nextString(null);
 		return true;
