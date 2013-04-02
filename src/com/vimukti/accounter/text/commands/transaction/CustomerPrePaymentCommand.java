@@ -12,6 +12,7 @@ import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.text.commands.CreateOrUpdateCommand;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * transactionDate,number,customer,depositIn,amount,paymentMethod,chequeorRefNo
@@ -56,7 +57,7 @@ public class CustomerPrePaymentCommand extends CreateOrUpdateCommand {
 	}
 
 	@Override
-	public void process(ITextResponse respnse) {
+	public void process(ITextResponse respnse) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		// getting transaction By Transaction Number
 		Criteria query = session.createCriteria(CustomerPrePayment.class);
@@ -99,6 +100,7 @@ public class CustomerPrePaymentCommand extends CreateOrUpdateCommand {
 		prePayment.setPaymentMethod(paymentMethod);
 		prePayment.setCheckNumber(chequeorRefNo);
 		prePayment.setTotal(amount);
+		saveOrUpdate(prePayment);
 	}
 
 }

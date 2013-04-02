@@ -38,16 +38,15 @@ public class EstimateCommand extends AbstractTransactionCommand {
 			return false;
 		}
 		expirationDate = data.nextDate(new FinanceDate());
+		// Status
+		// TODO
+		// Payment Terms
+		// TODO
 		// Delivery Date
 		if (!data.isDate()) {
 			respnse.addError("Invalid Date format for date field");
 			return false;
 		}
-		// Status
-		// TODO
-		// Payment Terms
-		// TODO
-
 		deliveryDate = data.nextDate(new FinanceDate());
 		// customer
 		customerName = data.nextString("");

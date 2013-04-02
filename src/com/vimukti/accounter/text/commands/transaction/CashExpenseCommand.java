@@ -72,6 +72,7 @@ public class CashExpenseCommand extends AbstractTransactionCommand {
 			vendor.setName(this.vendorName);
 			session.save(vendor);
 		}
+		expense.setType(CashPurchase.TYPE_CASH_EXPENSE);
 		expense.setNumber(number);
 		expense.setDate(transactionDate);
 		expense.setPaymentMethod(paymentMethod);
