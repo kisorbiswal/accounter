@@ -23,8 +23,8 @@ public class TextCommandParser {
 			String first = getFirst(nextLine);
 			if (isCommand(first)) {
 				// Add command to List
-				commands.add(new TextDataImpl(first, nextLine,
-						parseCSV(nextLine)));
+				commands.add(new TextDataImpl(getFirst(command), command,
+						parseCSV(command)));
 				// set current command to previous command
 				command = nextLine;
 			} else {

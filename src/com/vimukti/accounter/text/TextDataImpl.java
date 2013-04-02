@@ -16,7 +16,8 @@ public class TextDataImpl implements ITextData {
 	private String type;
 	private String[] data;
 
-	private int cursor = 0;
+	// SET DEFAULT POSITION IS 1(AS COMMAND TYPE WILL BE AT FIRST)
+	private int cursor = 1;
 	private String actual;
 
 	TextDataImpl(String type, String actual, String[] data) {
@@ -33,7 +34,7 @@ public class TextDataImpl implements ITextData {
 	@Override
 	public void reset() {
 		// Make Current Index to Zero(0)
-		cursor = 0;
+		cursor = 1;
 	}
 
 	private void increment() {
@@ -109,6 +110,11 @@ public class TextDataImpl implements ITextData {
 
 	@Override
 	public boolean isDate() {
+		String next = next();
+		decrement();
+		if (next == null) {
+			return true;
+		}
 		FinanceDate nextDate = nextDate(null);
 		decrement();
 		return nextDate != null;
@@ -134,6 +140,12 @@ public class TextDataImpl implements ITextData {
 
 	@Override
 	public boolean isDouble() {
+		String next = next();
+		decrement();
+		if (next == null) {
+			return true;
+		}
+
 		Double nextDouble = nextDouble();
 		decrement();
 		return nextDouble != null;
@@ -186,6 +198,11 @@ public class TextDataImpl implements ITextData {
 
 	@Override
 	public boolean isQuantity() {
+		String next = next();
+		decrement();
+		if (next == null) {
+			return true;
+		}
 		Quantity nextQuantity = nextQuantity(null);
 		decrement();
 		return nextQuantity != null;

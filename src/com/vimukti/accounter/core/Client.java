@@ -38,6 +38,11 @@ public class Client {
 	private boolean isPremiumTrailDone;
 	private LicensePurchase licensePurchase;
 
+	/**
+	 * This will be used in Text Accounting
+	 */
+	private String uniqueId;
+
 	// NEW FILEDS
 
 	private int subscriptionType;
@@ -419,6 +424,21 @@ public class Client {
 	 */
 	public void setLicensePurchase(LicensePurchase licensePurchase) {
 		this.licensePurchase = licensePurchase;
+	}
+
+	/**
+	 * @return the uniqueId
+	 */
+	public String getUniqueId() {
+		return uniqueId;
+	}
+
+	/**
+	 * @param uniqueId
+	 *            the uniqueId to set
+	 */
+	public void setUniqueId(String uniqueId) {
+		this.uniqueId = uniqueId;
 	}
 
 }

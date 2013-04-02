@@ -11,6 +11,7 @@ import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
@@ -57,7 +58,7 @@ public class VendorCommand extends CreateOrUpdateCommand {
 	}
 
 	@Override
-	public void process(ITextResponse respnse) {
+	public void process(ITextResponse respnse) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Criteria query = session.createCriteria(Customer.class);
 		query.add(Restrictions.eq("company", getCompany()));
@@ -69,13 +70,15 @@ public class VendorCommand extends CreateOrUpdateCommand {
 		vendor.setName(name);
 		vendor.setPayeeSince(vendorSince);
 		vendor.setOpeningBalance(openingBalance);
-		vendor.getAddress().add(address);
+		if (address != null) {
+			vendor.getAddress().add(address);
+		}
 		vendor.setWebPageAddress(webAddress);
 		vendor.setEmail(email);
 		vendor.setPhoneNo(phone);
 		vendor.setFaxNo(fax);
 
-		session.save(vendor);
+		saveOrUpdate(vendor);
 
 	}
 }
