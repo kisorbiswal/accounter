@@ -12,7 +12,10 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.forms.CustomComboItem;
@@ -71,7 +74,37 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				textBox.setFocus(true);
 			}
 		});
+		textBox.addKeyUpHandler(new KeyUpHandler() {
 
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				switch (event.getNativeKeyCode()) {
+				case KeyCodes.KEY_ENTER:
+				case KeyCodes.KEY_DELETE:
+				case KeyCodes.KEY_UP:
+				case KeyCodes.KEY_DOWN:
+				case KeyCodes.KEY_ALT:
+				case KeyCodes.KEY_CTRL:
+				case KeyCodes.KEY_END:
+				case KeyCodes.KEY_HOME:
+				case KeyCodes.KEY_LEFT:
+				case KeyCodes.KEY_PAGEDOWN:
+				case KeyCodes.KEY_PAGEUP:
+				case KeyCodes.KEY_RIGHT:
+				case KeyCodes.KEY_SHIFT:
+				case KeyCodes.KEY_ESCAPE:
+					break;
+				case KeyCodes.KEY_BACKSPACE:
+					String text = textBox.getText();
+					if (!text.isEmpty()) {
+						text = text.substring(0, text.length() - 1);
+					}
+					textBox.setText(text);
+				default:
+					selectFirstItem();
+				}
+			}
+		});
 		textBox.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -108,6 +141,25 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		});
 
 		this.removeStyleName("gwt-TextBox");
+	}
+
+	protected void selectFirstItem() {
+		String val1 = textBox.getText().toLowerCase();
+		List<T> autocompleteItems = getMatchedComboItems(val1);
+		if (!autocompleteItems.isEmpty()) {
+			String text = textBox.getText().toLowerCase();
+			String displayValue = getDisplayName(autocompleteItems.get(0));
+			textBox.setText(displayValue);
+			int len = displayValue.length() - text.length();
+			int pos = displayValue.toLowerCase().indexOf(text);
+			if (len > 0) {
+				textBox.setSelectionRange(pos + text.length(), len);
+			}
+		}
+		popup.setList(autocompleteItems);
+		showPopup();
+		textBox.setFocus(true);
+
 	}
 
 	protected void showPopup() {
@@ -149,8 +201,18 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	 * @param list
 	 */
 	public void initCombo(List<T> list) {
+
 		comboItems.clear();
 		if (list != null) {
+			Collections.sort(list, new Comparator<T>() {
+
+				@Override
+				public int compare(T obj1, T obj2) {
+					String name = getDisplayName(obj1).toLowerCase();
+					String name1 = getDisplayName(obj2).toLowerCase();
+					return name.compareToIgnoreCase(name1);
+				}
+			});
 			comboItems = new ArrayList<T>(list);
 		}
 		List<T> newList = new ArrayList<T>(comboItems);
@@ -437,11 +499,9 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 		final String val1 = val.toLowerCase();
 		List<T> autocompleteItems = getMatchedComboItems(val1);
-
-		updateComboItemsInSorted(autocompleteItems, val1);
-
+		popup.setList(autocompleteItems);
+		// updateComboItemsInSorted(autocompleteItems, val1);
 		maincomboItems.addAll(comboItems);
-		initCombo(autocompleteItems);
 
 		showPopup();
 		textBox.setFocus(true);
@@ -524,7 +584,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		for (T t : comboItems) {
 			String displayName = getDisplayName(t);
 			displayName = displayName.toLowerCase();
-			if (displayName.indexOf(val) == 0) {
+			if (displayName.startsWith(val)) {
 				autocompleteItems.add(t);
 			}
 		}
@@ -563,5 +623,4 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	public int getNoOfCols() {
 		return cols;
 	}
-
 }

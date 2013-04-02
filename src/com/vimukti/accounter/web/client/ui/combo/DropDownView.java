@@ -6,8 +6,6 @@ import java.util.List;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.DOM;
@@ -104,12 +102,9 @@ public class DropDownView<T> extends AbstractView<T> {
 
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
-				char key = event.getCharCode();
 				// if ((key >= 48 && key <= 57) || (key >= 65 && key <= 90)
 				// || (key >= 96 && key <= 122)) {
-				if (key >= 32 && key <= 126) {
-					combo.onKeyEnter(key);
-				} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_BACKSPACE
+				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_BACKSPACE
 						|| event.getNativeEvent().getKeyCode() == KeyCodes.KEY_DELETE) {
 
 					Timer timer = new Timer() {
@@ -151,41 +146,6 @@ public class DropDownView<T> extends AbstractView<T> {
 			}
 
 		});
-
-		// if (UIUtils.isMSIEBrowser()) {
-		combo.setKeyDownHandler(new KeyDownHandler() {
-
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_BACKSPACE
-						|| event.getNativeEvent().getKeyCode() == KeyCodes.KEY_DELETE) {
-
-					Timer timer = new Timer() {
-
-						@Override
-						public void run() {
-							combo.onKeyEnter('/');
-						}
-					};
-					timer.schedule(200);
-					// key codes 38 for up key 40 for down key
-				} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_DOWN
-						&& popup.isShowing()) {
-					dropDown.setKeyboardSelected(0, true, true);
-
-				} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_UP
-						&& popup.isShowing()) {
-					dropDown.setKeyboardSelected(dropDown.getDisplayedItems()
-							.size() - 1, true, true);
-				}
-				// else if (event.getNativeEvent().getKeyCode() ==
-				// KeyCodes.KEY_ESCAPE
-				// && popup.isShowing()) {
-				// popup.hide();
-				// }
-			}
-		});
-		// }
 	}
 
 	private T getAddNewRow() {
@@ -273,6 +233,6 @@ public class DropDownView<T> extends AbstractView<T> {
 
 	@Override
 	protected void init() {
-		
+
 	}
 }
