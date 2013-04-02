@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
@@ -52,9 +53,8 @@ public class TextRequestProcessor {
 			logger.info("Got request " + request.shortForm());
 			executeRequest(request);
 		} catch (Exception e) {
-			e.printStackTrace();
-			sendResponse(request,
-					"Internal Error occured while processing your request");
+			logger.error("Error while processing request", e);
+			sendResponse(request, TextReponses.internalErrorOccured());
 		}
 
 	}
@@ -78,9 +78,7 @@ public class TextRequestProcessor {
 		Client client = (Client) criteria.uniqueResult();
 		if (client == null) {
 			logger.info("Don't have clients with unique email " + to);
-			sendResponse(request,
-					"You are not yet signed up. please send an email to "
-							+ SIGNUP_EMAIL + " to signup");
+			sendResponse(request, TextReponses.notYetSignedUp());
 			return;
 		}
 
@@ -92,8 +90,7 @@ public class TextRequestProcessor {
 			logger.info("Don't have comapnies yet for this user");
 			// No companies yet, Need to create a new company before doing this
 			// operation
-			sendResponse(request,
-					"You don't have companies yet, please create a company");
+			sendResponse(request, TextReponses.donnotHaveCompaniesYet());
 			return;
 		}
 
@@ -181,13 +178,63 @@ public class TextRequestProcessor {
 	 * Signup User
 	 * 
 	 * @param request
+	 * @throws AccounterException
 	 */
-	private void signup(Mail request) {
+	private void signup(Mail request) throws AccounterException {
 		logger.info("Creating new client to signup");
 		String from = request.getFrom();
-		String fromName = request.getFromName();
 
 		Session session = HibernateUtil.getCurrentSession();
+
+		Transaction transaction = session.beginTransaction();
+		try {
+			Criteria criteria = session.createCriteria(Client.class);
+			criteria.add(Restrictions.eq("emailId", from));
+			Client client = (Client) criteria.uniqueResult();
+			if (client == null) {
+				createNewClient(request);
+			}
+
+			String uniqueId = client.getUniqueId();
+			if (uniqueId != null) {
+				// Already exists
+				sendResponse(request,
+						TextReponses.alreadySignedUpResponse(uniqueId));
+				return;
+			}
+
+			// Set Unique ID
+			String random = UUID.randomUUID().toString();
+			random = random.replace("-", "");
+			uniqueId = random + "@" + EMAIL_DOMAIL;
+			client.setUniqueId(uniqueId);
+			logger.info("Generated unique emailId " + uniqueId);
+
+			// Save Client
+			session.saveOrUpdate(client.getClientSubscription());
+			session.saveOrUpdate(client);
+			transaction.commit();
+
+			sendResponse(request,
+					TextReponses.signupSuccssfullResponse(uniqueId));
+
+		} catch (Exception e) {
+			logger.error("Error while signing up", e);
+			transaction.rollback();
+			throw new AccounterException("Error while signing up");
+		}
+
+	}
+
+	/**
+	 * Creates new CLient
+	 * 
+	 * @param request
+	 */
+	private void createNewClient(Mail request) {
+
+		String from = request.getFrom();
+		String fromName = request.getFromName();
 
 		// Create new Client
 		Client client = new Client();
@@ -200,23 +247,15 @@ public class TextRequestProcessor {
 		client.setFullName(fromName);
 		client.setActive(true);
 
-		String random = UUID.randomUUID().toString();
-		random = random.replace("-", "");
-		client.setUniqueId(random + "@" + EMAIL_DOMAIL);
-		logger.info("Generated unique emailId " + client.getUniqueId());
-
+		// Create Subscription
 		logger.info("Creating subscription");
 		ClientSubscription clientSubscription = new ClientSubscription();
 		clientSubscription.setCreatedDate(new Date());
 		clientSubscription.setLastModified(new Date());
 		clientSubscription.setSubscription(Subscription
 				.getInstance(Subscription.FREE_CLIENT));
-		session.saveOrUpdate(clientSubscription);
 
 		client.setClientSubscription(clientSubscription);
-		session.saveOrUpdate(client);
-
-		sendResponse(request, "Signp Success");
 	}
 
 	private void sendResponse(Mail request, String message) {

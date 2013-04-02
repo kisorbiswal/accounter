@@ -14,9 +14,9 @@ import org.hibernate.Session;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 
-public class MailHookeServlet extends BaseServlet {
+public class MailHookServlet extends BaseServlet {
 
-	private Logger logger = Logger.getLogger(MailHookeServlet.class);
+	private Logger logger = Logger.getLogger(MailHookServlet.class);
 
 	/**
 	 * 

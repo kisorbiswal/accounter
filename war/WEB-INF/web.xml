@@ -80,7 +80,7 @@
 
 	<servlet>
 		<servlet-name>mailHookeServlet</servlet-name>
-		<servlet-class>com.vimukti.accounter.text.MailHookeServlet
+		<servlet-class>com.vimukti.accounter.text.MailHookServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
