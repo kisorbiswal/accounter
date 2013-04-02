@@ -154,9 +154,10 @@ public class Mail {
 		JSONObject fromFull = json.getJSONObject("FromFull");
 		this.fromName = fromFull.getString("Name");
 
-		this.to = json.getString("To");
 		JSONArray toFull = json.getJSONArray("ToFull");
-		this.toName = toFull.getJSONObject(0).getString("Name");
+		JSONObject first = toFull.getJSONObject(0);
+		this.toName = first.getString("Name");
+		this.to = first.getString("Email");
 
 		readCC(json);
 		this.replyTo = json.getString("ReplyTo");
