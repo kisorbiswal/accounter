@@ -28,7 +28,6 @@ public class CashExpenseCommand extends AbstractTransactionCommand {
 	private String paymentMethod;
 	private String vendorName;
 	private String payfrom;
-	private ArrayList<TransctionItem> items = new ArrayList<TransctionItem>();
 	private String memo;
 
 	@Override
@@ -39,10 +38,8 @@ public class CashExpenseCommand extends AbstractTransactionCommand {
 			return false;
 		}
 
-		boolean parseTransactionDate = parseTransactionDate(data, respnse);
-
-		if (!parseTransactionDate) {
-			return false;
+		if (!parseTransactionDate(data, respnse)) {
+			return true;
 		}
 		paymentMethod = data.nextString("");
 
@@ -50,10 +47,8 @@ public class CashExpenseCommand extends AbstractTransactionCommand {
 
 		payfrom = data.nextString("");
 
-		boolean parseTransactionItem = parseTransactionItem(data, respnse);
-
-		if (!parseTransactionItem) {
-			return false;
+		if (!parseTransactionItem(data, respnse)) {
+			return true;
 		}
 		memo = data.nextString(null);
 

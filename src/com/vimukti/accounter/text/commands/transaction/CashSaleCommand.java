@@ -33,15 +33,13 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		// customer
 		customerName = data.nextString("");
 
-		boolean parseTransactionDate = parseTransactionDate(data, respnse);
-		if (!parseTransactionDate) {
-			return false;
+		if (!parseTransactionDate(data, respnse)) {
+			return true;
 		}
 
 		// Transaction Item
-		boolean parseTransactionItem = parseTransactionItem(data, respnse);
-		if (!parseTransactionItem) {
-			return false;
+		if (!parseTransactionItem(data, respnse)) {
+			return true;
 		}
 		// paymentMethod
 		paymentmethod = data.nextString("");

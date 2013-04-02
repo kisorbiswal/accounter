@@ -35,18 +35,16 @@ public class InvoiceCommand extends AbstractTransactionCommand {
 			return false;
 		}
 		customerName = data.nextString("");
-		boolean parseTransactionDate = parseTransactionDate(data, respnse);
-		if (!parseTransactionDate) {
-			return false;
+		if (!parseTransactionDate(data, respnse)) {
+			return true;
 		}
 		billingAddress = data.nextAddress(null);
 		if (billingAddress != null) {
 			billingAddress.setType(Address.TYPE_BILL_TO);
 		}
 		// Transaction Item
-		boolean parseTransactionItem = parseTransactionItem(data, respnse);
-		if (!parseTransactionItem) {
-			return false;
+		if (!parseTransactionItem(data, respnse)) {
+			return true;
 		}
 		memo = data.nextString(null);
 

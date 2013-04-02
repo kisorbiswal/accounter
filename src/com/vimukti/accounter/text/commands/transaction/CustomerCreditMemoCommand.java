@@ -36,16 +36,14 @@ public class CustomerCreditMemoCommand extends AbstractTransactionCommand {
 			return false;
 		}
 		// Transaction Date
-		boolean parseTransactionDate = parseTransactionDate(data, respnse);
-		if (!parseTransactionDate) {
+		if (!parseTransactionDate(data, respnse)) {
 			return false;
 		}
 		// customer
 		customerName = data.nextString("");
 		// Transaction Item
-		boolean parseTransactionItem = parseTransactionItem(data, respnse);
-		if (!parseTransactionItem) {
-			return false;
+		if (!parseTransactionItem(data, respnse)) {
+			return true;
 		}
 		// memo
 		memo = data.nextString(null);

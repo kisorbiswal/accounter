@@ -38,9 +38,8 @@ public class ReceivePaymentCommand extends AbstractTransactionCommand {
 			return false;
 		}
 		// Transaction date
-		boolean parseTransactionDate = parseTransactionDate(data, respnse);
-		if (!parseTransactionDate) {
-			return false;
+		if (!parseTransactionDate(data, respnse)) {
+			return true;
 		}
 		// customer
 		customerName = data.nextString("");
