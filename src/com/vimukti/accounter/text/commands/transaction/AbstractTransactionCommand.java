@@ -28,7 +28,7 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 	 * @param tax
 	 * @return {@link Double} Line Total
 	 */
-	protected Double getLineTotal(Double itemTotal, String tax) {
+	private Double getLineTotal(Double itemTotal, String tax) {
 		double lineTotal = itemTotal;
 		if (tax != null) {
 			double taxTotal = 0;
@@ -127,14 +127,12 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 	 */
 	protected ArrayList<TransactionItem> processTransactionItem() {
 		ArrayList<TransactionItem> transactionItems = new ArrayList<TransactionItem>();
-		Session session = HibernateUtil.getCurrentSession();
 		for (TransctionItem titem : items) {
 			String itemName = titem.getItem();
 			if (itemName != null) {
-				transactionItems.add(processTransactionItem(session, titem));
+				transactionItems.add(processTransactionItem(titem));
 			} else {
-				transactionItems.add(processAccountTransactionItem(session,
-						titem));
+				transactionItems.add(processAccountTransactionItem(titem));
 			}
 		}
 		return transactionItems;
@@ -146,8 +144,8 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 	 * @param titem
 	 * @return
 	 */
-	private TransactionItem processAccountTransactionItem(Session session,
-			TransctionItem titem) {
+	private TransactionItem processAccountTransactionItem(TransctionItem titem) {
+		Session session = HibernateUtil.getCurrentSession();
 
 		TransactionItem transcItem = new TransactionItem();
 		String accountName = titem.getAccount();
@@ -180,8 +178,8 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 	 * @param titem
 	 * @return
 	 */
-	private TransactionItem processTransactionItem(Session session,
-			TransctionItem titem) {
+	private TransactionItem processTransactionItem(TransctionItem titem) {
+		Session session = HibernateUtil.getCurrentSession();
 		TransactionItem transcItem = new TransactionItem();
 		String itemName = titem.getItem();
 		Criteria itemQuery = session.createCriteria(Item.class);
