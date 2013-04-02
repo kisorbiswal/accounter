@@ -25,6 +25,7 @@ public abstract class AbstractDropDownTable<T extends IAccounterCore> extends
 	protected AccounterMessages messages = Global.get().messages();
 	private RowSelectHandler<T> rowSelectHandler;
 	private List<T> data;
+	private List<T> fullData;
 	private ListDataProvider<T> dataProvider;
 	private SingleSelectionModel<T> singleSelectionModel;
 	private boolean isClicked;
@@ -33,6 +34,7 @@ public abstract class AbstractDropDownTable<T extends IAccounterCore> extends
 	public AbstractDropDownTable(List<T> newData, boolean isAddNewReq) {
 		super(1000);
 		this.data = new ArrayList<T>(newData);
+		fullData = new ArrayList<T>(data);
 		this.isAddNewReq = isAddNewReq;
 		if (isAddNewReq) {
 			T newRow = getAddNewRow();
@@ -88,7 +90,12 @@ public abstract class AbstractDropDownTable<T extends IAccounterCore> extends
 	}
 
 	protected void reInitData() {
-		data = new ArrayList<T>(getTotalRowsData());
+		fullData = new ArrayList<T>(getTotalRowsData());
+		reInitData(fullData);
+	}
+
+	private void reInitData(List<T> totalRowsData) {
+		data = new ArrayList<T>(totalRowsData);
 		if (isAddNewReq) {
 			data.add(0, getAddNewRow());
 		}
@@ -152,16 +159,25 @@ public abstract class AbstractDropDownTable<T extends IAccounterCore> extends
 	}
 
 	public void updateSelection(String string) {
-		for (T t : data) {
-			if (filter(t, string)) {
+		List<T> filteredData = new ArrayList<T>();
+		if (string.isEmpty()) {
+			filteredData.addAll(fullData);
+		} else {
+			for (T t : fullData) {
+				if (filter(t, string)) {
+					filteredData.add(t);
+				}
+			}
+			if (!filteredData.isEmpty()) {
+				T t = filteredData.get(0);
 				if (t == singleSelectionModel.getSelectedObject()) {
 					sendSelectedObject(t);
 				} else {
 					singleSelectionModel.setSelected(t, true);
 				}
-				break;
 			}
 		}
+		reInitData(filteredData);
 	}
 
 	protected abstract boolean filter(T t, String string);

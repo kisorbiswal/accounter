@@ -53,6 +53,7 @@ public class ComboBox<T, C extends IAccounterCore> extends FlowPanel implements
 			@Override
 			public void onClick(ClickEvent event) {
 				showPopup();
+				dropDown.updateSelection(textBox.getText().toLowerCase());
 			}
 		});
 		textBox.addKeyDownHandler(new KeyDownHandler() {
@@ -89,7 +90,6 @@ public class ComboBox<T, C extends IAccounterCore> extends FlowPanel implements
 					}
 					popupPanel.hide();
 					break;
-				case KeyCodes.KEY_BACKSPACE:
 				case KeyCodes.KEY_DELETE:
 				case KeyCodes.KEY_UP:
 				case KeyCodes.KEY_DOWN:
@@ -106,6 +106,12 @@ public class ComboBox<T, C extends IAccounterCore> extends FlowPanel implements
 				case KeyCodes.KEY_ESCAPE:
 					popupPanel.hide();
 					break;
+				case KeyCodes.KEY_BACKSPACE:
+					String text = textBox.getText();
+					if (!text.isEmpty()) {
+						text = text.substring(0, text.length() - 1);
+					}
+					textBox.setText(text);
 				default:
 					showPopup();
 					dropDown.updateSelection(textBox.getText().toLowerCase());
