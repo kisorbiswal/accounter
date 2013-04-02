@@ -151,10 +151,12 @@ public class Mail {
 
 	private void load(JSONObject json) throws JSONException, ParseException {
 		this.from = json.getString("From");
-		this.fromName = getFullName(json, "FromFull");
+		JSONObject fromFull = json.getJSONObject("FromFull");
+		this.fromName = fromFull.getString("Name");
 
 		this.to = json.getString("To");
-		this.toName = getFullName(json, "ToFull");
+		JSONArray toFull = json.getJSONArray("ToFull");
+		this.toName = toFull.getJSONObject(0).getString("Name");
 
 		readCC(json);
 		this.replyTo = json.getString("ReplyTo");
@@ -170,15 +172,6 @@ public class Mail {
 
 	}
 
-	private String getFullName(JSONObject json, String key)
-			throws JSONException {
-		JSONObject value = json.getJSONObject(key);
-		if (value == null) {
-			return null;
-		}
-		return value.getString("Name");
-	}
-
 	/**
 	 * 
 	 * "Date": "Thu, 5 Apr 2012 16:59:01 +0200",
@@ -189,7 +182,11 @@ public class Mail {
 	 */
 	private void readDate(JSONObject json) throws ParseException, JSONException {
 		String dateString = json.getString("Date");
-		this.date = DateFormat.getDateInstance().parse(dateString);
+		try {
+			this.date = DateFormat.getDateInstance().parse(dateString);
+		} catch (ParseException e) {
+			// Unable Parse Date
+		}
 	}
 
 	/**
@@ -202,6 +199,9 @@ public class Mail {
 	 * @throws JSONException
 	 */
 	private void readCC(JSONObject json) throws JSONException {
+		if (!json.has("CC")) {
+			return;
+		}
 		String cc = json.getString("CC");
 
 		String[] split = cc.split(",");
@@ -439,5 +439,9 @@ public class Mail {
 	 */
 	public void setTextBody(String textBody) {
 		this.textBody = textBody;
+	}
+
+	public String shortForm() {
+		return "From : " + from + " To : " + to + " Subject : " + subject;
 	}
 }

@@ -4,6 +4,10 @@ import java.util.HashMap;
 
 import com.vimukti.accounter.text.commands.CustomerCommand;
 import com.vimukti.accounter.text.commands.ITextCommand;
+import com.vimukti.accounter.text.commands.ItemCommand;
+import com.vimukti.accounter.text.commands.VendorCommand;
+import com.vimukti.accounter.text.commands.transaction.CashExpenseCommand;
+import com.vimukti.accounter.text.commands.transaction.InvoiceCommand;
 
 public class CommandsFactory {
 
@@ -27,28 +31,34 @@ public class CommandsFactory {
 	 * @return {@link ITextCommand}
 	 */
 	public static Class<? extends ITextCommand> getCommand(String name) {
+		if (name == null) {
+			return null;
+		}
+		name = name.replace(" ", "").toLowerCase().trim();
 		return commands.get(name);
 	}
 
 	private static void init() {
 
-		addCommand(CustomerCommand.class, "customer", "create customer",
-				"update customer");
+		addCommand(CustomerCommand.class, "customer", "createcustomer",
+				"newcustomer", "updatecustomer");
 
-		addCommand(CustomerCommand.class, "invoice", "create invoice",
-				"update invoice");
+		addCommand(InvoiceCommand.class, "invoice", "createinvoice",
+				"newinvoice", "updateinvoice");
 
-		addCommand(CustomerCommand.class, "vendor", "create vendor",
-				"update vendor");
+		addCommand(VendorCommand.class, "vendor", "createvendor", "newvendor",
+				"updatevendor");
 
-		addCommand(CustomerCommand.class, "item", "create item", "update item");
+		addCommand(ItemCommand.class, "item", "createitem", "neweitem",
+				"updateitem");
 
-		addCommand(CustomerCommand.class, "cashexpense", "create cashexpense",
-				"update cashexpense");
+		addCommand(CashExpenseCommand.class, "cashexpense",
+				"createcashexpense", "newcashexpense", "updatecashexpense");
 
 	}
 
-	private static void addCommand(Class<CustomerCommand> cls, String... keys) {
+	private static void addCommand(Class<? extends ITextCommand> cls,
+			String... keys) {
 		for (String key : keys) {
 			commands.put(key, cls);
 		}

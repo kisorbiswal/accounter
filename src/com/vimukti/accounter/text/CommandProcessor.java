@@ -2,10 +2,14 @@ package com.vimukti.accounter.text;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.vimukti.accounter.text.commands.ITextCommand;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class CommandProcessor {
+
+	private Logger logger = Logger.getLogger(CommandProcessor.class);
 
 	private static CommandProcessor processor;
 
@@ -34,9 +38,10 @@ public class CommandProcessor {
 
 	private void processCommand(CommandsQueue queue,
 			CommandResponseImpl response) {
-		// get next
+
+		// Take next
 		ITextData data = queue.take();
-		response.addData(data);
+		logger.info("Processing command - " + data.toString());
 
 		Class<? extends ITextCommand> commandClass = CommandsFactory
 				.getCommand(data.getType());
@@ -49,25 +54,40 @@ public class CommandProcessor {
 		}
 
 		// Parse command
-		parseRequest(command, data, response, queue);
+		parseData(command, data, response, queue);
 
 		// Got errors in parsing, don't process this
 		if (response.hasErrors()) {
+			logger.info("Got errors after parsing command");
 			return;
 		}
 
 		// PROCESS COMMAND
 		try {
+			logger.info("Processing command");
 			command.process(response);
 		} catch (AccounterException e) {
+			logger.error("Error while processing command", e);
 			// Add Error to response
 			response.addError(e.getMessage());
 		}
 
 	}
 
-	private void parseRequest(ITextCommand command, ITextData data,
+	private void parseData(ITextCommand command, ITextData data,
 			CommandResponseImpl response, CommandsQueue queue) {
+		logger.info("Parsing Request" + data);
+		Class<? extends ITextCommand> commandClass = CommandsFactory
+				.getCommand(data.getType());
+		if (commandClass != command.getClass()) {
+			// If not same command, Just return
+			queue.revertPrevious();
+			return;
+		}
+
+		// Add Data to Response
+		response.addData(data);
+
 		// PARSE COMMAND DATA
 		boolean isParseSuccess = command.parse(data, response);
 
@@ -78,8 +98,7 @@ public class CommandProcessor {
 
 		// Is Same as Previous, then parse next command
 		if (isParseSuccess && queue.hasNext()) {
-			response.addData(data);
-			parseRequest(command, queue.take(), response, queue);
+			parseData(command, queue.take(), response, queue);
 		} else {
 			// If not same as Previous, then just process it as first data
 			// already read by this command
