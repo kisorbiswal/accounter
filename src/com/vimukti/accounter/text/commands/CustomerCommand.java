@@ -14,7 +14,8 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
- * name,customerSince,openingBalance,address,webaddress,email,phone,fax
+ * name,customerSince,openingBalance,balanceasOf,address,webaddress,email,phone,
+ * fax
  * 
  * @author Umasree
  * 
@@ -23,7 +24,9 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 
 	private String name;
 	private FinanceDate customerSince;
+
 	private double openingBalance;
+	private FinanceDate balanceAsOf;
 	private Address address;
 	private String webAddress;
 	private String email;
@@ -32,26 +35,39 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 
 	@Override
 	public boolean parse(ITextData data, ITextResponse respnse) {
+		// Name
 		name = data.nextString("");
 		if (!data.isDate()) {
 			respnse.addError("Invalid Date format for date field");
 			return false;
 		}
+		// Customer Since
 		customerSince = data.nextDate(new FinanceDate());
 		if (!data.isDouble()) {
 			respnse.addError("Invalid Double for Opening Balance");
 			return false;
 		}
+		// Opening Balance
 		openingBalance = data.nextDouble(0);
+		if (!data.isDate()) {
+			respnse.addError("Invalid Date format for date field");
+			return false;
+		}
+		// balance as of
+		balanceAsOf = data.nextDate(new FinanceDate());
+		// address
 		address = data.nextAddress(null);
 		if (address != null) {
 			address.setType(Address.TYPE_BILL_TO);
 		}
+		// web Address
 		webAddress = data.nextString("");
+		// email
 		email = data.nextString("");
+		// phone
 		phone = data.nextString("");
+		// fax
 		fax = data.nextString("");
-
 		return true;
 	}
 
@@ -68,6 +84,7 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 		}
 		customer.setName(name);
 		customer.setPayeeSince(customerSince);
+		customer.setBalanceAsOf(balanceAsOf);
 		customer.setOpeningBalance(openingBalance);
 		if (address != null) {
 			customer.getAddress().add(address);

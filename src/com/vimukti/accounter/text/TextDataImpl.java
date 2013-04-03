@@ -112,7 +112,7 @@ public class TextDataImpl implements ITextData {
 	public boolean isDate() {
 		String next = next();
 		decrement();
-		if (next == null) {
+		if (next == null || next.isEmpty()) {
 			return true;
 		}
 		FinanceDate nextDate = nextDate(null);

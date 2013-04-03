@@ -18,7 +18,9 @@ public class TextCommandParser {
 		while (scanner.hasNextLine()) {
 			// Get Next Command
 			String nextLine = scanner.nextLine();
-
+			if (nextLine == null || nextLine.isEmpty()) {
+				continue;
+			}
 			// Add Previous command, if current line is a command
 			String first = getFirst(nextLine);
 			if (isCommand(first)) {
@@ -30,9 +32,9 @@ public class TextCommandParser {
 			} else {
 				// If current line is not a command, then just append it to
 				// previous
-				if (!command.endsWith(",")) {
+				if (!command.endsWith(",") && !nextLine.startsWith(",")) {
 					// If Not ends with comma(,), then append it
-					command += ",";
+					nextLine = "," + nextLine;
 				}
 				command = command + nextLine;
 			}
