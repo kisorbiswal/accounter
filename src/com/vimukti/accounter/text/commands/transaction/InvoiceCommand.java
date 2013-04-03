@@ -24,7 +24,6 @@ public class InvoiceCommand extends AbstractTransactionCommand {
 	private String number;
 	private String customerName;
 	private FinanceDate date;
-	private ArrayList<TransctionItem> items = new ArrayList<TransctionItem>();
 	private Address billingAddress;
 	private String memo;
 
