@@ -69,7 +69,7 @@ public class CreditCardExpensesCommand extends AbstractTransactionCommand {
 		expense.setType(CashPurchase.TYPE_CREDIT_CARD_EXPENSE);
 		expense.setNumber(number);
 		expense.setDate(transactionDate);
-		ArrayList<TransactionItem> processTransactionItem = processTransactionItem();
+		ArrayList<TransactionItem> processTransactionItem = processVendorTransactionItem();
 		expense.setTransactionItems(processTransactionItem);
 		if (memo != null) {
 			expense.setMemo(memo);

@@ -10,6 +10,7 @@ import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class SalesOrderCommand extends AbstractTransactionCommand {
 
@@ -37,7 +38,7 @@ public class SalesOrderCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	public void process(ITextResponse respnse) {
+	public void process(ITextResponse respnse) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		SalesOrder salesOrder = getObject(SalesOrder.class, "number", number);
@@ -54,7 +55,7 @@ public class SalesOrderCommand extends AbstractTransactionCommand {
 		}
 		salesOrder.setCustomer(customer);
 
-		ArrayList<TransactionItem> processTransactionItems = processTransactionItem();
+		ArrayList<TransactionItem> processTransactionItems = processCustomerTransactionItem();
 
 		salesOrder.setTransactionItems(processTransactionItems);
 
@@ -64,7 +65,7 @@ public class SalesOrderCommand extends AbstractTransactionCommand {
 		// getting Transaction Total
 		salesOrder.setTotal(getTransactionTotal(processTransactionItems));
 
-		session.save(salesOrder);
+		saveOrUpdate(salesOrder);
 	}
 
 }

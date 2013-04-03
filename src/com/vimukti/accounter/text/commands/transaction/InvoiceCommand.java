@@ -12,6 +12,7 @@ import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * number,customer,date,itemname,unit price,quantity,tax,item description,my
@@ -21,10 +22,13 @@ import com.vimukti.accounter.utils.HibernateUtil;
  * 
  */
 public class InvoiceCommand extends AbstractTransactionCommand {
+
 	private String number;
 	private String customerName;
-	private FinanceDate date;
 	private Address billingAddress;
+	private FinanceDate dueDate;
+	private FinanceDate deliveryDate;
+	private FinanceDate discountDate;
 	private String memo;
 
 	@Override
@@ -33,10 +37,30 @@ public class InvoiceCommand extends AbstractTransactionCommand {
 		if (number != null && !number.equals(num)) {
 			return false;
 		}
+		number = num;
 		customerName = data.nextString("");
 		if (!parseTransactionDate(data, respnse)) {
 			return true;
 		}
+		// Due Date
+		if (!data.isDate()) {
+			respnse.addError("Invalid Date format for date field");
+			return false;
+		}
+		dueDate = data.nextDate(new FinanceDate());
+		// delivery Date
+		if (!data.isDate()) {
+			respnse.addError("Invalid Date format for date field");
+			return false;
+		}
+		deliveryDate = data.nextDate(new FinanceDate());
+		// Discount Date
+		if (!data.isDate()) {
+			respnse.addError("Invalid Date format for date field");
+			return false;
+		}
+		discountDate = data.nextDate(new FinanceDate());
+		// Billing Adress
 		billingAddress = data.nextAddress(null);
 		if (billingAddress != null) {
 			billingAddress.setType(Address.TYPE_BILL_TO);
@@ -51,7 +75,7 @@ public class InvoiceCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	public void process(ITextResponse respnse) {
+	public void process(ITextResponse respnse) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Invoice invoice = getObject(Invoice.class, "number", number);
@@ -67,22 +91,23 @@ public class InvoiceCommand extends AbstractTransactionCommand {
 			session.save(customer);
 		}
 		invoice.setCustomer(customer);
-
-		invoice.setDate(date);
+		invoice.setDate(transactionDate);
+		invoice.setDueDate(dueDate);
+		invoice.setDeliverydate(deliveryDate);
+		invoice.setDiscountDate(discountDate);
 		if (billingAddress != null) {
 			invoice.setBillingAddress(billingAddress);
 		}
-		ArrayList<TransactionItem> processTransactionItems = processTransactionItem();
+		ArrayList<TransactionItem> processTransactionItems = processCustomerTransactionItem();
 		invoice.setTransactionItems(processTransactionItems);
-
 		if (memo != null) {
 			invoice.setMemo(memo);
 		}
 		// getting Transaction Total
 		double total = getTransactionTotal(processTransactionItems);
+		invoice.setNetAmount(total);
 		invoice.setTotal(total);
-
-		session.save(invoice);
+		saveOrUpdate(invoice);
 	}
 
 }

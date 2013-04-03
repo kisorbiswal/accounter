@@ -72,7 +72,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		}
 		writeCheck.setBankAccount(bankAccount);
 		writeCheck.setCheckNumber(checkNumber);
-		ArrayList<TransactionItem> processTransactionItem = processTransactionItem();
+		ArrayList<TransactionItem> processTransactionItem = processVendorTransactionItem();
 		writeCheck.setTransactionItems(processTransactionItem);
 		if (memo != null) {
 			writeCheck.setMemo(memo);

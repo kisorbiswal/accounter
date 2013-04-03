@@ -68,7 +68,7 @@ public class PurchaseOrderCommand extends AbstractTransactionCommand {
 		purchaseOrder.setVendor(vendor);
 		purchaseOrder.setDeliveryDate(deliveryDate);
 		// setting the Transaction iTems to Transaction
-		ArrayList<TransactionItem> processTransactionItem = processTransactionItem();
+		ArrayList<TransactionItem> processTransactionItem = processVendorTransactionItem();
 		purchaseOrder.setTransactionItems(processTransactionItem);
 		// setting the Transaction Total
 		purchaseOrder.setTotal(getTransactionTotal(processTransactionItem));

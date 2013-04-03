@@ -76,7 +76,7 @@ public class CashExpenseCommand extends AbstractTransactionCommand {
 		expense.setNumber(number);
 		expense.setDate(transactionDate);
 		expense.setPaymentMethod(paymentMethod);
-		ArrayList<TransactionItem> processTransactionItem = processTransactionItem();
+		ArrayList<TransactionItem> processTransactionItem = processVendorTransactionItem();
 		expense.setTransactionItems(processTransactionItem);
 		if (memo != null) {
 			expense.setMemo(memo);

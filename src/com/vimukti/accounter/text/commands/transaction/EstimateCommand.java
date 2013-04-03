@@ -82,7 +82,7 @@ public class EstimateCommand extends AbstractTransactionCommand {
 		}
 		estimate.setCustomer(customer);
 		// setting the Transaction iTems to Transaction
-		ArrayList<TransactionItem> processTransactionItem = processTransactionItem();
+		ArrayList<TransactionItem> processTransactionItem = processCustomerTransactionItem();
 		estimate.setTransactionItems(processTransactionItem);
 		// setting the Transaction Total
 		double transactionTotal = getTransactionTotal(processTransactionItem);
@@ -92,5 +92,4 @@ public class EstimateCommand extends AbstractTransactionCommand {
 
 		saveOrUpdate(estimate);
 	}
-
 }

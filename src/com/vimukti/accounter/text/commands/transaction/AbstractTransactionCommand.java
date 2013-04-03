@@ -14,6 +14,7 @@ import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.text.commands.CreateOrUpdateCommand;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 	// parse transaction Items
@@ -30,7 +31,7 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 	 */
 	private Double getLineTotal(Double itemTotal, String tax) {
 		double lineTotal = itemTotal;
-		if (tax != null) {
+		if (tax != null && !tax.isEmpty()) {
 			double taxTotal = 0;
 			// checking Tax is Percentage Value..
 			if (tax.contains("%")) {
@@ -90,18 +91,23 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 		TransctionItem transactionItem = new TransctionItem();
 		String itemName = data.nextString("");
 		if (itemName != null) {
+			// Item Name
 			transactionItem.setItem(itemName);
+			// Description
 			transactionItem.setDescription(data.nextString(null));
+			// Unit Price
 			if (!data.isDouble()) {
 				respnse.addError("Invalid Double for Unit Price field");
 				return false;
 			}
 			transactionItem.setUnitPrice(data.nextDouble(0));
+			// Quantity
 			if (!data.isQuantity()) {
 				respnse.addError("Invalid Quantity format for quantity field");
 				return false;
 			}
 			transactionItem.setQuantity(data.nextQuantity(null));
+			// Tax
 			transactionItem.setTax(data.nextString(null));
 		} else {
 			// forwarding the Positions
@@ -122,15 +128,39 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 
 	/**
 	 * 
+	 * @return
+	 * @throws AccounterException
+	 */
+	protected ArrayList<TransactionItem> processCustomerTransactionItem()
+			throws AccounterException {
+		return processTransactionItem(true);
+
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @throws AccounterException
+	 */
+	protected ArrayList<TransactionItem> processVendorTransactionItem()
+			throws AccounterException {
+		return processTransactionItem(false);
+
+	}
+
+	/**
+	 * 
 	 * @param respnse
 	 * @return
+	 * @throws AccounterException
 	 */
-	protected ArrayList<TransactionItem> processTransactionItem() {
+	protected ArrayList<TransactionItem> processTransactionItem(
+			boolean isCustomer) throws AccounterException {
 		ArrayList<TransactionItem> transactionItems = new ArrayList<TransactionItem>();
 		for (TransctionItem titem : items) {
 			String itemName = titem.getItem();
 			if (itemName != null) {
-				transactionItems.add(processTransactionItem(titem));
+				transactionItems.add(processTransactionItem(titem, isCustomer));
 			} else {
 				transactionItems.add(processAccountTransactionItem(titem));
 			}
@@ -177,19 +207,32 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 	 * @param session
 	 * @param titem
 	 * @return
+	 * @throws AccounterException
 	 */
-	private TransactionItem processTransactionItem(TransctionItem titem) {
-		Session session = HibernateUtil.getCurrentSession();
+	private TransactionItem processTransactionItem(TransctionItem titem,
+			boolean isCustomer) throws AccounterException {
 		TransactionItem transcItem = new TransactionItem();
 		String itemName = titem.getItem();
-		Criteria itemQuery = session.createCriteria(Item.class);
-		itemQuery.add(Restrictions.eq("company", getCompany()));
-		itemQuery.add(Restrictions.eq("name", itemName));
-		Item item = (Item) itemQuery.uniqueResult();
+		Item item = getObject(Item.class, "name", itemName);
 		if (item == null) {
 			item = new Item();
 			item.setName(itemName);
-			session.save(item);
+			item.setActive(true);
+			// if customer true the Item type is sell this item
+			if (isCustomer) {
+				item.setISellThisItem(true);
+				item.setType(Item.TYPE_SERVICE);
+				Account incomeAccount = getObject(Account.class, "name",
+						"Sales Software");
+				item.setIncomeAccount(incomeAccount);
+			} else {
+				item.setIBuyThisItem(false);
+				item.setType(Item.TYPE_NON_INVENTORY_PART);
+				Account expenseAccount = getObject(Account.class, "name",
+						"Sales Software");
+				item.setExpenseAccount(expenseAccount);
+			}
+			saveOrUpdate(item);
 		}
 		transcItem.setItem(item);
 

@@ -64,7 +64,7 @@ public class VendorCreditMemoCommand extends AbstractTransactionCommand {
 		}
 		vendorCreditMemo.setVendor(vendor);
 		// setting the Transaction iTems to Transaction
-		ArrayList<TransactionItem> processTransactionItem = processTransactionItem();
+		ArrayList<TransactionItem> processTransactionItem = processVendorTransactionItem();
 		vendorCreditMemo.setTransactionItems(processTransactionItem);
 		// setting the Transaction Total
 		vendorCreditMemo.setTotal(getTransactionTotal(processTransactionItem));

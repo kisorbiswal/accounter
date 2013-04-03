@@ -80,7 +80,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	/**
 	 * Is Item Active
 	 */
-	boolean isActive;
+	private boolean isActive;
 
 	boolean isISellThisItem;
 	/**
@@ -396,8 +396,8 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		this.isISellThisItem = isISellThisItem;
 	}
 
-	public void setActive(boolean iaActive) {
-
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	public void setIBuyThisItem(boolean isIBuyThisItem) {

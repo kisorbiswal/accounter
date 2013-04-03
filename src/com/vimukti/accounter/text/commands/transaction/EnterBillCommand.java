@@ -96,7 +96,7 @@ public class EnterBillCommand extends AbstractTransactionCommand {
 		}
 		enterBill.setVendor(vendor);
 		// setting the Transaction iTems to Transaction
-		ArrayList<TransactionItem> processTransactionItem = processTransactionItem();
+		ArrayList<TransactionItem> processTransactionItem = processVendorTransactionItem();
 		enterBill.setTransactionItems(processTransactionItem);
 		// setting the Transaction Total
 		enterBill.setTotal(getTransactionTotal(processTransactionItem));

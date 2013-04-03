@@ -88,7 +88,7 @@ public class CashPurchaseCommand extends AbstractTransactionCommand {
 		}
 		cashPurchase.setPayFrom(payFromBankAccount);
 		// setting the Transaction iTems to Transaction
-		ArrayList<TransactionItem> processTransactionItem = processTransactionItem();
+		ArrayList<TransactionItem> processTransactionItem = processVendorTransactionItem();
 		cashPurchase.setTransactionItems(processTransactionItem);
 		// setting the Transaction Total
 		cashPurchase.setTotal(getTransactionTotal(processTransactionItem));

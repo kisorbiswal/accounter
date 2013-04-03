@@ -81,7 +81,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 
 		cashSales.setDepositIn(bankAccount);
 		// Processed Transaction Items
-		ArrayList<TransactionItem> processTransactionItems = processTransactionItem();
+		ArrayList<TransactionItem> processTransactionItems = processCustomerTransactionItem();
 
 		cashSales.setTransactionItems(processTransactionItems);
 		// geting the transaction Total
@@ -95,5 +95,4 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 
 		saveOrUpdate(cashSales);
 	}
-
 }
