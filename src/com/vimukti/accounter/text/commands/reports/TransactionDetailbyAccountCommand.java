@@ -1,27 +1,38 @@
 package com.vimukti.accounter.text.commands.reports;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.text.commands.AbstractReportCommand;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 
 public class TransactionDetailbyAccountCommand extends AbstractReportCommand {
 
+	private String accountName;
+
 	@Override
 	public boolean parse(ITextData data, ITextResponse respnse) {
-		// TODO Auto-generated method stub
-		return false;
+		// Start and End Dates
+		if (!parseDates(data, respnse)) {
+			return false;
+		}
+		// Account Name
+		accountName = data.nextString("");
+		return true;
 	}
 
-	@Override
 	public void process(ITextResponse respnse) {
-		// TODO Auto-generated method stub
-
+		Account account = getObject(Account.class, "name", accountName);
+		if (account == null) {
+			respnse.addError("Invalid Account Name");
+			return;
+		}
+		addReportFileNameToResponse(respnse,
+				new NumberReportInput(account.getID()));
 	}
 
 	@Override
 	public int getReportType() {
-		// TODO Auto-generated method stub
-		return 0;
+		return ReportTypeConstants.REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT;
 	}
-
 }

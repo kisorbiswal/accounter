@@ -11,6 +11,6 @@ import com.vimukti.accounter.text.commands.AbstractReportCommand;
 public class ProfitAndLossCommand extends AbstractReportCommand {
 	@Override
 	public int getReportType() {
-		return 111;
+		return ReportTypeConstants.REPORT_TYPE_PROFITANDLOSS;
 	}
 }

@@ -1,6 +1,8 @@
 package com.vimukti.accounter.text.commands;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
@@ -31,4 +33,19 @@ public abstract class AbstractTextCommand implements ITextCommand {
 		return new FinanceTool();
 	}
 
+	/**
+	 * Load the Object
+	 * 
+	 * @param cls
+	 * @param uniqueField
+	 * @param value
+	 * @return
+	 */
+	protected <T> T getObject(Class<?> cls, String uniqueField, Object value) {
+		Criteria criteria = HibernateUtil.getCurrentSession().createCriteria(
+				cls);
+		criteria.add(Restrictions.eq("company", getCompany()));
+		criteria.add(Restrictions.eq(uniqueField, value));
+		return (T) criteria.uniqueResult();
+	}
 }

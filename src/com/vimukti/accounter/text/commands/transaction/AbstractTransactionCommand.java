@@ -209,20 +209,4 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 		}
 		return transcItem;
 	}
-
-	/**
-	 * Load the Object
-	 * 
-	 * @param cls
-	 * @param uniqueField
-	 * @param value
-	 * @return
-	 */
-	protected <T> T getObject(Class<?> cls, String uniqueField, Object value) {
-		Criteria criteria = HibernateUtil.getCurrentSession().createCriteria(
-				cls);
-		criteria.add(Restrictions.eq("company", getCompany()));
-		criteria.add(Restrictions.eq(uniqueField, value));
-		return (T) criteria.uniqueResult();
-	}
 }
