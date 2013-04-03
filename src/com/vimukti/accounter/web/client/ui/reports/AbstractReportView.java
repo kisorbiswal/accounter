@@ -44,7 +44,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public final static int REPORT_TYPE_GENERAL_LEDGER_REPORT = 162;
 	public final static int REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT = 115;
 	public final static int REPORT_TYPE_DEPRECIATIONSHEDULE = 168;
-	public final static int  = 205;
+	public final static int REPORT_TYPE_PAYSLIP_SUMMARY = 205;
 	public final static int REPORT_TYPE_PAYSLIP_DETAIL = 206;
 	public final static int REPORT_TYPE_PAYSHEET = 207;
 	public static final int TOOLBAR_TYPE_DATE_RANGE = 1;
