@@ -7,6 +7,7 @@ import com.vimukti.accounter.text.commands.ITextCommand;
 import com.vimukti.accounter.text.commands.ItemCommand;
 import com.vimukti.accounter.text.commands.VendorCommand;
 import com.vimukti.accounter.text.commands.transaction.CashExpenseCommand;
+import com.vimukti.accounter.text.commands.transaction.CompanyCommand;
 import com.vimukti.accounter.text.commands.transaction.InvoiceCommand;
 
 public class CommandsFactory {
@@ -54,6 +55,9 @@ public class CommandsFactory {
 
 		addCommand(CashExpenseCommand.class, "cashexpense",
 				"createcashexpense", "newcashexpense", "updatecashexpense");
+
+		addCommand(CompanyCommand.class, "company", "createcompany",
+				"newcompany", "updatecompany");
 
 	}
 

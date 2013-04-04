@@ -6,12 +6,12 @@ public class CommandUtils {
 			"october", "november", "december" };
 
 	/**
-	 * Get the Month number by Name
+	 * Get the Month by Name
 	 * 
 	 * @param monthName
 	 * @return
 	 */
-	public static int getMonthInNumber(String monthName) {
+	public static int getMonthByName(String monthName) {
 		// fiscalStartsList = null;
 		for (int i = 0; i < MONTHS.length; i++) {
 			if (monthName.toLowerCase().equals(MONTHS[i])) {

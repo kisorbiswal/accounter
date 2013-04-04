@@ -7,10 +7,13 @@ import org.hibernate.criterion.Restrictions;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.text.CommandContext;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class AbstractTextCommand implements ITextCommand {
+
+	protected CommandContext context;
 
 	protected Company getCompany() {
 		return AccounterThreadLocal.getCompany();
@@ -24,13 +27,18 @@ public abstract class AbstractTextCommand implements ITextCommand {
 		return HibernateUtil.getCurrentSession();
 	}
 
+	@Override
+	public void setContext(CommandContext context) {
+		this.context = context;
+	}
+
 	/**
 	 * Getting the user Email Id
 	 * 
 	 * @return {@link String} Email ID
 	 */
 	protected String getUserEmailID() {
-		return getUser().getClient().getEmailId();
+		return context.get(CommandContext.EMAIL_ID);
 
 	}
 

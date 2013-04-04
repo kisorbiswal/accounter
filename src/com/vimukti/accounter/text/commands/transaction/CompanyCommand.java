@@ -39,23 +39,23 @@ public class CompanyCommand extends CreateOrUpdateCommand {
 	public boolean parse(ITextData data, ITextResponse respnse) {
 		// Company Name
 		companyName = data.nextString("");
-		if (companyName != null && !companyName.isEmpty()) {
+		if (companyName == null && companyName.isEmpty()) {
 			respnse.addError("Company Name Empty or Null !, Please Enter Company Name");
 			return false;
 		}
 
 		// countryName
 		countryName = data.nextString("");
-		if (countryName != null && !countryName.isEmpty()
+		if (countryName == null && countryName.isEmpty()
 				&& CoreUtils.getCountriesAsList().contains(countryName)) {
 			respnse.addError("Country Name Empty or Null !, Please Enter Country Name");
 			return false;
 		}
-		// Month Number
-		monthInNumber = CommandUtils.getMonthInNumber(fiscalYearFirstMonth);
 		// fiscalYearFirstMonth
 		fiscalYearFirstMonth = data.nextString("");
-		if (fiscalYearFirstMonth != null && !fiscalYearFirstMonth.isEmpty()
+		// Month Number
+		monthInNumber = CommandUtils.getMonthByName(fiscalYearFirstMonth);
+		if (fiscalYearFirstMonth == null && fiscalYearFirstMonth.isEmpty()
 				&& monthInNumber == 0) {
 			respnse.addError("Please Enter Fiscal Year First Month");
 			return false;
@@ -177,4 +177,5 @@ public class CompanyCommand extends CreateOrUpdateCommand {
 				.setParameter("companyName", companyName).uniqueResult();
 		return clientId != null;
 	}
+
 }

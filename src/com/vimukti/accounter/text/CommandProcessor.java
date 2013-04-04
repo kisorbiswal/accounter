@@ -20,13 +20,14 @@ public class CommandProcessor {
 		return processor;
 	}
 
-	public ArrayList<CommandResponseImpl> processCommands(CommandsQueue queue) {
+	public ArrayList<CommandResponseImpl> processCommands(CommandsQueue queue,
+			String clientEmail) {
 
 		ArrayList<CommandResponseImpl> responses = new ArrayList<CommandResponseImpl>();
 
 		while (queue.hasNext()) {
 			CommandResponseImpl cResponse = new CommandResponseImpl();
-			processCommand(queue, cResponse);
+			processCommand(queue, cResponse, clientEmail);
 			responses.add(cResponse);
 			if (!cResponse.hasErrors()) {
 				cResponse.addMessage("Request successfull!!");
@@ -37,17 +38,19 @@ public class CommandProcessor {
 	}
 
 	private void processCommand(CommandsQueue queue,
-			CommandResponseImpl response) {
+			CommandResponseImpl response, String clientEmail) {
 
 		// Take next
 		ITextData data = queue.take();
 		logger.info("Processing command - " + data.toString());
-
 		Class<? extends ITextCommand> commandClass = CommandsFactory
 				.getCommand(data.getType());
 		ITextCommand command = null;
 		try {
 			command = commandClass.newInstance();
+			CommandContext commandContext = new CommandContext();
+			commandContext.put(CommandContext.EMAIL_ID, clientEmail);
+			command.setContext(commandContext);
 		} catch (ReflectiveOperationException e) {
 			// Send response as Invalid command
 			response.addError("Invalid command");
