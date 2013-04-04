@@ -25,6 +25,16 @@ public abstract class AbstractTextCommand implements ITextCommand {
 	}
 
 	/**
+	 * Getting the user Email Id
+	 * 
+	 * @return {@link String} Email ID
+	 */
+	protected String getUserEmailID() {
+		return getUser().getClient().getEmailId();
+
+	}
+
+	/**
 	 * Get Finance Tool
 	 * 
 	 * @return
