@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
@@ -221,15 +222,17 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 			// if customer true the Item type is sell this item
 			if (isCustomer) {
 				item.setISellThisItem(true);
+				item.setIBuyThisItem(false);
 				item.setType(Item.TYPE_SERVICE);
 				Account incomeAccount = getObject(Account.class, "name",
-						"Sales Software");
+						"Income");
 				item.setIncomeAccount(incomeAccount);
 			} else {
-				item.setIBuyThisItem(false);
+				item.setISellThisItem(false);
+				item.setIBuyThisItem(true);
 				item.setType(Item.TYPE_NON_INVENTORY_PART);
 				Account expenseAccount = getObject(Account.class, "name",
-						"Sales Software");
+						"Expense");
 				item.setExpenseAccount(expenseAccount);
 			}
 			saveOrUpdate(item);
@@ -251,5 +254,14 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 			transcItem.setDescription(desc);
 		}
 		return transcItem;
+	}
+
+	/**
+	 * 
+	 * @param typeInvoice
+	 * @return
+	 */
+	protected String getnextTransactionNumber(int typeInvoice) {
+		return NumberUtils.getNextTransactionNumber(typeInvoice, getCompany());
 	}
 }

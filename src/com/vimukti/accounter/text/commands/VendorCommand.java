@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  */
 public class VendorCommand extends CreateOrUpdateCommand {
 
-	private String name;
+	private String vendorName;
 	private FinanceDate vendorSince;
 	private FinanceDate balanceAsOf;
 	private double openingBalance;
@@ -32,7 +32,11 @@ public class VendorCommand extends CreateOrUpdateCommand {
 	@Override
 	public boolean parse(ITextData data, ITextResponse respnse) {
 		// Vendor Name
-		name = data.nextString("");
+		String name = data.nextString("");
+		if (vendorName != null && !vendorName.equals(name)) {
+			return false;
+		}
+		vendorName = name;
 		if (!data.isDate()) {
 			respnse.addError("Invalid Date format for date field");
 			return false;
@@ -67,12 +71,12 @@ public class VendorCommand extends CreateOrUpdateCommand {
 
 	@Override
 	public void process(ITextResponse respnse) throws AccounterException {
-		Vendor vendor = getObject(Vendor.class, "name", name);
+		Vendor vendor = getObject(Vendor.class, "name", vendorName);
 		if (vendor == null) {
 			vendor = new Vendor();
 			vendor.setType(Payee.TYPE_VENDOR);
 		}
-		vendor.setName(name);
+		vendor.setName(vendorName);
 		vendor.setPayeeSince(vendorSince);
 		vendor.setOpeningBalance(openingBalance);
 		if (address != null) {

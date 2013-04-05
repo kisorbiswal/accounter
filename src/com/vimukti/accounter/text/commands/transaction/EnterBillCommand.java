@@ -6,6 +6,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.text.ITextData;
@@ -41,17 +42,16 @@ public class EnterBillCommand extends AbstractTransactionCommand {
 		if (number != null && !number.equals(num)) {
 			return false;
 		}
-		// customer
-		vendorName = data.nextString("");
-
+		this.number = num;
 		if (!parseTransactionDate(data, respnse)) {
 			return true;
 		}
-
-		// Transaction Item
-		if (!parseTransactionItem(data, respnse)) {
-			return true;
+		// vendor
+		String vendor = data.nextString("");
+		if (vendorName != null && !vendorName.equals(vendor)) {
+			return false;
 		}
+		vendorName = vendor;
 		// Due Date
 		if (!data.isDate()) {
 			respnse.addError("Invalid Date format for date field");
@@ -77,11 +77,18 @@ public class EnterBillCommand extends AbstractTransactionCommand {
 	@Override
 	public void process(ITextResponse respnse) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-
-		EnterBill enterBill = getObject(EnterBill.class, "number", number);
-		if (enterBill == null) {
-			enterBill = new EnterBill();
+		if (number == null || number.isEmpty()) {
+			number = getnextTransactionNumber(Transaction.TYPE_ENTER_BILL);
+			respnse.addMessage("You are Not Given Enter Number ,we are creating defaultly with this Number--->"
+					+ number);
 		}
+		EnterBill bill = getObject(EnterBill.class, "number", number);
+		if (bill != null) {
+			number = getnextTransactionNumber(Transaction.TYPE_ENTER_BILL);
+			respnse.addMessage("given Bill  Number already existed,we are creating defaultly with this Number--->"
+					+ number);
+		}
+		EnterBill enterBill = new EnterBill();
 		enterBill.setNumber(number);
 		enterBill.setDate(transactionDate);
 		enterBill.setDueDate(dueDate);
@@ -99,8 +106,9 @@ public class EnterBillCommand extends AbstractTransactionCommand {
 		ArrayList<TransactionItem> processTransactionItem = processVendorTransactionItem();
 		enterBill.setTransactionItems(processTransactionItem);
 		// setting the Transaction Total
-		enterBill.setTotal(getTransactionTotal(processTransactionItem));
-
+		double total = getTransactionTotal(processTransactionItem);
+		enterBill.setTotal(total);
+		enterBill.setNetAmount(total);
 		enterBill.setMemo(memo);
 
 		saveOrUpdate(enterBill);

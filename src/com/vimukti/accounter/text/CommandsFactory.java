@@ -8,7 +8,10 @@ import com.vimukti.accounter.text.commands.ItemCommand;
 import com.vimukti.accounter.text.commands.VendorCommand;
 import com.vimukti.accounter.text.commands.transaction.CashExpenseCommand;
 import com.vimukti.accounter.text.commands.transaction.CompanyCommand;
+import com.vimukti.accounter.text.commands.transaction.EnterBillCommand;
 import com.vimukti.accounter.text.commands.transaction.InvoiceCommand;
+import com.vimukti.accounter.text.commands.transaction.PayBillCommand;
+import com.vimukti.accounter.text.commands.transaction.ReceivePaymentCommand;
 
 public class CommandsFactory {
 
@@ -58,6 +61,16 @@ public class CommandsFactory {
 
 		addCommand(CompanyCommand.class, "company", "createcompany",
 				"newcompany", "updatecompany");
+
+		addCommand(EnterBillCommand.class, "enterbill", "createenterbill",
+				"newenterbill", "updateenterbill");
+
+		addCommand(ReceivePaymentCommand.class, "receivepayment",
+				"createreceivepayment", "newreceivepayment",
+				"updatereceivepayment");
+
+		addCommand(PayBillCommand.class, "paybill", "createpaybill",
+				"newpaybill", "updatepaybill");
 
 	}
 

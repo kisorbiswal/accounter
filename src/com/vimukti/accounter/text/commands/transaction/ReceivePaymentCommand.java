@@ -1,6 +1,7 @@
 package com.vimukti.accounter.text.commands.transaction;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Customer;
@@ -13,8 +14,8 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
- * Number,TransactionDate,customer,paymentMethod,CheckNumber,DepositIn,Invoice
- * Number,Memo
+ * Number,TransactionDate,customer,paymentMethod,CheckNumber,amount,DepositIn,
+ * Invoice Number,Memo
  * 
  * @author vimukti10
  * 
@@ -37,12 +38,17 @@ public class ReceivePaymentCommand extends AbstractTransactionCommand {
 		if (number != null && !number.equals(num)) {
 			return false;
 		}
+		number = num;
 		// Transaction date
 		if (!parseTransactionDate(data, respnse)) {
 			return true;
 		}
 		// customer
-		customerName = data.nextString("");
+		String customer = data.nextString("");
+		if (customerName != null && !customerName.equals(customer)) {
+			return false;
+		}
+		customerName = customer;
 		// Payment Method
 		paymentMethod = data.nextString("Cash");
 		// checkNumber
@@ -69,28 +75,40 @@ public class ReceivePaymentCommand extends AbstractTransactionCommand {
 			return;
 		}
 		// getting the invoice Based On Number
-		Invoice invoice = getObject(Invoice.class, "invoiceNumber",
-				invoiceNumber);
+		Invoice invoice = getObject(Invoice.class, "number", invoiceNumber);
 		if (invoice == null) {
 			respnse.addError("Invalid Invoice Number for this Customer");
 			return;
 		}
-		ReceivePayment receivePayment = getObject(ReceivePayment.class,
-				"number", number);
-		if (receivePayment == null) {
-			receivePayment = new ReceivePayment();
+		if (number == null || number.isEmpty()) {
+			number = getnextTransactionNumber(com.vimukti.accounter.core.Transaction.TYPE_RECEIVE_PAYMENT);
 		}
+		ReceivePayment recPayment = getObject(ReceivePayment.class, "number",
+				number);
+		if (recPayment != null) {
+			number = getnextTransactionNumber(com.vimukti.accounter.core.Transaction.TYPE_RECEIVE_PAYMENT);
+		}
+		ReceivePayment receivePayment = new ReceivePayment();
 		receivePayment.setDate(transactionDate);
 		receivePayment.setNumber(number);
 
 		receivePayment.setCustomer(customer);
-
 		BankAccount depositIn = getObject(BankAccount.class, "name",
 				depositInAccounName);
-		if (depositIn == null) {
-			depositIn = new BankAccount();
-			depositIn.setName(depositInAccounName);
-			session.save(depositIn);
+		Transaction transaction = session.beginTransaction();
+		try {
+			if (depositIn == null) {
+				depositIn = new BankAccount();
+				depositIn.setNumber("1258");
+				depositIn.setIsActive(true);
+				depositIn.setName(depositInAccounName);
+				depositIn.setCompany(getCompany());
+				session.save(depositIn);
+				transaction.commit();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
 		}
 		receivePayment.setDepositIn(depositIn);
 		receivePayment.setPaymentMethod(paymentMethod);
@@ -102,9 +120,9 @@ public class ReceivePaymentCommand extends AbstractTransactionCommand {
 		payment.setInvoiceAmount(invoice.getTotal());
 		payment.setDueDate(invoice.getDueDate());
 		payment.setPayment(amount);
-
 		receivePayment.getTransactionReceivePayment().add(payment);
-
+		receivePayment.setAmount(amount);
+		receivePayment.setTotal(amount);
 		receivePayment.setMemo(memo);
 		saveOrUpdate(receivePayment);
 

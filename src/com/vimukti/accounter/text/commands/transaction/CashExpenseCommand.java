@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
+import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Invoice;
@@ -72,6 +74,23 @@ public class CashExpenseCommand extends AbstractTransactionCommand {
 			vendor.setName(this.vendorName);
 			session.save(vendor);
 		}
+
+		BankAccount payFrom = getObject(BankAccount.class, "name", payfrom);
+		Transaction transaction = session.beginTransaction();
+		try {
+			if (payFrom == null) {
+				payFrom = new BankAccount();
+				payFrom.setNumber("8547");
+				payFrom.setIsActive(true);
+				payFrom.setName(payfrom);
+				session.save(payFrom);
+				transaction.commit();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+		}
+		expense.setPayFrom(payFrom);
 		expense.setType(CashPurchase.TYPE_CASH_EXPENSE);
 		expense.setNumber(number);
 		expense.setDate(transactionDate);

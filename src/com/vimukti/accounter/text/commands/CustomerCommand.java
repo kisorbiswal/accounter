@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  */
 public class CustomerCommand extends CreateOrUpdateCommand {
 
-	private String name;
+	private String customerName;
 	private FinanceDate customerSince;
 
 	private double openingBalance;
@@ -36,7 +36,11 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 	@Override
 	public boolean parse(ITextData data, ITextResponse respnse) {
 		// Name
-		name = data.nextString("");
+		String name = data.nextString("");
+		if (customerName != null && !customerName.equals(name)) {
+			return false;
+		}
+		customerName = name;
 		if (!data.isDate()) {
 			respnse.addError("Invalid Date format for date field");
 			return false;
@@ -76,13 +80,13 @@ public class CustomerCommand extends CreateOrUpdateCommand {
 		Session session = HibernateUtil.getCurrentSession();
 		Criteria query = session.createCriteria(Customer.class);
 		query.add(Restrictions.eq("company", getCompany()));
-		query.add(Restrictions.eq("name", name));
+		query.add(Restrictions.eq("name", customerName));
 		Customer customer = (Customer) query.uniqueResult();
 		if (customer == null) {
 			customer = new Customer();
 			customer.setType(Payee.TYPE_CUSTOMER);
 		}
-		customer.setName(name);
+		customer.setName(customerName);
 		customer.setPayeeSince(customerSince);
 		customer.setBalanceAsOf(balanceAsOf);
 		customer.setOpeningBalance(openingBalance);

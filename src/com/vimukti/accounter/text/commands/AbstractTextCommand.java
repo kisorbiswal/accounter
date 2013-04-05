@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.text.CommandContext;
@@ -33,13 +34,21 @@ public abstract class AbstractTextCommand implements ITextCommand {
 	}
 
 	/**
-	 * Getting the user Email Id
+	 * Get the Client email Id
 	 * 
-	 * @return {@link String} Email ID
+	 * @return
 	 */
 	protected String getUserEmailID() {
-		return context.get(CommandContext.EMAIL_ID);
+		return getClient().getEmailId();
+	}
 
+	/**
+	 * Get the Client from Context
+	 * 
+	 * @return
+	 */
+	protected Client getClient() {
+		return context.get(CommandContext.CLIENT);
 	}
 
 	/**

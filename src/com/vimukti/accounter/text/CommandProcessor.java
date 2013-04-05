@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.text.commands.ITextCommand;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -21,13 +22,13 @@ public class CommandProcessor {
 	}
 
 	public ArrayList<CommandResponseImpl> processCommands(CommandsQueue queue,
-			String clientEmail) {
+			Client client) {
 
 		ArrayList<CommandResponseImpl> responses = new ArrayList<CommandResponseImpl>();
 
 		while (queue.hasNext()) {
 			CommandResponseImpl cResponse = new CommandResponseImpl();
-			processCommand(queue, cResponse, clientEmail);
+			processCommand(queue, cResponse, client);
 			responses.add(cResponse);
 			if (!cResponse.hasErrors()) {
 				cResponse.addMessage("Request successfull!!");
@@ -38,7 +39,7 @@ public class CommandProcessor {
 	}
 
 	private void processCommand(CommandsQueue queue,
-			CommandResponseImpl response, String clientEmail) {
+			CommandResponseImpl response, Client client) {
 
 		// Take next
 		ITextData data = queue.take();
@@ -49,7 +50,7 @@ public class CommandProcessor {
 		try {
 			command = commandClass.newInstance();
 			CommandContext commandContext = new CommandContext();
-			commandContext.put(CommandContext.EMAIL_ID, clientEmail);
+			commandContext.put(CommandContext.CLIENT, client);
 			command.setContext(commandContext);
 		} catch (ReflectiveOperationException e) {
 			// Send response as Invalid command
@@ -109,6 +110,8 @@ public class CommandProcessor {
 			if (!isParseSuccess) {
 				queue.revertPrevious();
 			}
+			// Add Data to Response
+			response.getData().remove(data);
 		}
 	}
 }

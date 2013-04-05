@@ -26,6 +26,7 @@ import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.text.commands.ITextCommand;
+import com.vimukti.accounter.text.commands.transaction.CompanyCommand;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -122,7 +123,7 @@ public class TextRequestProcessor {
 
 		logger.info("Processing command");
 		ArrayList<CommandResponseImpl> responses = CommandProcessor
-				.getInstance().processCommands(queue, client.getEmailId());
+				.getInstance().processCommands(queue, client);
 
 		logger.info("Completed processing commands!");
 		sendResponse(request, responses);
@@ -134,7 +135,7 @@ public class TextRequestProcessor {
 		}
 		Class<? extends ITextCommand> command = CommandsFactory
 				.getCommand(datas.get(0).getType());
-		return command != null;
+		return command == CompanyCommand.class;
 	}
 
 	private void sendResponse(Mail request,

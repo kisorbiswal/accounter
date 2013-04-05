@@ -1,6 +1,7 @@
 package com.vimukti.accounter.text.commands.transaction;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.EnterBill;
@@ -15,7 +16,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 /**
  * 
  * @author vimukti10
- * 
+ *         Number,TransactionDate,customer,paymentMethod,CheckNumber,amount
+ *         ,DepositIn, Invoice Number,Memo
  */
 public class PayBillCommand extends AbstractTransactionCommand {
 
@@ -35,12 +37,17 @@ public class PayBillCommand extends AbstractTransactionCommand {
 		if (number != null && !number.equals(num)) {
 			return false;
 		}
+		this.number = num;
 		// Transaction date
 		if (!parseTransactionDate(data, respnse)) {
 			return true;
 		}
 		// customer
-		vendorName = data.nextString("");
+		String vendor = data.nextString("");
+		if (vendorName != null && !vendorName.equals(vendor)) {
+			return false;
+		}
+		vendorName = vendor;
 		// Payment Method
 		paymentMethod = data.nextString("Cash");
 		// checkNumber
@@ -67,16 +74,20 @@ public class PayBillCommand extends AbstractTransactionCommand {
 			return;
 		}
 		// getting the invoice Based On Number
-		EnterBill enterBill = getObject(EnterBill.class, "invoiceNumber",
+		EnterBill enterBill = getObject(EnterBill.class, "number",
 				enterBillNumber);
 		if (enterBill == null) {
 			respnse.addError("Invalid Enter Bill Number for this Vendor");
 			return;
 		}
-		PayBill payBill = getObject(PayBill.class, "number", number);
-		if (payBill == null) {
-			payBill = new PayBill();
+		if (number == null || number.isEmpty()) {
+			number = getnextTransactionNumber(com.vimukti.accounter.core.Transaction.TYPE_PAY_BILL);
 		}
+		PayBill bill = getObject(PayBill.class, "number", number);
+		if (bill != null) {
+			number = getnextTransactionNumber(com.vimukti.accounter.core.Transaction.TYPE_PAY_BILL);
+		}
+		PayBill payBill = new PayBill();
 		payBill.setDate(transactionDate);
 		payBill.setNumber(number);
 
@@ -84,10 +95,20 @@ public class PayBillCommand extends AbstractTransactionCommand {
 
 		BankAccount payFrom = getObject(BankAccount.class, "name",
 				payFromAccountName);
-		if (payFrom == null) {
-			payFrom = new BankAccount();
-			payFrom.setName(payFromAccountName);
-			session.save(payFrom);
+		Transaction transaction = session.beginTransaction();
+		try {
+			if (payFrom == null) {
+				payFrom = new BankAccount();
+				payFrom.setNumber("8574");
+				payFrom.setIsActive(true);
+				payFrom.setName(payFromAccountName);
+				payFrom.setCompany(getCompany());
+				session.save(payFrom);
+				transaction.commit();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
 		}
 		payBill.setPayFrom(payFrom);
 		payBill.setPaymentMethod(paymentMethod);
@@ -98,12 +119,12 @@ public class PayBillCommand extends AbstractTransactionCommand {
 		payment.setBillNumber(enterBill.getNumber());
 		payment.setOriginalAmount(enterBill.getTotal());
 		payment.setDueDate(enterBill.getDueDate());
+		payment.setAmountDue(enterBill.getTotal());
 		payment.setPayment(amount);
-
 		payBill.getTransactionPayBill().add(payment);
-
 		payBill.setMemo(memo);
-
+		payBill.setTotal(amount);
+		payBill.setNetAmount(amount);
 		saveOrUpdate(payBill);
 
 	}

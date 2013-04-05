@@ -142,7 +142,7 @@ public class TextDataImpl implements ITextData {
 	public boolean isDouble() {
 		String next = next();
 		decrement();
-		if (next == null) {
+		if (next == null || next.isEmpty()) {
 			return true;
 		}
 

@@ -35,7 +35,7 @@ public abstract class CreateOrUpdateCommand extends AbstractTextCommand {
 			transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();
-			throw new AccounterException("Error while saving.");
+			throw new AccounterException(e);
 		}
 	}
 

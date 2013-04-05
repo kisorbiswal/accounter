@@ -8,6 +8,7 @@ import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Invoice;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
@@ -38,7 +39,11 @@ public class InvoiceCommand extends AbstractTransactionCommand {
 			return false;
 		}
 		number = num;
-		customerName = data.nextString("");
+		String customer = data.nextString("");
+		if (customerName != null && !customerName.equals(customer)) {
+			return false;
+		}
+		customerName = customer;
 		if (!parseTransactionDate(data, respnse)) {
 			return true;
 		}
@@ -77,11 +82,19 @@ public class InvoiceCommand extends AbstractTransactionCommand {
 	@Override
 	public void process(ITextResponse respnse) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-
-		Invoice invoice = getObject(Invoice.class, "number", number);
-		if (invoice == null) {
-			invoice = new Invoice();
+		if (number == null || number.isEmpty()) {
+			number = getnextTransactionNumber(Transaction.TYPE_INVOICE);
+			respnse.addMessage("You are Not Given Invoice Number ,we are creating defaultly with this Number--->"
+					+ number);
 		}
+
+		Invoice inv = getObject(Invoice.class, "number", number);
+		if (inv != null) {
+			number = getnextTransactionNumber(Transaction.TYPE_INVOICE);
+			respnse.addMessage("given nvoice Number already existed,we are creating defaultly with this Number--->"
+					+ number);
+		}
+		Invoice invoice = new Invoice();
 		invoice.setNumber(number);
 
 		Customer customer = getObject(Customer.class, "name", customerName);
@@ -109,5 +122,4 @@ public class InvoiceCommand extends AbstractTransactionCommand {
 		invoice.setTotal(total);
 		saveOrUpdate(invoice);
 	}
-
 }

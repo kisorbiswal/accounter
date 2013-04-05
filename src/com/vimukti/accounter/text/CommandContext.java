@@ -7,6 +7,8 @@ public class CommandContext {
 
 	public static final String EMAIL_ID = "email";
 
+	public static String CLIENT = "client";
+
 	Map<String, Object> map = new HashMap<String, Object>();
 
 	/**
