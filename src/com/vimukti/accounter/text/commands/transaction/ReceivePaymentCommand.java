@@ -1,7 +1,6 @@
 package com.vimukti.accounter.text.commands.transaction;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Customer;
@@ -95,20 +94,13 @@ public class ReceivePaymentCommand extends AbstractTransactionCommand {
 		receivePayment.setCustomer(customer);
 		BankAccount depositIn = getObject(BankAccount.class, "name",
 				depositInAccounName);
-		Transaction transaction = session.beginTransaction();
-		try {
-			if (depositIn == null) {
-				depositIn = new BankAccount();
-				depositIn.setNumber("1258");
-				depositIn.setIsActive(true);
-				depositIn.setName(depositInAccounName);
-				depositIn.setCompany(getCompany());
-				session.save(depositIn);
-				transaction.commit();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			transaction.rollback();
+		if (depositIn == null) {
+			depositIn = new BankAccount();
+			depositIn.setNumber("1258");
+			depositIn.setIsActive(true);
+			depositIn.setName(depositInAccounName);
+			depositIn.setCompany(getCompany());
+			session.save(depositIn);
 		}
 		receivePayment.setDepositIn(depositIn);
 		receivePayment.setPaymentMethod(paymentMethod);

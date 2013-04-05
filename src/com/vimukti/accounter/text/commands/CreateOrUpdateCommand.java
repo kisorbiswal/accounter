@@ -1,7 +1,6 @@
 package com.vimukti.accounter.text.commands;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
@@ -22,21 +21,14 @@ public abstract class CreateOrUpdateCommand extends AbstractTextCommand {
 		serverObj.selfValidate();
 		Session session = getSession();
 		boolean isAdd = serverObj.getID() == 0;
-		Transaction transaction = session.beginTransaction();
-		try {
-			// Save or Update Object
-			session.saveOrUpdate(serverObj);
+		// Save or Update Object
+		session.saveOrUpdate(serverObj);
 
-			// Create Activity
-			Activity activity = new Activity(company, getUser(),
-					(isAdd ? ActivityType.ADD : ActivityType.EDIT), serverObj);
-			session.save(activity);
+		// Create Activity
+		Activity activity = new Activity(company, getUser(),
+				(isAdd ? ActivityType.ADD : ActivityType.EDIT), serverObj);
+		session.save(activity);
 
-			transaction.commit();
-		} catch (Exception e) {
-			transaction.rollback();
-			throw new AccounterException(e);
-		}
 	}
 
 	public class TransctionItem {

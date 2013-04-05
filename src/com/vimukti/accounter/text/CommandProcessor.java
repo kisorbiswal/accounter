@@ -3,10 +3,12 @@ package com.vimukti.accounter.text;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.text.commands.ITextCommand;
-import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public class CommandProcessor {
 
@@ -67,15 +69,19 @@ public class CommandProcessor {
 		}
 
 		// PROCESS COMMAND
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction transaction = session.beginTransaction();
 		try {
 			logger.info("Processing command");
 			command.process(response);
-		} catch (AccounterException e) {
+			transaction.commit();
+		} catch (Exception e) {
 			logger.error("Error while processing command", e);
 			// Add Error to response
 			response.addError(e.getMessage());
+			transaction.rollback();
+			session.close();
 		}
-
 	}
 
 	private void parseData(ITextCommand command, ITextData data,

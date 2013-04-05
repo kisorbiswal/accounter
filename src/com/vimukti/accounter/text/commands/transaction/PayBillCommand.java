@@ -1,7 +1,6 @@
 package com.vimukti.accounter.text.commands.transaction;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.EnterBill;
@@ -95,20 +94,13 @@ public class PayBillCommand extends AbstractTransactionCommand {
 
 		BankAccount payFrom = getObject(BankAccount.class, "name",
 				payFromAccountName);
-		Transaction transaction = session.beginTransaction();
-		try {
-			if (payFrom == null) {
-				payFrom = new BankAccount();
-				payFrom.setNumber("8574");
-				payFrom.setIsActive(true);
-				payFrom.setName(payFromAccountName);
-				payFrom.setCompany(getCompany());
-				session.save(payFrom);
-				transaction.commit();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			transaction.rollback();
+		if (payFrom == null) {
+			payFrom = new BankAccount();
+			payFrom.setNumber("8574");
+			payFrom.setIsActive(true);
+			payFrom.setName(payFromAccountName);
+			payFrom.setCompany(getCompany());
+			session.save(payFrom);
 		}
 		payBill.setPayFrom(payFrom);
 		payBill.setPaymentMethod(paymentMethod);
