@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.web.client.core.ReportInput;
@@ -14,6 +15,7 @@ public abstract class AbstractReportCommand extends AbstractTextCommand {
 
 	private FinanceDate startDate;
 	private FinanceDate endDate;
+	private String formate;
 
 	@Override
 	public boolean parse(ITextData data, ITextResponse respnse) {
@@ -50,6 +52,9 @@ public abstract class AbstractReportCommand extends AbstractTextCommand {
 		}
 		// if next date is null,then set the default present date
 		endDate = data.nextDate(new FinanceDate());
+		// Export formate Pdf/Csv
+		formate = data.nextString("");
+
 		return true;
 	}
 
@@ -72,16 +77,21 @@ public abstract class AbstractReportCommand extends AbstractTextCommand {
 		if (endDate == null) {
 			endDate = new FinanceDate();
 		}
+		// Report Export Type
+		int reportExportType = ReportInput.REPORT_EXPORT_TYPE_PDF;
+		if (formate.toLowerCase().equals("csv")) {
+			reportExportType = ReportInput.REPORT_EXPORT_TYPE_CSV;
+		}
 		List<ReportInput> reportInputs = Arrays.asList(inputs);
 		try {
 			List<String> exportReportToFiles = manager.exportReportToFile(
-					getCompany().getId(), ReportInput.REPORT_EXPORT_TYPE_PDF,
-					getReportType(), startDate.getDate(), endDate.getDate(),
-					reportInputs);
+					getCompany().getId(), reportExportType, getReportType(),
+					startDate.getDate(), endDate.getDate(), reportInputs);
 			// adding File name to response
-			for (String file : exportReportToFiles) {
-				respnse.addFile(file);
-			}
+			String file = exportReportToFiles
+					.get(exportReportToFiles.size() - 1);
+			String tmpDir = ServerConfiguration.getTmpDir();
+			respnse.addFile(tmpDir + file);
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}

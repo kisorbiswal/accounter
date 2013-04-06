@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author vimukti10
  * 
  */
-public class ReceivePaymentCommand extends AbstractTransactionCommand {
+public abstract class ReceivePaymentCommand extends AbstractTransactionCommand {
 
 	private String number;
 	private String customerName;
@@ -49,7 +49,7 @@ public class ReceivePaymentCommand extends AbstractTransactionCommand {
 		}
 		customerName = customer;
 		// Payment Method
-		paymentMethod = data.nextString("Cash");
+		paymentMethod = data.nextString(getPaymentMethod());
 		// checkNumber
 		checkNumber = data.nextString("");
 		// amount
@@ -63,6 +63,8 @@ public class ReceivePaymentCommand extends AbstractTransactionCommand {
 
 		return true;
 	}
+
+	public abstract String getPaymentMethod();
 
 	@Override
 	public void process(ITextResponse respnse) throws AccounterException {

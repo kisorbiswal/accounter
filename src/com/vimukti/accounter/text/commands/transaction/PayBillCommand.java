@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  *         Number,TransactionDate,customer,paymentMethod,CheckNumber,amount
  *         ,DepositIn, Invoice Number,Memo
  */
-public class PayBillCommand extends AbstractTransactionCommand {
+public abstract class PayBillCommand extends AbstractTransactionCommand {
 
 	private String number;
 	private String vendorName;
@@ -48,7 +48,7 @@ public class PayBillCommand extends AbstractTransactionCommand {
 		}
 		vendorName = vendor;
 		// Payment Method
-		paymentMethod = data.nextString("Cash");
+		paymentMethod = data.nextString(getPaymentMethod());
 		// checkNumber
 		checkNumber = data.nextString("");
 		// amount
@@ -62,6 +62,8 @@ public class PayBillCommand extends AbstractTransactionCommand {
 
 		return true;
 	}
+
+	public abstract String getPaymentMethod();
 
 	@Override
 	public void process(ITextResponse respnse) throws AccounterException {
