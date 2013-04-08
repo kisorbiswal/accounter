@@ -3,6 +3,7 @@ package com.vimukti.accounter.mail;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
@@ -137,6 +138,30 @@ public class UsersMailSendar {
 
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc(sender));
 
+		EmailManager.getInstance().addJob(job);
+	}
+
+	/**
+	 * Mail accounter, send Response Mail
+	 * 
+	 * @param messages
+	 */
+	public static void sendResponseMail(ArrayList<EMailMessage> messages) {
+		try {
+			initPropertyParserToInviteUser();
+			LOG.info("Response Email is being sent to user");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		EMailJob job = new EMailJob();
+		job.setMessages(messages);
+		job.setSender(getEmailAcc());
+
+		LOG.info("Adding email job to Queue");
 		EmailManager.getInstance().addJob(job);
 	}
 
@@ -586,8 +611,10 @@ public class UsersMailSendar {
 	 * Welcome Mail For Signup User
 	 * 
 	 * @param emailId
+	 * 
+	 * @param emailId
 	 */
-	public static void sendWelComeMail(String emailId) {
+	public static void sendWelComeMail(String firstName, String emailId) {
 		try {
 			initPropertyParserToInviteUser();
 			LOG.info("Sent Welcome Mail to Sign Up User");
@@ -600,7 +627,7 @@ public class UsersMailSendar {
 		}
 		String content = propertyParser.getProperty(
 				"contentforAccounterWelcomeMail", "");
-		content = content.replaceAll("%USER%", getUserName(emailId));
+		content = content.replaceAll("%USER%", getUserName(firstName));
 		String subject = propertyParser.getProperty(
 				"subjectForaccounterWelcomeMail", "");
 

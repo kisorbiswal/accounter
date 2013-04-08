@@ -17,10 +17,9 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.mail.EMailJob;
 import com.vimukti.accounter.mail.EMailMessage;
 import com.vimukti.accounter.mail.EMailSenderAccount;
-import com.vimukti.accounter.mail.EmailManager;
+import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.text.commands.ITextCommand;
@@ -293,16 +292,8 @@ public class TextRequestProcessor {
 
 		ArrayList<EMailMessage> messages = new ArrayList<EMailMessage>();
 		messages.add(msg);
+		UsersMailSendar.sendResponseMail(messages);
 
-		EMailJob job = new EMailJob();
-		job.setMessages(messages);
-
-		// TODO HAS TO REMOVE THIS
-		EMailSenderAccount sender = sampleSendeAccount();
-		job.setSender(sender);
-
-		logger.info("Adding email job to Queue");
-		EmailManager.getInstance().addJob(job);
 	}
 
 	private EMailSenderAccount sampleSendeAccount() {

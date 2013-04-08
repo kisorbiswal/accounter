@@ -336,9 +336,11 @@ public class BaseServlet extends HttpServlet {
 	 * Send Welcome Mail to User.
 	 * 
 	 * @param emailId
+	 * 
+	 * @param emailId
 	 */
-	protected void sendWelComeMail(String emailId) {
-		UsersMailSendar.sendWelComeMail(emailId);
+	protected void sendWelComeMail(String firstName, String emailId) {
+		UsersMailSendar.sendWelComeMail(firstName, emailId);
 	}
 
 	protected void sendMailToInvitedUser(Client user, String password,
