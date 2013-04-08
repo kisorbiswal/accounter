@@ -34,6 +34,8 @@ public class User extends CreatableObject implements IAccounterServerCore,
 
 	private String userRole;
 
+	private String uniqueId;
+
 	private Client client;
 
 	private UserPermissions permissions;
@@ -337,7 +339,15 @@ public class User extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public void selfValidate() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public String getUniqueId() {
+		return uniqueId;
+	}
+
+	public void setUniqueId(String uniqueId) {
+		this.uniqueId = uniqueId;
 	}
 
 }

@@ -7,9 +7,8 @@ public class TextReponses {
 				+ uniqueId;
 	}
 
-	public static String signupSuccssfullResponse(String uniqueId) {
-		return "You have been signed up successfully, please use this email "
-				+ uniqueId + " for furthus request";
+	public static String signupSuccssfullResponse() {
+		return "You have been signed up successfully, You don't have companies yet, please create a company";
 	}
 
 	public static String donnotHaveCompaniesYet() {

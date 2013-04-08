@@ -3,15 +3,15 @@ package com.vimukti.accounter.text.commands.objectlists;
 import java.io.File;
 
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.AccounterExportCSVImpl;
 
-public class ReceivePaymentsCommand extends AbstractObjectListCommand {
+public class VendorPaymentsCommand extends AbstractObjectListCommand {
 
-	private FinanceDate startDate;
-	private FinanceDate endDate;
+	private FinanceDate fromDate;
+	private FinanceDate toDate;
 
 	@Override
 	public boolean parse(ITextData data, ITextResponse respnse) {
@@ -21,7 +21,7 @@ public class ReceivePaymentsCommand extends AbstractObjectListCommand {
 			return false;
 		}
 		// if next date is null,then set the default present date
-		startDate = data.nextDate(new FinanceDate());
+		fromDate = data.nextDate(new FinanceDate());
 
 		// END DATE
 		if (!data.isDate()) {
@@ -29,18 +29,18 @@ public class ReceivePaymentsCommand extends AbstractObjectListCommand {
 			return false;
 		}
 		// if next date is null,then set the default present date
-		endDate = data.nextDate(new FinanceDate());
+		toDate = data.nextDate(new FinanceDate());
 		return true;
 	}
 
 	@Override
-	public void process(ITextResponse respnse) {
+	public void process(ITextResponse respnse) throws AccounterException {
 		AccounterExportCSVImpl exportCSVImpl = new AccounterExportCSVImpl();
-		String receivePaymentsListExportCsv = exportCSVImpl
-				.getReceivePaymentsListExportCsv(startDate.getDate(),
-						endDate.getDate(), Transaction.TYPE_RECEIVE_PAYMENT, 0);
-		File renameFile = getRenameFile(receivePaymentsListExportCsv,
-				"Receive Payments.csv");
+		String vendorPaymentsListExportCsv = exportCSVImpl
+				.getVendorPaymentsListExportCsv(fromDate.getDate(),
+						toDate.getDate(), 0);
+		File renameFile = getRenameFile(vendorPaymentsListExportCsv,
+				"Vendor Payments.csv");
 		respnse.addFile(renameFile);
 	}
 }

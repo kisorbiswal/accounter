@@ -6,6 +6,11 @@ import com.vimukti.accounter.text.commands.CustomerCommand;
 import com.vimukti.accounter.text.commands.ITextCommand;
 import com.vimukti.accounter.text.commands.ItemCommand;
 import com.vimukti.accounter.text.commands.VendorCommand;
+import com.vimukti.accounter.text.commands.objectlists.CustomersCommand;
+import com.vimukti.accounter.text.commands.objectlists.InvoicesCommand;
+import com.vimukti.accounter.text.commands.objectlists.ReceivePaymentsCommand;
+import com.vimukti.accounter.text.commands.objectlists.VendorPaymentsCommand;
+import com.vimukti.accounter.text.commands.objectlists.VendorsCommand;
 import com.vimukti.accounter.text.commands.reports.BalanceSheetCommand;
 import com.vimukti.accounter.text.commands.reports.ProfitAndLossCommand;
 import com.vimukti.accounter.text.commands.reports.TrailBalanceCommand;
@@ -80,9 +85,15 @@ public class CommandsFactory {
 				"createreceivecheque", "newreceivecheque",
 				"updatereceivecheque");
 		// Reports
-		addCommand(TrailBalanceCommand.class, "trailbalancereport");
-		addCommand(ProfitAndLossCommand.class, "profitandlossreport");
-		addCommand(BalanceSheetCommand.class, "balancesheetreport");
+		addCommand(TrailBalanceCommand.class, "trailbalance");
+		addCommand(ProfitAndLossCommand.class, "profitandloss");
+		addCommand(BalanceSheetCommand.class, "balancesheet");
+		// Object Lists
+		addCommand(CustomersCommand.class, "customers");
+		addCommand(VendorsCommand.class, "vendors");
+		addCommand(VendorPaymentsCommand.class, "vendorpayments");
+		addCommand(InvoicesCommand.class, "invoices");
+		addCommand(ReceivePaymentsCommand.class, "receivepayments");
 
 	}
 

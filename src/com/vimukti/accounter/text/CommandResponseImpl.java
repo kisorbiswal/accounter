@@ -32,7 +32,7 @@ public class CommandResponseImpl implements ITextResponse {
 
 	@Override
 	public void addFile(File file) {
-		addFile(file.getAbsoluteFile());
+		addFile(file.getAbsolutePath());
 	}
 
 	public void addData(ITextData data) {

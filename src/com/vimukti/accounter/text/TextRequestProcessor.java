@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -67,16 +65,15 @@ public class TextRequestProcessor {
 		logger.info("Processing request");
 		String to = request.getTo();
 		// Check it sign up request
-		if (SIGNUP_EMAIL.equals(to)) {
+		if (isSignup(to)) {
 			signup(request);
-			return;
 		}
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		// Check Client Existance
 		Criteria criteria = session.createCriteria(Client.class);
-		criteria.add(Restrictions.eq("uniqueId", to));
+		criteria.add(Restrictions.eq("emailId", request.getFrom()));
 		Client client = (Client) criteria.uniqueResult();
 		if (client == null) {
 			logger.info("Don't have clients with unique email " + to);
@@ -90,23 +87,28 @@ public class TextRequestProcessor {
 		logger.info("Parsing email body");
 		ArrayList<ITextData> datas = TextCommandParser.parse(textBody);
 
+		if (datas.isEmpty()) {
+			return;
+		}
+
 		if (!hasCompanyCommand(datas)) {
+
+			if (isSignup(to)) {
+				return;
+			}
 
 			logger.info("Getting companies for user");
 			Query query = session.getNamedQuery("get.users.by.unique.email")
 					.setParameter("email", to);
-			List list = query.list();
-			if (list.isEmpty()) {
+			User user = (User) query.uniqueResult();
+			if (user == null) {
 				logger.info("Don't have comapnies yet for this user");
 				// No companies yet, Need to create a new company before doing
-				// this
-				// operation
+				// this operation
 				sendResponse(request, TextReponses.donnotHaveCompaniesYet());
 				return;
 			}
 
-			// Set User to Thread
-			User user = (User) list.get(0);
 			AccounterThreadLocal.set(user);
 
 			// Set Company Preferences to thread local
@@ -127,6 +129,10 @@ public class TextRequestProcessor {
 
 		logger.info("Completed processing commands!");
 		sendResponse(request, responses);
+	}
+
+	private boolean isSignup(String to) {
+		return SIGNUP_EMAIL.equals(to);
 	}
 
 	private boolean hasCompanyCommand(ArrayList<ITextData> datas) {
@@ -179,8 +185,8 @@ public class TextRequestProcessor {
 			}
 
 			// Finally files
-			for (String file : response.getFiles()) {
-				files.add(new File(file));
+			for (String fileName : response.getFiles()) {
+				files.add(new File(fileName));
 			}
 
 			// Finaly new line
@@ -211,28 +217,12 @@ public class TextRequestProcessor {
 				client = createNewClient(request);
 			}
 
-			String uniqueId = client.getUniqueId();
-			if (uniqueId != null) {
-				// Already exists
-				sendResponse(request,
-						TextReponses.alreadySignedUpResponse(uniqueId));
-				return;
-			}
-
-			// Set Unique ID
-			String random = UUID.randomUUID().toString();
-			random = random.replace("-", "");
-			uniqueId = random + "@" + EMAIL_DOMAIL;
-			client.setUniqueId(uniqueId);
-			logger.info("Generated unique emailId " + uniqueId);
-
 			// Save Client
 			session.saveOrUpdate(client.getClientSubscription());
 			session.saveOrUpdate(client);
 			transaction.commit();
 
-			sendResponse(request,
-					TextReponses.signupSuccssfullResponse(uniqueId));
+			sendResponse(request, TextReponses.signupSuccssfullResponse());
 
 		} catch (Exception e) {
 			logger.error("Error while signing up", e);

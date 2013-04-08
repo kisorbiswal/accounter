@@ -368,10 +368,15 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	}
 
 	protected Long getCompanyId() {
-		Long companyID = (Long) getThreadLocalRequest().getSession()
-				.getAttribute(COMPANY_ID);
-		return companyID;
+		HttpServletRequest request = getThreadLocalRequest();
+		if (request != null) {
+			Long companyID = (Long) request.getSession().getAttribute(
+					COMPANY_ID);
+			return companyID;
+		}
+		return AccounterThreadLocal.getCompany().getId();
 	}
+
 	@Override
 	protected SerializationPolicy doGetSerializationPolicy(
 			HttpServletRequest request, String moduleBaseURL, String strongName) {

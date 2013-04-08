@@ -3,10 +3,11 @@ package com.vimukti.accounter.text.commands.transaction;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterThreadLocal;
@@ -39,11 +40,12 @@ import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
  * 
  */
 public class CompanyCommand extends CreateOrUpdateCommand {
-
+	private Logger logger = Logger.getLogger(CompanyCommand.class);
 	private String companyName;
 	private String countryName;
 	private String fiscalYearFirstMonth;
 	private int monthInNumber;
+	private String uniqueId;
 
 	@Override
 	public boolean parse(ITextData data, ITextResponse respnse) {
@@ -86,70 +88,64 @@ public class CompanyCommand extends CreateOrUpdateCommand {
 			return;
 		}
 
-		Transaction transaction = session.beginTransaction();
-		try {
-			// getting Company based on Company Name
-			// Creating New Company
-			if (isCompanyNameExists(companyName)) {
-				respnse.addError("Company Name Already Existed");
-				return;
-			}
-			Company company = new Company();
-			company.setTradingName(companyName);
-			company.setConfigured(false);
-			company.setCreatedDate(new Date());
-			company.setVersion(Company.CURRENT_VERSION);
-
-			// Create User
-			User user = createUser(company);
-			company.getUsers().add(user);
-			company.setCompanyEmail(user.getClient().getEmailId());
-			// Preferences
-			CompanyPreferences preferences = company.getPreferences();
-			preferences.setTradingName(companyName);
-			preferences.setFiscalYearFirstMonth(monthInNumber);
-			// Creating Address
-			Address address = new Address();
-			address.setCountryOrRegion(countryName);
-			// Setting Address to Preferences
-			preferences.setTradingAddress(address);
-			// Create Default Primary Currency
-			Currency primaryCurrency = new Currency();
-			primaryCurrency.setFormalName("USD");
-			primaryCurrency.setSymbol("$");
-			primaryCurrency.setName("United States Dollar");
-			primaryCurrency.setCompany(company);
-			preferences.setPrimaryCurrency(primaryCurrency);
-			session.saveOrUpdate(company);
-			// create default Accounts
-			initilizeDefaultAccounts(company);
-
-			// create default WareHouse
-			Warehouse warehouse = new Warehouse("DW-1", "Default Warehouse",
-					company.getTradingAddress(), true);
-			warehouse.setCompany(company);
-			session.save(warehouse);
-			// Default Measurement
-			Measurement measurement = new Measurement("Items", "Description");
-			measurement.setCompany(company);
-			Unit unit = new Unit();
-			unit.setType("Items");
-			unit.setFactor(1);
-			unit.setDefault(true);
-			unit.setCompany(company);
-			measurement.addUnit(unit);
-			session.save(measurement);
-			company.setDefaultMeasurement(measurement);
-			company.setDefaultWarehouse(warehouse);
-
-			company.setConfigured(true);
-			session.saveOrUpdate(company);
-			transaction.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			transaction.rollback();
-			session.close();
+		// getting Company based on Company Name
+		// Creating New Company
+		if (isCompanyNameExists(companyName)) {
+			respnse.addError("Company Name Already Existed");
+			return;
 		}
+		Company company = new Company();
+		company.setTradingName(companyName);
+		company.setConfigured(false);
+		company.setCreatedDate(new Date());
+		company.setVersion(Company.CURRENT_VERSION);
+
+		// Create User
+		User user = createUser(company);
+		company.getUsers().add(user);
+		company.setCompanyEmail(user.getClient().getEmailId());
+		// Preferences
+		CompanyPreferences preferences = company.getPreferences();
+		preferences.setTradingName(companyName);
+		preferences.setFiscalYearFirstMonth(monthInNumber);
+		// Creating Address
+		Address address = new Address();
+		address.setCountryOrRegion(countryName);
+		// Setting Address to Preferences
+		preferences.setTradingAddress(address);
+		// Create Default Primary Currency
+		Currency primaryCurrency = new Currency();
+		primaryCurrency.setFormalName("USD");
+		primaryCurrency.setSymbol("$");
+		primaryCurrency.setName("United States Dollar");
+		primaryCurrency.setCompany(company);
+		preferences.setPrimaryCurrency(primaryCurrency);
+		session.saveOrUpdate(company);
+		// create default Accounts
+		initilizeDefaultAccounts(company);
+
+		// create default WareHouse
+		Warehouse warehouse = new Warehouse("DW-1", "Default Warehouse",
+				company.getTradingAddress(), true);
+		warehouse.setCompany(company);
+		session.save(warehouse);
+		// Default Measurement
+		Measurement measurement = new Measurement("Items", "Description");
+		measurement.setCompany(company);
+		Unit unit = new Unit();
+		unit.setType("Items");
+		unit.setFactor(1);
+		unit.setDefault(true);
+		unit.setCompany(company);
+		measurement.addUnit(unit);
+		session.save(measurement);
+		company.setDefaultMeasurement(measurement);
+		company.setDefaultWarehouse(warehouse);
+
+		company.setConfigured(true);
+		session.saveOrUpdate(company);
+		respnse.addError("You have been created company successfully, please use this email "
+				+ uniqueId + " for furthus request");
 	}
 
 	/**
@@ -229,8 +225,18 @@ public class CompanyCommand extends CreateOrUpdateCommand {
 		user.setActive(true);
 		user.setClient(client);
 		user.setCompany(company);
+
+		// Generating random UUID
+		String random = UUID.randomUUID().toString();
+		random = random.replace("-", "");
+		uniqueId = company.getTradingName() + random + "@" + EMAIL_DOMAIL;
+		user.setUniqueId(uniqueId);
+		logger.info("Generated unique emailId " + uniqueId);
+
+		// Add Permissions To User
 		UserPermissions permissions = createPermissions();
 		user.setPermissions(permissions);
+		// Saving The User
 		session.save(user);
 		company.setCreatedBy(user);
 		client.getUsers().add(user);

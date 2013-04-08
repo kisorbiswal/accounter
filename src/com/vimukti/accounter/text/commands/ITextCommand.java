@@ -6,6 +6,7 @@ import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public interface ITextCommand {
+	public static final String EMAIL_DOMAIL = "email.accounterlive.com";;
 
 	/**
 	 * If given data is not type of this command, then return false otherwise

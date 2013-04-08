@@ -97,7 +97,7 @@
 	<query name="get.users.by.unique.email">
 		<query-param name="email" type="String" />
 		from com.vimukti.accounter.core.User user
-		where user.client.uniqueId= :email
+		where user.uniqueId= :email
 	</query>
 
 	<sql-query name="transactions.count.per.month">
