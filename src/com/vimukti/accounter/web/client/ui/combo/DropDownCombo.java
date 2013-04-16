@@ -60,6 +60,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			@Override
 			public void onClick(ClickEvent arg0) {
 				if (isEnabled()) {
+					selectFirstItem();
 					showPopup();
 				}
 			}
@@ -156,6 +157,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				textBox.setSelectionRange(pos + text.length(), len);
 			}
 		}
+		comboItems.clear();
+		comboItems.addAll(autocompleteItems);
 		popup.setList(autocompleteItems);
 		showPopup();
 		textBox.setFocus(true);
@@ -179,7 +182,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	void resetComboList() {
 		if (!maincomboItems.isEmpty()) {
 			initCombo(maincomboItems);
-			maincomboItems.clear();
 		}
 	}
 
@@ -479,55 +481,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		// this.panel.setWidth(width);
 	}
 
-	protected void onKeyEnter(char key) {
-		filterValues(key);
-	}
-
-	private void filterValues(char key) {
-
-		String val = getValue() != null ? getValue().toString()
-				+ String.valueOf(key).replace("/", "").trim() : String
-				.valueOf(key).replace("/", "").trim();
-
-		resetComboList();
-		if (key == '/') {
-			if (val.replace("/", "").trim().isEmpty()) {
-				showPopup();
-				return;
-			}
-		}
-
-		final String val1 = val.toLowerCase();
-		List<T> autocompleteItems = getMatchedComboItems(val1);
-		popup.setList(autocompleteItems);
-		// updateComboItemsInSorted(autocompleteItems, val1);
-		maincomboItems.addAll(comboItems);
-
-		showPopup();
-		textBox.setFocus(true);
-	}
-
-	// protected List<T> getComboitemsByName(String value) {
-	// List<T> autocompleteItems = new ArrayList<T>();
-	// for (T t : comboItems) {
-	// if (getDisplayName(t).toLowerCase().contains(value.toLowerCase())) {
-	// autocompleteItems.add(t);
-	// }
-	// }
-	// return autocompleteItems;
-	// }
-
-	// private void addBlurHandler() {
-	// addBlurHandler(new BlurHandler() {
-	//
-	// @Override
-	// public void onBlur(BlurEvent event) {
-	// if (!getValue().toString().isEmpty() && !popup.isShowing())
-	// setRelatedComboItem(getValue().toString());
-	// }
-	// });
-	// }
-
 	private void setRelatedComboItem(final String value) {
 		if (!value.toString().isEmpty()) {
 			List<T> combos;
@@ -558,30 +511,9 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		selectedObject = null;
 	}
 
-	private void updateComboItemsInSorted(List<T> comboObjects,
-			final String value) {
-		Collections.sort(comboObjects, new Comparator<T>() {
-
-			@Override
-			public int compare(T obj1, T obj2) {
-				String name = getDisplayName(obj1).toLowerCase();
-				String name1 = getDisplayName(obj2).toLowerCase();
-
-				if (name.indexOf(value) == name1.indexOf(value))
-					return 0;
-				if (name.indexOf(value) < name1.indexOf(value))
-					return -1;
-				if (name.indexOf(value) > name1.indexOf(value))
-					return 1;
-
-				return 0;
-			}
-		});
-	}
-
 	private List<T> getMatchedComboItems(String val) {
 		List<T> autocompleteItems = new ArrayList<T>();
-		for (T t : comboItems) {
+		for (T t : maincomboItems) {
 			String displayName = getDisplayName(t);
 			displayName = displayName.toLowerCase();
 			if (displayName.startsWith(val)) {
@@ -593,7 +525,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	protected List<T> getComboitemsByName(String value) {
 		List<T> autocompleteItems = new ArrayList<T>();
-		for (T t : comboItems) {
+		for (T t : maincomboItems) {
 			String displayName = getDisplayName(t);
 			if (displayName.equalsIgnoreCase(value)) {
 				autocompleteItems.add(t);

@@ -102,21 +102,7 @@ public class DropDownView<T> extends AbstractView<T> {
 
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
-				// if ((key >= 48 && key <= 57) || (key >= 65 && key <= 90)
-				// || (key >= 96 && key <= 122)) {
-				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_BACKSPACE
-						|| event.getNativeEvent().getKeyCode() == KeyCodes.KEY_DELETE) {
-
-					Timer timer = new Timer() {
-
-						@Override
-						public void run() {
-							combo.onKeyEnter('/');
-						}
-					};
-					timer.schedule(200);
-					// key codes 38 for up key 40 for down key
-				} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_DOWN
+				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_DOWN
 						&& popup.isShowing()) {
 					dropDown.setKeyboardSelected(0, true, true);
 
