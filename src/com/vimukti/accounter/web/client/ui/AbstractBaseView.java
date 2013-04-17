@@ -337,6 +337,8 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 		this.errorPanel.add(error);
 		this.errorPanel.setVisible(true);
 		this.errorsMap.put(item, error);
+		// Now make sure that error is visible to user
+		errorPanel.getElement().scrollIntoView();
 	}
 
 	/**
