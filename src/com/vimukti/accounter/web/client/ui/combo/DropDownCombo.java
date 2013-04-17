@@ -147,7 +147,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	protected void selectFirstItem() {
 		String val1 = textBox.getText().toLowerCase();
 		List<T> autocompleteItems = getMatchedComboItems(val1);
-		if (!autocompleteItems.isEmpty()) {
+		if (!autocompleteItems.isEmpty() && !val1.isEmpty()) {
 			String text = textBox.getText().toLowerCase();
 			String displayValue = getDisplayName(autocompleteItems.get(0));
 			textBox.setText(displayValue);
