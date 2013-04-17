@@ -51,6 +51,7 @@ public abstract class ClientPayee implements IAccounterCore {
 	private long currency;
 
 	Set<ClientAddress> address = new HashSet<ClientAddress>();
+
 	Set<ClientPhone> phoneNumbers = new HashSet<ClientPhone>();
 	Set<ClientFax> faxNumbers = new HashSet<ClientFax>();
 	Set<ClientEmail> emails = new HashSet<ClientEmail>();
@@ -61,7 +62,9 @@ public abstract class ClientPayee implements IAccounterCore {
 	boolean isActive = Boolean.TRUE;
 	String memo;
 	String paymentMethod;
+
 	private String phoneNo;
+
 	private String faxNo;
 
 	protected double openingBalance = 0D;
@@ -91,6 +94,7 @@ public abstract class ClientPayee implements IAccounterCore {
 	}
 
 	boolean isOpeningBalanceEditable = Boolean.TRUE;
+
 	private String email;
 	boolean isDefault;
 

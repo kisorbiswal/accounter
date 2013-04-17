@@ -237,7 +237,6 @@ public class ClientAddress implements IAccounterCore {
 
 	}
 
-
 	public ClientAddress clone() {
 		ClientAddress clientAddress = (ClientAddress) this.clone();
 		return clientAddress;
