@@ -144,9 +144,9 @@ public class UsersMailSendar {
 	/**
 	 * Mail accounter, send Response Mail
 	 * 
-	 * @param messages
+	 * @param msg
 	 */
-	public static void sendResponseMail(ArrayList<EMailMessage> messages) {
+	public static void sendResponseMail(EMailMessage msg) {
 		try {
 			initPropertyParserToInviteUser();
 			LOG.info("Response Email is being sent to user");
@@ -157,6 +157,9 @@ public class UsersMailSendar {
 			e.printStackTrace();
 			return;
 		}
+		ArrayList<EMailMessage> messages = new ArrayList<EMailMessage>();
+		messages.add(msg);
+
 		EMailJob job = new EMailJob();
 		job.setMessages(messages);
 		job.setSender(getEmailAcc());

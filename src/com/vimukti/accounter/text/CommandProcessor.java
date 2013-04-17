@@ -54,7 +54,8 @@ public class CommandProcessor {
 			CommandContext commandContext = new CommandContext();
 			commandContext.put(CommandContext.CLIENT, client);
 			command.setContext(commandContext);
-		} catch (ReflectiveOperationException e) {
+		} catch (Exception e) {
+			logger.info("Unable to Processing the Command", e);
 			// Send response as Invalid command
 			response.addError("Invalid command");
 		}

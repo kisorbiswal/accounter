@@ -289,11 +289,7 @@ public class TextRequestProcessor {
 				msg.setAttachment(file);
 			}
 		}
-
-		ArrayList<EMailMessage> messages = new ArrayList<EMailMessage>();
-		messages.add(msg);
-		UsersMailSendar.sendResponseMail(messages);
-
+		UsersMailSendar.sendResponseMail(msg);
 	}
 
 	private EMailSenderAccount sampleSendeAccount() {
