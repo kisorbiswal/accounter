@@ -8,12 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 
-public class MailHookeServlet extends BaseServlet {
+public class MailHookServlet extends BaseServlet {
+
+	private Logger logger = Logger.getLogger(MailHookServlet.class);
 
 	/**
 	 * 
@@ -27,11 +30,14 @@ public class MailHookeServlet extends BaseServlet {
 		// Read Json Request
 		StringWriter writter = new StringWriter();
 		IOUtils.copy(req.getReader(), writter);
+
+		logger.info("Parsing mail request");
 		Mail request = Mail.parse(writter.toString());
 
 		// Open Hiberante Session
 		Session session = HibernateUtil.openSession();
 		try {
+			logger.info("Processing text request");
 			// Process Request
 			TextRequestProcessor.getInstance().process(request);
 		} finally {
@@ -39,6 +45,7 @@ public class MailHookeServlet extends BaseServlet {
 			session.close();
 		}
 
+		logger.info("Sending response 200 to postmark");
 		// Send status 200 if request succeed
 		resp.setStatus(200);
 	}

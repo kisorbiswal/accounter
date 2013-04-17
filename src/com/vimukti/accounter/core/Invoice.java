@@ -399,6 +399,10 @@ public class Invoice extends Transaction implements Lifecycle {
 		return discountDate;
 	}
 
+	public void setDiscountDate(FinanceDate discountDate) {
+		this.discountDate = discountDate;
+	}
+
 	@Override
 	public void setTransactionItems(List<TransactionItem> transactionItems) {
 		super.setTransactionItems(transactionItems);

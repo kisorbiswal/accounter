@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.CallbackException;
@@ -136,7 +137,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	 * List of {@link TransactionReceivePayment}'s, for this Receive Payment
 	 * Transaction
 	 */
-	List<TransactionReceivePayment> transactionReceivePayment;
+	List<TransactionReceivePayment> transactionReceivePayment = new ArrayList<TransactionReceivePayment>();;
 
 	private String checkNumber;
 

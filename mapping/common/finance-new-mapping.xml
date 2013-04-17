@@ -71,8 +71,6 @@
 			class="com.vimukti.accounter.core.LicensePurchase"
 			cascade="save-update" column="LICENSE_PURCHASE">
 		</many-to-one>
-		
-		
 	</class>
 
 	<class name="ClientSubscription" table="CLIENT_SUBSCRIPTION">

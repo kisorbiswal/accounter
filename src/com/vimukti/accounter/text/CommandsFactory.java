@@ -1,8 +1,29 @@
 package com.vimukti.accounter.text;
 
-import com.google.gwt.dev.util.collect.HashMap;
+import java.util.HashMap;
+
 import com.vimukti.accounter.text.commands.CustomerCommand;
 import com.vimukti.accounter.text.commands.ITextCommand;
+import com.vimukti.accounter.text.commands.ItemCommand;
+import com.vimukti.accounter.text.commands.VendorCommand;
+import com.vimukti.accounter.text.commands.objectlists.CustomersCommand;
+import com.vimukti.accounter.text.commands.objectlists.InvoicesCommand;
+import com.vimukti.accounter.text.commands.objectlists.ReceivePaymentsCommand;
+import com.vimukti.accounter.text.commands.objectlists.VendorPaymentsCommand;
+import com.vimukti.accounter.text.commands.objectlists.VendorsCommand;
+import com.vimukti.accounter.text.commands.reports.BalanceSheetCommand;
+import com.vimukti.accounter.text.commands.reports.ProfitAndLossCommand;
+import com.vimukti.accounter.text.commands.reports.TrailBalanceCommand;
+import com.vimukti.accounter.text.commands.transaction.CashExpenseCommand;
+import com.vimukti.accounter.text.commands.transaction.CompanyCommand;
+import com.vimukti.accounter.text.commands.transaction.EnterBillCommand;
+import com.vimukti.accounter.text.commands.transaction.InvoiceCommand;
+import com.vimukti.accounter.text.commands.transaction.PayBillCommand;
+import com.vimukti.accounter.text.commands.transaction.PayCashCommand;
+import com.vimukti.accounter.text.commands.transaction.PayChequeCommand;
+import com.vimukti.accounter.text.commands.transaction.ReceiveCashCommand;
+import com.vimukti.accounter.text.commands.transaction.ReceiveChequeCommand;
+import com.vimukti.accounter.text.commands.transaction.ReceivePaymentCommand;
 
 public class CommandsFactory {
 
@@ -26,28 +47,58 @@ public class CommandsFactory {
 	 * @return {@link ITextCommand}
 	 */
 	public static Class<? extends ITextCommand> getCommand(String name) {
+		if (name == null) {
+			return null;
+		}
+		name = name.replace(" ", "").toLowerCase().trim();
 		return commands.get(name);
 	}
 
 	private static void init() {
 
-		addCommand(CustomerCommand.class, "customer", "create customer",
-				"update customer");
-
-		addCommand(CustomerCommand.class, "invoice", "create invoice",
-				"update invoice");
-
-		addCommand(CustomerCommand.class, "vendor", "create vendor",
-				"update vendor");
-
-		addCommand(CustomerCommand.class, "item", "create item", "update item");
-
-		addCommand(CustomerCommand.class, "cashexpense", "create cashexpense",
-				"update cashexpense");
+		addCommand(CustomerCommand.class, "customer", "createcustomer",
+				"newcustomer", "updatecustomer");
+		addCommand(InvoiceCommand.class, "invoice", "createinvoice",
+				"newinvoice", "updateinvoice");
+		addCommand(VendorCommand.class, "vendor", "createvendor", "newvendor",
+				"updatevendor");
+		addCommand(ItemCommand.class, "item", "createitem", "neweitem",
+				"updateitem");
+		addCommand(CashExpenseCommand.class, "cashexpense",
+				"createcashexpense", "newcashexpense", "updatecashexpense");
+		addCommand(CompanyCommand.class, "company", "createcompany",
+				"newcompany", "updatecompany");
+		addCommand(EnterBillCommand.class, "enterbill", "createenterbill",
+				"newenterbill", "updateenterbill");
+		addCommand(ReceivePaymentCommand.class, "receivepayment",
+				"createreceivepayment", "newreceivepayment",
+				"updatereceivepayment");
+		addCommand(PayBillCommand.class, "paybill", "createpaybill",
+				"newpaybill", "updatepaybill");
+		addCommand(PayCashCommand.class, "paycash", "createpaycash",
+				"newpaycash", "updatepaycash");
+		addCommand(PayChequeCommand.class, "paycheque", "createpaycheque",
+				"newpaycheque", "updatepaycheque");
+		addCommand(ReceiveCashCommand.class, "receivecash",
+				"createreceivecash", "newreceivecash", "updatereceivecash");
+		addCommand(ReceiveChequeCommand.class, "receivecheque",
+				"createreceivecheque", "newreceivecheque",
+				"updatereceivecheque");
+		// Reports
+		addCommand(TrailBalanceCommand.class, "trailbalance");
+		addCommand(ProfitAndLossCommand.class, "profitandloss");
+		addCommand(BalanceSheetCommand.class, "balancesheet");
+		// Object Lists
+		addCommand(CustomersCommand.class, "customers");
+		addCommand(VendorsCommand.class, "vendors");
+		addCommand(VendorPaymentsCommand.class, "vendorpayments");
+		addCommand(InvoicesCommand.class, "invoices");
+		addCommand(ReceivePaymentsCommand.class, "receivepayments");
 
 	}
 
-	private static void addCommand(Class<CustomerCommand> cls, String... keys) {
+	private static void addCommand(Class<? extends ITextCommand> cls,
+			String... keys) {
 		for (String key : keys) {
 			commands.put(key, cls);
 		}

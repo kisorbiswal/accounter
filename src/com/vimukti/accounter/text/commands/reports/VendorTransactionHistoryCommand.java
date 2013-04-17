@@ -1,5 +1,12 @@
 package com.vimukti.accounter.text.commands.reports;
 
-public class VendorTransactionHistoryCommand {
+import com.vimukti.accounter.text.commands.AbstractReportCommand;
+
+public class VendorTransactionHistoryCommand extends AbstractReportCommand {
+
+	@Override
+	public int getReportType() {
+		return ReportTypeConstants.REPORT_TYPE_VENDORTRANSACTIONHISTORY;
+	}
 
 }

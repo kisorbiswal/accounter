@@ -28,10 +28,12 @@ public class AccountCommand extends CreateOrUpdateCommand {
 		name = data.nextString("");
 		if (!data.isDouble()) {
 			respnse.addError("Invalid Double for Opening Balance");
+			return false;
 		}
 		openingBal = data.nextDouble(0);
 		if (!data.isDate()) {
 			respnse.addError("Invalid Date format for As Of Date");
+			return false;
 		}
 		asOf = data.nextDate(new FinanceDate());
 

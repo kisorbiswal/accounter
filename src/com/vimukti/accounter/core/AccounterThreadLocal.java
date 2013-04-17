@@ -25,4 +25,12 @@ public class AccounterThreadLocal {
 		return new Timestamp(System.currentTimeMillis());
 	}
 
+	public static Company getCompany() {
+		User user = get();
+		if (user == null) {
+			return null;
+		}
+		return user.getCompany();
+	}
+
 }
