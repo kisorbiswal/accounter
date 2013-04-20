@@ -60,7 +60,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			@Override
 			public void onClick(ClickEvent arg0) {
 				if (isEnabled()) {
-					selectFirstItem();
 					showPopup();
 				}
 			}
@@ -218,8 +217,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			comboItems = new ArrayList<T>(list);
 		}
 		List<T> newList = new ArrayList<T>(comboItems);
-
 		popup.setList(newList);
+		setComboItem(selectedObject);
+		maincomboItems.clear();
+		maincomboItems.addAll(comboItems);
 
 	}
 

@@ -14,6 +14,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -110,6 +111,7 @@ public class SignupOpenIdServlet extends BaseServlet {
 					client.setDeleted(false);
 					client.setPassword(null);
 					client.setPasswordRecoveryKey(null);
+					client.setCreatedDate(new FinanceDate());
 					saveEntry(client);
 				} else {
 					req.setAttribute("errormessage", Global.get().messages()
