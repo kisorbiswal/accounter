@@ -6945,10 +6945,6 @@
 		WHERE  item_receipt.id = TRANSACTION.id
 			   AND TRANSACTION.company_id = cid;
 
-		DELETE FROM item_status
-		USING  item
-		WHERE  item_id = item.id
-			   AND item.company_id = cid;
 
 		DELETE FROM itemgroup
 		WHERE  company_id = cid;
@@ -7031,8 +7027,6 @@
 		DELETE FROM item
 		WHERE  company_id = cid;
 
-		DELETE FROM stock_transfer
-		WHERE  company_id = cid;
 
 		DELETE FROM stock_transfer_item
 		WHERE  company_id = cid;

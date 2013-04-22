@@ -157,7 +157,7 @@
 			   		<input type="hidden" name="destination" value="${destination}">
 			    	</c:if>	
 			      <div class="email_field">
-				    <label><i18n:i18n msg='signinEmail'/></label>
+				    <label><i18n:i18n msg='email'/></label>
 					<br \>
 					<input id="mid-box"  type="text" name="emailId" tabindex="1" />
 				  </div>
