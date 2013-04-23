@@ -27,8 +27,10 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
@@ -39,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class DashboardManager extends Manager {
 
@@ -141,7 +144,11 @@ public class DashboardManager extends Manager {
 			company = new ClientConvertUtil().toClientObject(
 					getCompany(companyId), ClientCompany.class);
 			for (BigInteger vendorId : vendors) {
-				clientPayees.add(company.getVendor(vendorId.longValue()));
+				ClientVendor vendor = company.getVendor(vendorId.longValue());
+				if (DecimalUtil.isEquals(vendor.getBalance(), 0.0)) {
+					continue;
+				}
+				clientPayees.add(vendor);
 			}
 		} catch (AccounterException e) {
 		}
@@ -160,6 +167,11 @@ public class DashboardManager extends Manager {
 					getCompany(companyId), ClientCompany.class);
 
 			for (BigInteger customerId : customers) {
+				ClientCustomer customer = company.getCustomer(customerId
+						.longValue());
+				if (DecimalUtil.isEquals(customer.getBalance(), 0.0)) {
+					continue;
+				}
 				clientPayees.add(company.getCustomer(customerId.longValue()));
 			}
 		} catch (AccounterException e) {
