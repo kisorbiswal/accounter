@@ -269,8 +269,9 @@ public class CompanyPreferences implements IAccounterServerCore {
 		 * Basis(when customer pays Invoice)
 		 */
 		this.preferencesFlag |= (USE_ACCOUNT_NO | IS_ACCURAL_BASIS
-				| SELL_SERVICES | SELL_SERVICES | ENTER_VAT_INFORMATION_NOW
+				| SELL_SERVICES | SELL_PRODUCTS | ENTER_VAT_INFORMATION_NOW
 				| REPORT_VAT_ON_ACURAL_BASIS | ACCOUNTNUMBER_RANGE_CHECK);
+		setInventoryEnabled(true);
 	}
 
 	public boolean isPurchaseOrderEnabled() {
@@ -1629,6 +1630,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 	@Override
 	public void selfValidate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
