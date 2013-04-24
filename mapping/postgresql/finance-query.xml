@@ -6730,7 +6730,7 @@
 				       LEFT JOIN ACCOUNT A
 				         ON AT.ACCOUNT_ID = A.ID
 				       LEFT JOIN TRANSACTION T
-				         ON T.ID = AT.TRANSACTION_ID
+				         ON T.ID = AT.TRANSACTION_ID AND AT.COMPANY_ID=T.COMPANY_ID
 				WHERE  ( A.A_TYPE = 15
 				          OR A.A_TYPE = 16
 				          OR A.A_TYPE = 18 )

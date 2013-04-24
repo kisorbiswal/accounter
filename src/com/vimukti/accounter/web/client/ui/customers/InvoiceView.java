@@ -631,6 +631,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		itemTableTitle.setStyleName("editTableTitle");
 		tableContainer.add(itemTableTitle);
 		tableContainer.add(customerTransactionTable);
+		itemTableButton = getItemAddNewButton();
+		addButton(tableContainer, itemTableButton);
 		mainVLay.add(tableContainer);
 
 		mainVLay.add(panel11);
@@ -684,8 +686,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				}
 			});
 		}
-		itemTableButton = getItemAddNewButton();
-		addButton(mainVLay, itemTableButton);
+
 	}
 
 	@Override
