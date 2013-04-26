@@ -27,12 +27,10 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		DummyDebitor byCustomerDetail = (DummyDebitor) this.data;
 		if (byCustomerDetail == null) {
-			Accounter.createReportService().getAgedCreditors(start,
-					new ClientFinanceDate(), this);
+			Accounter.createReportService().getAgedCreditors(start, end, this);
 		} else if (byCustomerDetail.getDebitorName() != null) {
 			Accounter.createReportService().getAgedCreditors(
-					byCustomerDetail.getDebitorName(), start,
-					new ClientFinanceDate(), this);
+					byCustomerDetail.getDebitorName(), start, end, this);
 			this.byCustomerDetail = byCustomerDetail.getTransactionId();
 		}
 	}

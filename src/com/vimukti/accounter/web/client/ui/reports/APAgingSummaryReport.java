@@ -59,8 +59,7 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getCreditors(start,
-				new ClientFinanceDate(), this);
+		Accounter.createReportService().getCreditors(start, end, this);
 
 	}
 

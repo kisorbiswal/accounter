@@ -38,12 +38,10 @@ public class ARAgingDetailReport extends AbstractReportView<AgedDebtors> {
 		DummyDebitor byCustomerDetail = (DummyDebitor) this.data;
 
 		if (byCustomerDetail == null) {
-			Accounter.createReportService().getAgedDebtors(start,
-					new ClientFinanceDate(), this);
+			Accounter.createReportService().getAgedDebtors(start, end, this);
 		} else if (byCustomerDetail.getDebitorName() != null) {
 			Accounter.createReportService().getAgedDebtors(
-					byCustomerDetail.getDebitorName(), start,
-					new ClientFinanceDate(), this);
+					byCustomerDetail.getDebitorName(), start, end, this);
 		}
 		sectiontypes.clear();
 	}
