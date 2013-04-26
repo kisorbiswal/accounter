@@ -32,7 +32,7 @@ public class DepreciationSheduleReport extends
 
 	@Override
 	public int getToolbarType() {
-		return TOOLBAR_TYPE_AS_OF;
+		return TOOLBAR_TYPE_DATE_RANGE;
 	}
 
 	@Override

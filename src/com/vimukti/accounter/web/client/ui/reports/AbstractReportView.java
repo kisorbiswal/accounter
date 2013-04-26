@@ -511,13 +511,6 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 				break;
 			}
 			toolbar.setStyleName("report-toolbar");
-			if (this instanceof ARAgingDetailReport
-					|| this instanceof APAgingDetailReport
-					|| this instanceof ARAgingSummaryReport
-					|| this instanceof APAgingSummaryReport
-					|| this instanceof DepreciationSheduleReport) {
-				toolbar.setVisible(false);
-			}
 			add(toolbar);
 			toolbar.setView(this);
 			toolbar.itemSelectionHandler = new ReportToolBarItemSelectionHandler() {

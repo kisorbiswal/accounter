@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.HashMap;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.StringReportInput;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
@@ -51,6 +53,33 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 	}
 
 	@Override
+	public void restoreView(HashMap<String, Object> map) {
+		if (map == null || map.isEmpty()) {
+			isDatesArranged = false;
+			return;
+		}
+		ClientFinanceDate startDate = (ClientFinanceDate) map.get("startDate");
+		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
+		this.serverReport.setStartAndEndDates(startDate, endDate);
+		toolbar.setEndDate(endDate);
+		toolbar.setStartDate(startDate);
+		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
+		isDatesArranged = true;
+	}
+
+	@Override
+	public HashMap<String, Object> saveView() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String selectedDateRange = toolbar.getSelectedDateRange();
+		ClientFinanceDate startDate = toolbar.getStartDate();
+		ClientFinanceDate endDate = toolbar.getEndDate();
+		map.put("selectedDateRange", selectedDateRange);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		return map;
+	}
+
+	@Override
 	public void export(int generationType) {
 		String name = this.data != null ? ((DummyDebitor) this.data)
 				.getDebitorName() : "";
@@ -91,7 +120,7 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 
 	@Override
 	public int getToolbarType() {
-		return TOOLBAR_TYPE_AS_OF;
+		return TOOLBAR_TYPE_DATE_RANGE;
 	}
 
 }
