@@ -15,6 +15,7 @@ import com.vimukti.accounter.text.commands.reports.BalanceSheetCommand;
 import com.vimukti.accounter.text.commands.reports.ProfitAndLossCommand;
 import com.vimukti.accounter.text.commands.reports.TrailBalanceCommand;
 import com.vimukti.accounter.text.commands.transaction.CashExpenseCommand;
+import com.vimukti.accounter.text.commands.transaction.CashSaleCommand;
 import com.vimukti.accounter.text.commands.transaction.CompanyCommand;
 import com.vimukti.accounter.text.commands.transaction.EnterBillCommand;
 import com.vimukti.accounter.text.commands.transaction.InvoiceCommand;
@@ -94,6 +95,8 @@ public class CommandsFactory {
 		addCommand(VendorPaymentsCommand.class, "vendorpayments");
 		addCommand(InvoicesCommand.class, "invoices");
 		addCommand(ReceivePaymentsCommand.class, "receivepayments");
+		addCommand(CashSaleCommand.class, "cashsale", "updatecashsale",
+				"createcashsale");
 
 	}
 

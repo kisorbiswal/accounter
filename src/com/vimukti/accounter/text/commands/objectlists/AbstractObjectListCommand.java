@@ -13,11 +13,12 @@ public abstract class AbstractObjectListCommand extends CreateOrUpdateCommand {
 	 * @param renameFileName
 	 * @return
 	 */
-	protected File getRenameFile(String originalFileName, String renameFileName) {
+	protected String getRenameFilePath(String originalFileName,
+			String renameFileName) {
 		String tmpDir = ServerConfiguration.getTmpDir();
-		File originalFile = new File(tmpDir + originalFileName);
-		File renameFile = new File(tmpDir + renameFileName);
+		File originalFile = new File(tmpDir, originalFileName);
+		File renameFile = new File(tmpDir, renameFileName);
 		originalFile.renameTo(renameFile);
-		return renameFile;
+		return renameFile.getAbsolutePath();
 	}
 }

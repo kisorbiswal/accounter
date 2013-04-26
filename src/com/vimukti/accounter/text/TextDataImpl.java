@@ -215,8 +215,7 @@ public class TextDataImpl implements ITextData {
 
 	@Override
 	public void forward(int position) {
-		// TODO Auto-generated method stub
-
+		cursor += position;
 	}
 
 }

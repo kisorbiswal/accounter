@@ -284,6 +284,10 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		return deliverydate;
 	}
 
+	public void setDeliverydate(FinanceDate deliverydate) {
+		this.deliverydate = deliverydate;
+	}
+
 	/**
 	 * @param deliverydate
 	 *            the delivery date to set

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.text.commands;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -91,7 +92,8 @@ public abstract class AbstractReportCommand extends AbstractTextCommand {
 			String file = exportReportToFiles
 					.get(exportReportToFiles.size() - 1);
 			String tmpDir = ServerConfiguration.getTmpDir();
-			respnse.addFile(tmpDir + file);
+			File tmpFile = new File(tmpDir, file);
+			respnse.addFile(tmpFile.getAbsolutePath());
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}

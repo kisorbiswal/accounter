@@ -1,7 +1,5 @@
 package com.vimukti.accounter.text.commands.objectlists;
 
-import java.io.File;
-
 import com.vimukti.accounter.text.ITextData;
 import com.vimukti.accounter.text.ITextResponse;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -24,7 +22,8 @@ public class CustomersCommand extends AbstractObjectListCommand {
 		AccounterExportCSVImpl accounterExportCSVImpl = new AccounterExportCSVImpl();
 		String payeeListExportCsv = accounterExportCSVImpl
 				.getPayeeListExportCsv(ClientPayee.TYPE_CUSTOMER, true);
-		File renameFile = getRenameFile(payeeListExportCsv, "Customers.csv");
+		String renameFile = getRenameFilePath(payeeListExportCsv,
+				"Customers.csv");
 		respnse.addFile(renameFile);
 	}
 

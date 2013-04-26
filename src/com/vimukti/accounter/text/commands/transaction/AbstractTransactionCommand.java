@@ -2,9 +2,7 @@ package com.vimukti.accounter.text.commands.transaction;
 
 import java.util.ArrayList;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.FinanceDate;
@@ -89,9 +87,10 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 	 * @param respnse
 	 */
 	protected boolean parseTransactionItem(ITextData data, ITextResponse respnse) {
+
 		TransctionItem transactionItem = new TransctionItem();
 		String itemName = data.nextString("");
-		if (itemName != null) {
+		if (!itemName.isEmpty()) {
 			// Item Name
 			transactionItem.setItem(itemName);
 			// Description
@@ -115,13 +114,12 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 			data.forward(4);
 			String account = data.nextString("");
 			transactionItem.setAccount(account);
+			transactionItem.setDescription(data.nextString(""));
 			if (!data.isDouble()) {
 				respnse.addError("Invalid Double for Unit Price field");
 				return false;
 			}
-			transactionItem.setDescription(data.nextString(null));
 			transactionItem.setAmount(data.nextDouble(0));
-			transactionItem.setTax(data.nextString(null));
 		}
 		items.add(transactionItem);
 		return true;
@@ -180,19 +178,20 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 
 		TransactionItem transcItem = new TransactionItem();
 		String accountName = titem.getAccount();
-		Criteria accountQuery = session.createCriteria(Account.class);
-		accountQuery.add(Restrictions.eq("company", getCompany()));
-		accountQuery.add(Restrictions.eq("name", accountName));
-		Account account = (Account) accountQuery.uniqueResult();
+		Account account = getObject(Account.class, "name", accountName);
 		if (account == null) {
 			account = new Account();
+			account.setType(Account.TYPE_INCOME);
+			account.setIsActive(true);
 			account.setName(accountName);
+			account.setCompany(getCompany());
+			account.setNumber("07054");
 			session.save(account);
 		}
 		transcItem.setAccount(account);
 		transcItem.setUnitPrice(titem.getAmount());
 		// getting Line Total
-		Double lineTotal = getLineTotal(titem.getAmount(), titem.getTax());
+		Double lineTotal = getLineTotal(titem.getAmount(), "0");
 		transcItem.setLineTotal(lineTotal);
 		String desc = titem.getDescription();
 		if (desc != null) {
