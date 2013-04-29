@@ -39,10 +39,6 @@ public class TextCommandParser {
 			} else {
 				// If current line is not a command, then just append it to
 				// previous
-				if (!command.endsWith(",") && !nextLine.startsWith(",")) {
-					// If Not ends with comma(,), then append it
-					nextLine = "," + nextLine;
-				}
 				command = command + nextLine;
 			}
 		}

@@ -1,15 +1,13 @@
 package com.vimukti.accounter.text;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.Unit;
+import com.vimukti.accounter.text.commands.utils.CommandUtils;
+import com.vimukti.accounter.web.client.ui.CoreUtils;
 
 public class TextDataImpl implements ITextData {
 
@@ -85,27 +83,8 @@ public class TextDataImpl implements ITextData {
 		if (next == null) {
 			return defVal;
 		}
-		Date date = null;
-		try {
-			SimpleDateFormat format = new SimpleDateFormat("MMddyyyy");
-			date = format.parse(next);
-		} catch (ParseException e) {
-			// FAILED
-		}
 
-		try {
-			SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy");
-			date = format.parse(next);
-		} catch (ParseException e) {
-			// THIS ALSO FAILED
-		}
-
-		// If Date is null, Just return default value
-		if (date == null) {
-			return defVal;
-		}
-
-		return new FinanceDate(date);
+		return CommandUtils.getFinaceDate(next, defVal);
 	}
 
 	@Override
@@ -132,9 +111,29 @@ public class TextDataImpl implements ITextData {
 	@Override
 	public Double nextDouble() {
 		String next = next();
-		if (next == null) {
+		if (next == null || next.isEmpty()) {
 			return null;
 		}
+		return getReformatedAmount(next);
+	}
+
+	private Double getReformatedAmount(String next) {
+
+		next = next.trim();
+
+		String amountCurrencySymbol = CoreUtils.getAmountCurrencySymbol(next);
+
+		String amountCurrencyFormalName = CoreUtils
+				.getAmountCurrencyFormalName(next);
+
+		if (amountCurrencySymbol != null && !amountCurrencySymbol.isEmpty()) {
+			next = next.replaceAll("\\" + amountCurrencySymbol, "");
+		} else if (amountCurrencyFormalName != null
+				&& !amountCurrencyFormalName.isEmpty()) {
+			next = next.replaceAll(amountCurrencyFormalName, "");
+		}
+		next = next.replaceAll(" ", "");
+		next = next.replaceAll(",", "");
 		return getDoubleValue(next);
 	}
 

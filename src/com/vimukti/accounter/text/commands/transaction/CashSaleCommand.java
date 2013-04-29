@@ -62,14 +62,13 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 
 		if (number == null || number.isEmpty()) {
 			number = getnextTransactionNumber(Transaction.TYPE_CASH_SALES);
-			respnse.addMessage("You are Not Given Invoice Number ,we are creating defaultly with this Number--->"
+			respnse.addMessage("You are Not Given cash sale Number ,we are creating defaultly with this Number--->"
 					+ number);
 		}
 
 		CashSales cashSales = getObject(CashSales.class, "number", number);
 		if (cashSales != null) {
-			number = getnextTransactionNumber(Transaction.TYPE_CASH_SALES);
-			respnse.addMessage("given nvoice Number already existed,we are creating defaultly with this Number--->"
+			respnse.addMessage("given Cash sale Number already existed,we are creating defaultly with this Number--->"
 					+ number);
 		}
 
@@ -81,6 +80,7 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		if (customer == null) {
 			customer = new Customer();
 			customer.setName(customerName);
+			customer.setCompany(getCompany());
 			session.save(customer);
 		}
 		cashSales.setCustomer(customer);
@@ -102,12 +102,12 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		// Processed Transaction Items
 		ArrayList<TransactionItem> processTransactionItems = processCustomerTransactionItem();
 
-		cashSales.setTransactionItems(processTransactionItems);
+		cashSales.getTransactionItems().addAll(processTransactionItems);
 		// geting the transaction Total
 		double transactionTotal = getTransactionTotal(processTransactionItems);
 		cashSales.setDeliverydate(new FinanceDate());
-		cashSales.setNetAmount(transactionTotal);
-		cashSales.setTotal(transactionTotal);
+		cashSales.setNetAmount(cashSales.getNetAmount() + transactionTotal);
+		cashSales.setTotal(cashSales.getTotal() + transactionTotal);
 		cashSales.setMemo(memo);
 		cashSales.setPaymentMethod(paymentmethod);
 		saveOrUpdate(cashSales);

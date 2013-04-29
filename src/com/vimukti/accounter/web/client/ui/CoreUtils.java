@@ -2120,4 +2120,34 @@ public class CoreUtils {
 		return currencies[index].getSymbol();
 	}
 
+	public static void getCurrencies() {
+	}
+
+	/**
+	 * 
+	 * @param amount
+	 * @return
+	 */
+	public static String getAmountCurrencySymbol(String amount) {
+		for (int i = 0; i < currencies.length; i++) {
+			if (amount.contains(currencies[i].getSymbol())) {
+				return currencies[i].getSymbol();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param amount
+	 * @return
+	 */
+	public static String getAmountCurrencyFormalName(String amount) {
+		for (int i = 0; i < currencies.length; i++) {
+			if (amount.contains(currencies[i].getFormalName())) {
+				return currencies[i].getFormalName();
+			}
+		}
+		return null;
+	}
 }
