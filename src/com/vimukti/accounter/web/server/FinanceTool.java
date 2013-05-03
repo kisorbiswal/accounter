@@ -2598,7 +2598,7 @@ public class FinanceTool {
 
 		Company company = getCompany(companyId);
 		String companyName = company.getTradingName();
-		File file = new File(fileName);
+		File file = new File(ServerConfiguration.getTmpDir(), fileName);
 		try {
 			UsersMailSendar.sendPdfMail(file, companyName, subject, content,
 					sender, toEmail, ccEmail);

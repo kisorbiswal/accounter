@@ -9,6 +9,7 @@ import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.text.ITextData;
@@ -90,7 +91,9 @@ public class CashSaleCommand extends AbstractTransactionCommand {
 		BankAccount depositIn = getObject(BankAccount.class, "name", despositIn);
 		if (depositIn == null) {
 			depositIn = new BankAccount();
-			depositIn.setNumber("1111");
+			String nextAccountNumber = NumberUtils.getNextAccountNumber(
+					getCompany().getId(), Account.TYPE_BANK);
+			depositIn.setNumber(nextAccountNumber);
 			depositIn.setIsActive(true);
 			depositIn.setName(despositIn);
 			depositIn.setCompany(getCompany());

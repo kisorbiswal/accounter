@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -15,10 +16,13 @@ import org.hibernate.criterion.Restrictions;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.mail.EMailJob;
 import com.vimukti.accounter.mail.EMailMessage;
 import com.vimukti.accounter.mail.EMailSenderAccount;
+import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerGlobal;
@@ -75,7 +79,7 @@ public class TextRequestProcessor {
 		criteria.add(Restrictions.eq("emailId", request.getFrom()));
 		Client client = (Client) criteria.uniqueResult();
 		if (client == null) {
-			logger.info("Don't have clients with unique email " + to);
+			logger.info("Client not yet signup" + request.getFrom());
 			sendResponse(request, TextReponses.notYetSignedUp());
 			return;
 		}
@@ -101,11 +105,13 @@ public class TextRequestProcessor {
 					.setParameter("email", to);
 			User user = (User) query.uniqueResult();
 			if (user == null) {
-				logger.info("Don't have comapnies yet for this user");
-				// No companies yet, Need to create a new company before doing
-				// this operation
-				sendResponse(request, TextReponses.donnotHaveCompaniesYet());
-				return;
+				if (client.getUsers().isEmpty()) {
+					logger.info("Don't have comapnies yet for this user");
+					// No companies yet, Need to create a new company before
+					// doing this operation
+					sendResponse(request, TextReponses.donnotHaveCompaniesYet());
+					return;
+				}
 			}
 
 			AccounterThreadLocal.set(user);
@@ -212,16 +218,39 @@ public class TextRequestProcessor {
 			criteria.add(Restrictions.eq("emailId", from));
 			Client client = (Client) criteria.uniqueResult();
 			// Creating New Client
+			StringBuffer buffer = new StringBuffer();
 			if (client == null) {
 				client = createNewClient(request);
+				buffer.append(TextReponses.signupSuccssfullResponse());
 			}
 
+			for (User user : client.getUsers()) {
+				// Generate UniqueIds to each users
+				if (user.getUniqueId() != null) {
+					continue;
+				}
+				Company company = user.getCompany();
+				String tradingName = company.getTradingName();
+				tradingName = tradingName.replace(" ", "");
+				// Generating random UUID
+				String random = UUID.randomUUID().toString();
+				random = random.replace("-", "");
+				String uniqueId = company.getTradingName() + random + "@"
+						+ EMAIL_DOMAIL;
+				user.setUniqueId(uniqueId);
+				logger.info("Generated unique emailId " + uniqueId);
+				session.saveOrUpdate(user);
+				buffer.append(uniqueId);
+				buffer.append("\n");
+			}
+			if (!client.getUsers().isEmpty()) {
+				buffer.append("You have been signed up successfully, You have companies ,please use those emails  for furthus request");
+			}
 			// Save Client
 			session.saveOrUpdate(client.getClientSubscription());
 			session.saveOrUpdate(client);
 			transaction.commit();
-
-			sendResponse(request, TextReponses.signupSuccssfullResponse());
+			sendResponse(request, buffer.toString());
 
 		} catch (Exception e) {
 			logger.error("Error while signing up", e);
@@ -289,6 +318,19 @@ public class TextRequestProcessor {
 				msg.setAttachment(file);
 			}
 		}
+
+//		ArrayList<EMailMessage> messages = new ArrayList<EMailMessage>();
+//		messages.add(msg);
+//
+//		EMailJob job = new EMailJob();
+//		job.setMessages(messages);
+//
+//		// TODO HAS TO REMOVE THIS
+//		EMailSenderAccount sender = sampleSendeAccount();
+//		job.setSender(sender);
+//
+//		logger.info("Adding email job to Queue");
+//		EmailManager.getInstance().addJob(job);
 		UsersMailSendar.sendResponseMail(msg);
 	}
 

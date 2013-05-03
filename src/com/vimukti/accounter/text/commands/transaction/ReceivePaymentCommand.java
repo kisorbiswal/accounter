@@ -2,9 +2,11 @@ package com.vimukti.accounter.text.commands.transaction;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Invoice;
+import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.TransactionReceivePayment;
 import com.vimukti.accounter.text.ITextData;
@@ -98,8 +100,11 @@ public abstract class ReceivePaymentCommand extends AbstractTransactionCommand {
 				depositInAccounName);
 		if (depositIn == null) {
 			depositIn = new BankAccount();
-			depositIn.setNumber("1258");
+			String nextAccountNumber = NumberUtils.getNextAccountNumber(
+					getCompany().getId(), Account.TYPE_BANK);
+			depositIn.setNumber(nextAccountNumber);
 			depositIn.setIsActive(true);
+			depositIn.setType(Account.TYPE_BANK);
 			depositIn.setName(depositInAccounName);
 			depositIn.setCompany(getCompany());
 			session.save(depositIn);

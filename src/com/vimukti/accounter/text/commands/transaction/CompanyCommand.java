@@ -229,7 +229,9 @@ public class CompanyCommand extends CreateOrUpdateCommand {
 		// Generating random UUID
 		String random = UUID.randomUUID().toString();
 		random = random.replace("-", "");
-		uniqueId = company.getTradingName() + random + "@" + EMAIL_DOMAIL;
+		String tradingName = company.getTradingName();
+		tradingName = tradingName.replace(" ", "");
+		uniqueId = tradingName + random + "@" + EMAIL_DOMAIL;
 		user.setUniqueId(uniqueId);
 		logger.info("Generated unique emailId " + uniqueId);
 

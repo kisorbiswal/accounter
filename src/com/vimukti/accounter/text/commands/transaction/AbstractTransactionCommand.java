@@ -185,7 +185,9 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 			account.setIsActive(true);
 			account.setName(accountName);
 			account.setCompany(getCompany());
-			account.setNumber("07054");
+			String nextAccountNumber = NumberUtils.getNextAccountNumber(
+					getCompany().getId(), Account.TYPE_INCOME);
+			account.setNumber(nextAccountNumber);
 			session.save(account);
 		}
 		transcItem.setAccount(account);
@@ -211,6 +213,7 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 	 */
 	private TransactionItem processTransactionItem(TransctionItem titem,
 			boolean isCustomer) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
 		TransactionItem transcItem = new TransactionItem();
 		String itemName = titem.getItem();
 		Item item = getObject(Item.class, "name", itemName);
@@ -225,6 +228,18 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 				item.setType(Item.TYPE_SERVICE);
 				Account incomeAccount = getObject(Account.class, "name",
 						"Income");
+				if (incomeAccount == null) {
+					incomeAccount = new Account();
+					String nextAccountNumber = NumberUtils
+							.getNextAccountNumber(getCompany().getId(),
+									Account.TYPE_INCOME);
+					incomeAccount.setNumber(nextAccountNumber);
+					incomeAccount.setIsActive(true);
+					incomeAccount.setName("Income");
+					incomeAccount.setCompany(getCompany());
+					incomeAccount.setType(Account.TYPE_INCOME);
+					session.save(incomeAccount);
+				}
 				item.setIncomeAccount(incomeAccount);
 			} else {
 				item.setISellThisItem(false);
@@ -232,6 +247,18 @@ public abstract class AbstractTransactionCommand extends CreateOrUpdateCommand {
 				item.setType(Item.TYPE_NON_INVENTORY_PART);
 				Account expenseAccount = getObject(Account.class, "name",
 						"Expense");
+				if (expenseAccount == null) {
+					expenseAccount = new Account();
+					String nextAccountNumber = NumberUtils
+							.getNextAccountNumber(getCompany().getId(),
+									Account.TYPE_EXPENSE);
+					expenseAccount.setNumber(nextAccountNumber);
+					expenseAccount.setIsActive(true);
+					expenseAccount.setName("Expense");
+					expenseAccount.setCompany(getCompany());
+					expenseAccount.setType(Account.TYPE_EXPENSE);
+					session.save(expenseAccount);
+				}
 				item.setExpenseAccount(expenseAccount);
 			}
 			saveOrUpdate(item);

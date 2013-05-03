@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +23,7 @@ public class Client {
 	private String emailId;
 	private String password;
 	private boolean isActive;
-	private Set<User> users;
+	private Set<User> users = new HashSet<User>();
 	private String phoneNumber;
 	private String country;
 	private boolean isSubscribedToNewsLetters;
