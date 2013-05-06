@@ -19,10 +19,8 @@ import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.mail.EMailJob;
 import com.vimukti.accounter.mail.EMailMessage;
 import com.vimukti.accounter.mail.EMailSenderAccount;
-import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerGlobal;
@@ -241,10 +239,12 @@ public class TextRequestProcessor {
 				logger.info("Generated unique emailId " + uniqueId);
 				session.saveOrUpdate(user);
 				buffer.append(uniqueId);
-				buffer.append("\n");
+				buffer.append("<br>");
 			}
 			if (!client.getUsers().isEmpty()) {
-				buffer.append("You have been signed up successfully, You have companies ,please use those emails  for furthus request");
+				buffer.append("You have been signed up successfully.");
+				buffer.append("<br>");
+				buffer.append(" You have companies,please use those company emails to furthur process for creating any customers,vendors and any transactions etc.");
 			}
 			// Save Client
 			session.saveOrUpdate(client.getClientSubscription());
@@ -319,18 +319,18 @@ public class TextRequestProcessor {
 			}
 		}
 
-//		ArrayList<EMailMessage> messages = new ArrayList<EMailMessage>();
-//		messages.add(msg);
-//
-//		EMailJob job = new EMailJob();
-//		job.setMessages(messages);
-//
-//		// TODO HAS TO REMOVE THIS
-//		EMailSenderAccount sender = sampleSendeAccount();
-//		job.setSender(sender);
-//
-//		logger.info("Adding email job to Queue");
-//		EmailManager.getInstance().addJob(job);
+		// ArrayList<EMailMessage> messages = new ArrayList<EMailMessage>();
+		// messages.add(msg);
+		//
+		// EMailJob job = new EMailJob();
+		// job.setMessages(messages);
+		//
+		// // TODO HAS TO REMOVE THIS
+		// EMailSenderAccount sender = sampleSendeAccount();
+		// job.setSender(sender);
+		//
+		// logger.info("Adding email job to Queue");
+		// EmailManager.getInstance().addJob(job);
 		UsersMailSendar.sendResponseMail(msg);
 	}
 

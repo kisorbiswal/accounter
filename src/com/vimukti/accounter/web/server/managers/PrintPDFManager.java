@@ -100,9 +100,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.util.ExportUtils;
 
-import fr.opensagres.xdocreport.converter.ConverterTypeTo;
-import fr.opensagres.xdocreport.converter.ConverterTypeVia;
-import fr.opensagres.xdocreport.converter.Options;
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
 import fr.opensagres.xdocreport.template.IContext;
@@ -229,7 +226,7 @@ public class PrintPDFManager extends Manager {
 			// This matches all characters that are neither letters nor numbers.
 			fileName = fileName.replaceAll("[^\\p{L}\\p{N}]", "_");
 
-			File file = File.createTempFile(fileName, ".pdf");
+			File file = File.createTempFile(fileName + "_", ".pdf");
 			result.add(file.getName());
 			FileOutputStream outputStream = new FileOutputStream(file);
 			switch (transactionType) {

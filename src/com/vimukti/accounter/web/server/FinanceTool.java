@@ -2598,7 +2598,18 @@ public class FinanceTool {
 
 		Company company = getCompany(companyId);
 		String companyName = company.getTradingName();
+
 		File file = new File(ServerConfiguration.getTmpDir(), fileName);
+		// Sending the pdf as a mail with transaction Number,removing the other
+		// Numbers
+		if (fileName.contains("_")) {
+			fileName = fileName.substring(0, fileName.lastIndexOf("_"));
+			fileName = fileName + ".pdf";
+			File rename = new File(ServerConfiguration.getTmpDir(), fileName);
+			file.renameTo(rename);
+			file = rename;
+		}
+
 		try {
 			UsersMailSendar.sendPdfMail(file, companyName, subject, content,
 					sender, toEmail, ccEmail);
