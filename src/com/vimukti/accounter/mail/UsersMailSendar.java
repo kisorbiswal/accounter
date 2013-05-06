@@ -642,4 +642,24 @@ public class UsersMailSendar {
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
 		EmailManager.getInstance().addJob(job);
 	}
+
+	/**
+	 * Send Mail pdf as Attachment
+	 * 
+	 * @param file
+	 * @param comapanyName
+	 * @param subject
+	 * @param content
+	 * @param sender
+	 * @param recipientEmail
+	 * @param ccEmail
+	 * @throws IOException
+	 */
+	public static void sendPdfMail(File file, String comapanyName,
+			String subject, String content, ClientEmailAccount sender,
+			String recipientEmail, String ccEmail) throws IOException {
+		sendPdfMail(file.getName(), file, comapanyName, subject, content,
+				sender, recipientEmail, ccEmail);
+
+	}
 }
