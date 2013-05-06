@@ -225,7 +225,8 @@ public class PrintPDFManager extends Manager {
 					Charset.forName("UTF-8"));
 			// This matches all characters that are neither letters nor numbers.
 			fileName = fileName.replaceAll("[^\\p{L}\\p{N}]", "_");
-
+			// Adding "_" to File Name to recognize the extra
+			// numbers,those are removing the send pdf as a mail
 			File file = File.createTempFile(fileName + "_", ".pdf");
 			result.add(file.getName());
 			FileOutputStream outputStream = new FileOutputStream(file);
@@ -311,9 +312,10 @@ public class PrintPDFManager extends Manager {
 						IContext context = report.createContext();
 						context = pdfGenerator.assignValues(context, report);
 						FontFactory.setFontImp(new FontFactoryImpEx());
-
+						// Adding "_" to File Name to recognize the extra
+						// numbers,those are removing the send pdf as a mail
 						File file = File.createTempFile(pdfGenerator
-								.getFileName().replace(" ", ""), ".pdf");
+								.getFileName().replace(" ", "") + "_", ".pdf");
 						java.io.FileOutputStream fos = new java.io.FileOutputStream(
 								file);
 						ExportUtils.exportToPDF(report, context, fos,
@@ -323,8 +325,10 @@ public class PrintPDFManager extends Manager {
 				}
 
 				if (pdfGenerator != null) {
-					File file = File.createTempFile(fileName.replace(" ", ""),
-							".pdf");
+					// Adding "_" to File Name to recognize the extra
+					// numbers,those are removing the send pdf as a mail
+					File file = File.createTempFile(fileName.replace(" ", "")
+							+ "_", ".pdf");
 					java.io.FileOutputStream fos = new java.io.FileOutputStream(
 							file);
 					result.add(file.getName());
