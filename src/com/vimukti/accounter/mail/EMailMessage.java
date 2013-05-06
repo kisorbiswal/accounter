@@ -6,13 +6,32 @@ import java.util.Set;
 
 public class EMailMessage {
 
+	public class Attachment {
+		File file;
+
+		public File getFile() {
+			return file;
+		}
+
+		public String getFileName() {
+			return fileName;
+		}
+
+		String fileName;
+
+		public Attachment(File file, String fileName) {
+			this.file = file;
+			this.fileName = fileName;
+		}
+	}
+
 	private String from;
 
 	public String subject;
 
 	public String content;
 
-	Set<File> attachment;
+	Set<Attachment> attachment = new HashSet<EMailMessage.Attachment>();
 
 	public Set<String> recepeiants = new HashSet<String>();
 	public Set<String> ccrecepeiants = new HashSet<String>();
@@ -45,20 +64,16 @@ public class EMailMessage {
 		this.ccrecepeiants = cc;
 	}
 
-	public Set<File> getAttachments() {
+	public Set<Attachment> getAttachments() {
 		return attachment;
 	}
 
-	public void setAttachments(Set<File> attachment) {
-		this.attachment = attachment;
+	public void setAttachment(File file) {
+		setAttachment(file, file.getName());
 	}
 
-	public void setAttachment(File file) {
-
-		if (attachment == null) {
-			attachment = new HashSet<File>();
-		}
-		this.attachment.add(file);
+	public void setAttachment(File file, String name) {
+		this.attachment.add(new Attachment(file, name));
 	}
 
 	public String getSubject() {

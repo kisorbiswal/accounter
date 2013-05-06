@@ -78,9 +78,10 @@ public class UsersMailSendar {
 
 	}
 
-	public static void sendPdfMail(File file, String comapanyName,
-			String subject, String content, ClientEmailAccount sender,
-			String recipientEmail, String ccEmail) throws IOException {
+	public static void sendPdfMail(String fileName, File file,
+			String comapanyName, String subject, String content,
+			ClientEmailAccount sender, String recipientEmail, String ccEmail)
+			throws IOException {
 
 		try {
 			initPropertyParserToInviteUser();
@@ -97,7 +98,7 @@ public class UsersMailSendar {
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
 		emailMsg.setReplayTO(sender.getEmailId());
-		emailMsg.setAttachment(file);
+		emailMsg.setAttachment(file, fileName);
 
 		String[] toIds = recipientEmail.split(",");
 

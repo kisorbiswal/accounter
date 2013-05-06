@@ -2603,16 +2603,13 @@ public class FinanceTool {
 		// Sending the pdf as a mail with transaction Number,removing the other
 		// Numbers
 		if (fileName.contains("_")) {
-			fileName = fileName.substring(0, fileName.lastIndexOf("_"));
-			fileName = fileName + ".pdf";
-			File rename = new File(ServerConfiguration.getTmpDir(), fileName);
-			file.renameTo(rename);
-			file = rename;
+			fileName = fileName.substring(0, fileName.lastIndexOf("_"))
+					+ ".pdf";
 		}
 
 		try {
-			UsersMailSendar.sendPdfMail(file, companyName, subject, content,
-					sender, toEmail, ccEmail);
+			UsersMailSendar.sendPdfMail(fileName, file, companyName, subject,
+					content, sender, toEmail, ccEmail);
 		} catch (IOException e) {
 			throw new AccounterException(e.getMessage());
 		}

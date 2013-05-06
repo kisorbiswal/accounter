@@ -1,6 +1,5 @@
 package com.vimukti.accounter.mail;
 
-import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
@@ -231,15 +230,16 @@ public class EmailManager extends Thread {
 
 			// This is the template Attachment part
 			if (emsg.getAttachments() != null) {
-				for (File file : emsg.getAttachments()) {
+				for (EMailMessage.Attachment attachment : emsg.getAttachments()) {
 					MimeBodyPart messageAttachmentBodyPart = new MimeBodyPart();
 					messageAttachmentBodyPart = new MimeBodyPart();
 
-					DataSource source = new FileDataSource(file);
+					DataSource source = new FileDataSource(attachment.getFile());
 
 					messageAttachmentBodyPart.setDataHandler(new DataHandler(
 							source));
-					messageAttachmentBodyPart.setFileName(file.getName());
+					messageAttachmentBodyPart.setFileName(attachment
+							.getFileName());
 					multipart.addBodyPart(messageAttachmentBodyPart);
 				}
 			}
