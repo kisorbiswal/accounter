@@ -64,7 +64,7 @@ public class ServerConfiguration {
 	private static boolean runStartupScripts;
 	private static boolean isScriptRunnerCompleted;
 	private static boolean isRunningScript;
-	private static long welcomeDelayTime;
+	private static long welcomeMailDelayTime;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -130,9 +130,10 @@ public class ServerConfiguration {
 					"uploadAttachmentEmailId", null);
 			uploadAttachmentPassword = prop.getProperty(
 					"uploadAttachmentPassword", null);
-
-			welcomeDelayTime = (Long.valueOf(prop.getProperty(
-					"welcomeDelayTime", "0")));
+			// Delay for welcome mail
+			int minutes = Integer.valueOf(prop.getProperty(
+					"welcomeMailDelayTime", "0"));
+			welcomeMailDelayTime = minutes * 60 * 1000;
 
 			/*
 			 * mobilePort = Integer.parseInt(prop.getProperty("mobilePort",
@@ -520,8 +521,8 @@ public class ServerConfiguration {
 		isRunningScript = true;
 	}
 
-	public static long getWelcomeDelayTime() {
-		return welcomeDelayTime;
+	public static long getWelcomeMailDelayTime() {
+		return welcomeMailDelayTime;
 	}
 
 }

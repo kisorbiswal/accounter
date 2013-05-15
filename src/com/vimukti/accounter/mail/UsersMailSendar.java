@@ -642,7 +642,7 @@ public class UsersMailSendar {
 		emailMsg.setRecepeant(emailId);
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
 		EmailManager.getInstance().addJob(job,
-				ServerConfiguration.getWelcomeDelayTime());
+				ServerConfiguration.getWelcomeMailDelayTime());
 	}
 
 	/**
