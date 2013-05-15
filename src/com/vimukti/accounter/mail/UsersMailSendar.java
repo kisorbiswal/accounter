@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class UsersMailSendar {
 	private static PropertyParser propertyParser;
-
 	private static Logger LOG = Logger.getLogger(UsersMailSendar.class);
 
 	public static PropertyParser getPropertyParser() {
@@ -617,6 +616,7 @@ public class UsersMailSendar {
 	 * @param emailId
 	 * 
 	 * @param emailId
+	 * @param timeOut
 	 */
 	public static void sendWelComeMail(String firstName, String emailId) {
 		try {
@@ -629,18 +629,20 @@ public class UsersMailSendar {
 			e.printStackTrace();
 			return;
 		}
+		String userName = getUserName(firstName);
 		String content = propertyParser.getProperty(
 				"contentforAccounterWelcomeMail", "");
-		content = content.replaceAll("%USER%", getUserName(firstName));
+		content = content.replaceAll("%USER%", userName);
 		String subject = propertyParser.getProperty(
 				"subjectForaccounterWelcomeMail", "");
-
+		subject = subject.replaceAll("%USER%", userName);
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
 		emailMsg.setRecepeant(emailId);
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
-		EmailManager.getInstance().addJob(job);
+		EmailManager.getInstance().addJob(job,
+				ServerConfiguration.getWelcomeDelayTime());
 	}
 
 	/**

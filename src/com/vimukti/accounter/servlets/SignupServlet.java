@@ -148,7 +148,7 @@ public class SignupServlet extends BaseServlet {
 					transaction.commit();
 
 					// SEND WELCOME MAIL TO SIGNUP USER
-					// sendWelComeMail(firstName, emailId);
+					sendWelComeMail(firstName, emailId);
 				} else {
 					req.setAttribute("errormessage", Global.get().messages()
 							.alreadyRegisteredWithAccounter()
@@ -207,7 +207,7 @@ public class SignupServlet extends BaseServlet {
 				session.setAttribute(EMAIL_ID, emailId);
 
 				// SEND WELCOME MAIL TO SIGNUP USER
-				// sendWelComeMail(firstName, emailId);
+				sendWelComeMail(firstName, emailId);
 
 				// Email to that user.
 				/*

@@ -3,6 +3,8 @@ package com.vimukti.accounter.mail;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,6 +34,7 @@ public class EmailManager extends Thread {
 	public static long INTERVAL_TIME = 1000 * 60 * 1;
 	private boolean shutdown;
 	private String error;
+	private static Timer timer;
 
 	public EmailManager() {
 		super("Email Manager");
@@ -369,6 +372,7 @@ public class EmailManager extends Thread {
 	public static EmailManager getInstance() {
 		if (manager == null) {
 			manager = new EmailManager();
+			timer = new Timer();
 		}
 		return manager;
 	}
@@ -383,4 +387,18 @@ public class EmailManager extends Thread {
 		this.interrupt();
 	}
 
+	/**
+	 * Add email Job to Queue after specified timeOut.
+	 * 
+	 * @param job
+	 * @param timeOut
+	 */
+	public void addJob(final EMailJob job, long timeOut) {
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				queue.add(job);
+			}
+		}, timeOut);
+	}
 }
