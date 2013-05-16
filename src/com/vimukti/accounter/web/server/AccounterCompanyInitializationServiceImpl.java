@@ -35,7 +35,6 @@ import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
 import com.vimukti.accounter.encryption.Encrypter;
-import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -239,8 +238,8 @@ public class AccounterCompanyInitializationServiceImpl extends
 
 			transaction.commit();
 
-			UsersMailSendar.sendMailToDefaultUser(user,
-					company.getTradingName());
+			// UsersMailSendar.sendMailToDefaultUser(user,
+			// company.getTradingName());
 			return company;
 		} catch (AccounterException e) {
 			e.printStackTrace();

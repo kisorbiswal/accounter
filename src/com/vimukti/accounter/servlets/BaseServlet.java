@@ -447,7 +447,7 @@ public class BaseServlet extends HttpServlet {
 		link.append(ACTIVATION_URL);
 		System.out.println("@@@ ACTIVATION CODE::" + activationCode);
 		UsersMailSendar.sendResetPasswordLinkToUser(link.toString(),
-				activationCode, client.getEmailId());
+				activationCode, client);
 	}
 
 	public static User getUser(String emailId, Long serverCompanyID) {

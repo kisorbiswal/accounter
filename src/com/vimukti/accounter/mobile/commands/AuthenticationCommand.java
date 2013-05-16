@@ -211,7 +211,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 		link.append("/main/activation");
 		System.out.println("@@@ ACTIVATION CODE::" + activationCode);
 		UsersMailSendar.sendResetPasswordLinkToUser(link.toString(),
-				activationCode, client.getEmailId());
+				activationCode, client);
 	}
 
 	private Activation getActivationByEmailId(String email) {

@@ -659,7 +659,7 @@ public class AccounterWindowsHomeServiceImpl extends
 		link.append(ACTIVATION_URL);
 		System.out.println("@@@ ACTIVATION CODE::" + activationCode);
 		UsersMailSendar.sendResetPasswordLinkToUser(link.toString(),
-				activationCode, client.getEmailId());
+				activationCode, client);
 	}
 
 	@Override

@@ -18,7 +18,6 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
-import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
@@ -119,8 +118,8 @@ public class CreateCompanyServlet extends BaseServlet {
 
 			session.saveOrUpdate(company);
 
-			UsersMailSendar.sendMailToDefaultUser(user,
-					company.getTradingName());
+			// UsersMailSendar.sendMailToDefaultUser(user,
+			// company.getTradingName());
 
 			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Success");
 			transaction.commit();
@@ -131,7 +130,7 @@ public class CreateCompanyServlet extends BaseServlet {
 				transaction.rollback();
 			}
 			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Fail");
-		} 
+		}
 		dispatch(request, response, COMPANIES_URL);
 		return;
 	}
@@ -171,8 +170,6 @@ public class CreateCompanyServlet extends BaseServlet {
 				.setParameter("name", companyName);
 		return (Company) query.uniqueResult();
 	}
-
-	
 
 	/**
 	 * @return

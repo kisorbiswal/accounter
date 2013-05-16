@@ -278,7 +278,7 @@ public class UsersMailSendar {
 	}
 
 	public static void sendResetPasswordLinkToUser(String link,
-			String activationCode, String recipient) {
+			String activationCode, Client recipient) {
 		try {
 			initPropertyParserToInviteUser();
 			LOG.info("Email is being sent to default user");
@@ -295,14 +295,14 @@ public class UsersMailSendar {
 
 		String content = propertyParser.getProperty("contentForResetPassword",
 				"");
+		content = content.replaceAll("%USER%", recipient.getFirstName());
 		content = content.replaceAll("%LINK%", link);
-
 		content = content.replaceAll("%CODE%", activationCode);
 
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
-		emailMsg.setRecepeant(recipient);
+		emailMsg.setRecepeant(recipient.getEmailId());
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
 
 		EmailManager.getInstance().addJob(job);
