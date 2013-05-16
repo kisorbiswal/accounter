@@ -187,6 +187,9 @@ public class UsersMailSendar {
 		content = content.replaceAll("%COMPANY%", companyName);
 		content = content.replaceAll("%PASSWORD%", password);
 		content = content.replaceAll("%EMAILID%", user.getEmailId());
+		content = content
+				.replaceAll("%INVITED_USER_NAME%", user.getFirstName());
+
 		content = replaceServerUrl(content);
 		// content = content.replaceAll("%LOGINURL%", loginURL);
 
@@ -323,7 +326,11 @@ public class UsersMailSendar {
 		StringBuffer content = new StringBuffer();
 		content.append("Hello " + getUserName(client.getFirstName()) + " "
 				+ getUserName(client.getLastName()) + ",\n");
-		content.append(propertyParser.getProperty("contentForActivation", ""));
+		String contentForActivation = propertyParser.getProperty(
+				"contentForActivation", "");
+		contentForActivation = contentForActivation.replaceAll("%USER%",
+				getUserName(client.getFirstName()));
+		content.append(contentForActivation);
 		String contentStr = content.toString().replaceAll("%TOKEN%", token);
 		contentStr = replaceServerUrl(contentStr);
 
