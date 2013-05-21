@@ -791,7 +791,7 @@ public class MenuBar {
 		if (canDoInvoiceAndBillTransactions) {
 			if (isKeepTrackofBills) {
 				vendorMenuBar.addMenuItem(messages.enterBill(),
-						HistoryTokens.ENTERBILL, "B");
+						HistoryTokens.ENTERBILL, "E");
 			}
 		}
 		if (canDoPayBillAndReceivePayment) {
