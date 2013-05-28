@@ -143,10 +143,8 @@ public class CustomersListGrid extends BaseListGrid<PayeeList> {
 	@Override
 	protected int sort(PayeeList obj1, PayeeList obj2, int index) {
 		switch (index) {
-		case 1:
-			return obj1.getPayeeName().toLowerCase()
-					.compareTo(obj2.getPayeeName().toLowerCase());
-
+		case 0:
+			return obj1.getPayeeName().compareToIgnoreCase(obj2.getPayeeName());
 		default:
 			break;
 		}

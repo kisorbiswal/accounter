@@ -91,4 +91,16 @@ public class InventoryCentreItemsListGrid extends BaseListGrid<ClientItem> {
 		return new String[] { "nameValue" };
 	}
 
+	@Override
+	protected int sort(ClientItem obj1, ClientItem obj2, int index) {
+		switch (index) {
+		case 0:
+			return obj1.getName().compareToIgnoreCase(obj2.getName());
+
+		default:
+			break;
+		}
+
+		return 0;
+	}
 }

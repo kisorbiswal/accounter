@@ -145,9 +145,8 @@ public class VendorsListGrid extends BaseListGrid<PayeeList> {
 	@Override
 	protected int sort(PayeeList obj1, PayeeList obj2, int index) {
 		switch (index) {
-		case 1:
-			return obj1.getPayeeName().toLowerCase()
-					.compareTo(obj2.getPayeeName().toLowerCase());
+		case 0:
+			return obj1.getPayeeName().compareToIgnoreCase(obj2.getPayeeName());
 
 		default:
 			break;
@@ -195,11 +194,11 @@ public class VendorsListGrid extends BaseListGrid<PayeeList> {
 	@Override
 	protected String[] setHeaderStyle() {
 		return new String[] { "name", "balance" };
-		}
+	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
 		return new String[] { "name-value", "balance-value" };
-		}
+	}
 
 }

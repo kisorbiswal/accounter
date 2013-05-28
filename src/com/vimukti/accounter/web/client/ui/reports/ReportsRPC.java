@@ -139,7 +139,7 @@ public class ReportsRPC {
 			@Override
 			public void onResultSuccess(T result) {
 				if (result != null) {
-					UIUtils.runAction(result, a);
+					UIUtils.runAction(result, a, true);
 				}
 			}
 

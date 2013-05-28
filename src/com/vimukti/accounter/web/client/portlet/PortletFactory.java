@@ -235,9 +235,9 @@ public class PortletFactory {
 
 	public ClientPortletPageConfiguration getDefaultConfiguration(String page) {
 		if (page.equals(PortletPage.DASHBOARD)) {
-			return new ClientPortletPageConfiguration(2,
-					new String[][] { { BANKING, EXPENSES_CLAIM },
-							{ MONEY_COMING, MONEY_GOING } });
+			return new ClientPortletPageConfiguration(2, new String[][] {
+					{ BANKING, EXPENSES_CLAIM }, { MONEY_COMING, MONEY_GOING },
+					{ QUICK_LINKS } });
 		}
 		return null;
 	}

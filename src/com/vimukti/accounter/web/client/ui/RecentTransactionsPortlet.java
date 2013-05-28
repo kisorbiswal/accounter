@@ -29,7 +29,7 @@ public class RecentTransactionsPortlet extends Portlet {
 		for (int i = 0; i < 5; i++) {
 			limitList.add(messages.lastOf((i + 1) * 5));
 		}
-		limitCombo.initCombo(limitList);
+		limitCombo.initCombo(new ArrayList<String>(limitList));
 		if (getConfiguration().getPortletMap().get(LIMIT) != null) {
 			limitCombo.setSelected(getConfiguration().getPortletMap()
 					.get(LIMIT));
@@ -56,6 +56,7 @@ public class RecentTransactionsPortlet extends Portlet {
 	}
 
 	private void updateData() {
+
 		Accounter.createHomeService().getRecentTransactions(
 				getLimit(limitCombo.getSelectedIndex()),
 				new AsyncCallback<ArrayList<RecentTransactionsList>>() {
@@ -86,7 +87,8 @@ public class RecentTransactionsPortlet extends Portlet {
 	}
 
 	private int getLimit(int selectedIndex) {
-		return (selectedIndex + 1) * 5;
+		String selectedValue = limitCombo.getComboItems().get(selectedIndex);
+		return (limitList.indexOf(selectedValue) + 1) * 5;
 	}
 
 	@Override

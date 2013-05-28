@@ -186,6 +186,7 @@ import com.vimukti.accounter.web.client.imports.ImporterType;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.server.managers.CompanyManager;
 import com.vimukti.accounter.web.server.managers.CustomerManager;
 import com.vimukti.accounter.web.server.managers.DashboardManager;
@@ -3673,6 +3674,10 @@ public class FinanceTool {
 				recentTransactionsList.setID(((BigInteger) object[0])
 						.longValue());
 				recentTransactionsList.setType((Integer) (object[1]));
+				double amount = (Double) (object[2]);
+				if (DecimalUtil.isEquals(amount, 0.0)) {
+					continue;
+				}
 				recentTransactionsList.setAmount((Double) (object[2]));
 				recentTransactionsList.setName(object[3] != null ? String
 						.valueOf(object[3]) : null);
