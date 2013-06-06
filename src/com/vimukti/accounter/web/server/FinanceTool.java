@@ -1521,11 +1521,31 @@ public class FinanceTool {
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("openingBalance",
 							AccounterServerConstants.OPENING_BALANCE,
-							EncryptedStringType.INSTANCE)
-					.setParameter("limit", start);
+							EncryptedStringType.INSTANCE);
 			Double balance = (java.lang.Double) balanceQuery.uniqueResult();
 			if (balance == null) {
 				balance = 0.00D;
+			}
+			if (start > 0) {
+				Query balanceQueryWithLimit = session
+						.getNamedQuery(
+								"getAccountRegisterOpeningBalancewithLimit")
+						.setParameter("companyId", companyId)
+						.setParameter("accountId", account)
+						.setParameter("startDate", startDate.getDate())
+						.setParameter("openingBalance",
+								AccounterServerConstants.OPENING_BALANCE,
+								EncryptedStringType.INSTANCE)
+						.setParameter("limit", start)
+						.setParameter("endDate", endDate.getDate());
+
+				Double balanceWithLimit = (java.lang.Double) balanceQueryWithLimit
+						.uniqueResult();
+
+				if (balanceWithLimit == null) {
+					balanceWithLimit = 0.00D;
+				}
+				balance += balanceWithLimit;
 			}
 			Query query = session
 					.getNamedQuery("getAccountRegister")
