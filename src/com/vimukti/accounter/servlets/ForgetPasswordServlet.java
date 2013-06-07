@@ -76,7 +76,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 			transaction = serverSession.beginTransaction();
 			Client client = getClient(emailID);
 
-			if (client == null) {
+			if (client == null || client.isDeleted()) {
 				req.setAttribute("emailId", emailID);
 				req.setAttribute("errorMessage", Global.get().messages()
 						.pleaseEnterValidEmailId());
