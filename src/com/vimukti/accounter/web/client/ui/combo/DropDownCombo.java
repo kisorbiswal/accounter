@@ -205,15 +205,17 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 		comboItems.clear();
 		if (list != null) {
-			Collections.sort(list, new Comparator<T>() {
+			if (shouldSortData()) {
+				Collections.sort(list, new Comparator<T>() {
 
-				@Override
-				public int compare(T obj1, T obj2) {
-					String name = getDisplayName(obj1).toLowerCase();
-					String name1 = getDisplayName(obj2).toLowerCase();
-					return name.compareToIgnoreCase(name1);
-				}
-			});
+					@Override
+					public int compare(T obj1, T obj2) {
+						String name = getDisplayName(obj1).toLowerCase();
+						String name1 = getDisplayName(obj2).toLowerCase();
+						return name.compareToIgnoreCase(name1);
+					}
+				});
+			}
 			comboItems = new ArrayList<T>(list);
 		}
 		List<T> newList = new ArrayList<T>(comboItems);
@@ -222,6 +224,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		maincomboItems.clear();
 		maincomboItems.addAll(comboItems);
 
+	}
+
+	protected boolean shouldSortData() {
+		return true;
 	}
 
 	public List<T> getComboItems() {

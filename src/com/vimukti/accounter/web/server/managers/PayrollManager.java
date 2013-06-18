@@ -52,6 +52,7 @@ import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
 import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class PayrollManager extends Manager {
 
 	public PaginationList<ClientEmployee> getEmployees(boolean isActive,
@@ -165,7 +166,6 @@ public class PayrollManager extends Manager {
 		return clientPayrollUnits;
 	}
 
-	@SuppressWarnings("unchecked")
 	public ArrayList<ClientEmployeePayHeadComponent> getEmployeeGroupPayHeadComponents(
 			FinanceDate startDate, FinanceDate endDate,
 			ClientPayStructureDestination selectItem, Long companyId,

@@ -5,15 +5,13 @@ import java.util.Arrays;
 public class SelectCombo extends CustomCombo<String> {
 
 	public SelectCombo(String title) {
-		super(title, false, 1,"SelectCombo");
-		super.setToolTip(messages.selectWhichWeHaveInOurCompany(
-				title));
+		super(title, false, 1, "SelectCombo");
+		super.setToolTip(messages.selectWhichWeHaveInOurCompany(title));
 	}
 
 	public SelectCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1,"SelectCombo");
-		super.setToolTip(messages.selectWhichWeHaveInOurCompany(
-				title));
+		super(title, isAddNewRequired, 1, "SelectCombo");
+		super.setToolTip(messages.selectWhichWeHaveInOurCompany(title));
 	}
 
 	@Override
@@ -64,5 +62,10 @@ public class SelectCombo extends CustomCombo<String> {
 
 	public int getSelectedIndex() {
 		return comboItems.indexOf(selectedObject);
+	}
+
+	@Override
+	protected boolean shouldSortData() {
+		return false;
 	}
 }

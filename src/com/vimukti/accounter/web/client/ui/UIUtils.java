@@ -724,6 +724,7 @@ public class UIUtils {
 			// else
 			// action.run(object, object == null );
 		} catch (Throwable e) {
+			e.printStackTrace();
 			// logError(e.getMessage(), e);
 		}
 	}

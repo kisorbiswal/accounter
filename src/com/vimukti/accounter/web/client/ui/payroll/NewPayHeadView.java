@@ -379,7 +379,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		panel.add(mainform);
 		panel.add(calculationForm);
-		Label lab1=new Label(messages.payhead());
+		Label lab1 = new Label(messages.payhead());
 		lab1.setStyleName("label-title");
 		this.add(lab1);
 		this.add(panel);
@@ -535,7 +535,9 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		nameItem.setEnabled(!isInViewMode());
 		computationTypeCombo.setEnabled(!isInViewMode());
 		slabTable.setEnabled(!isInViewMode());
-		itemTableButton.setEnabled(!isInViewMode());
+		if (itemTableButton != null) {
+			itemTableButton.setEnabled(!isInViewMode());
+		}
 		userDefinedCalendarCombo.setEnabled(!isInViewMode());
 		productionTypeCombo.setEnabled(!isInViewMode());
 		payheadCombo.setEnabled(!isInViewMode());
