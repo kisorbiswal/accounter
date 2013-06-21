@@ -4,6 +4,11 @@
       licenseCode:"76aa650"
     }).onReady(function(){
       webengage.render();
+      webengage.survey.render({
+  	    data : {
+  	      "Email-ID" : emailId,
+  	    }
+  	  });
     });
   };
 

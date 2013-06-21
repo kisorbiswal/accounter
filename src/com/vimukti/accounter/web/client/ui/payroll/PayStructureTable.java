@@ -417,4 +417,22 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 		return false;
 	}
 
+	public void initPayStructureItems(List<ClientPayStructureItem> items) {
+		List<ClientPayHead> list = payheadColumn.getList();
+		for (ClientPayStructureItem psi : items) {
+			psi.setClientPayHead(getClientPayhead(list, psi.getPayHead()));
+		}
+		setAllRows(items);
+	}
+
+	private ClientPayHead getClientPayhead(List<ClientPayHead> list,
+			long payHead) {
+		for (ClientPayHead ph : list) {
+			if (ph.getID() == payHead) {
+				return ph;
+			}
+		}
+		return null;
+	}
+
 }
