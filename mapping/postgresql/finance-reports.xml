@@ -4759,7 +4759,7 @@
 				       P.NAME     AS PAYEE_NAME,
 				       J.JOB_NAME AS JOB_NAME,
 				       A.NAME     AS ACCOUNT_NAME,
-				       CASE
+				      SUM( CASE
 				         WHEN ( TI.TYPE = 4
 				                AND T.T_TYPE IN ( 1, 8 ) )THEN AT.AMOUNT
 				         WHEN ( TI.TYPE = 1
@@ -4768,8 +4768,8 @@
 				                AND T.T_TYPE IN ( 1, 8 )
 				                AND AT.ACCOUNT_ID = IT.INCOME_ACCOUNT_ID ) THEN AT.AMOUNT
 				         ELSE 0
-				       END        AS DEBIT,
-				       CASE
+				       END)        AS DEBIT,
+				      SUM( CASE
 				         WHEN ( IT.TYPE IN ( 2, 4 )
 				                AND ( T.T_TYPE IN ( 1, 8 )
 				                      AND AT.ACCOUNT_ID = IT.EXPENSE_ACCOUNT_ID ) ) THEN
@@ -4784,7 +4784,7 @@
 				         TI.ID)
 				         WHEN ( T.T_TYPE IN ( 15, 6 ) ) THEN AT.AMOUNT
 				         ELSE 0
-				       END        AS CREDIT
+				       END)        AS CREDIT
 				FROM   ACCOUNT_TRANSACTION AT
 				       LEFT JOIN TRANSACTION T
 				         ON T.ID = AT.TRANSACTION_ID
@@ -4830,6 +4830,7 @@
 				               WHEN IT.TYPE IN ( 2, 4 ) THEN A.ID != IT.ASSETS_ACCOUNT_ID
 				               ELSE TRUE
 				             END )
+				GROUP BY T.ID,P.ID,J.ID,A.ID
 				ORDER  BY T.ID ,T.T_DATE ASC
 				]]>
 

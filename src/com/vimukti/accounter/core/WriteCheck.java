@@ -329,13 +329,6 @@ public class WriteCheck extends Transaction {
 			doVoidEffect(session, this);
 
 		} else {
-			if ((this.paymentMethod
-					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
-					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
-				this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
-			} else {
-				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-			}
 
 			for (Estimate estimate : writeCheck.getEstimates()) {
 				session.delete(estimate);
