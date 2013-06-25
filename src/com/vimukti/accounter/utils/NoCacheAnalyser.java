@@ -31,7 +31,7 @@ public class NoCacheAnalyser {
 	public NoCacheAnalyser(String data) {
 		String lines[] = data.split("\n");
 		Pattern pattern = Pattern.compile(",(..)='([^']+)'");
-		Pattern mapping = Pattern.compile("F\\(\\[(..),(..),(..)\\],(..)\\);");
+		Pattern mapping = Pattern.compile("G\\(\\[(..),(..),(..)\\],(..)\\);");
 
 		Map<String, String> variables = new HashMap<String, String>();
 		for (String line : lines) {

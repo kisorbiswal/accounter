@@ -66,7 +66,7 @@ public class PostCompileMain {
 		writer.write(0xBB);
 		writer.write(0xBF);
 
-		String[] split = readFile.split("\r\n");
+		String[] split = readFile.split("\n");
 		if (split.length > 0) {
 			split[0] = split[0].replaceAll("\u00ef\u00bb\u00bf", "");
 		}
