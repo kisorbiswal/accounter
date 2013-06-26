@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.server.managers;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -841,6 +843,16 @@ public class VendorManager extends PayeeManager {
 			// }
 
 			if (issuePaymentTransactionsList != null) {
+				Collections.sort(issuePaymentTransactionsList,
+						new Comparator<IssuePaymentTransactionsList>() {
+
+							@Override
+							public int compare(IssuePaymentTransactionsList o1,
+									IssuePaymentTransactionsList o2) {
+								return (int) (o1.getTransactionId() - o2
+										.getTransactionId());
+							}
+						});
 				return new ArrayList<IssuePaymentTransactionsList>(
 						issuePaymentTransactionsList);
 			} else
