@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
-import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -15,11 +13,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AccountNameColumn;
-import com.vimukti.accounter.web.client.ui.edittable.CustomerColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
-import com.vimukti.accounter.web.client.ui.edittable.JobColumn;
-import com.vimukti.accounter.web.client.ui.edittable.TransactionBillableColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionClassColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionDiscountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTaxableColumn;
@@ -323,90 +318,6 @@ public abstract class VendorAccountTransactionTable extends
 				this.addColumn(new TransactionTaxableColumn());
 			}
 		}
-		final JobColumn<ClientTransactionItem> jobColumn = new JobColumn<ClientTransactionItem>() {
-
-			@Override
-			protected ClientJob getValue(ClientTransactionItem row) {
-				return Accounter.getCompany().getjob(row.getJob());
-			}
-
-			@Override
-			protected void setValue(ClientTransactionItem row,
-					ClientJob newValue) {
-				if (newValue == null) {
-					return;
-				}
-				row.setJob(newValue.getID());
-			}
-
-			@Override
-			public String getValueAsString(ClientTransactionItem row) {
-				return "Job" + getValue(row);
-			}
-
-			@Override
-			public int insertNewLineNumber() {
-				return 4;
-			}
-
-		};
-		if (isCustomerAllowedToAdd) {
-			this.addColumn(new CustomerColumn<ClientTransactionItem>() {
-
-				@Override
-				protected ClientCustomer getValue(ClientTransactionItem row) {
-					return Accounter.getCompany()
-							.getCustomer(row.getCustomer());
-				}
-
-				@Override
-				protected void setValue(ClientTransactionItem row,
-						ClientCustomer newValue) {
-					if (newValue == null) {
-						return;
-					}
-					row.setCustomer(newValue.getID());
-					jobColumn.setcustomerId(newValue.getID());
-				}
-
-				@Override
-				public int getWidth() {
-					if (isTrackJob()) {
-						return 110;
-					}
-					return super.getWidth();
-				}
-
-				@Override
-				public String getValueAsString(ClientTransactionItem row) {
-					return getValue(row).toString();
-				}
-
-				@Override
-				public int insertNewLineNumber() {
-					return 1;
-				}
-
-			});
-			if (isTrackJob()) {
-				this.addColumn(jobColumn);
-			}
-			this.addColumn(new TransactionBillableColumn() {
-				@Override
-				public int getWidth() {
-					if ((isCustomerAllowedToAdd && showClass)
-							|| (isCustomerAllowedToAdd && showDiscount)
-							|| (isCustomerAllowedToAdd && showTaxCode)
-							|| (showClass && showDiscount)
-							|| (showClass && showTaxCode)
-							|| (showDiscount && showTaxCode)) {
-						return 55;
-					}
-					return super.getWidth();
-				}
-			});
-		}
-
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}
 

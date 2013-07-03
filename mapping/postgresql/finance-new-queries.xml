@@ -401,7 +401,7 @@
 			       left join client_subscription CS
 			              ON CS.id = C.client_subscription
 			WHERE  is_deleted = FALSE
-			       AND ( CS.expired_date < current_timestamp
+			       AND ( CS.expired_date + interval '1' day < current_timestamp
 			             AND CASE
 			                   WHEN CS.graceperiod_date IS NOT NULL THEN
 			                   CS.graceperiod_date < current_timestamp
