@@ -405,7 +405,7 @@
 			             AND CASE
 			                   WHEN CS.graceperiod_date IS NOT NULL THEN
 			                   CS.graceperiod_date < current_timestamp
-			                   ELSE TRUE
+			                   ELSE  CS.subscription_id=3
 			                 END )
 		 ]]>
 	</sql-query>
