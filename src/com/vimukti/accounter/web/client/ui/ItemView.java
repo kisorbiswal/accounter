@@ -46,6 +46,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.DoubleField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.FloatRangeValidator;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
@@ -65,7 +66,8 @@ public class ItemView extends BaseView<ClientItem> {
 	private AmountField salesPriceText, stdCostText, purchasePriceTxt,
 			openingBalTxt, itemTotalValue;
 	private TextItem vendItemNumText;
-	private IntegerField weightText, reorderPoint, onHandQuantity;
+	private IntegerField weightText, reorderPoint;
+	private DoubleField onHandQuantity;
 	private AmountField avarageCost;
 	private TextAreaItem salesDescArea, purchaseDescArea;
 	CheckboxItem isellCheck, comCheck, activeCheck, ibuyCheck, itemTaxCheck,
@@ -311,11 +313,11 @@ public class ItemView extends BaseView<ClientItem> {
 		itemTotalValue.setAmount(0.00D);
 		itemTotalValue.setEnabled(!true);
 
-		onHandQuantity = new IntegerField(this, messages.onHandQty());
-		onHandQuantity.setNumber(0l);
+		onHandQuantity = new DoubleField(this, messages.onHandQty());
+		onHandQuantity.setNumber(0.0);
 		// onHandQuantity.setWidth(100);
 		onHandQuantity.setEnabled(!isInViewMode());
-		onHandQuantity.setValidators(integerRangeValidator);
+		onHandQuantity.setValidators(floatRangeValidator);
 		quantityUnitsLabel = new Label();
 		quantityUnitsLabel.setText(getCompany()
 				.getMeasurement(getCompany().getDefaultMeasurement())
