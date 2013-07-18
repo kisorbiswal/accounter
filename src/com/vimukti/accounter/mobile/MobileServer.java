@@ -37,7 +37,7 @@ public class MobileServer {
 			char[] password = ServerConfiguration.getKeyStorePassword()
 					.toCharArray();
 			java.io.FileInputStream fis = new java.io.FileInputStream(
-					ServerConfiguration.getKeyStore());
+					ServerConfiguration.getMobileKeyStore());
 			ks.load(fis, password);
 			fis.close();
 

@@ -65,6 +65,7 @@ public class ServerConfiguration {
 	private static boolean isScriptRunnerCompleted;
 	private static boolean isRunningScript;
 	private static long welcomeMailDelayTime;
+	private static String mobileKeyStore;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -226,6 +227,7 @@ public class ServerConfiguration {
 			System.exit(0);
 		}
 		keyStore = prop.getProperty("keyStore", null);
+		mobileKeyStore = prop.getProperty("mobileKeyStore", null);
 		keyStorePassword = prop.getProperty("keyStorePassword", null);
 		keyPassword = prop.getProperty("keyPassword", null);
 
@@ -523,6 +525,10 @@ public class ServerConfiguration {
 
 	public static long getWelcomeMailDelayTime() {
 		return welcomeMailDelayTime;
+	}
+
+	public static String getMobileKeyStore() {
+		return mobileKeyStore;
 	}
 
 }
