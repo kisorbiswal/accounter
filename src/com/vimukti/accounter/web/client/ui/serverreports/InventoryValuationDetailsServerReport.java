@@ -5,6 +5,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -90,11 +91,12 @@ public class InventoryValuationDetailsServerReport extends
 		case 3:
 			return record.getTransactionNo();
 		case 4:
-			return record.getQuantity();
+			return DecimalUtil.round(record.getQuantity());
 		case 5:
 			return record.getCost();
 		case 6:
-			return record.getOnHand() + " " + record.getOnHandUnit();
+			return DecimalUtil.round(record.getOnHand()) + " "
+					+ record.getOnHandUnit();
 		case 7:
 			return record.getAvgCost();
 		case 8:

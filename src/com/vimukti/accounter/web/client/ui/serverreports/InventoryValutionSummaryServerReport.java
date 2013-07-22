@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class InventoryValutionSummaryServerReport extends
@@ -66,7 +67,8 @@ public class InventoryValutionSummaryServerReport extends
 		case 1:
 			return record.getItemDescription();
 		case 2:
-			return record.getOnHand() + " " + record.getUnit();
+			return DecimalUtil.round(record.getOnHand()) + " "
+					+ record.getUnit();
 		case 3:
 			return record.getAvgCost();
 		case 4:

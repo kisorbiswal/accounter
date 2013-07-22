@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryDetails;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 /**
@@ -59,7 +60,7 @@ public class InventoryDetailsServerReport extends
 		case 0:
 			return record.getItemName();
 		case 1:
-			return (record.getQtyIn());
+			return DecimalUtil.round(record.getQtyIn());
 		case 2:
 			return (record.getCost());
 		case 3:
@@ -67,7 +68,7 @@ public class InventoryDetailsServerReport extends
 		case 4:
 			return record.getPricesold();
 		case 5:
-			return record.getOnHandqty();
+			return DecimalUtil.round(record.getOnHandqty());
 		case 6:
 			return record.getCostValuation();
 		}
