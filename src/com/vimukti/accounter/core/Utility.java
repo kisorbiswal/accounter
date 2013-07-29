@@ -1638,7 +1638,7 @@ public class Utility {
 
 	public static String getCommandForType(String type) {
 		if (type.equals("thumbnail")) {
-			return " -resize 160X160 ";
+			return "-resize 160X160 -background none -gravity center -extent 160X160 ";
 		} else {
 			return "";
 		}
