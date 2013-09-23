@@ -42,6 +42,7 @@ public class PaymentTermsCombo extends CustomCombo<ClientPaymentTerms> {
 	public void onAddNew() {
 		PaymentTermListDialog vendorGroup = new PaymentTermListDialog();
 		vendorGroup.setVisible(false);
+		vendorGroup.init();
 		vendorGroup.setCallback(createAddNewCallBack());
 		vendorGroup.showAddEditTermDialog(null);
 	}

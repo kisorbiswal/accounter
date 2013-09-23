@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -136,7 +137,7 @@ public class ItemDetailsPanel extends FlowPanel {
 		StringBuffer result = new StringBuffer();
 		ClientUnit unit = Accounter.getCompany().getUnitById(
 				item.getOnhandQty().getUnit());
-		result.append(item.getOnhandQty().getValue());
+		result.append(DecimalUtil.round(item.getOnhandQty().getValue()));
 		result.append(" ");
 		result.append(unit.getName());
 		return result.toString();

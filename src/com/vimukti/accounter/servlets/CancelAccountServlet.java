@@ -109,9 +109,22 @@ public class CancelAccountServlet extends BaseServlet {
 			subscription.setPremiumType(0);
 			subscription.setDurationType(0);
 			subscription.setLastModified(new Date());
+			// Cancel Paypal Subscription if he is paid user
+			if (subscription.getPaypalSubscriptionProfileId() != null) {
+				try {
+					SubscriptionIPNServlet ipnServlet = new SubscriptionIPNServlet();
+					ipnServlet.cancelPreviousSubscription(subscription
+							.getPaypalSubscriptionProfileId());
+					subscription.setPaypalSubscriptionProfileId(null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
 			client.setSubscriptionType(Subscription.FREE_CLIENT);
 			session.saveOrUpdate(client);
 			session.saveOrUpdate(subscription);
+
 			transaction.commit();
 			httpSession.setAttribute(ACCOUNT_DELETION_STATUS, "Success");
 		} catch (Exception e) {

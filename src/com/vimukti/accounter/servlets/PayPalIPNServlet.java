@@ -159,7 +159,7 @@ public abstract class PayPalIPNServlet extends BaseServlet {
 		return verificationResp;
 	}
 
-	protected void cancelPreviousSubscription(String previousSubId) {
+	public void cancelPreviousSubscription(String previousSubId) {
 		NVPCallerServices caller = null;
 		NVPEncoder encoder = new NVPEncoder();
 		NVPDecoder decoder = new NVPDecoder();
