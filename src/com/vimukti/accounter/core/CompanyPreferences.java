@@ -127,6 +127,21 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private static final long JOB_TRACKING = 0x2000000000000000L;
 
+	// ROUNDING Option Check Box
+	private static final long ROUNDING_OPTION_ENABLED = 0x8000000000000000L;
+	// REMOVE IF ZERO
+	private static final long REMOVE_IF_ZERO_ENABLED = 0x8000L;
+	// Rounding Methods
+	public static final int UP = 1;
+	public static final int DOWN = 2;
+	public static final int NORMAL = 3;
+
+	private int roundingMethod = NORMAL;
+
+	private double roundingLimit = 1.0;
+
+	private Account roundingAccount;
+
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
 	public static int VAT_REPORTING_PERIOD_QUARTERLY = 3;
@@ -1630,6 +1645,46 @@ public class CompanyPreferences implements IAccounterServerCore {
 	@Override
 	public void selfValidate() {
 		// TODO Auto-generated method stub
+	}
 
+	public Boolean isEnabledRoundingOptions() {
+		return get(ROUNDING_OPTION_ENABLED);
+	}
+
+	public void setEnabledRoundingOptions(boolean isEnabledRoundingOptions) {
+		this.set(ROUNDING_OPTION_ENABLED, isEnabledRoundingOptions);
+	}
+
+	public int getRoundingMethod() {
+		return roundingMethod;
+	}
+
+	public void setRoundingMethod(int roundingMethod) {
+		this.roundingMethod = roundingMethod;
+	}
+
+	public Boolean isEnabledRemoveIfZero() {
+		return get(REMOVE_IF_ZERO_ENABLED);
+	}
+
+	public void setRemoveIfZero(boolean isEnabledRemoveIfZero) {
+		this.set(REMOVE_IF_ZERO_ENABLED, isEnabledRemoveIfZero);
+
+	}
+
+	public Account getRoundingAccount() {
+		return roundingAccount;
+	}
+
+	public void setRoundingAccount(Account roundingAccount) {
+		this.roundingAccount = roundingAccount;
+	}
+
+	public double getRoundingLimit() {
+		return roundingLimit;
+	}
+
+	public void setRoundingLimit(double roundingLimit) {
+		this.roundingLimit = roundingLimit;
 	}
 }

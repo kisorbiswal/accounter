@@ -163,12 +163,14 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		TrackDiscountsOption discountsOption = new TrackDiscountsOption();
 		TrackEstimatesOption estimatesOption = new TrackEstimatesOption();
 		DoyouUseShipingsOption shipingsOption = new DoyouUseShipingsOption();
+		RoundingAmountOption amountOption = new RoundingAmountOption();
 
 		customerAndSalesPage.addPreferenceOption(productAndServicesOption);
 		customerAndSalesPage.addPreferenceOption(ageingAndSellingDetailsOption);
 		customerAndSalesPage.addPreferenceOption(discountsOption);
 		customerAndSalesPage.addPreferenceOption(estimatesOption);
 		customerAndSalesPage.addPreferenceOption(shipingsOption);
+		customerAndSalesPage.addPreferenceOption(amountOption);
 
 		return customerAndSalesPage;
 	}

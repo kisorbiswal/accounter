@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -179,6 +180,40 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		}
 
+	}
+
+	/**
+	 * 
+	 * @param type
+	 * @param amount
+	 * @param limit
+	 * @return
+	 */
+	public double round(int type, double amount, double limit) {
+		if (amount == 0.0) {
+			return 0.0;
+		}
+		double reminder = amount % limit;
+		switch (type) {
+		case ClientCompanyPreferences.UP:
+			amount += limit - reminder;
+			break;
+		case ClientCompanyPreferences.DOWN:
+			amount -= reminder;
+			break;
+		default:
+			// NORMAL
+			double halfMark = limit / 2.0;
+			if (reminder > halfMark) {
+				amount += limit - reminder;
+			} else if (reminder < halfMark) {
+				amount -= reminder;
+			} else {
+				amount -= reminder;
+			}
+			break;
+		}
+		return amount;
 	}
 
 	protected void initPhones(ClientCustomer customer) {
@@ -731,10 +766,20 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	}
 
+	protected AmountLabel createTransactionRoundingAmountNonEditableLabel(
+			ClientCurrency currecny) {
+		AmountLabel amountLabel = new AmountLabel(
+				messages2.currencyRoundingTotal(currecny.getFormalName()),
+				currecny);
+		return amountLabel;
+
+	}
+
 	protected AmountField createVATTotalNonEditableItem(ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(messages.tax(), this,
 				currency, "amountItem");
+
 		amountItem.setEnabled(true);
 
 		return amountItem;

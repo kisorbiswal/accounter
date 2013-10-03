@@ -156,7 +156,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected PayFromAccountsCombo payFromCombo;
 
 	protected AmountLabel foreignCurrencyamountLabel,
-			transactionTotalBaseCurrencyText;
+			transactionTotalBaseCurrencyText, roundAmountinBaseCurrenctText,
+			roundAmountinforeignCurrencyLabel;
 
 	private boolean isMenuRequired = true;
 
@@ -572,6 +573,16 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				messages.currencyTotal(currency.getFormalName()), currency);
 
 		return foreignCurrencyamountLabel;
+	}
+
+	protected AmountLabel createRoundingAmountForeignCurrencyAmountLable(
+			ClientCurrency currency) {
+
+		roundAmountinforeignCurrencyLabel = new AmountLabel(
+				messages2.currencyRoundingTotal(currency.getFormalName()),
+				currency);
+
+		return roundAmountinforeignCurrencyLabel;
 	}
 
 	protected void changeForeignCurrencyTotalText(String string) {

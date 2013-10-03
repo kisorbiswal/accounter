@@ -159,6 +159,8 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	double discountTotal;
 
+	double roundingTotal = 0D;
+
 	/**
 	 * The {@link PriceLevel} set for this Invoice
 	 */
@@ -1065,6 +1067,7 @@ public class Invoice extends Transaction implements Lifecycle {
 				e.add(taxItemGroup, amount);
 			}
 		}
+		e.add(getCompany().getPreferences().getRoundingAccount(), roundingTotal);
 		e.add(getCustomer(), -getTotal());
 	}
 
@@ -1121,6 +1124,14 @@ public class Invoice extends Transaction implements Lifecycle {
 				}
 			}
 		}
+	}
+
+	public double getRoundingTotal() {
+		return roundingTotal;
+	}
+
+	public void setRoundingTotal(double roundingTotal) {
+		this.roundingTotal = roundingTotal;
 	}
 
 }

@@ -347,6 +347,10 @@
 			<many-to-one name="primaryCurrency" class="Currency"
 				column="PRIMARY_CURRENCY" cascade="save-update,delete">
 			</many-to-one>
+			<property name="roundingMethod" column="CP_ROUNDING_METHOD"></property>
+			<property name="roundingLimit" column="CP_ROUNDING_LIMIT"></property>
+			<many-to-one name="roundingAccount" class="Account"
+				column="CP_ROUNDING_ACCOUNT"></many-to-one>
 		</component>
 		<property name="passwordHInt" column="PASSWORD_HINT"></property>
 		<property name="bankAccountNo" type="encryptedstring" column="BANK_ACCOUNT_NO"></property>

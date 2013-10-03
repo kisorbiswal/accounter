@@ -6607,4 +6607,7 @@ public interface AccounterMessages extends Messages {
 	public String challanDetailsList();
 
 	public String paypalCharge();
+
+	public String roundingAccount();
+
 }

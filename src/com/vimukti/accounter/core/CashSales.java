@@ -136,6 +136,8 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 
 	double discountTotal = 0D;
 
+	double roundingTotal = 0D;
+
 	/**
 	 * Constructor of CashSales
 	 */
@@ -923,6 +925,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 				e.add(taxItemGroup, amount);
 			}
 		}
+		e.add(getCompany().getPreferences().getRoundingAccount(), roundingTotal);
 		e.add(getDepositIn(), -getTotal());
 	}
 
@@ -965,5 +968,13 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		}
 		checkNetAmountNegative();
 
+	}
+
+	public double getRoundingTotal() {
+		return roundingTotal;
+	}
+
+	public void setRoundingTotal(double roundingTotal) {
+		this.roundingTotal = roundingTotal;
 	}
 }

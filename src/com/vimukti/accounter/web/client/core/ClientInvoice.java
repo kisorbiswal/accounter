@@ -32,6 +32,8 @@ public class ClientInvoice extends ClientTransaction {
 
 	double discountTotal;
 
+	private double roundingTotal;
+
 	long priceLevel;
 
 	double taxTotal;
@@ -533,6 +535,14 @@ public class ClientInvoice extends ClientTransaction {
 		// transactions.add(clientTransaction);
 		// }
 		return transactions;
+	}
+
+	public double getRoundingTotal() {
+		return roundingTotal;
+	}
+
+	public void setRoundingTotal(double roundingTotal) {
+		this.roundingTotal = roundingTotal;
 	}
 
 }

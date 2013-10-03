@@ -256,4 +256,12 @@ public interface AccounterMessages2 extends Messages {
 	public String measurementMustBeSame(String items);
 
 	public String W_118();
+
+	public String currencyRoundingTotal(String currencyCode);
+
+	public String roundingLimit();
+
+	public String removeifZeo();
+
+	public String trackRoundingAmountEnbleForInvoiceAndCashSale();
 }

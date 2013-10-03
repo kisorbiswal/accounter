@@ -31,7 +31,7 @@ public class ClientCashSales extends ClientTransaction {
 	long deliverydate;
 
 	long priceLevel;
-
+	private double roundingTotal;
 	double taxTotal = 0D;
 
 	double discountTotal = 0D;
@@ -338,6 +338,14 @@ public class ClientCashSales extends ClientTransaction {
 
 	public void setSalesOrders(List<ClientEstimate> salesOrders) {
 		this.salesOrders = salesOrders;
+	}
+
+	public double getRoundingTotal() {
+		return roundingTotal;
+	}
+
+	public void setRoundingTotal(double roundingTotal) {
+		this.roundingTotal = roundingTotal;
 	}
 
 }

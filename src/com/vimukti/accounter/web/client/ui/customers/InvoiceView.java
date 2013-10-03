@@ -332,6 +332,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPreferences().getPrimaryCurrency());
 
+		roundAmountinBaseCurrenctText = createTransactionRoundingAmountNonEditableLabel(getCompany()
+				.getPreferences().getPrimaryCurrency());
+
+		roundAmountinforeignCurrencyLabel = createRoundingAmountForeignCurrencyAmountLable(getCompany()
+				.getPreferences().getPrimaryCurrency());
+
 		vatTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableLabel();
 
 		paymentsNonEditableText = new AmountLabel(messages.nameWithCurrency(
@@ -467,6 +473,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (isMultiCurrencyEnabled()) {
 			if (!isInViewMode()) {
+				if (getPreferences().isEnabledRoundingOptions()) {
+					roundAmountinforeignCurrencyLabel.hide();
+				}
 				foreignCurrencyamountLabel.hide();
 			}
 		}
@@ -583,8 +592,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 
 		DynamicForm totalForm = new DynamicForm("totalForm");
+		// Check Enable Round Options Or Not
+		if (getPreferences().isEnabledRoundingOptions()) {
+			totalForm.add(roundAmountinBaseCurrenctText);
+		}
 		totalForm.add(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
+			if (getPreferences().isEnabledRoundingOptions()) {
+				totalForm.add(roundAmountinforeignCurrencyLabel);
+			}
 			totalForm.add(foreignCurrencyamountLabel);
 		}
 		if (isInViewMode()) {
@@ -773,8 +789,23 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 		netAmountLabel.setAmount(customerTransactionTable.getLineTotal()
 				+ transactionsTree.getLineTotal());
-		setTransactionTotal(customerTransactionTable.getGrandTotal()
-				+ transactionsTree.getGrandTotal());
+		double total = customerTransactionTable.getGrandTotal()
+				+ transactionsTree.getGrandTotal();
+
+		if (getPreferences().isEnabledRoundingOptions()) {
+			double round = round(getPreferences().getRoundingMethod(), total,
+					getPreferences().getRoundingLimit());
+			if (roundAmountinBaseCurrenctText != null) {
+				roundAmountinBaseCurrenctText
+						.setAmount(getAmountInBaseCurrency(round - total));
+				roundAmountinforeignCurrencyLabel.setAmount(round - total);
+			}
+
+			setTransactionTotal(round);
+		} else {
+			setTransactionTotal(customerTransactionTable.getGrandTotal()
+					+ transactionsTree.getGrandTotal());
+		}
 
 		// Double payments =
 		// getAmountInBaseCurrency(this.paymentsNonEditableText
@@ -1054,6 +1085,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
+			// Init Rounding Amount
+			if (getPreferences().isEnabledRoundingOptions()) {
+				roundAmountinBaseCurrenctText
+						.setAmount(getAmountInBaseCurrency(transaction
+								.getRoundingTotal()));
+				roundAmountinforeignCurrencyLabel.setAmount(transaction
+						.getRoundingTotal());
+			}
 			paymentsNonEditableText.setAmount(transaction.getPayments());
 			balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
 			// memoTextAreaItem.setDisabled(true);
@@ -1168,6 +1207,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (transaction != null) {
 			Double transactionTotal = transaction.getTotal();
 			setTransactionTotal(transactionTotal);
+			this.roundAmountinBaseCurrenctText
+					.setAmount(getAmountInBaseCurrency(transaction
+							.getRoundingTotal()));
+			this.roundAmountinforeignCurrencyLabel.setAmount(transaction
+					.getRoundingTotal());
 		}
 	}
 
@@ -1388,6 +1432,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		transaction.setDiscountDate(discountDate.getDate());
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
+
+		transaction.setRoundingTotal(roundAmountinforeignCurrencyLabel
+				.getAmount());
+
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 

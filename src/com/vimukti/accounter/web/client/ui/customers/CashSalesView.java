@@ -301,6 +301,11 @@ public class CashSalesView extends
 		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
+		roundAmountinBaseCurrenctText = createTransactionRoundingAmountNonEditableLabel(getCompany()
+				.getPreferences().getPrimaryCurrency());
+		roundAmountinforeignCurrencyLabel = createRoundingAmountForeignCurrencyAmountLable(getCompany()
+				.getPreferences().getPrimaryCurrency());
+
 		transactionsTree = new TransactionsTree<PurchaseOrdersAndItemReceiptsList>(
 				this) {
 			@Override
@@ -445,8 +450,14 @@ public class CashSalesView extends
 			}
 		}
 		totalForm.add(transactionTotalBaseCurrencyText);
+		if (getPreferences().isEnabledRoundingOptions()) {
+			totalForm.add(roundAmountinBaseCurrenctText);
+		}
 		if (isMultiCurrencyEnabled()) {
 			totalForm.add(foreignCurrencyamountLabel);
+			if (getPreferences().isEnabledRoundingOptions()) {
+				totalForm.add(roundAmountinforeignCurrencyLabel);
+			}
 		}
 		nonEditablePanel.add(totalForm);
 		nonEditablePanel.addStyleName("boldtext");
@@ -511,6 +522,9 @@ public class CashSalesView extends
 
 		// settabIndexes();
 		if (isMultiCurrencyEnabled()) {
+			if (getPreferences().isEnabledRoundingOptions()) {
+				roundAmountinforeignCurrencyLabel.hide();
+			}
 			foreignCurrencyamountLabel.hide();
 		}
 
@@ -865,6 +879,8 @@ public class CashSalesView extends
 		transaction.setSalesOrders(orders);
 
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
+		transaction.setRoundingTotal(roundAmountinforeignCurrencyLabel
+				.getAmount());
 		if (getPreferences().isJobTrackingEnabled()) {
 			if (jobListCombo.getSelectedValue() != null)
 				transaction.setJob(jobListCombo.getSelectedValue().getID());
@@ -910,8 +926,18 @@ public class CashSalesView extends
 			netAmountLabel.setAmount(lineTotal);
 			setSalesTax(totalTax);
 		}
-
-		setTransactionTotal(total);
+		if (getPreferences().isEnabledRoundingOptions()) {
+			double round = round(getPreferences().getRoundingMethod(), total,
+					getPreferences().getRoundingLimit());
+			if (roundAmountinBaseCurrenctText != null) {
+				roundAmountinBaseCurrenctText
+						.setAmount(getAmountInBaseCurrency(round - total));
+				roundAmountinforeignCurrencyLabel.setAmount(round - total);
+			}
+			setTransactionTotal(round);
+		} else {
+			setTransactionTotal(total);
+		}
 
 		// } else {
 		// double lineTotal = customerAccountTransactionTable.getLineTotal()
@@ -1073,6 +1099,15 @@ public class CashSalesView extends
 
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
+			// Init Rounding Amount
+			if (getPreferences().isEnabledRoundingOptions()) {
+				roundAmountinBaseCurrenctText
+						.setAmount(getAmountInBaseCurrency(transaction
+								.getRoundingTotal()));
+				roundAmountinforeignCurrencyLabel.setAmount(transaction
+						.getRoundingTotal());
+			}
+
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -1202,6 +1237,11 @@ public class CashSalesView extends
 			this.transactionTotalBaseCurrencyText
 					.setAmount(getAmountInBaseCurrency(this.transactionTotal));
 			this.foreignCurrencyamountLabel.setAmount(this.transactionTotal);
+			this.roundAmountinBaseCurrenctText
+					.setAmount(getAmountInBaseCurrency(transaction
+							.getRoundingTotal()));
+			this.roundAmountinforeignCurrencyLabel.setAmount(transaction
+					.getRoundingTotal());
 
 		}
 	}

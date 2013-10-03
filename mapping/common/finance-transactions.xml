@@ -318,6 +318,7 @@
 			</many-to-one>
 			<property name="taxTotal" column="SALES_TAX"></property>
 			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
+			<property name="roundingTotal" column="ROUNDING_TOTAL"></property>
 		</joined-subclass>
 		<joined-subclass name="CreditCardCharge" table="CREDIT_CARD_CHARGES">
 			<key column="ID" />
@@ -652,6 +653,7 @@
 				<key column="INVOICE_ID"></key>
 				<one-to-many class="TransactionReceivePayment" />
 			</set>
+			<property name="roundingTotal" column="ROUNDING_TOTAL"></property>
 		</joined-subclass>
 		<joined-subclass name="TransferFund" table="TRANSFER_FUND">
 			<key column="ID" />
