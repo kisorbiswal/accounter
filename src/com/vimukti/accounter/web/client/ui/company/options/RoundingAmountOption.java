@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.JNSI;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -108,6 +114,25 @@ public class RoundingAmountOption extends AbstractPreferenceOption {
 		// Rounding Limit
 		roundingLimitItem = new TextItem(messages2.roundingLimit(),
 				"roundinglimit");
+		roundingLimitItem.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				try {
+					String value = roundingLimitItem.getValue();
+					if (value == null)
+						return;
+					Double amount = DataUtils.getAmountStringAsDouble(JNSI
+							.getCalcultedAmount(value.toString()));
+					if (!AccounterValidator.isAmountTooLarge(amount)
+							&& (!AccounterValidator.isAmountNegative(amount))) {
+						setLimit(amount);
+					}
+				} catch (Exception e) {
+					setLimit(0.0);
+				}
+			}
+		});
 
 		// Remove if zero
 		removeifZeroCheckBox = new CheckboxItem(messages2.removeifZeo(),
@@ -136,6 +161,17 @@ public class RoundingAmountOption extends AbstractPreferenceOption {
 				});
 
 		add(mainpanel);
+
+	}
+
+	public void setLimit(Double amount) {
+
+		if (amount != null) {
+			roundingLimitItem.setValue(DataUtils.getAmountAsStringInCurrency(
+					amount, null));
+		} else {
+			roundingLimitItem.setValue("");
+		}
 
 	}
 

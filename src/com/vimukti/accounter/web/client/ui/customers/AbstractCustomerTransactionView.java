@@ -194,6 +194,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			return 0.0;
 		}
 		double reminder = amount % limit;
+		if (reminder == 0.0) {
+			return 0.0;
+		}
 		switch (type) {
 		case ClientCompanyPreferences.UP:
 			amount += limit - reminder;

@@ -434,6 +434,7 @@ public class CashSalesView extends
 
 		discountField = getDiscountField();
 		DynamicForm totalForm = new DynamicForm("totalForm");
+		DynamicForm roundingForm = new DynamicForm("roundingForm");
 		// totalForm.setNumCols(2);
 		if (isTrackTax()) {
 			netAmountForm.add(netAmountLabel);
@@ -449,16 +450,17 @@ public class CashSalesView extends
 				taxForm.add(discountField);
 			}
 		}
-		totalForm.add(transactionTotalBaseCurrencyText);
 		if (getPreferences().isEnabledRoundingOptions()) {
-			totalForm.add(roundAmountinBaseCurrenctText);
+			roundingForm.add(roundAmountinBaseCurrenctText);
 		}
+		totalForm.add(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
-			totalForm.add(foreignCurrencyamountLabel);
 			if (getPreferences().isEnabledRoundingOptions()) {
-				totalForm.add(roundAmountinforeignCurrencyLabel);
+				roundingForm.add(roundAmountinforeignCurrencyLabel);
 			}
+			totalForm.add(foreignCurrencyamountLabel);
 		}
+		nonEditablePanel.add(roundingForm);
 		nonEditablePanel.add(totalForm);
 		nonEditablePanel.addStyleName("boldtext");
 
@@ -929,12 +931,16 @@ public class CashSalesView extends
 		if (getPreferences().isEnabledRoundingOptions()) {
 			double round = round(getPreferences().getRoundingMethod(), total,
 					getPreferences().getRoundingLimit());
-			if (roundAmountinBaseCurrenctText != null) {
-				roundAmountinBaseCurrenctText
-						.setAmount(getAmountInBaseCurrency(round - total));
-				roundAmountinforeignCurrencyLabel.setAmount(round - total);
+			if (round == 0.0) {
+				setTransactionTotal(total);
+			} else {
+				if (roundAmountinBaseCurrenctText != null) {
+					roundAmountinBaseCurrenctText
+							.setAmount(getAmountInBaseCurrency(round - total));
+					roundAmountinforeignCurrencyLabel.setAmount(round - total);
+				}
+				setTransactionTotal(round);
 			}
-			setTransactionTotal(round);
 		} else {
 			setTransactionTotal(total);
 		}

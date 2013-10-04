@@ -592,20 +592,23 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 
 		DynamicForm totalForm = new DynamicForm("totalForm");
+
+		DynamicForm roundingForm = new DynamicForm("roundingForm");
 		// Check Enable Round Options Or Not
 		if (getPreferences().isEnabledRoundingOptions()) {
-			totalForm.add(roundAmountinBaseCurrenctText);
+			roundingForm.add(roundAmountinBaseCurrenctText);
 		}
 		totalForm.add(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
 			if (getPreferences().isEnabledRoundingOptions()) {
-				totalForm.add(roundAmountinforeignCurrencyLabel);
+				roundingForm.add(roundAmountinforeignCurrencyLabel);
 			}
 			totalForm.add(foreignCurrencyamountLabel);
 		}
 		if (isInViewMode()) {
 			totalForm.add(paymentsNonEditableText, balanceDueNonEditableText);
 		}
+		nonEditablePanel.add(roundingForm);
 		nonEditablePanel.add(totalForm);
 		nonEditablePanel.setStyleName("boldtext");
 		prodAndServiceHLay.add(nonEditablePanel);
@@ -793,15 +796,21 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				+ transactionsTree.getGrandTotal();
 
 		if (getPreferences().isEnabledRoundingOptions()) {
+
 			double round = round(getPreferences().getRoundingMethod(), total,
 					getPreferences().getRoundingLimit());
-			if (roundAmountinBaseCurrenctText != null) {
-				roundAmountinBaseCurrenctText
-						.setAmount(getAmountInBaseCurrency(round - total));
-				roundAmountinforeignCurrencyLabel.setAmount(round - total);
-			}
+			if (round == 0.0) {
+				setTransactionTotal(customerTransactionTable.getGrandTotal()
+						+ transactionsTree.getGrandTotal());
+			} else {
+				if (roundAmountinBaseCurrenctText != null) {
+					roundAmountinBaseCurrenctText
+							.setAmount(getAmountInBaseCurrency(round - total));
+					roundAmountinforeignCurrencyLabel.setAmount(round - total);
+				}
 
-			setTransactionTotal(round);
+				setTransactionTotal(round);
+			}
 		} else {
 			setTransactionTotal(customerTransactionTable.getGrandTotal()
 					+ transactionsTree.getGrandTotal());
