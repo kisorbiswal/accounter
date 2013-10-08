@@ -4326,44 +4326,20 @@ public class ReportManager extends Manager {
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate()).list();
 		Iterator iterator = result.iterator();
-		long previousItemID = 0;
 		while (iterator.hasNext()) {
 			Object[] object = (Object[]) iterator.next();
-			long itemID = ((Long) object[0]).longValue();
-			if (previousItemID == 0 || previousItemID != itemID) {
-				previousItemID = itemID;
-				InventoryDetails record = new InventoryDetails();
-				record.setId(itemID);
-				record.setOnHandqty((Double) (object[1] != null ? object[1] : 0));
-				record.setItemName((String) (object[2] != null ? object[2] : ""));
-				boolean type = ((Boolean) object[6]).booleanValue();
-				if (!type) {
-					record.setQtyOut((Double) (object[4] != null ? object[4]
-							: 0));
-					record.setPricesold((Double) (object[5] != null ? object[5]
-							: 0));
-				} else {
-					record.setQtyIn((Double) (object[4] != null ? object[4] : 0));
-					record.setCost((Double) (object[5] != null ? object[5] : 0));
-
-				}
-				record.setCostValuation((Double) (object[3] != null ? object[3]
-						: 0));
-				list.add(record);
-			} else {
-				InventoryDetails record = list.get(list.size() - 1);
-				boolean type = ((Boolean) object[6]).booleanValue();
-				if (!type) {
-					record.setQtyOut((Double) (object[4] != null ? object[4]
-							: 0));
-					record.setPricesold((Double) (object[5] != null ? object[5]
-							: 0));
-				} else {
-					record.setQtyIn((Double) (object[4] != null ? object[4] : 0));
-					record.setCost((Double) (object[5] != null ? object[5] : 0));
-
-				}
-			}
+			InventoryDetails record = new InventoryDetails();
+			record.setId(((Long) object[0]).longValue());
+			record.setItemName((String) (object[1] != null ? object[1] : ""));
+			record.setCostValuation((Double) (object[2] != null ? object[2] : 0));
+			double qtyIn = (Double) (object[3] != null ? object[3] : 0);
+			record.setQtyIn(qtyIn);
+			double qtyOut = (Double) (object[4] != null ? object[4] : 0);
+			record.setQtyOut(qtyOut);
+			record.setCost((Double) (object[5] != null ? object[5] : 0));
+			record.setPricesold((Double) (object[6] != null ? object[6] : 0));
+			record.setOnHandqty(qtyIn - qtyOut);
+			list.add(record);
 		}
 		return list;
 	}

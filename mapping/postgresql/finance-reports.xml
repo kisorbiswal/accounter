@@ -4629,34 +4629,31 @@
 		<query-param name="endDate" type="long" />
 
 		<return-scalar column="ITEM_ID" type="long" />
-		<return-scalar column="ONHANDQTY" type="double" />
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="COSTVALUTION" type="double" />
-		<return-scalar column="SUMQTY" type="double" />
-		<return-scalar column="SUMAMOUNTS" type="double" />
-		<return-scalar column="TYPE" type="boolean" />
+		<return-scalar column="qin" type="double" />
+		<return-scalar column="qout" type="double" />
+		<return-scalar column="cost" type="double" />
+		<return-scalar column="pricesold" type="double" />
 		
 
 		<![CDATA[
-		           SELECT 	I.ID                                AS ITEM_ID,
-       						I.ON_HAND_QTY_VALUE                 AS ONHANDQTY,
-      					    I.NAME                              AS ITEM_NAME,
-       						I.AVERAGE_COST * I.ON_HAND_QTY_VALUE AS COSTVALUTION,
-      					    CASE
-       	  						WHEN TRANSACTION_TYPE IN ( 6, 36 ) THEN true
-        					 ELSE false
-      						 END AS TYPE,
-       						SUM(QTY_VALUE) AS SUMQTY,
-      						SUM(COST * QTY_VALUE) AS SUMAMOUNTS
-					FROM   INVENTORY_HISTORY_VIEW INV
-					       LEFT OUTER JOIN ITEM I
-					         ON I.ID = INV.ITEM_ID
-					WHERE  ITEM_ID = I.ID
-					       AND COMPANY = :companyId
-					       AND INV.TRANSACTION_DATE BETWEEN :startDate AND :endDate
-					GROUP  BY I.ID,
-					          TRANSACTION_TYPE IN ( 6, 36 ),
-					          TRANSACTION_TYPE IN ( 1,4,8,37 )
+					select 
+						i.id as ITEM_ID,
+						i.name as ITEM_NAME ,
+						I.AVERAGE_COST * I.ON_HAND_QTY_VALUE AS COSTVALUTION,
+						sum(case when qty_value>0 then qty_value else 0 end) as qin,
+						sum(case when qty_value<0 then -qty_value else 0 end) as qout,
+						sum(case when qty_value>0 then unit_price*qty_value else 0 end) as cost,
+						sum(case when qty_value<0 then unit_price*-qty_value else 0 end) as pricesold
+					from item_update iu 
+						left join item i on iu.item=i.id 
+						left join transaction t on t.id=iu.transaction
+					where 
+						iu.company_id=:companyId 
+						AND t.t_date BETWEEN :startDate AND :endDate
+					group by i.id ,
+						     i.name 
 					ORDER  BY I.Id
 		]]>
 	</sql-query>

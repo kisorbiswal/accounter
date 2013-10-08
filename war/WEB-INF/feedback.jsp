@@ -22,7 +22,7 @@
 	}
 %>
 
-<script id="_webengage_script_tag" type="text/javascript">
+<!-- <script id="_webengage_script_tag" type="text/javascript">
   window.webengageWidgetInit = window.webengageWidgetInit || function(){
     webengage.init({
       licenseCode:"76aa650"
@@ -45,7 +45,7 @@
     var _sNode = d.getElementById('_webengage_script_tag');
     _sNode.parentNode.insertBefore(_we, _sNode);
   })(document);
-</script>
+</script> -->
 <script type="text/javascript">
 
 	$(document).ready(function() {

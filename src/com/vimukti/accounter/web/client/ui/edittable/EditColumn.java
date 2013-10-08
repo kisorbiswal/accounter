@@ -33,7 +33,9 @@ public abstract class EditColumn<R> {
 	public abstract int insertNewLineNumber();
 
 	public IsWidget getHeader() {
-		columnHeader = new Label(getColumnName());
+		if (columnHeader == null) {
+			columnHeader = new Label(getColumnName());
+		}
 		return columnHeader;
 	}
 
