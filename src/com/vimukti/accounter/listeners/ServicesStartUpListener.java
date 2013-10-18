@@ -57,9 +57,11 @@ public class ServicesStartUpListener implements ServletContextListener {
 			recurring.scheduleAtFixedRate(new RecurringTool(), 0, 1,
 					TimeUnit.HOURS);
 
-			subsciption = Executors.newSingleThreadScheduledExecutor();
-			subsciption.scheduleAtFixedRate(new SubscriptionTool(), 0, 1,
-					TimeUnit.DAYS);
+			if (ServerConfiguration.isStopSchduleMails()) {
+				subsciption = Executors.newSingleThreadScheduledExecutor();
+				subsciption.scheduleAtFixedRate(new SubscriptionTool(), 0, 1,
+						TimeUnit.DAYS);
+			}
 		} else {
 			if (DatabaseManager.isDBConfigured()) {
 				recurring = Executors.newSingleThreadScheduledExecutor();

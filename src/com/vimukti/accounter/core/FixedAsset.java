@@ -1145,7 +1145,7 @@ public class FixedAsset extends CreatableObject implements
 		journalEntry.setCreditTotal(item1.getLineTotal());
 
 		journalEntry.setTransactionItems(items);
-
+		journalEntry.setSaveStatus(Transaction.STATUS_APPROVE);
 		return journalEntry;
 	}
 
@@ -1262,6 +1262,8 @@ public class FixedAsset extends CreatableObject implements
 
 		journalEntry.setDebitTotal(debitTotal);
 		journalEntry.setCreditTotal(creditTotal);
+
+		journalEntry.setSaveStatus(Transaction.STATUS_APPROVE);
 
 		journalEntry.setTransactionItems(items);
 

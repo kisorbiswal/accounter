@@ -36,7 +36,7 @@ public class ServerMain extends Main {
 		JettyServer.start(ServerConfiguration.getMainServerPort(),
 				ServerConfiguration.getKeyStore(),
 				ServerConfiguration.getKeyStorePassword(),
-				ServerConfiguration.getKeyPassword());
+				ServerConfiguration.getKeyPassword(),ServerConfiguration.getSslPort());
 		
 
 		stratChatServers();

@@ -540,6 +540,9 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 		List<TransactionItem> adjustmentItems = new ArrayList<TransactionItem>();
 		adjustmentItems.add(item);
+
+		adjustment.setSaveStatus(Transaction.STATUS_APPROVE);
+
 		adjustment.setTransactionItems(adjustmentItems);
 
 		return adjustment;

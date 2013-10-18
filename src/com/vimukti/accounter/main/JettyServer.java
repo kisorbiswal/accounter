@@ -20,7 +20,8 @@ public class JettyServer {
 	public static Server jettyServer;
 
 	public static void start(int port, String keyStore,
-			String keyStorePassword, String keyPassword) throws Exception {
+			String keyStorePassword, String keyPassword, int sslport)
+			throws Exception {
 		jettyServer = new Server();
 		Connector connector = new SelectChannelConnector();
 		connector.setPort(port);
@@ -48,9 +49,10 @@ public class JettyServer {
 			jettyServer
 					.setConnectors(new Connector[] { connector, wsConnector });
 		} else {
-			jettyServer.setConnectors(new Connector[] { connector,
-					makeSSLConnector(keyStore, keyStorePassword, keyPassword),
-					wsConnector });
+			jettyServer.setConnectors(new Connector[] {
+					connector,
+					makeSSLConnector(keyStore, keyStorePassword, keyPassword,
+							sslport), wsConnector });
 		}
 		webappcontext.setClassLoader(JettyServer.class.getClassLoader());
 
@@ -92,13 +94,13 @@ public class JettyServer {
 	 * @return
 	 */
 	private static SslConnector makeSSLConnector(String keyStorePath,
-			String password, String keyPassword) {
+			String password, String keyPassword, int sslPort) {
 		SslContextFactory contextFactory = new SslContextFactory();
 		contextFactory.setKeyStorePath(keyStorePath);
 		contextFactory.setKeyStorePassword(password);
 		contextFactory.setKeyManagerPassword(keyPassword);
 		SslConnector connector = new SslSelectChannelConnector(contextFactory);
-		connector.setPort(8443);
+		connector.setPort(sslPort);
 		return connector;
 	}
 

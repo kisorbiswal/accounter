@@ -24,6 +24,7 @@ public class ServerConfiguration {
 	private static String chatUsername;
 	private static String chatpassword;
 	private static int mainServerPort;
+	private static int sslPort;
 	private static int consoleChatServerPort;
 	private static int mobileChatServerPort;
 	private static int mobileSSLChatServerPort;
@@ -56,6 +57,7 @@ public class ServerConfiguration {
 	private static boolean isDesktopApp;
 	private static boolean isStartUpCompleted;
 	private static boolean isSetupCompleted;
+	private static boolean isStopSchduleMails;
 	private static String setupStatus;
 	private static String keyStore;
 	private static String keyStorePassword;
@@ -105,6 +107,8 @@ public class ServerConfiguration {
 
 			mainServerPort = Integer.parseInt(prop.getProperty(
 					"mainServerPort", "80"));
+
+			sslPort = Integer.parseInt(prop.getProperty("sslPort", "8443"));
 
 			consoleChatServerPort = Integer.parseInt(prop.getProperty(
 					"consoleChatServer", "9085"));
@@ -193,6 +197,11 @@ public class ServerConfiguration {
 
 			loadMessages = prop.getProperty("loadMessages", "false")
 					.equalsIgnoreCase("true");
+
+			isStopSchduleMails = prop
+					.getProperty("isStopSchduleMails", "false")
+					.equalsIgnoreCase("true");
+
 			isSandBoxPaypal = (prop.getProperty("isSandBoxPaypal", "false")
 					.equalsIgnoreCase("true"));
 			gracePeriod = Integer
@@ -529,6 +538,17 @@ public class ServerConfiguration {
 
 	public static String getMobileKeyStore() {
 		return mobileKeyStore;
+	}
+
+	public static int getSslPort() {
+		return sslPort;
+	}
+
+	/**
+	 * @return the isStopSchduleMails
+	 */
+	public static boolean isStopSchduleMails() {
+		return isStopSchduleMails;
 	}
 
 }
