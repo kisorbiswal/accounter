@@ -933,6 +933,8 @@ public class CashSalesView extends
 					getPreferences().getRoundingLimit());
 			if (round == 0.0) {
 				setTransactionTotal(total);
+				roundAmountinBaseCurrenctText.setAmount(0.0);
+				roundAmountinforeignCurrencyLabel.setAmount(0.0);
 			} else {
 				if (roundAmountinBaseCurrenctText != null) {
 					roundAmountinBaseCurrenctText

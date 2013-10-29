@@ -64,7 +64,7 @@ public class InventoryDetailsServerReport extends
 		case 2:
 			return (record.getCost());
 		case 3:
-			return record.getQtyOut();
+			return DecimalUtil.round(record.getQtyOut());
 		case 4:
 			return record.getPricesold();
 		case 5:

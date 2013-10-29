@@ -4638,23 +4638,50 @@
 		
 
 		<![CDATA[
-					select 
-						i.id as ITEM_ID,
-						i.name as ITEM_NAME ,
-						I.AVERAGE_COST * I.ON_HAND_QTY_VALUE AS COSTVALUTION,
-						sum(case when qty_value>0 then qty_value else 0 end) as qin,
-						sum(case when qty_value<0 then -qty_value else 0 end) as qout,
-						sum(case when qty_value>0 then unit_price*qty_value else 0 end) as cost,
-						sum(case when qty_value<0 then unit_price*-qty_value else 0 end) as pricesold
-					from item_update iu 
-						left join item i on iu.item=i.id 
-						left join transaction t on t.id=iu.transaction
-					where 
-						iu.company_id=:companyId 
-						AND t.t_date BETWEEN :startDate AND :endDate
-					group by i.id ,
-						     i.name 
-					ORDER  BY I.Id
+				SELECT i.id                                         AS ITEM_ID,
+				       i.name                                       AS ITEM_NAME,
+				       I.average_cost * I.on_hand_qty_value         AS COSTVALUTION,
+				       Sum(( CASE
+				               WHEN qty_value > 0 THEN qty_value
+				               ELSE 0
+				             END ) * ( iu_unit.factor / u.factor )) AS qin,
+				       Sum(( CASE
+				               WHEN qty_value < 0 THEN -qty_value
+				               ELSE 0
+				             END ) * ( iu_unit.factor / u.factor )) AS qout,
+				       Sum(CASE
+				             WHEN qty_value < 0 THEN 0
+				             ELSE ( CASE
+				                      WHEN t.t_type = 37 THEN unit_price
+				                      ELSE
+				           ( unit_price * ( qty_value * ( iu_unit.factor / u.factor ) ) )
+				                    END )
+				           END)                                     AS cost,
+				       Sum(CASE
+				             WHEN qty_value > 0 THEN 0
+				             ELSE ( CASE
+				                      WHEN t.t_type = 37 THEN unit_price
+				                      ELSE ( unit_price *
+				                             ( -qty_value * ( iu_unit.factor / u.factor ) ) )
+				                    END )
+				           END)                                     AS pricesold
+				FROM   item_update iu
+				       LEFT JOIN item i
+				              ON iu.item = i.id
+				       LEFT JOIN TRANSACTION t
+				              ON t.id = iu.TRANSACTION
+				       LEFT JOIN measurement m
+				              ON m.id = i.measurement
+				       LEFT JOIN unit u
+				              ON u.measurement_id = m.id
+				                 AND u.is_default = true
+				       LEFT JOIN unit iu_unit
+				              ON iu.qty_unit = iu_unit.id
+				WHERE  iu.company_id =:companyId
+				     	AND t.t_date BETWEEN :startDate AND :endDate
+				GROUP  BY i.id,
+				          i.name
+				ORDER  BY I.id  
 		]]>
 	</sql-query>
 	<sql-query name="getPayHeadSummaryReportList">

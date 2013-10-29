@@ -802,6 +802,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			if (round == 0.0) {
 				setTransactionTotal(customerTransactionTable.getGrandTotal()
 						+ transactionsTree.getGrandTotal());
+				roundAmountinBaseCurrenctText.setAmount(0.0);
+				roundAmountinforeignCurrencyLabel.setAmount(0.0);
 			} else {
 				if (roundAmountinBaseCurrenctText != null) {
 					roundAmountinBaseCurrenctText
