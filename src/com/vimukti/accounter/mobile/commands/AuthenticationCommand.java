@@ -383,6 +383,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 			Result makeResult = new Result();
 			makeResult.add("You Successfully Logged.");
 			makeResult.setNextCommand("selectCompany");
+			makeResult.setCookie(context.getNetworkId());
 			context.getIOSession().setClient(client);
 			context.getIOSession().setAuthentication(true);
 			return makeResult;

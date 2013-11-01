@@ -10,13 +10,11 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
-import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -224,11 +222,8 @@ public class UIDesigner implements ConnectionListener {
 		} else if (type == InputType.INPUT_TYPE_EMAIL) {
 			editText.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 		} else if (type == InputType.INPUT_TYPE_PASSWORD) {
-			editText.setInputType(editText.getInputType()
-					| EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS
-					| EditorInfo.TYPE_TEXT_VARIATION_FILTER);
-			editText.setTransformationMethod(PasswordTransformationMethod
-					.getInstance());
+			editText.setInputType(android.text.InputType.TYPE_CLASS_TEXT
+					| android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
 		} else if (type == InputType.INPUT_TYPE_PHONE) {
 			editText.setInputType(android.text.InputType.TYPE_CLASS_PHONE);
 		} else if (type == InputType.INPUT_TYPE_STRING) {
