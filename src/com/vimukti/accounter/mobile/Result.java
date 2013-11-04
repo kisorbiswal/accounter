@@ -10,6 +10,8 @@ public class Result {
 	private boolean hideCancel;
 	private boolean showBack;
 
+	private transient CommandList commandList;
+
 	public String getTitle() {
 		return title;
 	}
@@ -72,6 +74,14 @@ public class Result {
 
 	public void add(CommandList list) {
 		this.resultParts.add(list);
+	}
+
+	public void add(UserCommand c) {
+		if (commandList == null) {
+			commandList = new CommandList();
+			resultParts.add(commandList);
+		}
+		commandList.add(c);
 	}
 
 	/**

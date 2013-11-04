@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.store;
 
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.MobileServerMessages;
 import com.vimukti.accounter.mobile.PatternResult;
 import com.vimukti.accounter.mobile.UserCommand;
@@ -19,14 +18,12 @@ public abstract class Output {
 			if (command.value == null) {
 				command.value = command.title;
 			}
-			CommandList commandList = new CommandList();
 			UserCommand comd = new UserCommand();
 			comd.setDisplayName(getMessage(command.title));
 			comd.setCommandName(command.value);
-			commandList.add(comd);
 			if (command.condition == null
 					|| result.checkCondition(command.condition, company)) {
-				result.add(commandList);
+				result.add(comd);
 			}
 		}
 	}
