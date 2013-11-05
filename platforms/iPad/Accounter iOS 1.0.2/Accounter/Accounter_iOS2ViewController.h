@@ -21,10 +21,10 @@
 #import "HelpViewController.h"
 
 
-@interface Accounter_iOS2ViewController : UIViewController<NSStreamDelegate,UISearchBarDelegate,HelpViewControllerDelegate> {
+@interface Accounter_iOS2ViewController : UIViewController<NSStreamDelegate,UITextFieldDelegate,HelpViewControllerDelegate> {
     
     IBOutlet UINavigationBar *navigationBar;
-    IBOutlet UISearchBar *commandTextField;
+    IBOutlet UITextField *commandTextField;
     IBOutlet UIView *mainView;
     IBOutlet UIToolbar *toolbar;
     IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -102,7 +102,7 @@
 -(void)addCommandTable;
 
 //-(void)addButtons:(NSString *)title :(NSString*)code;
--(void)addTextField :(UIKeyboardType)keyType;
+-(void)addTextField :(int)inputType;
 -(void)otherControlsManage:(id)newresult;
 -(void)sendCookieToServer;
 -(void)initServerCommunication;

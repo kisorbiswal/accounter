@@ -32,18 +32,16 @@
     tableDataArray = [[NSMutableArray alloc]initWithArray:nameArray];   
     callingClass = object;
     
-    commandListTable = [[UITableView alloc] initWithFrame:CGRectMake(0,0,width,height) style:UITableViewStyleGrouped];
+    commandListTable = [[UITableView alloc] initWithFrame:CGRectMake(0,0,width,height) style:UITableViewStylePlain];
     [commandListTable setDelegate:self];
     commandListTable.tableHeaderView = nil;
-    [commandListTable setBackgroundColor:[UIColor clearColor]];
+    commandListTable.tableFooterView =nil;
     [commandListTable setDataSource:self];
-    [commandListTable setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
+    [commandListTable setSeparatorColor:[[UIColor alloc]initWithRed:224/255.0 green:224/255.0 blue:224/255.0 alpha:1.0]];
     commandListTable.editing = NO;
     [commandListTable setScrollEnabled:FALSE];
     
-    
     [self addSubview:commandListTable];
-    
 }
 
 
