@@ -42,19 +42,20 @@
     cellTableValue = [[NSMutableArray alloc]initWithArray:cellArray];
 }
 
+
 -(void)createTable:(id)object{
     
     callingClass = object;
     
-    resultListTable = [[UITableView alloc] initWithFrame:CGRectMake(0,0,width,height) style:UITableViewStyleGrouped];
+    resultListTable = [[UITableView alloc] initWithFrame:CGRectMake(0,0,width,height) style:UITableViewStylePlain];
     [resultListTable setDelegate:self];
     resultListTable.tableHeaderView = nil;
     [resultListTable setBackgroundColor:[UIColor clearColor]];
     [resultListTable setDataSource:self];
-    [resultListTable setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
+    [resultListTable setSeparatorColor:[[UIColor alloc]initWithRed:224/255.0 green:224/255.0 blue:224/255.0 alpha:1.0]];
     resultListTable.editing = NO;
     [resultListTable setScrollEnabled:FALSE];
-    
+
     
     [self addSubview:resultListTable];
     
@@ -64,7 +65,15 @@
     CGRect Label1Frame;
     UIFont *fnt;
     
-       Label1Frame = CGRectMake(10, (cellNumber*14), 120, 25);
+    Record *record = [[[Record alloc]init]autorelease];
+    record = [cellTableValue objectAtIndex:0];
+    if([[record getCells] count]<2){
+        //This is Single Cell ResultList, So each cell will contains 35 height
+       Label1Frame = CGRectMake(10, (cellNumber*25), 120, 35);
+    }else{
+        //As this is multi cell, each cell will contains 25 height
+        Label1Frame = CGRectMake(10, (cellNumber*20), 120, 25);
+    }
     switch (cellNumber) {
         case 0:
            
@@ -201,8 +210,7 @@
     if([[record getCells]count]<2){
         return 35;
     }else{
-    return [[record getCells]count]*25;
-  
+        return [[record getCells]count]*25;
     }
 }
 

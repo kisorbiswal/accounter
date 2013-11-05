@@ -9,12 +9,12 @@
 #import "Accounter_iOS2ViewController.h"
 
 #define kOFFSET_FOR_KEYBOARD 230.0
+#define TOOLBAR_HEIGHT 64.0f // DEFAULT APP POSITION + ACTUAL TOOLBAR HEIGHT
 
 @implementation Accounter_iOS2ViewController
 
 #pragma mark -
 #pragma mark  View lifecycle
-
 
 - (void)dealloc
 {
@@ -42,7 +42,7 @@
 - (void)viewDidLoad
 {
     [self showDatePicker];
-    
+    navigationBar.translucent = NO;
     [activityIndicator startAnimating];
     [activityIndicator setHidden:FALSE];
     [activityLabel setText:@"Connecting to Server..."];
@@ -131,9 +131,9 @@
     
     // mainServerAddress = [[NSString alloc]initWithString:[alert enteredText]];
     
-    mainServerAddress = @"mobile.accounterlive.com";
+    mainServerAddress = @"www.accounterlive.com";
     
-    scrollview = [[UIScrollView alloc]   initWithFrame:CGRectMake(0, 45, mainView.frame.size.width, mainView.frame.size.height-45)];
+    scrollview = [[UIScrollView alloc]   initWithFrame:CGRectMake(0, TOOLBAR_HEIGHT, mainView.frame.size.width, mainView.frame.size.height-TOOLBAR_HEIGHT)];
     [scrollview setBackgroundColor:[UIColor clearColor]];
     scrollview.showsHorizontalScrollIndicator = FALSE;
     scrollview.showsVerticalScrollIndicator = TRUE;
@@ -304,7 +304,7 @@
     
     
     
-    toolBarLable = [[UILabel alloc] initWithFrame:CGRectMake(0.0 , 11.0f, 180, 21.0f)];
+    toolBarLable = [[UILabel alloc] initWithFrame:CGRectMake(0.0 , 20.0f, 180, 44.0f)];
     [toolBarLable setFont:[UIFont fontWithName:@"Helvetica-Bold" size:15]];
     [toolBarLable setBackgroundColor:[UIColor clearColor]];
     [toolBarLable setTextColor:[UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0]];
@@ -332,8 +332,6 @@
     
     
     toolbar.items = newItems;
-    
-    
 }
 
 
@@ -391,10 +389,10 @@
         [inputStream open];
         [outputStream open];
         
-        [inputStream setProperty:NSStreamSocketSecurityLevelNegotiatedSSL 
+        [inputStream setProperty:NSStreamSocketSecurityLevelNegotiatedSSL
                           forKey:NSStreamSocketSecurityLevelKey];
-        [outputStream setProperty:NSStreamSocketSecurityLevelNegotiatedSSL 
-                           forKey:NSStreamSocketSecurityLevelKey];  
+        [outputStream setProperty:NSStreamSocketSecurityLevelNegotiatedSSL
+                           forKey:NSStreamSocketSecurityLevelKey];
         
         
     }
@@ -403,7 +401,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
     internetReachable = [[Reachability reachabilityForInternetConnection] retain];
     [internetReachable startNotifier];
-    hostReachable = [[Reachability reachabilityWithHostName: @"mobile.accounterlive.com"] retain];
+    hostReachable = [[Reachability reachabilityWithHostName: @"www.accounterlive.com"] retain];
     [hostReachable startNotifier];
     
 }
@@ -608,12 +606,13 @@
     
     BOOL createTextField = FALSE;
     
-    
     [listCode removeAllObjects];
     [commandCode removeAllObjects];
     
     
     NSMutableArray *resultArray = [[NSMutableArray alloc]initWithArray:[mainResultObject getResultParts]];
+    
+    InputType *inputType;
     
     for (int i=0; i< [resultArray count]; i++) {
         
@@ -654,7 +653,7 @@
                 
             }
             [self addResultTable];
-            
+
         }else if([[value class]isSubclassOfClass:[CommandList class]]){
             [commandTableArray removeAllObjects];
             
@@ -670,16 +669,14 @@
                 
                 [commandCode setValue:[command getCode] forKey:[command getName]];
                 [commandTableArray addObject:[command getName]];
-                
-                
-                
+
             }
             
             [self addCommandTable];
             
         } else if([[value class]isSubclassOfClass:[InputType class]]){
             
-            InputType *inputType = [[InputType alloc]init];
+            inputType = [[InputType alloc]init];
             inputType = value;
             
             if([inputType getInputType]==8){
@@ -715,7 +712,7 @@
     
     
     if (createTextField == TRUE) {
-        [self addTextField:keyboardType];
+        [self addTextField:[inputType getInputType]];
         createTextField = FALSE;
         [commandTextField becomeFirstResponder];
     }
@@ -807,23 +804,18 @@
 
 -(void)addResultTable{
     
-    float listHeight = 0.0;
-    int k=0;
     Record *record = [[[Record alloc]init]autorelease];
     record = [cellTableArray objectAtIndex:0];
     int heit = [[record getCells]count];
+
+    float listHeight = 0.0f;
     
-    for (int i = 0; i< [cellTableArray count]; i++) {
-        
-        if(k==0){
-            listHeight = listHeight +65.0;
-            k++;
-        }
-        else{
-            listHeight = listHeight +(heit*36.0);
-        }
+    if(heit<2){
+        listHeight = [cellTableArray count] *(heit*35.0);
+    }else{
+        listHeight = [cellTableArray count] *(heit*25.0);
     }
-    
+
     ResultTableController *resultTable = [[ResultTableController alloc]initWithFrame:CGRectMake(0,yPosition,screenWidth,listHeight)];
     [resultTable setCellTableArray:cellTableArray];
     [resultTable createTable:self];
@@ -836,16 +828,7 @@
 
 -(void)addCommandTable{
     
-    float listHeight = 0.0;
-    int i = 0;
-    for (NSString *value in commandTableArray) {
-        if(i==0){
-            i++;
-            listHeight = listHeight +65.0;
-        }else{
-            listHeight = listHeight +45.0;
-        }
-    }
+    float listHeight = 44.0 * [commandTableArray count];
     
     CommandTableController *commandListTable = [[CommandTableController alloc]initWithFrame:CGRectMake(0,yPosition,screenWidth,listHeight)];
     [commandListTable createTable:commandTableArray :self];
@@ -857,16 +840,20 @@
 }
 
 
--(void)addTextField :(UIKeyboardType)keyType{
+-(void)addTextField :(int)inputType{
+    UIKeyboardType keyType = keyboardType;
     
-    
-    commandTextField = [[UISearchBar alloc]initWithFrame:CGRectMake(0,yPosition,screenWidth,44)];
+    commandTextField = [[UITextField alloc]initWithFrame:CGRectMake(0,yPosition,screenWidth,44)];
     [commandTextField setDelegate:self];
-    [commandTextField setBarStyle:UIBarStyleDefault];
+    //[commandTextField setBarStyle:UIBarStyleDefault];
     [commandTextField setKeyboardType:keyType];
     [commandTextField setPlaceholder:@"Enter your command here"];
     [commandTextField setBackgroundColor:[UIColor clearColor]];
-    [[commandTextField.subviews objectAtIndex:0]removeFromSuperview];
+    //[[commandTextField.subviews objectAtIndex:0]removeFromSuperview];
+    if(inputType==4){
+        //Password
+        commandTextField.secureTextEntry = YES;
+    }
     
     for (UIView *searchBarSubview in [commandTextField subviews]) {
         
@@ -1081,6 +1068,47 @@
     [self sendTextMessage:[searchBar text]];
     [searchBar setText:@""];
     [searchBar setShowsCancelButton:NO animated:TRUE];
+    
+}
+
+
+//TextBox Deligates
+
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+    if(textField == commandTextField){
+        [textField resignFirstResponder];
+        [textField resignFirstResponder];
+        [self sendTextMessage:[textField text]];
+        [textField setText:@""];
+    }
+    return YES;
+}
+
+- (void) textFieldTextDidBeginEditing:(UISearchBar *)textField {
+    
+    [textField setShowsCancelButton:YES animated:TRUE];
+    
+    NSString *buttonTitle;
+    
+    if ([textField keyboardType] == UIKeyboardTypeDecimalPad) {
+        [textField resignFirstResponder];
+        buttonTitle = [[NSString alloc]initWithString:@"Done"];
+        if(datePickerShown == FALSE){
+            [self addDatePicker];
+            datePickerShown = TRUE;
+        }
+    }
+    else{
+        buttonTitle = [[[NSString alloc]initWithString:@"Close"]autorelease];
+    }
+    
+    for (UIView *searchBarSubview in [textField subviews]) {
+        if([searchBarSubview isKindOfClass:[UIButton class]]){
+            UIButton *but = (UIButton*)searchBarSubview;
+            [but setTitle:buttonTitle forState:UIControlStateNormal];
+        }
+    }
     
 }
 
