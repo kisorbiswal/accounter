@@ -26,6 +26,26 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
+				<string>Accounter120x120png</string>
+				<string>AccounterIcon57x57.png</string>
+				<string>AccounterIcon114x114.png</string>
+				<string>AccounterIcon.png</string>
+				<string>AccounterIcon.png</string>
+				<string>AccounterIcon57x57.png</string>
+				<string>AccounterIcon114x114.png</string>
+				<string>AccounterIcon144x144.png</string>
+			</array>
+		</dict>
+	</dict>
+	<key>CFBundleIcons~ipad</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>AccounterIcon152x152</string>
+				<string>Accounter76x76</string>
+				<string>Accounter120x120png</string>
 				<string>AccounterIcon57x57.png</string>
 				<string>AccounterIcon114x114.png</string>
 				<string>AccounterIcon.png</string>
@@ -37,7 +57,7 @@
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
-	<string>com.vimukti.spaceghost</string>
+	<string>com.vimukti.accounteripad</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
