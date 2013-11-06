@@ -93,13 +93,8 @@
 			});
 		};
 		function touchDeviceTest() {
-			var el = document.createElement('div');
-			el.setAttribute('ongesturestart', 'return;');
-			if(typeof el.ongesturestart == "function"){
-				return true;
-			}else {
-				return false;
-			}
+			return 'ontouchstart' in window // works on most browsers 
+		      || 'onmsgesturechange' in window; // works on ie10
 		}
 		
 	</script>
