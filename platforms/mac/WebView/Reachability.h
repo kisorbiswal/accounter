@@ -52,7 +52,8 @@
 typedef enum {
 	NotReachable = 0,
 	ReachableViaWiFi,
-	ReachableViaWWAN
+	ReachableViaWWAN,
+    UnKnown
 } NetworkStatus;
 #define kReachabilityChangedNotification @"kNetworkReachabilityChangedNotification"
 

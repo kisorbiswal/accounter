@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB1D2138182B4FCE00D8B934 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB1D2137182B4FCE00D8B934 /* Default-568h@2x.png */; };
+		CB1D213A182B502F00D8B934 /* Default~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CB1D2139182B502F00D8B934 /* Default~ipad.png */; };
+		CB1D213C182B504900D8B934 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CB1D213B182B504900D8B934 /* Default-Landscape@2x~ipad.png */; };
+		CB1D213E182B507100D8B934 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = CB1D213D182B507100D8B934 /* Default-Portrait.png */; };
+		CB1D2140182B509C00D8B934 /* Default-Portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB1D213F182B509C00D8B934 /* Default-Portrait@2x.png */; };
+		CB1D2144182B50C300D8B934 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = CB1D2143182B50C300D8B934 /* Default-Landscape.png */; };
+		CB1D2146182B50FA00D8B934 /* Default-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB1D2145182B50FA00D8B934 /* Default-Landscape@2x.png */; };
+		CB2B98B8182A3DED00C229AA /* Accounter76x76.png in Resources */ = {isa = PBXBuildFile; fileRef = CB2B98B5182A3DED00C229AA /* Accounter76x76.png */; };
+		CB2B98B9182A3DED00C229AA /* Accounter120x120png.png in Resources */ = {isa = PBXBuildFile; fileRef = CB2B98B6182A3DED00C229AA /* Accounter120x120png.png */; };
+		CB2B98BA182A3DED00C229AA /* AccounterIcon152x152.png in Resources */ = {isa = PBXBuildFile; fileRef = CB2B98B7182A3DED00C229AA /* AccounterIcon152x152.png */; };
 		CBACB0FC1529AD1A00DC3D72 /* AccounterIcon144x144.png in Resources */ = {isa = PBXBuildFile; fileRef = CBACB0FB1529AD1A00DC3D72 /* AccounterIcon144x144.png */; };
 		CBBCAC6814BAB457005D66E2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBBCAC6714BAB457005D66E2 /* UIKit.framework */; };
 		CBBCAC6A14BAB457005D66E2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBBCAC6914BAB457005D66E2 /* Foundation.framework */; };
@@ -107,6 +117,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CB1D2137182B4FCE00D8B934 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		CB1D2139182B502F00D8B934 /* Default~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~ipad.png"; sourceTree = "<group>"; };
+		CB1D213B182B504900D8B934 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		CB1D213D182B507100D8B934 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
+		CB1D213F182B509C00D8B934 /* Default-Portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x.png"; sourceTree = "<group>"; };
+		CB1D2143182B50C300D8B934 /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
+		CB1D2145182B50FA00D8B934 /* Default-Landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x.png"; sourceTree = "<group>"; };
+		CB2B98B5182A3DED00C229AA /* Accounter76x76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Accounter76x76.png; sourceTree = "<group>"; };
+		CB2B98B6182A3DED00C229AA /* Accounter120x120png.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Accounter120x120png.png; sourceTree = "<group>"; };
+		CB2B98B7182A3DED00C229AA /* AccounterIcon152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AccounterIcon152x152.png; sourceTree = "<group>"; };
 		CBACB0FB1529AD1A00DC3D72 /* AccounterIcon144x144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AccounterIcon144x144.png; sourceTree = "<group>"; };
 		CBBCAC6314BAB457005D66E2 /* Accounter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Accounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBBCAC6714BAB457005D66E2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -300,6 +320,9 @@
 		CBBCAC5814BAB456005D66E2 = {
 			isa = PBXGroup;
 			children = (
+				CB2B98B5182A3DED00C229AA /* Accounter76x76.png */,
+				CB2B98B6182A3DED00C229AA /* Accounter120x120png.png */,
+				CB2B98B7182A3DED00C229AA /* AccounterIcon152x152.png */,
 				CBF8273C1535C2D400CCBC1E /* CFNetwork.framework */,
 				CBF8273A1535C2CD00CCBC1E /* MobileCoreServices.framework */,
 				CBF827381535C26700CCBC1E /* libz.dylib */,
@@ -382,6 +405,12 @@
 		CBBCAC9E14BAB497005D66E2 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CB1D2145182B50FA00D8B934 /* Default-Landscape@2x.png */,
+				CB1D2143182B50C300D8B934 /* Default-Landscape.png */,
+				CB1D213F182B509C00D8B934 /* Default-Portrait@2x.png */,
+				CB1D213D182B507100D8B934 /* Default-Portrait.png */,
+				CB1D213B182B504900D8B934 /* Default-Landscape@2x~ipad.png */,
+				CB1D2139182B502F00D8B934 /* Default~ipad.png */,
 				CBBCACA114BAB4FC005D66E2 /* Default-Landscape~ipad.png */,
 				CBBCACA214BAB4FC005D66E2 /* Default-Portrait~ipad.png */,
 				CBBCACA314BAB4FC005D66E2 /* accounter.png */,
@@ -525,6 +554,7 @@
 		CBBCAD1614BAB7D3005D66E2 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CB1D2137182B4FCE00D8B934 /* Default-568h@2x.png */,
 				CBBCAD1714BAB7E1005D66E2 /* IphoneNavigationButton_Back.png */,
 				CBBCAD1814BAB7E1005D66E2 /* IphoneNavigationButton_Button.png */,
 				CBBCAD1914BAB7E1005D66E2 /* Default.png */,
@@ -640,6 +670,13 @@
 /* Begin PBXProject section */
 		CBBCAC5A14BAB456005D66E2 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				TargetAttributes = {
+					CBBCAC6214BAB457005D66E2 = {
+						DevelopmentTeam = R553PW7MY6;
+					};
+				};
+			};
 			buildConfigurationList = CBBCAC5D14BAB456005D66E2 /* Build configuration list for PBXProject "Accounter" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -665,18 +702,25 @@
 				CBBCAC7214BAB457005D66E2 /* InfoPlist.strings in Resources */,
 				CBBCAC7F14BAB457005D66E2 /* MainWindow_iPhone.xib in Resources */,
 				CBBCAC8614BAB457005D66E2 /* MainWindow_iPad.xib in Resources */,
+				CB1D213C182B504900D8B934 /* Default-Landscape@2x~ipad.png in Resources */,
 				CBBCACA814BAB4FC005D66E2 /* Default-Landscape~ipad.png in Resources */,
 				CBBCACA914BAB4FC005D66E2 /* Default-Portrait~ipad.png in Resources */,
 				CBBCACAA14BAB4FC005D66E2 /* accounter.png in Resources */,
+				CB1D2144182B50C300D8B934 /* Default-Landscape.png in Resources */,
+				CB1D2140182B509C00D8B934 /* Default-Portrait@2x.png in Resources */,
 				CBBCACAC14BAB4FC005D66E2 /* MyViewControllerForPopover.xib in Resources */,
 				CBBCACAD14BAB4FC005D66E2 /* XMLPath.plist in Resources */,
 				CBBCACAE14BAB4FC005D66E2 /* Accounter_iPad_native_menuViewController.xib in Resources */,
 				CBBCAD0F14BAB719005D66E2 /* help.html in Resources */,
 				CBBCAD1014BAB719005D66E2 /* about.html in Resources */,
+				CB1D2146182B50FA00D8B934 /* Default-Landscape@2x.png in Resources */,
 				CBBCAD1114BAB719005D66E2 /* Accounter_iOS2ViewController.xib in Resources */,
 				CBBCAD1214BAB719005D66E2 /* HelpView.xib in Resources */,
+				CB1D213A182B502F00D8B934 /* Default~ipad.png in Resources */,
+				CB1D2138182B4FCE00D8B934 /* Default-568h@2x.png in Resources */,
 				CBBCAD1F14BAB7E1005D66E2 /* IphoneNavigationButton_Back.png in Resources */,
 				CBBCAD2014BAB7E1005D66E2 /* IphoneNavigationButton_Button.png in Resources */,
+				CB1D213E182B507100D8B934 /* Default-Portrait.png in Resources */,
 				CBBCAD2114BAB7E1005D66E2 /* Default.png in Resources */,
 				CBBCAD2214BAB7E1005D66E2 /* disconnected.png in Resources */,
 				CBBCAD2314BAB7E1005D66E2 /* connected.tif in Resources */,
@@ -684,7 +728,10 @@
 				CBBCAD3314BAF3F1005D66E2 /* AccounterIcon.png in Resources */,
 				CBBCAD3514BAF3F9005D66E2 /* AccounterIcon57x57.png in Resources */,
 				CBBCAD3714BAF3FD005D66E2 /* AccounterIcon114x114.png in Resources */,
+				CB2B98BA182A3DED00C229AA /* AccounterIcon152x152.png in Resources */,
+				CB2B98B9182A3DED00C229AA /* Accounter120x120png.png in Resources */,
 				CBACB0FC1529AD1A00DC3D72 /* AccounterIcon144x144.png in Resources */,
+				CB2B98B8182A3DED00C229AA /* Accounter76x76.png in Resources */,
 				CBEB1B501536B83B00C2486F /* rounded-checkmark.png in Resources */,
 				CBEB1B511536B83B00C2486F /* rounded-checkmark@2x.png in Resources */,
 				CBEB1B521536B83B00C2486F /* rounded-fail.png in Resources */,
@@ -837,12 +884,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv6,
-					armv7,
-				);
-				CODE_SIGN_IDENTITY = "iPhone Developer: Rajesh Akkineni (ZU8PJ8Q38L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rajesh Akkineni (ZU8PJ8Q38L)";
+				ARCHS = "$(ARCHS_STANDARD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -850,11 +894,11 @@
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
 				INFOPLIST_FILE = "Accounter/Accounter-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "55585F27-A22E-4858-8E84-04460EFAD708";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "55585F27-A22E-4858-8E84-04460EFAD708";
+				PROVISIONING_PROFILE = "95248E5D-9976-4719-96D6-68EA66E32F3B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "95248E5D-9976-4719-96D6-68EA66E32F3B";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
@@ -865,23 +909,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv6,
-					armv7,
-				);
-				CODE_SIGN_IDENTITY = "iPhone Developer: Rajesh Akkineni (ZU8PJ8Q38L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rajesh Akkineni (ZU8PJ8Q38L)";
+				ARCHS = "$(ARCHS_STANDARD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Accounter/Accounter-Prefix.pch";
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
 				INFOPLIST_FILE = "Accounter/Accounter-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "55585F27-A22E-4858-8E84-04460EFAD708";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "55585F27-A22E-4858-8E84-04460EFAD708";
+				PROVISIONING_PROFILE = "95248E5D-9976-4719-96D6-68EA66E32F3B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "95248E5D-9976-4719-96D6-68EA66E32F3B";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;

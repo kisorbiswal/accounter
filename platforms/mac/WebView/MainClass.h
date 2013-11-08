@@ -71,6 +71,10 @@
 
     IBOutlet NSPanel *cacheUpdaterView;
     IBOutlet NSProgressIndicator *cacheProgressBar;
+    
+    
+    NetworkStatus currentNetStat;
+    NetworkStatus currentHostStat;
 }
 
 -(void) reloadMenu;

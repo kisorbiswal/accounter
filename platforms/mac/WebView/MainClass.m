@@ -30,6 +30,9 @@
         itemName = [[NSMutableArray alloc]init];
         itemLinks  = [[NSMutableArray alloc]init];
         
+        currentNetStat = UnKnown;
+        currentHostStat = UnKnown;
+        
         
         NSString *questions = [[NSBundle mainBundle] pathForResource:@"XMLPath" ofType:@"plist"];
         
@@ -550,56 +553,67 @@ decisionListener:(id)listener
     
     
     NetworkStatus internetStatus = [internetReachable currentReachabilityStatus];
-    switch (internetStatus)
-    
-    {
-        case NotReachable:
+    if(currentNetStat != internetStatus){
+        switch (internetStatus)
         {
-            if(webPageLoadingComplete == TRUE){
-                [[webPage mainFrame]reload];
-            }else{
-                NSBeginAlertSheet(  @"Internet Error",  @"Close", nil,       
-                                  nil, mainWindow, self,                  
-                                  @selector(sheetDidEndShouldClose:returnCode:contextInfo:),NULL,NULL,               
-                                  @"Accounter is unable to access the Internet.Check your internet connection or try relaunching the application.");
-                
-                NSString* filePath = [[NSBundle mainBundle] pathForResource:@"NoConnection" 
-                                                                     ofType:@"html"
-                                                                inDirectory:@""];
-                NSURL* fileURL = [NSURL fileURLWithPath:filePath];
-                NSURLRequest* request = [NSURLRequest requestWithURL:fileURL];
-                [[webPage mainFrame] loadRequest:request];
-                
-                // [[webPage load]reload];
-                
+            case NotReachable:
+            {
+                if(webPageLoadingComplete == TRUE){
+                    NSBeginAlertSheet(  @"Internet Error",  @"Close", nil,
+                                      nil, mainWindow, self,
+                                      @selector(sheetDidEndShouldClose:returnCode:contextInfo:),NULL,NULL,
+                                      @"Accounter is unable to access the Internet.Check your internet connection or try relaunching the application.");
+                }else{
+                    NSString* filePath = [[NSBundle mainBundle] pathForResource:@"NoConnection"
+                                                                         ofType:@"html"
+                                                                    inDirectory:@""];
+                    NSURL* fileURL = [NSURL fileURLWithPath:filePath];
+                    NSURLRequest* request = [NSURLRequest requestWithURL:fileURL];
+                    [[webPage mainFrame] loadRequest:request];
+                }
+                break;
             }
-            break;
+            case ReachableViaWiFi:
+            {
+                if(currentNetStat!=UnKnown){
+                    //If it is unknown then it is first time.
+                    [self InitiateURL:mainPathLocation];
+                }
+                break;
+            }
+            case ReachableViaWWAN:
+            case UnKnown:
+            {
+                //IT WILL NOT COME FOR NOW.
+                break;
+            }
         }
-        case ReachableViaWiFi:
-        {
-            break;
-        }
-        case ReachableViaWWAN:
-        {
-            break;
-        }
+        
+    }
+    currentNetStat = internetStatus;
+    
+    if(internetStatus == NotReachable){
+        //Obviosly host will not be rechable. So no need to check for host rechable
+        return;
     }
     
     NetworkStatus hostStatus = [hostReachable currentReachabilityStatus];
+    if(currentHostStat == hostStatus){
+        //Host Rechability not changedm then no need to check it again.
+        return;
+    }
     switch (hostStatus)
     
     {
         case NotReachable:
         {
             if(webPageLoadingComplete == TRUE){
-                [[webPage mainFrame]reload];
+                NSBeginAlertSheet(  @"Gateway Error",  @"Close", nil,
+                                  nil, mainWindow, self,
+                                  @selector(sheetDidEndShouldClose:returnCode:contextInfo:),NULL,NULL,
+                                  @"Accounter is unable to access. Gateway to the host server is down. Please check your internet connection or contact service.");
             }else{
-                NSBeginAlertSheet(  @"Gateway Error",  @"Close", nil,       
-                                  nil, mainWindow, self,                  
-                                  @selector(sheetDidEndShouldClose:returnCode:contextInfo:),NULL,NULL,               
-                                  @"Accounter is unable to access the xml file. Gateway to the host server is down. Please check your internet connection or contact the developer.");
-                
-                NSString* filePath = [[NSBundle mainBundle] pathForResource:@"NoConnection" 
+                NSString* filePath = [[NSBundle mainBundle] pathForResource:@"NoConnection"
                                                                      ofType:@"html"
                                                                 inDirectory:@""];
                 NSURL* fileURL = [NSURL fileURLWithPath:filePath];
@@ -610,13 +624,19 @@ decisionListener:(id)listener
         }
         case ReachableViaWiFi:
         {
+            if(currentHostStat == NotReachable){
+                //If Previously host not rechable then need to reload
+                [self InitiateURL:mainPathLocation];
+            }
             break;
         }
         case ReachableViaWWAN:
         {
+            
             break;
         }
     }
+    currentHostStat = hostStatus;
 }
 
 
