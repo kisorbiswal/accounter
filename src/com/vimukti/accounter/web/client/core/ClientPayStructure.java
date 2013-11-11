@@ -1,6 +1,9 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.mapping.Array;
 
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -15,7 +18,7 @@ public class ClientPayStructure implements IAccounterCore {
 
 	private long employeeGroup;
 
-	private List<ClientPayStructureItem> items;
+	private List<ClientPayStructureItem> items = new ArrayList<ClientPayStructureItem>();
 
 	private long id;
 

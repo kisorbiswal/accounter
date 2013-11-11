@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
@@ -35,7 +36,7 @@ public class PayStructure extends CreatableObject implements
 
 	private EmployeeGroup employeeGroup;
 
-	private List<PayStructureItem> items;
+	private List<PayStructureItem> items = new ArrayList<PayStructureItem>();
 
 	/**
 	 * @return the items
