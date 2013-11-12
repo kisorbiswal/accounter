@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.collections.map.Flat3Map;
+
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -66,8 +68,8 @@ public class ItemView extends BaseView<ClientItem> {
 	private AmountField salesPriceText, stdCostText, purchasePriceTxt,
 			openingBalTxt, itemTotalValue;
 	private TextItem vendItemNumText;
-	private IntegerField weightText, reorderPoint;
-	private DoubleField onHandQuantity;
+	private IntegerField weightText;
+	private DoubleField onHandQuantity, reorderPoint;
 	private AmountField avarageCost;
 	private TextAreaItem salesDescArea, purchaseDescArea;
 	CheckboxItem isellCheck, comCheck, activeCheck, ibuyCheck, itemTaxCheck,
@@ -302,10 +304,11 @@ public class ItemView extends BaseView<ClientItem> {
 		// unitCombo.setEnabled(!isInViewMode());
 		// unitCombo.setPopupWidth("500px");
 
-		reorderPoint = new IntegerField(this, messages.reorderPoint());
+		reorderPoint = new DoubleField(this, messages.reorderPoint());
+		reorderPoint.setNumber(0.0);
 		// reorderPoint.setWidth(100);
 		reorderPoint.setEnabled(!isInViewMode());
-		reorderPoint.setValidators(integerRangeValidator);
+		reorderPoint.setValidators(floatRangeValidator);
 
 		itemTotalValue = new AmountField(messages.total(), this,
 				getBaseCurrency(), "itemTotalValue");
@@ -521,7 +524,7 @@ public class ItemView extends BaseView<ClientItem> {
 					itemTotalValue, asOfDate);
 		} else {
 			inventoryInfoForm.add(assetsAccount, stdCostText, onHandQuantity,
-					itemTotalValue, asOfDate);
+					itemTotalValue, asOfDate, reorderPoint);
 		}
 
 		if (!getPreferences().isTrackTax()
@@ -802,11 +805,6 @@ public class ItemView extends BaseView<ClientItem> {
 				data.setAssestsAccount(assetsAccount.getSelectedValue().getID());
 			}
 
-			if (reorderPoint.getValue().length() > 0)
-				data.setReorderPoint(Integer.parseInt(reorderPoint.getValue()));
-			else
-				data.setReorderPoint(0);
-
 			data.setItemTotalValue(itemTotalValue.getAmount());
 			if (asOfDate != null) {
 				data.setAsOfDate(asOfDate.getDate());
@@ -818,7 +816,12 @@ public class ItemView extends BaseView<ClientItem> {
 				qtyValue = 0D;
 			}
 			data.setAsOfDate(asOfDate.getValue());
-
+			Double reorderpointQtyValue = null;
+			if (reorderPoint.getValue().length() > 0) {
+				reorderpointQtyValue = Double.valueOf(reorderPoint.getValue());
+			} else {
+				reorderpointQtyValue = 0D;
+			}
 			if (getType() == ClientItem.TYPE_INVENTORY_PART) {
 				data.setMinStockAlertLevel(null);
 				data.setMaxStockAlertLevel(null);
@@ -841,8 +844,17 @@ public class ItemView extends BaseView<ClientItem> {
 					qty.setUnit(measurement.getDefaultUnit().getId());
 					data.setOnhandQty(qty);
 				}
-
+				// Setting Reorder Point Value
+				if (reorderPoint.getValue().length() > 0) {
+					ClientQuantity reorderpointQuantity = new ClientQuantity();
+					reorderpointQuantity.setValue(reorderpointQtyValue
+							.doubleValue());
+					reorderpointQuantity.setUnit(measurement.getDefaultUnit()
+							.getId());
+					data.setReorderPoint(reorderpointQuantity);
+				}
 			}
+
 		}
 
 		if (getBooleanValue(isellCheck)) {
@@ -1005,7 +1017,8 @@ public class ItemView extends BaseView<ClientItem> {
 					assetsAccount.setSelected(getCompany().getAccount(
 							data.getAssestsAccount()).getName());
 				}
-				reorderPoint.setValue(Integer.toString(data.getReorderPoint()));
+				reorderPoint.setValue(String.valueOf(data.getReorderPoint()
+						.getValue()));
 				// onHandQuantity.setValue(Long.toString(data.getOnhandQuantity()));
 				onHandQuantity.setValue(String.valueOf(data.getOnhandQty()
 						.getValue()));

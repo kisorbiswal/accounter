@@ -913,7 +913,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		this.removeAllRows();
 		this.objects.clear();
 		this.selectedObject = null;
-	}
+}
 
 	public void editComplete(T item, Object value, int col) {
 

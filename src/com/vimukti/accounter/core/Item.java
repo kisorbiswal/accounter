@@ -135,7 +135,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	private FinanceDate asOfDate;
 	private Account assestsAccount;
-	private int reorderPoint;
+	private Quantity reorderPoint;
 
 	@NonEditable
 	private Quantity onHandQty;
@@ -682,11 +682,11 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		this.assestsAccount = assestsAccount;
 	}
 
-	public int getReorderPoint() {
+	public Quantity getReorderPoint() {
 		return reorderPoint;
 	}
 
-	public void setReorderPoint(int reorderPoint) {
+	public void setReorderPoint(Quantity reorderPoint) {
 		this.reorderPoint = reorderPoint;
 	}
 

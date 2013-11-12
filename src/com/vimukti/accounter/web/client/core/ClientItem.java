@@ -66,7 +66,7 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 	Set<ClientItemStatus> itemStatuses;
 
 	private long assestsAccount;
-	private int reorderPoint;
+	private ClientQuantity reorderPoint;
 	private ClientQuantity onHandQty;
 	private double itemTotalValue;
 	private ClientFinanceDate asOfDate;
@@ -477,11 +477,11 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 		this.assestsAccount = assestsAccount;
 	}
 
-	public int getReorderPoint() {
+	public ClientQuantity getReorderPoint() {
 		return reorderPoint;
 	}
 
-	public void setReorderPoint(int reorderPoint) {
+	public void setReorderPoint(ClientQuantity reorderPoint) {
 		this.reorderPoint = reorderPoint;
 	}
 

@@ -840,7 +840,11 @@
 		<many-to-one name="assestsAccount" class="Account"
 			column="ASSETS_ACCOUNT_ID">
 		</many-to-one>
-		<property name="reorderPoint" column="REORDER_POINT"></property>
+		<component name="reorderPoint" class="Quantity">
+			<property name="value" column="RE_ORDER_POINT_VALUE" />
+			<many-to-one name="unit" column="RE_ORDER_POINT_UNIT"
+				class="Unit" cascade="save-update" />
+		</component>
 		<many-to-one name="parentItem" column="PARENT_ID" class="Item"
 			cascade="save-update">
 		</many-to-one>

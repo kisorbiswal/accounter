@@ -645,11 +645,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		if (assetsAccount.getSelectedValue() != null) {
 			data.setAssestsAccount(assetsAccount.getSelectedValue().getID());
 		}
-
+		Long reorderPointValue = null;
 		if (reorderPoint.getValue().length() > 0)
-			data.setReorderPoint(Integer.parseInt(reorderPoint.getValue()));
+			reorderPointValue = reorderPoint.getNumber();
 		else
-			data.setReorderPoint(0);
+			reorderPointValue = 0l;
 
 		data.setItemTotalValue(itemTotalValue.getAmount());
 
@@ -676,6 +676,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		quantity.setValue(qtyValue);
 		quantity.setUnit(measurement.getDefaultUnit().getId());
 		data.setOnhandQty(quantity);
+
+		ClientQuantity reorderedQuantity = new ClientQuantity();
+		reorderedQuantity.setValue(reorderPointValue);
+		reorderedQuantity.setUnit(measurement.getDefaultUnit().getId());
+		data.setReorderPoint(reorderedQuantity);
 
 		data.setAsOfDate(asOfDate.getValue());
 		data.setTaxable(getBooleanValue(itemTaxCheck));
@@ -810,10 +815,10 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 						data.getAssestsAccount()).getName());
 			}
 
-			reorderPoint.setValue(Integer.toString(data.getReorderPoint()));
-			onHandQuantity.setValue(String.valueOf(data.getOnhandQty()
+			reorderPoint.setValue(String.valueOf(data.getReorderPoint()
 					.getValue()));
-			// onHandQuantity.setValue("0");
+			onHandQuantity.setValue(String.valueOf(data.getOnhandQty()
+					.getValue())); // onHandQuantity.setValue("0");
 			itemTotalValue.setValue(Double.toString(data.getItemTotalValue()));
 			asOfDate.setValue(data.getAsOfDate());
 

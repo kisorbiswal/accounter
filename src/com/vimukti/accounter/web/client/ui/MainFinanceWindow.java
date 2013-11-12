@@ -747,9 +747,6 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(InventoryActions.inventoryItems().getHistoryToken(),
 				InventoryActions.inventoryItems());
 
-		actions.put(InventoryActions.inventoryAssemblies().getHistoryToken(),
-				InventoryActions.inventoryAssemblies());
-
 		actions.put(WarehouseActions.warehousesList().getHistoryToken(),
 				WarehouseActions.warehousesList());
 		actions.put(

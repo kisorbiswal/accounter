@@ -264,4 +264,8 @@ public interface AccounterMessages2 extends Messages {
 	public String removeifZeo();
 
 	public String trackRoundingAmountEnbleForInvoiceAndCashSale();
+
+	public String reached();
+
+	public String safe();
 }

@@ -209,8 +209,8 @@ public class MenuBar {
 		inventoryMenuBar.addMenuItem(messages.inventoryItems(),
 				HistoryTokens.INVENTORYITEMS);
 
-		inventoryMenuBar.addMenuItem(messages.inventoryAssembly() + " "
-				+ messages.items(), HistoryTokens.INVENTORY_ASSEMBLY_ITEMS);
+//		inventoryMenuBar.addMenuItem(messages.inventoryAssembly() + " "
+//				+ messages.items(), HistoryTokens.INVENTORY_ASSEMBLY_ITEMS);
 
 		if (iswareHouseEnabled) {
 			inventoryMenuBar.addMenuItem(messages.warehouseList(),

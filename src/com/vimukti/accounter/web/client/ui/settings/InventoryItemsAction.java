@@ -14,7 +14,7 @@ public class InventoryItemsAction extends Action<ClientItem> {
 
 	private int type;
 
-	public InventoryItemsAction(int type) {
+	public InventoryItemsAction() {
 		super();
 		this.type = type;
 		this.catagory = messages.inventory();
@@ -40,8 +40,7 @@ public class InventoryItemsAction extends Action<ClientItem> {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				InventoryItemsListView listview = new InventoryItemsListView(
-						type);
+				InventoryItemsListView listview = new InventoryItemsListView();
 				MainFinanceWindow.getViewManager().showView(listview, data,
 						isDependent, InventoryItemsAction.this);
 
@@ -52,13 +51,13 @@ public class InventoryItemsAction extends Action<ClientItem> {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//			}
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		// }
+		// });
 	}
 
 	@Override

@@ -97,7 +97,6 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 			assetAccountId = getAccountByNumberOrName("assetAccountName", true);
 		}
 		item.setAssestsAccount(assetAccountId);
-		item.setReorderPoint(getInteger("reOrderPts"));
 		int itemType = getItemType();
 
 		if (getInteger("weight") != 0) {
@@ -116,6 +115,11 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 				ClientQuantity clientQty = getClientQty("onHandQuantity");
 				clientQty.setUnit(getDefaultUnits(item.getMeasurement()));
 				item.setOnhandQty(clientQty);
+			}
+			if (getInteger("reOrderPts") != 0) {
+				ClientQuantity reorderQty = getClientQty("reOrderPts");
+				reorderQty.setUnit(getDefaultUnits(item.getMeasurement()));
+				item.setReorderPoint(reorderQty);
 			}
 			item.setAsOfDate(getFinanceDate("asOf") == null ? new ClientFinanceDate()
 					: getFinanceDate("asOf"));

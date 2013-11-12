@@ -4,7 +4,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BuildAssemblyView;
@@ -25,7 +24,6 @@ public class InventoryActions extends Action {
 	public static final int TYPE_BUILD_ASSEMBLY = 2;
 	public static final int TYPE_STOCK_ADJUSTMENT = 3;
 	public static final int TYPE_INVETORY_ITEMS = 4;
-	public static final int TYPE_INVETORY_ASSEMBLIES = 5;
 	public static final int TYPE_STOCK_ADJUSTMENTS_LIST = 6;
 	public static final int TYPE_MEASUREMENT = 7;
 	public static final int TYPE_MEASUREMENTS_LIST = 8;
@@ -63,12 +61,7 @@ public class InventoryActions extends Action {
 					view = new StockAdjustmentView();
 					break;
 				case TYPE_INVETORY_ITEMS:
-					view = new InventoryItemsListView(
-							ClientItem.TYPE_INVENTORY_PART);
-					break;
-				case TYPE_INVETORY_ASSEMBLIES:
-					view = new InventoryItemsListView(
-							ClientItem.TYPE_INVENTORY_ASSEMBLY);
+					view = new InventoryItemsListView();
 					break;
 				case TYPE_STOCK_ADJUSTMENTS_LIST:
 					view = new StockAdjustmentsListView();
@@ -123,8 +116,6 @@ public class InventoryActions extends Action {
 			return "stockAdjustment";
 		case TYPE_INVETORY_ITEMS:
 			return HistoryTokens.INVENTORYITEMS;
-		case TYPE_INVETORY_ASSEMBLIES:
-			return HistoryTokens.INVENTORY_ASSEMBLY_ITEMS;
 		case TYPE_STOCK_ADJUSTMENTS_LIST:
 			return "stockAdjustments";
 		case TYPE_MEASUREMENT:
@@ -148,8 +139,6 @@ public class InventoryActions extends Action {
 			return "stockAdjustment";
 		case TYPE_INVETORY_ITEMS:
 			return "inventoryItem";
-		case TYPE_INVETORY_ASSEMBLIES:
-			return "assemblyItem";
 		case TYPE_STOCK_ADJUSTMENTS_LIST:
 			return "stockAdjustments";
 		case TYPE_MEASUREMENT:
@@ -173,8 +162,6 @@ public class InventoryActions extends Action {
 			return messages.stockAdjustment();
 		case TYPE_INVETORY_ITEMS:
 			return messages.inventoryItems();
-		case TYPE_INVETORY_ASSEMBLIES:
-			return messages.inventoryAssembly() + ' ' + messages.items();
 		case TYPE_STOCK_ADJUSTMENTS_LIST:
 			return messages.stockAdjustments();
 		case TYPE_MEASUREMENT:
@@ -210,10 +197,6 @@ public class InventoryActions extends Action {
 
 	public static InventoryActions inventoryItems() {
 		return new InventoryActions(TYPE_INVETORY_ITEMS);
-	}
-
-	public static InventoryActions inventoryAssemblies() {
-		return new InventoryActions(TYPE_INVETORY_ASSEMBLIES);
 	}
 
 	public static InventoryActions stockAdjustments() {

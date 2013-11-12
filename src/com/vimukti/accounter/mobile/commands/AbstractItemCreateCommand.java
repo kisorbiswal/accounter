@@ -512,9 +512,9 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		item.setISellThisItem(iSellthis);
 
 		Requirement reorderPointReq = get(REORDER_POINT);
+		Double reorderPoint = 0.0;
 		if (reorderPointReq != null) {
-			int reorderPoint = reorderPointReq.getValue();
-			item.setReorderPoint(reorderPoint);
+			reorderPoint = reorderPointReq.getValue();
 		}
 
 		Requirement assestsAccReq = get(ASSESTS_ACCOUNT);
@@ -595,6 +595,19 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 				qty.setUnit(measurement.getDefaultUnit().getID());
 				item.setOnhandQty(qty);
 			}
+			Double reorderedValue = null;
+			if (onHandQty > 0) {
+				reorderedValue = onHandQty;
+			} else {
+				reorderedValue = 0.0D;
+			}
+			if (reorderedValue != null) {
+				ClientQuantity reorderedOty = new ClientQuantity();
+				reorderedOty.setValue(reorderedValue.doubleValue());
+				reorderedOty.setUnit(measurement.getDefaultUnit().getID());
+				item.setOnhandQty(reorderedOty);
+			}
+
 		}
 
 		Requirement asOfRequiremnt = get(AS_OF);

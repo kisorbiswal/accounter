@@ -1398,9 +1398,9 @@ public class Windows8MenuView extends BaseView {
 				HistoryTokens.INVENTORY_CENTRE);
 		W8MenuItem inventoryItemsListItem = new W8MenuItem(
 				messages.inventoryItems(), "", HistoryTokens.INVENTORYITEMS);
-		W8MenuItem inventoryAssItemsListItem = new W8MenuItem(
-				messages.inventoryAssemblyItem(), "",
-				HistoryTokens.INVENTORY_ASSEMBLY_ITEMS);
+		// W8MenuItem inventoryAssItemsListItem = new W8MenuItem(
+		// messages.inventoryAssemblyItem(), "",
+		// HistoryTokens.INVENTORY_ASSEMBLY_ITEMS);
 		W8MenuItem stockAdjustmentsItem = new W8MenuItem(
 				messages.stockAdjustments(), messages2.stockAdjustDesc(),
 				HistoryTokens.STOCKADJUSTMENTS);
@@ -1417,7 +1417,7 @@ public class Windows8MenuView extends BaseView {
 		inventoryListForm.add(inventoryLabel);
 		inventoryListForm.add(inventoryCenterItem);
 		inventoryListForm.add(inventoryItemsListItem);
-		inventoryListForm.add(inventoryAssItemsListItem);
+//		inventoryListForm.add(inventoryAssItemsListItem);
 		inventoryListForm.add(stockAdjustmentsItem);
 		inventoryListForm.add(warehouseDetailsItem);
 		inventoryListForm.add(warehouseTransfersItem);

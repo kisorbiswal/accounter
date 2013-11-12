@@ -6885,6 +6885,8 @@ textarea[disabled] {
 
 #InventoryItemsListView .hlay .form {
 	float: right;
+	display: flex;
+	display:-ms-flexbox;
 }
 
 #InventoryItemsListView .hlay .form {
