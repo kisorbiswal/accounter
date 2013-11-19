@@ -814,9 +814,10 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 				assetsAccount.setSelected(getCompany().getAccount(
 						data.getAssestsAccount()).getName());
 			}
-
-			reorderPoint.setValue(String.valueOf(data.getReorderPoint()
-					.getValue()));
+			if (data.getReorderPoint() != null) {
+				reorderPoint.setValue(String.valueOf(data.getReorderPoint()
+						.getValue()));
+			}
 			onHandQuantity.setValue(String.valueOf(data.getOnhandQty()
 					.getValue())); // onHandQuantity.setValue("0");
 			itemTotalValue.setValue(Double.toString(data.getItemTotalValue()));

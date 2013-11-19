@@ -3,9 +3,11 @@ package com.vimukti.accounter.web.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
+import com.vimukti.accounter.web.client.core.ClientUserDefinedPayheadItem;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
@@ -16,8 +18,8 @@ import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayEmployee;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
-import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.core.reports.PaySheet;
 import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
 import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
@@ -43,9 +45,12 @@ public interface IAccounterPayrollService extends RemoteService {
 	PaginationList<ClientPayStructureList> getPayStructures(int start,
 			int length) throws AccounterException;
 
-	PaginationList<ClientAttendanceOrProductionType> getAttendanceProductionTypes(
-			int start, int length) throws AccounterException;
-
+	PaginationList<ClientAttendanceOrProductionType> getAttendanceProductionTypes(int start,
+			int length) throws AccounterException;
+	
+	PaginationList<IAccounterCore> getAttendanceProductionOrUserDefined(int start,
+			int length) throws AccounterException;
+	
 	ArrayList<ClientEmployeeGroup> getEmployeeGroups()
 			throws AccounterException;
 

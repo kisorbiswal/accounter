@@ -9,9 +9,14 @@ import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
+import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
+import com.vimukti.accounter.web.client.core.ClientUserDefinedPayheadItem;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
+import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
@@ -21,9 +26,11 @@ public class AttendanceManagementTable extends
 
 	private EmployeeColumn employeeColumn;
 	private List<ClientAttendanceManagementItem> items;
+	private ICurrencyProvider currencyProvider;
 
-	public AttendanceManagementTable() {
+	public AttendanceManagementTable(ICurrencyProvider currencyProvider) {
 		super();
+		this.currencyProvider = currencyProvider;
 	}
 
 	@Override
@@ -33,31 +40,26 @@ public class AttendanceManagementTable extends
 
 	@Override
 	protected void initColumns() {
-		Accounter
-				.createPayrollService()
-				.getAttendanceProductionTypes(
-						0,
-						-1,
-						new AsyncCallback<PaginationList<ClientAttendanceOrProductionType>>() {
+		Accounter.createPayrollService().getAttendanceProductionOrUserDefined(
+				0, -1, new AsyncCallback<PaginationList<IAccounterCore>>() {
 
-							@Override
-							public void onSuccess(
-									PaginationList<ClientAttendanceOrProductionType> result) {
-								AttendanceManagementTable.this
-										.createAttendanceOrProductionTypeColumns(result);
-								setAllRows(items);
-							}
+					@Override
+					public void onSuccess(PaginationList<IAccounterCore> result) {
+						AttendanceManagementTable.this
+								.createAttendanceOrProductionTypeColumns(result);
+						setAllRows(items);
+					}
 
-							@Override
-							public void onFailure(Throwable caught) {
+					@Override
+					public void onFailure(Throwable caught) {
 
-							}
-						});
+					}
+				});
 
 	}
 
 	protected void createAttendanceOrProductionTypeColumns(
-			PaginationList<ClientAttendanceOrProductionType> result) {
+			PaginationList<IAccounterCore> result) {
 
 		employeeColumn = new EmployeeColumn() {
 
@@ -109,65 +111,126 @@ public class AttendanceManagementTable extends
 			}
 		});
 
-		for (final ClientAttendanceOrProductionType clientAttendanceOrProductionType : result) {
-			final ClientAttendanceOrProductionItem item = new ClientAttendanceOrProductionItem();
-			item.setAttendanceOrProductionType(clientAttendanceOrProductionType
-					.getID());
-			item.setClientAttendanceOrProductionType(clientAttendanceOrProductionType);
-			item.setValue(UIUtils.toDbl(0));
-			this.addColumn(new TextEditColumn<ClientAttendanceManagementItem>() {
+		for (final IAccounterCore accounterCore : result) {
+			if (accounterCore instanceof ClientAttendanceOrProductionType) {
+				final ClientAttendanceOrProductionType attendanceOrProduction = (ClientAttendanceOrProductionType) accounterCore;
+				final ClientAttendanceOrProductionItem item = new ClientAttendanceOrProductionItem();
+				item.setAttendanceOrProductionType(attendanceOrProduction
+						.getID());
+				item.setClientAttendanceOrProductionType(attendanceOrProduction);
+				item.setValue(UIUtils.toDbl(0));
+				this.addColumn(new TextEditColumn<ClientAttendanceManagementItem>() {
 
-				@Override
-				protected String getValue(ClientAttendanceManagementItem row) {
-					List<ClientAttendanceOrProductionItem> attendanceOrProductionItems = row
-							.getAttendanceOrProductionItems();
-					for (ClientAttendanceOrProductionItem item : attendanceOrProductionItems) {
-						if (item.getAttendanceOrProductionType() == clientAttendanceOrProductionType
-								.getID()) {
-							return UIUtils.toStr(item.getValue());
+					@Override
+					protected String getValue(ClientAttendanceManagementItem row) {
+						List<ClientAttendanceOrProductionItem> attendanceOrProductionItems = row
+								.getAttendanceOrProductionItems();
+						for (ClientAttendanceOrProductionItem item : attendanceOrProductionItems) {
+							if (item.getAttendanceOrProductionType() == accounterCore
+									.getID()) {
+								return UIUtils.toStr(item.getValue());
+							}
 						}
+						return UIUtils.toStr(item.getValue());
 					}
-					return UIUtils.toStr(item.getValue());
-				}
 
-				@Override
-				protected void setValue(ClientAttendanceManagementItem row,
-						String value) {
-					for (ClientAttendanceOrProductionItem item : row
-							.getAttendanceOrProductionItems()) {
-						if (item.getAttendanceOrProductionType() == clientAttendanceOrProductionType
-								.getID()) {
-							item.setValue(UIUtils.toDbl(value));
-							update(row);
-							return;
+					@Override
+					protected void setValue(ClientAttendanceManagementItem row,
+							String value) {
+						for (ClientAttendanceOrProductionItem item : row
+								.getAttendanceOrProductionItems()) {
+							if (item.getAttendanceOrProductionType() == accounterCore
+									.getID()) {
+								item.setValue(UIUtils.toDbl(value));
+								update(row);
+								return;
+							}
 						}
+						item.setValue(UIUtils.toDbl(value));
+						row.getAttendanceOrProductionItems().add(item);
+						update(row);
 					}
-					item.setValue(UIUtils.toDbl(value));
-					row.getAttendanceOrProductionItems().add(item);
-					update(row);
-				}
 
-				@Override
-				protected String getColumnName() {
-					return clientAttendanceOrProductionType.getName();
-				}
+					@Override
+					protected String getColumnName() {
+						return accounterCore.getName();
+					}
 
-				@Override
-				public int getWidth() {
-					return 80;
-				}
+					@Override
+					public int getWidth() {
+						return 80;
+					}
 
-				@Override
-				public String getValueAsString(
-						ClientAttendanceManagementItem row) {
-					return getValue(row);
-				}
+					@Override
+					public String getValueAsString(
+							ClientAttendanceManagementItem row) {
+						return getValue(row);
+					}
 
-				@Override
-				public int insertNewLineNumber() {
-					return 1;
-				}
-			});
+					@Override
+					public int insertNewLineNumber() {
+						return 1;
+					}
+				});
+			} else {
+				final ClientUserDefinedPayHead udPayheadItem = (ClientUserDefinedPayHead) accounterCore;
+				final ClientUserDefinedPayheadItem item = new ClientUserDefinedPayheadItem();
+				item.setPayHead(udPayheadItem);
+				item.setValue(UIUtils.toDbl(0));
+				this.addColumn(new AmountColumn<ClientAttendanceManagementItem>(
+						currencyProvider, true) {
+
+					@Override
+					protected Double getAmount(
+							ClientAttendanceManagementItem row) {
+						List<ClientUserDefinedPayheadItem> attendanceOrProductionItems = row
+								.getUserDefinedPayheads();
+						for (ClientUserDefinedPayheadItem item : attendanceOrProductionItems) {
+							if (item.getPayHeadID() == accounterCore.getID()) {
+								return item.getValue();
+							}
+						}
+						return 0.0;
+					}
+
+					@Override
+					protected void setAmount(
+							ClientAttendanceManagementItem row, Double value) {
+						for (ClientUserDefinedPayheadItem item : row
+								.getUserDefinedPayheads()) {
+							if (item.getPayHeadID() == accounterCore.getID()) {
+								item.setValue(value);
+								update(row);
+								return;
+							}
+						}
+						item.setValue(value);
+						row.getUserDefinedPayheads().add(item);
+						update(row);
+					}
+
+					@Override
+					public String getValueAsString(
+							ClientAttendanceManagementItem row) {
+						return getValue(row);
+					}
+
+					@Override
+					public int insertNewLineNumber() {
+						return 1;
+					}
+
+					@Override
+					public int getWidth() {
+						return 80;
+					}
+
+					@Override
+					protected String getColumnName() {
+						return accounterCore.getName();
+					}
+				});
+			}
 		}
 
 		this.addColumn(new DeleteColumn<ClientAttendanceManagementItem>());

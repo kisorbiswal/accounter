@@ -380,16 +380,17 @@ public class CashPurchase extends Transaction {
 						isPartiallyInvoiced = true;
 				}
 				if (isCreated) {
-					try {
-						for (TransactionItem item : purchaseOrder.transactionItems) {
-							TransactionItem clone = item.clone();
-							clone.transaction = this;
-							clone.setReferringTransactionItem(item);
-							this.transactionItems.add(clone);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					// try {
+					// for (TransactionItem item :
+					// purchaseOrder.transactionItems) {
+					// TransactionItem clone = item.clone();
+					// clone.transaction = this;
+					// clone.setReferringTransactionItem(item);
+					// this.transactionItems.add(clone);
+					// }
+					// } catch (Exception e) {
+					// e.printStackTrace();
+					// }
 				}
 			}
 		}
@@ -792,18 +793,6 @@ public class CashPurchase extends Transaction {
 		}
 
 		for (PurchaseOrder est : cashPurchase.getPurchaseOrders()) {
-			try {
-				for (TransactionItem item : est.transactionItems) {
-
-					TransactionItem clone = item.clone();
-					clone.transaction = this;
-					clone.setReferringTransactionItem(item);
-					// super.chekingTaxCodeNull(clone.taxCode);
-					this.transactionItems.add(clone);
-				}
-			} catch (Exception e) {
-				throw new RuntimeException("Unable to clone TransactionItems");
-			}
 			if (!estimatesExistsInOldInvoice.contains(est) && !this.isVoid()) {
 				est.setUsedCashPurchase(cashPurchase, session);
 				session.saveOrUpdate(est);

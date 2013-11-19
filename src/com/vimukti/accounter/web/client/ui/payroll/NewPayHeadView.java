@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
@@ -18,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientComputationSlab;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -53,7 +55,8 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			messages.loansAndAdvances(), messages.reimbursmentsToEmployees() };
 
 	String[] calType = { messages.attendance(), messages.asComputedValue(),
-			messages.flatRate(), messages.production() };
+			messages.flatRate(), messages.production(),
+			messages.asUserDefined() };
 
 	String[] calPeriod = { messages.days(), messages.weeks(), messages.months() };
 
@@ -567,7 +570,14 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		if (result.haveErrors()) {
 			return result;
 		}
-
+		// Checking The PayHead Name
+		String payHeadName = nameItem.getValue();
+		ClientPayHead payHeadByName = getCompany()
+				.getPayHeadByName(payHeadName);
+		if (payHeadByName != null) {
+			result.addError(nameItem, messages.alreadyExist());
+			return result;
+		}
 		String selectedValue = calculationTypeCombo.getSelectedValue();
 		if (selectedValue.equals(messages.attendance())) {
 			result.add(attendanceLeftForm.validate());
@@ -647,6 +657,10 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 					.getSelectedIndex() + 1);
 			data = payHead;
 
+		} else if (selectedValue.equals(messages.asUserDefined())) {
+			ClientUserDefinedPayHead userDefinedPayHead = new ClientUserDefinedPayHead();
+			userDefinedPayHead.setID(data.getID());
+			data = userDefinedPayHead;
 		}
 
 		data.setName(nameItem.getValue());

@@ -1017,8 +1017,10 @@ public class ItemView extends BaseView<ClientItem> {
 					assetsAccount.setSelected(getCompany().getAccount(
 							data.getAssestsAccount()).getName());
 				}
-				reorderPoint.setValue(String.valueOf(data.getReorderPoint()
-						.getValue()));
+				if (data.getReorderPoint() != null) {
+					reorderPoint.setValue(String.valueOf(data.getReorderPoint()
+							.getValue()));
+				}
 				// onHandQuantity.setValue(Long.toString(data.getOnhandQuantity()));
 				onHandQuantity.setValue(String.valueOf(data.getOnhandQty()
 						.getValue()));

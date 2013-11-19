@@ -276,6 +276,10 @@ public class Company implements IAccounterServerCore {
 
 	private Set<Customer> customers = new HashSet<Customer>();
 
+	private Set<PayHead> payHeads = new HashSet<PayHead>();
+
+	private Set<Employee> employees = new HashSet<Employee>();
+
 	private Set<Vendor> vendors = new HashSet<Vendor>();
 
 	private Set<Item> items = new HashSet<Item>();
@@ -848,6 +852,10 @@ public class Company implements IAccounterServerCore {
 		cmp.nominalCodeRange = this.getNominalCodeRange();
 
 		cmp.customers = this.getCustomers();
+
+		cmp.payHeads = this.payHeads;
+
+		cmp.employees = this.employees;
 
 		cmp.vendors = this.getVendors();
 
@@ -1451,6 +1459,8 @@ public class Company implements IAccounterServerCore {
 		delete(currencies, session);
 		delete(chequeLayouts, session);
 		delete(emailTemplates, session);
+		delete(payHeads, session);
+		delete(employees, session);
 	}
 
 	private static <T> void delete(Collection<T> list, Session session) {
@@ -1781,6 +1791,36 @@ public class Company implements IAccounterServerCore {
 
 	public Set<Transaction> getTransactions() {
 		return transactions;
+	}
+
+	/**
+	 * @return the payHeads
+	 */
+	public Set<PayHead> getPayHeads() {
+		return payHeads;
+	}
+
+	/**
+	 * @param payHeads
+	 *            the payHeads to set
+	 */
+	public void setPayHeads(Set<PayHead> payHeads) {
+		this.payHeads = payHeads;
+	}
+
+	/**
+	 * @return the employees
+	 */
+	public Set<Employee> getEmployees() {
+		return employees;
+	}
+
+	/**
+	 * @param employees
+	 *            the employees to set
+	 */
+	public void setEmployees(Set<Employee> employees) {
+		this.employees = employees;
 	}
 
 }

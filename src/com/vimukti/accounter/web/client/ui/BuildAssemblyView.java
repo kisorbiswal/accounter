@@ -216,7 +216,9 @@ public class BuildAssemblyView extends
 						.youCannotBuildWithoutComponents());
 				return;
 			}
-			buildPoint.setAmount(selectItem.getReorderPoint().getValue());
+			if (selectItem.getReorderPoint() != null) {
+				buildPoint.setAmount(selectItem.getReorderPoint().getValue());
+			}
 			quantityOnHand.setAmount(selectItem.getOnhandQty().getValue());
 			Set<ClientInventoryAssemblyItem> components = selectItem
 					.getComponents();
@@ -349,7 +351,8 @@ public class BuildAssemblyView extends
 			if (data.getInventoryAssembly() != 0) {
 				ClientInventoryAssembly assembly = (ClientInventoryAssembly) getCompany()
 						.getItem(data.getInventoryAssembly());
-				buildPoint.setAmount(assembly.getReorderPoint().getValue());
+				if (assembly.getReorderPoint() != null)
+					buildPoint.setAmount(assembly.getReorderPoint().getValue());
 				quantityOnHand.setAmount(assembly.getOnhandQty().getValue());
 				Set<ClientInventoryAssemblyItem> components = assembly
 						.getComponents();

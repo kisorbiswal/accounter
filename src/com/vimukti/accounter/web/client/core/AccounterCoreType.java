@@ -309,7 +309,10 @@ public enum AccounterCoreType implements IsSerializable {
 	TRANSACTION_PAYEMPLOYEE("ClientTransactionPayRunComponent",
 			"TransactionPayRunComponent"),
 
-	TYPE_PAYEMPLOYEE("ClientPayEmployee", "PayEmployee");
+	TYPE_PAYEMPLOYEE("ClientPayEmployee", "PayEmployee"),
+	
+	USER_DEFINED_PAYHEAD_ITEM("ClientUserDefinedPayheadItem",
+			"ClientUserDefinedPayheadItem");
 
 	private String clientName;
 	private String serverName;

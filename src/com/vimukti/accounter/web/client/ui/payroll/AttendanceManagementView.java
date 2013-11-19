@@ -8,10 +8,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagement;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class AttendanceManagementView extends
@@ -36,7 +38,23 @@ public class AttendanceManagementView extends
 		Label lab1 = new Label(messages.attendanceManagement());
 		lab1.setStyleName("label-title");
 
-		table = new AttendanceManagementTable();
+		table = new AttendanceManagementTable(new ICurrencyProvider() {
+
+			@Override
+			public ClientCurrency getTransactionCurrency() {
+				return getCompany().getPrimaryCurrency();
+			}
+
+			@Override
+			public Double getCurrencyFactor() {
+				return 1.0;
+			}
+
+			@Override
+			public Double getAmountInBaseCurrency(Double amount) {
+				return amount;
+			}
+		});
 		table.setEnabled(!isInViewMode());
 
 		this.mainVLay = new StyledPanel("mainVLay");

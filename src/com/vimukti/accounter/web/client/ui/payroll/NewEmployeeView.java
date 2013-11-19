@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomFieldValue;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -242,8 +243,8 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 
 		mainPanel.add(firstPanel);
 		mainPanel.add(secondPanel);
-		
-		Label lab1=new Label(messages.employee());
+
+		Label lab1 = new Label(messages.employee());
 		lab1.setStyleName("label-title");
 		this.add(lab1);
 		this.add(mainPanel);
@@ -542,6 +543,12 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		result.add(basicInfoForm.validate());
+		String name = nameItem.getValue();
+		ClientEmployee employee = getCompany().getEmployeeByName(name);
+		if (employee != null) {
+			result.addError(nameItem, messages.alreadyExist());
+			return result;
+		}
 
 		return result;
 	}

@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
@@ -43,6 +44,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.reports.ReportGrid;
@@ -198,7 +200,23 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 			}
 		});
 
-		table = new AttendanceManagementTable();
+		table = new AttendanceManagementTable(new ICurrencyProvider() {
+
+			@Override
+			public ClientCurrency getTransactionCurrency() {
+				return getCompany().getPrimaryCurrency();
+			}
+
+			@Override
+			public Double getCurrencyFactor() {
+				return 1.0;
+			}
+
+			@Override
+			public Double getAmountInBaseCurrency(Double amount) {
+				return amount;
+			}
+		});
 		table.setEnabled(!isInViewMode());
 
 		nextButton = new Button(messages.next());

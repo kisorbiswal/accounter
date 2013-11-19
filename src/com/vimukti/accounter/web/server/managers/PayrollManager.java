@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayEmployee;
 import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
+import com.vimukti.accounter.web.client.core.ClientUserDefinedPayheadItem;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.reports.PayHeadDetails;
@@ -217,7 +218,7 @@ public class PayrollManager extends Manager {
 		double earnings = 0.0;
 		double deductions = 0.0;
 
-		double[] attendance = { 0, 0, 0 };
+		double[] attendance = { 0, 0, 0, 0 };
 
 		if (attendanceItems != null && attendanceItems.size() > 0) {
 			for (ClientAttendanceManagementItem attendanceManagementItem : attendanceItems) {
@@ -233,6 +234,11 @@ public class PayrollManager extends Manager {
 					if (attType.getType() == AttendanceOrProductionType.TYPE_PRODUCTION) {
 						attendance[2] += item.getValue();
 					}
+				}
+
+				for (ClientUserDefinedPayheadItem item : attendanceManagementItem
+						.getUserDefinedPayheads()) {
+					attendance[3]  += item.getValue();
 				}
 
 			}
@@ -290,7 +296,7 @@ public class PayrollManager extends Manager {
 				} else {
 					deductions += calculatedAmount;
 				}
-				component.setRate(calculatedAmount);
+				component.setRate(component.getRate() + calculatedAmount);
 			}
 
 			component.setEmployee(selectItem.getName());
@@ -768,5 +774,45 @@ public class PayrollManager extends Manager {
 		}
 
 		return transactionPayEmployeeList;
+	}
+
+	/**
+	 * Get User Defineds
+	 * 
+	 * @param start
+	 * @param length
+	 * @param companyId
+	 * @return
+	 * @throws AccounterException
+	 */
+	public PaginationList<ClientUserDefinedPayHead> getClientUserDefinedPayHead(
+			int start, int length, Long companyId) throws AccounterException {
+
+		Session session = HibernateUtil.getCurrentSession();
+		int total = 0;
+		Company company = getCompany(companyId);
+		Query query = session.getNamedQuery("list.PayHeads").setEntity(
+				"company", company);
+		List<UserDefinedPayHead> types = query.list();
+		if (types == null) {
+			return null;
+		}
+		if (length == -1) {
+			types = query.list();
+		} else {
+			total = query.list().size();
+			types = query.setFirstResult(start).setMaxResults(length).list();
+		}
+		PaginationList<ClientUserDefinedPayHead> list = new PaginationList<ClientUserDefinedPayHead>();
+		for (UserDefinedPayHead type : types) {
+			ClientUserDefinedPayHead clientType;
+			clientType = new ClientConvertUtil().toClientObject(type,
+					ClientUserDefinedPayHead.class);
+			list.add(clientType);
+		}
+		list.setTotalCount(total);
+		list.setStart(start);
+		return list;
+
 	}
 }

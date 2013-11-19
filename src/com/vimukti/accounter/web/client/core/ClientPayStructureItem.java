@@ -119,7 +119,8 @@ public class ClientPayStructureItem implements IAccounterCore {
 			if (ph.getAttendanceType() == ClientAttendancePayHead.ATTENDANCE_ON_RATE) {
 				return getRate() <= 0;
 			}
-		} else if (newValue.getCalculationType() != ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
+		} else if (newValue.getCalculationType() != ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE
+				&& newValue.getCalculationType() != ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED) {
 			return getRate() <= 0;
 		}
 

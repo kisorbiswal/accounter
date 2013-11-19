@@ -56,7 +56,7 @@ public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 
 			@Override
 			public String getValueAsString(ClientTransactionItem row) {
-				return messages.name()+" : "+getValue(row);
+				return messages.name() + " : " + getValue(row);
 			}
 
 			@Override
@@ -108,12 +108,12 @@ public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 
 			@Override
 			protected String getColumnName() {
-				return messages.vatCode();
+				return messages.taxCode();
 			}
 
 			@Override
 			public String getValueAsString(ClientTransactionItem row) {
-				return messages.vatCode()+" : "+getValue(row);
+				return messages.taxCode() + " : " + getValue(row);
 			}
 
 			@Override
@@ -126,7 +126,9 @@ public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 
 			@Override
 			protected String getValue(ClientTransactionItem row) {
-				Double lineTotal = row.getLineTotal();
+
+				Double lineTotal = row.getLineTotal() + row.getVATfraction();
+
 				if (lineTotal != null && currencyProvider != null) {
 					ClientTransaction estimate = row.getTransaction();
 					if (currencyProvider.getTransactionCurrency().getID() != estimate
@@ -154,7 +156,7 @@ public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 
 			@Override
 			public String getValueAsString(ClientTransactionItem row) {
-				return messages.lineTotal()+" : "+getValue(row);
+				return messages.lineTotal() + " : " + getValue(row);
 			}
 
 			@Override

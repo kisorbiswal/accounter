@@ -271,8 +271,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		ClientTAXCode taxCode = null;
 
 		for (ClientTransactionItem clientTransactionItem : transactionItems) {
-			if (clientTransactionItem.getTaxCode() != 0
-					&& clientTransactionItem.getReferringTransactionItem() == 0) {
+			if (clientTransactionItem.getTaxCode() != 0) {
 
 				taxCode = getCompany().getTAXCode(
 						clientTransactionItem.getTaxCode());
@@ -1600,8 +1599,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			List<ClientTransactionItem> transactionItems) {
 		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
 		for (ClientTransactionItem item : transactionItems) {
-			if (item.getReferringTransactionItem() == 0
-					&& item.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+			if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
 				list.add(item);
 			}
 		}
@@ -1612,8 +1610,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			List<ClientTransactionItem> transactionItems) {
 		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
 		for (ClientTransactionItem item : transactionItems) {
-			if (item.getReferringTransactionItem() == 0
-					&& item.getType() == ClientTransactionItem.TYPE_ITEM) {
+			if (item.getType() == ClientTransactionItem.TYPE_ITEM) {
 				list.add(item);
 			}
 		}

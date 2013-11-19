@@ -21,6 +21,8 @@ import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayEmployee;
+import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.PaySheet;
@@ -137,6 +139,25 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 			int start, int length) throws AccounterException {
 		return getFinanceTool().getPayrollManager()
 				.getAttendanceProductionTypes(start, length, getCompanyId());
+	}
+
+	@Override
+	public PaginationList<IAccounterCore> getAttendanceProductionOrUserDefined(
+			int start, int length) throws AccounterException {
+		PaginationList<IAccounterCore> accounterCores = new PaginationList<IAccounterCore>();
+		// GET ATTENDANCE OR PRODUCTION TYPE
+		PaginationList<ClientAttendanceOrProductionType> attTypes = getFinanceTool()
+				.getPayrollManager().getAttendanceProductionTypes(start,
+						length, getCompanyId());
+		accounterCores.addAll(attTypes);
+
+		// GET USER DEFINED PAYHEADS
+		PaginationList<ClientUserDefinedPayHead> payHeads = getFinanceTool()
+				.getPayrollManager().getClientUserDefinedPayHead(start,
+						length, getCompanyId());
+		accounterCores.addAll(payHeads);
+
+		return accounterCores;
 	}
 
 	@Override

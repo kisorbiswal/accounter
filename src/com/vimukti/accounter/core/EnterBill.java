@@ -649,16 +649,16 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 						isPartiallyInvoiced = true;
 				}
 				if (isCreated) {
-					try {
-						for (TransactionItem item : billOrder.transactionItems) {
-							TransactionItem clone = item.clone();
-							clone.transaction = this;
-							clone.setReferringTransactionItem(item);
-							this.transactionItems.add(clone);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					// try {
+					// for (TransactionItem item : billOrder.transactionItems) {
+					// TransactionItem clone = item.clone();
+					// clone.transaction = this;
+					// clone.setReferringTransactionItem(item);
+					// this.transactionItems.add(clone);
+					// }
+					// } catch (Exception e) {
+					// e.printStackTrace();
+					// }
 				}
 				//
 				// boolean isPartialEnterBill = false;
@@ -1022,15 +1022,27 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 						false);
 				newTransactionItem.setQuantity(transactionItem.getQuantity());
 				newTransactionItem.setId(0);
-				newTransactionItem.setTaxCode(null);
 				newTransactionItem.setOnSaveProccessed(false);
+				TAXCode taxCode = transactionItem.getTaxCode();
+				if (taxCode.getTAXItemGrpForSales() != null) {
+					// THIS CAN BE USED IN SALES TRANSACTION WITH THIS TAX.
+					newTransactionItem.setTaxCode(taxCode);
+					newTransactionItem.setVATfraction(transactionItem
+							.getVATfraction());
+				} else {
+					// THIS TAX CODE CANNOT BE USED IN SALES TRANSACTIONS.
+					newTransactionItem.setTaxCode(null);
+					newTransactionItem.setVATfraction(new Double(0));
+				}
+
 				newTransactionItem.setLineTotal(newTransactionItem
 						.getLineTotal() * getCurrencyFactor());
+
 				newTransactionItem.setDiscount(newTransactionItem.getDiscount()
 						* getCurrencyFactor());
 				newTransactionItem.setUnitPrice(newTransactionItem
 						.getUnitPrice() * getCurrencyFactor());
-				newTransactionItem.setVATfraction(new Double(0));
+
 				Estimate estimate = getCustomerEstimate(estimates,
 						newTransactionItem.getCustomer().getID());
 				if (estimate == null) {
@@ -1194,18 +1206,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		}
 
 		for (PurchaseOrder est : newBill.getPurchaseOrders()) {
-			try {
-				for (TransactionItem item : est.transactionItems) {
-
-					TransactionItem clone = item.clone();
-					clone.transaction = this;
-					clone.setReferringTransactionItem(item);
-					// super.chekingTaxCodeNull(clone.taxCode);
-					this.transactionItems.add(clone);
-				}
-			} catch (Exception e) {
-				throw new RuntimeException("Unable to clone TransactionItems");
-			}
 			if (!estimatesExistsInOldInvoice.contains(est) && !this.isVoid()) {
 				est.setUsedBill(newBill, session);
 				session.saveOrUpdate(est);

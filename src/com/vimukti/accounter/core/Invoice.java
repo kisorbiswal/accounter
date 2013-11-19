@@ -533,20 +533,6 @@ public class Invoice extends Transaction implements Lifecycle {
 						isPartiallyInvoiced = true;
 				}
 				if (isCreated) {
-					try {
-						for (TransactionItem item : estimate.transactionItems) {
-							TransactionItem clone = item.clone();
-							clone.transaction = this;
-							clone.setReferringTransactionItem(item);
-							if (estimate.getEstimateType() == Estimate.CREDITS
-									|| estimate.getEstimateType() == Estimate.DEPOSIT_EXPENSES) {
-								clone.updateAsCredit();
-							}
-							this.transactionItems.add(clone);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
 					if (!this.isVoid()) {
 						estimate.setUsedInvoice(invoice, session);
 					}
@@ -862,22 +848,6 @@ public class Invoice extends Transaction implements Lifecycle {
 		}
 
 		for (Estimate est : newInvoice.getEstimates()) {
-			try {
-				for (TransactionItem item : est.transactionItems) {
-
-					TransactionItem clone = item.clone();
-					clone.transaction = this;
-					clone.setReferringTransactionItem(item);
-					if (est.getEstimateType() == Estimate.CREDITS
-							|| est.getEstimateType() == Estimate.DEPOSIT_EXPENSES) {
-						clone.updateAsCredit();
-					}
-					// super.chekingTaxCodeNull(clone.taxCode);
-					this.transactionItems.add(clone);
-				}
-			} catch (Exception e) {
-				throw new RuntimeException("Unable to clone TransactionItems");
-			}
 			if (!estimatesExistsInOldInvoice.contains(est) && !this.isVoid()) {
 				est.setUsedInvoice(newInvoice, session);
 				session.saveOrUpdate(est);

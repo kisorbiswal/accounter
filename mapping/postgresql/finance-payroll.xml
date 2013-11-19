@@ -34,8 +34,8 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 
-		<property name="symbol" column="SYMBOL" type="encryptedstring"/>
-		<property name="formalname" column="FORMAL_NAME" type="encryptedstring"/>
+		<property name="symbol" column="SYMBOL" type="encryptedstring" />
+		<property name="formalname" column="FORMAL_NAME" type="encryptedstring" />
 		<property name="noofDecimalPlaces" column="NO_OF_DECIMAL_PLACES" />
 
 	</class>
@@ -92,7 +92,8 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-		<property name="name" column="NAME" not-null="true" type="encryptedstring"/>
+		<property name="name" column="NAME" not-null="true"
+			type="encryptedstring" />
 		<property name="type" column="TYPE" />
 		<property name="roundingMethod" column="ROUNDING_METHOD" />
 		<property name="nameToAppearInPaySlip" column="NAME_TO_APPEAR_ON_PAYSLIP" />
@@ -144,11 +145,9 @@
 			<property name="calculationPeriod" column="CALCULATION_PERIOD" />
 		</joined-subclass>
 
-		<!-- <joined-subclass name="ProductionPayHead" table="PRODUCTION_PAY_HEAD">
-			<key column="ID" />
-			<many-to-one name="productionType" column="PRODUCTION_TYPE"
-				class="AttendanceOrProductionType" />
-		</joined-subclass> -->
+		<!-- <joined-subclass name="ProductionPayHead" table="PRODUCTION_PAY_HEAD"> 
+			<key column="ID" /> <many-to-one name="productionType" column="PRODUCTION_TYPE" 
+			class="AttendanceOrProductionType" /> </joined-subclass> -->
 
 		<joined-subclass name="UserDefinedPayHead" table="USER_DEFINED_PAY_HEAD">
 			<key column="ID" />
@@ -226,16 +225,29 @@
 		</id>
 		<many-to-one name="employee" column="EMPLOYEE" class="Employee">
 		</many-to-one>
-		<list name="attendanceOrProductionItems" table="ATTENDANCE_OR_PRODUCTION_ITEMS" cascade="save-update,delete-orphan">
-				<key column="ATTENDANCE_MANAGEMENT_ITEM_ID" not-null="true" />
-				<list-index column="ATTENDANCE_OR_PRODUCTION_ITEMS_INDEX" />
-				<composite-element class="AttendanceOrProductionItem">
-					<many-to-one name="attendanceOrProductionType" column="ATTENDANCE_TYPE"
-						class="AttendanceOrProductionType">
-					</many-to-one>
-					<property name="value" column="VALUE" />
-				</composite-element>
-		 </list>
+		<!-- ATTENDANCE OR PRODUCTION ITEMS -->
+		<list name="attendanceOrProductionItems" table="ATTENDANCE_OR_PRODUCTION_ITEMS"
+			cascade="save-update,delete-orphan">
+			<key column="ATTENDANCE_MANAGEMENT_ITEM_ID" not-null="true" />
+			<list-index column="ATTENDANCE_OR_PRODUCTION_ITEMS_INDEX" />
+			<composite-element class="AttendanceOrProductionItem">
+				<many-to-one name="attendanceOrProductionType" column="ATTENDANCE_TYPE"
+					class="AttendanceOrProductionType">
+				</many-to-one>
+				<property name="value" column="VALUE" />
+			</composite-element>
+		</list>
+		<!--USER DEFINED PAYHEAD ITEMS -->
+		<list name="userDefinedPayheads" table="USER_DEFINED_PAYHEAD_ITEMS"
+			cascade="save-update,delete-orphan">
+			<key column="USER_DEFINED_PAYHEAD_ITEM_ID" not-null="true" />
+			<list-index column="USER_DEFINED_PAYHEAD_ITEM_INDEX" />
+			<composite-element class="UserDefinedPayheadItem">
+				<many-to-one name="payHead" column="PAY_HEAD" class="UserDefinedPayHead">
+				</many-to-one>
+				<property name="value" column="VALUE" />
+			</composite-element>
+		</list>
 		<property name="abscentDays" column="ABSCENT_DAYS" />
 	</class>
 
@@ -262,7 +274,8 @@
 		<query-param name="company" type="Company" />
 		<query-param name="isActive" type="boolean" />
 		from com.vimukti.accounter.core.Employee e where
-		e.company=:company and e.isActive =:isActive
+		e.company=:company and
+		e.isActive =:isActive
 		order by e.id
 	</query>
 
@@ -298,12 +311,16 @@
 		p.company=:company
 	</query>
 
+	<query name="list.PayHeads">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.UserDefinedPayHead p where
+		p.company=:company
+	</query>
 	<query name="list.AttendanceProductionType">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.AttendanceOrProductionType p where
 		p.company=:company
 	</query>
-
 	<query name="list.EmployeeGroups">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.EmployeeGroup eg where
@@ -372,15 +389,17 @@
 		from com.vimukti.accounter.core.Employee e where
 		e.group.id=:groupId
 	</query>
-	
+
 	<query name="getPayStructure">
 		<query-param name="employeeId" type="long"></query-param>
 		<query-param name="groupId" type="long"></query-param>
 		<query-param name="companyId" type="long"></query-param>
 		from com.vimukti.accounter.core.PayStructure p where
-			p.employee.id = :employeeId or 
-			p.employeeGroup.id = :groupId and
-			p.company.id = :companyId
+		p.employee.id =
+		:employeeId or
+		p.employeeGroup.id = :groupId and
+		p.company.id =
+		:companyId
 	</query>
 
 	<sql-query name="getPaySlipSummary">
@@ -498,7 +517,7 @@
 				ORDER BY T.T_DATE DESC, T.NUMBER DESC   
 			]]>
 	</sql-query>
-	
+
 	<sql-query name="getPayEmployeeList">
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
@@ -561,13 +580,15 @@
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<![CDATA[
 			SELECT 	PH.ID AS PAY_HEAD_ID,
 					PH.NAME AS NAME,
 					SUM(EPC.RATE) AS AMOUNT,
 					CASE WHEN PH.TYPE IN(1,6,7,8) 
 						THEN 2
-						ELSE 3 END AS TYPE
+						ELSE 3 END AS TYPE,
+						T.T_DATE as  TRANSACTION_DATE
 				
 					FROM EMPLOYEE_PAYMENT_DETAILS EPD
 						LEFT JOIN PAYEE E ON E.ID = EPD.EMPLOYEE
@@ -579,7 +600,7 @@
 							E.COMPANY_ID = :companyId AND
 							T.T_DATE BETWEEN :start AND :end
 				
-					GROUP BY PH.ID,E.ID
+					GROUP BY PH.ID,E.ID,T.ID
 		]]>
 	</sql-query>
 
@@ -597,6 +618,7 @@
 		<return-scalar column="EMPLOYEE_ID" type="long" />
 		<return-scalar column="APT_TYPE" type="int" />
 		<return-scalar column="UNIT_NAME" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<![CDATA[
 			SELECT 	AMI.ID AS ATTENDANCE_ID,
 					CASE WHEN API IS NULL then 'Present'
@@ -611,7 +633,8 @@
 					1 AS TYPE,
 					P.ID AS EMPLOYEE_ID,
 					APT.TYPE AS APT_TYPE,
-					U.SYMBOL AS UNIT_NAME				
+					U.SYMBOL AS UNIT_NAME,
+					T.T_DATE As TRANSACTION_DATE				
 					FROM PAY_RUN PR
 						LEFT JOIN TRANSACTION T ON T.ID=PR.ID
 						LEFT JOIN ATTENDANCE_MANAGEMENT_ITEM AMI ON AMI.ATTENDANCE_MANAGEMENT = PR.ID
@@ -623,7 +646,7 @@
 							P.COMPANY_ID = :companyId AND
 							AMI.ID IS NOT NULL AND
 							T.T_DATE BETWEEN :start AND :end				
-					GROUP BY PR.NOOF_WORKING_DAYS,AMI.ID,APT.ID,API.VALUE,P.ID,API.*,U.ID
+					GROUP BY PR.NOOF_WORKING_DAYS,AMI.ID,APT.ID,API.VALUE,P.ID,API.*,U.ID,T.ID
 		]]>
 	</sql-query>
 	<sql-query name="getTransactionPayEmployeeList">

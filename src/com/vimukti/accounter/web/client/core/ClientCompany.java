@@ -166,6 +166,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientSalesPerson> salesPersons;
 
+	private ArrayList<ClientPayHead> payHeads;
+
 	// private ArrayList<ClientTaxCode> taxCodes;
 
 	private ArrayList<ClientTAXItemGroup> taxItemGroups;
@@ -505,6 +507,8 @@ public class ClientCompany implements IAccounterCore {
 	private ArrayList<ClientAccounterClass> accounterClasses = new ArrayList<ClientAccounterClass>();
 
 	private CountryPreferences countryPreferences;
+
+	private ArrayList<ClientEmployee> employees;
 
 	// private List<ClientPayHead> payheads;
 	//
@@ -1232,6 +1236,14 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.customers, customerId);
 	}
 
+	public ClientPayHead getPayHead(long payHeadID) {
+		return Utility.getObject(this.payHeads, payHeadID);
+	}
+
+	private ClientEmployee getEmployee(long employeeID) {
+		return Utility.getObject(this.getEmployees(), employeeID);
+	}
+
 	public ClientCurrency getCurrency(long currencyId) {
 		ClientCurrency object = Utility.getObject(this.currencies, currencyId);
 		return object;
@@ -1243,6 +1255,14 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientCustomer getCustomerByName(String customerName) {
 		return Utility.getObjectByName(this.customers, customerName);
+	}
+
+	public ClientPayHead getPayHeadByName(String payHeadName) {
+		return Utility.getObjectByName(this.payHeads, payHeadName);
+	}
+
+	public ClientEmployee getEmployeeByName(String employee) {
+		return Utility.getObjectByName(this.getEmployees(), employee);
 	}
 
 	public ClientBank getBank(long bankId) {
@@ -1832,6 +1852,11 @@ public class ClientCompany implements IAccounterCore {
 
 				break;
 
+			case PAY_HEAD:
+				ClientPayHead payHead = (ClientPayHead) accounterCoreObject;
+				Utility.updateClientList(payHead, payHeads);
+				break;
+
 			case TAX_GROUP:
 
 				ClientTAXGroup taxGroup = (ClientTAXGroup) accounterCoreObject;
@@ -1893,13 +1918,13 @@ public class ClientCompany implements IAccounterCore {
 			//
 			// break;
 			//
-			// case EMPLOYEE:
-			//
-			// ClientEmployee employee = (ClientEmployee) accounterCoreObject;
-			//
-			// Utility.updateClientList(employee, employees);
-			//
-			// break;
+			case EMPLOYEE:
+
+				ClientEmployee employee = (ClientEmployee) accounterCoreObject;
+
+				Utility.updateClientList(employee, getEmployees());
+
+				break;
 			//
 			// case PAY_HEAD:
 			//
@@ -2309,18 +2334,18 @@ public class ClientCompany implements IAccounterCore {
 		case USER:
 			deleteUser(id);
 			break;
-		// case EMPLOYEE:
-		// deleteEmployee(id);
-		// break;
-		//
+
+		case EMPLOYEE:
+			deleteEmployee(id);
+			break;
+
 		// case EMPLOYEE_GROUP:
 		// deleteEmployeeGroup(id);
 		// break;
 		//
-		// case PAY_HEAD:
-		// deletePayHead(id);
-		// break;
-		//
+		case PAY_HEAD:
+			deletePayHead(id);
+			break;
 		// case EMPLOYEE_CATEGORY:
 		// deleteEmployeeCategory(id);
 		// break;
@@ -2328,6 +2353,22 @@ public class ClientCompany implements IAccounterCore {
 		// case ATTENDANCE_PRODUCTION_TYPE:
 		// deleteAttendanceProductionType(id);
 		// break;
+		}
+	}
+
+	private void deletePayHead(long payHeadId) {
+		ClientPayHead payHead = this.getPayHead(payHeadId);
+		if (payHead != null) {
+			this.payHeads.remove(payHead);
+			fireEvent(new CoreEvent<ClientPayHead>(ChangeType.DELETE, payHead));
+		}
+	}
+
+	private void deleteEmployee(long employeeID) {
+		ClientEmployee employee = this.getEmployee(employeeID);
+		if (employee != null) {
+			this.getEmployees().remove(employee);
+			fireEvent(new CoreEvent<ClientEmployee>(ChangeType.DELETE, employee));
 		}
 	}
 
@@ -3584,4 +3625,34 @@ public class ClientCompany implements IAccounterCore {
 	public void setSalariesPayableAccount(long salariesPayableAccount) {
 		this.salariesPayableAccount = salariesPayableAccount;
 	}
+
+	/**
+	 * @return the payHeads
+	 */
+	public ArrayList<ClientPayHead> getPayHeads() {
+		return payHeads;
+	}
+
+	/**
+	 * @param payHeads
+	 *            the payHeads to set
+	 */
+	public void setPayHeads(ArrayList<ClientPayHead> payHeads) {
+		this.payHeads = payHeads;
+	}
+
+	/**
+	 * @return the employees
+	 */
+	public ArrayList<ClientEmployee> getEmployees() {
+		return employees;
+	}
+
+	/**
+	 * @param employees the employees to set
+	 */
+	public void setEmployees(ArrayList<ClientEmployee> employees) {
+		this.employees = employees;
+	}
+
 }

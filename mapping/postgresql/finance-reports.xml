@@ -4712,7 +4712,7 @@
 				BETWEEN :startDate AND :endDate) AND CASE WHEN :payHeadId =0
 				THEN TRUE ELSE PH.ID =:payHeadId END AND T.SAVE_STATUS NOT IN
 				(204,201,202)
-				GROUP BY PH.ID,E.ID
+				GROUP BY PH.ID,E.ID,T.ID
 				ORDER BY  T.T_DATE ASC
 		]]>
 

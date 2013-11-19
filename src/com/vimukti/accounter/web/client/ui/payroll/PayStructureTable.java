@@ -81,7 +81,8 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			protected void setValue(ClientPayStructureItem row,
 					ClientPayHead newValue) {
 
-				if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
+				if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE
+						|| newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED) {
 					rateColumn.setEnable(row, false);
 				} else if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE
 						|| newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
@@ -141,6 +142,11 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			@Override
 			public int insertNewLineNumber() {
 				return 1;
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
 			}
 		};
 		this.addColumn(rateColumn);
@@ -388,7 +394,8 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 	}
 
 	private boolean isRateRequired(ClientPayHead payhead) {
-		if (payhead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
+		if (payhead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE
+				|| payhead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED) {
 			return false;
 		} else if (payhead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE
 				|| payhead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {

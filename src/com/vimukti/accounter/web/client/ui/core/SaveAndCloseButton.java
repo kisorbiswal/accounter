@@ -56,7 +56,7 @@ public class SaveAndCloseButton extends ImageButton {
 				if (view instanceof AbstractTransactionBaseView) {
 					AbstractTransactionBaseView<?> transactionView = (AbstractTransactionBaseView<?>) view;
 					ValidationResult validate = transactionView.validate();
-					if (!(validate.haveErrors() || validate.haveWarnings())) {
+					if (!(validate.haveErrors())) {
 						ClientTransaction transaction = transactionView
 								.getTransactionObject();
 						if (transaction.isDraft()) {

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -357,6 +358,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		transactionsTree = new TransactionsTree<EstimatesAndSalesOrdersList>(
 				this) {
+			HashMap<ClientTransactionItem, ClientTransactionItem> clonesObjs = new HashMap<ClientTransactionItem, ClientTransactionItem>();
+
 			@Override
 			public void updateTransactionTotal() {
 				if (currencyWidget != null) {
@@ -373,6 +376,77 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			@Override
 			public boolean isinViewMode() {
 				return !(InvoiceView.this.isInViewMode());
+			}
+
+			@Override
+			public void addToMap(ClientTransaction estimate) {
+				List<ClientTransactionItem> transactionItems = transaction
+						.getTransactionItems();
+				List<ClientTransactionItem> estTItems = estimate
+						.getTransactionItems();
+				for (ClientTransactionItem clientTransactionItem : transactionItems) {
+					for (ClientTransactionItem estTItem : estTItems) {
+						if (clientTransactionItem.getReferringTransactionItem() == estTItem
+								.getID()) {
+							clonesObjs.put(estTItem, clientTransactionItem);
+							break;
+						}
+					}
+				}
+			}
+
+			@Override
+			public void onSelectionChange(ClientTransaction result,
+					boolean isSelected) {
+				List<ClientTransactionItem> transactionItems = result
+						.getTransactionItems();
+				boolean updateCredit = false;
+				if (result instanceof ClientEstimate) {
+					ClientEstimate est = (ClientEstimate) result;
+					updateCredit = est.getEstimateType() == ClientEstimate.CREDITS
+							|| est.getEstimateType() == ClientEstimate.DEPOSIT_EXAPENSES;
+				}
+				for (ClientTransactionItem transactionItem : transactionItems) {
+					if (!isSelected) {
+						// De SELECTED
+						ClientTransactionItem cloned = clonesObjs
+								.get(transactionItem);
+						customerTransactionTable.delete(cloned);
+						transaction.getTransactionItems().remove(cloned);
+						continue;
+					}
+					// SELECTED
+					ClientTransactionItem tItem = transactionItem.clone();
+					tItem.setID(0l);
+					tItem.setLineTotal(tItem.getLineTotal()
+							/ getCurrencyFactor());
+					tItem.setDiscount(tItem.getDiscount() / getCurrencyFactor());
+					tItem.setUnitPrice(tItem.getUnitPrice()
+							/ getCurrencyFactor());
+					tItem.setVATfraction(tItem.getVATfraction()
+							/ getCurrencyFactor());
+					tItem.setReferringTransactionItem(transactionItem.getID());
+					tItem.setTransaction(transaction);
+					if (updateCredit) {
+						tItem.updateAsCredit();
+					}
+
+					if (tItem.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+						tItem.setType(ClientTransactionItem.TYPE_ITEM);
+						tItem.setAccount(0L);
+					}
+
+					customerTransactionTable.add(tItem);
+					clonesObjs.put(transactionItem, tItem);
+					ClientTAXCode selectedValue = taxCodeSelect
+							.getSelectedValue();
+					if (selectedValue == null
+							&& !getPreferences().isTaxPerDetailLine()) {
+						taxCodeSelected(getCompany().getTAXCode(
+								tItem.getTaxCode()));
+					}
+				}
+				customerTransactionTable.updateTotals();
 			}
 		};
 
@@ -771,8 +845,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 
 		if (isTrackTax()) {
-			setSalesTax(customerTransactionTable.getTotalTax()
-					+ transactionsTree.getTotalTax());
+			setSalesTax(customerTransactionTable.getTotalTax());
 			List<ClientTransaction> selectedRecords = transactionsTree
 					.getSelectedRecords();
 			if (!isInViewMode()) {
@@ -790,18 +863,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			vatTotalNonEditableText.setTransaction(transaction);
 			salesTaxTextNonEditable.setTransaction(transaction);
 		}
-		netAmountLabel.setAmount(customerTransactionTable.getLineTotal()
-				+ transactionsTree.getLineTotal());
-		double total = customerTransactionTable.getGrandTotal()
-				+ transactionsTree.getGrandTotal();
+		netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
+		double total = customerTransactionTable.getGrandTotal();
 
 		if (getPreferences().isEnabledRoundingOptions()) {
 
 			double round = round(getPreferences().getRoundingMethod(), total,
 					getPreferences().getRoundingLimit());
 			if (round == 0.0) {
-				setTransactionTotal(customerTransactionTable.getGrandTotal()
-						+ transactionsTree.getGrandTotal());
+				setTransactionTotal(customerTransactionTable.getGrandTotal());
 				roundAmountinBaseCurrenctText.setAmount(0.0);
 				roundAmountinforeignCurrencyLabel.setAmount(0.0);
 			} else {
@@ -814,8 +884,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				setTransactionTotal(round);
 			}
 		} else {
-			setTransactionTotal(customerTransactionTable.getGrandTotal()
-					+ transactionsTree.getGrandTotal());
+			setTransactionTotal(customerTransactionTable.getGrandTotal());
 		}
 
 		// Double payments =
@@ -1162,15 +1231,18 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	public void initTransactionsItems() {
 		if (transaction.getTransactionItems() != null
 				&& !transaction.getTransactionItems().isEmpty()) {
-			ArrayList<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
-			for (ClientTransactionItem item : transaction.getTransactionItems()) {
-				// We should exclude those which come from quote/charge/credit
-				if (item.getReferringTransactionItem() == 0) {
-					list.add(item);
-				}
-			}
+			// ArrayList<ClientTransactionItem> list = new
+			// ArrayList<ClientTransactionItem>();
+			// for (ClientTransactionItem item :
+			// transaction.getTransactionItems()) {
+			// // We should exclude those which come from quote/charge/credit
+			// if (item.getReferringTransactionItem() == 0) {
+			// list.add(item);
+			// }
+			// }
 
-			customerTransactionTable.setAllRows(list);
+			customerTransactionTable.setAllRows(transaction
+					.getTransactionItems());
 		}
 	}
 
@@ -1638,6 +1710,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 		transactionsTree.setAllrows(result, transaction.getID() == 0 ? true
 				: salesAndEstimates.isEmpty());
+
 		if (!previousEstimates.isEmpty()
 				&& getCustomer().getID() == transaction.getCustomer()) {
 			transactionsTree.setRecords(new ArrayList<ClientTransaction>(

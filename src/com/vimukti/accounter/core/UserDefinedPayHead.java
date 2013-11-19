@@ -26,7 +26,7 @@ public class UserDefinedPayHead extends PayHead {
 	@Override
 	public double calculatePayment(PayStructureItem payStructureItem,
 			double deductions, double earnings) {
-		return payStructureItem.getRate();
+		return payStructureItem.getAttendance()[3];
 	}
 
 	@Override

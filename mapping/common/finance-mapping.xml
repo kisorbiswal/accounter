@@ -690,6 +690,16 @@
 			<one-to-many class="EmailTemplate" />
 		</set>
 
+		<set name="payHeads" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="PayHead" />
+		</set>
+
+		<set name="employees" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="Employee" />
+		</set>
+
 	</class>
 
 	<class name="NominalCodeRange" table="NOMINAL_CODE_RANGE">

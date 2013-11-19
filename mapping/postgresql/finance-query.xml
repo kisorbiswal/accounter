@@ -11304,7 +11304,8 @@
 				       p.id                                        AS payee_id,
 				       p.NAME                                      AS payee_name,
 				       it.TYPE                                     AS item_type,
-				       it.reorder_point                            AS reorder_point,
+				       it.re_order_point_value                     AS re_order_point_value,
+				       it.re_order_point_unit                      AS re_order_point_unit,
 				       it.purchase_description                     AS item_purchase_description,
 				       it.as_of_date                               AS asofdate,
 				       it.measurement                              AS item_measurement,
@@ -11549,7 +11550,7 @@
 				               AND e.estimatetype = 6
 				               AND ihv2.item_id = v.item_id
 				        GROUP  BY ihv2.item_id)  AS sales_orders,
-				       v.reorder_point           AS reorder_poin,
+				        v.re_order_point_value   AS reorder_poin,
 				        v.unit 					 AS unit
 				FROM   inventory_history_view v
 				       LEFT JOIN payee p
@@ -11560,7 +11561,7 @@
 				          v.item_name,
 				          v.item_purchase_description,
 				          v.preffered_vendor,
-				          v.item_total_quantity,v.reorder_point,p.id,v.unit;  
+				          v.item_total_quantity,v.re_order_point_value,p.id,v.unit;  
 		]]>
 
 	</sql-query>

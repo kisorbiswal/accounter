@@ -18,6 +18,8 @@ public class AttendanceManagementItem implements IAccounterServerCore {
 
 	private List<AttendanceOrProductionItem> attendanceOrProductionItems = new ArrayList<AttendanceOrProductionItem>();
 
+	private List<UserDefinedPayheadItem> userDefinedPayheads = new ArrayList<UserDefinedPayheadItem>();
+
 	private double abscentDays;
 
 	private int version;
@@ -85,5 +87,14 @@ public class AttendanceManagementItem implements IAccounterServerCore {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public List<UserDefinedPayheadItem> getUserDefinedPayheads() {
+		return userDefinedPayheads;
+	}
+
+	public void setUserDefinedPayheads(
+			List<UserDefinedPayheadItem> userDefinedPayheads) {
+		this.userDefinedPayheads = userDefinedPayheads;
 	}
 }

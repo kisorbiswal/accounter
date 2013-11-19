@@ -6,6 +6,7 @@ import java.util.Set;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
@@ -468,13 +469,37 @@ public class ClientTransactionItem implements IAccounterCore {
 	// }
 
 	public ClientTransactionItem clone() {
-		ClientTransactionItem clientTransactionItemClone = (ClientTransactionItem) this
-				.clone();
-		// clientTransactionItemClone.taxItem = this.taxItem.clone();
-		// clientTransactionItemClone.taxGroup = this.taxGroup.clone();
-		clientTransactionItemClone.transaction = this.transaction.clone();
-
-		return clientTransactionItemClone;
+		ClientTransactionItem clone = new ClientTransactionItem();
+		clone.setID(0L);
+		clone.account = this.account;
+		clone.item = this.item;
+		clone.type = this.type;
+		clone.name = this.name;
+		clone.isTaxable = this.isTaxable;
+		clone.taxCode = this.taxCode;
+		clone.accounterClass = this.accounterClass;
+		clone.isAmountIncludeTAX = this.isAmountIncludeTAX;
+		clone.isBillable = this.isBillable;
+		clone.discount = this.discount;
+		clone.VATfraction = this.VATfraction;
+		clone.vatItem = this.vatItem;
+		clone.job = this.job;
+		clone.unitPrice = this.unitPrice;
+		clone.transaction = this.transaction;
+		clone.description = this.description;
+		clone.quantity = this.quantity;
+		clone.usedamt = this.usedamt;
+		clone.backOrder = this.backOrder;
+		clone.wareHouse = this.wareHouse;
+		clone.itemBackUp = this.itemBackUp;
+		clone.taxRateCalculationEntriesList = this.taxRateCalculationEntriesList;
+		clone.referringTransactionItem = this.referringTransactionItem;
+		clone.availableQuantity = this.availableQuantity;
+		clone.customer = this.customer;
+		clone.isAmountIncludeTAX = this.isAmountIncludeTAX;
+		clone.isVoid = this.isVoid;
+		clone.lineTotal = this.lineTotal;
+		return clone;
 	}
 
 	public IAccountable getAccountable() {
@@ -585,4 +610,21 @@ public class ClientTransactionItem implements IAccounterCore {
 	public void setJob(long job) {
 		this.job = job;
 	}
+
+	public void updateAsCredit() {
+		if (!DecimalUtil.isEquals(this.discount, 0.0)) {
+			this.discount = -1 * this.discount;
+		}
+		if (!DecimalUtil.isEquals(this.lineTotal, 0.0)) {
+			this.lineTotal = -1 * this.lineTotal;
+		}
+		if (!DecimalUtil.isEquals(this.unitPrice, 0.0)) {
+			this.unitPrice = -1 * this.unitPrice;
+		}
+		if (this.VATfraction != null
+				&& !DecimalUtil.isEquals(this.VATfraction, 0.0)) {
+			this.VATfraction = -1 * this.VATfraction;
+		}
+	}
+
 }

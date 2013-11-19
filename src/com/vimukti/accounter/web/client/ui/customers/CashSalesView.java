@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -308,6 +309,8 @@ public class CashSalesView extends
 
 		transactionsTree = new TransactionsTree<PurchaseOrdersAndItemReceiptsList>(
 				this) {
+			HashMap<ClientTransactionItem, ClientTransactionItem> clonesObjs = new HashMap<ClientTransactionItem, ClientTransactionItem>();
+
 			@Override
 			public void updateTransactionTotal() {
 				if (currencyWidget != null) {
@@ -324,6 +327,73 @@ public class CashSalesView extends
 			@Override
 			public boolean isinViewMode() {
 				return !(CashSalesView.this.isInViewMode());
+			}
+
+			@Override
+			public void addToMap(ClientTransaction estimate) {
+				List<ClientTransactionItem> transactionItems = transaction
+						.getTransactionItems();
+				List<ClientTransactionItem> estTItems = estimate
+						.getTransactionItems();
+				for (ClientTransactionItem clientTransactionItem : transactionItems) {
+					for (ClientTransactionItem estTItem : estTItems) {
+						if (clientTransactionItem.getReferringTransactionItem() == estTItem
+								.getID()) {
+							clonesObjs.put(estTItem, clientTransactionItem);
+							break;
+						}
+					}
+				}
+
+			}
+
+			@Override
+			public void onSelectionChange(ClientTransaction result,
+					boolean isSelected) {
+
+				List<ClientTransactionItem> transactionItems = result
+						.getTransactionItems();
+				for (ClientTransactionItem transactionItem : transactionItems) {
+					if (!isSelected) {
+						// De SELECTED
+						ClientTransactionItem cloned = clonesObjs
+								.get(transactionItem);
+						customerItemTransactionTable.delete(cloned);
+						transaction.getTransactionItems().remove(cloned);
+						continue;
+
+					}
+					// SELECTED
+					ClientTransactionItem tItem = transactionItem.clone();
+					tItem.setID(0l);
+					tItem.setLineTotal(tItem.getLineTotal()
+							/ getCurrencyFactor());
+					tItem.setDiscount(tItem.getDiscount() / getCurrencyFactor());
+					tItem.setUnitPrice(tItem.getUnitPrice()
+							/ getCurrencyFactor());
+					tItem.setVATfraction(tItem.getVATfraction()
+							/ getCurrencyFactor());
+					tItem.setReferringTransactionItem(transactionItem.getID());
+					tItem.setTransaction(transaction);
+
+					if (tItem.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+						tItem.setType(ClientTransactionItem.TYPE_ITEM);
+						tItem.setAccount(0L);
+					}
+
+					customerItemTransactionTable.add(tItem);
+					transaction.getTransactionItems().add(tItem);
+					clonesObjs.put(transactionItem, tItem);
+					ClientTAXCode selectedValue = taxCodeSelect
+							.getSelectedValue();
+					if (selectedValue == null
+							&& !getPreferences().isTaxPerDetailLine()) {
+						taxCodeSelected(getCompany().getTAXCode(
+								tItem.getTaxCode()));
+					}
+				}
+				customerItemTransactionTable.updateTotals();
+
 			}
 		};
 
@@ -916,14 +986,11 @@ public class CashSalesView extends
 			}
 		}
 		double lineTotal = customerAccountTransactionTable.getLineTotal()
-				+ customerItemTransactionTable.getLineTotal()
-				+ transactionsTree.getLineTotal();
+				+ customerItemTransactionTable.getLineTotal();
 		double totalTax = customerAccountTransactionTable.getTotalTax()
-				+ customerItemTransactionTable.getTotalTax()
-				+ transactionsTree.getTotalTax();
+				+ customerItemTransactionTable.getTotalTax();
 		double total = customerAccountTransactionTable.getGrandTotal()
-				+ customerItemTransactionTable.getGrandTotal()
-				+ transactionsTree.getGrandTotal();
+				+ customerItemTransactionTable.getGrandTotal();
 		if (getCompany().getPreferences().isTrackTax()) {
 			netAmountLabel.setAmount(lineTotal);
 			setSalesTax(totalTax);

@@ -13,7 +13,9 @@ public class ClientAttendanceManagementItem implements IAccounterCore {
 	private long employee;
 
 	private List<ClientAttendanceOrProductionItem> attendanceOrProductionItems = new ArrayList<ClientAttendanceOrProductionItem>();
-
+	
+	private List<ClientUserDefinedPayheadItem> userDefinedPayheads = new ArrayList<ClientUserDefinedPayheadItem>();
+	
 	private long id;
 
 	private int version;
@@ -78,5 +80,14 @@ public class ClientAttendanceManagementItem implements IAccounterCore {
 	public void setAttendanceOrProductionItems(
 			List<ClientAttendanceOrProductionItem> attendanceOrProductionItems) {
 		this.attendanceOrProductionItems = attendanceOrProductionItems;
+	}
+
+	public List<ClientUserDefinedPayheadItem> getUserDefinedPayheads() {
+		return userDefinedPayheads;
+	}
+
+	public void setUserDefinedPayheads(
+			List<ClientUserDefinedPayheadItem> userDefinedPayheads) {
+		this.userDefinedPayheads = userDefinedPayheads;
 	}
 }

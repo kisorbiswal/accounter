@@ -186,8 +186,11 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		} else if (result.getEstimateType() == ClientEstimate.SALES_ORDER) {
 			addSalesOrderTransactionTreeItem(result, isSelected);
 		}
-
 		setEnabled(isinViewMode());
+	}
+
+	public void onSelectionChange(ClientTransaction result, boolean isSelected) {
+
 	}
 
 	private TreeItem getChildTransactionTree(String transactionLink,
@@ -446,6 +449,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 
 		ClientTransaction transaction = (ClientTransaction) treeItem
 				.getUserObject();
+		onSelectionChange(transaction, value);
+
 		if (transaction != null) {
 			setTransactionDate(transaction.getDate());
 		}
@@ -578,7 +583,11 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			} else if (estimate instanceof ClientPurchaseOrder) {
 				addPurchaseOrderTreeItem((ClientPurchaseOrder) estimate, true);
 			}
+			addToMap(estimate);
 		}
+	}
+
+	public void addToMap(ClientTransaction estimate) {
 	}
 
 	private void addEstimateTreeItemRow(ClientEstimate estimate) {

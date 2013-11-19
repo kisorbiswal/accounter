@@ -470,16 +470,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 						isPartiallyInvoiced = true;
 				}
 				if (isCreated) {
-					try {
-						for (TransactionItem item : salesOrder.transactionItems) {
-							TransactionItem clone = item.clone();
-							clone.transaction = this;
-							clone.setReferringTransactionItem(item);
-							this.transactionItems.add(clone);
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+
 					if (!this.isVoid()) {
 						salesOrder.setUsedCashSale(cashSales, session);
 					}
@@ -747,18 +738,6 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		}
 
 		for (Estimate est : cashSale.getSalesOrders()) {
-			try {
-				for (TransactionItem item : est.transactionItems) {
-
-					TransactionItem clone = item.clone();
-					clone.transaction = this;
-					clone.setReferringTransactionItem(item);
-
-					this.transactionItems.add(clone);
-				}
-			} catch (Exception e) {
-				throw new RuntimeException("Unable to clone TransactionItems");
-			}
 			if (!estimatesExistsInOldInvoice.contains(est) && !this.isVoid()) {
 				est.setUsedCashSale(cashSale, session);
 				session.saveOrUpdate(est);

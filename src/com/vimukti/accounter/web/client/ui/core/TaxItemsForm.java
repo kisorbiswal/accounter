@@ -52,42 +52,9 @@ public class TaxItemsForm extends DynamicForm {
 		List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
 		for (ClientTransactionItem clientTransactionItem : transaction
 				.getTransactionItems()) {
-			if (clientTransactionItem.getReferringTransactionItem() == 0) {
-				if (clientTransactionItem.getLineTotal() != null
-						&& clientTransactionItem.getVATfraction() != null) {
-					transactionItems.add(clientTransactionItem);
-				}
-			}
-		}
-		if (transaction instanceof ClientInvoice) {
-			List<ClientEstimate> estimates = ((ClientInvoice) transaction)
-					.getEstimates();
-			for (ClientEstimate clientEstimate : estimates) {
-				transactionItems.addAll(clientEstimate.getTransactionItems());
-			}
-		}
-
-		if (transaction instanceof ClientCashSales) {
-			List<ClientEstimate> estimates = ((ClientCashSales) transaction)
-					.getSalesOrders();
-			for (ClientEstimate clientEstimate : estimates) {
-				transactionItems.addAll(clientEstimate.getTransactionItems());
-			}
-		}
-
-		if (transaction instanceof ClientEnterBill) {
-			List<ClientPurchaseOrder> orders = ((ClientEnterBill) transaction)
-					.getPurchaseOrders();
-			for (ClientPurchaseOrder order : orders) {
-				transactionItems.addAll(order.getTransactionItems());
-			}
-		}
-
-		if (transaction instanceof ClientCashPurchase) {
-			List<ClientPurchaseOrder> orders = ((ClientCashPurchase) transaction)
-					.getPurchaseOrders();
-			for (ClientPurchaseOrder order : orders) {
-				transactionItems.addAll(order.getTransactionItems());
+			if (clientTransactionItem.getLineTotal() != null
+					&& clientTransactionItem.getVATfraction() != null) {
+				transactionItems.add(clientTransactionItem);
 			}
 		}
 

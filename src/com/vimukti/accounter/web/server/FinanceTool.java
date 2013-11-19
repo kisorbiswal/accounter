@@ -344,6 +344,7 @@ public class FinanceTool {
 		} catch (Exception e) {
 			transaction.rollback();
 			if (e instanceof AccounterException) {
+				log.error(e.getMessage(), e);
 				throw (AccounterException) e;
 			} else {
 				log.error(e.getMessage(), e);
