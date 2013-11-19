@@ -238,7 +238,7 @@ public class PayrollManager extends Manager {
 
 				for (ClientUserDefinedPayheadItem item : attendanceManagementItem
 						.getUserDefinedPayheads()) {
-					attendance[3]  += item.getValue();
+					attendance[3] += item.getValue();
 				}
 
 			}
@@ -296,7 +296,7 @@ public class PayrollManager extends Manager {
 				} else {
 					deductions += calculatedAmount;
 				}
-				component.setRate(component.getRate() + calculatedAmount);
+				component.setRate(calculatedAmount);
 			}
 
 			component.setEmployee(selectItem.getName());

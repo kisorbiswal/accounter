@@ -143,11 +143,6 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			public int insertNewLineNumber() {
 				return 1;
 			}
-
-			@Override
-			protected boolean isEnable() {
-				return false;
-			}
 		};
 		this.addColumn(rateColumn);
 

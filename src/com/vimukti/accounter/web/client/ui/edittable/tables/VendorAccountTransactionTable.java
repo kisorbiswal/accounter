@@ -72,7 +72,7 @@ public abstract class VendorAccountTransactionTable extends
 		addEmptyRecords();
 	}
 
-	protected ClientTransactionItem getEmptyRow() {
+	public ClientTransactionItem getEmptyRow() {
 		ClientTransactionItem item = new ClientTransactionItem();
 		item.setType(ClientTransactionItem.TYPE_ACCOUNT);
 		return item;

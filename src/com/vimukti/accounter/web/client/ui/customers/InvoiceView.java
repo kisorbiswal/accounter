@@ -436,7 +436,21 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						tItem.setAccount(0L);
 					}
 
+					int emptyRows = 0;
+					for (ClientTransactionItem cItem : customerTransactionTable
+							.getAllRows()) {
+						if (cItem.isEmpty()) {
+							customerTransactionTable.delete(cItem);
+							emptyRows++;
+						}
+					}
 					customerTransactionTable.add(tItem);
+					while (emptyRows > 1) {
+						customerTransactionTable.add(customerTransactionTable
+								.getEmptyRow());
+						emptyRows--;
+					}
+
 					clonesObjs.put(transactionItem, tItem);
 					ClientTAXCode selectedValue = taxCodeSelect
 							.getSelectedValue();
@@ -1365,6 +1379,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (saveView != null) {
 			updateTransaction();
 			transaction.setEstimates(new ArrayList<ClientEstimate>());
+			List<ClientTransactionItem> tItems = transaction
+					.getTransactionItems();
+			Iterator<ClientTransactionItem> iterator = tItems.iterator();
+			while (iterator.hasNext()) {
+				ClientTransactionItem next = iterator.next();
+				if (next.getReferringTransactionItem() != 0) {
+					iterator.remove();
+				}
+			}
 		}
 		return saveView;
 	}

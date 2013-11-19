@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -381,7 +382,20 @@ public class CashSalesView extends
 						tItem.setAccount(0L);
 					}
 
+					int emptyRows = 0;
+					for (ClientTransactionItem cItem : customerItemTransactionTable
+							.getAllRows()) {
+						if (cItem.isEmpty()) {
+							customerItemTransactionTable.delete(cItem);
+							emptyRows++;
+						}
+					}
 					customerItemTransactionTable.add(tItem);
+					while (emptyRows > 1) {
+						customerItemTransactionTable
+								.add(customerItemTransactionTable.getEmptyRow());
+						emptyRows--;
+					}
 					transaction.getTransactionItems().add(tItem);
 					clonesObjs.put(transactionItem, tItem);
 					ClientTAXCode selectedValue = taxCodeSelect
@@ -853,6 +867,15 @@ public class CashSalesView extends
 		if (saveView != null) {
 			updateTransaction();
 			transaction.setSalesOrders(new ArrayList<ClientEstimate>());
+			List<ClientTransactionItem> tItems = transaction
+					.getTransactionItems();
+			Iterator<ClientTransactionItem> iterator = tItems.iterator();
+			while (iterator.hasNext()) {
+				ClientTransactionItem next = iterator.next();
+				if (next.getReferringTransactionItem() != 0) {
+					iterator.remove();
+				}
+			}
 		}
 		return saveView;
 	}

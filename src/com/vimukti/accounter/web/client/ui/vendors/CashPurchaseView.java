@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -20,7 +21,6 @@ import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -338,7 +338,20 @@ public class CashPurchaseView extends
 						tItem.setAccount(0L);
 					}
 
+					int emptyRows = 0;
+					for (ClientTransactionItem cItem : vendorItemTransactionTable
+							.getAllRows()) {
+						if (cItem.isEmpty()) {
+							vendorItemTransactionTable.delete(cItem);
+							emptyRows++;
+						}
+					}
 					vendorItemTransactionTable.add(tItem);
+					while (emptyRows > 1) {
+						vendorItemTransactionTable
+								.add(vendorItemTransactionTable.getEmptyRow());
+						emptyRows--;
+					}
 					transaction.getTransactionItems().add(tItem);
 					clonesObjs.put(transactionItem, tItem);
 					ClientTAXCode selectedValue = taxCodeSelect
@@ -915,6 +928,15 @@ public class CashPurchaseView extends
 		if (saveView != null) {
 			updateTransaction();
 			transaction.setPurchaseOrders(new ArrayList<ClientPurchaseOrder>());
+			List<ClientTransactionItem> tItems = transaction
+					.getTransactionItems();
+			Iterator<ClientTransactionItem> iterator = tItems.iterator();
+			while (iterator.hasNext()) {
+				ClientTransactionItem next = iterator.next();
+				if (next.getReferringTransactionItem() != 0) {
+					iterator.remove();
+				}
+			}
 		}
 		return saveView;
 	}

@@ -62,7 +62,7 @@ public abstract class CustomerItemTransactionTable extends
 	}
 
 	@Override
-	protected ClientTransactionItem getEmptyRow() {
+	public ClientTransactionItem getEmptyRow() {
 		ClientTransactionItem item = new ClientTransactionItem();
 		item.setType(ClientTransactionItem.TYPE_ITEM);
 		return item;

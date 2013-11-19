@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -38,21 +39,8 @@ public class EmployeeDropDownTable extends
 			reInitData();
 			return;
 		}
-		Accounter.createPayrollService().getEmployeesByGroup(employeeGroup,
-				new AsyncCallback<ArrayList<ClientEmployee>>() {
-
-					@Override
-					public void onSuccess(ArrayList<ClientEmployee> result) {
-						list = result;
-						reInitData();
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
-					}
-				});
+		ClientEmployeeGroup eg = (ClientEmployeeGroup) employeeGroup;
+		list.addAll(eg.getEmployees());
 	}
 
 	private void initList() {

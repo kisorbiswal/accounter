@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
@@ -27,7 +28,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
  * 
  */
 public abstract class PayHead extends CreatableObject implements
-		IAccounterServerCore,INamedObject{
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -292,10 +293,29 @@ public abstract class PayHead extends CreatableObject implements
 			double deductions, double earnings) {
 		return 0;
 	}
+
 	@Override
 	public int getObjType() {
 		// TODO Auto-generated method stub
 		return IAccounterCore.PAY_HEAD;
 	}
-	
+
+	@Override
+	public void selfValidate() throws AccounterException {
+		if (this.name == null || this.name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					getName());
+		}
+
+		Set<PayHead> payHeads = getCompany().getPayHeads();
+		for (PayHead ph : payHeads) {
+			if (ph.getID() == getID()) {
+				continue;
+			}
+			if (ph.getName().equalsIgnoreCase(getName())) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_ALREADY_EXIST, getName());
+			}
+		}
+	}
 }

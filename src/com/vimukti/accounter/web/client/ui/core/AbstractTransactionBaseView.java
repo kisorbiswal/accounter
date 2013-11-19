@@ -400,9 +400,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			return false;
 		}
 		for (ClientTransactionItem item : data.getTransactionItems()) {
-			if (item.getReferringTransactionItem() == 0) {
-				return item.isAmountIncludeTAX();
-			}
+			return item.isAmountIncludeTAX();
 		}
 		return false;
 	}
