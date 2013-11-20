@@ -545,7 +545,7 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		result.add(basicInfoForm.validate());
 		String name = nameItem.getValue();
 		ClientEmployee employee = getCompany().getEmployeeByName(name);
-		if (employee != null) {
+		if (employee != null && !(this.getData().getID() == employee.getID())) {
 			result.addError(nameItem, messages.alreadyExist());
 			return result;
 		}

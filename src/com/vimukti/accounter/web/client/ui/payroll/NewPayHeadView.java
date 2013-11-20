@@ -574,7 +574,8 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		String payHeadName = nameItem.getValue();
 		ClientPayHead payHeadByName = getCompany()
 				.getPayHeadByName(payHeadName);
-		if (payHeadByName != null) {
+		if (payHeadByName != null
+				&& !!(this.getData().getID() == payHeadByName.getID())) {
 			result.addError(nameItem, messages.alreadyExist());
 			return result;
 		}
