@@ -18,11 +18,17 @@ public class PayHeadEmployeeToolBar extends PayHeadReportToolBar {
 	@Override
 	protected void createControls() {
 		employeeCombo = new EmployeeCombo(messages.employee()) {
+			ClientEmployee allEmployee = null;
+
 			@Override
 			public void initCombo(List<ClientEmployee> list) {
-				ClientEmployee clientEmployee = new ClientEmployee();
-				clientEmployee.setName(messages.all());
-				list.add(clientEmployee);
+				if (allEmployee == null) {
+					allEmployee = new ClientEmployee();
+					allEmployee.setName(messages.all());
+				}
+				if (!list.contains(allEmployee)) {
+					list.add(allEmployee);
+				}
 				super.initCombo(list);
 			}
 		};

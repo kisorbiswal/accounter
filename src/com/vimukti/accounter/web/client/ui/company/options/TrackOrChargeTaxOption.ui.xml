@@ -12,9 +12,9 @@
 				<g:Label ui:field="taxItemTransactionLabel" />
 				<g:FlowPanel>
 					<g:FlowPanel ui:field="radioButtonPanel">
-						<g:RadioButton name="" ui:field="onepeTransactionRadioButton" />
+						<g:RadioButton name="taxtype" ui:field="onepeTransactionRadioButton" />
 						<g:Label ui:field="oneperTransactionLabel" />
-						<g:RadioButton name="" ui:field="oneperdetaillineRadioButton" />
+						<g:RadioButton name="taxtype" ui:field="oneperdetaillineRadioButton" />
 						<g:Label ui:field="oneperdetaillineLabel" />
 					</g:FlowPanel>
 					<g:CheckBox ui:field="enableTaxCheckbox" />

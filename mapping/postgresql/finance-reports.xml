@@ -4695,25 +4695,37 @@
 		<return-scalar column="PAY_HEAD_NAME" type="encryptedstring"></return-scalar>
 		<return-scalar column="PAY_HEAD_AMOUNT" type="double"></return-scalar>
 		<![CDATA[
-				SELECT E.ID AS EMPLOYEE_ID,
-				E.NAME AS EMPLOYEE_NAME,
-				PH.ID AS PAYHEAD_ID,
-				PH.NAME AS PAY_HEAD_NAME,
-				SUM(EPC.RATE) AS PAY_HEAD_AMOUNT
-				FROM EMPLOYEE_PAYMENT_DETAILS EPD
-				LEFT OUTER JOIN EMPLOYEE_PAYHEAD_COMPONENT EPC ON
-				EPC.EMPLOYEE_PAYMENT_DETAILS_ID = EPD.ID
-				LEFT OUTER JOIN PAYEE E ON E.ID = EPD.EMPLOYEE	
-				LEFT OUTER JOIN PAY_HEAD PH ON PH.ID = EPC.PAY_HEAD
-				LEFT OUTER JOIN PAY_RUN PR ON PR.ID = EPD.PAY_RUN_ID
-				LEFT OUTER JOIN TRANSACTION T ON T.ID = PR.ID
-				WHERE PR.COMPANY_ID=:companyId AND (PR.PAY_PERIOD_ENDDATE
-				BETWEEN :startDate AND :endDate OR PAY_PERIOD_STARTDATE 
-				BETWEEN :startDate AND :endDate) AND CASE WHEN :payHeadId =0
-				THEN TRUE ELSE PH.ID =:payHeadId END AND T.SAVE_STATUS NOT IN
-				(204,201,202)
-				GROUP BY PH.ID,E.ID,T.ID
-				ORDER BY  T.T_DATE ASC
+		SELECT E.id    AS EMPLOYEE_ID, 
+		       E.name  AS EMPLOYEE_NAME, 
+		       PH.id   AS PAYHEAD_ID, 
+		       PH.name AS PAY_HEAD_NAME, 
+		       SUM(CASE 
+		             WHEN PH.TYPE IN ( 1, 6, 7, 8 ) THEN EPC.rate 
+		             ELSE ( -1 * EPC.rate ) 
+		           END)AS PAY_HEAD_AMOUNT 
+		FROM   employee_payment_details EPD 
+		       left outer join employee_payhead_component EPC 
+		                    ON EPC.employee_payment_details_id = EPD.id 
+		       left outer join payee E 
+		                    ON E.id = EPD.employee 
+		       left outer join pay_head PH 
+		                    ON PH.id = EPC.pay_head 
+		       left outer join pay_run PR 
+		                    ON PR.id = EPD.pay_run_id 
+		       left outer join TRANSACTION T 
+		                    ON T.id = PR.id 
+		WHERE  PR.company_id = :companyId 
+		       AND ( PR.pay_period_enddate BETWEEN :startDate AND :endDate 
+		              OR pay_period_startdate BETWEEN :startDate AND :endDate ) 
+		       AND CASE 
+		             WHEN :payHeadId = 0 THEN TRUE 
+		             ELSE PH.id = :payHeadId 
+		           END 
+		       AND T.save_status NOT IN ( 204, 201, 202 ) 
+		GROUP  BY PH.id, 
+		          E.id, 
+		          T.id 
+		ORDER  BY T.t_date ASC 
 		]]>
 
 	</sql-query>

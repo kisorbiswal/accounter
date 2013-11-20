@@ -60,8 +60,10 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 		enableTaxCheckbox.setValue(getCompanyPreferences().isTrackPaidTax());
 		if (getCompanyPreferences().isTaxPerDetailLine()) {
 			oneperDetailLineRadioButton.setValue(true);
+			oneperTransactionRadioButton.setValue(false);
 		} else {
 			oneperTransactionRadioButton.setValue(true);
+			oneperDetailLineRadioButton.setValue(false);
 		}
 
 		if (getCompany().getCountryPreferences().isTDSAvailable()) {

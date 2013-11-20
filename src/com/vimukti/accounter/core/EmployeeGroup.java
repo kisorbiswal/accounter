@@ -1,6 +1,8 @@
 package com.vimukti.accounter.core;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
@@ -30,7 +32,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
  * 
  */
 public class EmployeeGroup extends CreatableObject implements
-		PayStructureDestination,INamedObject {
+		PayStructureDestination, INamedObject {
 
 	/**
 	 * 
@@ -39,7 +41,7 @@ public class EmployeeGroup extends CreatableObject implements
 
 	private String name;
 
-	private List<Employee> employees;
+	private Set<Employee> employees = new HashSet<Employee>();
 
 	/**
 	 * @return the name
@@ -59,7 +61,7 @@ public class EmployeeGroup extends CreatableObject implements
 	/**
 	 * @return the employees
 	 */
-	public List<Employee> getEmployees() {
+	public Set<Employee> getEmployees() {
 		return employees;
 	}
 
@@ -67,7 +69,7 @@ public class EmployeeGroup extends CreatableObject implements
 	 * @param employees
 	 *            the employees to set
 	 */
-	public void setEmployees(List<Employee> employees) {
+	public void setEmployees(Set<Employee> employees) {
 		this.employees = employees;
 	}
 

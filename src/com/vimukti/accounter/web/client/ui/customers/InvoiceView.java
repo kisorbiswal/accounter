@@ -418,6 +418,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					// SELECTED
 					ClientTransactionItem tItem = transactionItem.clone();
 					tItem.setID(0l);
+					if (vatinclusiveCheck != null) {
+						tItem.setAmountIncludeTAX(vatinclusiveCheck.getValue());
+					}
 					tItem.setLineTotal(tItem.getLineTotal()
 							/ getCurrencyFactor());
 					tItem.setDiscount(tItem.getDiscount() / getCurrencyFactor());

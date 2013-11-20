@@ -597,7 +597,9 @@ public class VendorBillView extends
 							/ getCurrencyFactor());
 					tItem.setReferringTransactionItem(transactionItem.getID());
 					tItem.setTransaction(transaction);
-
+					if (vatinclusiveCheck != null) {
+						tItem.setAmountIncludeTAX(vatinclusiveCheck.getValue());
+					}
 					if (tItem.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
 						tItem.setType(ClientTransactionItem.TYPE_ITEM);
 						tItem.setAccount(0L);

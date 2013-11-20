@@ -282,26 +282,22 @@ public class PayRun extends Transaction {
 	public void getEffects(ITransactionEffects e) {
 
 		for (EmployeePaymentDetails detail : this.getPayEmployee()) {
+			double empTotal = 0.00D;
 			for (EmployeePayHeadComponent component : detail
 					.getPayHeadComponents()) {
 				double rate = component.getRate();
 				Account account = component.getPayHead().getAccount();
 				if (component.isDeduction()) {
+					empTotal += rate;
 					e.add(account, rate, 1);
 				} else if (component.isEarning()) {
+					empTotal -= rate;
 					e.add(account, -rate, 1);
 				}
 			}
+			e.add(detail.getEmployee(), -1 * empTotal);
 		}
 
-		if (getEmployee() != null) {
-			e.add(getEmployee(), getTotal());
-		} else {
-			List<Employee> employees = getEmployeeGroup().getEmployees();
-			for (Employee employee : employees) {
-				e.add(employee, getTotal());
-			}
-		}
 	}
 
 	public void setNoOfWorkingDays(Double noOfWorkingDays) {

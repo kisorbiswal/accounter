@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.server.managers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -391,7 +392,7 @@ public class PayrollManager extends Manager {
 			List<Employee> employees = session
 					.getNamedQuery("getEmployeesByGroup")
 					.setParameter("groupId", group.getID()).list();
-			group.setEmployees(employees);
+			group.setEmployees(new HashSet<Employee>(employees));
 			ClientEmployeeGroup clientGroup = new ClientConvertUtil()
 					.toClientObject(group, ClientEmployeeGroup.class);
 			clientGroups.add(clientGroup);

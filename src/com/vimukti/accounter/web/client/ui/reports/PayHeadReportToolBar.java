@@ -19,11 +19,17 @@ public class PayHeadReportToolBar extends DateRangeReportToolbar {
 	@Override
 	protected void createControls() {
 		payheadCombo = new PayheadCombo(messages.payhead()) {
+			ClientPayHead allPayhead = null;
+
 			@Override
 			public void initCombo(List<ClientPayHead> list) {
-				ClientPayHead clientEmployee = new ClientPayHead();
-				clientEmployee.setName(messages.all());
-				list.add(clientEmployee);
+				if (allPayhead == null) {
+					allPayhead = new ClientPayHead();
+					allPayhead.setName(messages.all());
+				}
+				if (!list.contains(allPayhead)) {
+					list.add(allPayhead);
+				}
 				super.initCombo(list);
 			}
 		};

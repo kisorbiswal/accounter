@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.payroll;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.IsWidget;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientComputaionFormulaFunction;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
@@ -16,6 +17,7 @@ import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DateColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
+import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 
 public class PayStructureTable extends EditTable<ClientPayStructureItem> {
@@ -77,27 +79,45 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 		});
 
 		payheadColumn = new PayHeadColumn() {
+
+			@Override
+			public void render(IsWidget widget,
+					RenderContext<ClientPayStructureItem> context) {
+				super.render(widget, context);
+				ClientPayStructureItem row = context.getRow();
+				ClientPayHead value = getValue(row);
+				if (row == null || value == null) {
+					return;
+				}
+				rateColumn.setEnable(row, canEnableRate(value));
+			}
+
 			@Override
 			protected void setValue(ClientPayStructureItem row,
 					ClientPayHead newValue) {
 
-				if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE
-						|| newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED) {
-					rateColumn.setEnable(row, false);
-				} else if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE
-						|| newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
-					ClientAttendancePayHead ph = (ClientAttendancePayHead) newValue;
-					if (ph.getAttendanceType() == ClientAttendancePayHead.ATTENDANCE_ON_RATE) {
-						rateColumn.setEnable(row, true);
-					} else {
-						rateColumn.setEnable(row, false);
-					}
-				} else {
-					rateColumn.setEnable(row, true);
-				}
+				rateColumn.setEnable(row, canEnableRate(newValue));
 				row.setPayHead(newValue.getID());
 				row.setClientPayHead(newValue);
 				update(row);
+			}
+
+			private boolean canEnableRate(ClientPayHead newValue) {
+				int calType = newValue.getCalculationType();
+				if (calType == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE
+						|| calType == ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED) {
+					return false;
+				} else if (calType == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE
+						|| calType == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
+					ClientAttendancePayHead ph = (ClientAttendancePayHead) newValue;
+					if (ph.getAttendanceType() == ClientAttendancePayHead.ATTENDANCE_ON_RATE) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+				return true;
+
 			}
 
 			@Override

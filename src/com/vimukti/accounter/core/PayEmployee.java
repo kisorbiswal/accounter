@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -80,7 +81,7 @@ public class PayEmployee extends Transaction {
 					if (getEmployee() != null) {
 						e.add(getEmployee().getAccount(), diff, 1);
 					} else {
-						List<Employee> employees = getEmployeeGroup()
+						Set<Employee> employees = getEmployeeGroup()
 								.getEmployees();
 						for (Employee employee : employees) {
 							e.add(employee.getAccount(), diff, 1);
@@ -94,7 +95,7 @@ public class PayEmployee extends Transaction {
 		if (getEmployee() != null) {
 			e.add(getEmployee(), unUsedAmount - getTotal());
 		} else {
-			List<Employee> employees = getEmployeeGroup().getEmployees();
+			Set<Employee> employees = getEmployeeGroup().getEmployees();
 			for (Employee employee : employees) {
 				e.add(employee, unUsedAmount - getTotal());
 			}

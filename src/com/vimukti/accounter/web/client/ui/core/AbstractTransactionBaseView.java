@@ -1246,9 +1246,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			return;
 		}
 		for (ClientTransactionItem item : transaction.getTransactionItems()) {
-			if (item.getReferringTransactionItem() == 0) {
-				item.setAmountIncludeTAX(vatinclusiveCheck.getValue());
-			}
+			item.setAmountIncludeTAX(vatinclusiveCheck.getValue());
 		}
 	}
 

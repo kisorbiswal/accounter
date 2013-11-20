@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Features;
+import com.vimukti.accounter.web.client.core.ItemUnitPrice;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -212,6 +213,13 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 				}
 				return super.getWidth();
 			}
+
+			@Override
+			protected void setValue(ClientTransactionItem row,
+					ItemUnitPrice newValue) {
+				super.setValue(row, newValue);
+				update(row);
+			}
 		};
 
 		if (Accounter.hasPermission(Features.HOSTORICAL_UNITPRICES)) {
@@ -229,6 +237,12 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 						return 60;
 					}
 					return super.getWidth();
+				}
+
+				@Override
+				public void setValue(ClientTransactionItem row, String newValue) {
+					super.setValue(row, newValue);
+					update(row);
 				}
 			});
 		}

@@ -18,6 +18,10 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<property name="name" column="NAME" type="encryptedstring" />
+		<set name="employees" inverse="true">
+			<key column="EMPLOYEE_GROUP" />
+			<one-to-many class="Employee" />
+		</set>
 	</class>
 
 	<class name="PayrollUnit" table="PAY_ROLL_UNIT">
@@ -421,7 +425,7 @@
 					P.BANK_ACCOUNT_NO AS ACCOUNT_NUMBER,
 					P.BANK_NAME AS BANK_NAME,
 					P.BANK_BRANCH AS BRANCH,
-					SUM(PC.RATE) AS AMOUNT,
+					SUM(CASE WHEN P.TYPE IN (1,6,7,8) THEN PC.RATE ELSE (-1 * PC.RATE) END) AS AMOUNT,
 					P.EMAIL_ID AS EMAIL,
 					P.ID AS EMPLOYEE_ID
 					FROM EMPLOYEE E 
@@ -429,6 +433,7 @@
 						LEFT JOIN EMPLOYEE_PAYMENT_DETAILS PD ON PD.EMPLOYEE = E.ID
 						LEFT JOIN EMPLOYEE_PAYHEAD_COMPONENT PC ON PC.EMPLOYEE_PAYMENT_DETAILS_ID = PD.ID
 						LEFT JOIN TRANSACTION T ON T.ID = PD.PAY_RUN_ID
+						LEFT JOIN PAY_HEAD P ON P.ID = PC.PAY_HEAD
 				
 						WHERE P.COMPANY_ID = :companyId
 								AND T.T_DATE BETWEEN :start AND :end
