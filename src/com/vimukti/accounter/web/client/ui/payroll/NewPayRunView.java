@@ -135,7 +135,14 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		labeldateNoLayout.add(datepanel);
 
 		empsAndGroups = new EmployeesAndGroupsCombo(messages.employeeOrGroup(),
-				"empsAndGroups");
+				"empsAndGroups") {
+			public void selectCombo() {
+				super.selectCombo();
+				ClientPayStructureDestination selectedValue = empsAndGroups
+						.getSelectedValue();
+				table.setDestination(selectedValue);
+			};
+		};
 		empsAndGroups
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPayStructureDestination>() {
 

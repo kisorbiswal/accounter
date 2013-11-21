@@ -27,6 +27,8 @@ public class AttendanceManagementTable extends
 	private EmployeeColumn employeeColumn;
 	private List<ClientAttendanceManagementItem> items;
 	private ICurrencyProvider currencyProvider;
+	private ClientPayStructureDestination destination;
+	private boolean gotRecords = false;
 
 	public AttendanceManagementTable(ICurrencyProvider currencyProvider) {
 		super();
@@ -45,9 +47,13 @@ public class AttendanceManagementTable extends
 
 					@Override
 					public void onSuccess(PaginationList<IAccounterCore> result) {
+						gotRecords = true;
 						AttendanceManagementTable.this
 								.createAttendanceOrProductionTypeColumns(result);
 						setAllRows(items);
+						if (destination != null) {
+							updateList(destination);
+						}
 					}
 
 					@Override
@@ -264,6 +270,15 @@ public class AttendanceManagementTable extends
 
 	public void setData(List<ClientAttendanceManagementItem> items) {
 		this.items = items;
+	}
+
+	public void setDestination(ClientPayStructureDestination destination) {
+		if (gotRecords) {
+			updateList(destination);
+		} else {
+			this.destination = destination;
+		}
+
 	}
 
 }
