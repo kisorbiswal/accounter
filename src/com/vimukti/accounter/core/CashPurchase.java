@@ -581,8 +581,20 @@ public class CashPurchase extends Transaction {
 						false);
 				newTransactionItem.setQuantity(transactionItem.getQuantity());
 				newTransactionItem.setId(0);
-				newTransactionItem.setTaxCode(null);
 				newTransactionItem.setOnSaveProccessed(false);
+
+				TAXCode taxCode = transactionItem.getTaxCode();
+				if (taxCode.getTAXItemGrpForSales() != null) {
+					// THIS CAN BE USED IN SALES TRANSACTION WITH THIS TAX.
+					newTransactionItem.setTaxCode(taxCode);
+					newTransactionItem.setVATfraction(transactionItem
+							.getVATfraction());
+				} else {
+					// THIS TAX CODE CANNOT BE USED IN SALES TRANSACTIONS.
+					newTransactionItem.setTaxCode(null);
+					newTransactionItem.setVATfraction(new Double(0));
+				}
+
 				newTransactionItem.setLineTotal(newTransactionItem
 						.getLineTotal() * getCurrencyFactor());
 				newTransactionItem.setDiscount(newTransactionItem.getDiscount()
