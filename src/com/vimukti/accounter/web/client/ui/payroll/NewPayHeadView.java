@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.Label;
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
@@ -575,7 +574,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		ClientPayHead payHeadByName = getCompany()
 				.getPayHeadByName(payHeadName);
 		if (payHeadByName != null
-				&& !!(this.getData().getID() == payHeadByName.getID())) {
+				&& !(this.getData().getID() == payHeadByName.getID())) {
 			result.addError(nameItem, messages.alreadyExist());
 			return result;
 		}
