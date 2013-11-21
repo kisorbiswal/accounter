@@ -135,7 +135,7 @@ public abstract class CustomerItemTransactionTable extends
 		this.addColumn(new DescriptionEditColumn() {
 			@Override
 			public int getWidth() {
-				return 240;
+				return -1;
 			}
 		});
 

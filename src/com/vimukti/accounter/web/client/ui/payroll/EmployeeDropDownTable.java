@@ -49,8 +49,7 @@ public class EmployeeDropDownTable extends
 
 					@Override
 					public void onSuccess(PaginationList<ClientEmployee> result) {
-						list = result;
-						reInitData();
+						gotEmployees(result);
 					}
 
 					@Override
@@ -59,6 +58,11 @@ public class EmployeeDropDownTable extends
 
 					}
 				});
+	}
+
+	protected void gotEmployees(PaginationList<ClientEmployee> result) {
+		list = result;
+		reInitData();
 	}
 
 	@Override

@@ -30,6 +30,8 @@ public class ClientAttendanceOrProductionType implements IAccounterCore {
 	private long id;
 	private int version;
 
+	private ClientPayrollUnit clientPayrollUnit;
+
 	public int getType() {
 		return type;
 	}
@@ -116,5 +118,16 @@ public class ClientAttendanceOrProductionType implements IAccounterCore {
 		default:
 			return null;
 		}
+	}
+
+	public void setClientPayrollUnit(ClientPayrollUnit clientUnit) {
+		this.clientPayrollUnit = clientUnit;
+	}
+
+	/**
+	 * @return the clientPayrollUnit
+	 */
+	public ClientPayrollUnit getClientPayrollUnit() {
+		return clientPayrollUnit;
 	}
 }

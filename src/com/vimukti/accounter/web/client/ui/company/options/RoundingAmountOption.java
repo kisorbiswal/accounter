@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.JNSI;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -79,8 +78,11 @@ public class RoundingAmountOption extends AbstractPreferenceOption {
 		getCompanyPreferences().setRoundingLimit(
 				Double.valueOf(roundingLimitItem.getValue()));
 
-		getCompanyPreferences().setRoundingAccount(
-				getAccounts().get(accountsCombo.getSelectedIndex()).getID());
+		int roudingAccount = accountsCombo.getSelectedIndex();
+		if (roudingAccount >= 0) {
+			getCompanyPreferences().setRoundingAccount(
+					getAccounts().get(roudingAccount).getID());
+		}
 
 	}
 

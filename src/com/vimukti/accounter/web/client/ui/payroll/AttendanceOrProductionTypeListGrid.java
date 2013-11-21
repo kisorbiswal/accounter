@@ -48,7 +48,7 @@ public class AttendanceOrProductionTypeListGrid extends
 			return ClientAttendanceOrProductionType.getTypeName(obj.getType());
 		case 2:
 			if (obj.getType() == ClientAttendanceOrProductionType.TYPE_PRODUCTION) {
-				return obj.getUnit();
+				return obj.getClientPayrollUnit().getName();
 			}
 			return ClientPayHead.getCalculationPeriod(obj.getPeriodType());
 

@@ -366,10 +366,14 @@ public class PayrollManager extends Manager {
 			types = query.setFirstResult(start).setMaxResults(length).list();
 		}
 		PaginationList<ClientAttendanceOrProductionType> list = new PaginationList<ClientAttendanceOrProductionType>();
+		ClientConvertUtil cUtils = new ClientConvertUtil();
 		for (AttendanceOrProductionType type : types) {
-			ClientAttendanceOrProductionType clientType;
-			clientType = new ClientConvertUtil().toClientObject(type,
-					ClientAttendanceOrProductionType.class);
+			ClientAttendanceOrProductionType clientType = cUtils
+					.toClientObject(type,
+							ClientAttendanceOrProductionType.class);
+			ClientPayrollUnit clientUnit = cUtils.toClientObject(
+					type.getUnit(), ClientPayrollUnit.class);
+			clientType.setClientPayrollUnit(clientUnit);
 			list.add(clientType);
 		}
 		list.setTotalCount(total);

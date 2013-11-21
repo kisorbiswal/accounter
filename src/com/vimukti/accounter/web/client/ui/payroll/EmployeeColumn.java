@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.payroll;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.ComboColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
@@ -11,17 +12,18 @@ public class EmployeeColumn extends
 		ComboColumn<ClientAttendanceManagementItem, ClientEmployee> {
 
 	EmployeeDropDownTable dropdown = new EmployeeDropDownTable(null) {
-		protected void reInitData() {
-			super.reInitData();
+		protected void gotEmployees(PaginationList<ClientEmployee> result) {
+			super.gotEmployees(result);
 			EditTable<ClientAttendanceManagementItem> table = EmployeeColumn.this
 					.getTable();
-			table.setAllRows(table.getAllRows());
+			for (ClientAttendanceManagementItem cmItem : table.getAllRows()) {
+				table.update(cmItem);
+			}
 		};
 	};
 
 	@Override
 	protected ClientEmployee getValue(ClientAttendanceManagementItem row) {
-		getTable().update(row);
 		return dropdown.getEmployee(row.getEmployee());
 	}
 
