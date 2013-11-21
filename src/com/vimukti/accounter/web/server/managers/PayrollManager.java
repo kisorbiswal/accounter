@@ -371,9 +371,12 @@ public class PayrollManager extends Manager {
 			ClientAttendanceOrProductionType clientType = cUtils
 					.toClientObject(type,
 							ClientAttendanceOrProductionType.class);
-			ClientPayrollUnit clientUnit = cUtils.toClientObject(
-					type.getUnit(), ClientPayrollUnit.class);
-			clientType.setClientPayrollUnit(clientUnit);
+			PayrollUnit serverUnit = type.getUnit();
+			if (serverUnit != null) {
+				ClientPayrollUnit clientUnit = cUtils.toClientObject(
+						serverUnit, ClientPayrollUnit.class);
+				clientType.setClientPayrollUnit(clientUnit);
+			}
 			list.add(clientType);
 		}
 		list.setTotalCount(total);
