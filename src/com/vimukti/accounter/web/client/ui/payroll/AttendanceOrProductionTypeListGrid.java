@@ -109,6 +109,6 @@ public class AttendanceOrProductionTypeListGrid extends
 	@Override
 	protected String[] getColumns() {
 		return new String[] { messages.name(), messages.type(),
-				messages.period(), messages.delete() };
+				messages2.periodOrUnit(), messages.delete() };
 	}
 }

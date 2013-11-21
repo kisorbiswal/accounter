@@ -268,4 +268,6 @@ public interface AccounterMessages2 extends Messages {
 	public String reached();
 
 	public String safe();
+
+	public String periodOrUnit();
 }

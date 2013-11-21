@@ -48,6 +48,7 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
@@ -96,6 +97,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 
 	ClientCurrency currency = getCompany().getPrimaryCurrency();
 	protected static AccounterMessages messages = Global.get().messages();
+	protected static AccounterMessages2 messages2 = Global.get().messages2();
 
 	private int editEventType = 1;
 	protected RecordClickHandler<T> recordClickHandler;
@@ -913,7 +915,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		this.removeAllRows();
 		this.objects.clear();
 		this.selectedObject = null;
-}
+	}
 
 	public void editComplete(T item, Object value, int col) {
 
