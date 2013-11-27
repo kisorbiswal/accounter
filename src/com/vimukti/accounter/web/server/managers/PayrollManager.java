@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.server.managers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -10,6 +11,7 @@ import java.util.Map;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.gargoylesoftware.htmlunit.javascript.host.Attr;
 import com.vimukti.accounter.core.AttendanceOrProductionType;
 import com.vimukti.accounter.core.AttendancePayHead;
 import com.vimukti.accounter.core.ClientConvertUtil;
@@ -220,6 +222,9 @@ public class PayrollManager extends Manager {
 		double deductions = 0.0;
 
 		double[] attendance = { 0, 0, 0, 0 };
+		
+		HashMap<Long, Double> userDefinedValues = new HashMap<Long, Double>();
+		
 
 		if (attendanceItems != null && attendanceItems.size() > 0) {
 			for (ClientAttendanceManagementItem attendanceManagementItem : attendanceItems) {
@@ -239,7 +244,7 @@ public class PayrollManager extends Manager {
 
 				for (ClientUserDefinedPayheadItem item : attendanceManagementItem
 						.getUserDefinedPayheads()) {
-					attendance[3] += item.getValue();
+					userDefinedValues.put(item.getPayHeadID(),item.getValue());
 				}
 
 			}
@@ -287,7 +292,13 @@ public class PayrollManager extends Manager {
 			component.setClientPayHead(clientPayHead);
 			payStructureItem.setStartDate(startDate);
 			payStructureItem.setEndDate(endDate);
-			payStructureItem.setAttendance(attendance);
+			Double userDefValue = userDefinedValues.get(payHead.getID());
+			
+			double[] newAttendance = Arrays.copyOf(attendance, 4);
+			if(userDefValue!=null){
+				newAttendance[3] =userDefValue;
+			}
+			payStructureItem.setAttendance(newAttendance);
 			if (payHead.isAffectNetSalary()) {
 				double calculatedAmount = payHead.calculatePayment(
 						payStructureItem, deductions, earnings);

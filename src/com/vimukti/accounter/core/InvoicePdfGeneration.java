@@ -276,8 +276,8 @@ public class InvoicePdfGeneration extends TransactionPDFGeneration {
 			Address regAddress1 = company.getRegisteredAddress();
 			if (regAddress1 != null) {
 				i.setRegAddress(regAddress1);
-				i.regAddress
-						.setAddress1(forNullValue(regAddress1.getAddress1()));
+				i.regAddress.setAddress1(company.getTradingName() + "\n "
+						+ forNullValue(regAddress1.getAddress1()));
 				i.regAddress.setStreet(forNullValue(regAddress1.getStreet()));
 				i.regAddress.setCity(forNullValue(regAddress1.getCity()));
 				i.regAddress.setStateOrProvinence(forNullValue(regAddress1

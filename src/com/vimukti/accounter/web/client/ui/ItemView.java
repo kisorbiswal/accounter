@@ -1315,6 +1315,7 @@ public class ItemView extends BaseView<ClientItem> {
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
 		nameText.setEnabled(!isInViewMode());
+		reorderPoint.setEnabled(!isInViewMode());
 		skuText.setEnabled(!isInViewMode());
 		weightText.setEnabled(!isInViewMode());
 		salesDescArea.setEnabled(!isInViewMode());
