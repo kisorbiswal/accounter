@@ -488,7 +488,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		data.setNoOfWorkingDays(Double.valueOf(noOfWorkingDays.getNumber()));
 		data.setPayPeriodStartDate(fromDate.getDate().getDate());
 		data.setPayPeriodEndDate(toDate.getDate().getDate());
-		data.setTransactionDate(new ClientFinanceDate().getDate());
+		data.setTransactionDate(transactionDate.getDate());
 		Set<ClientEmployeePaymentDetails> details = new HashSet<ClientEmployeePaymentDetails>();
 
 		ClientPayStructureDestination selectedValue = empsAndGroups
