@@ -211,7 +211,7 @@ public class PayrollManager extends Manager {
 				.setParameter("employee", selectItem)
 				.setParameter("group", selectItem.getGroup())
 				.setParameter("company", getCompany(companyId))
-				.setParameter("start", startDate).setParameter("end", endDate);
+				.setParameter("start", startDate);
 		List<PayStructureItem> list = query.list();
 
 		if (list == null) {

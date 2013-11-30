@@ -376,15 +376,13 @@
 		<query-param name="employee" type="Employee" />
 		<query-param name="group" type="EmployeeGroup" />
 		<query-param name="start" type="com.vimukti.accounter.core.LongUseType" />
-		<query-param name="end" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.PayStructureItem PI
 		where
 		(PI.payStructure.employee = :employee or
 		PI.payStructure.employeeGroup
 		= :group)
 		and PI.payStructure.company = :company
-		and PI.effectiveFrom
-		between :start and :end
+		and PI.effectiveFrom &lt;= :start 
 		order by PI.rate desc
 	</query>
 
