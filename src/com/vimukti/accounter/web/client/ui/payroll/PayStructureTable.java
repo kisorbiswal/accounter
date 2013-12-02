@@ -397,7 +397,7 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 		for (int i = 0; i < allRows.size(); i++) {
 			if (i + 1 < allRows.size()) {
 				ClientPayStructureItem item1 = allRows.get(i + 1);
-				if (isExists(item1.getPayHead(), i + 1)) {
+				if (isExists(item1, i + 1)) {
 					validationResult.addError(this,
 							messages.duplicatePayheadsExist());
 					return validationResult;
@@ -425,14 +425,16 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 		}
 	}
 
-	private boolean isExists(long payhead, int i) {
+	private boolean isExists(ClientPayStructureItem leftItem, int i) {
+		long payHead = leftItem.getPayHead();
+		long effectiveFrom = leftItem.getEffectiveFrom();
 		for (int j = 0; j < getAllRows().size(); j++) {
 			if (i == j) {
 				continue;
 			}
 			ClientPayStructureItem item = getAllRows().get(j);
 
-			if (item.getPayHead() != 0 && item.getPayHead() == payhead) {
+			if ((item.getPayHead() != 0 && item.getPayHead() == payHead) && item.getEffectiveFrom() == effectiveFrom) {
 				return true;
 			}
 		}

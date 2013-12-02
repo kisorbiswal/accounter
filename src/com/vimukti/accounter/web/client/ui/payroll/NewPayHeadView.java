@@ -130,7 +130,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		nameItem.setValue(data.getName());
 		typeCombo.setComboItem(ClientPayHead.getPayHeadType(data.getType()));
 		affectNetSalarytem
-				.setValue(data.isAffectNetSalary() ? "true" : "false");
+				.setValue(data.isAffectNetSalary() ? messages.yes() : messages.no());
 		payslipNameItem.setValue(data.getNameToAppearInPaySlip());
 		if (data.getRoundingMethod() != 0) {
 			roundingMethodCombo.setComboItem(roundingList.get(data

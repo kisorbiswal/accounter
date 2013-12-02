@@ -9,14 +9,7 @@ import com.vimukti.accounter.web.client.ui.edittable.ComboColumn;
 
 public abstract class PayHeadColumn extends
 		ComboColumn<ClientPayStructureItem, ClientPayHead> {
-	PayHeadDropDownTable dropdown = new PayHeadDropDownTable(true) {
-		protected void reInitData() {
-			List<ClientPayStructureItem> rows = getTable().getAllRows();
-			for (ClientPayStructureItem clientPayStructureItem : rows) {
-				getTable().update(clientPayStructureItem);
-			}
-		};
-	};
+	PayHeadDropDownTable dropdown = new PayHeadDropDownTable(true);
 
 	@Override
 	protected ClientPayHead getValue(ClientPayStructureItem row) {

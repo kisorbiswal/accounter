@@ -22,21 +22,8 @@ public class PayHeadDropDownTable extends AbstractDropDownTable<ClientPayHead> {
 	}
 
 	private void initList() {
-		Accounter.createPayrollService().getPayheads(0, -1,
-				new AsyncCallback<PaginationList<ClientPayHead>>() {
-
-					@Override
-					public void onSuccess(PaginationList<ClientPayHead> result) {
-						list = result;
-						reInitData();
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
-					}
-				});
+		list.addAll(Accounter.getCompany().getPayHeads());
+		reInitData();
 	}
 
 	@Override

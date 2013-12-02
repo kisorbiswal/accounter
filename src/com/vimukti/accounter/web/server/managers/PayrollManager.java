@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.transform.ResultTransformer;
+import org.hibernate.transform.Transformers;
 
 import com.gargoylesoftware.htmlunit.javascript.host.Attr;
 import com.vimukti.accounter.core.AttendanceOrProductionType;
@@ -206,12 +209,18 @@ public class PayrollManager extends Manager {
 			Long companyId,
 			List<ClientAttendanceManagementItem> attendanceItems,
 			Long noOfWorkingDays) throws AccounterException {
+		long employeeId = selectItem.getID();
+		EmployeeGroup group = selectItem.getGroup();
+		long employeeGroup = 0l;
+		if (group != null) {
+			employeeGroup = group.getID();
+		}
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPayStructureItem.by.employee")
-				.setParameter("employee", selectItem)
-				.setParameter("group", selectItem.getGroup())
-				.setParameter("company", getCompany(companyId))
-				.setParameter("start", startDate);
+				.setParameter("employee", employeeId)
+				.setParameter("group", employeeGroup)
+				.setParameter("companyId", companyId)
+				.setParameter("start", startDate.getDate());
 		List<PayStructureItem> list = query.list();
 
 		if (list == null) {
@@ -222,9 +231,8 @@ public class PayrollManager extends Manager {
 		double deductions = 0.0;
 
 		double[] attendance = { 0, 0, 0, 0 };
-		
+
 		HashMap<Long, Double> userDefinedValues = new HashMap<Long, Double>();
-		
 
 		if (attendanceItems != null && attendanceItems.size() > 0) {
 			for (ClientAttendanceManagementItem attendanceManagementItem : attendanceItems) {
@@ -244,7 +252,7 @@ public class PayrollManager extends Manager {
 
 				for (ClientUserDefinedPayheadItem item : attendanceManagementItem
 						.getUserDefinedPayheads()) {
-					userDefinedValues.put(item.getPayHeadID(),item.getValue());
+					userDefinedValues.put(item.getPayHeadID(), item.getValue());
 				}
 
 			}
@@ -293,10 +301,10 @@ public class PayrollManager extends Manager {
 			payStructureItem.setStartDate(startDate);
 			payStructureItem.setEndDate(endDate);
 			Double userDefValue = userDefinedValues.get(payHead.getID());
-			
+
 			double[] newAttendance = Arrays.copyOf(attendance, 4);
-			if(userDefValue!=null){
-				newAttendance[3] =userDefValue;
+			if (userDefValue != null) {
+				newAttendance[3] = userDefValue;
 			}
 			payStructureItem.setAttendance(newAttendance);
 			if (payHead.isAffectNetSalary()) {

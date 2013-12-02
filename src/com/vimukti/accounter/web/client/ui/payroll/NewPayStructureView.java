@@ -128,7 +128,7 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 									item.setID(0);
 								}
 							}
-							grid.setAllRows(items);
+							grid.initPayStructureItems(items);
 						}
 					}
 				});

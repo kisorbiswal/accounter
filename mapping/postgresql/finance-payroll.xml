@@ -371,20 +371,33 @@
 		A.name=:name and A.id != :id
 	</query>
 
-	<query name="getPayStructureItem.by.employee">
-		<query-param name="company" type="Company" />
-		<query-param name="employee" type="Employee" />
-		<query-param name="group" type="EmployeeGroup" />
-		<query-param name="start" type="com.vimukti.accounter.core.LongUseType" />
-		from com.vimukti.accounter.core.PayStructureItem PI
-		where
-		(PI.payStructure.employee = :employee or
-		PI.payStructure.employeeGroup
-		= :group)
-		and PI.payStructure.company = :company
-		and PI.effectiveFrom &lt;= :start 
-		order by PI.rate desc
-	</query>
+	<sql-query name="getPayStructureItem.by.employee">
+		<query-param name="companyId" type="long" />
+		<query-param name="employee" type="long" />
+		<query-param name="group" type="long" />
+		<query-param name="isGroup" type="boolean" />
+		<query-param name="start" type="long"/>
+
+		<return class="com.vimukti.accounter.core.PayStructureItem"/>
+		<![CDATA[
+		SELECT psi.* 
+		FROM   pay_structure_item psi, 
+		       (SELECT pay_head            AS ph, 
+		               Max(effective_from) AS ef 
+		        FROM   pay_structure_item psi 
+		               left join pay_structure ps 
+		                      ON ps.id = psi.pay_structure 
+		        WHERE  ( ps.employee_group = :group 
+		                  OR ps.employee = :employee ) 
+		               AND ps.company_id = :companyId 
+		        GROUP  BY pay_head, 
+		                  pay_structure) AS test 
+		WHERE  pay_head = test.ph 
+		       AND effective_from = test.ef 
+		       AND test.ef <= :start 
+		ORDER  BY psi.rate desc; 
+		]]>
+	</sql-query>
 
 	<query name="getEmployeesByGroup">
 		<query-param name="groupId" type="long"></query-param>
