@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientComputaionFormulaFunction;
@@ -26,11 +27,14 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.AttendanceOrProductionTypeCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepreciationAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayheadCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -88,6 +92,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 	private List<ClientComputaionFormulaFunction> formulas = new ArrayList<ClientComputaionFormulaFunction>();
 	private DepreciationAccountCombo accountCombo;
+	private AccountCombo liabilityCombo;
 
 	private AddNewButton itemTableButton;
 	private LabelItem formula;
@@ -129,15 +134,32 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		}
 		nameItem.setValue(data.getName());
 		typeCombo.setComboItem(ClientPayHead.getPayHeadType(data.getType()));
-		affectNetSalarytem
-				.setValue(data.isAffectNetSalary() ? messages.yes() : messages.no());
+		affectNetSalarytem.setValue(data.isAffectNetSalary() ? messages.yes()
+				: messages.no());
 		payslipNameItem.setValue(data.getNameToAppearInPaySlip());
 		if (data.getRoundingMethod() != 0) {
 			roundingMethodCombo.setComboItem(roundingList.get(data
 					.getRoundingMethod() - 1));
 		}
-		accountCombo.setComboItem(getCompany().getAccount(
-				data.getExpenseAccount()));
+		long expenseAccount = data.getExpenseAccount();
+		if (expenseAccount != 0L) {
+			accountCombo.setComboItem(getCompany().getAccount(expenseAccount));
+		}
+		long liabilityAccount = data.getLiabilityAccount();
+		if (liabilityAccount != 0L) {
+			liabilityCombo.setComboItem(getCompany().getAccount(
+					liabilityAccount));
+		}
+
+		int payHeadType = data.getType();
+		accountCombo
+				.setVisible(payHeadType != ClientPayHead.TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS);
+		if (payHeadType == ClientPayHead.TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS
+				|| payHeadType == ClientPayHead.TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS) {
+			liabilityCombo.setVisible(true);
+		} else {
+			liabilityCombo.setVisible(false);
+		}
 		calculationTypeCombo.setComboItem(ClientPayHead.getCalculationType(data
 				.getCalculationType()));
 		if (data.getCalculationType() == 0) {
@@ -258,11 +280,28 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		typeCombo.initCombo(typeList);
 		typeCombo.setRequired(true);
 		typeCombo.setEnabled(!isInViewMode());
+		typeCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						int payHeadType = typeCombo.getSelectedIndex() + 1;
+						accountCombo
+								.setVisible(payHeadType != ClientPayHead.TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS);
+						if (payHeadType == ClientPayHead.TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS
+								|| payHeadType == ClientPayHead.TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS) {
+							liabilityCombo.setVisible(true);
+						} else {
+							liabilityCombo.setVisible(false);
+						}
+					}
+				});
 
 		affectNetSalarytem = new RadioGroupItem(messages.affectNetSalary());
 		affectNetSalarytem.setValueMap(messages.yes(), messages.no());
 		affectNetSalarytem.setDefaultValue(messages.yes());
 		affectNetSalarytem.setEnabled(!isInViewMode());
+		affectNetSalarytem.setVisible(false);
 
 		payslipNameItem = new TextItem(messages.paySlipName(),
 				"payslipNameItem");
@@ -274,7 +313,40 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		accountCombo = new DepreciationAccountCombo(messages.expenseAccount());
 		accountCombo.setEnabled(!isInViewMode());
-		accountCombo.setRequired(true);
+
+		liabilityCombo = new AccountCombo(messages2.statutoryLiabilityAccount()) {
+
+			@Override
+			protected List<ClientAccount> getAccounts() {
+				List<ClientAccount> accounts = new ArrayList<ClientAccount>();
+				for (ClientAccount account : getCompany().getActiveAccounts()) {
+					if (account.getBaseType() == ClientAccount.BASETYPE_LIABILITY)
+						accounts.add(account);
+				}
+				return accounts;
+			}
+
+			public void onAddNew() {
+				NewAccountAction action = new NewAccountAction();
+				List<Integer> options = new ArrayList<Integer>();
+				options.add(ClientAccount.TYPE_ACCOUNT_PAYABLE);
+				options.add(ClientAccount.TYPE_CREDIT_CARD);
+				options.add(ClientAccount.TYPE_LONG_TERM_LIABILITY);
+				options.add(ClientAccount.TYPE_OTHER_CURRENT_LIABILITY);
+				options.add(ClientAccount.TYPE_PAYROLL_LIABILITY);
+				action.setAccountTypes(options);
+				action.setCallback(new ActionCallback<ClientAccount>() {
+
+					@Override
+					public void actionResult(ClientAccount result) {
+						addItemThenfireEvent(result);
+					}
+				});
+				action.run(null, true);
+
+			}
+		};
+		liabilityCombo.setEnabled(!isInViewMode());
 
 		calculationTypeCombo = new SelectCombo(messages.calculationType(),
 				false);
@@ -372,7 +444,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		leftForm.add(nameItem, typeCombo, affectNetSalarytem,
 				calculationTypeCombo);
-		rightForm.add(payslipNameItem, accountCombo);
+		rightForm.add(payslipNameItem, accountCombo, liabilityCombo);
 
 		mainform.add(leftForm);
 		mainform.add(rightForm);
@@ -544,6 +616,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		productionTypeCombo.setEnabled(!isInViewMode());
 		payheadCombo.setEnabled(!isInViewMode());
 		accountCombo.setEnabled(!isInViewMode());
+		liabilityCombo.setEnabled(!isInViewMode());
 		slabTable.setEnabled(!isInViewMode());
 		computationTypeCombo.setEnabled(!isInViewMode());
 		attendanceTypeCombo.setEnabled(!isInViewMode());
@@ -596,7 +669,22 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		} else if (selectedValue.equals(messages.production())) {
 			result.add(productionForm.validate());
+		}
 
+		int payHeadType = typeCombo.getSelectedIndex() + 1;
+		if (payHeadType == ClientPayHead.TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS
+				|| payHeadType == ClientPayHead.TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS) {
+			if (liabilityCombo.getSelectedValue() == null) {
+				result.addError(liabilityCombo,
+						"Statutory Liability Account should not be null.");
+			}
+		}
+
+		if (payHeadType != ClientPayHead.TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS) {
+			if (accountCombo.getSelectedValue() == null) {
+				result.addError(accountCombo,
+						"Expense Account should not be null.");
+			}
 		}
 		return result;
 	}
@@ -668,8 +756,21 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		data.setCalculationType(calculationTypeCombo.getSelectedIndex() + 1);
 		data.setRoundingMethod(roundingMethodCombo.getSelectedIndex() + 1);
 		data.setNameToAppearInPaySlip(payslipNameItem.getValue());
-		data.setAffectNetSalary(affectNetSalarytem.getValue().equals("Yes"));
-		data.setExpenseAccount(accountCombo.getSelectedValue().getID());
+		ClientAccount expenseAccount = accountCombo.getSelectedValue();
+		if (expenseAccount != null) {
+			data.setExpenseAccount(expenseAccount.getID());
+		}
+		ClientAccount liability = liabilityCombo.getSelectedValue();
+		if (liability != null) {
+			data.setLiabilityAccount(liability.getID());
+		}
+
+		// IF IT IS NOT S.CONTRIBUTIO, THEN IT WILL AFFECT NET SALARY.
+		boolean affectNetSalary = true;
+		if (data.getType() == ClientPayHead.TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS) {
+			affectNetSalary = false;
+		}
+		data.setAffectNetSalary(affectNetSalary);
 	}
 
 	@Override

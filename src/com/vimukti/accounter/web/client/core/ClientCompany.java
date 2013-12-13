@@ -1853,6 +1853,11 @@ public class ClientCompany implements IAccounterCore {
 				break;
 
 			case PAY_HEAD:
+			case ATTENDANCE_PAY_HEAD:
+			case COMPUTATION_PAY_HEAD:
+			case FLATRATE_PAY_HEAD:
+			case PRODUCTION_PAY_HEAD:
+			case USERDEFINED_PAY_HEAD:
 				ClientPayHead payHead = (ClientPayHead) accounterCoreObject;
 				Utility.updateClientList(payHead, payHeads);
 				break;
@@ -2344,6 +2349,11 @@ public class ClientCompany implements IAccounterCore {
 		// break;
 		//
 		case PAY_HEAD:
+		case ATTENDANCE_PAY_HEAD:
+		case COMPUTATION_PAY_HEAD:
+		case FLATRATE_PAY_HEAD:
+		case PRODUCTION_PAY_HEAD:
+		case USERDEFINED_PAY_HEAD:
 			deletePayHead(id);
 			break;
 		// case EMPLOYEE_CATEGORY:
@@ -3649,7 +3659,8 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	/**
-	 * @param employees the employees to set
+	 * @param employees
+	 *            the employees to set
 	 */
 	public void setEmployees(ArrayList<ClientEmployee> employees) {
 		this.employees = employees;

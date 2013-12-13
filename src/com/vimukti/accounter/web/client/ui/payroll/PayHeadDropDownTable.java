@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
-import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.PayRollActions;
@@ -14,21 +12,14 @@ import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 
 public class PayHeadDropDownTable extends AbstractDropDownTable<ClientPayHead> {
 
-	private static List<ClientPayHead> list = new ArrayList<ClientPayHead>();
-
 	public PayHeadDropDownTable(boolean isAddNewRequired) {
-		super(list, isAddNewRequired);
-		initList();
-	}
-
-	private void initList() {
-		list.addAll(Accounter.getCompany().getPayHeads());
+		super(new ArrayList<ClientPayHead>(), isAddNewRequired);
 		reInitData();
 	}
 
 	@Override
 	public List<ClientPayHead> getTotalRowsData() {
-		return list;
+		return Accounter.getCompany().getPayHeads();
 	}
 
 	@Override
@@ -67,9 +58,7 @@ public class PayHeadDropDownTable extends AbstractDropDownTable<ClientPayHead> {
 
 			@Override
 			public void actionResult(ClientPayHead result) {
-				list.add(result);
 				selectRow(result);
-
 			}
 		});
 		action.run(null, true);

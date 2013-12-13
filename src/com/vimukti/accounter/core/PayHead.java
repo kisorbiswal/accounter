@@ -80,6 +80,11 @@ public abstract class PayHead extends CreatableObject implements
 	 */
 	private Account account;
 
+	/**
+	 * Exists only for Statutory PayHeads
+	 */
+	private Account liabilityAccount;
+
 	public PayHead() {
 		// TODO Auto-generated constructor stub
 	}
@@ -296,7 +301,6 @@ public abstract class PayHead extends CreatableObject implements
 
 	@Override
 	public int getObjType() {
-		// TODO Auto-generated method stub
 		return IAccounterCore.PAY_HEAD;
 	}
 
@@ -317,5 +321,38 @@ public abstract class PayHead extends CreatableObject implements
 						AccounterException.ERROR_NAME_ALREADY_EXIST, getName());
 			}
 		}
+
+		if (getType() == TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS
+				|| getType() == TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS) {
+			if (getLiabilityAccount() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_ACCOUNT_NULL,
+						"Statutory Liability Account");
+			}
+		}
+
+		if (getType() != TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS) {
+			if (getAccount() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_ACCOUNT_NULL,
+						"Expense Account");
+			}
+		}
+
+	}
+
+	/**
+	 * @return the payableAccount
+	 */
+	public Account getLiabilityAccount() {
+		return liabilityAccount;
+	}
+
+	/**
+	 * @param liabilityAccount
+	 *            the payableAccount to set
+	 */
+	public void setLiabilityAccount(Account liabilityAccount) {
+		this.liabilityAccount = liabilityAccount;
 	}
 }

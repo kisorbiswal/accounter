@@ -270,4 +270,8 @@ public interface AccounterMessages2 extends Messages {
 	public String safe();
 
 	public String periodOrUnit();
+
+	public String statutoryLiabilityAccount();
+
+	public String deductionsFromCompany();
 }

@@ -103,8 +103,8 @@
 		<property name="nameToAppearInPaySlip" column="NAME_TO_APPEAR_ON_PAYSLIP" />
 		<property name="calculationType" column="CALCULATION_TYPE" />
 		<property name="isAffectNetSalary" column="IS_AFFECT_NET_SALARY" />
-		<many-to-one name="account" column="ACCOUNT" class="Account"
-			not-null="true" />
+		<many-to-one name="account" column="ACCOUNT" class="Account" />
+		<many-to-one name="liabilityAccount" column="LIABILITY_ACCOUNT" class="Account" />
 
 		<joined-subclass name="AttendancePayHead" table="ATTENDANCE_PAYHEAD">
 			<key column="ID" />
@@ -375,7 +375,6 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="employee" type="long" />
 		<query-param name="group" type="long" />
-		<query-param name="isGroup" type="boolean" />
 		<query-param name="start" type="long"/>
 
 		<return class="com.vimukti.accounter.core.PayStructureItem"/>

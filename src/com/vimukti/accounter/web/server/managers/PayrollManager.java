@@ -9,12 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.hibernate.transform.ResultTransformer;
-import org.hibernate.transform.Transformers;
 
-import com.gargoylesoftware.htmlunit.javascript.host.Attr;
 import com.vimukti.accounter.core.AttendanceOrProductionType;
 import com.vimukti.accounter.core.AttendancePayHead;
 import com.vimukti.accounter.core.ClientConvertUtil;
@@ -307,17 +303,15 @@ public class PayrollManager extends Manager {
 				newAttendance[3] = userDefValue;
 			}
 			payStructureItem.setAttendance(newAttendance);
-			if (payHead.isAffectNetSalary()) {
-				double calculatedAmount = payHead.calculatePayment(
-						payStructureItem, deductions, earnings);
+			double calculatedAmount = payHead.calculatePayment(
+					payStructureItem, deductions, earnings);
 
-				if (payHead.isEarning()) {
-					earnings += calculatedAmount;
-				} else {
-					deductions += calculatedAmount;
-				}
-				component.setRate(calculatedAmount);
+			if (payHead.isEarning()) {
+				earnings += calculatedAmount;
+			} else {
+				deductions += calculatedAmount;
 			}
+			component.setRate(calculatedAmount);
 
 			component.setEmployee(selectItem.getName());
 			clientEmployeePayHeadComponents.add(component);

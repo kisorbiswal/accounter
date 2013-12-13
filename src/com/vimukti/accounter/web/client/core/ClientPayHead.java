@@ -56,6 +56,8 @@ public class ClientPayHead implements IAccounterCore {
 
 	private long account;
 
+	private long liabilityAccount;
+
 	/**
 	 * @return the companyFields
 	 */
@@ -299,5 +301,20 @@ public class ClientPayHead implements IAccounterCore {
 				|| getType() == TYPE_EMPLOYEES_OTHER_CHARGES
 				|| getType() == TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS
 				|| getType() == TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS;
+	}
+
+	/**
+	 * @return the liabilityAccount
+	 */
+	public long getLiabilityAccount() {
+		return liabilityAccount;
+	}
+
+	/**
+	 * @param liabilityAccount
+	 *            the payableAccount to set
+	 */
+	public void setLiabilityAccount(long liabilityAccount) {
+		this.liabilityAccount = liabilityAccount;
 	}
 }

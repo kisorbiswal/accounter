@@ -170,7 +170,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		ClientFinanceDate endDate = new ClientFinanceDate(endCal.getTime());
 
 		fromDate.setEnteredDate(startDate);
-		fromDate.setEnabled(false);
 		fromDate.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -182,7 +181,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 		toDate = new DateField(messages.toDate(), "toDate");
 		toDate.setEnteredDate(endDate);
-		toDate.setEnabled(false);
 		toDate.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -431,6 +429,11 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 					messages.pleaseSelect(messages.employeeOrGroup()));
 		}
 
+		if (!toDate.getDate().after(fromDate.getDate())) {
+			validationResult.addError(toDate,
+					"To Date should be after From date");
+		}
+
 		return validationResult;
 	}
 
@@ -440,11 +443,12 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	}
 
 	private int[] getColumnTypes() {
-		return new int[] { 1, 2, 1, 1, 1, 1 };
+		return new int[] { 1, 2, 2, 2, 1, 1, 1, 1 };
 	}
 
 	private String[] getColumns() {
-		return new String[] { messages.payhead(), messages.rate(),
+		return new String[] { messages.payhead(), messages.earnings(),
+				messages.deductions(), messages2.deductionsFromCompany(),
 				messages.calculationPeriod(), messages.payHeadType(),
 				messages.calculationType(), messages.computedOn() };
 	}
@@ -535,9 +539,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 	protected void selectionChanged() {
 		tableForm.clear();
-		fromDate.setEnabled(false);
-		toDate.setEnabled(false);
-		button.setEnabled(false);
 		saveAndCloseButton.setVisible(false);
 		saveAndNewButton.setVisible(false);
 		attendanceForm.clear();
@@ -587,10 +588,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 			for (int x = 0; x < this.getColumns().length; x++) {
 				values[x] = getColumnData(record, x);
 				updatedValues[x] = getColumnData(record, x);
-				if (x == 1) {
-					updatedValues[x] = record.getClientPayHead().isEarning() ? record
-							.getRate() : -record.getRate();
-				}
 			}
 			updateTotals(updatedValues);
 			addRow(record, 2, values, false, false, false);
@@ -614,9 +611,32 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		switch (columnIndex) {
 		case 0:
 			return record.getClientPayHead().getDisplayName();
-		case 1:
-			return record.getRate();
-		case 2:
+		case 1: {
+			double rate = 0;
+			ClientPayHead clientPayHead = record.getClientPayHead();
+			if (clientPayHead.isEarning()) {
+				rate = record.getRate();
+			}
+			return rate;
+		}
+		case 2: {
+			double rate = 0;
+			ClientPayHead clientPayHead = record.getClientPayHead();
+			if (clientPayHead.isDeduction()
+					&& clientPayHead.isAffectNetSalary()) {
+				rate = record.getRate();
+			}
+			return rate;
+		}
+		case 3: {
+			double rate = 0;
+			ClientPayHead clientPayHead = record.getClientPayHead();
+			if (!clientPayHead.isAffectNetSalary()) {
+				rate = record.getRate();
+			}
+			return rate;
+		}
+		case 4:
 			ClientPayHead payHead = record.getClientPayHead();
 			int type = 0;
 			if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
@@ -630,14 +650,14 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 				type = payhead.getCalculationPeriod();
 			}
 			return ClientPayHead.getCalculationPeriod(type);
-		case 3:
+		case 5:
 			payHead = record.getClientPayHead();
 			return ClientPayHead.getPayHeadType(payHead.getType());
-		case 4:
+		case 6:
 			payHead = record.getClientPayHead();
 			return ClientPayHead.getCalculationType(payHead
 					.getCalculationType());
-		case 5:
+		case 7:
 			payHead = record.getClientPayHead();
 			if (payHead != null
 					&& payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
@@ -672,6 +692,8 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	private void updateTotals(Object[] values) {
 		for (Section<ClientEmployeePayHeadComponent> sec : this.sections) {
 			sec.update(values);
+			Double empNetSalary = (Double) sec.data[1] + -(Double) sec.data[2];
+			sec.data[4] = "= " + empNetSalary;
 		}
 	}
 
@@ -680,12 +702,12 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	private void processRecord(ClientEmployeePayHeadComponent record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "" }, new String[] { messages.total() },
-					new int[] { 1 });
+					new int[] { 1, 2, 3 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			addSection(new String[] { sectionName },
 					new String[] { messages.reportTotal(sectionName) },
-					new int[] { 1 });
+					new int[] { 1, 2, 3 });
 		} else if (sectionDepth == 2) {
 			if (!sectionName.equals(record.getName())) {
 				endSection();

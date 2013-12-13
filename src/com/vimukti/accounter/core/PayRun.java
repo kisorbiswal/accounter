@@ -286,14 +286,23 @@ public class PayRun extends Transaction {
 			for (EmployeePayHeadComponent component : detail
 					.getPayHeadComponents()) {
 				double rate = component.getRate();
-				Account account = component.getPayHead().getAccount();
-				if (component.isDeduction()) {
-					empTotal += rate;
-					e.add(account, rate, 1);
-				} else if (component.isEarning()) {
-					empTotal -= rate;
-					e.add(account, -rate, 1);
+				PayHead payHead = component.getPayHead();
+				Account account = null;
+				if (payHead.getType() == PayHead.TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS
+						|| payHead.getType() == PayHead.TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS) {
+					account = payHead.getLiabilityAccount();
+				} else {
+					account = payHead.getAccount();
 				}
+				if (!component.isDeduction()) {
+					rate = -1 * rate;
+				}
+				e.add(account, rate, 1);
+				if (payHead.getType() == PayHead.TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS) {
+					e.add(payHead.getAccount(), -rate, 1);
+					continue;
+				}
+				empTotal += rate;
 			}
 			e.add(detail.getEmployee(), -1 * empTotal);
 		}
