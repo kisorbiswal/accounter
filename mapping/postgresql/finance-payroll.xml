@@ -382,7 +382,8 @@
 		SELECT psi.* 
 		FROM   pay_structure_item psi, 
 		       (SELECT pay_head            AS ph, 
-		               Max(effective_from) AS ef 
+		               Max(effective_from) AS ef, 
+		               pay_structure       AS p_structure 
 		        FROM   pay_structure_item psi 
 		               left join pay_structure ps 
 		                      ON ps.id = psi.pay_structure 
@@ -394,7 +395,8 @@
 		WHERE  pay_head = test.ph 
 		       AND effective_from = test.ef 
 		       AND test.ef <= :start 
-		ORDER  BY psi.rate desc; 
+		       AND psi.pay_structure = test.p_structure 
+		ORDER  BY psi.rate DESC; 
 		]]>
 	</sql-query>
 

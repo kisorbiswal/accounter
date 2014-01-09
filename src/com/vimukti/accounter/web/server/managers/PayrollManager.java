@@ -223,6 +223,9 @@ public class PayrollManager extends Manager {
 			return null;
 		}
 
+		// Remove Duplicate PayHeads that are selected for Employee and Group
+		removeDuplicatePayHeads(list);
+
 		double earnings = 0.0;
 		double deductions = 0.0;
 
@@ -317,6 +320,42 @@ public class PayrollManager extends Manager {
 			clientEmployeePayHeadComponents.add(component);
 		}
 		return clientEmployeePayHeadComponents;
+	}
+
+	/**
+	 * Remove Duplicate PayHeads that are selected for Employee and his/her
+	 * Group
+	 * 
+	 * @param list
+	 * @return
+	 */
+	private void removeDuplicatePayHeads(List<PayStructureItem> list) {
+		ArrayList<PayStructureItem> result = new ArrayList<PayStructureItem>(
+				list);
+
+		// Separate Employee and Groups PayStructure Items First
+		ArrayList<PayStructureItem> employeeItems = new ArrayList<PayStructureItem>();
+		ArrayList<PayStructureItem> groupsItems = new ArrayList<PayStructureItem>();
+		for (PayStructureItem psItem : result) {
+			PayStructure payStructure = psItem.getPayStructure();
+			if (payStructure.getEmployee() != null) {
+				employeeItems.add(psItem);
+			} else {
+				groupsItems.add(psItem);
+			}
+		}
+
+		// Check and Remove duplicate PayHeads selected for Employee's Group
+		for (PayStructureItem psItem : groupsItems) {
+			PayHead payHead = psItem.getPayHead();
+			for (PayStructureItem ePsItem : employeeItems) {
+				// If Found this Group's PayHead in Empoyee Listm then Remove
+				// this
+				if (ePsItem.getPayHead().getID() == payHead.getID()) {
+					list.remove(psItem);
+				}
+			}
+		}
 	}
 
 	public PaginationList<ClientPayStructureList> getPayrollStructuresList(
