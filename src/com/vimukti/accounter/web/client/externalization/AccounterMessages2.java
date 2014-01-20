@@ -274,4 +274,6 @@ public interface AccounterMessages2 extends Messages {
 	public String statutoryLiabilityAccount();
 
 	public String deductionsFromCompany();
+
+	public String statutaryLiabilityAccount();
 }

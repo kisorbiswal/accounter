@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult.Error;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmployeesAndGroupsCombo;
@@ -693,7 +694,9 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		for (Section<ClientEmployeePayHeadComponent> sec : this.sections) {
 			sec.update(values);
 			Double empNetSalary = (Double) sec.data[1] + -(Double) sec.data[2];
-			sec.data[4] = "= " + empNetSalary;
+			String amountAsString = DataUtils.amountAsStringWithCurrency(
+					empNetSalary, Accounter.getCompany().getPrimaryCurrency());
+			sec.data[4] = "= " + amountAsString;
 		}
 	}
 

@@ -674,8 +674,11 @@ public class CreatePayHeadCommand extends AbstractCommand {
 		payHead.setRoundingMethod(1);
 		payHead.setNameToAppearInPaySlip((String) get(PAY_HEAD_SLIPNAME)
 				.getValue());
-		Boolean isEffect = get(AFFECT_NET_SALARY).getValue();
-		payHead.setAffectNetSalary(isEffect);
+		boolean affectNetSalary = true;
+		if (payHead.getType() == ClientPayHead.TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS) {
+			affectNetSalary = false;
+		}
+		payHead.setAffectNetSalary(affectNetSalary);
 		Account account = get(EXPENSE_ACCOUNT).getValue();
 		payHead.setExpenseAccount(account.getID());
 		create(payHead, context);

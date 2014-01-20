@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 
 /**
  * The salary components constituting Pay Structures are called Pay Heads. A Pay
@@ -274,9 +275,16 @@ public abstract class PayHead extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
+		AccounterMessages2 messages2 = Global.get().messages2();
 		w.put(messages.name(), this.name);
 		w.put(messages.payHeadType(), this.type);
-		w.put(messages.expenseAccount(), this.getAccount().toString());
+		if (this.getAccount() != null) {
+			w.put(messages.expenseAccount(), this.getAccount().toString());
+		}
+		if (getLiabilityAccount() != null) {
+			w.put(messages2.statutaryLiabilityAccount(), this
+					.getLiabilityAccount().toString());
+		}
 		w.put(messages.calculationType(), this.calculationType);
 	}
 
