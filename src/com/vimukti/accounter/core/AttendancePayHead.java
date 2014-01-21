@@ -106,7 +106,14 @@ public class AttendancePayHead extends PayHead {
 								.getAttendance()[0]);
 			}
 		} else if (attendanceType == ATTENDANCE_ON_EARNING_TOTAL) {
-			deductableSalary = earnings;
+			if (workingDays == 0) {
+				deductableSalary = 0;
+			} else {
+				// Calculate Deduction for leaves taken
+				double leavesTaken = payStructureItem.getAttendance()[1];
+				double perDayEarning = (earnings / workingDays);
+				deductableSalary = perDayEarning * leavesTaken;
+			}
 		} else if (attendanceType == ATTENDANCE_ON_SUBTOTAL) {
 			deductableSalary = (rate + earnings) - deductions;
 		} else if (attendanceType == ATTENDANCE_ON_PAYHEAD) {
