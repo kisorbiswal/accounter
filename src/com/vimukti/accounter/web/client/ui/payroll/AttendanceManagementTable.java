@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
-import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 
@@ -238,8 +237,6 @@ public class AttendanceManagementTable extends
 				});
 			}
 		}
-
-		this.addColumn(new DeleteColumn<ClientAttendanceManagementItem>());
 	}
 
 	@Override
