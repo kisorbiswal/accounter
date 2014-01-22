@@ -24,9 +24,9 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomFieldValue;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -470,9 +470,13 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		data.setDesignation(designationItem.getValue());
 		data.setEmail(emailItem.getValue());
 		data.setContacts(new HashSet<ClientContact>());
-		if (employeeGroupCombo.getSelectedValue() != null) {
-			data.setGroup(employeeGroupCombo.getSelectedValue().getID());
+		long groupId = 0;
+		ClientEmployeeGroup selectedGroup = employeeGroupCombo
+				.getSelectedValue();
+		if (selectedGroup != null) {
+			groupId = selectedGroup.getID();
 		}
+		data.setGroup(groupId);
 		data.setLocation(locationItem.getValue());
 		data.setNumber(employeeIdItem.getValue());
 		data.setPassportExpiryDate(passportExpiryDateItem.getValue().getDate());
