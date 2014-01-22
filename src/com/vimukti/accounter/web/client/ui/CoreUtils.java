@@ -1853,7 +1853,7 @@ public class CoreUtils {
 			new ClientCurrency("Czech Koruna", "CZK", "Kč"),
 			new ClientCurrency("Djiboutian Franc", "DJF", "Fdj"),
 			new ClientCurrency("Dominican Peso", "DOP", "RD$"),
-			new ClientCurrency("Dominican Peso", "DOP", "RD$"),
+			new ClientCurrency("East Caribbean Dollar", "XCD", "EC$"),
 			new ClientCurrency("Egyptian Pound", "EGP", "Â£"),
 			new ClientCurrency("Eritrean Nakfa", "ERN", "Nfa"),
 			new ClientCurrency("Estonian Kroon", "EEK", "KR"),
