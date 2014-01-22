@@ -121,14 +121,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 							Scheduler.get().scheduleDeferred(this);
 							return;
 						}
-						if (!getValue().equals("")) {
-							if (selectedObject == null
-									|| !getValue().equals(
-											getFullDisplayName(selectedObject))) {
-								// setValue("");
-								// selectedObject = null;
-								setRelatedComboItem((String) getValue());
-							}
+						if (selectedObject == null
+								|| !getValue().equals(
+										getFullDisplayName(selectedObject))) {
+							// setValue("");
+							// selectedObject = null;
+							setRelatedComboItem((String) getValue());
 						}
 					}
 				});
@@ -489,23 +487,21 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	}
 
 	private void setRelatedComboItem(final String value) {
-		if (!value.toString().isEmpty()) {
-			List<T> combos;
-			if (this instanceof ClassListCombo) {
-				String[] split = value.split(":");
-				combos = getComboitemsByName(split[split.length - 1]);
-			} else {
-				combos = getComboitemsByName(value);
+		List<T> combos;
+		if (this instanceof ClassListCombo) {
+			String[] split = value.split(":");
+			combos = getComboitemsByName(split[split.length - 1]);
+		} else {
+			combos = getComboitemsByName(value);
+		}
+		if (!combos.isEmpty()) {
+			int index = comboItems.indexOf(combos.get(0));
+			if (isAddNewRequire) {
+				index++;
 			}
-			if (!combos.isEmpty()) {
-				int index = comboItems.indexOf(combos.get(0));
-				if (isAddNewRequire) {
-					index++;
-				}
-				changeValue(index);
-			} else {
-				selectionFaildOnClose();
-			}
+			changeValue(index);
+		} else {
+			selectionFaildOnClose();
 		}
 	}
 
