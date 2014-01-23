@@ -100,8 +100,7 @@ public class SignupServlet extends BaseServlet {
 				// redirectExternal(req, resp, LOGIN_URL);
 				Client client = getClient(emailId);
 				if (client.isDeleted()) {
-					String token = createActivation(emailId);
-					client.setActive(false);
+					client.setActive(true);
 					client.setUsers(new HashSet<User>());
 					client.setEmailId(emailId);
 					client.setFirstName(firstName);
@@ -162,12 +161,10 @@ public class SignupServlet extends BaseServlet {
 				}
 			} else {
 				// else
-				// Generate Token and create Activation and save. then send
-				String token = createActivation(emailId);
 
 				// Create Client and Save
 				Client client = new Client();
-				client.setActive(false);
+				client.setActive(true);
 				client.setUsers(new HashSet<User>());
 				client.setEmailId(emailId);
 				client.setFirstName(firstName);
@@ -202,7 +199,6 @@ public class SignupServlet extends BaseServlet {
 				client.setClientSubscription(clientSubscription);
 
 				client.setDeleted(false);
-				client.setActive(true);
 				saveEntry(client);
 				session.setAttribute(EMAIL_ID, emailId);
 

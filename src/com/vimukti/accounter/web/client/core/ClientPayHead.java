@@ -58,6 +58,8 @@ public class ClientPayHead implements IAccounterCore {
 
 	private long liabilityAccount;
 
+	private long assetAccount;
+
 	/**
 	 * @return the companyFields
 	 */
@@ -292,15 +294,15 @@ public class ClientPayHead implements IAccounterCore {
 	public boolean isEarning() {
 		return getType() == TYPE_EARNINGS_FOR_EMPLOYEES
 				|| getType() == TYPE_REIMBURSEMENTS_TO_EMPLOYEES
-				|| getType() == TYPE_BONUS
-				|| getType() == TYPE_LOANS_AND_ADVANCES;
+				|| getType() == TYPE_BONUS;
 	}
 
 	public boolean isDeduction() {
 		return getType() == TYPE_DEDUCTIONS_FOR_EMPLOYEES
 				|| getType() == TYPE_EMPLOYEES_OTHER_CHARGES
 				|| getType() == TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS
-				|| getType() == TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS;
+				|| getType() == TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS
+				|| getType() == TYPE_LOANS_AND_ADVANCES;
 	}
 
 	/**
@@ -316,5 +318,20 @@ public class ClientPayHead implements IAccounterCore {
 	 */
 	public void setLiabilityAccount(long liabilityAccount) {
 		this.liabilityAccount = liabilityAccount;
+	}
+
+	/**
+	 * @return the assetAccount
+	 */
+	public long getAssetAccount() {
+		return assetAccount;
+	}
+
+	/**
+	 * @param assetAccount
+	 *            the assetAccount to set
+	 */
+	public void setAssetAccount(long assetAccount) {
+		this.assetAccount = assetAccount;
 	}
 }

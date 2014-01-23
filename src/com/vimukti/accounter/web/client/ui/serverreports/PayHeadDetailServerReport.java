@@ -84,15 +84,15 @@ public class PayHeadDetailServerReport extends
 	public boolean isEarning(int type) {
 		return type == ClientPayHead.TYPE_EARNINGS_FOR_EMPLOYEES
 				|| type == ClientPayHead.TYPE_REIMBURSEMENTS_TO_EMPLOYEES
-				|| type == ClientPayHead.TYPE_BONUS
-				|| type == ClientPayHead.TYPE_LOANS_AND_ADVANCES;
+				|| type == ClientPayHead.TYPE_BONUS;
 	}
 
 	public boolean isDeduction(int type) {
 		return type == ClientPayHead.TYPE_DEDUCTIONS_FOR_EMPLOYEES
 				|| type == ClientPayHead.TYPE_EMPLOYEES_OTHER_CHARGES
 				|| type == ClientPayHead.TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS
-				|| type == ClientPayHead.TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS;
+				|| type == ClientPayHead.TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS
+				|| type == ClientPayHead.TYPE_LOANS_AND_ADVANCES;
 	}
 
 	@Override

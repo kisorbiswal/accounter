@@ -288,9 +288,12 @@ public class PayRun extends Transaction {
 				double rate = component.getRate();
 				PayHead payHead = component.getPayHead();
 				Account account = null;
-				if (payHead.getType() == PayHead.TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS
+				int payHeadType = payHead.getType();
+				if (payHeadType == PayHead.TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS
 						|| payHead.getType() == PayHead.TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS) {
 					account = payHead.getLiabilityAccount();
+				} else if (payHeadType == PayHead.TYPE_LOANS_AND_ADVANCES) {
+					account = payHead.getAssetAccount();
 				} else {
 					account = payHead.getAccount();
 				}

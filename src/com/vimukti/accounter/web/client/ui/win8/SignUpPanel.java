@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.win8;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -9,6 +11,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.CompanyDetails;
 import com.vimukti.accounter.web.client.core.SignupDetails;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -85,7 +88,8 @@ public class SignUpPanel extends FlowPanel {
 			@Override
 			public void onResultSuccess(Boolean result) {
 				accounter.hideProgress();
-				accounter.showView(new ActivationPanel(accounter));
+				accounter.showView(new CompaniesPanel(
+						new ArrayList<CompanyDetails>(), accounter));
 
 			}
 

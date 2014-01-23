@@ -105,6 +105,7 @@
 		<property name="isAffectNetSalary" column="IS_AFFECT_NET_SALARY" />
 		<many-to-one name="account" column="ACCOUNT" class="Account" />
 		<many-to-one name="liabilityAccount" column="LIABILITY_ACCOUNT" class="Account" />
+		<many-to-one name="assetAccount" column="ASSET_ACCOUNT" class="Account" />
 
 		<joined-subclass name="AttendancePayHead" table="ATTENDANCE_PAYHEAD">
 			<key column="ID" />

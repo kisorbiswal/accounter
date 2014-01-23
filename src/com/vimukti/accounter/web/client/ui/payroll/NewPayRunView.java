@@ -15,15 +15,12 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
-import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
-import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
 import com.vimukti.accounter.web.client.core.ClientEmployeePaymentDetails;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayRun;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
@@ -444,14 +441,12 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	}
 
 	private int[] getColumnTypes() {
-		return new int[] { 1, 2, 2, 2, 1, 1, 1, 1 };
+		return new int[] { 1, 2, 2, 2, 1 };
 	}
 
 	private String[] getColumns() {
 		return new String[] { messages.payhead(), messages.earnings(),
-				messages.deductions(), messages2.deductionsFromCompany(),
-				messages.calculationPeriod(), messages.payHeadType(),
-				messages.calculationType(), messages.computedOn() };
+				messages.deductions(), messages2.deductionsFromCompany(), "" };
 	}
 
 	@Override
@@ -638,39 +633,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 			return rate;
 		}
 		case 4:
-			ClientPayHead payHead = record.getClientPayHead();
-			int type = 0;
-			if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
-				ClientAttendancePayHead payhead = ((ClientAttendancePayHead) payHead);
-				type = payhead.getCalculationPeriod();
-			} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
-				ClientComputionPayHead payhead = ((ClientComputionPayHead) payHead);
-				type = payhead.getCalculationPeriod();
-			} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_FLAT_RATE) {
-				ClientFlatRatePayHead payhead = ((ClientFlatRatePayHead) payHead);
-				type = payhead.getCalculationPeriod();
-			}
-			return ClientPayHead.getCalculationPeriod(type);
-		case 5:
-			payHead = record.getClientPayHead();
-			return ClientPayHead.getPayHeadType(payHead.getType());
-		case 6:
-			payHead = record.getClientPayHead();
-			return ClientPayHead.getCalculationType(payHead
-					.getCalculationType());
-		case 7:
-			payHead = record.getClientPayHead();
-			if (payHead != null
-					&& payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
-				ClientComputionPayHead payhead = (ClientComputionPayHead) payHead;
-				if (payhead.getComputationType() != ClientComputionPayHead.COMPUTATE_ON_SPECIFIED_FORMULA) {
-					return ClientComputionPayHead.getComputationType(payhead
-							.getComputationType());
-				} else {
-					return UIUtils
-							.prepareFormula(payhead.getFormulaFunctions());
-				}
-			}
 			return "";
 		}
 		return null;
@@ -693,7 +655,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	private void updateTotals(Object[] values) {
 		for (Section<ClientEmployeePayHeadComponent> sec : this.sections) {
 			sec.update(values);
-			Double empNetSalary = (Double) sec.data[1] + -(Double) sec.data[2];
+			Double empNetSalary = (Double) sec.data[1] - (Double) sec.data[2];
 			String amountAsString = DataUtils.amountAsStringWithCurrency(
 					empNetSalary, Accounter.getCompany().getPrimaryCurrency());
 			sec.data[4] = "= " + amountAsString;

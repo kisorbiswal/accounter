@@ -202,8 +202,7 @@ public class AccounterWindowsHomeServiceImpl extends
 			Client client = getClient(emailId);
 			if (client != null) {
 				if (client.isDeleted()) {
-					String token = createActivation(emailId);
-					client.setActive(false);
+					client.setActive(true);
 					client.setUsers(new HashSet<User>());
 					client.setEmailId(emailId);
 					client.setFirstName(details.getFirstName());
@@ -222,8 +221,9 @@ public class AccounterWindowsHomeServiceImpl extends
 					saveEntry(client);
 					session.setAttribute(EMAIL_ID, emailId);
 
-					// Email to that user.
-					sendActivationEmail(token, client);
+					// SEND WELCOME MAIL TO SIGNUP USER
+					UsersMailSendar.sendWelComeMail(details.getFirstName(),
+							emailId);
 					// Send to SignUp Success View
 					transaction.commit();
 				} else {
@@ -232,12 +232,10 @@ public class AccounterWindowsHomeServiceImpl extends
 				}
 			} else {
 				// else
-				// Generate Token and create Activation and save. then send
-				String token = createActivation(emailId);
 
 				// Create Client and Save
 				client = new Client();
-				client.setActive(false);
+				client.setActive(true);
 				client.setUsers(new HashSet<User>());
 				client.setEmailId(emailId);
 				client.setFirstName(details.getFirstName());
@@ -264,8 +262,9 @@ public class AccounterWindowsHomeServiceImpl extends
 				saveEntry(client);
 				session.setAttribute(EMAIL_ID, emailId);
 
-				// Email to that user.
-				sendActivationEmail(token, client);
+				// SEND WELCOME MAIL TO SIGNUP USER
+				UsersMailSendar
+						.sendWelComeMail(details.getFirstName(), emailId);
 				// Send to SignUp Success View
 
 				transaction.commit();

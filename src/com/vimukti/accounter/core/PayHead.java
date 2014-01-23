@@ -86,6 +86,11 @@ public abstract class PayHead extends CreatableObject implements
 	 */
 	private Account liabilityAccount;
 
+	/**
+	 * Exists only for Loans And Advances PayHeads
+	 */
+	private Account assetAccount;
+
 	public PayHead() {
 		// TODO Auto-generated constructor stub
 	}
@@ -282,8 +287,12 @@ public abstract class PayHead extends CreatableObject implements
 			w.put(messages.expenseAccount(), this.getAccount().toString());
 		}
 		if (getLiabilityAccount() != null) {
-			w.put(messages2.statutaryLiabilityAccount(), this
+			w.put(messages2.statutoryLiabilityAccount(), this
 					.getLiabilityAccount().toString());
+		}
+
+		if (getAssetAccount() != null) {
+			w.put(messages2.assetAccount(), this.getAssetAccount().toString());
 		}
 		w.put(messages.calculationType(), this.calculationType);
 	}
@@ -291,15 +300,15 @@ public abstract class PayHead extends CreatableObject implements
 	public boolean isEarning() {
 		return getType() == TYPE_EARNINGS_FOR_EMPLOYEES
 				|| getType() == TYPE_REIMBURSEMENTS_TO_EMPLOYEES
-				|| getType() == TYPE_BONUS
-				|| getType() == TYPE_LOANS_AND_ADVANCES;
+				|| getType() == TYPE_BONUS;
 	}
 
 	public boolean isDeduction() {
 		return getType() == TYPE_DEDUCTIONS_FOR_EMPLOYEES
 				|| getType() == TYPE_EMPLOYEES_OTHER_CHARGES
 				|| getType() == TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS
-				|| getType() == TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS;
+				|| getType() == TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS
+				|| getType() == TYPE_LOANS_AND_ADVANCES;
 	}
 
 	public double calculatePayment(PayStructureItem payStructureItem,
@@ -362,5 +371,20 @@ public abstract class PayHead extends CreatableObject implements
 	 */
 	public void setLiabilityAccount(Account liabilityAccount) {
 		this.liabilityAccount = liabilityAccount;
+	}
+
+	/**
+	 * @return the assetAccount
+	 */
+	public Account getAssetAccount() {
+		return assetAccount;
+	}
+
+	/**
+	 * @param assetAccount
+	 *            the assetAccount to set
+	 */
+	public void setAssetAccount(Account assetAccount) {
+		this.assetAccount = assetAccount;
 	}
 }
