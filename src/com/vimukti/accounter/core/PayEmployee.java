@@ -2,7 +2,6 @@ package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -10,7 +9,6 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class PayEmployee extends Transaction {
 
@@ -65,44 +63,34 @@ public class PayEmployee extends Transaction {
 	@Override
 	public void getEffects(ITransactionEffects e) {
 
-		double unUsedAmount = 0.00D;
 		for (TransactionPayEmployee bill : getTransactionPayEmployee()) {
 
-			if (DecimalUtil.isGreaterThan((bill.payment - bill.amountDue), 0)) {
-				unUsedAmount += bill.payment - bill.amountDue;
-			} else {
-				double amount = (bill.payment);
-				if (bill.getPayRun() != null) {
-					double amountToUpdate = amount
-							* bill.getPayRun().currencyFactor;
-					double diff = amount * currencyFactor - amountToUpdate;
-
-					e.add(getCompany().getExchangeLossOrGainAccount(), -diff, 1);
-					if (getEmployee() != null) {
-						e.add(getEmployee().getAccount(), diff, 1);
-					} else {
-						Set<Employee> employees = getEmployeeGroup()
-								.getEmployees();
-						for (Employee employee : employees) {
-							e.add(employee.getAccount(), diff, 1);
-						}
-					}
-				}
+			PayRun payRun = bill.getPayRun();
+			if (payRun == null) {
+				continue;
 			}
 
-		}
+			double totalDiff = 0.00D;
+			// Update Employee Balance and update it's account individually
+			for (EmployeePaymentDetails epc : payRun.getPayEmployee()) {
+				// Get Employee Payment
+				Employee employee = epc.getEmployee();
+				double employeePayment = epc.getEmployeePayment();
+				// Update Employee
+				e.add(employee, employeePayment);
 
-		if (getEmployee() != null) {
-			e.add(getEmployee(), unUsedAmount - getTotal());
-		} else {
-			Set<Employee> employees = getEmployeeGroup().getEmployees();
-			for (Employee employee : employees) {
-				e.add(employee, unUsedAmount - getTotal());
+				// UPDATE CURRENCY LOSSES OR GAINS
+				double amountDue = employeePayment * payRun.currencyFactor;
+				double payment = employeePayment * currencyFactor;
+				// Diff will be zero when both transactions are same currency
+				double diff = payment - amountDue;
+				totalDiff += diff;
+				e.add(employee.getAccount(), diff, 1);
 			}
+			e.add(getCompany().getExchangeLossOrGainAccount(), -totalDiff, 1);
 		}
 
-		double vendorPayment = getTotal();
-		e.add(getPayAccount(), vendorPayment);
+		e.add(getPayAccount(), getTotal());
 	}
 
 	public Employee getEmployee() {

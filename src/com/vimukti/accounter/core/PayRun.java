@@ -285,7 +285,7 @@ public class PayRun extends Transaction {
 			double empTotal = 0.00D;
 			for (EmployeePayHeadComponent component : detail
 					.getPayHeadComponents()) {
-				double rate = component.getRate();
+				double rate = component.getRateToUpdate();
 				PayHead payHead = component.getPayHead();
 				Account account = null;
 				int payHeadType = payHead.getType();
@@ -296,9 +296,6 @@ public class PayRun extends Transaction {
 					account = payHead.getAssetAccount();
 				} else {
 					account = payHead.getAccount();
-				}
-				if (!component.isDeduction()) {
-					rate = -1 * rate;
 				}
 				e.add(account, rate, 1);
 				if (payHead.getType() == PayHead.TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS) {

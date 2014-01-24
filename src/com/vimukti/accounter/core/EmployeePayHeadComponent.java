@@ -126,4 +126,12 @@ public class EmployeePayHeadComponent implements IAccounterServerCore {
 		// TODO Auto-generated method stub
 
 	}
+
+	public double getRateToUpdate() {
+		double rate = getRate();
+		if (!isDeduction()) {
+			rate = -1 * rate;
+		}
+		return rate;
+	}
 }

@@ -138,4 +138,18 @@ public class EmployeePaymentDetails implements IAccounterServerCore {
 		// TODO Auto-generated method stub
 
 	}
+
+	public double getEmployeePayment() {
+		double empTotal = 0.00D;
+		for (EmployeePayHeadComponent component : getPayHeadComponents()) {
+			double rate = component.getRateToUpdate();
+			PayHead payHead = component.getPayHead();
+			if (payHead.getType() == PayHead.TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS) {
+				continue;
+			}
+			empTotal += rate;
+		}
+		return empTotal;
+	}
+
 }

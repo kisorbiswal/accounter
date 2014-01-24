@@ -145,44 +145,6 @@ public abstract class PayEmployeeTable extends
 			}
 		});
 
-		this.addColumn(new AmountColumn<ClientTransactionPayEmployee>(
-				currencyProvider, false) {
-
-			@Override
-			protected Double getAmount(ClientTransactionPayEmployee row) {
-				return row.getPayment();
-			}
-
-			@Override
-			protected void setAmount(ClientTransactionPayEmployee row,
-					Double value) {
-				if (value != null) {
-					row.setPayment(value);
-				}
-			}
-
-			@Override
-			protected boolean isEnable() {
-				return false;
-			}
-
-			@Override
-			protected String getColumnName() {
-				return messages.payment();
-			}
-
-			@Override
-			public String getValueAsString(ClientTransactionPayEmployee row) {
-				return getValue(row);
-			}
-
-			@Override
-			public int insertNewLineNumber() {
-				return 1;
-			}
-
-		});
-
 	}
 
 	protected void selectAllRows(boolean value) {
