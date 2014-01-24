@@ -152,7 +152,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 					liabilityAccount));
 		}
 
-		long assetAccount = data.getLiabilityAccount();
+		long assetAccount = data.getAssetAccount();
 		if (assetAccount != 0L) {
 			assetCombo.setComboItem(getCompany().getAccount(assetAccount));
 		}
