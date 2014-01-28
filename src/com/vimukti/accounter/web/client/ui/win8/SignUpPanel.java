@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.win8;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -58,9 +59,9 @@ public class SignUpPanel extends FlowPanel {
 		/* phone = new TextItem(Accounter.getMessages().phone(), "phone"); */
 		countrySelect = new SelectCombo(Accounter.getMessages().country());
 		String[] countries = CoreUtils.getCountries();
-		for (int i = 0; i < countries.length; i++) {
-			countrySelect.setComboItem(countries[i]);
-		}
+		countrySelect.initCombo(Arrays.asList(countries));
+		countrySelect.select(countries[0]);
+
 		// agreeterms = new CheckBox();
 		Anchor termaAndConditionsAnchor = new Anchor(Accounter.getMessages()
 				.termsConditions());
