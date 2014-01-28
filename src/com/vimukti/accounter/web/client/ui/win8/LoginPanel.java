@@ -58,7 +58,8 @@ public class LoginPanel extends FlowPanel {
 			@Override
 			public void onResultSuccess(ArrayList<CompanyDetails> result) {
 				accounterInitialiser.hideProgress();
-				rememberCredentials(useritem.getValue(), password.getValue(),
+				accounterInitialiser.rememberCredentials(useritem.getValue(),
+						password.getValue(),
 						AccounterInitialiser.PASSWORD_CRED_RESOURCE);
 				if (result.size() == 1) {
 					loadCompany(result.get(0).getCompanyId());
@@ -127,27 +128,6 @@ public class LoginPanel extends FlowPanel {
 			}
 		});
 	}
-
-	protected native void rememberCredentials(String userName, String password,
-			String resource) /*-{
-		var passwordVault = new Windows.Security.Credentials.PasswordVault;
-		var pcs;
-		try {
-			pcs = passwordVault.findAllByResource(resource);
-			if (pcs != null) {
-				for (i = 0; i < pcs.size; i++) {
-					passwordVault.remove(pcs.getAt(i));
-				}
-			}
-		} catch (e) {
-			pcs = null;
-		}
-
-		var passwordCredential = new Windows.Security.Credentials.PasswordCredential(
-				resource, userName, password);
-		passwordVault.add(passwordCredential);
-
-	}-*/;
 
 	protected void submit(
 			AccounterAsyncCallback<ArrayList<CompanyDetails>> accounterAsyncCallback) {

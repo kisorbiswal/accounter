@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.CompanyDetails;
 import com.vimukti.accounter.web.client.core.SignupDetails;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.AccounterInitialiser;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.WebsocketAccounterInitialiser;
@@ -89,6 +90,9 @@ public class SignUpPanel extends FlowPanel {
 			@Override
 			public void onResultSuccess(Boolean result) {
 				accounter.hideProgress();
+				accounter.rememberCredentials(emailid.getValue(),
+						password.getValue(),
+						AccounterInitialiser.PASSWORD_CRED_RESOURCE);
 				accounter.showView(new CompaniesPanel(
 						new ArrayList<CompanyDetails>(), accounter));
 
