@@ -1,18 +1,16 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title>Accounter</title>
-    <!-- WinJS references -->
-    <link href="//Microsoft.WinJS.1.0/css/ui-light.css" rel="stylesheet" />
-    <script src="//Microsoft.WinJS.1.0/js/base.js"></script>
-    <script src="//Microsoft.WinJS.1.0/js/ui.js"></script>
+<meta charset="utf-8" />
+<title>Accounter</title>
+<!-- WinJS references -->
+<link href="//Microsoft.WinJS.1.0/css/ui-light.css" rel="stylesheet" />
+<script src="//Microsoft.WinJS.1.0/js/base.js"></script>
+<script src="//Microsoft.WinJS.1.0/js/ui.js"></script>
     <!-- Accounter references -->
     <link href="/css/default.css" rel="stylesheet" />
     <script src="/js/default.js"></script>
-
     <script type="text/javascript" charset="utf-8">
-
 /* ACCOUNTER MESSAGES START */
  var AccounterMessages = {	  				'AAccountNumbershoublebeanumber' : 'A Account Number should be a number',
 	  				'saleNumber' : 'Sale Number',
@@ -2334,7 +2332,7 @@
 	  				'recentTransactions' : 'Recent Transactions',
 	  				'RECENTTRANSACTIONS' : 'RECENT_TRANSACTIONS',
 	  				'recievePayments' : 'Receive Payments',
-	  				'recievePaymentTotalAmount' : 'The total Payments entered cannot exceed the Amount Received',
+	  				'recievePaymentTotalAmount' : 'The \'Amount Received\' should be equal to sum of \'Payment\' column of invoice(s). Please edit the "Payment" column accordingly.',
 	  				'recommendedAccounts' : 'Recommended accounts',
 	  				'recommendedAccountsComment' : 'for your industry are typically all you need for income tax purposes.',
 	  				'recommendedNote' : 'you can modify your chart of accounts any time after completing this interview.',
@@ -3800,7 +3798,7 @@
 	  				'newPayrollUnit' : 'New Payroll Unit',
 	  				'employeeGroupList' : 'Employee Group List',
 	  				'employeeCategoryList' : 'Employee Category List',
-	  				'payheadList' : 'Payhead List',
+	  				'payheadList' : 'Pay Head List',
 	  				'payrollUnitList' : 'Payroll Unit List',
 	  				'affectNetSalary' : 'Affect Net Salary',
 	  				'addaNewEmployee' : 'Add a New Employee',
@@ -3812,7 +3810,7 @@
 	  				'symbol' : 'Symbol',
 	  				'formalName' : 'Formal Name',
 	  				'noOfDecimalPlaces' : 'Number Of Decimal Places',
-	  				'payhead' : 'Payhead',
+	  				'payhead' : 'Pay Head',
 	  				'payrollUnit' : 'Payroll Unit',
 	  				'payStructure' : 'Pay Structure',
 	  				'payHeadType' : 'Pay Head Type',
@@ -3909,6 +3907,7 @@
 	  				'updatePayhead' : 'Update Pay Head',
 	  				'newItem' : 'New Item',
 	  				'addNewPurchaseItem' : 'Add a New Purchase Item',
+	  				'roundingAccount' : 'Rounding Account',
 	  				'lastDate' : 'Employee last date',
 	  				'reasonForInactive' : 'Reason for inactive',
 	  				'gotNewJobOffer' : 'Got new job offer',
@@ -4034,6 +4033,18 @@
 	  				'licenseExpired' : 'License Expired',
 	  				'invalidLicense' : 'Invalid License',
 	  				'newTermsOfUse' : 'By signing up here you agree to ',
+	  				'measurementMustBeSame' : '{items} must be same measurements',
+	  				'W_118' : 'You can not edit this journal entry directly. You have to edit the opening balance of that Account.  Do you want to continue?',
+	  				'currencyRoundingTotal' : 'Rounding Amount ({currencyCode})',
+	  				'roundingLimit' : 'Rounding Limit',
+	  				'removeifZeo' : 'Remove if Zero',
+	  				'trackRoundingAmountEnbleForInvoiceAndCashSale' : 'Enable to allow Rounding Amount for Invoice and CashSale',
+	  				'reached' : 'Reached',
+	  				'safe' : 'Safe',
+	  				'periodOrUnit' : 'Period/Unit',
+	  				'statutoryLiabilityAccount' : 'Statutory Liability Account',
+	  				'deductionsFromCompany' : 'Deductions From Company',
+	  				'assetAccount' : 'Asset Account',
 };
 /* ACCOUNTER MESSAGES END */
         var accounter_locale = {
@@ -4075,14 +4086,10 @@
             'dateFormats': ['EEEE\, MMMM d\, y', 'MMMM d\, y', 'MMM d\, y', 'M/d/yy'],
             'narrowMonths': ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
             'groupingSeparator': ',',
-
             last: 'end'
         };
-
         var isRTL = false;
 </script>
-
-
 </head>	
   <body style="-ms-grid-rows: 76px 36fr 592fr auto; -ms-grid-columns: 0px 1366fr; ">
     <div id="indeterminate" style="width: 100%; display: block; -ms-grid-column-span: 2; display:none">
@@ -4111,10 +4118,10 @@
 		</script>
 		<script type="text/javascript" src="/accounter.client/accounter.client.nocache.js"></script>
 		<div id="appBar" data-win-control="WinJS.UI.AppBar" data-win-options="{placement:'bottom', sticky:true}">
-            
         </div>
         <div id="settingsContainer" data-win-control="WinJS.UI.SettingsFlyout" data-win-options="{settingsCommandId:'setThisAtRuntime', width:'wide'}">
             <button> Test</button>
         </div>
  </body>
 </html>
+
