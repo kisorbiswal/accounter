@@ -31,7 +31,7 @@ public class WebSocketConnection {
 	List<Cookie> cookiesList = new ArrayList<WebSocketConnection.Cookie>();
 
 	WebSocketConnection() {
-		String baseURL = "https://www.accounterlive.com:8443/test";
+		String baseURL = "https://www.accounterlive.com:16443/test";
 		int split = baseURL.indexOf('/', 8);
 		String urlString = baseURL.substring(0, split).replace("https", "wss")
 				.replace("http", "ws");
