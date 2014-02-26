@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.utils.DeleteQueue;
 
 public class DownloadTempFileServlet extends HttpServlet {
 
@@ -58,9 +59,7 @@ public class DownloadTempFileServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (file.exists()) {
-				file.delete();
-			}
+			DeleteQueue.get().add(file);
 		}
 
 	}

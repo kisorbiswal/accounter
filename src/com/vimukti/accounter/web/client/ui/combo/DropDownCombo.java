@@ -501,7 +501,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			}
 			changeValue(index);
 		} else {
-			selectionFaildOnClose();
+			if (!value.isEmpty()) {
+				selectionFaildOnClose();
+			}
+			selectNone();
 		}
 	}
 
@@ -509,9 +512,17 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	 * this will be called when {@link #isAddNewRequire} value is true, and
 	 * noting has been selected for the entered text on close.
 	 */
-	protected void selectionFaildOnClose() {
+	protected void selectNone() {
 		textBox.setValue("");
 		selectedObject = null;
+	}
+
+	/**
+	 * this will be called when {@link #isAddNewRequire} value is true, and
+	 * noting has been selected for the entered text on close.
+	 */
+	protected void selectionFaildOnClose() {
+		// NOTHING TO DO HERE
 	}
 
 	private List<T> getMatchedComboItems(String val) {
