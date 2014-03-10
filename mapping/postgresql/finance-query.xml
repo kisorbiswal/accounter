@@ -6129,7 +6129,7 @@
 				       LEFT JOIN TAX_ITEM TAXI
 				         ON TRC.TAX_ITEM_ID = TAXI.ID
 				WHERE  TRC.TAX_ITEM_ID IS NOT NULL
-				       AND TRC.TRANSACTION_DATE BETWEEN :startDate AND :endDate
+				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				       AND TAXI.COMPANY_ID = :companyId
 				       AND TAXI.TAX_AGENCY = :taxAgency
 				GROUP  BY TAXI.ID,
