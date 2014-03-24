@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.portlet;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class PayeeBySalesGrid extends ListGrid<PayeesBySalesPortletData> {
@@ -40,7 +41,7 @@ public class PayeeBySalesGrid extends ListGrid<PayeesBySalesPortletData> {
 			case 0:
 				return obj.getName();
 			case 1:
-				return String.valueOf(obj.getQuantity());
+				return DecimalUtil.round(obj.getQuantity());
 
 			default:
 				break;
