@@ -33,4 +33,8 @@ public class Belgium extends AbstractCountryPreferences {
 		return "UTC+1:00 Europe/Brussels";
 	}
 
+	@Override
+	public boolean isVatAvailable() {
+		return true;
+	}
 }
