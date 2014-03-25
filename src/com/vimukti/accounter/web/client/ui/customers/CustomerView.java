@@ -1045,6 +1045,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				});
 
 		vatregno = new TextItem(messages.taxRegNo(), "vatregno");
+		if (!getCountryPreferences().isServiceTaxAvailable()) {
+			vatregno.setTitle(messages.vatRegistrationNumber());
+		}
 		custTaxCode = new TAXCodeCombo(messages.taxCode(), true);
 		custTaxCode
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {

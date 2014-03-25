@@ -771,6 +771,9 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		vatRegistrationNumber = new TextItem(messages.taxRegNo(),
 				"vatRegistrationNumber");
+		if (!getCountryPreferences().isServiceTaxAvailable()) {
+			vatRegistrationNumber.setTitle(messages.vatRegistrationNumber());
+		}
 		// vatRegistrationNumber.setHelpInformation(true);
 		vatRegistrationNumber.setEnabled(!isInViewMode());
 		vendorTaxCode = new TAXCodeCombo(messages.taxCode(), false);
