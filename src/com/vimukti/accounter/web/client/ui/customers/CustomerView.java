@@ -1068,7 +1068,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		tdsCheckBox.setEnabled(!isInViewMode());
 
 		if (getPreferences().isTrackTax()) {
-			if (getCountryPreferences().isVatAvailable()) {
+			if (getCountryPreferences().isVatAvailable()
+					|| getCountryPreferences().isServiceTaxAvailable()) {
 				termsForm.add(vatregno);
 			}
 			termsForm.add(custTaxCode);
@@ -1238,7 +1239,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		tinNumberText.setValue(data.getTinNumber());
 
 		if (getPreferences().isTrackTax()
-				&& getCountryPreferences().isVatAvailable()) {
+				&& (getCountryPreferences().isServiceTaxAvailable() || getCountryPreferences()
+						.isVatAvailable())) {
 			// setting vatRegistrationNumber
 			vatregno.setValue(data.getVATRegistrationNumber());
 		}

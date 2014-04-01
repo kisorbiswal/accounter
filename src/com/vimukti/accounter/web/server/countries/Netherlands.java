@@ -34,4 +34,8 @@ public class Netherlands extends AbstractCountryPreferences {
 		return "UTC+1:00 Europe/Amsterdam";
 	}
 
+	@Override
+	public boolean isVatAvailable() {
+		return true;
+	}
 }

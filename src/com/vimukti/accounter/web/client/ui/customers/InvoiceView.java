@@ -639,7 +639,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		}
 		if (getPreferences().isTrackTax()) {
-			termsForm.add(vatNo);
+			if (getCountryPreferences().isServiceTaxAvailable()
+					|| getCountryPreferences().isVatAvailable()) {
+				termsForm.add(vatNo);
+			}
 		}
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {

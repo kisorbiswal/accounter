@@ -55,8 +55,11 @@ public class RecurringTransactionsListView extends
 		recurringTransactions = result;
 		initialRecords = result;
 		this.records = result;
-		filterList(viewSelect.getValue().toString());
-		grid.setViewType(viewSelect.getValue().toString());
+		String viewSelect = this.viewSelect.getValue().toString();
+		updateGridData(viewSelect);
+		grid.setViewType(viewSelect);
+		updateRecordsCount(result.getStart(), result.size(),
+				result.getTotalCount());
 	}
 
 	@Override
@@ -190,7 +193,12 @@ public class RecurringTransactionsListView extends
 	}
 
 	@Override
-	protected void filterList(String text) {
+	protected void filterList(String selectedValue) {
+		onPageChange(start, getPageSize());
+	}
+
+	@SuppressWarnings("unchecked")
+	private void updateGridData(String text){
 		grid.removeAllRecords();
 		for (ClientRecurringTransaction recTransaction : recurringTransactions) {
 			if (text.equals(messages.all())) {
@@ -228,15 +236,13 @@ public class RecurringTransactionsListView extends
 			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 	}
-
 	@Override
 	protected String getListViewHeading() {
 		return messages.recurringTransactionsList();
 	}
 
 	@Override
-	public void initListCallback() {
-		super.initListCallback();
+	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getRecurringsList(
 				getStartDate().getDate(), getEndDate().getDate(), this);
 	}
@@ -284,5 +290,10 @@ public class RecurringTransactionsListView extends
 		Accounter.createExportCSVService().getRecurringsListExportCsv(
 				getStartDate().getDate(), getEndDate().getDate(),
 				getExportCSVCallback(messages.recurringTransactionsList()));
+	}
+	
+	@Override
+	protected int getPageSize() {
+		return DEFAULT_PAGE_SIZE;
 	}
 }

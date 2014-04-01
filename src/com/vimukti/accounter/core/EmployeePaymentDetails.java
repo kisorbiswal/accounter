@@ -83,6 +83,11 @@ public class EmployeePaymentDetails implements IAccounterServerCore {
 	public void runPayment() {
 		for (EmployeePayHeadComponent component : payHeadComponents) {
 			component.setEmpPaymentDetails(this);
+			PayHead payHead = component.getPayHead();
+			if(!payHead.isEffectsPayment()){
+				continue;
+			}
+				
 			double rate = component.getRate();
 			if (component.isDeduction()) {
 				payRun.addDeductions(rate);

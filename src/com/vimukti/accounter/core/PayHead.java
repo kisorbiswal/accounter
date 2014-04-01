@@ -387,4 +387,8 @@ public abstract class PayHead extends CreatableObject implements
 	public void setAssetAccount(Account assetAccount) {
 		this.assetAccount = assetAccount;
 	}
+
+	public boolean isEffectsPayment() {
+		return getType() != TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS;
+	}
 }

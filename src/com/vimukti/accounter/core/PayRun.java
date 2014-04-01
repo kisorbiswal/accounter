@@ -282,7 +282,7 @@ public class PayRun extends Transaction {
 	public void getEffects(ITransactionEffects e) {
 
 		for (EmployeePaymentDetails detail : this.getPayEmployee()) {
-			double empTotal = 0.00D;
+			double empPayment = 0.00D;
 			for (EmployeePayHeadComponent component : detail
 					.getPayHeadComponents()) {
 				double rate = component.getRateToUpdate();
@@ -298,13 +298,13 @@ public class PayRun extends Transaction {
 					account = payHead.getAccount();
 				}
 				e.add(account, rate, 1);
-				if (payHead.getType() == PayHead.TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS) {
+				if (!payHead.isEffectsPayment()) {
 					e.add(payHead.getAccount(), -rate, 1);
 					continue;
 				}
-				empTotal += rate;
+				empPayment += rate;
 			}
-			e.add(detail.getEmployee(), -1 * empTotal);
+			e.add(detail.getEmployee(), -1 * empPayment);
 		}
 
 	}
