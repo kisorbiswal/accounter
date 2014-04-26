@@ -25,6 +25,7 @@ import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditCardCharge;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
@@ -2098,5 +2099,18 @@ public class VendorManager extends PayeeManager {
 		ClientMakeDeposit deposit = new ClientConvertUtil().toClientObject(
 				((MakeDeposit) uniqueResult[0]), ClientMakeDeposit.class);
 		return deposit;
+	}
+
+	/***
+	 * Get Vendor Object By ID
+	 * 
+	 * @param company
+	 * @param vendorID
+	 * @return
+	 */
+	public Vendor getVedorById(long vendorID) {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Vendor vendor = (Vendor) currentSession.get(Vendor.class, vendorID);
+		return vendor;
 	}
 }

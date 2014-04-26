@@ -1279,4 +1279,18 @@ public class CustomerManager extends PayeeManager {
 		return new ArrayList<EstimatesAndSalesOrdersList>(esl);
 	}
 
+	/**
+	 * Get Customer Obj By Id
+	 * 
+	 * @param company
+	 * @param customerID
+	 * @return
+	 */
+	public Customer getCustomerByID(long customerID) {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Customer customer = (Customer) currentSession.get(Customer.class,
+				customerID);
+		return customer;
+	}
+
 }

@@ -3,7 +3,9 @@ package com.vimukti.accounter.core.reports.generators;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -33,9 +35,13 @@ public class CustomerStatementRG extends AbstractReportGenerator {
 		updateReport(statementReport, financeTool);
 		statementReport.resetVariables();
 		try {
+			long customerID = getInputAsLong(0);
+			Customer Customer = financeTool.getCustomerManager()
+					.getCustomerByID(customerID);
+			statementReport.setCurrency(Customer.getCurrency().getSymbol());
 			statementReport.onResultSuccess(financeTool.getReportManager()
-					.getPayeeStatementsList(false, getInputAsLong(0), 0,
-							startDate, endDate, company.getID()));
+					.getPayeeStatementsList(false, customerID, 0, startDate,
+							endDate, company.getID()));
 
 		} catch (Exception e) {
 			e.printStackTrace();
