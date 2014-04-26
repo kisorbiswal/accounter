@@ -58,8 +58,8 @@ public class CSVReportGridTemplate<R> extends ReportGridTemplate {
 	@Override
 	public String getValue(Object object) {
 		return (object instanceof Double ? DataUtils
-				.getAmountAsStringInPrimaryCurrency((Double) object) : object
-				.toString());
+				.getAmountAsStringInCurrency((Double) object,
+						reportView.getCurrencySymbol()) : object.toString());
 	}
 
 	@Override

@@ -1297,7 +1297,7 @@ public class MenuBar {
 
 		this.isShippingEnabled = preferences.isDoProductShipMents();
 
-		this.canSeeVendorItems = canseeVendorItems(clientUser);
+		this.canSeeVendorItems = canSeeVendorItems(clientUser);
 
 		getMenuBar();
 	}
@@ -1308,12 +1308,12 @@ public class MenuBar {
 	 * @param clientUser
 	 * @return
 	 */
-	private boolean canseeVendorItems(ClientUser clientUser) {
+	private boolean canSeeVendorItems(ClientUser clientUser) {
 		if (clientUser.getUserRole().equals(RolePermissions.CUSTOM)
 				&& (clientUser.getPermissions().getTypeOfInventoryWarehouse() != RolePermissions.TYPE_YES)) {
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	private boolean isAdvisor(ClientUser clientUser) {
