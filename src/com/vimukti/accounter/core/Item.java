@@ -470,8 +470,8 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	private int getDepthCount() {
 		int count = 0;
 		if (parentItem != null) {
-			long parentId = parentItem.getID();
-			while (parentId > 0) {
+			Long parentId = parentItem.getID();
+			while ((parentId != null) && (parentId > 0)) {
 				Item item = getItemById(parentId);
 				if (item != null) {
 					count++;
@@ -479,7 +479,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 				if (item.getParentItem() != null) {
 					parentId = item.getParentItem().getID();
 				} else {
-					parentId = 0l;
+					parentId = null;
 				}
 			}
 		}
