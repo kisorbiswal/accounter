@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
@@ -22,6 +23,8 @@ public class StatementServerReport extends
 	public String customerId;
 	private final boolean isVendor;
 	private double payeeBalance = 0.0D;
+
+	private String currencySymbol;
 
 	public StatementServerReport(boolean isVendor,
 			IFinanceReport<PayeeStatementsList> reportView) {
@@ -260,5 +263,17 @@ public class StatementServerReport extends
 		resetVariables();
 		super.initRecords(records);
 
+	}
+
+	@Override
+	public String getCurrencySymbol() {
+		if (currencySymbol != null) {
+			return currencySymbol;
+		}
+		return super.getCurrencySymbol();
+	}
+
+	public void setCurrency(String currencySymbol) {
+		this.currencySymbol = currencySymbol;
 	}
 }

@@ -7,6 +7,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -90,6 +91,10 @@ public abstract class AbstractFinaneReport<R> extends
 		}
 
 		this.grid.setReportView(this);
+	}
+
+	public String getCurrencySymbol() {
+		return preferences.getPrimaryCurrency().getSymbol();
 	}
 
 	public AbstractFinaneReport(long startDate, long endDate, int generationType) {

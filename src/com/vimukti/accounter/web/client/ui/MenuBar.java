@@ -97,6 +97,8 @@ public class MenuBar {
 
 	private boolean isShippingEnabled;
 
+	private boolean canSeeVendorItems;
+
 	public MenuBar() {
 		menus = new ArrayList<Menu>();
 
@@ -209,8 +211,8 @@ public class MenuBar {
 		inventoryMenuBar.addMenuItem(messages.inventoryItems(),
 				HistoryTokens.INVENTORYITEMS);
 
-//		inventoryMenuBar.addMenuItem(messages.inventoryAssembly() + " "
-//				+ messages.items(), HistoryTokens.INVENTORY_ASSEMBLY_ITEMS);
+		// inventoryMenuBar.addMenuItem(messages.inventoryAssembly() + " "
+		// + messages.items(), HistoryTokens.INVENTORY_ASSEMBLY_ITEMS);
 
 		if (iswareHouseEnabled) {
 			inventoryMenuBar.addMenuItem(messages.warehouseList(),
@@ -829,8 +831,11 @@ public class MenuBar {
 				vendorMenuBar.addMenuItem(messages.billsAndExpenses(),
 						HistoryTokens.BILLSANDEXPENSES);
 			}
-			vendorMenuBar.addMenuItem(messages.payees(Global.get().Vendors())
-					+ " " + messages.items(), HistoryTokens.VENDORITEMS);
+			if (canSeeVendorItems) {
+				vendorMenuBar.addMenuItem(
+						messages.payees(Global.get().Vendors()) + " "
+								+ messages.items(), HistoryTokens.VENDORITEMS);
+			}
 		}
 		if (canSeeBanking) {
 			vendorMenuBar.addMenuItem(
@@ -1292,7 +1297,23 @@ public class MenuBar {
 
 		this.isShippingEnabled = preferences.isDoProductShipMents();
 
+		this.canSeeVendorItems = canseeVendorItems(clientUser);
+
 		getMenuBar();
+	}
+
+	/**
+	 * Show Vendor Items Based On User Permissions
+	 * 
+	 * @param clientUser
+	 * @return
+	 */
+	private boolean canseeVendorItems(ClientUser clientUser) {
+		if (clientUser.getUserRole().equals(RolePermissions.CUSTOM)
+				&& (clientUser.getPermissions().getTypeOfInventoryWarehouse() != RolePermissions.TYPE_YES)) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean isAdvisor(ClientUser clientUser) {

@@ -140,7 +140,9 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 
 	public void doReverseEffect() {
 		Session session = HibernateUtil.getCurrentSession();
-
+		if (this.creditsAndPayments == null) {
+			return;
+		}
 		this.creditsAndPayments.updateBalance(getTransaction(), -amountToUse);
 		session.saveOrUpdate(creditsAndPayments);
 	}
@@ -305,6 +307,6 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 	@Override
 	public void selfValidate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

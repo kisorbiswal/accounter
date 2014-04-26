@@ -8,6 +8,7 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -231,5 +232,15 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 			}
 		}
 
+	}
+
+	public ClientCurrency toClientCurrency() {
+		ClientCurrency clientCurrency = new ClientCurrency();
+		clientCurrency.setName(name);
+		clientCurrency.setSymbol(symbol);
+		clientCurrency.setFormalName(formalName);
+		clientCurrency.setAccountsReceivable(accountsReceivable.getID());
+		clientCurrency.setAccountsPayable(accountsPayable.getID());
+		return clientCurrency;
 	}
 }

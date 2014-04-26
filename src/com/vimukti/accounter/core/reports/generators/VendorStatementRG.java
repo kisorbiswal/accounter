@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -33,13 +34,18 @@ public class VendorStatementRG extends AbstractReportGenerator {
 		updateReport(statementReport1);
 		statementReport1.resetVariables();
 		try {
+			long vendorID = getInputAsLong(0);
+			Vendor vedorById = financeTool.getVendorManager().getVedorById(
+					vendorID);
+			statementReport1.setCurrency(vedorById.getCurrency().getSymbol());
 			statementReport1.onResultSuccess(financeTool.getReportManager()
-					.getPayeeStatementsList(true, getInputAsLong(0), 0,
-							startDate, endDate, company.getID()));
+					.getPayeeStatementsList(true, vendorID, 0, startDate,
+							endDate, company.getID()));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		ReportGridTemplate<PayeeStatementsList> gridTemplate = statementReport1
 				.getGridTemplate();
 		gridTemplate.addAdditionalDetails(getStatementReportDetails());
