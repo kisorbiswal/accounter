@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
+
 public class ClientUserPermissions implements IAccounterCore {
 
 	/**
@@ -30,6 +32,8 @@ public class ClientUserPermissions implements IAccounterCore {
 	ClientUser user;
 
 	private int version;
+
+	public boolean isOnlySeeInvoiceandBills;
 
 	public int getTypeOfBankReconcilation() {
 		return typeOfBankReconcilation;
@@ -152,4 +156,16 @@ public class ClientUserPermissions implements IAccounterCore {
 		this.typeOfSaveasDrafts = typeOfSaveasDrafts;
 	}
 
+	public boolean isOnlySeeInvoiceandBills() {
+		if ((typeOfInvoicesBills == RolePermissions.TYPE_YES && typeOfPayBillsPayments == RolePermissions.TYPE_YES)
+				&& (typeOfBankReconcilation == RolePermissions.TYPE_NO
+						&& typeOfCompanySettingsLockDates == RolePermissions.TYPE_NO
+						&& typeOfInventoryWarehouse == RolePermissions.TYPE_NO
+						&& typeOfMangeAccounts == RolePermissions.TYPE_NO
+						&& typeOfCompanySettingsLockDates == RolePermissions.TYPE_NO
+						&& typeOfViewReports == RolePermissions.TYPE_NO && typeOfSaveasDrafts == RolePermissions.TYPE_NO)) {
+			this.isOnlySeeInvoiceandBills = true;
+		}
+		return isOnlySeeInvoiceandBills;
+	}
 }
