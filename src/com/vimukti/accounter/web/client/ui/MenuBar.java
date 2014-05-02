@@ -1015,9 +1015,10 @@ public class MenuBar {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
 					HistoryTokens.NEWJOURNALENTRY, "J");
 		}
-		companyMenuBar.addMenuItem(messages.transactionscenter(),
-				HistoryTokens.TRANSACTIONS_CENTER);
-
+		if (canSeeInvoiceTransactions) {
+			companyMenuBar.addMenuItem(messages.transactionscenter(),
+					HistoryTokens.TRANSACTIONS_CENTER);
+		}
 		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.newPayee(messages.Account()),
 					HistoryTokens.NEWACCOUNT, "A");
@@ -1115,7 +1116,7 @@ public class MenuBar {
 				HistoryTokens.VENDORLIST);
 		companyListMenuBar.addMenuItem(messages.salesPersons(),
 				HistoryTokens.SALESPRESONS);
-		if (hasPermission(Features.USER_ACTIVITY)) {
+		if (hasPermission(Features.USER_ACTIVITY) && canSeeInvoiceTransactions) {
 			companyListMenuBar.addMenuItem(messages.usersActivityLogTitle(),
 					HistoryTokens.USERACTIVITY);
 		}
@@ -1410,7 +1411,7 @@ public class MenuBar {
 	}
 
 	private boolean canSeeInvoiceTransactions(ClientUser clientUser) {
-		return clientUser.getPermissions().getTypeOfInvoicesBills() != RolePermissions.TYPE_NO;
+		return clientUser.getPermissions().isOnlySeeInvoiceandBills();
 	}
 
 	/*
