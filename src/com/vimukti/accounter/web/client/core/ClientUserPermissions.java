@@ -33,8 +33,6 @@ public class ClientUserPermissions implements IAccounterCore {
 
 	private int version;
 
-	public boolean isOnlySeeInvoiceandBills;
-
 	public int getTypeOfBankReconcilation() {
 		return typeOfBankReconcilation;
 	}
@@ -158,14 +156,14 @@ public class ClientUserPermissions implements IAccounterCore {
 
 	public boolean isOnlySeeInvoiceandBills() {
 		if ((typeOfInvoicesBills == RolePermissions.TYPE_YES && typeOfPayBillsPayments == RolePermissions.TYPE_YES)
-				&& (typeOfBankReconcilation == RolePermissions.TYPE_NO
-						&& typeOfCompanySettingsLockDates == RolePermissions.TYPE_NO
-						&& typeOfInventoryWarehouse == RolePermissions.TYPE_NO
-						&& typeOfMangeAccounts == RolePermissions.TYPE_NO
-						&& typeOfCompanySettingsLockDates == RolePermissions.TYPE_NO
-						&& typeOfViewReports == RolePermissions.TYPE_NO && typeOfSaveasDrafts == RolePermissions.TYPE_NO)) {
-			this.isOnlySeeInvoiceandBills = true;
+				&& (typeOfBankReconcilation != RolePermissions.TYPE_YES
+						&& typeOfCompanySettingsLockDates != RolePermissions.TYPE_YES
+						&& typeOfInventoryWarehouse != RolePermissions.TYPE_YES
+						&& typeOfMangeAccounts != RolePermissions.TYPE_YES
+						&& typeOfCompanySettingsLockDates != RolePermissions.TYPE_YES
+						&& typeOfViewReports != RolePermissions.TYPE_YES && typeOfSaveasDrafts != RolePermissions.TYPE_YES)) {
+			return true;
 		}
-		return isOnlySeeInvoiceandBills;
+		return false;
 	}
 }

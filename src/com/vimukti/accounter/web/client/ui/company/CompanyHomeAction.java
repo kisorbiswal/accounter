@@ -4,13 +4,17 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DashBoardView;
+import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.IPadDashBoard;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.core.AbstractView;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceView;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.ui.win8portlets.Windows8DashBoard;
 
 public class CompanyHomeAction extends Action {
@@ -37,19 +41,25 @@ public class CompanyHomeAction extends Action {
 			Windows8DashBoard dashBoard = new Windows8DashBoard();
 			MainFinanceWindow.getViewManager().showView(dashBoard, null, false,
 					this);
-		} else if (Accounter.getUser().getPermissions()
-				.isOnlySeeInvoiceandBills()) {
-			DashBoardView view = (DashBoardView) GWT
-					.create(DashBoardView.class);
-			MainFinanceWindow.getViewManager()
-					.showView(view, null, false, this);
 		} else {
-			InvoiceListView view = (InvoiceListView) GWT
-					.create(InvoiceView.class);
+			AbstractView<?> view = null;
+			if (isShowInvoiceList()) {
+				view = (InvoiceListView) GWT.create(InvoiceListView.class);
+			} else {
+				view = (DashBoardView) GWT.create(DashBoardView.class);
+			}
 			MainFinanceWindow.getViewManager()
 					.showView(view, null, false, this);
 		}
+	}
 
+	private boolean isShowInvoiceList() {
+		ClientUser user = Accounter.getUser();
+		if (RolePermissions.CUSTOM.equals(user.getUserRole())
+				&& user.getPermissions().isOnlySeeInvoiceandBills()) {
+			return true;
+		}
+		return false;
 	}
 
 	public ImageResource getBigImage() {
@@ -64,6 +74,9 @@ public class CompanyHomeAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
+		if (isShowInvoiceList()) {
+			return HistoryTokens.INVOICES;
+		}
 		return "dashBoard";
 	}
 
@@ -74,6 +87,9 @@ public class CompanyHomeAction extends Action {
 
 	@Override
 	public String getText() {
+		if (isShowInvoiceList()) {
+			return messages.invoices();
+		}
 		return messages.dashBoard();
 	}
 

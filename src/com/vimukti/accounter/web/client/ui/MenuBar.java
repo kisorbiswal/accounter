@@ -41,6 +41,8 @@ public class MenuBar {
 
 	private boolean canSeeInvoiceTransactions;
 
+	private boolean canOnlySeeInvoiceTransactions;
+
 	private boolean isDoyouwantEstimates;
 
 	private boolean isDelayedchargesEnabled;
@@ -826,7 +828,7 @@ public class MenuBar {
 		vendorMenuBar.addMenuItem(messages.payees(Global.get().Vendors()),
 				HistoryTokens.VENDORLIST);
 
-		if (canSeeInvoiceTransactions) {
+		if (canSeeInvoiceTransactions || canOnlySeeInvoiceTransactions) {
 			if (isKeepTrackofBills) {
 				vendorMenuBar.addMenuItem(messages.billsAndExpenses(),
 						HistoryTokens.BILLSANDEXPENSES);
@@ -927,14 +929,17 @@ public class MenuBar {
 		customerMenuBar.addMenuItem(messages.payees(Global.get().Customers()),
 				HistoryTokens.CUSTOMERS);
 
-		if (canSeeInvoiceTransactions) {
+		if (canSeeInvoiceTransactions || canOnlySeeInvoiceTransactions) {
 
 			customerMenuBar.addMenuItem(messages.invoices(),
 					HistoryTokens.INVOICES);
 
-			customerMenuBar.addMenuItem(
-					messages.payees(Global.get().Customers()) + " "
-							+ messages.items(), HistoryTokens.CUSTOMERITEMS);
+			if (canSeeVendorItems) {
+				customerMenuBar
+						.addMenuItem(messages.payees(Global.get().Customers())
+								+ " " + messages.items(),
+								HistoryTokens.CUSTOMERITEMS);
+			}
 		}
 		if (isJobTrackingEnabled && hasPermission(Features.JOB_COSTING)) {
 			customerMenuBar.addMenuItem(messages.jobList(),
@@ -995,8 +1000,10 @@ public class MenuBar {
 
 		Menu companyMenuBar = new Menu(string);
 
-		companyMenuBar.addMenuItem(messages.dashBoard(),
-				HistoryTokens.DASHBOARD, "D");
+		if (!canOnlySeeInvoiceTransactions) {
+			companyMenuBar.addMenuItem(messages.dashBoard(),
+					HistoryTokens.DASHBOARD, "D");
+		}
 
 		companyMenuBar.addSeparatorItem();
 
@@ -1015,7 +1022,7 @@ public class MenuBar {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
 					HistoryTokens.NEWJOURNALENTRY, "J");
 		}
-		if (canSeeInvoiceTransactions) {
+		if (!canOnlySeeInvoiceTransactions) {
 			companyMenuBar.addMenuItem(messages.transactionscenter(),
 					HistoryTokens.TRANSACTIONS_CENTER);
 		}
@@ -1243,6 +1250,10 @@ public class MenuBar {
 
 		this.canSeeInvoiceTransactions = canSeeInvoiceTransactions(clientUser);
 
+		this.canOnlySeeInvoiceTransactions = canOnlySeeInvoiceTransactions(clientUser);
+
+		this.canSeeInvoiceTransactions = !canOnlySeeInvoiceTransactions;
+
 		this.isDoyouwantEstimates = preferences.isDoyouwantEstimates();
 
 		tdsEnabled = preferences.isTDSEnabled();
@@ -1298,7 +1309,7 @@ public class MenuBar {
 
 		this.isShippingEnabled = preferences.isDoProductShipMents();
 
-		this.canSeeVendorItems = canSeeVendorItems(clientUser);
+		this.canSeeVendorItems = canSeeCustomerAndVendorItems(clientUser);
 
 		getMenuBar();
 	}
@@ -1309,7 +1320,7 @@ public class MenuBar {
 	 * @param clientUser
 	 * @return
 	 */
-	private boolean canSeeVendorItems(ClientUser clientUser) {
+	private boolean canSeeCustomerAndVendorItems(ClientUser clientUser) {
 		if (clientUser.getUserRole().equals(RolePermissions.CUSTOM)
 				&& (clientUser.getPermissions().getTypeOfInventoryWarehouse() != RolePermissions.TYPE_YES)) {
 			return false;
@@ -1411,6 +1422,13 @@ public class MenuBar {
 	}
 
 	private boolean canSeeInvoiceTransactions(ClientUser clientUser) {
+		return clientUser.getPermissions().getTypeOfInvoicesBills() != RolePermissions.TYPE_NO;
+	}
+
+	private boolean canOnlySeeInvoiceTransactions(ClientUser clientUser) {
+		if (!RolePermissions.CUSTOM.equals(clientUser.getUserRole())) {
+			return false;
+		}
 		return clientUser.getPermissions().isOnlySeeInvoiceandBills();
 	}
 
