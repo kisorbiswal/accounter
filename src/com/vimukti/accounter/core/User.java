@@ -224,6 +224,8 @@ public class User extends CreatableObject implements IAccounterServerCore,
 					.getTypeOfInventoryWarehouse());
 			userPermissions.setTypeOfSaveasDrafts(this.getPermissions()
 					.getTypeOfSaveasDrafts());
+			userPermissions.setInvoicesAndPayments(this.getPermissions()
+					.getInvoicesAndPayments());
 			user.setPermissions(userPermissions);
 		}
 		Set<ClientPortletPageConfiguration> set = new HashSet<ClientPortletPageConfiguration>();

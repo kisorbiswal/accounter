@@ -7,7 +7,6 @@ import java.util.Set;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
-import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -128,7 +127,9 @@ public class MenuBar {
 
 		this.addMenu(getCustomerMenu(Global.get().Customer()));
 
-		this.addMenu(getVendorMenu(Global.get().Vendor()));
+		if (!canOnlyInvoicesAndPayments) {
+			this.addMenu(getVendorMenu(Global.get().Vendor()));
+		}
 
 		if (canDoBanking) {
 			this.addMenu(getBankingMenu(messages.banking()));
@@ -906,12 +907,13 @@ public class MenuBar {
 
 		customerMenuBar.addSeparatorItem();
 
-		if (canDoInvoiceAndBillTransactions || canDoBanking) {
+		if (canDoInvoiceAndBillTransactions || canDoBanking
+				|| canOnlyInvoicesAndPayments || canOnlySeeInvoiceAndBills) {
 			customerMenuBar.addMenuItem(getNewCustomerMenu(messages.new1()));
 			customerMenuBar.addSeparatorItem();
 		}
 
-		if (canDoPayBillAndReceivePayment) {
+		if (canDoPayBillAndReceivePayment || canOnlyInvoicesAndPayments) {
 
 			customerMenuBar.addMenuItem(
 					messages.payeePrePayment(Global.get().Customer()),
@@ -955,6 +957,10 @@ public class MenuBar {
 
 	private Menu getNewCustomerMenu(String string) {
 		Menu newCustomerMenuBar = new Menu(string);
+		boolean canDoInvoiceAndBillTransactions = this.canDoInvoiceAndBillTransactions;
+		if (canOnlyInvoicesAndPayments) {
+			canDoInvoiceAndBillTransactions = true;
+		}
 		if (canDoInvoiceAndBillTransactions) {
 			newCustomerMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Customer()),
@@ -1447,22 +1453,10 @@ public class MenuBar {
 	}
 
 	private boolean canOnlyInvoicesAndPayments(ClientUser clientUser) {
-		ClientUserPermissions permissions = clientUser.getPermissions();
 		if (!RolePermissions.CUSTOM.equals(clientUser.getUserRole())) {
 			return false;
 		}
-		if (permissions.getInvoicesAndPayments() == RolePermissions.TYPE_YES
-				&& (permissions.getTypeOfPayBillsPayments() != RolePermissions.TYPE_YES
-						&& permissions.getTypeOfBankReconcilation() != RolePermissions.TYPE_YES
-						&& permissions.getTypeOfCompanySettingsLockDates() != RolePermissions.TYPE_YES
-						&& permissions.getTypeOfInventoryWarehouse() != RolePermissions.TYPE_YES
-						&& permissions.getTypeOfManageAccounts() != RolePermissions.TYPE_YES
-						&& permissions.getTypeOfCompanySettingsLockDates() != RolePermissions.TYPE_YES
-						&& permissions.getTypeOfViewReports() != RolePermissions.TYPE_YES && permissions
-						.getTypeOfSaveasDrafts() != RolePermissions.TYPE_YES)) {
-			return true;
-		}
-		return false;
+		return clientUser.getPermissions().isOnlyInvoiceAndPayments();
 	}
 
 	/*

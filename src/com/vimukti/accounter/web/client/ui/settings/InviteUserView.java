@@ -42,10 +42,11 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	DynamicForm custForm;
 	CheckBox userManagementBox;
 	String[] permissions = { messages.createInvoicesAndBills(),
-			messages.billsAndPayments(), messages.bankingAndReconcialiation(),
+			messages.billsAndPayments(), messages2.invoicesAndPayments(),
+			messages.bankingAndReconcialiation(),
 			messages.changeCompanySettings(), messages.manageAccounts(),
 			messages.manageUsers(), messages.viewReports(),
-			messages.Saveasdraft() ,messages.invoicesAndPayments()};
+			messages.Saveasdraft() };
 	List<CheckBox> permissionsBoxes;
 	private RadioButton readOnly;
 	private RadioButton custom;
@@ -372,6 +373,10 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 				if (permissions.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
 					setCheckBoxChecked(messages.Saveasdraft());
 				}
+
+				if (permissions.getInvoicesAndPayments() == RolePermissions.TYPE_YES) {
+					setCheckBoxChecked(messages2.invoicesAndPayments());
+				}
 			}
 		}
 
@@ -541,6 +546,8 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 					.getTypeOfInventoryWarehouse());
 			permissions.setTypeOfSaveasDrafts(selectedRole
 					.getTypeOfSaveasDrafts());
+			permissions.setInvoicesAndPayments(selectedRole
+					.getTypeOfInvoiceAndPayments());
 			data.setPermissions(permissions);
 
 			data.setCanDoUserManagement(selectedRole.isCanDoUserManagement());
@@ -602,6 +609,9 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 					custom.setTypeOfInventoryWarehouse(RolePermissions.TYPE_YES);
 				} else if (box.getName().equals(messages.Saveasdraft())) {
 					custom.setTypeOfSaveasDrafts(RolePermissions.TYPE_YES);
+				} else if (box.getName()
+						.equals(messages2.invoicesAndPayments())) {
+					custom.setTypeOfInvoiceAndPayments(RolePermissions.TYPE_YES);
 				}
 			}
 		}

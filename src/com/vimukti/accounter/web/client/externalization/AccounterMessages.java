@@ -6610,6 +6610,4 @@ public interface AccounterMessages extends Messages {
 
 	public String roundingAccount();
 
-	public String invoicesAndPayments();
-
 }

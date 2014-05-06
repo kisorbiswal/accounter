@@ -41,6 +41,8 @@ public class RolePermissions {
 
 	int typeOfMangeAccounts;
 
+	int typeOfInvoiceAndPayments;
+
 	boolean canDoUserManagement;
 
 	private int typeOfInventoryWarehouse;
@@ -124,5 +126,20 @@ public class RolePermissions {
 
 	public void setTypeOfSaveasDrafts(int typeOfSaveasDrafts) {
 		this.typeOfSaveasDrafts = typeOfSaveasDrafts;
+	}
+
+	/**
+	 * @return the typeOfInvoiceAndPayments
+	 */
+	public int getTypeOfInvoiceAndPayments() {
+		return typeOfInvoiceAndPayments;
+	}
+
+	/**
+	 * @param typeOfInvoiceAndPayments
+	 *            the typeOfInvoiceAndPayments to set
+	 */
+	public void setTypeOfInvoiceAndPayments(int typeOfInvoiceAndPayments) {
+		this.typeOfInvoiceAndPayments = typeOfInvoiceAndPayments;
 	}
 }

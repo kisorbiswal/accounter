@@ -276,4 +276,6 @@ public interface AccounterMessages2 extends Messages {
 	public String deductionsFromCompany();
 
 	public String assetAccount();
+
+	public String invoicesAndPayments();
 }

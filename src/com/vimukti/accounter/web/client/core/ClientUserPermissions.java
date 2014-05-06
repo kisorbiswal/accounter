@@ -169,6 +169,20 @@ public class ClientUserPermissions implements IAccounterCore {
 		return false;
 	}
 
+	public boolean isOnlyInvoiceAndPayments() {
+		if (invoicesAndPayments == RolePermissions.TYPE_YES
+				&& (typeOfPayBillsPayments != RolePermissions.TYPE_YES
+						&& typeOfBankReconcilation != RolePermissions.TYPE_YES
+						&& typeOfCompanySettingsLockDates != RolePermissions.TYPE_YES
+						&& typeOfInventoryWarehouse != RolePermissions.TYPE_YES
+						&& typeOfMangeAccounts != RolePermissions.TYPE_YES
+						&& typeOfCompanySettingsLockDates != RolePermissions.TYPE_YES
+						&& typeOfViewReports != RolePermissions.TYPE_YES && typeOfSaveasDrafts != RolePermissions.TYPE_YES)) {
+			return true;
+		}
+		return false;
+	}
+
 	public int getInvoicesAndPayments() {
 		return invoicesAndPayments;
 	}

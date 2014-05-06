@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AbstractView;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
-import com.vimukti.accounter.web.client.ui.customers.InvoiceView;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.ui.win8portlets.Windows8DashBoard;
 
@@ -56,7 +55,8 @@ public class CompanyHomeAction extends Action {
 	private boolean isShowInvoiceList() {
 		ClientUser user = Accounter.getUser();
 		if (RolePermissions.CUSTOM.equals(user.getUserRole())
-				&& user.getPermissions().isOnlySeeInvoiceandBills()) {
+				&& (user.getPermissions().isOnlySeeInvoiceandBills() || user
+						.getPermissions().isOnlyInvoiceAndPayments())) {
 			return true;
 		}
 		return false;
