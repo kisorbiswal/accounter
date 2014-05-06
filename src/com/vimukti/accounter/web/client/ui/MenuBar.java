@@ -7,6 +7,7 @@ import java.util.Set;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -41,7 +42,7 @@ public class MenuBar {
 
 	private boolean canSeeInvoiceTransactions;
 
-	private boolean canOnlySeeInvoiceTransactions;
+	private boolean canOnlySeeInvoiceAndBills;
 
 	private boolean isDoyouwantEstimates;
 
@@ -100,6 +101,8 @@ public class MenuBar {
 	private boolean isShippingEnabled;
 
 	private boolean canSeeVendorItems;
+
+	private boolean canOnlyInvoicesAndPayments;
 
 	public MenuBar() {
 		menus = new ArrayList<Menu>();
@@ -828,7 +831,7 @@ public class MenuBar {
 		vendorMenuBar.addMenuItem(messages.payees(Global.get().Vendors()),
 				HistoryTokens.VENDORLIST);
 
-		if (canSeeInvoiceTransactions || canOnlySeeInvoiceTransactions) {
+		if (canSeeInvoiceTransactions || canOnlySeeInvoiceAndBills) {
 			if (isKeepTrackofBills) {
 				vendorMenuBar.addMenuItem(messages.billsAndExpenses(),
 						HistoryTokens.BILLSANDEXPENSES);
@@ -929,7 +932,8 @@ public class MenuBar {
 		customerMenuBar.addMenuItem(messages.payees(Global.get().Customers()),
 				HistoryTokens.CUSTOMERS);
 
-		if (canSeeInvoiceTransactions || canOnlySeeInvoiceTransactions) {
+		if (canSeeInvoiceTransactions || canOnlySeeInvoiceAndBills
+				|| canOnlyInvoicesAndPayments) {
 
 			customerMenuBar.addMenuItem(messages.invoices(),
 					HistoryTokens.INVOICES);
@@ -1000,7 +1004,7 @@ public class MenuBar {
 
 		Menu companyMenuBar = new Menu(string);
 
-		if (!canOnlySeeInvoiceTransactions) {
+		if (!canOnlySeeInvoiceAndBills && !canOnlyInvoicesAndPayments) {
 			companyMenuBar.addMenuItem(messages.dashBoard(),
 					HistoryTokens.DASHBOARD, "D");
 		}
@@ -1022,7 +1026,7 @@ public class MenuBar {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
 					HistoryTokens.NEWJOURNALENTRY, "J");
 		}
-		if (!canOnlySeeInvoiceTransactions) {
+		if (!canOnlySeeInvoiceAndBills && !canOnlyInvoicesAndPayments) {
 			companyMenuBar.addMenuItem(messages.transactionscenter(),
 					HistoryTokens.TRANSACTIONS_CENTER);
 		}
@@ -1119,8 +1123,10 @@ public class MenuBar {
 		}
 		companyListMenuBar.addMenuItem(Global.get().Customers(),
 				HistoryTokens.CUSTOMERS);
-		companyListMenuBar.addMenuItem(Global.get().Vendors(),
-				HistoryTokens.VENDORLIST);
+		if (!canOnlyInvoicesAndPayments) {
+			companyListMenuBar.addMenuItem(Global.get().Vendors(),
+					HistoryTokens.VENDORLIST);
+		}
 		companyListMenuBar.addMenuItem(messages.salesPersons(),
 				HistoryTokens.SALESPRESONS);
 		if (hasPermission(Features.USER_ACTIVITY) && canSeeInvoiceTransactions) {
@@ -1250,9 +1256,11 @@ public class MenuBar {
 
 		this.canSeeInvoiceTransactions = canSeeInvoiceTransactions(clientUser);
 
-		this.canOnlySeeInvoiceTransactions = canOnlySeeInvoiceTransactions(clientUser);
+		this.canOnlySeeInvoiceAndBills = canOnlySeeInvoiceTransactions(clientUser);
 
-		this.canSeeInvoiceTransactions = !canOnlySeeInvoiceTransactions;
+		if (canOnlySeeInvoiceAndBills) {
+			this.canSeeInvoiceTransactions = false;
+		}
 
 		this.isDoyouwantEstimates = preferences.isDoyouwantEstimates();
 
@@ -1310,6 +1318,12 @@ public class MenuBar {
 		this.isShippingEnabled = preferences.isDoProductShipMents();
 
 		this.canSeeVendorItems = canSeeCustomerAndVendorItems(clientUser);
+
+		this.canOnlyInvoicesAndPayments = canOnlyInvoicesAndPayments(clientUser);
+		if (canOnlyInvoicesAndPayments) {
+			this.canSeeInvoiceTransactions = false;
+			this.canOnlySeeInvoiceAndBills = false;
+		}
 
 		getMenuBar();
 	}
@@ -1430,6 +1444,25 @@ public class MenuBar {
 			return false;
 		}
 		return clientUser.getPermissions().isOnlySeeInvoiceandBills();
+	}
+
+	private boolean canOnlyInvoicesAndPayments(ClientUser clientUser) {
+		ClientUserPermissions permissions = clientUser.getPermissions();
+		if (!RolePermissions.CUSTOM.equals(clientUser.getUserRole())) {
+			return false;
+		}
+		if (permissions.getInvoicesAndPayments() == RolePermissions.TYPE_YES
+				&& (permissions.getTypeOfPayBillsPayments() != RolePermissions.TYPE_YES
+						&& permissions.getTypeOfBankReconcilation() != RolePermissions.TYPE_YES
+						&& permissions.getTypeOfCompanySettingsLockDates() != RolePermissions.TYPE_YES
+						&& permissions.getTypeOfInventoryWarehouse() != RolePermissions.TYPE_YES
+						&& permissions.getTypeOfManageAccounts() != RolePermissions.TYPE_YES
+						&& permissions.getTypeOfCompanySettingsLockDates() != RolePermissions.TYPE_YES
+						&& permissions.getTypeOfViewReports() != RolePermissions.TYPE_YES && permissions
+						.getTypeOfSaveasDrafts() != RolePermissions.TYPE_YES)) {
+			return true;
+		}
+		return false;
 	}
 
 	/*

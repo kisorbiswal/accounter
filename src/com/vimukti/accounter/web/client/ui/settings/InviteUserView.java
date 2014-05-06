@@ -45,7 +45,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 			messages.billsAndPayments(), messages.bankingAndReconcialiation(),
 			messages.changeCompanySettings(), messages.manageAccounts(),
 			messages.manageUsers(), messages.viewReports(),
-			messages.Saveasdraft() };
+			messages.Saveasdraft() ,messages.invoicesAndPayments()};
 	List<CheckBox> permissionsBoxes;
 	private RadioButton readOnly;
 	private RadioButton custom;

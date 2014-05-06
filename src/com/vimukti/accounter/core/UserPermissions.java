@@ -28,6 +28,8 @@ public class UserPermissions implements IAccounterServerCore {
 	int typeOfMangeAccounts;
 
 	int typeOfInventoryWarehouse;
+	
+	int invoicesAndPayments;
 
 	// int typeOfPublishReports;
 	//
@@ -143,5 +145,13 @@ public class UserPermissions implements IAccounterServerCore {
 	public void selfValidate() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public int getInvoicesAndPayments() {
+		return invoicesAndPayments;
+	}
+
+	public void setInvoicesAndPayments(int invoicesAndPayments) {
+		this.invoicesAndPayments = invoicesAndPayments;
 	}
 }

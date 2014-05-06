@@ -1477,6 +1477,7 @@
 		<property name="typeOfMangeAccounts" column="TYPE_OF_MANAGE_ACCOUNTS"></property>
 		<property name="typeOfInventoryWarehouse" column="TYPE_OF_INVENTORY_WAREHOUSE"></property>
 		<property name="typeOfSaveasDrafts" column="TYPE_OF_SAVE_AS_DRAFTS"></property>
+		<property name="invoicesAndPayments" column="TYPE_INVOICES_AND_PAYMENTS"></property>	
 	</class>
 	<class name="User" table="USERS">
 		<id name="id" column="ID">

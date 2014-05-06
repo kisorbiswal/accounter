@@ -29,6 +29,8 @@ public class ClientUserPermissions implements IAccounterCore {
 
 	int typeOfInventoryWarehouse;
 
+	int invoicesAndPayments;
+
 	ClientUser user;
 
 	private int version;
@@ -165,5 +167,13 @@ public class ClientUserPermissions implements IAccounterCore {
 			return true;
 		}
 		return false;
+	}
+
+	public int getInvoicesAndPayments() {
+		return invoicesAndPayments;
+	}
+
+	public void setInvoicesAndPayments(int invoicesAndPayments) {
+		this.invoicesAndPayments = invoicesAndPayments;
 	}
 }
