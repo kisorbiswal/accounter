@@ -203,7 +203,8 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
 		case ClientTransaction.TYPE_CASH_PURCHASE:
 		case ClientTransaction.TYPE_CASH_SALES:
-			isAllowed = permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES;
+			isAllowed = (permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES || permissions
+					.getInvoicesAndPayments() == RolePermissions.TYPE_YES);
 			break;
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
 			isAllowed = permissions.getTypeOfManageAccounts() == RolePermissions.TYPE_YES;
@@ -220,7 +221,8 @@ public class Utility implements IsSerializable, Serializable {
 		case IAccounterCore.ITEM_GROUP:
 		case IAccounterCore.MEASUREMENT:
 			isAllowed = permissions.getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES
-					|| permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES;
+					|| permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES
+					|| permissions.getInvoicesAndPayments() == RolePermissions.TYPE_YES;
 			break;
 		case IAccounterCore.STOCK_ADJUSTMENT:
 		case IAccounterCore.WAREHOUSE:
@@ -2054,7 +2056,8 @@ public class Utility implements IsSerializable, Serializable {
 		case VENDOR_GROUP:
 		case CUSTOMER:
 		case JOB:
-			isAllowed = permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES;
+			isAllowed = (permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES || permissions
+					.getInvoicesAndPayments() == RolePermissions.TYPE_YES);
 			break;
 		case TAX_GROUP:
 		case TDSCHALANDETAIL:
@@ -2079,7 +2082,8 @@ public class Utility implements IsSerializable, Serializable {
 			break;
 		case ITEM:
 			isAllowed = permissions.getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES
-					|| permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES;
+					|| permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES
+					|| permissions.getInvoicesAndPayments() == RolePermissions.TYPE_YES;
 			break;
 		case STOCK_ADJUSTMENT:
 		case WAREHOUSE:
@@ -2089,7 +2093,8 @@ public class Utility implements IsSerializable, Serializable {
 		case MEASUREMENT:
 		case UNIT:
 			isAllowed = permissions.getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES
-					|| permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES;
+					|| permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES
+					|| permissions.getInvoicesAndPayments() == RolePermissions.TYPE_YES;
 			break;
 		case ACCOUNT:
 			isAllowed = permissions.getTypeOfManageAccounts() == RolePermissions.TYPE_YES;
