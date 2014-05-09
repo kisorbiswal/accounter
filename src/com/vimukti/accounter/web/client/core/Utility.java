@@ -184,7 +184,8 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 		case ClientTransaction.TYPE_ISSUE_PAYMENT:
-			isAllowed = permissions.getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES;
+			isAllowed = (permissions.getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES || permissions
+					.getInvoicesAndPayments() == RolePermissions.TYPE_YES);
 			break;
 		case ClientTransaction.TYPE_INVOICE:
 		case ClientTransaction.TYPE_ESTIMATE:
