@@ -13,6 +13,7 @@ public class UserUtils {
 	private static boolean canDoManageUsers;
 	private static boolean canDoInvendoryWarehouse;
 	private static boolean canDoSaveAsDrafts;
+	private static boolean canDoInvoiceandPayments;
 
 	public static boolean canDoThis(Class<?> clas) {
 		User user = AccounterThreadLocal.get();
@@ -56,7 +57,7 @@ public class UserUtils {
 				return true;
 			}
 		} else if (clas.equals(CustomField.class)) {
-			if (canDoInvoiceBills) {
+			if (canDoInvoiceBills || canDoInvoiceandPayments) {
 				return true;
 			}
 		} else if (clas.equals(FiscalYear.class)) {
@@ -72,7 +73,8 @@ public class UserUtils {
 				return true;
 			}
 		} else if (clas.equals(Item.class)) {
-			if (canDoInvoiceBills || canDoInvendoryWarehouse) {
+			if (canDoInvoiceBills || canDoInvoiceandPayments
+					|| canDoInvendoryWarehouse) {
 				return true;
 			}
 		} else if (clas.equals(ItemGroup.class)) {
@@ -88,7 +90,7 @@ public class UserUtils {
 				return true;
 			}
 		} else if (clas.equals(Customer.class)) {
-			if (canDoInvoiceBills) {
+			if (canDoInvoiceBills || canDoInvoiceandPayments) {
 				return true;
 			}
 		} else if (clas.equals(Vendor.class)) {
@@ -160,11 +162,11 @@ public class UserUtils {
 				return true;
 			}
 		} else if (clas.equals(CashPurchase.class)) {
-			if (canDoInvoiceBills) {
+			if (canDoInvoiceBills || canDoInvoiceandPayments) {
 				return true;
 			}
 		} else if (clas.equals(CashSales.class)) {
-			if (canDoInvoiceBills) {
+			if (canDoInvoiceBills || canDoInvoiceandPayments) {
 				return true;
 			}
 		} else if (clas.equals(CreditCardCharge.class)) {
@@ -173,15 +175,16 @@ public class UserUtils {
 				return true;
 			}
 		} else if (clas.equals(CustomerCreditMemo.class)) {
-			if (canDoInvoiceBills) {
+			if (canDoInvoiceBills || canDoInvoiceandPayments) {
 				return true;
 			}
 		} else if (clas.equals(CustomerPrePayment.class)) {
-			if (canDoPayBillsPayments) {
+			if (canDoPayBillsPayments || canDoInvoiceandPayments) {
 				return true;
 			}
 		} else if (clas.equals(CustomerRefund.class)) {
-			if (canDoPayBillsPayments || canDoSaveAsDrafts) {
+			if (canDoPayBillsPayments || canDoSaveAsDrafts
+					|| canDoInvoiceandPayments) {
 				return true;
 			}
 		} else if (clas.equals(MakeDeposit.class)) {
@@ -193,7 +196,7 @@ public class UserUtils {
 				return true;
 			}
 		} else if (clas.equals(Estimate.class)) {
-			if (canDoInvoiceBills) {
+			if (canDoInvoiceBills || canDoInvoiceandPayments) {
 				return true;
 			}
 		} else if (clas.equals(Expense.class)) {
@@ -201,11 +204,11 @@ public class UserUtils {
 				return true;
 			}
 		} else if (clas.equals(Invoice.class)) {
-			if (canDoInvoiceBills) {
+			if (canDoInvoiceBills || canDoInvoiceandPayments) {
 				return true;
 			}
 		} else if (clas.equals(ItemReceipt.class)) {
-			if (canDoInvoiceBills) {
+			if (canDoInvoiceBills || canDoInvoiceandPayments) {
 				return true;
 			}
 		} else if (clas.equals(JournalEntry.class)) {
@@ -229,7 +232,7 @@ public class UserUtils {
 				return true;
 			}
 		} else if (clas.equals(ReceivePayment.class)) {
-			if (canDoPayBillsPayments) {
+			if (canDoPayBillsPayments || canDoInvoiceandPayments) {
 				return true;
 			}
 		} else if (clas.equals(ReceiveVAT.class)) {
@@ -298,5 +301,6 @@ public class UserUtils {
 		canDoManageUsers = user.isCanDoUserManagement();
 		canDoInvendoryWarehouse = (permissions.getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES);
 		canDoSaveAsDrafts = (permissions.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES);
+		canDoInvoiceandPayments = (permissions.getInvoicesAndPayments() == RolePermissions.TYPE_YES);
 	}
 }
