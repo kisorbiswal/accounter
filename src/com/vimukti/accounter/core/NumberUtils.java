@@ -168,7 +168,7 @@ public class NumberUtils {
 			return "1";
 		}
 		Long number = longArr[0];
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < longArr.length; i++) {
 			Long num = longArr[i];
 			while (number == num) {
 				number++;
@@ -218,7 +218,7 @@ public class NumberUtils {
 			return "1";
 		}
 		long number = longArr[0];
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < longArr.length; i++) {
 			long num = longArr[i];
 			while (number == num) {
 				number++;
