@@ -148,7 +148,7 @@ public class NumberUtils {
 		Query query = HibernateUtil.getCurrentSession()
 				.getNamedQuery("getCustomerNumber.orderBy.customerNumber")
 				.setEntity("company", company);
-
+		int count = 0;
 		List list = query.list();
 		String arr[] = (String[]) list.toArray(new String[list.size()]);
 		Long longArr[] = new Long[arr.length];
@@ -157,11 +157,13 @@ public class NumberUtils {
 				longArr[iii] = 0L;
 			} else {
 				if (isContainsChars(arr[iii])) {
+					count++;
 					continue;
 				}
 				longArr[iii] = Long.parseLong(arr[iii].trim());
 			}
 		}
+		longArr = Arrays.copyOf(longArr, arr.length - count);
 		Arrays.sort(longArr);
 
 		if ((list.size() == 0)) {
@@ -170,7 +172,7 @@ public class NumberUtils {
 		Long number = longArr[0];
 		for (int i = 0; i < longArr.length; i++) {
 			Long num = longArr[i];
-			while (number == num) {
+			while (number.equals(num)) {
 				number++;
 			}
 		}
