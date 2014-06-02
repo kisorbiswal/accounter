@@ -156,6 +156,9 @@ public class NumberUtils {
 			if (arr[iii].isEmpty()) {
 				longArr[iii] = 0L;
 			} else {
+				if (isContainsChars(arr[iii])) {
+					continue;
+				}
 				longArr[iii] = Long.parseLong(arr[iii].trim());
 			}
 		}
@@ -176,6 +179,20 @@ public class NumberUtils {
 
 	}
 
+	/**
+	 * 
+	 * @param autoIncrementNumber
+	 * @return
+	 */
+	private static boolean isContainsChars(String autoIncrementNumber) {
+		try {
+			Long.parseLong(autoIncrementNumber);
+		} catch (NumberFormatException e) {
+			return true;
+		}
+		return false;
+	}
+
 	public static String getNextAutoVendorNumber(Company company) {
 
 		Query query = HibernateUtil.getCurrentSession()
@@ -189,6 +206,9 @@ public class NumberUtils {
 			if (arr[iii].isEmpty()) {
 				longArr[iii] = 0L;
 			} else {
+				if (isContainsChars(arr[iii])) {
+					continue;
+				}
 				longArr[iii] = Long.parseLong(arr[iii].trim());
 			}
 		}
