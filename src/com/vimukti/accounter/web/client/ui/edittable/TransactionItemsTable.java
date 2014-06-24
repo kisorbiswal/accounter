@@ -127,8 +127,8 @@ public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 			@Override
 			protected String getValue(ClientTransactionItem row) {
 
-				Double lineTotal = row.getLineTotal() + row.getVATfraction();
-
+				Double lineTotal = row.getLineTotal()
+						+ (row.isTaxable() ? row.getVATfraction() : 0.0);
 				if (lineTotal != null && currencyProvider != null) {
 					ClientTransaction estimate = row.getTransaction();
 					if (currencyProvider.getTransactionCurrency().getID() != estimate
