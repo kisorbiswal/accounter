@@ -11,6 +11,7 @@ import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -153,12 +154,19 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 										@Override
 										public void onResultSuccess(
-												ArrayList<ImportField> result) {
-											ImportAction action = new ImportAction(
-													result, data, getType(),
-													fileID, recordCount);
-											action.run();
+												final ArrayList<ImportField> result) {
 											close();
+											new Timer() {
+
+												@Override
+												public void run() {
+													ImportAction action = new ImportAction(
+															result, data,
+															getType(), fileID,
+															recordCount);
+													action.run();
+												}
+											}.schedule(3000);
 										}
 									});
 
