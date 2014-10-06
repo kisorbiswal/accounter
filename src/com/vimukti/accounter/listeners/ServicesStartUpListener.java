@@ -14,7 +14,6 @@ import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.upload.AttachmentFileServer;
 import com.vimukti.accounter.mobile.ConsoleChatServer;
-import com.vimukti.accounter.services.SubscriptionTool;
 import com.vimukti.accounter.setup.server.DatabaseManager;
 import com.vimukti.accounter.web.server.RecurringTool;
 
@@ -23,7 +22,8 @@ public class ServicesStartUpListener implements ServletContextListener {
 	private ExecutorService attachement;
 	private ExecutorService consoleChat;
 	private ScheduledExecutorService recurring;
-	private ScheduledExecutorService subsciption;
+
+	// private ScheduledExecutorService subsciption;
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
@@ -57,11 +57,11 @@ public class ServicesStartUpListener implements ServletContextListener {
 			recurring.scheduleAtFixedRate(new RecurringTool(), 0, 1,
 					TimeUnit.HOURS);
 
-			if (ServerConfiguration.isStopSchduleMails()) {
-				subsciption = Executors.newSingleThreadScheduledExecutor();
-				subsciption.scheduleAtFixedRate(new SubscriptionTool(), 0, 1,
-						TimeUnit.DAYS);
-			}
+			// if (ServerConfiguration.isStopSchduleMails()) {
+			// subsciption = Executors.newSingleThreadScheduledExecutor();
+			// subsciption.scheduleAtFixedRate(new SubscriptionTool(), 0, 1,
+			// TimeUnit.DAYS);
+			// }
 		} else {
 			if (DatabaseManager.isDBConfigured()) {
 				recurring = Executors.newSingleThreadScheduledExecutor();
@@ -85,9 +85,9 @@ public class ServicesStartUpListener implements ServletContextListener {
 		if (recurring != null) {
 			recurring.shutdownNow();
 		}
-		if (subsciption != null) {
-			subsciption.shutdownNow();
-		}
+		// if (subsciption != null) {
+		// subsciption.shutdownNow();
+		// }
 
 	}
 

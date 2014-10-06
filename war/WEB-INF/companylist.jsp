@@ -145,12 +145,13 @@
 				</div>
 				<table class="form-bottom-options">
 					<tr>
-						<c:choose>
+						<%--<c:choose>
 							<c:when test="<%=isPaid%>">
-								<td><a class="manage-subscription button-links" href="/main/subscriptionmanagement"><i18n:i18n
+								<td><a class="manage-subscription button-links"
+									href="/main/subscriptionmanagement"><i18n:i18n
 											msg='subscriptionManagement' /></a></td>
 							</c:when>
-							<c:when test="<%=freeTrial%>">
+							 	<c:when test="<%=freeTrial%>">
 								<td><a target="_blank" class="go-premium button-links"
 									href="/content/30-days-premium-trial?emailId=<%=userEmail%>">
 										Premium Trial</a></td>
@@ -158,8 +159,8 @@
 							<c:otherwise>
 								<td><a target="_blank" class="go-premium button-links"
 									href="/content/go-premium?emailId=<%=userEmail%>">Go Premium</a></td>
-							</c:otherwise>
-						</c:choose>
+							</c:otherwise> 
+						</c:choose>--%>
 
 						<c:if test="<%=enableEncryption%>">
 							<td><a href="/main/encryption"><i18n:i18n

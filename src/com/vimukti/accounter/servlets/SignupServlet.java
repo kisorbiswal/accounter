@@ -188,13 +188,16 @@ public class SignupServlet extends BaseServlet {
 				client.setCreatedDate(new FinanceDate());
 				ClientSubscription clientSubscription = new ClientSubscription();
 				clientSubscription.setCreatedDate(new Date());
-				if (!ServerConfiguration.isDesktopApp()) {
-					clientSubscription.setSubscription(Subscription
-							.getInstance(Subscription.FREE_CLIENT));
-				} else {
-					clientSubscription.setSubscription(Subscription
-							.getInstance(Subscription.PREMIUM_USER));
-				}
+				clientSubscription.setLastModified(new Date());
+				clientSubscription
+						.setPremiumType(ClientSubscription.UNLIMITED_USERS);
+				// if (!ServerConfiguration.isDesktopApp()) {
+				// clientSubscription.setSubscription(Subscription
+				// .getInstance(Subscription.FREE_CLIENT));
+				// } else {
+				clientSubscription.setSubscription(Subscription
+						.getInstance(Subscription.PREMIUM_USER));
+				// }
 				saveEntry(clientSubscription);
 				client.setClientSubscription(clientSubscription);
 

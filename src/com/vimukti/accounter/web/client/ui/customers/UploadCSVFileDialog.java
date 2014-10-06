@@ -166,7 +166,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 															recordCount);
 													action.run();
 												}
-											}.schedule(3000);
+											}.schedule(1500);
 										}
 									});
 
