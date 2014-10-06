@@ -65,7 +65,7 @@
     var tabsEnabled=["Hr","Finance","Operations","Marketing","Sales","Users","Workflows","Purchases"];
     var helpurl="${helpUrl}";
     
-    $(document).ready(function() {
+    <%-- $(document).ready(function() {
 		var isPaid=${isPaid};
 		var freeTrial=${freeTrial};
 		var user_emailId='<%=user_emailId%>';
@@ -82,7 +82,7 @@
 	       }
        }
        
-       });
+       }); --%>
     </script>
 <!--                                                               -->
 <!-- Consider inlining CSS to reduce the number of requested files -->

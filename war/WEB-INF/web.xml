@@ -716,7 +716,7 @@
 
 	<context-param>
 		<param-name>version</param-name>
-		<param-value>1.0.9.11.57</param-value>
+		<param-value>1.0.9.11.58</param-value>
 	</context-param>
 
 	<servlet>
@@ -1185,7 +1185,7 @@
 		<url-pattern>/main/license/ipn</url-pattern>
 	</servlet-mapping>
 
-	<filter>
+	<!-- <filter>
 		<filter-name>CharsetFilter</filter-name>
 		<filter-class>com.vimukti.accounter.servlets.CharsetFilter</filter-class>
 		<init-param>
@@ -1197,6 +1197,6 @@
 	<filter-mapping>
 		<filter-name>CharsetFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 
 </web-app>
