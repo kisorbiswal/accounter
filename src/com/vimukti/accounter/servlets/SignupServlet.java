@@ -115,13 +115,10 @@ public class SignupServlet extends BaseServlet {
 					ClientSubscription clientSubscription = new ClientSubscription();
 					clientSubscription.setCreatedDate(new Date());
 					clientSubscription.setLastModified(new Date());
-					if (!ServerConfiguration.isDesktopApp()) {
-						clientSubscription.setSubscription(Subscription
-								.getInstance(Subscription.FREE_CLIENT));
-					} else {
-						clientSubscription.setSubscription(Subscription
-								.getInstance(Subscription.PREMIUM_USER));
-					}
+					clientSubscription.setSubscription(Subscription
+							.getInstance(Subscription.PREMIUM_USER));
+					clientSubscription
+							.setDurationType(ClientSubscription.UNLIMITED_USERS);
 					saveEntry(clientSubscription);
 
 					client.setClientSubscription(clientSubscription);

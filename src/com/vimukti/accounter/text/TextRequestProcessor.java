@@ -288,7 +288,8 @@ public class TextRequestProcessor {
 		clientSubscription.setCreatedDate(new Date());
 		clientSubscription.setLastModified(new Date());
 		clientSubscription.setSubscription(Subscription
-				.getInstance(Subscription.FREE_CLIENT));
+				.getInstance(Subscription.PREMIUM_USER));
+		clientSubscription.setDurationType(ClientSubscription.UNLIMITED_USERS);
 
 		client.setClientSubscription(clientSubscription);
 		return client;

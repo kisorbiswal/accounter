@@ -103,7 +103,9 @@ public class SignupOpenIdServlet extends BaseServlet {
 					clientSubscription.setCreatedDate(new Date());
 					clientSubscription.setLastModified(new Date());
 					clientSubscription.setSubscription(Subscription
-							.getInstance(Subscription.FREE_CLIENT));
+							.getInstance(Subscription.PREMIUM_USER));
+					clientSubscription
+							.setDurationType(ClientSubscription.UNLIMITED_USERS);
 					saveEntry(clientSubscription);
 
 					client.setClientSubscription(clientSubscription);
@@ -145,7 +147,10 @@ public class SignupOpenIdServlet extends BaseServlet {
 				ClientSubscription clientSubscription = new ClientSubscription();
 				clientSubscription.setCreatedDate(new Date());
 				clientSubscription.setSubscription(Subscription
-						.getInstance(Subscription.FREE_CLIENT));
+						.getInstance(Subscription.PREMIUM_USER));
+				clientSubscription.setLastModified(new Date());
+				clientSubscription
+						.setPremiumType(ClientSubscription.UNLIMITED_USERS);
 				saveEntry(clientSubscription);
 				client.setClientSubscription(clientSubscription);
 

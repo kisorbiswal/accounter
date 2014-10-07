@@ -409,7 +409,9 @@ public class UserManager extends Manager {
 			clientSubscription.setLastModified(new Date());
 
 			clientSubscription.setSubscription(Subscription
-					.getInstance(Subscription.FREE_CLIENT));
+					.getInstance(Subscription.PREMIUM_USER));
+			clientSubscription
+					.setDurationType(ClientSubscription.UNLIMITED_USERS);
 			session.save(clientSubscription);
 			invitedClient.setClientSubscription(clientSubscription);
 

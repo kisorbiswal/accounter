@@ -233,7 +233,8 @@ public class SignupCommand extends AbstractCommand {
 		ClientSubscription clientSubscription = new ClientSubscription();
 		clientSubscription.setCreatedDate(new Date());
 		clientSubscription.setSubscription(Subscription
-				.getInstance(Subscription.FREE_CLIENT));
+				.getInstance(Subscription.PREMIUM_USER));
+		clientSubscription.setDurationType(ClientSubscription.UNLIMITED_USERS);
 		clientSubscription.setLastModified(new Date());
 		saveEntry(clientSubscription, context);
 		client.setClientSubscription(clientSubscription);
