@@ -156,40 +156,40 @@ public class CompaniesPanel extends FlowPanel {
 			}
 		});
 
-		final URLLauncher lancher = GWT.create(URLLauncher.class);
+//		final URLLauncher lancher = GWT.create(URLLauncher.class);
 
-		final Button goPremium = new Button("Go Premium");
-		goPremium.setStyleName("go-premium");
-		goPremium.addClickHandler(new ClickHandler() {
+//		final Button goPremium = new Button("Go Premium");
+//		goPremium.setStyleName("go-premium");
+//		goPremium.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				lancher.launch("http://www.accounterlive.com/main/gopremium?emailId="
+//						+ email);
+//			}
+//		});
 
-			@Override
-			public void onClick(ClickEvent event) {
-				lancher.launch("http://www.accounterlive.com/main/gopremium?emailId="
-						+ email);
-			}
-		});
+//		final Button goPremiumTrail = new Button(
+//				"Go Premium (30 days free trail)");
+//		goPremiumTrail.setStyleName("go-premium-trail");
+//		goPremiumTrail.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				lancher.launch("http://www.accounterlive.com/main/gopremium?emailId="
+//						+ email);
+//			}
+//		});
 
-		final Button goPremiumTrail = new Button(
-				"Go Premium (30 days free trail)");
-		goPremiumTrail.setStyleName("go-premium-trail");
-		goPremiumTrail.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				lancher.launch("http://www.accounterlive.com/main/gopremium?emailId="
-						+ email);
-			}
-		});
-
-		final Button manageSubscription = new Button("Manage Subscription");
-		manageSubscription.setStyleName("go-premium");
-		manageSubscription.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				lancher.launch("http://www.accounterlive.com/main/subscriptionmanagement");
-			}
-		});
+//		final Button manageSubscription = new Button("Manage Subscription");
+//		manageSubscription.setStyleName("go-premium");
+//		manageSubscription.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				lancher.launch("http://www.accounterlive.com/main/subscriptionmanagement");
+//			}
+//		});
 
 		StyledPanel mainPanel = new StyledPanel("main-panel");
 		mainPanel.add(title);
@@ -203,29 +203,29 @@ public class CompaniesPanel extends FlowPanel {
 		mainPanel.add(buttonsPanel);
 		add(mainPanel);
 
-		Accounter.createWindowsRPCService().getSubscriptionDetails(email,
-				new AccounterAsyncCallback<SubscriptionDetails>() {
-
-					@Override
-					public void onException(AccounterException exception) {
-						Accounter.showError(exception.getMessage());
-					}
-
-					@Override
-					public void onResultSuccess(SubscriptionDetails result) {
-						subscriptionDetails = result;
-						if (subscriptionDetails.isPaidUser()) {
-							buttonsPanel.insert(manageSubscription, 0);
-						} else {
-							if (!subscriptionDetails.isFreeTrailDone()) {
-								buttonsPanel.insert(goPremiumTrail, 0);
-							} else {
-								buttonsPanel.insert(goPremium, 0);
-							}
-						}
-
-					}
-				});
+//		Accounter.createWindowsRPCService().getSubscriptionDetails(email,
+//				new AccounterAsyncCallback<SubscriptionDetails>() {
+//
+//					@Override
+//					public void onException(AccounterException exception) {
+//						Accounter.showError(exception.getMessage());
+//					}
+//
+//					@Override
+//					public void onResultSuccess(SubscriptionDetails result) {
+//						subscriptionDetails = result;
+//						if (subscriptionDetails.isPaidUser()) {
+//							buttonsPanel.insert(manageSubscription, 0);
+//						} else {
+//							if (!subscriptionDetails.isFreeTrailDone()) {
+//								buttonsPanel.insert(goPremiumTrail, 0);
+//							} else {
+//								buttonsPanel.insert(goPremium, 0);
+//							}
+//						}
+//
+//					}
+//				});
 
 	}
 
