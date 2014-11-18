@@ -103,27 +103,27 @@ public class CancelAccountServlet extends BaseServlet {
 			client.setCompaniesCount(0);
 			client.setPasswordRecoveryKey(null);
 			client.setPremiumTrailDone(false);
-			ClientSubscription subscription = client.getClientSubscription();
-			subscription.setSubscription(Subscription
-					.getInstance(Subscription.FREE_CLIENT));
-			subscription.setPremiumType(0);
-			subscription.setDurationType(0);
-			subscription.setLastModified(new Date());
-			// Cancel Paypal Subscription if he is paid user
-			if (subscription.getPaypalSubscriptionProfileId() != null) {
-				try {
-					SubscriptionIPNServlet ipnServlet = new SubscriptionIPNServlet();
-					ipnServlet.cancelPreviousSubscription(subscription
-							.getPaypalSubscriptionProfileId());
-					subscription.setPaypalSubscriptionProfileId(null);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+			// ClientSubscription subscription = client.getClientSubscription();
+			// subscription.setSubscription(Subscription
+			// .getInstance(Subscription.PREMIUM_USER));
+			// subscription.setPremiumType(0);
+			// subscription.setDurationType(0);
+			// subscription.setLastModified(new Date());
+			// // Cancel Paypal Subscription if he is paid user
+			// if (subscription.getPaypalSubscriptionProfileId() != null) {
+			// try {
+			// SubscriptionIPNServlet ipnServlet = new SubscriptionIPNServlet();
+			// ipnServlet.cancelPreviousSubscription(subscription
+			// .getPaypalSubscriptionProfileId());
+			// subscription.setPaypalSubscriptionProfileId(null);
+			// } catch (Exception e) {
+			// e.printStackTrace();
+			// }
+			// }
 
-			client.setSubscriptionType(Subscription.FREE_CLIENT);
+			// client.setSubscriptionType(Subscription.PREMIUM_USER);
 			session.saveOrUpdate(client);
-			session.saveOrUpdate(subscription);
+			// session.saveOrUpdate(subscription);
 
 			transaction.commit();
 			httpSession.setAttribute(ACCOUNT_DELETION_STATUS, "Success");
