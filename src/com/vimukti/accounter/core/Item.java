@@ -469,14 +469,13 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	private int getDepthCount() {
 		int count = 0;
-		Item parent=parentItem;
+		Item parent = getParentItem();
 		while (parent != null) {
 			count++;
-			parent=parent.getParentItem();
+			parent = parent.getParentItem();
 		}
 		return count;
 	}
-
 
 	public void doCreateEffectForInventoryItem() {
 		if (!isInventory()) {
