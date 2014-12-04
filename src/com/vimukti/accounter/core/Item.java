@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -458,7 +459,6 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 				onHandQty.setUnit(getMeasurement().getDefaultUnit());
 			}
 		}
-
 		setDepth(getDepthCount());
 		updatePath();
 
@@ -469,10 +469,16 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	private int getDepthCount() {
 		int count = 0;
+		Set<Item> parents = new HashSet<Item>();
 		Item parent = getParentItem();
 		while (parent != null) {
 			count++;
 			parent = parent.getParentItem();
+			if (parents.contains(parent)) {
+				this.parentItem = null;
+				return 0;
+			}
+			parents.add(parent);
 		}
 		return count;
 	}
