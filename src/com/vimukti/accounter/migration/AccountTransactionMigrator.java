@@ -4,8 +4,12 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.AccountTransaction;
 
-public class AccountTransactionMigrator { 
-	public static JSONObject migrate(AccountTransaction accounttransaction) {
+public class AccountTransactionMigrator implements
+		IMigrator<AccountTransaction> {
+
+	@Override
+	public JSONObject migrate(AccountTransaction obj, MigratorContext context) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

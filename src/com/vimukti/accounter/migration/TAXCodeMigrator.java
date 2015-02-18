@@ -4,8 +4,11 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.TAXCode;
 
-public class TAXCodeMigrator { 
-	public static JSONObject migrate(TAXCode taxcode) {
+public class TAXCodeMigrator implements IMigrator<TAXCode> {
+
+	@Override
+	public JSONObject migrate(TAXCode obj, MigratorContext context) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

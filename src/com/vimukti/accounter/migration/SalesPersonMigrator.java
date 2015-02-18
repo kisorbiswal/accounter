@@ -4,8 +4,11 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.SalesPerson;
 
-public class SalesPersonMigrator { 
-	public static JSONObject migrate(SalesPerson salesperson) {
+public class SalesPersonMigrator implements IMigrator<SalesPerson> {
+
+	@Override
+	public JSONObject migrate(SalesPerson obj, MigratorContext context) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

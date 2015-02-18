@@ -4,8 +4,11 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.ItemGroup;
 
-public class ItemGroupMigrator { 
-	public static JSONObject migrate(ItemGroup itemgroup) {
+public class ItemGroupMigrator implements IMigrator<ItemGroup> {
+
+	@Override
+	public JSONObject migrate(ItemGroup obj, MigratorContext context) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }
