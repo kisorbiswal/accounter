@@ -1,3 +1,4 @@
+
 package com.vimukti.accounter.core;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public class PaymentTerms extends CreatableObject implements
 	int ifPaidWithIn;
 	boolean isDefault;
 
-	boolean isDateDriven;
+	private boolean isDateDriven;
 
 	public PaymentTerms() {
 
@@ -205,5 +206,13 @@ public class PaymentTerms extends CreatableObject implements
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().paymentTerm());
 		}
+	}
+
+	public boolean isDateDriven() {
+		return isDateDriven;
+	}
+
+	public void setDateDriven(boolean isDateDriven) {
+		this.isDateDriven = isDateDriven;
 	}
 }
