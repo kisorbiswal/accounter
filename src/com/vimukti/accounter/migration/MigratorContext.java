@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.vimukti.accounter.core.Company;
+
 public class MigratorContext {
 
 	private Map<String, Long> ids = new HashMap<String, Long>();
 
 	private PickListTypeContext pickListTypeContext;
+	private Company company;
 
 	public void put(String name, Map<Long, Long> migrateAccounts) {
 		for (Entry<Long, Long> oldId : migrateAccounts.entrySet()) {
@@ -26,5 +29,13 @@ public class MigratorContext {
 
 	public void setPickListContext(PickListTypeContext pickListTypeContext) {
 		this.pickListTypeContext = pickListTypeContext;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 }

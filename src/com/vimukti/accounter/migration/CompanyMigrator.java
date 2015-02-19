@@ -83,6 +83,7 @@ public class CompanyMigrator {
 		loginKey = login(user.getClient().getEmailId(), user.getClient()
 				.getPassword());
 		MigratorContext context = new MigratorContext();
+		context.setCompany(company);
 		if (typeContext.isEmpty()) {
 			getPicklistObjects(typeContext);
 			context.setPickListContext(typeContext);

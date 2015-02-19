@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Utility;
 
 public class AccountMigrator implements IMigrator<Account> {
 
@@ -19,7 +20,11 @@ public class AccountMigrator implements IMigrator<Account> {
 			if (account.getParent() != null) {
 				jsonObject.put("parent", account.getParent().getID());
 			}
-			jsonObject.put("type", account.getType());
+
+			jsonObject.put(
+					"type",
+					context.getPickListContext().get("AccountType",
+							Utility.getAccountTypeString(account.getType())));
 			jsonObject.put("currency", account.getCurrency());
 			jsonObject.put("inactive", account.getIsActive());
 			jsonObject.put("description", account.getComment());

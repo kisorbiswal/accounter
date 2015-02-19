@@ -2,7 +2,7 @@ package com.vimukti.accounter.migration;
 
 import java.util.List;
 
-import org.codehaus.jettison.json.JSONArray;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +33,7 @@ public class PayStructureMigrator implements IMigrator<PayStructure> {
 			inJson.put("rate", payStructureItem.getRate());
 			inJson.put("effectiveFrom", payStructureItem.getEffectiveFrom()
 					.getAsDateObject());
+			payStructureItemJsons.put(inJson);
 			// calculationPeriod, payHeadType and computedOn are Computation
 			// fields
 		}
