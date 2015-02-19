@@ -10,7 +10,9 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -54,27 +56,40 @@ public class CompanyMigrator {
 	private static final String COMPANY_NAME = "companyName";
 	private static final String PASSWORD = "password";
 	private static final String CONFIRM_PASSWORD = "confirmPassword";
+	private static final String USER_NAME = "userName";
+	private static final String PASS_WORD = "password";
 	private static final String SIGN_UP = "/api/signup";
+	private static final String LOG_IN = "/api/login";
+	private static final String AUTHORIZATION_KEY = "authorization-barre";
 
 	private static Logger log = Logger.getLogger(CompanyMigrator.class);
 
 	private Company company;
 
 	private HttpClient client;
+	private String loginKey;
 
 	public CompanyMigrator(Company company) {
 		this.company = company;
 	}
 
-	public void migrate(List<String> emails) throws HttpException, IOException,
-			JSONException {
+	public void migrate(List<String> emails, PickListTypeContext typeContext)
+			throws HttpException, IOException, JSONException {
 		log.info("***Migrating Company Id: " + company.getId());
 		// Organization
-		String apiKey = createOrganization(company.getCreatedBy());
-		// Users Migration
-		migrateUsers(emails);
-		// Accounts
+		User user = company.getCreatedBy();
+		createOrganization(company.getCreatedBy());
+		// / login
+		loginKey = login(user.getClient().getEmailId(), user.getClient()
+				.getPassword());
 		MigratorContext context = new MigratorContext();
+		if (typeContext.isEmpty()) {
+			getPicklistObjects(typeContext);
+			context.setPickListContext(typeContext);
+		}
+		// Users Migration
+		migrateUsers(emails, context);
+		// Accounts
 		Map<Long, Long> migratedObjects = migrateObjects("Account",
 				Account.class, new AccountMigrator(), context);
 		context.put("Account", migratedObjects);
@@ -157,7 +172,9 @@ public class CompanyMigrator {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void migrateUsers(List<String> migratedEmails) {
+	private void migrateUsers(List<String> migratedEmails,
+			MigratorContext context) throws HttpException, JSONException,
+			IOException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<User> users = session.createCriteria(User.class, "user")
 				.add(Restrictions.eq("company", company.getId())).list();
@@ -167,6 +184,9 @@ public class CompanyMigrator {
 				emailId = migrateEmail(1, emailId, migratedEmails);
 			}
 			migratedEmails.add(emailId);
+			Map<Long, Long> migrateObjects = migrateObjects("User", User.class,
+					new UserMigrator(), context);
+			context.put("User", migrateObjects);
 		}
 	}
 
@@ -174,15 +194,63 @@ public class CompanyMigrator {
 			List<String> migratedEmails) {
 		String migratedEmail = emailId + count;
 		if (migratedEmails.contains(migratedEmail)) {
-			return migrateEmail(count++, migratedEmail, migratedEmails);
+			return migrateEmail(++count, migratedEmail, migratedEmails);
 		}
-		return emailId;
+		return migratedEmail;
+	}
+
+	private void getPicklistObjects(PickListTypeContext typeContext)
+			throws HttpException, IOException, JSONException {
+		String[] picklists = new String[] { "AccountBaseType", "AccountType",
+				"CashFlowCategory", "ClassTrackingType", "DayOfWeek",
+				"DepreciationFor", "DepreciationMethod", "DepreciationStatus",
+				"DiscountInTransactions", "EmailPreference",
+				"FixedAssetStatus", "Gender", "IntervelType", "Month",
+				"PaymentMethod", "PaymentStatus", "PriorityType",
+				"RecuringType", "RecurrenceInstance", "RelationshipType",
+				"TaxItemInTransactions", "TransactionStatus",
+				"TransactionType", "InventoryScheme", "InvoiceStatus",
+				"ItemType", "ProjectStatus", "QuotationType",
+				"SalesOrderStatus", "AttendanceProductionType",
+				"AttendanceProductionTypePeriod", "CalculationType",
+				"ComputationSlabType", "EmployeeAttendanceManagementItemType",
+				"NamePrefix", "PayeeType", "PayEmployeeType",
+				"PayHeadCalculationPeriod", "PayHeadCalculationType",
+				"PayHeadComputeOn", "PayHeadEarningOrDeductionOn",
+				"PayHeadFormulaFunctionType", "PayHeadPerDayCalculationBasis",
+				"PayHeadType", "PayRunType", "PayStructureType", "SlabType",
+				"TransportationMode", "DeductorMastersStatus", "DeductorType",
+				"DepreciationPeriods", "FormType", "MinistryDeptName",
+				"NatureOfPayment", "RetutnType", "TAXAccountType",
+				"TaxAdjustmentType", "BillStatus", "DiscountInTransactions",
+				"PurchaseOrderStatus" };
+		for (String identity : picklists) {
+			get(identity, typeContext);
+		}
+	}
+
+	private void get(String identity, PickListTypeContext typeContext)
+			throws HttpException, IOException, JSONException {
+		HttpMethod request = new GetMethod(ECGINE_URL + ECGINE_REST + identity);
+		request.addRequestHeader(AUTHORIZATION_KEY, loginKey);
+		int statusCode = client.executeMethod(request);
+		if (statusCode != HttpStatus.SC_OK) {
+			throw new RuntimeException(HttpStatus.getStatusText(statusCode));
+		}
+		JSONArray array = new JSONArray(request.getResponseBodyAsString());
+		for (int i = 0; i < array.length(); i++) {
+			JSONObject object = array.getJSONObject(i);
+			String instanceIdentity = object.getString("identity");
+			long instanceId = object.getLong("id");
+			typeContext.put(identity, instanceIdentity, instanceId);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	private <T extends CreatableObject> Map<Long, Long> migrateObjects(
 			String identity, Class<T> clazz, IMigrator<T> migrator,
-			MigratorContext context) {
+			MigratorContext context) throws JSONException, HttpException,
+			IOException {
 		List<Long> ids = new ArrayList<Long>();
 		Session session = HibernateUtil.getCurrentSession();
 		JSONArray accountsJSON = new JSONArray();
@@ -194,22 +262,36 @@ public class CompanyMigrator {
 		}
 		// Send Request TO REST API
 		Map<Long, Long> newAndOldIds = new HashMap<Long, Long>();
-		try {
-			HttpMethod request = new PostMethod(ECGINE_URL + ECGINE_REST
-					+ identity);
-			int statusCode = client.executeMethod(request);
-			if (statusCode != HttpStatus.SC_OK) {
-				throw new RuntimeException(HttpStatus.getStatusText(statusCode));
-			}
-			JSONArray array = new JSONArray(request.getResponseBodyAsString());
-			for (int i = 0; i < array.length(); i++) {
-				JSONObject json = array.getJSONObject(i);
-				newAndOldIds.put(ids.get(i), json.getLong("id"));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		PostMethod post = new PostMethod(ECGINE_URL + ECGINE_REST + identity);
+		post.addRequestHeader(AUTHORIZATION_KEY, loginKey);
+		StringRequestEntity requestEntity = new StringRequestEntity(
+				accountsJSON.toString(), "application/json", "UTF-8");
+		post.setRequestEntity(requestEntity);
+		int statusCode = client.executeMethod(post);
+		if (statusCode != HttpStatus.SC_OK) {
+			throw new RuntimeException(HttpStatus.getStatusText(statusCode));
+		}
+		JSONArray array = new JSONArray(post.getResponseBodyAsString());
+		for (int i = 0; i < array.length(); i++) {
+			JSONObject json = array.getJSONObject(i);
+			newAndOldIds.put(ids.get(i), json.getLong("id"));
 		}
 		return newAndOldIds;
+	}
+
+	private String login(String userName, String password)
+			throws JSONException, IOException {
+		HttpMethod executeMethod = new PostMethod(ECGINE_URL + LOG_IN);
+		HttpMethodParams params = new HttpMethodParams();
+		params.setParameter(USER_NAME, userName);
+		params.setParameter(PASS_WORD, password);
+		int statusCode = client.executeMethod(executeMethod);
+		if (statusCode != HttpStatus.SC_OK) {
+			throw new RuntimeException(HttpStatus.getStatusText(statusCode));
+		}
+		JSONObject responseResult = new JSONObject(
+				executeMethod.getResponseBodyAsString());
+		return responseResult.getString(API_KEY);
 	}
 
 	private String createOrganization(User user) throws HttpException,
