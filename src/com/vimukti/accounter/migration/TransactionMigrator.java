@@ -13,6 +13,7 @@ import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Unit;
+import com.vimukti.accounter.core.Utility;
 
 public class TransactionMigrator<T extends Transaction> implements IMigrator<T> {
 
@@ -34,6 +35,20 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		}
 		transaction.put("currencyFactor", obj.getCurrencyFactor());
 		transaction.put("notes", obj.getMemo());
+		transaction.put("isAutomaticTransaction", obj.isAutomaticTransaction());
+		transaction.put(
+				"transactionType",
+				context.getPickListContext().get("TransactionType",
+						Utility.getTransactionName(obj.getType())));
+		transaction.put(
+				"status",
+				context.getPickListContext().get("TransactionStatus",
+						Utility.getStatus(obj.getType(), obj.getStatus())));
+		if (obj.getJob() != null) {
+			transaction.put("project",
+					context.get("Project", obj.getJob().getID()));
+		}
+
 		List<TransactionItem> transactionItems = obj.getTransactionItems();
 		JSONArray tItems = new JSONArray();
 		for (TransactionItem transactionItem : transactionItems) {
@@ -54,6 +69,7 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 					tItem.put("quantityItem", quantityJSON);
 				}
 			}
+
 			tItem.put("description", transactionItem.getDescription());
 			tItem.put("unitPrice", transactionItem.getUnitPrice());
 			AccounterClass classCategory = transactionItem.getAccounterClass();
