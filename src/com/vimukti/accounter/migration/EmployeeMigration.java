@@ -1,6 +1,6 @@
 package com.vimukti.accounter.migration;
 
-import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -15,10 +15,6 @@ import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.EmployeeGroup;
 import com.vimukti.accounter.core.PayStructure;
-import com.vimukti.accounter.core.PaymentTerms;
-import com.vimukti.accounter.core.ShippingMethod;
-import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class EmployeeMigration implements IMigrator<Employee> {
@@ -54,8 +50,10 @@ public class EmployeeMigration implements IMigrator<Employee> {
 		employee.put("phone", obj.getPhoneNo());
 		// MobilePhone and homePhone is not found
 		employee.put("fax", obj.getFaxNo());
+
 		JSONObject jsonAddress = new JSONObject();
-		for (Address primaryAddress : obj.getAddress()) {
+		Set<Address> address = obj.getAddress();
+		for (Address primaryAddress : address) {
 			if (primaryAddress.isSelected()) {
 				jsonAddress.put("street", primaryAddress.getStreet());
 				jsonAddress.put("city", primaryAddress.getCity());
@@ -66,7 +64,9 @@ public class EmployeeMigration implements IMigrator<Employee> {
 				jsonAddress.put("country", primaryAddress.getCountryOrRegion());
 			}
 		}
-		employee.put("address", jsonAddress);
+		if (address != null) {
+			employee.put("address", jsonAddress);
+		}
 		employee.put("inActive", !obj.isActive());
 
 		// BussinessRelationShip Fields
@@ -90,8 +90,6 @@ public class EmployeeMigration implements IMigrator<Employee> {
 		// sendTransactionViaEmail is not found
 		// sendTransactionViaPrint is not found
 		// sendTransactionViaFax is not found
-		employee.put("currency", obj.getCurrency());
-		employee.put("currencyFactor", obj.getCurrencyFactor());
 		Account account = obj.getAccount();
 		if (account != null) {
 			employee.put("account", context.get("Account", account.getID()));
@@ -100,25 +98,7 @@ public class EmployeeMigration implements IMigrator<Employee> {
 		employee.put("bankName", obj.getBankName());
 		employee.put("bankAccountNumber", obj.getBankAccountNo());
 		employee.put("bankBranch", obj.getBankBranch());
-		employee.put("serviceTaxRegistrationNo",
-				obj.getServiceTaxRegistrationNo());
-		// taxRegistrationNumber is not found
-		TAXCode taxCode = obj.getTAXCode();
-		if (taxCode != null) {
-			employee.put("taxCode", context.get("TaxCode", taxCode.getID()));
-		}
-		employee.put(
-				"paymentMethod",
-				context.getPickListContext().get("AccountType",
-						obj.getPaymentMethod()));
-		// shipTo and billTo are not found
-		employee.put("vATRegistrationNumber", obj.getVATRegistrationNumber());
-		TAXItem taxItem = obj.getTAXItem();
-		if (taxItem != null) {
-			employee.put("taxItem", context.get("TAXItem", taxItem.getID()));
-		}
 		// modeOfTransport is not found
-		employee.put("openingBalance", obj.getOpeningBalance());
 		// journalEntry is not found
 
 		return employee;
