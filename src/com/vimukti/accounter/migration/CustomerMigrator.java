@@ -8,7 +8,9 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
-import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.CustomerGroup;
+import com.vimukti.accounter.core.PriceLevel;
+import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
@@ -19,13 +21,21 @@ public class CustomerMigrator implements IMigrator<Customer> {
 	public JSONObject migrate(Customer obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-
-		jsonObject.put("priceLevel",
-				context.get("PriceLevel", obj.getPriceLevel().getID()));
-		jsonObject.put("salesPerson",
-				context.get("SalesPerson", obj.getSalesPerson().getID()));
-		jsonObject.put("customerGroup",
-				context.get("CustomerGroup", obj.getCustomerGroup().getID()));
+		PriceLevel priceLevel = obj.getPriceLevel();
+		SalesPerson salesPerson = obj.getSalesPerson();
+		CustomerGroup customerGroup = obj.getCustomerGroup();
+		if (priceLevel != null) {
+			jsonObject.put("priceLevel",
+					context.get("PriceLevel", priceLevel.getID()));
+		}
+		if (salesPerson != null) {
+			jsonObject.put("salesPerson",
+					context.get("SalesPerson", salesPerson.getID()));
+		}
+		if (customerGroup != null) {
+			jsonObject.put("customerGroup",
+					context.get("CustomerGroup", customerGroup.getID()));
+		}
 		jsonObject.put("cSTNumber", obj.getCSTno());
 		jsonObject.put("taxPayerIdentificationNo", obj.getTINNumber());
 
@@ -115,5 +125,4 @@ public class CustomerMigrator implements IMigrator<Customer> {
 
 		return jsonObject;
 	}
-
 }
