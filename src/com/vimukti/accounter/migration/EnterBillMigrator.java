@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.PaymentTerms;
 
@@ -14,7 +15,6 @@ public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 			throws JSONException {
 		JSONObject enterBill = super.migrate(obj, context);
 		enterBill.put("payee", context.get("Vendor", obj.getVendor().getID()));
-		enterBill.put("contact", obj.getContact());
 		enterBill.put("isReconciled", "");
 		enterBill.put("dueDate", obj.getDueDate().getAsDateObject());
 		enterBill.put("phone", obj.getPhone());
@@ -36,6 +36,10 @@ public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 					context.get("PaymentTerm", paymentTerm.getID()));
 		}
 		enterBill.put("deliveryDate", obj.getDeliveryDate().getAsDateObject());
+		Contact contact = obj.getContact();
+		if (contact != null) {
+			enterBill.put("contact", contact.getID());
+		}
 		return enterBill;
 	}
 }
