@@ -1,5 +1,7 @@
 package com.vimukti.accounter.migration;
 
+import java.util.Set;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +38,8 @@ public class CustomerMigrator implements IMigrator<Customer> {
 			jsonObject.put("customerGroup",
 					context.get("CustomerGroup", customerGroup.getID()));
 		}
+		jsonObject.put("customerGroup",
+				context.get("CustomerGroup", customerGroup.getID()));
 		jsonObject.put("cSTNumber", obj.getCSTno());
 		jsonObject.put("taxPayerIdentificationNo", obj.getTINNumber());
 
@@ -49,7 +53,8 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		// MobilePhone and homePhone is not found
 		jsonObject.put("fax", obj.getFaxNo());
 		JSONObject jsonAddress = new JSONObject();
-		for (Address primaryAddress : obj.getAddress()) {
+		Set<Address> address = obj.getAddress();
+		for (Address primaryAddress : address) {
 			if (primaryAddress.isSelected()) {
 				jsonAddress.put("street", primaryAddress.getStreet());
 				jsonAddress.put("city", primaryAddress.getCity());
@@ -60,13 +65,16 @@ public class CustomerMigrator implements IMigrator<Customer> {
 				jsonAddress.put("country", primaryAddress.getCountryOrRegion());
 			}
 		}
-		jsonObject.put("address", jsonAddress);
+		if (!address.isEmpty()) {
+			jsonObject.put("address", jsonAddress);
+		}
 		jsonObject.put("inActive", !obj.isActive());
 
 		// BussinessRelationShip Fields
 		jsonObject.put("companyName", obj.getCompany().getTradingName());
 		jsonObject.put("payeeSince", obj.getPayeeSince());
 		jsonObject.put("webAddress", obj.getWebPageAddress());
+
 		// altEmail and altPhone are not found
 		JSONArray jsonContacts = new JSONArray();
 		for (Contact contact : obj.getContacts()) {
