@@ -48,6 +48,7 @@ public class CashSaleMigrator extends TransactionMigrator<CashSales> {
 			// TODO this may change to get SaleQuotations
 			array.put(jsonObject2);
 		}
+		jsonObject.put("salesOrders", array);
 		jsonObject.put("shippingTerm",
 				context.get("ShippingTerm", obj.getShippingTerm().getID()));
 		jsonObject.put("shippingMethod",
