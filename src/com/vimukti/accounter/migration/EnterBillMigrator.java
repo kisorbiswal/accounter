@@ -1,11 +1,15 @@
 package com.vimukti.accounter.migration;
 
+import java.util.Set;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.EnterBill;
+import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.PaymentTerms;
 
 public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
@@ -40,6 +44,18 @@ public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 		if (contact != null) {
 			enterBill.put("contact", contact.getID());
 		}
+		{
+			Set<Estimate> estimates = obj.getEstimates();
+			JSONArray array = new JSONArray();
+			for (Estimate estimate : estimates) {
+				JSONObject quoteJson = new JSONObject();
+				quoteJson.put("salesQuotation",
+						context.get("SalesQuotation", estimate.getID()));
+				array.put(quoteJson);
+			}
+			enterBill.put("salesQuotations", array);
+		}
+
 		return enterBill;
 	}
 }

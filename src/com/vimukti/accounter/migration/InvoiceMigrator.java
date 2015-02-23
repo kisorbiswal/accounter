@@ -1,9 +1,14 @@
 package com.vimukti.accounter.migration;
 
+import java.util.List;
+import java.util.Set;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.Invoice;
 
 public class InvoiceMigrator extends TransactionMigrator<Invoice> {
@@ -45,6 +50,18 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 		jsonObject.put("shippingMethod",
 				context.get("shippingMethod", obj.getShippingMethod().getID()));
 		jsonObject.put("deliveryDate", obj.getDeliverydate().getAsDateObject());
+
+		{
+			List<Estimate> estimates = obj.getEstimates();
+			JSONArray array = new JSONArray();
+			for (Estimate estimate : estimates) {
+				JSONObject quoteJson = new JSONObject();
+				quoteJson.put("salesQuotation",
+						context.get("SalesQuotation", estimate.getID()));
+				array.put(quoteJson);
+			}
+			jsonObject.put("salesQuotations", array);
+		}
 
 		return jsonObject;
 	}

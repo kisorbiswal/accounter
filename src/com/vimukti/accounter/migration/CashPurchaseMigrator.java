@@ -1,11 +1,16 @@
 package com.vimukti.accounter.migration;
 
+import java.util.List;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.Vendor;
 
 public class CashPurchaseMigrator extends TransactionMigrator<CashPurchase> {
@@ -43,7 +48,19 @@ public class CashPurchaseMigrator extends TransactionMigrator<CashPurchase> {
 				context.get("Account", obj.getPayFrom().getID()));
 		cashPurchase.put("deliveryDate", obj.getDeliveryDate()
 				.getAsDateObject());
-		// TODO for PurchaseOrders List
+
+		{
+			List<PurchaseOrder> purchaseOrders = obj.getPurchaseOrders();
+			JSONArray array = new JSONArray();
+			for (PurchaseOrder purchaseOrder : purchaseOrders) {
+				JSONObject quoteJson = new JSONObject();
+				quoteJson.put("purchaseOrder",
+						context.get("PurchaseOrder", purchaseOrder.getID()));
+				array.put(quoteJson);
+			}
+			cashPurchase.put("purchaseOrders", array);
+		}
+
 		cashPurchase.put("purchaseOrders", "");
 		return cashPurchase;
 	}

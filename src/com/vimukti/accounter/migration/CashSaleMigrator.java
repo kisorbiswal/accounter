@@ -44,8 +44,7 @@ public class CashSaleMigrator extends TransactionMigrator<CashSales> {
 		for (Estimate quot : salesOrders) {
 			JSONObject jsonObject2 = new JSONObject();
 			jsonObject2.put("salesOrder",
-					context.get("SalesQuotation", quot.getID()));
-			// TODO this may change to get SaleQuotations
+					context.get("SalesOrder", quot.getID()));
 			array.put(jsonObject2);
 		}
 		jsonObject.put("salesOrders", array);
