@@ -17,7 +17,7 @@ import com.vimukti.accounter.core.EmployeeGroup;
 import com.vimukti.accounter.core.PayStructure;
 import com.vimukti.accounter.utils.HibernateUtil;
 
-public class EmployeeMigration implements IMigrator<Employee> {
+public class EmployeeMigrator implements IMigrator<Employee> {
 
 	@Override
 	public JSONObject migrate(Employee obj, MigratorContext context)

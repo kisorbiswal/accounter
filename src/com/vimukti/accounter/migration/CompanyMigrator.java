@@ -23,17 +23,38 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterClass;
+import com.vimukti.accounter.core.BankAccount;
+import com.vimukti.accounter.core.Budget;
+import com.vimukti.accounter.core.CashPurchase;
+import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.CustomerCreditMemo;
 import com.vimukti.accounter.core.CustomerGroup;
+import com.vimukti.accounter.core.CustomerPrePayment;
+import com.vimukti.accounter.core.CustomerRefund;
+import com.vimukti.accounter.core.Depreciation;
+import com.vimukti.accounter.core.Employee;
+import com.vimukti.accounter.core.EmployeeGroup;
+import com.vimukti.accounter.core.EnterBill;
+import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.Job;
 import com.vimukti.accounter.core.Location;
+import com.vimukti.accounter.core.MakeDeposit;
+import com.vimukti.accounter.core.PayBill;
+import com.vimukti.accounter.core.PayHead;
+import com.vimukti.accounter.core.PayStructure;
 import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.PayrollUnit;
 import com.vimukti.accounter.core.PriceLevel;
+import com.vimukti.accounter.core.PurchaseOrder;
+import com.vimukti.accounter.core.ReceivePayment;
+import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
@@ -41,8 +62,15 @@ import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TAXItem;
+import com.vimukti.accounter.core.TDSDeductorMasters;
+import com.vimukti.accounter.core.TDSResponsiblePerson;
+import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
+import com.vimukti.accounter.core.VendorPrePayment;
+import com.vimukti.accounter.core.Warehouse;
+import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class CompanyMigrator {
@@ -94,6 +122,10 @@ public class CompanyMigrator {
 		Map<Long, Long> migratedObjects = migrateObjects("Account",
 				Account.class, new AccountMigrator(), context);
 		context.put("Account", migratedObjects);
+		// BankAccount
+		migratedObjects = migrateObjects("BankAccount", BankAccount.class,
+				new BankAccountMigrator(), context);
+		context.put("BankAccount", migratedObjects);
 		// salesPersons
 		migratedObjects = migrateObjects("SalesPerson", SalesPerson.class,
 				new SalesPersonMigrator(), context);
@@ -130,7 +162,6 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("ShippingMethod",
 				ShippingMethod.class, new ShippingMethodMigrator(), context);
 		context.put("ShippingMethod", migratedObjects);
-
 		// Shipping Methods
 		migratedObjects = migrateObjects("ShippingTerms", ShippingTerms.class,
 				new ShippingTermsMigrator(), context);
@@ -143,6 +174,10 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("Customer", Customer.class,
 				new CustomerMigrator(), context);
 		context.put("Customer", migratedObjects);
+		//CustomerPrepayment
+		migratedObjects = migrateObjects("CustomerPrepayment", CustomerPrePayment.class,
+				new CustomerPrepayementMigrator(), context);
+		context.put("CustomerPrepayment", migratedObjects);
 		// Vendor Groups
 		migratedObjects = migrateObjects("VendorGroup", VendorGroup.class,
 				new VendorGroupMigrator(), context);
@@ -167,8 +202,122 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("Item", Item.class,
 				new ItemMigrator(), context);
 		context.put("Item", migratedObjects);
-
-		// TODO Transactions
+		// SalesQuotation
+		migratedObjects = migrateObjects("SalesQuotation", Estimate.class,
+				new SalesQuotationMigrator(), context);
+		context.put("SalesQuotation", migratedObjects);
+		// SalesOrder
+		migratedObjects = migrateObjects("SalesOrder", Estimate.class,
+				new SalesOrderMigrator(), context);
+		context.put("SalesOrder", migratedObjects);
+		// Credits
+		migratedObjects = migrateObjects("Credit", Estimate.class,
+				new CreditsMigrator(), context);
+		context.put("Credit", migratedObjects);
+		// Charges
+		migratedObjects = migrateObjects("Charge", Estimate.class,
+				new ChargesMigrator(), context);
+		context.put("Charge", migratedObjects);
+		// Invoice
+		migratedObjects = migrateObjects("Invoice", Invoice.class,
+				new InvoiceMigrator(), context);
+		context.put("Invoice", migratedObjects);
+		// ReceivePayment
+		migratedObjects = migrateObjects("ReceivePayment", ReceivePayment.class,
+				new ReceivePaymentMigrator(), context);
+		context.put("ReceivePayment", migratedObjects);
+		// CashSale
+		migratedObjects = migrateObjects("CashSale", CashSales.class,
+				new CashSaleMigrator(), context);
+		context.put("CashSale", migratedObjects);
+		// CustomerCreditMemo
+		migratedObjects = migrateObjects("CreditMemo",
+				CustomerCreditMemo.class, new CreditMemoMigrator(), context);
+		context.put("CreditMemo", migratedObjects);
+		// Vendor
+		migratedObjects = migrateObjects("Vendor", Vendor.class,
+				new VendorMigrator(), context);
+		context.put("Vendor", migratedObjects);
+		// VendorPrepayment
+		migratedObjects = migrateObjects("VendorPrepayment",
+				VendorPrePayment.class, new VendorPrepaymentMigrator(), context);
+		context.put("VendorPrepayment", migratedObjects);
+		// PurchaseOrder
+		migratedObjects = migrateObjects("PurchaseOrder", PurchaseOrder.class,
+				new PurchaseOrderMigrator(), context);
+		context.put("PurchaseOrder", migratedObjects);
+		// CashPurchase
+		migratedObjects = migrateObjects("CashPurchase", CashPurchase.class,
+				new CashPurchaseMigrator(), context);
+		context.put("CashPurchase", migratedObjects);
+		// EnterBill
+		migratedObjects = migrateObjects("EnterBill", EnterBill.class,
+				new EnterBillMigrator(), context);
+		context.put("EnterBill", migratedObjects);
+		// PayBill
+		migratedObjects = migrateObjects("PayBill", PayBill.class,
+				new PayBillMigrator(), context);
+		context.put("PayBill", migratedObjects);
+		// CustomerRefund
+		migratedObjects = migrateObjects("CustomerRefund", CustomerRefund.class,
+				new CustomerRefundMigrator(), context);
+		context.put("CustomerRefund", migratedObjects);
+		// MakeDeposit
+		migratedObjects = migrateObjects("MakeDeposit", MakeDeposit.class,
+				new MakeDepositMigrator(), context);
+		context.put("MakeDeposit", migratedObjects);
+		// TransferFund
+		migratedObjects = migrateObjects("TransferFund", TransferFund.class,
+				new TransferFundMigrator(), context);
+		context.put("TransferFund", migratedObjects);
+		// WriteCheck
+		migratedObjects = migrateObjects("WriteCheck", WriteCheck.class,
+				new WriteCheckMigrator(), context);
+		context.put("WriteCheck", migratedObjects);
+		// Budget
+		migratedObjects = migrateObjects("Budget", Budget.class,
+				new BudgetMigrator(), context);
+		context.put("WriteCheck", migratedObjects);
+		// Depreciation
+		migratedObjects = migrateObjects("Depreciation", Depreciation.class,
+				new DepreciationMigrator(), context);
+		context.put("WriteCheck", migratedObjects);
+		// PayHead
+		migratedObjects = migrateObjects("PayHead", PayHead.class,
+				new PayHeadMigrator(), context);
+		context.put("PayHead", migratedObjects);
+		// EmployeeGroup
+		migratedObjects = migrateObjects("EmployeeGroup", EmployeeGroup.class,
+				new EmployeeGroupMigrator(), context);
+		context.put("EmployeeGroup", migratedObjects);
+		// Employee
+		migratedObjects = migrateObjects("Employee", Employee.class,
+				new EmployeeMigrator(), context);
+		context.put("Employee", migratedObjects);
+		// PayStructure
+		migratedObjects = migrateObjects("PayStructure", PayStructure.class,
+				new PayStructureMigrator(), context);
+		context.put("PayStructure", migratedObjects);
+		// PayrollUnit
+		migratedObjects = migrateObjects("PayrollUnit", PayrollUnit.class,
+				new PayrollUnitMigrator(), context);
+		context.put("PayrollUnit", migratedObjects);
+		// Reconciliation
+		migratedObjects = migrateObjects("Reconciliation", Reconciliation.class,
+				new ReconciliationMigrator(), context);
+		context.put("Reconciliation", migratedObjects);
+		// TDSDeductorMasters
+		migratedObjects = migrateObjects("TDSDeductorMasters", TDSDeductorMasters.class,
+				new TDSDeductorMastersMigrator(), context);
+		context.put("TDSDeductorMasters", migratedObjects);
+		// TDSResponsiblePerson
+		migratedObjects = migrateObjects("TDSResponsiblePerson", TDSResponsiblePerson.class,
+				new TDSResponsiblePersonMigrator(), context);
+		context.put("TDSResponsiblePerson", migratedObjects);
+		// Warehouse
+		migratedObjects = migrateObjects("Warehouse", Warehouse.class,
+				new WarehouseMigrator(), context);
+		context.put("Warehouse", migratedObjects);
 
 	}
 

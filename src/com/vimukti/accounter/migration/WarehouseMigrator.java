@@ -30,7 +30,6 @@ public class WarehouseMigrator implements IMigrator<Warehouse> {
 		jsonAddress.put("zipOrPostalCode", address.getZipOrPostalCode());
 		jsonAddress.put("country", address.getCountryOrRegion());
 		jsonObject.put("address", jsonAddress);
-		// TODO WareHouseItems
 		return jsonObject;
 	}
 }
