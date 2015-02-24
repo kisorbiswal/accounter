@@ -37,7 +37,6 @@ public class MakeDepositMigrator extends TransactionMigrator<MakeDeposit> {
 		}
 		jsonObj.put("depositItems", array);
 		jsonObj.put("paymentMethod", obj.getPaymentMethod());
-		// PaymentSatus TODO
 		return jsonObj;
 	}
 }

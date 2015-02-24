@@ -44,7 +44,6 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 		// PaymentableTransaction
 		jsonObj.put("paymentMethod", obj.getPaymentMethod());
 		jsonObj.put("checkNumber", obj.getCheckNumber());
-		// PaymentStatus TODO
 		return jsonObj;
 	}
 }

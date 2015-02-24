@@ -32,7 +32,6 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 				context.get("TaxItem", obj.getTdsTaxItem().getID()));
 		jsonObject.put("filterByBillDueOnOrBefore", obj.getBillDueOnOrBefore()
 				.getAsDateObject());
-		// paymentStatus TODO
 		return jsonObject;
 	}
 }
