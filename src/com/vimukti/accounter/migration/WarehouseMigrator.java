@@ -16,20 +16,24 @@ public class WarehouseMigrator implements IMigrator<Warehouse> {
 		jsonObject.put("warehouseCode", obj.getWarehouseCode());
 		jsonObject.put("warehouseName", obj.getName());
 		Contact contact = obj.getContact();
-		jsonObject.put("contactName", contact.getName());
-		jsonObject.put("contactNumber", contact.getBusinessPhone());
+		if (contact != null) {
+			jsonObject.put("contactName", contact.getName());
+			jsonObject.put("contactNumber", contact.getBusinessPhone());
+		}
 		jsonObject.put("mobileNumber", obj.getMobileNumber());
 		jsonObject.put("dDInumber", obj.getDDINumber());
 		jsonObject.put("defaultWarehouse", obj.isDefaultWarehouse());
-		//Setting Address reference
+		// Setting Address reference
 		Address address = obj.getAddress();
-		JSONObject jsonAddress = new JSONObject();
-		jsonAddress.put("street", address.getStreet());
-		jsonAddress.put("city", address.getCity());
-		jsonAddress.put("stateOrProvince", address.getStateOrProvinence());
-		jsonAddress.put("zipOrPostalCode", address.getZipOrPostalCode());
-		jsonAddress.put("country", address.getCountryOrRegion());
-		jsonObject.put("address", jsonAddress);
+		if (address != null) {
+			JSONObject jsonAddress = new JSONObject();
+			jsonAddress.put("street", address.getStreet());
+			jsonAddress.put("city", address.getCity());
+			jsonAddress.put("stateOrProvince", address.getStateOrProvinence());
+			jsonAddress.put("zipOrPostalCode", address.getZipOrPostalCode());
+			jsonAddress.put("country", address.getCountryOrRegion());
+			jsonObject.put("address", jsonAddress);
+		}
 		return jsonObject;
 	}
 }

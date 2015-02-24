@@ -14,6 +14,7 @@ import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.core.VendorGroup;
 
 public class VendorMigrator implements IMigrator<Vendor> {
 
@@ -21,11 +22,18 @@ public class VendorMigrator implements IMigrator<Vendor> {
 	public JSONObject migrate(Vendor obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("vendorGroup",
-				context.get("VendorGroup", obj.getVendorGroup().getID()));
-		jsonObject.put("vendorTDSCode",
-				context.get("TaxtItem", obj.getTAXItem().getID()));
-		
+		VendorGroup vendorGroup = obj.getVendorGroup();
+		if (vendorGroup != null) {
+			jsonObject.put("vendorGroup",
+					context.get("VendorGroup", vendorGroup.getID()));
+		}
+
+		TAXItem taxItem2 = obj.getTAXItem();
+		if (taxItem2 != null) {
+			jsonObject.put("vendorTDSCode",
+					context.get("TaxtItem", taxItem2.getID()));
+		}
+
 		// RelationShip field
 		jsonObject.put("identification", obj.getVendorNumber());
 		// AutoIdentification , mrOrMs, jobTitle are not found
@@ -101,20 +109,22 @@ public class VendorMigrator implements IMigrator<Vendor> {
 						obj.getPaymentMethod()));
 		jsonObject.put("tDSApplicable", obj.isTdsApplicable());
 		ShippingMethod shippingMethod = obj.getShippingMethod();
-		if(shippingMethod != null){
-			jsonObject.put("preferredShippingMethod", context.get("ShippingMethod", shippingMethod.getID()));
+		if (shippingMethod != null) {
+			jsonObject.put("preferredShippingMethod",
+					context.get("ShippingMethod", shippingMethod.getID()));
 		}
-		jsonObject.put("primaryContact", context.get("Contact", obj.getPrimaryContact().getID()));
-		//shipTo and billTo are not found
+		jsonObject.put("primaryContact",
+				context.get("Contact", obj.getPrimaryContact().getID()));
+		// shipTo and billTo are not found
 		jsonObject.put("vATRegistrationNumber", obj.getVATRegistrationNumber());
 		TAXItem taxItem = obj.getTAXItem();
-		if(taxItem != null){
-			jsonObject.put("taxItem", context.get("TAXItem",taxItem.getID()));
+		if (taxItem != null) {
+			jsonObject.put("taxItem", context.get("TAXItem", taxItem.getID()));
 		}
-		//modeOfTransport is not found
+		// modeOfTransport is not found
 		jsonObject.put("openingBalance", obj.getOpeningBalance());
-		//journalEntry is not found
-		
+		// journalEntry is not found
+
 		return jsonObject;
 	}
 

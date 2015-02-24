@@ -14,6 +14,7 @@ import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 
 public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 
@@ -26,13 +27,15 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		jsonObject.put("purchaseLiabilityAccount", context.get("Account", obj
 				.getPurchaseLiabilityAccount().getID()));
 		// Setting Sales Liability Account of Company
-		jsonObject.put("salesLiability Account",
+		jsonObject.put("salesLiabilityAccount",
 				context.get("Account", obj.getSalesLiabilityAccount().getID()));
 		// Setting Filed Liability Account of Company
 		jsonObject.put("filedLiabilityAccount",
 				context.get("Account", obj.getFiledLiabilityAccount().getID()));
-		// TaxType is A PickList TODO
-		jsonObject.put("taxType", obj.getTaxType());
+		jsonObject.put(
+				"taxType",
+				context.getPickListContext().get("TaxType",
+						getTaxTypeString(obj.getTaxType())));
 		// This is Property not found
 		// jsonObject.put("offsetSalesTaxFromPurchaseTax", null);
 		jsonObject.put("isInactive", !obj.isActive());
@@ -42,7 +45,7 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		jsonObject.put("paymentTerm",
 				context.get("PaymentTerm", obj.getPaymentTerm().getID()));
 		// RelationShip field
-		//identification is not found
+		// identification is not found
 		// AutoIdentification , mrOrMs, jobTitle are not found
 		jsonObject.put("name", obj.getName());
 		jsonObject.put("comments", obj.getMemo());
@@ -118,4 +121,24 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		return jsonObject;
 	}
 
+	private static String getTaxTypeString(int taxType) {
+		if (taxType == ClientTAXAgency.TAX_TYPE_SERVICETAX) {
+			return "Sales Tax";
+		}
+		if (taxType == ClientTAXAgency.TAX_TYPE_VAT) {
+			return "VAT";
+		}
+
+		if (taxType == ClientTAXAgency.TAX_TYPE_SALESTAX) {
+			return "Service Tax";
+		}
+		if (taxType == ClientTAXAgency.TAX_TYPE_SALESTAX) {
+			return "TDS";
+		}
+		if (taxType == ClientTAXAgency.TAX_TYPE_OTHER) {
+			return "Other";
+		}
+
+		return null;
+	}
 }

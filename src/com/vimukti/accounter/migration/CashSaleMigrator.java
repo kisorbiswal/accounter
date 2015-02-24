@@ -10,6 +10,8 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.ShippingMethod;
+import com.vimukti.accounter.core.ShippingTerms;
 
 public class CashSaleMigrator extends TransactionMigrator<CashSales> {
 	@Override
@@ -20,24 +22,29 @@ public class CashSaleMigrator extends TransactionMigrator<CashSales> {
 		jsonObject.put("depositIn", context.get("Account", depositIn.getID()));
 		jsonObject.put("phone", obj.getPhone());
 
-		JSONObject jsonAddress = new JSONObject();
 		Address billingAddress = obj.getBillingAddress();
-		jsonAddress.put("street", billingAddress.getStreet());
-		jsonAddress.put("city", billingAddress.getCity());
-		jsonAddress.put("stateOrProvince",
-				billingAddress.getStateOrProvinence());
-		jsonAddress.put("zipOrPostalCode", billingAddress.getZipOrPostalCode());
-		jsonAddress.put("country", billingAddress.getCountryOrRegion());
-		jsonObject.put("billingAddress", jsonAddress);
+		if (billingAddress != null) {
+			JSONObject jsonAddress = new JSONObject();
+			jsonAddress.put("street", billingAddress.getStreet());
+			jsonAddress.put("city", billingAddress.getCity());
+			jsonAddress.put("stateOrProvince",
+					billingAddress.getStateOrProvinence());
+			jsonAddress.put("zipOrPostalCode",
+					billingAddress.getZipOrPostalCode());
+			jsonAddress.put("country", billingAddress.getCountryOrRegion());
+			jsonObject.put("billingAddress", jsonAddress);
+		}
 
-		JSONObject jsonShipTo = new JSONObject();
 		Address shipingTo = obj.getShippingAdress();
-		jsonShipTo.put("street", shipingTo.getStreet());
-		jsonShipTo.put("city", shipingTo.getCity());
-		jsonShipTo.put("stateOrProvince", shipingTo.getStateOrProvinence());
-		jsonShipTo.put("zipOrPostalCode", shipingTo.getZipOrPostalCode());
-		jsonShipTo.put("country", shipingTo.getCountryOrRegion());
-		jsonShipTo.put("shipTo", jsonShipTo);
+		if (shipingTo != null) {
+			JSONObject jsonShipTo = new JSONObject();
+			jsonShipTo.put("street", shipingTo.getStreet());
+			jsonShipTo.put("city", shipingTo.getCity());
+			jsonShipTo.put("stateOrProvince", shipingTo.getStateOrProvinence());
+			jsonShipTo.put("zipOrPostalCode", shipingTo.getZipOrPostalCode());
+			jsonShipTo.put("country", shipingTo.getCountryOrRegion());
+			jsonShipTo.put("shipTo", jsonShipTo);
+		}
 
 		List<Estimate> salesOrders = obj.getSalesOrders();
 		JSONArray array = new JSONArray();
@@ -48,10 +55,16 @@ public class CashSaleMigrator extends TransactionMigrator<CashSales> {
 			array.put(jsonObject2);
 		}
 		jsonObject.put("salesOrders", array);
-		jsonObject.put("shippingTerm",
-				context.get("ShippingTerm", obj.getShippingTerm().getID()));
-		jsonObject.put("shippingMethod",
-				context.get("ShippingMethod", obj.getShippingMethod().getID()));
+		ShippingTerms shippingTerm = obj.getShippingTerm();
+		if (shippingTerm != null) {
+			jsonObject.put("shippingTerm",
+					context.get("ShippingTerm", shippingTerm.getID()));
+		}
+		ShippingMethod shippingMethod = obj.getShippingMethod();
+		if (shippingMethod != null) {
+			jsonObject.put("shippingMethod",
+					context.get("ShippingMethod", shippingMethod.getID()));
+		}
 		jsonObject.put("deliveryDate", obj.getDeliverydate().getAsDateObject());
 		return jsonObject;
 	}

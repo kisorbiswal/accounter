@@ -4,16 +4,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.TAXAdjustment;
+import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXItem;
 
 public class TAXAdjustmentMigrator extends TransactionMigrator<TAXAdjustment> {
 	@Override
 	public JSONObject migrate(TAXAdjustment obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = super.migrate(obj, context);
-		jsonObject.put("taxAgency",
-				context.get("TAXAgency", obj.getTaxAgency().getID()));
-		jsonObject.put("taxItem",
-				context.get("TaxItem", obj.getTaxItem().getID()));
+		TAXAgency taxAgency = obj.getTaxAgency();
+		if (taxAgency != null) {
+			jsonObject.put("taxAgency",
+					context.get("TAXAgency", taxAgency.getID()));
+		}
+		TAXItem taxItem = obj.getTaxItem();
+		if (taxItem != null) {
+			jsonObject.put("taxItem", context.get("TaxItem", taxItem.getID()));
+		}
 		String type = "SalesType";
 		if (obj.getType() == 1) {
 			type = "PurchaseType";

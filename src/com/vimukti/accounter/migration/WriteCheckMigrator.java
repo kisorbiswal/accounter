@@ -19,7 +19,6 @@ public class WriteCheckMigrator extends TransactionMigrator<WriteCheck> {
 		jsonObj.put("chequeNumber", obj.getCheckNumber());
 		jsonObj.put("memo", obj.getMemo());
 
-		// PaymentStatus TODO
 		return jsonObj;
 	}
 }
