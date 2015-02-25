@@ -3,6 +3,7 @@ package com.vimukti.accounter.migration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 
@@ -23,10 +24,16 @@ public class PayHeadMigrator implements IMigrator<PayHead> {
 		payHead.put("paySlipName", obj.getNameToAppearInPaySlip());
 		payHead.put("isDeduction", obj.isDeduction());
 		payHead.put("isEarning", obj.isEarning());
-		payHead.put("assetAccount",
-				context.get("Account", obj.getAssetAccount().getID()));
-		payHead.put("statutoryLiabilityAccount",
-				context.get("Account", obj.getLiabilityAccount().getID()));
+		Account assetAccount = obj.getAssetAccount();
+		if (assetAccount != null) {
+			payHead.put("assetAccount",
+					context.get("Account", assetAccount.getID()));
+		}
+		Account liabilityAccount = obj.getLiabilityAccount();
+		if (liabilityAccount != null) {
+			payHead.put("statutoryLiabilityAccount",
+					context.get("Account", liabilityAccount.getID()));
+		}
 		// TODO PayHead.obj has
 		// isFromTimeSheet,formulaItems,lastComputedValuer,otherPayHead,
 		// earningDeductionOn

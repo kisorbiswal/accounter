@@ -4,7 +4,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.ShippingMethod;
+import com.vimukti.accounter.core.ShippingTerms;
 
 public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
 	@Override
@@ -13,10 +17,11 @@ public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
 		JSONObject jsonObj = super.migrate(obj, context);
 		jsonObj.put("customer",
 				context.get("Customer", obj.getCustomer().getID()));
-		jsonObj.put("contanct",
-				context.get("Contact", obj.getContact().getID()));
+		Contact contact = obj.getContact();
+		if (contact != null) {
+			jsonObj.put("contanct", context.get("Contact", contact.getID()));
+		}
 		jsonObj.put("phone", obj.getPhone());
-
 		JSONObject jsonShippingAddr = new JSONObject();
 		Address shipingAddr = obj.getShippingAdress();
 		jsonShippingAddr.put("street", shipingAddr.getStreet());
@@ -40,12 +45,22 @@ public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
 		jsonObj.put("billTo", jsonBillingAddr);
 		// quotation not found
 		jsonObj.put("customerReference", obj.getReference());
-		jsonObj.put("paymentTerm",
-				context.get("PaymentTerm", obj.getPaymentTerm().getID()));
-		jsonObj.put("shippingMethod",
-				context.get("ShippingMethod", obj.getShippingMethod().getID()));
-		jsonObj.put("shippingTerm",
-				context.get("ShippingTerm", obj.getShippingTerm().getID()));
+		
+		PaymentTerms paymentTerm = obj.getPaymentTerm();
+		if (paymentTerm != null) {
+			jsonObj.put("paymentTerm",
+					context.get("PaymentTerm", paymentTerm.getID()));
+		}
+		ShippingMethod shippingMethod = obj.getShippingMethod();
+		if (shippingMethod != null) {
+			jsonObj.put("shippingMethod",
+					context.get("ShippingMethod", shippingMethod.getID()));
+		}
+		ShippingTerms shippingTerm = obj.getShippingTerm();
+		if (shippingTerm != null) {
+			jsonObj.put("shippingTerm",
+					context.get("ShippingTerm", shippingTerm.getID()));
+		}
 		jsonObj.put("deliveryDate", obj.getDeliveryDate());
 		jsonObj.put("remarks", obj.getMemo());
 		return jsonObj;

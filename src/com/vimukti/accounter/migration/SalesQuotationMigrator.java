@@ -4,7 +4,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.PaymentTerms;
 
 public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 	@Override
@@ -14,8 +16,10 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 		jsonObj.put("customer",
 				context.get("Customer", obj.getCustomer().getID()));
 		jsonObj.put("expirationDate", obj.getExpirationDate().getAsDateObject());
-		jsonObj.put("contanct",
-				context.get("Contact", obj.getContact().getID()));
+		Contact contact = obj.getContact();
+		if (contact != null) {
+			jsonObj.put("contanct", context.get("Contact", contact.getID()));
+		}
 		jsonObj.put("phone", obj.getPhone());
 
 		JSONObject jsonShippingAddr = new JSONObject();
@@ -39,9 +43,11 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 				.put("zipOrPostalCode", billingAddr.getZipOrPostalCode());
 		jsonBillingAddr.put("country", billingAddr.getCountryOrRegion());
 		jsonObj.put("billTo", jsonBillingAddr);
-
-		jsonObj.put("paymentTerm",
-				context.get("PaymentTerm", obj.getPaymentTerm().getID()));
+		PaymentTerms paymentTerm = obj.getPaymentTerm();
+		if (paymentTerm != null) {
+			jsonObj.put("paymentTerm",
+					context.get("PaymentTerm", paymentTerm.getID()));
+		}
 		jsonObj.put("deliveryDate", obj.getDeliveryDate());
 		return jsonObj;
 	}

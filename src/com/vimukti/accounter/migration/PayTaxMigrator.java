@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.PayTAX;
+import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TransactionPayTAX;
 
 public class PayTaxMigrator extends TransactionMigrator<PayTAX> {
@@ -18,8 +19,11 @@ public class PayTaxMigrator extends TransactionMigrator<PayTAX> {
 				context.get("Account", obj.getPayFrom().getID()));
 		jsonObject.put("filterbyTAXreturnenddate", obj
 				.getReturnsDueOnOrBefore().getAsDateObject());
-		jsonObject.put("taxAgency",
-				context.get("TaxAgency", obj.getTaxAgency().getID()));
+		TAXAgency taxAgency = obj.getTaxAgency();
+		if (obj.getTaxAgency() != null) {
+			jsonObject.put("taxAgency",
+					context.get("TaxAgency", obj.getTaxAgency().getID()));
+		}
 
 		List<TransactionPayTAX> transactionPayTAXs = obj.getTransactionPayTAX();
 		JSONArray array = new JSONArray();
@@ -27,8 +31,9 @@ public class PayTaxMigrator extends TransactionMigrator<PayTAX> {
 			JSONObject transactionJson = new JSONObject();
 			transactionJson.put("taxDue", transactionPayTAX.getTaxDue());
 			transactionJson.put("payment", transactionPayTAX.getAmountToPay());
-			transactionJson.put("filedDate", transactionPayTAX.getFiledDate().getAsDateObject());
-			//fileTax not found
+			transactionJson.put("filedDate", transactionPayTAX.getFiledDate()
+					.getAsDateObject());
+			// fileTax not found
 			array.put(transactionJson);
 		}
 		jsonObject.put("payTaxItems", array);

@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.PayBill;
+import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TransactionPayBill;
 
 public class PayBillMigrator extends TransactionMigrator<PayBill> {
@@ -28,8 +29,10 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 		}
 		jsonObject.put("paybillItems", array);
 
-		jsonObject.put("tDS",
-				context.get("TaxItem", obj.getTdsTaxItem().getID()));
+		TAXItem tdsTaxItem = obj.getTdsTaxItem();
+		if (tdsTaxItem != null) {
+			jsonObject.put("tDS", context.get("TaxItem", tdsTaxItem.getID()));
+		}
 		jsonObject.put("filterByBillDueOnOrBefore", obj.getBillDueOnOrBefore()
 				.getAsDateObject());
 		return jsonObject;

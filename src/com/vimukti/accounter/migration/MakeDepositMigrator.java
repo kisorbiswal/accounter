@@ -6,7 +6,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.Job;
 import com.vimukti.accounter.core.MakeDeposit;
+import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TransactionDepositItem;
 
 public class MakeDepositMigrator extends TransactionMigrator<MakeDeposit> {
@@ -14,25 +18,39 @@ public class MakeDepositMigrator extends TransactionMigrator<MakeDeposit> {
 	public JSONObject migrate(MakeDeposit obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObj = super.migrate(obj, context);
-		jsonObj.put("depositTo",
-				context.get("Account", obj.getDepositTo().getID()));
+		Account depositTo = obj.getDepositTo();
+		if (depositTo != null) {
+			jsonObj.put("depositTo", context.get("Account", depositTo.getID()));
+		}
 		List<TransactionDepositItem> transactionDepositItems = obj
 				.getTransactionDepositItems();
 		JSONArray array = new JSONArray();
 		for (TransactionDepositItem item : transactionDepositItems) {
 			JSONObject depositItemJson = new JSONObject();
-			depositItemJson.put("payee",
-					context.get("Customer", item.getReceivedFrom().getID()));
-			depositItemJson.put("depositFrom",
-					context.get("Account", item.getAccount().getID()));
+			Payee receivedFrom = item.getReceivedFrom();
+			if (receivedFrom != null) {
+				depositItemJson.put("payee",
+						context.get("Customer", receivedFrom.getID()));
+			}
+			Account account = item.getAccount();
+			if (account != null) {
+				depositItemJson.put("depositFrom",
+						context.get("Account", account.getID()));
+			}
 			depositItemJson.put("description", item.getDescription());
 			depositItemJson.put("amount", item.getTotal());
 			depositItemJson.put("accountClass", context.get("AccountClass",
 					item.getAccounterClass().getID()));
-			depositItemJson.put("customer",
-					context.get("customer", item.getCustomer().getID()));
-			depositItemJson.put("project",
-					context.get("Project", item.getJob().getID()));
+			Customer customer = item.getCustomer();
+			if (customer != null) {
+				depositItemJson.put("customer",
+						context.get("customer", customer.getID()));
+			}
+			Job job = item.getJob();
+			if (job != null) {
+				depositItemJson.put("project",
+						context.get("Project", job.getID()));
+			}
 			array.put(depositItemJson);
 		}
 		jsonObj.put("depositItems", array);

@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.Invoice;
+import com.vimukti.accounter.core.ShippingMethod;
+import com.vimukti.accounter.core.ShippingTerms;
 
 public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 
@@ -45,10 +47,16 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 
 		jsonObject.put("balanceDue", obj.getBalanceDue());
 		jsonObject.put("amountPaid", obj.getPayments());
-		jsonObject.put("shippingTerm",
-				context.get("ShippingTerm", obj.getShippingTerm().getID()));
-		jsonObject.put("shippingMethod",
-				context.get("shippingMethod", obj.getShippingMethod().getID()));
+		ShippingTerms shippingTerm = obj.getShippingTerm();
+		if (shippingTerm != null) {
+			jsonObject.put("shippingTerm",
+					context.get("ShippingTerm", shippingTerm.getID()));
+		}
+		ShippingMethod shippingMethod = obj.getShippingMethod();
+		if (shippingMethod != null) {
+			jsonObject.put("shippingMethod",
+					context.get("shippingMethod", shippingMethod.getID()));
+		}
 		jsonObject.put("deliveryDate", obj.getDeliverydate().getAsDateObject());
 
 		{
