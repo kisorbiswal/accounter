@@ -278,4 +278,21 @@ public interface AccounterMessages2 extends Messages {
 	public String assetAccount();
 
 	public String invoicesAndPayments();
+
+	public String threeReasonToChooseAccounter();
+
+	public String firstReason();
+
+	public String secondReason();
+
+	public String thirdReason();
+
+	public String companiescantbewrong();
+
+	public String companiescantbewrongInfo();
+
+	public String signupTitle();
+
+	public String companiescantbewrongInfoAuthor();
+
 }
