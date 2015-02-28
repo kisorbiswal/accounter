@@ -16,7 +16,7 @@ button::-moz-focus-inner,input[type="reset"]::-moz-focus-inner,input[type="butto
 	border: none;
 }
 
-.signup-submit-button,.signup-submit-mid,#contact_form_cont,#services_form_cont,.right-middle,.remaining-header-part-login,.maintainence_message,.createbutton,.loginbutton,#forgot-login,.signup-submit,.reset-button,.OkButton,.mandatory
+.signup-submit-button,.signup-submit-mid,#contact_form_cont,#services_form_cont,.right-middle,.remaining-header-part-login,.maintainence_message,.createbutton,.loginbutton,#forgot-login,.reset-button,.OkButton,.mandatory
 	{
 	float: right;
 }
@@ -814,7 +814,7 @@ form {
 	box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
 	font-weight: normal;
 	margin-left: 8px;
-	padding: 26px 10px 15px;
+	padding: 15px 10px;
 	border-radius: 10px 10px 10px 10px;
 	clear: both;
 }
@@ -937,14 +937,16 @@ input [type="checkbox"] {
 	font-weight: bold;
 	height: 25px;
 	padding: 10px;
-	text-align: center; 
+	text-align: center;
 	width: 104px;
 	color: black !important;
 }
-.form-bottom-options tr a{
+
+.form-bottom-options tr a {
 	text-decoration: none !important;
 }
-.go-premium ,.manage-subscription{
+
+.go-premium,.manage-subscription {
 	background-image: -moz-linear-gradient(center top, #FFC154, #E47601);
 	background-image: -webkit-linear-gradient(top, #FFC154, #E47601);
 	background-image: -o-linear-gradient(top left, #FFC154 #E47601);
@@ -975,7 +977,7 @@ input [type="checkbox"] {
 
 .signup-container {
 	width: 1025px !important;
-	margin: 30px auto !important;
+	margin: 10px auto !important;
 }
 
 .signup-submit {
@@ -1014,7 +1016,7 @@ input [type="checkbox"] {
 }
 
 .check_label {
-	margin: 16px 0px 0px !important;
+	margin: 10px 0px 0px !important;
 }
 
 a#fdbk_tab {
@@ -1160,8 +1162,7 @@ a#fdbk_tab:hover {
 }
 
 .new_logo_field {
-	margin: 0px auto;
-	width: 300px;
+	text-align:center;
 }
 /*.new_login_page{
 	height:380px;
@@ -1203,10 +1204,6 @@ a#fdbk_tab:hover {
 
 #unChangedNewsDiv {
 	height: 90px
-}
-
-#openIdForm {
-	margin-top: 15px;
 }
 
 .display-none,.hiddenDiv {
@@ -1302,9 +1299,11 @@ a#fdbk_tab:hover {
 	white-space: nowrap;
 	width: 100%;
 }
-
+.accounterform{
+	display:table;
+}
 .signup-left,.signup-right {
-	float: left;
+	display: table-cell;
 }
 
 .signup-right li {
@@ -1314,8 +1313,7 @@ a#fdbk_tab:hover {
 .signup-right h3 {
 	border-bottom: 1px solid #F0F0F0;
 	font-weight: bold;
-	margin-top: 15px;
-	padding: 10px 0 5px;
+	padding: 5px;
 	width: 100%;
 	font-size: 15px;
 }
@@ -1540,4 +1538,68 @@ a#fdbk_tab:hover {
 
 #licenseInfo {
 	text-align: left;
+}
+
+.reasons{
+	display: table;      
+}
+.reasons > *{
+	display:table-cell;
+	vertical-align:middle;
+}
+.reasons{
+	margin:10px 0;
+	background: none repeat scroll 0 0 #fffbe8;
+	padding: 8px;
+	border: 1px solid #fffbea;
+	border-radius: 5px;
+}
+.signup-right .reasons h3{
+	margin-top:0px
+}
+.benfits{
+	background: none repeat scroll 0% 0% #DCF1FC;
+	padding: 10px;
+	border: 1px solid #E5F0F5;
+	border-radius: 5px;
+}
+.signup-submit{
+	text-align:center;
+}
+.signup-submit input{
+	background:#FEBD00;
+	color:#A14502;
+	border: 1px solid #DF9800;
+	font-weight:700;
+	padding: 15px 20px;
+	font-size: 19px;
+}
+.signup-submit input:hover{
+	background:#FFC900;
+}
+.signUpTitle{
+	background-color: rgb(245, 174, 44);
+	padding: 10px;
+	border-radius: 5px;
+	color: #FFF;
+	font-size: 28px;
+	text-align: center;
+}
+.comment{
+	font-style: italic;
+	line-height: 20px;
+}
+.signup-right #openIdForm{
+	margin:0 25px;
+}
+.commenter{
+	display: block;
+	text-align: right;
+}
+.reasons img{
+	margin-top:20px;
+}
+.form-bottom-options{
+	margin:10px 0 0 0;
+	text-align:right;
 }
