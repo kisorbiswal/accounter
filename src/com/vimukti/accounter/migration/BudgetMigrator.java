@@ -15,6 +15,7 @@ public class BudgetMigrator implements IMigrator<Budget> {
 	public JSONObject migrate(Budget budget, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(budget, jsonObject);
 		jsonObject.put("budgetName", budget.getBudgetName());
 		jsonObject.put("financialYear", budget.getFinancialYear());
 		List<BudgetItem> budgetItems = budget.getBudgetItems();
@@ -39,6 +40,7 @@ public class BudgetMigrator implements IMigrator<Budget> {
 			array.put(jsonObject1);
 		}
 		jsonObject.put("budgetItems", array);
+
 		return jsonObject;
 	}
 }

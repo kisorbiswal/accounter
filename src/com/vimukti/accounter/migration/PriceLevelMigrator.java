@@ -11,6 +11,7 @@ public class PriceLevelMigrator implements IMigrator<PriceLevel> {
 	public JSONObject migrate(PriceLevel obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
 		jsonObject.put("name", obj.getName());
 		return jsonObject;
 	}

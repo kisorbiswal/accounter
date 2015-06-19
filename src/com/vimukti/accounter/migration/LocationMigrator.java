@@ -8,9 +8,11 @@ import com.vimukti.accounter.core.Location;
 public class LocationMigrator implements IMigrator<Location> {
 
 	@Override
-	public JSONObject migrate(Location obj, MigratorContext context) throws JSONException {
+	public JSONObject migrate(Location obj, MigratorContext context)
+			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("name",obj.getName());
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		jsonObject.put("name", obj.getName());
 		return jsonObject;
 	}
 }

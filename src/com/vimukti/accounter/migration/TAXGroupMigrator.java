@@ -14,21 +14,21 @@ public class TAXGroupMigrator implements IMigrator<TAXGroup> {
 	@Override
 	public JSONObject migrate(TAXGroup obj, MigratorContext context)
 			throws JSONException {
+
 		JSONObject jsonObject = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
 		jsonObject.put("name", obj.getName());
+		jsonObject.put("isInactive", !obj.isActive());
+		jsonObject.put("isTaxGroup", true);
+
 		List<TAXItem> taxItems = obj.getTAXItems();
 		JSONArray array = new JSONArray();
 		for (TAXItem item : taxItems) {
-			JSONObject jsonItem = new JSONObject();
-			jsonObject.put("rate", item.getTaxRate());
-			jsonObject.put("taxAgency", item.getTaxAgency());
-			jsonObject.put("description", item.getTaxAgency());
-			jsonObject.put("name", item.getName());
-			jsonObject.put("isInactive", !item.isActive());
+			TaxItemMigrator taxItemMigrator = new TaxItemMigrator();
+			JSONObject jsonItem = taxItemMigrator.migrate(item, context);
 			array.put(jsonItem);
 		}
 		jsonObject.put("taxGroupItems", array);
 		return jsonObject;
 	}
-
 }

@@ -11,7 +11,7 @@ public class JobMigrator implements IMigrator<Job> {
 	public JSONObject migrate(Job obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
 		jsonObject.put("name", obj.getJobName());
 		jsonObject.put("startDate", obj.getStartDate().getAsDateObject());
 		jsonObject.put("endDate", obj.getEndDate().getAsDateObject());
