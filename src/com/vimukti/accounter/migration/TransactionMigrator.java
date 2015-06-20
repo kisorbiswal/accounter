@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Location;
+import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
@@ -101,22 +102,23 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 			transaction.put("transactionItems", tItems);
 			transaction.put("amountIncludesTax", transactionItems.get(0)
 					.isAmountIncludeTAX());
-		}
-		boolean taxPerDetailLine = context.getCompany().getPreferences()
-				.isTaxPerDetailLine();
-		if (!taxPerDetailLine) {
-			TAXCode taxCode = transactionItems.get(0).getTaxCode();
-			if (taxCode != null) {
-				transaction.put("taxCode",
-						context.get("TaxCode", taxCode.getID()));
+
+			boolean taxPerDetailLine = context.getCompany().getPreferences()
+					.isTaxPerDetailLine();
+			if (!taxPerDetailLine) {
+				TAXCode taxCode = transactionItems.get(0).getTaxCode();
+				if (taxCode != null) {
+					transaction.put("taxCode",
+							context.get("TaxCode", taxCode.getID()));
+				}
 			}
-		}
-		boolean discountPerDetailLine = context.getCompany().getPreferences()
-				.isDiscountPerDetailLine();
-		if (!discountPerDetailLine) {
-			Double discount = transactionItems.get(0).getDiscount();
-			if (discount != null) {
-				transaction.put("discount", discount);
+			boolean discountPerDetailLine = context.getCompany()
+					.getPreferences().isDiscountPerDetailLine();
+			if (!discountPerDetailLine) {
+				Double discount = transactionItems.get(0).getDiscount();
+				if (discount != null) {
+					transaction.put("discount", discount);
+				}
 			}
 		}
 		return transaction;

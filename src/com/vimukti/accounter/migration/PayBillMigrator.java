@@ -53,7 +53,10 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 		if (payFrom != null) {
 			jsonObject.put("account", context.get("Account", payFrom.getID()));
 		}
-		jsonObject.put("paymentMethod", obj.getPaymentMethod());
+		jsonObject.put(
+				"paymentMethod",
+				context.getPickListContext().get("PaymentMethod",
+						obj.getPaymentMethod()));
 		jsonObject.put("toBePrinted", obj.isToBePrinted());
 		Long chequeNumber = null;
 		try {

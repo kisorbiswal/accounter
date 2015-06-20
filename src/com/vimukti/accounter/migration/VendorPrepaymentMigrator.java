@@ -36,7 +36,15 @@ public class VendorPrepaymentMigrator extends
 				context.getPickListContext().get("PaymentMethod",
 						obj.getPaymentMethod()));
 		// billPaymentAmount not found
-		jsonObject.put("checkNumber", obj.getCheckNumber());
+		Long chequeNumber = null;
+		try {
+			chequeNumber = Long.valueOf(obj.getCheckNumber());
+		} catch (NumberFormatException nfe) {
+		}
+		if (chequeNumber != null) {
+			jsonObject.put("chequeNumber", chequeNumber);
+		}
+		jsonObject.put("memo", obj.getMemo());
 		return jsonObject;
 	}
 }

@@ -42,7 +42,7 @@ public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 		enterBill.put("deliveryDate", obj.getDeliveryDate().getAsDateObject());
 		Contact contact = obj.getContact();
 		if (contact != null) {
-			enterBill.put("contact", contact.getID());
+			enterBill.put("contact", context.get("Contact", contact.getID()));
 		}
 		{
 			Set<Estimate> estimates = obj.getEstimates();
@@ -55,7 +55,6 @@ public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 			}
 			enterBill.put("salesQuotations", array);
 		}
-
 		return enterBill;
 	}
 }

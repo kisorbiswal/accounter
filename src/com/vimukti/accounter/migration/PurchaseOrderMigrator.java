@@ -21,21 +21,34 @@ public class PurchaseOrderMigrator extends TransactionMigrator<PurchaseOrder> {
 		jsonObject.put("toBeEmailed", obj.isToBeEmailed());
 		jsonObject.put("toBePrinted", obj.isToBePrinted());
 		jsonObject.put("deliveryDate", obj.getDeliveryDate().getAsDateObject());
-		jsonObject
-				.put("vendor", context.get("Vendor", obj.getVendor().getID()));
+		jsonObject.put("payee", context.get("Vendor", obj.getVendor().getID()));
 		Contact contact = obj.getContact();
 		if (contact != null) {
-			jsonObject.put("contact", contact.getID());
+			jsonObject.put("contact", context.get("Contact", contact.getID()));
 		}
 		Address shippingAddress = obj.getShippingAddress();
 		if (shippingAddress != null) {
-			jsonObject.put("shipTo",
-					context.get("Address", shippingAddress.getId()));
+			JSONObject addressJSON = new JSONObject();
+			addressJSON.put("street", shippingAddress.getStreet());
+			addressJSON.put("city", shippingAddress.getCity());
+			addressJSON.put("stateOrProvince",
+					shippingAddress.getStateOrProvinence());
+			addressJSON.put("zipOrPostalCode",
+					shippingAddress.getZipOrPostalCode());
+			addressJSON.put("country", shippingAddress.getCountryOrRegion());
+			jsonObject.put("billTo", shippingAddress);
 		}
 		Address vendorAddress = obj.getVendorAddress();
 		if (vendorAddress != null) {
-			jsonObject.put("billTo",
-					context.get("Address", vendorAddress.getId()));
+			JSONObject addressJSON = new JSONObject();
+			addressJSON.put("street", vendorAddress.getStreet());
+			addressJSON.put("city", vendorAddress.getCity());
+			addressJSON.put("stateOrProvince",
+					vendorAddress.getStateOrProvinence());
+			addressJSON.put("zipOrPostalCode",
+					vendorAddress.getZipOrPostalCode());
+			addressJSON.put("country", vendorAddress.getCountryOrRegion());
+			jsonObject.put("billTo", vendorAddress);
 		}
 		PaymentTerms paymentTerm = obj.getPaymentTerm();
 		if (paymentTerm != null) {
