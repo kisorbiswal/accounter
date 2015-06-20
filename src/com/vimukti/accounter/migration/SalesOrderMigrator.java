@@ -7,19 +7,25 @@ import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.SalesOrder;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
 
-public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
+public class SalesOrderMigrator extends TransactionMigrator<SalesOrder> {
 	@Override
-	public JSONObject migrate(Estimate obj, MigratorContext context)
+	public JSONObject migrate(SalesOrder obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObj = super.migrate(obj, context);
-		jsonObj.put("customer",
-				context.get("Customer", obj.getCustomer().getID()));
+		jsonObj.put("payee",
+				context.get("BusinessRelationship", obj.getCustomer().getID()));
 		Contact contact = obj.getContact();
 		if (contact != null) {
-			jsonObj.put("contanct", context.get("Contact", contact.getID()));
+			jsonObj.put("contanct", context.get("Contanct", contact.getID()));
+		}
+		Estimate estimate = obj.getEstimate();
+		if (estimate != null) {
+			jsonObj.put("quotation",
+					context.get("SalesQuotation", estimate.getID()));
 		}
 		jsonObj.put("phone", obj.getPhone());
 		JSONObject jsonShippingAddr = new JSONObject();
@@ -34,7 +40,7 @@ public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
 		jsonObj.put("shipTo", jsonShippingAddr);
 
 		JSONObject jsonBillingAddr = new JSONObject();
-		Address billingAddr = obj.getAddress();
+		Address billingAddr = obj.getBillingAddress();
 		jsonBillingAddr.put("street", billingAddr.getStreet());
 		jsonBillingAddr.put("city", billingAddr.getCity());
 		jsonBillingAddr.put("stateOrProvince",
@@ -43,9 +49,8 @@ public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
 				.put("zipOrPostalCode", billingAddr.getZipOrPostalCode());
 		jsonBillingAddr.put("country", billingAddr.getCountryOrRegion());
 		jsonObj.put("billTo", jsonBillingAddr);
-		// quotation not found
 		jsonObj.put("customerReference", obj.getReference());
-		
+
 		PaymentTerms paymentTerm = obj.getPaymentTerm();
 		if (paymentTerm != null) {
 			jsonObj.put("paymentTerm",
@@ -61,8 +66,9 @@ public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
 			jsonObj.put("shippingTerm",
 					context.get("ShippingTerm", shippingTerm.getID()));
 		}
-		jsonObj.put("deliveryDate", obj.getDeliveryDate());
+		jsonObj.put("deliveryDate", obj.getDueDate());
 		jsonObj.put("remarks", obj.getMemo());
+		//salesOrderStatus not found in SaleOrder.java
 		return jsonObj;
 	}
 }

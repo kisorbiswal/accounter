@@ -14,6 +14,14 @@ public class PayStructureMigrator implements IMigrator<PayStructure> {
 	public JSONObject migrate(PayStructure obj, MigratorContext context)
 			throws JSONException {
 		JSONObject payStructure = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(obj, payStructure);
+
+		if (obj.getEmployee() != null) {
+			payStructure.put("type", "Employee");
+		} else {
+			payStructure.put("type", "Employee Group");
+		}
+
 		if (obj.getEmployee() != null) {
 			payStructure.put("employee",
 					context.get("Employee", obj.getEmployee().getID()));
@@ -33,12 +41,13 @@ public class PayStructureMigrator implements IMigrator<PayStructure> {
 			inJson.put("rate", payStructureItem.getRate());
 			inJson.put("effectiveFrom", payStructureItem.getEffectiveFrom()
 					.getAsDateObject());
+			inJson.put("paystructure", context.get("Paystructure", obj.getID()));
 			payStructureItemJsons.put(inJson);
 			// calculationPeriod, payHeadType and computedOn are Computation
 			// fields
 		}
 		payStructure.put("payStructureItems", payStructureItemJsons);
-		
+
 		return payStructure;
 	}
 }

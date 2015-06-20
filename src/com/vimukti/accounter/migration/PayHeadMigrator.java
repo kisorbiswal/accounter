@@ -34,6 +34,7 @@ public class PayHeadMigrator implements IMigrator<PayHead> {
 			payHead.put("statutoryLiabilityAccount",
 					context.get("Account", liabilityAccount.getID()));
 		}
+		payHead.put("isFromTimeSheet", false);
 		// TODO PayHead.obj has
 		// isFromTimeSheet,formulaItems,lastComputedValuer,otherPayHead,
 		// earningDeductionOn
