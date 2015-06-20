@@ -13,6 +13,7 @@ public class WarehouseMigrator implements IMigrator<Warehouse> {
 	public JSONObject migrate(Warehouse obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
 		jsonObject.put("warehouseCode", obj.getWarehouseCode());
 		jsonObject.put("warehouseName", obj.getName());
 		Contact contact = obj.getContact();

@@ -9,24 +9,19 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TAXItem;
 
-public class TAXGroupMigrator implements IMigrator<TAXGroup> {
+public class TAXGroupMigrator extends TaxMigrator<TAXGroup> {
 
 	@Override
 	public JSONObject migrate(TAXGroup obj, MigratorContext context)
 			throws JSONException {
 
-		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
-		jsonObject.put("name", obj.getName());
-		jsonObject.put("isInactive", !obj.isActive());
+		JSONObject jsonObject = super.migrate(obj, context);
 		jsonObject.put("isTaxGroup", true);
 
 		List<TAXItem> taxItems = obj.getTAXItems();
 		JSONArray array = new JSONArray();
 		for (TAXItem item : taxItems) {
-			TaxItemMigrator taxItemMigrator = new TaxItemMigrator();
-			JSONObject jsonItem = taxItemMigrator.migrate(item, context);
-			array.put(jsonItem);
+			array.put(context.get("TAXItem", item.getID()));
 		}
 		jsonObject.put("taxGroupItems", array);
 		return jsonObject;

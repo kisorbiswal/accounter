@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.AccounterClass;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.TAXCode;
@@ -14,6 +15,7 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Utility;
+import com.vimukti.accounter.core.Warehouse;
 
 public class TransactionMigrator<T extends Transaction> implements IMigrator<T> {
 
@@ -21,7 +23,8 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 	public JSONObject migrate(T obj, MigratorContext context)
 			throws JSONException {
 		JSONObject transaction = new JSONObject();
-		transaction.put("date", obj.getDate());
+		CommonFieldsMigrator.migrateCommonFields(obj, transaction);
+		transaction.put("date", obj.getDate().getAsDateObject());
 		transaction.put("number", obj.getNumber());
 		AccounterClass accounterClass = obj.getAccounterClass();
 		if (accounterClass != null) {
@@ -32,6 +35,10 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		if (location != null) {
 			transaction.put("location",
 					context.get("Location", location.getID()));
+		}
+		Currency currency = obj.getCurrency();
+		if (currency != null) {
+			transaction.put("currency", currency.getName());
 		}
 		transaction.put("currencyFactor", obj.getCurrencyFactor());
 		transaction.put("notes", obj.getMemo());
@@ -64,8 +71,10 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 					JSONObject quantityJSON = new JSONObject();
 					quantityJSON.put("value", quantity.getValue());
 					Unit unit = quantity.getUnit();
-					quantityJSON.put("unitFactor", unit.getFactor());
-					quantityJSON.put("unit", unit);
+					if (unit != null) {
+						quantityJSON.put("unit",
+								context.get("Unit", unit.getID()));
+					}
 					tItem.put("quantityItem", quantityJSON);
 				}
 			}
@@ -81,28 +90,33 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 					.getTaxCode().getID()));
 			tItem.put("taxable", transactionItem.isTaxable());
 			tItem.put("discount", transactionItem.getDiscount());
+			Warehouse wareHouse = transactionItem.getWareHouse();
+			if (wareHouse != null) {
+				tItem.put("warehouse",
+						context.get("Warehouse", wareHouse.getID()));
+			}
 			tItems.put(tItem);
 		}
 		if (!transactionItems.isEmpty()) {
 			transaction.put("transactionItems", tItems);
 			transaction.put("amountIncludesTax", transactionItems.get(0)
 					.isAmountIncludeTAX());
-			boolean taxPerDetailLine = context.getCompany().getPreferences()
-					.isTaxPerDetailLine();
-			if (!taxPerDetailLine) {
-				TAXCode taxCode = transactionItems.get(0).getTaxCode();
-				if (taxCode != null) {
-					transaction.put("taxCode",
-							context.get("TaxCode", taxCode.getID()));
-				}
+		}
+		boolean taxPerDetailLine = context.getCompany().getPreferences()
+				.isTaxPerDetailLine();
+		if (!taxPerDetailLine) {
+			TAXCode taxCode = transactionItems.get(0).getTaxCode();
+			if (taxCode != null) {
+				transaction.put("taxCode",
+						context.get("TaxCode", taxCode.getID()));
 			}
-			boolean discountPerDetailLine = context.getCompany()
-					.getPreferences().isDiscountPerDetailLine();
-			if (!discountPerDetailLine) {
-				Double discount = transactionItems.get(0).getDiscount();
-				if (discount != null) {
-					transaction.put("discount", discount);
-				}
+		}
+		boolean discountPerDetailLine = context.getCompany().getPreferences()
+				.isDiscountPerDetailLine();
+		if (!discountPerDetailLine) {
+			Double discount = transactionItems.get(0).getDiscount();
+			if (discount != null) {
+				transaction.put("discount", discount);
 			}
 		}
 		return transaction;
