@@ -6,14 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -103,7 +105,7 @@ public class CompanyMigrator {
 
 	public CompanyMigrator(Company company) {
 		this.company = company;
-		client = HttpClientBuilder.create().build();
+		this.client = HttpClientBuilder.create().build();
 	}
 
 	public void migrate() throws HttpException, IOException, JSONException {
@@ -418,13 +420,14 @@ public class CompanyMigrator {
 
 	private void get(String identity, PickListTypeContext typeContext)
 			throws HttpException, IOException, JSONException {
-		HttpMethod request = new GetMethod(ECGINE_URL + ECGINE_REST + identity);
-		request.addRequestHeader(AUTHORIZATION_KEY, loginKey);
-		int statusCode = client.executeMethod(request);
-		if (statusCode != HttpStatus.SC_OK) {
-			throw new RuntimeException(HttpStatus.getStatusText(statusCode));
+		HttpPost request = new HttpPost(ECGINE_URL + ECGINE_REST + identity);
+		request.addHeader(AUTHORIZATION_KEY, loginKey);
+		HttpResponse response = client.execute(request);
+		StatusLine status = response.getStatusLine();
+		if (status.getStatusCode() != HttpStatus.SC_OK) {
+			throw new RuntimeException(status.toString());
 		}
-		JSONArray array = new JSONArray(request.getResponseBodyAsString());
+		JSONArray array = new JSONArray(response.getEntity());
 		for (int i = 0; i < array.length(); i++) {
 			JSONObject object = array.getJSONObject(i);
 			String instanceIdentity = object.getString("identity");
@@ -451,16 +454,17 @@ public class CompanyMigrator {
 		}
 		// Send Request TO REST API
 		Map<Long, Long> newAndOldIds = new HashMap<Long, Long>();
-		PostMethod post = new PostMethod(ECGINE_URL + ECGINE_REST + identity);
-		post.addRequestHeader(AUTHORIZATION_KEY, loginKey);
-		StringRequestEntity requestEntity = new StringRequestEntity(
-				objectArray.toString(), "application/json", "UTF-8");
-		post.setRequestEntity(requestEntity);
-		int statusCode = client.executeMethod(post);
-		if (statusCode != HttpStatus.SC_OK) {
-			throw new RuntimeException(HttpStatus.getStatusText(statusCode));
+		HttpPost post = new HttpPost(ECGINE_URL + ECGINE_REST + identity);
+		post.addHeader(AUTHORIZATION_KEY, loginKey);
+		// TODO StringRequestEntity requestEntity = new StringRequestEntity(
+		// objectArray.toString(), "application/json", "UTF-8");
+		// TODO post.setEntity(new UrlEncodedFormEntity(requestEntity));
+		HttpResponse response = client.execute(post);
+		StatusLine status = response.getStatusLine();
+		if (status.getStatusCode() != HttpStatus.SC_OK) {
+			throw new RuntimeException(status.toString());
 		}
-		JSONArray array = new JSONArray(post.getResponseBodyAsString());
+		JSONArray array = new JSONArray(response.getEntity());
 		for (int i = 0; i < array.length(); i++) {
 			JSONObject json = array.getJSONObject(i);
 			newAndOldIds.put(ids.get(i), json.getLong("id"));
@@ -470,36 +474,37 @@ public class CompanyMigrator {
 
 	private String login(String userName, String password)
 			throws JSONException, IOException {
-		HttpMethod executeMethod = new PostMethod(ECGINE_URL + LOG_IN);
-		HttpMethodParams params = new HttpMethodParams();
-		params.setParameter(USER_NAME, userName);
-		params.setParameter(PASS_WORD, password);
-		executeMethod.setParams(params);
-		int statusCode = client.executeMethod(executeMethod);
-		if (statusCode != HttpStatus.SC_OK) {
-			throw new RuntimeException(HttpStatus.getStatusText(statusCode));
+		HttpPost post = new HttpPost(ECGINE_URL + LOG_IN);
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair(USER_NAME, userName));
+		params.add(new BasicNameValuePair(PASS_WORD, password));
+		post.setEntity(new UrlEncodedFormEntity(params));
+		HttpResponse response = client.execute(post);
+		StatusLine status = response.getStatusLine();
+		if (status.getStatusCode() != HttpStatus.SC_OK) {
+			throw new RuntimeException(status.toString());
 		}
-		JSONObject responseResult = new JSONObject(
-				executeMethod.getResponseBodyAsString());
+		JSONObject responseResult = new JSONObject(response.getEntity());
 		return responseResult.getString(API_KEY);
 	}
 
 	private void signup(User user) throws HttpException, IOException,
 			JSONException {
-		HttpMethod executeMethod = new PostMethod(ECGINE_URL
-				+ SIGNUP_CREATE_ORG);
+		HttpPost post = new HttpPost(ECGINE_URL + SIGNUP_CREATE_ORG);
 		Client accClient = user.getClient();
-		HttpMethodParams params = new HttpMethodParams();
-		params.setParameter(EMAIL, accClient.getEmailId());
-		params.setParameter(FIRST_NAME, accClient.getFirstName());
-		params.setParameter(LAST_NAME, accClient.getLastName());
-		params.setParameter(COUNTRY, accClient.getCountry());
-		params.setParameter(COMPANY_NAME, user.getCompany().getTradingName());
-		params.setParameter(PASS_WORD, "password");
-		executeMethod.setParams(params);
-		int statusCode = client.executeMethod(executeMethod);
-		if (statusCode != HttpStatus.SC_OK) {
-			throw new RuntimeException(HttpStatus.getStatusText(statusCode));
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair(EMAIL, accClient.getEmailId()));
+		params.add(new BasicNameValuePair(FIRST_NAME, accClient.getFirstName()));
+		params.add(new BasicNameValuePair(LAST_NAME, accClient.getLastName()));
+		params.add(new BasicNameValuePair(COUNTRY, accClient.getCountry()));
+		params.add(new BasicNameValuePair(COMPANY_NAME, user.getCompany()
+				.getTradingName()));
+		params.add(new BasicNameValuePair(PASS_WORD, "password"));
+		post.setEntity(new UrlEncodedFormEntity(params));
+		HttpResponse response = client.execute(post);
+		StatusLine status = response.getStatusLine();
+		if (status.getStatusCode() != HttpStatus.SC_OK) {
+			throw new RuntimeException(status.toString());
 		}
 		log.info("***Signup Sucessfully with " + accClient.getEmailId());
 	}
