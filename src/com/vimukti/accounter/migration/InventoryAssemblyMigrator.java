@@ -87,6 +87,6 @@ public class InventoryAssemblyMigrator implements IMigrator<InventoryAssembly> {
 	}
 
 	public void addRestrictions(Criteria criteria) {
-		criteria.add(Restrictions.eq("itemType", 4)).list();
+		criteria.add(Restrictions.eq("itemType", Item.TYPE_INVENTORY_ASSEMBLY));
 	}
 }

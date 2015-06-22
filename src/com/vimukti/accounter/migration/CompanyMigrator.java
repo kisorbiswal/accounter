@@ -46,8 +46,10 @@ import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.Job;
+import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.MakeDeposit;
+import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.core.PayStructure;
@@ -120,8 +122,12 @@ public class CompanyMigrator {
 		}
 		// Users Migration
 		migrateUsers(emails, context);
+		// Measurements
+		Map<Long, Long> migratedObjects = migrateObjects("Measurement",
+				Measurement.class, new MeasurementMigrator(), context);
+		context.put("Measurement", migratedObjects);
 		// Accounts
-		Map<Long, Long> migratedObjects = migrateObjects("Account",
+		migratedObjects = migrateObjects("Account",
 				Account.class, new AccountMigrator(), context);
 		context.put("Account", migratedObjects);
 		// BankAccount
@@ -197,17 +203,21 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("Job", Job.class, new JobMigrator(),
 				context);
 		context.put("Job", migratedObjects);
+		// JournalEntries
+		migratedObjects = migrateObjects("JournalEntry", JournalEntry.class,
+				new JournalEntryMigrator(), context);
+		context.put("JournalEntry", migratedObjects);
 		// Item groups
 		migratedObjects = migrateObjects("ItemGroup", ItemGroup.class,
 				new ItemGroupMigrator(), context);
 		context.put("ItemGroup", migratedObjects);
 		// Items
 		migratedObjects = migrateObjects("ServiceItem", Item.class,
-				new ItemMigrator(), context);
+				new ServiceItemMigrator(), context);
 		context.put("Item", migratedObjects);
 		// Items
 		migratedObjects = migrateObjects("ProductItem", Item.class,
-				new ItemMigrator(), context);
+				new ProductItemMigrator(), context);
 		context.put("Item", migratedObjects);
 		// Items
 		migratedObjects = migrateObjects("InventoryItem", Item.class,

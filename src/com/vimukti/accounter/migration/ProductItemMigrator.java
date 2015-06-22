@@ -9,8 +9,7 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.Unit;
 
-public class ItemMigrator implements IMigrator<Item> {
-
+public class ProductItemMigrator  implements IMigrator<Item>{
 	@Override
 	public JSONObject migrate(Item item, MigratorContext context)
 			throws JSONException {
@@ -55,7 +54,6 @@ public class ItemMigrator implements IMigrator<Item> {
 	}
 
 	public void addRestrictions(Criteria criteria) {
-		criteria.add(Restrictions.ne("itemType", 4)).list();
-		criteria.add(Restrictions.ne("itemType", 3)).list();
+		criteria.add(Restrictions.eq("itemType", Item.TYPE_NON_INVENTORY_PART));
 	}
 }

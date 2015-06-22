@@ -9,7 +9,8 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.Unit;
 
-public class InventoryItemMigrator implements IMigrator<Item> {
+public class ServiceItemMigrator implements IMigrator<Item> {
+
 	@Override
 	public JSONObject migrate(Item item, MigratorContext context)
 			throws JSONException {
@@ -50,17 +51,10 @@ public class InventoryItemMigrator implements IMigrator<Item> {
 			}
 			jsonObject.put("quantityItem", quantityJSON);
 		}
-		jsonObject.put("assetAccount", item.getAssestsAccount());
-		jsonObject.put("reOrderPoint", item.getReorderPoint());
-		jsonObject.put("costOfGoodsSold", item.getExpenseAccount());
-		jsonObject.put("warehouse", item.getWarehouse());
-		jsonObject.put("measurement",
-				context.get("Measurement", item.getMeasurement().getID()));
-		jsonObject.put("averageCost", item.getAverageCost());
 		return jsonObject;
 	}
 
 	public void addRestrictions(Criteria criteria) {
-		criteria.add(Restrictions.eq("itemType", Item.TYPE_INVENTORY_PART));
+		criteria.add(Restrictions.eq("itemType", Item.TYPE_SERVICE));
 	}
 }
