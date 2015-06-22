@@ -8,8 +8,10 @@ import com.vimukti.accounter.core.VendorGroup;
 public class VendorGroupMigrator implements IMigrator<VendorGroup> {
 
 	@Override
-	public JSONObject migrate(VendorGroup obj, MigratorContext context) throws JSONException {
+	public JSONObject migrate(VendorGroup obj, MigratorContext context)
+			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
 		jsonObject.put("name", obj.getName());
 		return jsonObject;
 	}
