@@ -417,7 +417,8 @@ public class CompanyMigrator {
 				"NatureOfPayment", "RetutnType", "TAXAccountType",
 				"TaxAdjustmentType", "TaxType", "BillStatus",
 				"AccounterItemType", "DiscountInTransactions",
-				"PurchaseOrderStatus" };
+				"PurchaseOrderStatus", "JournalEntryItemType",
+				"QuotationStatus" };
 		PickListTypeContext typeContext = new PickListTypeContext();
 		for (String identity : picklists) {
 			get(identity, typeContext);
