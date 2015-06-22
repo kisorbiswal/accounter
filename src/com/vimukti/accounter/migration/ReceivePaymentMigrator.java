@@ -43,7 +43,10 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 
 		// PaymentableTransaction
 		jsonObj.put("paymentMethod", obj.getPaymentMethod());
-		jsonObj.put("checkNumber", obj.getCheckNumber());
+		jsonObj.put("unusedCredits", obj.getUnUsedCredits());
+		jsonObj.put("unusedPayments", obj.getUnUsedPayments());
+		// Checknumber field not available in .obj file
+		// jsonObj.put("checkNumber", obj.getCheckNumber());
 		return jsonObj;
 	}
 }

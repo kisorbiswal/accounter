@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.CustomerRefund;
-import com.vimukti.accounter.core.Utility;
 
 public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> {
 	@Override
@@ -21,10 +20,19 @@ public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> 
 		jsonAddr.put("zipOrPostalCode", addr.getZipOrPostalCode());
 		jsonAddr.put("country", addr.getCountryOrRegion());
 		jsonObj.put("address", jsonAddr);
+
 		jsonObj.put("amount", obj.getTotal());
 		// PaymentableTransaction
 		jsonObj.put("paymentMethod", obj.getPaymentMethod());
-		jsonObj.put("checkNumber", obj.getCheckNumber());
+		Long checkNumber = 0L;
+		try {
+			checkNumber = Long.parseLong(obj.getCheckNumber());
+		} catch (Exception e) {
+			// Nothing to do
+		}
+		jsonObj.put("checkNumber", checkNumber);
+
+		jsonObj.put("date", obj.getDate().getAsDateObject());
 		return jsonObj;
 	}
 }

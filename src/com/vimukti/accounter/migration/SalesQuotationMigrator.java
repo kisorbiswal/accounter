@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.PaymentTerms;
 
 public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
@@ -13,9 +14,12 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 	public JSONObject migrate(Estimate obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObj = super.migrate(obj, context);
-		jsonObj.put("customer",
-				context.get("Customer", obj.getCustomer().getID()));
-		jsonObj.put("expirationDate", obj.getExpirationDate().getAsDateObject());
+		jsonObj.put("payee",
+				context.get("BusinessRelationship", obj.getCustomer().getID()));
+		FinanceDate expirationDate = obj.getExpirationDate();
+		if (expirationDate != null) {
+			jsonObj.put("expirationDate", expirationDate.getAsDateObject());
+		}
 		Contact contact = obj.getContact();
 		if (contact != null) {
 			jsonObj.put("contanct", context.get("Contact", contact.getID()));
@@ -49,6 +53,7 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 					context.get("PaymentTerm", paymentTerm.getID()));
 		}
 		jsonObj.put("deliveryDate", obj.getDeliveryDate());
+		// project and quoteStatus not found estimate
 		return jsonObj;
 	}
 }

@@ -1,7 +1,6 @@
 package com.vimukti.accounter.migration;
 
 import java.util.List;
-import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,7 +67,7 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 						context.get("SalesQuotation", estimate.getID()));
 				array.put(quoteJson);
 			}
-			jsonObject.put("salesQuotations", array);
+			jsonObject.put("salesOrders", array);
 		}
 
 		return jsonObject;
