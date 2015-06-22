@@ -103,7 +103,7 @@ public class CompanyMigrator {
 
 	public CompanyMigrator(Company company) {
 		this.company = company;
-		client = new HttpClient();
+		client = HttpClientBuilder.create().build();
 	}
 
 	public void migrate() throws HttpException, IOException, JSONException {
@@ -112,8 +112,6 @@ public class CompanyMigrator {
 		// Create context
 		MigratorContext context = new MigratorContext();
 		context.setCompany(company);
-		context.setPickListContext(getPicklistObjects());
-
 		// Organization
 		User user = company.getCreatedBy();
 		signup(company.getCreatedBy());
@@ -123,6 +121,8 @@ public class CompanyMigrator {
 
 		// Users Migration
 		// migrateUsers(emails, context);
+
+		context.setPickListContext(getPicklistObjects());
 		// Measurements
 		Map<Long, Long> migratedObjects = migrateObjects("Measurement",
 				Measurement.class, new MeasurementMigrator(), context);
