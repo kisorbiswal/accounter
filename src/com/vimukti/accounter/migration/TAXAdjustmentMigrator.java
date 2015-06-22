@@ -16,6 +16,8 @@ public class TAXAdjustmentMigrator extends TransactionMigrator<TAXAdjustment> {
 		if (taxAgency != null) {
 			jsonObject.put("taxAgency",
 					context.get("TAXAgency", taxAgency.getID()));
+			jsonObject
+					.put("payee", context.get("TAXAgency", taxAgency.getID()));
 		}
 		TAXItem taxItem = obj.getTaxItem();
 		if (taxItem != null) {
@@ -25,7 +27,7 @@ public class TAXAdjustmentMigrator extends TransactionMigrator<TAXAdjustment> {
 		if (obj.getType() == 1) {
 			type = "PurchaseType";
 		}
-		jsonObject.put("taxItem",
+		jsonObject.put("type",
 				context.getPickListContext().get("TAXAccountType", type));
 
 		jsonObject.put("adjustmentAccount",
@@ -35,7 +37,7 @@ public class TAXAdjustmentMigrator extends TransactionMigrator<TAXAdjustment> {
 			adjustmentType = "DecreaseTAXline";
 		}
 		jsonObject.put(
-				"taxItem",
+				"adjustmentType",
 				context.getPickListContext().get("TAXAdjustmentType",
 						adjustmentType));
 

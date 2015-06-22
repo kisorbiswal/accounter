@@ -1,7 +1,5 @@
 package com.vimukti.accounter.migration;
 
-import java.util.Date;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,8 +7,6 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.PaymentTerms;
-import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
@@ -107,7 +103,7 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		}
 		jsonObject.put(
 				"paymentMethod",
-				context.getPickListContext().get("AccountType",
+				context.getPickListContext().get("PaymentMethod",
 						obj.getPaymentMethod()));
 		// shipTo and billTo are not found
 		jsonObject.put("vATRegistrationNumber", obj.getVATRegistrationNumber());
@@ -118,6 +114,7 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		// modeOfTransport is not found
 		jsonObject.put("openingBalance", obj.getOpeningBalance());
 		// journalEntry is not found
+		jsonObject.put("taxRegistrationNumber", obj.getTINNumber());
 		return jsonObject;
 	}
 

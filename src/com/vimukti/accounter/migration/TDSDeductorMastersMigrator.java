@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.TDSDeductorMasters;
-import com.vimukti.accounter.web.client.core.Utility;
 
 public class TDSDeductorMastersMigrator implements
 		IMigrator<TDSDeductorMasters> {
@@ -25,6 +24,7 @@ public class TDSDeductorMastersMigrator implements
 		jsonObject.put("addressdChanged", obj.isAddressdChanged());
 		jsonObject.put("telephoneNumber", obj.getTelephoneNumber());
 		jsonObject.put("faxNo", obj.getFaxNo());
+		jsonObject.put("emailID", obj.getEmailID());
 		jsonObject.put(
 				"deductorType",
 				context.getPickListContext().get("DeductorType",

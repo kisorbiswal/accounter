@@ -20,9 +20,11 @@ public class PayTaxMigrator extends TransactionMigrator<PayTAX> {
 		jsonObject.put("filterbyTAXreturnenddate", obj
 				.getReturnsDueOnOrBefore().getAsDateObject());
 		TAXAgency taxAgency = obj.getTaxAgency();
-		if (obj.getTaxAgency() != null) {
+		if (taxAgency != null) {
 			jsonObject.put("taxAgency",
-					context.get("TaxAgency", obj.getTaxAgency().getID()));
+					context.get("TaxAgency", taxAgency.getID()));
+			jsonObject
+					.put("payee", context.get("TaxAgency", taxAgency.getID()));
 		}
 
 		List<TransactionPayTAX> transactionPayTAXs = obj.getTransactionPayTAX();
@@ -37,6 +39,18 @@ public class PayTaxMigrator extends TransactionMigrator<PayTAX> {
 			array.put(transactionJson);
 		}
 		jsonObject.put("payTaxItems", array);
+		jsonObject.put(
+				"paymentMethod",
+				context.getPickListContext().get("PaymentMethod",
+						obj.getPaymentMethod()));
+		jsonObject.put("chequeNumber", Long.parseLong(obj.getCheckNumber()));
+		jsonObject.put("payment", obj.getTotal());
+		jsonObject.put("memo", obj.getMemo());
+		// jsonObject.put("isReconciled", "");
+		jsonObject.put("toBePrinted", true);
+		jsonObject.put("account",
+				context.get("Account", obj.getPayFrom().getID()));
+		jsonObject.put("paymentNumber", obj.getNumber());
 		return jsonObject;
 	}
 
