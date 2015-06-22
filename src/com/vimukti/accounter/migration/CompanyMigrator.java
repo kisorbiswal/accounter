@@ -34,7 +34,6 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.CreditCardCharge;
-import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerCreditMemo;
 import com.vimukti.accounter.core.CustomerGroup;
@@ -87,13 +86,13 @@ import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class CompanyMigrator {
-	public static final String ECGINE_URL = "https://www.ecgine.com";
+	public static final String ECGINE_URL = "http://localhost:8080";
 	private static final String ECGINE_REST = "/api/v1/objects/";
 	private static final String API_KEY = "api-key";
 	private static final String FIRST_NAME = "firstName";
 	private static final String LAST_NAME = "lastName";
 	private static final String EMAIL = "email";
-	private static final String COMPANY_NAME = "companyName";
+	private static final String COMPANY_NAME = "company";
 	private static final String USER_NAME = "userName";
 	private static final String COUNTRY = "country";
 	private static final String PASS_WORD = "password";
@@ -209,8 +208,8 @@ public class CompanyMigrator {
 				new LocationMigrator(), context);
 		context.put("Location", migratedObjects);
 		// AccounterClasses
-		migratedObjects = migrateObjects("AccountClass",
-				AccounterClass.class, new AccounterClassMigrator(), context);
+		migratedObjects = migrateObjects("AccountClass", AccounterClass.class,
+				new AccounterClassMigrator(), context);
 		context.put("AccounterClass", migratedObjects);
 		// Jobs
 		migratedObjects = migrateObjects("Project", Job.class,
