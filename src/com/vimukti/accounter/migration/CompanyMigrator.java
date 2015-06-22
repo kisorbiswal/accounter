@@ -57,11 +57,13 @@ import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.core.PayStructure;
+import com.vimukti.accounter.core.PayTAX;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PayrollUnit;
 import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.ReceivePayment;
+import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
@@ -70,6 +72,8 @@ import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TAXItem;
+import com.vimukti.accounter.core.TAXReturn;
+import com.vimukti.accounter.core.TDSChalanDetail;
 import com.vimukti.accounter.core.TDSDeductorMasters;
 import com.vimukti.accounter.core.TDSResponsiblePerson;
 import com.vimukti.accounter.core.TransferFund;
@@ -147,25 +151,29 @@ public class CompanyMigrator {
 				new WarehouseMigrator(), context);
 		context.put("Warehouse", migratedObjects);
 		// taxAgencies
-		migratedObjects = migrateObjects("TAXAgency", TAXAgency.class,
+		migratedObjects = migrateObjects("TaxAgency", TAXAgency.class,
 				new TaxAgencyMigrator(), context);
 		context.put("TAXAgency", migratedObjects);
 		// taxitems
-		migratedObjects = migrateObjects("TAXItem", TAXItem.class,
+		migratedObjects = migrateObjects("TaxItem", TAXItem.class,
 				new TaxItemMigrator(), context);
 		context.put("TAXItem", migratedObjects);
 		// taxitems
-		migratedObjects = migrateObjects("TAXGroup", TAXGroup.class,
+		migratedObjects = migrateObjects("TaxGroup", TAXGroup.class,
 				new TAXGroupMigrator(), context);
 		context.put("TAXGroup", migratedObjects);
 		// taxCodes
-		migratedObjects = migrateObjects("TAXCode", TAXCode.class,
+		migratedObjects = migrateObjects("TaxCode", TAXCode.class,
 				new TAXCodeMigrator(), context);
 		context.put("TAXCode", migratedObjects);
 		// Currencies
 		migratedObjects = migrateObjects("Currency", Currency.class,
 				new CurrencyMigrator(), context);
 		context.put("Currency", migratedObjects);
+		// PayTAX
+		migratedObjects = migrateObjects("PayTAX", PayTAX.class,
+				new PayTaxMigrator(), context);
+		context.put("PayTAX", migratedObjects);
 		// paymentTerms
 		migratedObjects = migrateObjects("PaymentTerms", PaymentTerms.class,
 				new PaymentTermsMigrator(), context);
@@ -204,12 +212,12 @@ public class CompanyMigrator {
 				new LocationMigrator(), context);
 		context.put("Location", migratedObjects);
 		// AccounterClasses
-		migratedObjects = migrateObjects("AccounterClass",
+		migratedObjects = migrateObjects("AccountClass",
 				AccounterClass.class, new AccounterClassMigrator(), context);
 		context.put("AccounterClass", migratedObjects);
 		// Jobs
-		migratedObjects = migrateObjects("Project", Job.class, new JobMigrator(),
-				context);
+		migratedObjects = migrateObjects("Project", Job.class,
+				new JobMigrator(), context);
 		context.put("Job", migratedObjects);
 		// JournalEntries
 		migratedObjects = migrateObjects("JournalEntry", JournalEntry.class,
@@ -286,7 +294,8 @@ public class CompanyMigrator {
 		context.put("CashPurchase", migratedObjects);
 		// Credit Card Expense(Record Expense Type)
 		migratedObjects = migrateObjects("PurchaseExpense",
-				CreditCardCharge.class, new CreditCardExpenseMigrator(), context);
+				CreditCardCharge.class, new CreditCardExpenseMigrator(),
+				context);
 		context.put("PurchaseExpense", migratedObjects);
 		// CashExpense(Record Expense Type)
 		migratedObjects = migrateObjects("PurchaseExpense", CashPurchase.class,
@@ -345,7 +354,7 @@ public class CompanyMigrator {
 				new PayStructureMigrator(), context);
 		context.put("PayStructure", migratedObjects);
 		// PayrollUnit
-		migratedObjects = migrateObjects("PayrollUnit", PayrollUnit.class,
+		migratedObjects = migrateObjects("PayRollUnit", PayrollUnit.class,
 				new PayrollUnitMigrator(), context);
 		context.put("PayrollUnit", migratedObjects);
 		// Reconciliation
@@ -362,6 +371,18 @@ public class CompanyMigrator {
 				TDSResponsiblePerson.class, new TDSResponsiblePersonMigrator(),
 				context);
 		context.put("TDSResponsiblePerson", migratedObjects);
+		// TaxRefund
+		migratedObjects = migrateObjects("TaxRefund", ReceiveVAT.class,
+				new TaxRefundMigrator(), context);
+		context.put("TaxRefund", migratedObjects);
+		// TDSChalan
+		migratedObjects = migrateObjects("TdsChallan", TDSChalanDetail.class,
+				new TdsChallanMigrator(), context);
+		context.put("TdsChallan", migratedObjects);
+		// TDSChalan
+		migratedObjects = migrateObjects("FileTax", TAXReturn.class,
+				new FileTaxMigrator(), context);
+		context.put("FileTax", migratedObjects);
 
 	}
 
