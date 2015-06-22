@@ -31,6 +31,7 @@ import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreatableObject;
+import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerCreditMemo;
@@ -139,6 +140,10 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("SalesPerson", SalesPerson.class,
 				new SalesPersonMigrator(), context);
 		context.put("SalesPerson", migratedObjects);
+		// Warehouse
+		migratedObjects = migrateObjects("Warehouse", Warehouse.class,
+				new WarehouseMigrator(), context);
+		context.put("Warehouse", migratedObjects);
 		// taxAgencies
 		migratedObjects = migrateObjects("TAXAgency", TAXAgency.class,
 				new TaxAgencyMigrator(), context);
@@ -201,7 +206,7 @@ public class CompanyMigrator {
 				AccounterClass.class, new AccounterClassMigrator(), context);
 		context.put("AccounterClass", migratedObjects);
 		// Jobs
-		migratedObjects = migrateObjects("Job", Job.class, new JobMigrator(),
+		migratedObjects = migrateObjects("Project", Job.class, new JobMigrator(),
 				context);
 		context.put("Job", migratedObjects);
 		// JournalEntries
@@ -277,6 +282,14 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("CashPurchase", CashPurchase.class,
 				new CashPurchaseMigrator(), context);
 		context.put("CashPurchase", migratedObjects);
+		// Credit Card Expense(Record Expense Type)
+		migratedObjects = migrateObjects("PurchaseExpense",
+				CreditCardCharge.class, new CreditCardExpenseMigrator(), context);
+		context.put("PurchaseExpense", migratedObjects);
+		// CashExpense(Record Expense Type)
+		migratedObjects = migrateObjects("PurchaseExpense", CashPurchase.class,
+				new CashExpenseMigrator(), context);
+		context.put("PurchaseExpense", migratedObjects);
 		// EnterBill
 		migratedObjects = migrateObjects("EnterBill", EnterBill.class,
 				new EnterBillMigrator(), context);
@@ -347,10 +360,6 @@ public class CompanyMigrator {
 				TDSResponsiblePerson.class, new TDSResponsiblePersonMigrator(),
 				context);
 		context.put("TDSResponsiblePerson", migratedObjects);
-		// Warehouse
-		migratedObjects = migrateObjects("Warehouse", Warehouse.class,
-				new WarehouseMigrator(), context);
-		context.put("Warehouse", migratedObjects);
 
 	}
 

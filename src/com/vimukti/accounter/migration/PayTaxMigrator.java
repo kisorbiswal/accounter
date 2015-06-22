@@ -45,7 +45,11 @@ public class PayTaxMigrator extends TransactionMigrator<PayTAX> {
 						"PaymentMethod",
 						PicklistUtilMigrator.getPaymentMethodIdentifier(obj
 								.getPaymentMethod())));
-		jsonObject.put("chequeNumber", Long.parseLong(obj.getCheckNumber()));
+		try {
+			Long chequeNumber = Long.valueOf(obj.getCheckNumber());
+			jsonObject.put("chequeNumber", chequeNumber);
+		} catch (Exception e) {
+		}
 		jsonObject.put("payment", obj.getTotal());
 		jsonObject.put("memo", obj.getMemo());
 		// jsonObject.put("isReconciled", "");

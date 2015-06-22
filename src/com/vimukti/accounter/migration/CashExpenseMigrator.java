@@ -1,21 +1,17 @@
 package com.vimukti.accounter.migration;
 
-import java.util.List;
-
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.Contact;
-import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 
-public class CashPurchaseMigrator extends TransactionMigrator<CashPurchase> {
+public class CashExpenseMigrator extends TransactionMigrator<CashPurchase> {
 
 	@Override
 	public JSONObject migrate(CashPurchase obj, MigratorContext context)
@@ -45,32 +41,18 @@ public class CashPurchaseMigrator extends TransactionMigrator<CashPurchase> {
 		}
 		cashPurchase.put(
 				"paymentMethod",
-				context.getPickListContext().get(
-						"PaymentMethod",
-						PicklistUtilMigrator.getPaymentMethodIdentifier(obj
-								.getPaymentMethod())));
+				context.getPickListContext().get("PaymentMethod",
+						obj.getPaymentMethod()));
 		cashPurchase.put("account",
 				context.get("Account", obj.getPayFrom().getID()));
 		cashPurchase.put("deliveryDate", obj.getDeliveryDate()
 				.getAsDateObject());
-
-		{
-			List<PurchaseOrder> purchaseOrders = obj.getPurchaseOrders();
-			JSONArray array = new JSONArray();
-			for (PurchaseOrder purchaseOrder : purchaseOrders) {
-				JSONObject quoteJson = new JSONObject();
-				quoteJson.put("purchaseOrder",
-						context.get("PurchaseOrder", purchaseOrder.getID()));
-				array.put(quoteJson);
-			}
-			cashPurchase.put("purchaseOrders", array);
-		}
 		cashPurchase.put("memo", obj.getMemo());
 		return cashPurchase;
 	}
 
 	public void addRestrictions(Criteria criteria) {
 		criteria.add(Restrictions.eq("type",
-				ClientTransaction.TYPE_CASH_PURCHASE));
+				ClientTransaction.TYPE_CASH_EXPENSE));
 	}
 }

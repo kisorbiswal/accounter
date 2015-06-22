@@ -41,10 +41,8 @@ public class VendorPrepaymentMigrator extends
 		Long chequeNumber = null;
 		try {
 			chequeNumber = Long.valueOf(obj.getCheckNumber());
-		} catch (NumberFormatException nfe) {
-		}
-		if (chequeNumber != null) {
 			jsonObject.put("chequeNumber", chequeNumber);
+		} catch (Exception e) {
 		}
 		jsonObject.put("memo", obj.getMemo());
 		return jsonObject;
