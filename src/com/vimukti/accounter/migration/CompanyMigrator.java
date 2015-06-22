@@ -160,9 +160,6 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("TAXCode", TAXCode.class,
 				new TAXCodeMigrator(), context);
 		context.put("TAXCode", migratedObjects);
-		// Currencies
-		migratedObjects = migrateObjects("Currency", Currency.class,
-				new CurrencyMigrator(), context);
 		context.put("Currency", migratedObjects);
 		// paymentTerms
 		migratedObjects = migrateObjects("PaymentTerms", PaymentTerms.class,
@@ -395,8 +392,8 @@ public class CompanyMigrator {
 			IOException, JSONException {
 		String[] picklists = new String[] { "AccountBaseType", "AccountType",
 				"ActivityStatus", "BankAccountType", "CashFlowCategory",
-				"ClassTrackingType", "DayOfWeek", "DepreciationFor",
-				"DepreciationMethod", "DepreciationStatus",
+				"ClassTrackingType", "Currency", "DayOfWeek",
+				"DepreciationFor", "DepreciationMethod", "DepreciationStatus",
 				"DiscountInTransactions", "EmailPreference",
 				"FixedAssetStatus", "Gender", "IntervelType", "MaritalStatus",
 				"Month", "PaymentMethod", "PaymentStatus", "PriorityType",

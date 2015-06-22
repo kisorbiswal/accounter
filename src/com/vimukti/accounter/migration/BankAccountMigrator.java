@@ -34,7 +34,10 @@ public class BankAccountMigrator implements IMigrator<BankAccount> {
 						"AccountType",
 						PicklistUtilMigrator.getAccountTypeIdentity(bankAccount
 								.getType())));
-		jsonObject.put("currency", bankAccount.getCurrency().getFormalName());
+		jsonObject.put(
+				"currency",
+				context.getPickListContext().get("Currency",
+						bankAccount.getCurrency().getFormalName()));
 		jsonObject.put("inactive", !bankAccount.getIsActive());
 		jsonObject.put("description", bankAccount.getComment());
 		jsonObject.put("openingBalance", bankAccount.getOpeningBalance());

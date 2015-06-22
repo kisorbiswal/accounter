@@ -40,7 +40,10 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		}
 		Currency currency = obj.getCurrency();
 		if (currency != null) {
-			transaction.put("currency", currency.getName());
+			transaction.put(
+					"currency",
+					context.getPickListContext().get("Currency",
+							currency.getFormalName()));
 		}
 		transaction.put("currencyFactor", obj.getCurrencyFactor());
 		transaction.put("notes", obj.getMemo());
@@ -63,9 +66,17 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		for (TransactionItem transactionItem : transactionItems) {
 			JSONObject tItem = new JSONObject();
 			if (transactionItem.getType() == TransactionItem.TYPE_ACCOUNT) {
+				tItem.put(
+						"type",
+						context.getPickListContext().get("TransactionItemType",
+								"Account"));
 				tItem.put("account", context.get("Account", transactionItem
 						.getItem().getID()));
 			} else {
+				tItem.put(
+						"type",
+						context.getPickListContext().get("TransactionItemType",
+								"Item"));
 				tItem.put("item",
 						context.get("Item", transactionItem.getItem().getID()));
 				{
