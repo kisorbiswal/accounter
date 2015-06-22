@@ -69,6 +69,7 @@ import com.vimukti.accounter.core.TDSResponsiblePerson;
 import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.core.VendorCreditMemo;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.core.VendorPrePayment;
 import com.vimukti.accounter.core.Warehouse;
@@ -270,6 +271,10 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("EnterBill", EnterBill.class,
 				new EnterBillMigrator(), context);
 		context.put("EnterBill", migratedObjects);
+		// DebitNote
+		migratedObjects = migrateObjects("DebitNote", VendorCreditMemo.class,
+				new DebitNoteMigrator(), context);
+		context.put("DebitNote", migratedObjects);
 		// PayBill
 		migratedObjects = migrateObjects("PayBill", PayBill.class,
 				new PayBillMigrator(), context);
@@ -424,8 +429,8 @@ public class CompanyMigrator {
 		JSONArray objectArray = new JSONArray();
 		Criteria criteria = session.createCriteria(clazz, "obj");
 		migrator.addRestrictions(criteria);
-		List<T> objects = criteria
-				.add(Restrictions.eq("company", company.getId())).list();
+		List<T> objects = criteria.add(
+				Restrictions.eq("company", company.getId())).list();
 		for (T obj : objects) {
 			objectArray.put(migrator.migrate(obj, context));
 			ids.add(obj.getID());

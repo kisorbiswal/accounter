@@ -31,7 +31,7 @@ public class DepreciationMigrator implements IMigrator<Depreciation> {
 		// TODO
 		jsonObject.put("depreciationFor", PicklistUtilMigrator
 				.depreciationForIdentity(depreciation.getDepreciationFor()));
-		jsonObject.put("RollBackDepreciationDate", depreciation
+		jsonObject.put("rollBackDepreciationDate", depreciation
 				.getRollBackDepreciationDate().getAsDateObject());
 		return jsonObject;
 	}
