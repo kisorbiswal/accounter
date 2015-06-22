@@ -89,7 +89,10 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		// sendTransactionViaEmail is not found
 		// sendTransactionViaPrint is not found
 		// sendTransactionViaFax is not found
-		jsonObject.put("currency", obj.getCurrency().getFormalName());
+		jsonObject.put(
+				"currency",
+				context.getPickListContext().get("Currency",
+						obj.getCurrency().getFormalName()));
 		jsonObject.put("currencyFactor", obj.getCurrencyFactor());
 		Account account = obj.getAccount();
 		if (account != null) {
@@ -108,7 +111,8 @@ public class CustomerMigrator implements IMigrator<Customer> {
 			jsonObject.put("taxCode", context.get("TaxCode", taxCode.getID()));
 		}
 		jsonObject.put("paymentMethod", obj.getPaymentMethod());
-		jsonObject.put("paymentTerm",context.get("PaymentTerm", obj.getPaymentTerm().getID()));
+		jsonObject.put("paymentTerm",
+				context.get("PaymentTerm", obj.getPaymentTerm().getID()));
 		ShippingMethod shippingMethod = obj.getShippingMethod();
 		if (shippingMethod != null) {
 			jsonObject.put("preferredShippingMethod",

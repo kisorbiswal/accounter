@@ -35,8 +35,11 @@ public class TdsChallanMigrator extends TransactionMigrator<TDSChalanDetail> {
 						"PaymentMethod",
 						PicklistUtilMigrator.getPaymentMethodIdentifier(obj
 								.getPaymentMethod())));
-		// jsonObject.put("isTdsDepositedByBookEntry", null);
-		// jsonObject.put("natureOfPayment", null);
+		jsonObject.put("isTdsDepositedByBookEntry", obj.getIsDeposited());
+		jsonObject.put(
+				"natureOfPayment",
+				context.getPickListContext().get("NatureOfPayment",
+						obj.getPaymentSection()));
 		jsonObject.put("chequeOrReferenceNo", obj.getCheckNumber());
 		jsonObject.put("dateOnTaxPaid", obj.getDateTaxPaid());
 		jsonObject.put("bankBSRCode", obj.getBankBsrCode());
