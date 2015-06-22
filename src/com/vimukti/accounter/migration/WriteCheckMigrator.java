@@ -23,8 +23,10 @@ public class WriteCheckMigrator extends TransactionMigrator<WriteCheck> {
 		jsonObj.put("memo", obj.getMemo());
 		jsonObj.put(
 				"paymentMethod",
-				context.getPickListContext().get("PaymentMethod",
-						obj.getPaymentMethod()));
+				context.getPickListContext().get(
+						"PaymentMethod",
+						PicklistUtilMigrator.getPaymentMethodIdentifier(obj
+								.getPaymentMethod())));
 		jsonObj.put("toBePrinted", obj.isToBePrinted());
 		return jsonObj;
 	}

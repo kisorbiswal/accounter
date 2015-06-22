@@ -43,8 +43,12 @@ public class InventoryAssemblyMigrator implements IMigrator<InventoryAssembly> {
 		jsonObject.put("preferredVendor",
 				context.get("Vendor", item.getPreferredVendor().getID()));
 		jsonObject.put("vendorServiceNumber", item.getVendorItemNumber());
-		jsonObject.put("itemType",
-				PicklistUtilMigrator.getItemTypeIdentifier(item.getType()));
+		jsonObject.put(
+				"itemType",
+				context.getPickListContext().get(
+						"ItemType",
+						PicklistUtilMigrator.getItemTypeIdentifier(item
+								.getType())));
 		Quantity quantity = item.getOnhandQty();
 		if (quantity != null) {
 			JSONObject quantityJSON = new JSONObject();

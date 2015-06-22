@@ -33,8 +33,10 @@ public class VendorPrepaymentMigrator extends
 		jsonObject.put("date", obj.getDate().getAsDateObject());
 		jsonObject.put(
 				"paymentMethod",
-				context.getPickListContext().get("PaymentMethod",
-						obj.getPaymentMethod()));
+				context.getPickListContext().get(
+						"PaymentMethod",
+						PicklistUtilMigrator.getPaymentMethodIdentifier(obj
+								.getPaymentMethod())));
 		// billPaymentAmount not found
 		Long chequeNumber = null;
 		try {

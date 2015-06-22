@@ -33,8 +33,10 @@ public class CustomerPrepayementMigrator implements
 				context.get("Customer", obj.getCustomer().getID()));
 		jsonObject.put(
 				"paymentMethod",
-				context.getPickListContext().get("PaymentMethod",
-						obj.getPaymentMethod()));
+				context.getPickListContext().get(
+						"PaymentMethod",
+						PicklistUtilMigrator.getPaymentMethodIdentifier(obj
+								.getPaymentMethod())));
 
 		if (location != null) {
 			jsonObject.put("location",

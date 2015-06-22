@@ -104,4 +104,24 @@ public class PicklistUtilMigrator {
 		}
 		return null;
 	}
+
+	static String getPaymentMethodIdentifier(String name) {
+		switch (name) {
+		case "Credit Card":
+			return "CreditCard";
+		case "Direct Debit":
+			return "DirectDebit";
+		case "Master card":
+			return "Mastercard";
+		case "Online Banking":
+			return "OnlineBanking";
+		case "Standing Order":
+			return "StandingOrder";
+		case "Switch/Maestro":
+			return "SwitchMaestro";
+		case "Check":
+			return "Cheque";
+		}
+		return name;
+	}
 }

@@ -49,13 +49,17 @@ public class MakeDepositMigrator extends TransactionMigrator<MakeDeposit> {
 			}
 			Job job = item.getJob();
 			if (job != null) {
-				depositItemJson.put("project",
-						context.get("Job", job.getID()));
+				depositItemJson.put("project", context.get("Job", job.getID()));
 			}
 			array.put(depositItemJson);
 		}
 		jsonObj.put("depositItems", array);
-		jsonObj.put("paymentMethod", obj.getPaymentMethod());
+		jsonObj.put(
+				"paymentMethod",
+				context.getPickListContext().get(
+						"PaymentMethod",
+						PicklistUtilMigrator.getPaymentMethodIdentifier(obj
+								.getPaymentMethod())));
 		jsonObj.put("paymentStatus", "Issued");
 		return jsonObj;
 	}

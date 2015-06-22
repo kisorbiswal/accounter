@@ -12,8 +12,8 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
-		jsonObject.put("status",
-				PicklistUtilMigrator.getFixedAssetStatusIdentifier(obj.getStatus()));
+		jsonObject.put("status", PicklistUtilMigrator
+				.getFixedAssetStatusIdentifier(obj.getStatus()));
 		jsonObject.put("name", obj.getName());
 		jsonObject.put("description", obj.getDescription());
 		jsonObject.put("assetNumber", obj.getAssetNumber());
@@ -23,8 +23,12 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 		jsonObject.put("purchasePrice", obj.getPurchasePrice());
 		jsonObject.put("assetType", obj.getAssetType());
 		jsonObject.put("depreciationRate", obj.getDepreciationRate());
-		jsonObject.put("depreciationMethod", PicklistUtilMigrator
-				.depreciationMethodIdentity(obj.getDepreciationMethod()));
+		jsonObject.put(
+				"depreciationMethod",
+				context.getPickListContext().get(
+						"DepreciationMethod",
+						PicklistUtilMigrator.depreciationMethodIdentity(obj
+								.getDepreciationMethod())));
 
 		Account accumulatedDepreciationAccount = obj
 				.getAccumulatedDepreciationAccount();
