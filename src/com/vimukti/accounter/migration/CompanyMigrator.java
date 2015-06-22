@@ -41,6 +41,7 @@ import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.EmployeeGroup;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.InventoryAssembly;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
@@ -175,9 +176,10 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("Customer", Customer.class,
 				new CustomerMigrator(), context);
 		context.put("Customer", migratedObjects);
-		//CustomerPrepayment
-		migratedObjects = migrateObjects("CustomerPrepayment", CustomerPrePayment.class,
-				new CustomerPrepayementMigrator(), context);
+		// CustomerPrepayment
+		migratedObjects = migrateObjects("CustomerPrepayment",
+				CustomerPrePayment.class, new CustomerPrepayementMigrator(),
+				context);
 		context.put("CustomerPrepayment", migratedObjects);
 		// Vendor Groups
 		migratedObjects = migrateObjects("VendorGroup", VendorGroup.class,
@@ -200,8 +202,21 @@ public class CompanyMigrator {
 				new ItemGroupMigrator(), context);
 		context.put("ItemGroup", migratedObjects);
 		// Items
-		migratedObjects = migrateObjects("Item", Item.class,
+		migratedObjects = migrateObjects("ServiceItem", Item.class,
 				new ItemMigrator(), context);
+		context.put("Item", migratedObjects);
+		// Items
+		migratedObjects = migrateObjects("ProductItem", Item.class,
+				new ItemMigrator(), context);
+		context.put("Item", migratedObjects);
+		// Items
+		migratedObjects = migrateObjects("InventoryItem", Item.class,
+				new InventoryItemMigrator(), context);
+		context.put("Item", migratedObjects);
+		// Items
+		migratedObjects = migrateObjects("InventoryAssembly",
+				InventoryAssembly.class, new InventoryAssemblyMigrator(),
+				context);
 		context.put("Item", migratedObjects);
 		// SalesQuotation
 		migratedObjects = migrateObjects("SalesQuotation", Estimate.class,
@@ -224,8 +239,8 @@ public class CompanyMigrator {
 				new InvoiceMigrator(), context);
 		context.put("Invoice", migratedObjects);
 		// ReceivePayment
-		migratedObjects = migrateObjects("ReceivePayment", ReceivePayment.class,
-				new ReceivePaymentMigrator(), context);
+		migratedObjects = migrateObjects("ReceivePayment",
+				ReceivePayment.class, new ReceivePaymentMigrator(), context);
 		context.put("ReceivePayment", migratedObjects);
 		// CashSale
 		migratedObjects = migrateObjects("CashSale", CashSales.class,
@@ -260,8 +275,8 @@ public class CompanyMigrator {
 				new PayBillMigrator(), context);
 		context.put("PayBill", migratedObjects);
 		// CustomerRefund
-		migratedObjects = migrateObjects("CustomerRefund", CustomerRefund.class,
-				new CustomerRefundMigrator(), context);
+		migratedObjects = migrateObjects("CustomerRefund",
+				CustomerRefund.class, new CustomerRefundMigrator(), context);
 		context.put("CustomerRefund", migratedObjects);
 		// MakeDeposit
 		migratedObjects = migrateObjects("MakeDeposit", MakeDeposit.class,
@@ -304,16 +319,18 @@ public class CompanyMigrator {
 				new PayrollUnitMigrator(), context);
 		context.put("PayrollUnit", migratedObjects);
 		// Reconciliation
-		migratedObjects = migrateObjects("Reconciliation", Reconciliation.class,
-				new ReconciliationMigrator(), context);
+		migratedObjects = migrateObjects("Reconciliation",
+				Reconciliation.class, new ReconciliationMigrator(), context);
 		context.put("Reconciliation", migratedObjects);
 		// TDSDeductorMasters
-		migratedObjects = migrateObjects("TDSDeductorMasters", TDSDeductorMasters.class,
-				new TDSDeductorMastersMigrator(), context);
+		migratedObjects = migrateObjects("TDSDeductorMasters",
+				TDSDeductorMasters.class, new TDSDeductorMastersMigrator(),
+				context);
 		context.put("TDSDeductorMasters", migratedObjects);
 		// TDSResponsiblePerson
-		migratedObjects = migrateObjects("TDSResponsiblePerson", TDSResponsiblePerson.class,
-				new TDSResponsiblePersonMigrator(), context);
+		migratedObjects = migrateObjects("TDSResponsiblePerson",
+				TDSResponsiblePerson.class, new TDSResponsiblePersonMigrator(),
+				context);
 		context.put("TDSResponsiblePerson", migratedObjects);
 		// Warehouse
 		migratedObjects = migrateObjects("Warehouse", Warehouse.class,
