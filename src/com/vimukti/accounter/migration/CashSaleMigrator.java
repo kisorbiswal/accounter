@@ -76,7 +76,12 @@ public class CashSaleMigrator extends TransactionMigrator<CashSales> {
 				"paymentMethod",
 				context.getPickListContext().get("PaymentMethod",
 						obj.getPaymentMethod()));
-		jsonObject.put("chequeNumber", obj.getCheckNumber());
+		try {
+			jsonObject
+					.put("chequeNumber", Long.parseLong(obj.getCheckNumber()));
+		} catch (NumberFormatException nfe) {
+
+		}
 		return jsonObject;
 	}
 }
