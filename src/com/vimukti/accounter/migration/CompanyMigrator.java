@@ -90,7 +90,7 @@ public class CompanyMigrator {
 	private static final String USER_NAME = "userName";
 	private static final String COUNTRY = "country";
 	private static final String PASS_WORD = "password";
-	private static final String SIGN_UP = "/go/accountersignup";
+	private static final String SIGNUP_CREATE_ORG = "/go/accountersignup/org";
 	private static final String LOG_IN = "/api/login";
 	private static final String AUTHORIZATION_KEY = "authorization-barre";
 
@@ -103,32 +103,33 @@ public class CompanyMigrator {
 
 	public CompanyMigrator(Company company) {
 		this.company = company;
+		this.client = new HttpClient();
 	}
 
-	public void migrate(List<String> emails, PickListTypeContext typeContext)
-			throws HttpException, IOException, JSONException {
+	public void migrate() throws HttpException, IOException, JSONException {
 		log.info("***Migrating Company Id: " + company.getId());
+
+		// Create context
+		MigratorContext context = new MigratorContext();
+		context.setCompany(company);
+		context.setPickListContext(getPicklistObjects());
+
 		// Organization
 		User user = company.getCreatedBy();
 		signup(company.getCreatedBy());
 		// / login
 		loginKey = login(user.getClient().getEmailId(), user.getClient()
 				.getPassword());
-		MigratorContext context = new MigratorContext();
-		context.setCompany(company);
-		if (typeContext.isEmpty()) {
-			getPicklistObjects(typeContext);
-			context.setPickListContext(typeContext);
-		}
+
 		// Users Migration
-		migrateUsers(emails, context);
+		// migrateUsers(emails, context);
 		// Measurements
 		Map<Long, Long> migratedObjects = migrateObjects("Measurement",
 				Measurement.class, new MeasurementMigrator(), context);
 		context.put("Measurement", migratedObjects);
 		// Accounts
-		migratedObjects = migrateObjects("Account",
-				Account.class, new AccountMigrator(), context);
+		migratedObjects = migrateObjects("Account", Account.class,
+				new AccountMigrator(), context);
 		context.put("Account", migratedObjects);
 		// BankAccount
 		migratedObjects = migrateObjects("BankAccount", BankAccount.class,
@@ -381,8 +382,8 @@ public class CompanyMigrator {
 		return migratedEmail;
 	}
 
-	private void getPicklistObjects(PickListTypeContext typeContext)
-			throws HttpException, IOException, JSONException {
+	private PickListTypeContext getPicklistObjects() throws HttpException,
+			IOException, JSONException {
 		String[] picklists = new String[] { "AccountBaseType", "AccountType",
 				"ActivityStatus", "BankAccountType", "CashFlowCategory", 
 				"ClassTrackingType", "DayOfWeek","DepreciationFor", 
@@ -404,11 +405,18 @@ public class CompanyMigrator {
 				"TransportationMode", "DeductorMastersStatus", "DeductorType",
 				"DepreciationPeriods", "FormType", "MinistryDeptName",
 				"NatureOfPayment", "RetutnType", "TAXAccountType",
+<<<<<<< Updated upstream
 				"TaxAdjustmentType", "TaxType","BillStatus","AccounterItemType",
 				"DiscountInTransactions", "PurchaseOrderStatus" };
+=======
+				"TaxAdjustmentType", "BillStatus", "DiscountInTransactions",
+				"PurchaseOrderStatus" };
+		PickListTypeContext typeContext = new PickListTypeContext();
+>>>>>>> Stashed changes
 		for (String identity : picklists) {
 			get(identity, typeContext);
 		}
+		return typeContext;
 	}
 
 	private void get(String identity, PickListTypeContext typeContext)
@@ -481,7 +489,7 @@ public class CompanyMigrator {
 
 	private void signup(User user) throws HttpException, IOException,
 			JSONException {
-		HttpMethod executeMethod = new PostMethod(ECGINE_URL + SIGN_UP);
+		HttpMethod executeMethod = new PostMethod(ECGINE_URL + SIGNUP_CREATE_ORG);
 		Client accClient = user.getClient();
 		HttpMethodParams params = new HttpMethodParams();
 		params.setParameter(EMAIL, accClient.getEmailId());

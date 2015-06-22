@@ -25,12 +25,11 @@ public class AccounterMigrator {
 					.createSQLQuery("SELECT id from company order by id ");
 			List<BigInteger> ids = query.list();
 			List<String> emails = new ArrayList<String>();
-			PickListTypeContext typeContext = new PickListTypeContext();
 			for (BigInteger id : ids) {
 				Company company = (Company) session.load(Company.class,
 						Long.valueOf(id.longValue()));
 				CompanyMigrator migrator = new CompanyMigrator(company);
-				migrator.migrate(emails, typeContext);
+				migrator.migrate();
 			}
 			session.close();
 		} catch (JSONException e) {
