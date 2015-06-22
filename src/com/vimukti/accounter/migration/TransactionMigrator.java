@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Job;
 import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.Quantity;
@@ -52,9 +53,9 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 				"status",
 				context.getPickListContext().get("TransactionStatus",
 						Utility.getStatus(obj.getType(), obj.getStatus())));
-		if (obj.getJob() != null) {
-			transaction.put("project",
-					context.get("Project", obj.getJob().getID()));
+		Job job = obj.getJob();
+		if (job != null) {
+			transaction.put("project", context.get("Job", job.getID()));
 		}
 
 		List<TransactionItem> transactionItems = obj.getTransactionItems();

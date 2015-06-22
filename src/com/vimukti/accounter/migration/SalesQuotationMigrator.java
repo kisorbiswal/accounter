@@ -30,25 +30,29 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 
 		JSONObject jsonShippingAddr = new JSONObject();
 		Address shipingAddr = obj.getShippingAdress();
-		jsonShippingAddr.put("street", shipingAddr.getStreet());
-		jsonShippingAddr.put("city", shipingAddr.getCity());
-		jsonShippingAddr.put("stateOrProvince",
-				shipingAddr.getStateOrProvinence());
-		jsonShippingAddr.put("zipOrPostalCode",
-				shipingAddr.getZipOrPostalCode());
-		jsonShippingAddr.put("country", shipingAddr.getCountryOrRegion());
-		jsonObj.put("shipTo", jsonShippingAddr);
+		if (shipingAddr != null) {
+			jsonShippingAddr.put("street", shipingAddr.getStreet());
+			jsonShippingAddr.put("city", shipingAddr.getCity());
+			jsonShippingAddr.put("stateOrProvince",
+					shipingAddr.getStateOrProvinence());
+			jsonShippingAddr.put("zipOrPostalCode",
+					shipingAddr.getZipOrPostalCode());
+			jsonShippingAddr.put("country", shipingAddr.getCountryOrRegion());
+			jsonObj.put("shipTo", jsonShippingAddr);
+		}
 
 		JSONObject jsonBillingAddr = new JSONObject();
 		Address billingAddr = obj.getAddress();
-		jsonBillingAddr.put("street", billingAddr.getStreet());
-		jsonBillingAddr.put("city", billingAddr.getCity());
-		jsonBillingAddr.put("stateOrProvince",
-				billingAddr.getStateOrProvinence());
-		jsonBillingAddr
-				.put("zipOrPostalCode", billingAddr.getZipOrPostalCode());
-		jsonBillingAddr.put("country", billingAddr.getCountryOrRegion());
-		jsonObj.put("billTo", jsonBillingAddr);
+		if (billingAddr != null) {
+			jsonBillingAddr.put("street", billingAddr.getStreet());
+			jsonBillingAddr.put("city", billingAddr.getCity());
+			jsonBillingAddr.put("stateOrProvince",
+					billingAddr.getStateOrProvinence());
+			jsonBillingAddr.put("zipOrPostalCode",
+					billingAddr.getZipOrPostalCode());
+			jsonBillingAddr.put("country", billingAddr.getCountryOrRegion());
+			jsonObj.put("billTo", jsonBillingAddr);
+		}
 		PaymentTerms paymentTerm = obj.getPaymentTerm();
 		if (paymentTerm != null) {
 			jsonObj.put("paymentTerm",
@@ -58,9 +62,9 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 		// project and quoteStatus not found estimate
 		return jsonObj;
 	}
-	
+
 	@Override
-	public void addRestrictions(Criteria criteria){
+	public void addRestrictions(Criteria criteria) {
 		criteria.add(Restrictions.eq("estimateType", Estimate.QUOTES));
 	}
 }

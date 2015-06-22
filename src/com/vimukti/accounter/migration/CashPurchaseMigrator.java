@@ -26,7 +26,8 @@ public class CashPurchaseMigrator extends TransactionMigrator<CashPurchase> {
 		}
 		Contact contact = obj.getContact();
 		if (contact != null) {
-			cashPurchase.put("contact", contact.getID());
+			cashPurchase
+					.put("contact", context.get("Contact", contact.getID()));
 		}
 		Address vendorAddress = obj.getVendorAddress();
 		if (vendorAddress != null) {

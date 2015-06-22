@@ -50,7 +50,7 @@ public class MakeDepositMigrator extends TransactionMigrator<MakeDeposit> {
 			Job job = item.getJob();
 			if (job != null) {
 				depositItemJson.put("project",
-						context.get("Project", job.getID()));
+						context.get("Job", job.getID()));
 			}
 			array.put(depositItemJson);
 		}
