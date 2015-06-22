@@ -190,7 +190,7 @@ public class CompanyMigrator {
 		context.put("Customer", migratedObjects);
 		// CustomerPrepayment
 		migratedObjects = migrateObjects("CustomerPrepayment",
-				CustomerPrePayment.class, new CustomerPrepayementMigrator(),
+				CustomerPrePayment.class, new CustomerPrepaymentMigrator(),
 				context);
 		context.put("CustomerPrepayment", migratedObjects);
 		// Vendor Groups
