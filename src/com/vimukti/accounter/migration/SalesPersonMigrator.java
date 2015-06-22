@@ -12,10 +12,14 @@ public class SalesPersonMigrator implements IMigrator<SalesPerson> {
 	public JSONObject migrate(SalesPerson salesPerson, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(salesPerson, jsonObject);
 		jsonObject.put("name", salesPerson.getName());
 		jsonObject.put("fileAs", salesPerson.getFileAs());
 		jsonObject.put("jobTitle", salesPerson.getJobTitle());
-		jsonObject.put("gender", salesPerson.getGender());
+		jsonObject.put(
+				"gender",
+				context.getPickListContext().get("Gender",
+						salesPerson.getGender()));
 		jsonObject.put("dateOfBirth", salesPerson.getDateOfBirth()
 				.getAsDateObject());
 		jsonObject.put("dateOfHire", salesPerson.getDateOfHire()
@@ -31,13 +35,15 @@ public class SalesPersonMigrator implements IMigrator<SalesPerson> {
 
 		JSONObject jSONAddress = new JSONObject();
 		Address address = salesPerson.getAddress();
-		jSONAddress.put("street", address.getStreet());
-		jSONAddress.put("city", address.getCity());
-		jSONAddress.put("stateOrProvince", address.getStateOrProvinence());
-		jSONAddress.put("zipOrPostalCode", address.getZipOrPostalCode());
-		jSONAddress.put("country", address.getCountryOrRegion());
+		if (address != null) {
+			jSONAddress.put("street", address.getStreet());
+			jSONAddress.put("city", address.getCity());
+			jSONAddress.put("stateOrProvince", address.getStateOrProvinence());
+			jSONAddress.put("zipOrPostalCode", address.getZipOrPostalCode());
+			jSONAddress.put("country", address.getCountryOrRegion());
+			jsonObject.put("Addres", jSONAddress);
+		}
 
-		jsonObject.put("Addres", jSONAddress);
 		return jsonObject;
 	}
 }

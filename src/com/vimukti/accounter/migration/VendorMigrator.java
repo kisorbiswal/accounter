@@ -113,7 +113,6 @@ public class VendorMigrator implements IMigrator<Vendor> {
 			jsonObject.put("taxItem", context.get("TAXItem", taxItem.getID()));
 		}
 		jsonObject.put("openingBalance", obj.getOpeningBalance());
-		jsonObject.put("balance", obj.getBalance());
 		return jsonObject;
 	}
 

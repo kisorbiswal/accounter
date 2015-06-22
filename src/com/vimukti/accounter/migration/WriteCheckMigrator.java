@@ -15,7 +15,11 @@ public class WriteCheckMigrator extends TransactionMigrator<WriteCheck> {
 
 		// checkInDetail
 		jsonObj.put("date", obj.getDate().getAsDateObject());
-		jsonObj.put("chequeNumber", obj.getCheckNumber());
+		try {
+			jsonObj.put("chequeNumber", Long.parseLong(obj.getCheckNumber()));
+		} catch (NumberFormatException nfe) {
+
+		}
 		jsonObj.put("memo", obj.getMemo());
 		jsonObj.put(
 				"paymentMethod",
