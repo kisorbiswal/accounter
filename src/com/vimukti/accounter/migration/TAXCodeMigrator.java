@@ -16,7 +16,7 @@ public class TAXCodeMigrator implements IMigrator<TAXCode> {
 		jsonObject.put("isTaxable", taxcode.isTaxable());
 		jsonObject.put("taxItemOrGroupForSales",
 				taxcode.getTAXItemGrpForSales());
-		jsonObject.put("taxItemOrGroupPurchases",
+		jsonObject.put("taxItemOrGroupForPurchases",
 				taxcode.getTAXItemGrpForPurchases());
 		jsonObject.put("description", taxcode.getDescription());
 		jsonObject.put("isInactive", !taxcode.isActive());
