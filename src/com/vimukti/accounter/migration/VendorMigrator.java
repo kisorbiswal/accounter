@@ -1,7 +1,5 @@
 package com.vimukti.accounter.migration;
 
-import java.util.Set;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +20,7 @@ public class VendorMigrator implements IMigrator<Vendor> {
 	public JSONObject migrate(Vendor obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
 		VendorGroup vendorGroup = obj.getVendorGroup();
 		if (vendorGroup != null) {
 			jsonObject.put("vendorGroup",
@@ -36,12 +35,10 @@ public class VendorMigrator implements IMigrator<Vendor> {
 
 		// RelationShip field
 		jsonObject.put("identification", obj.getVendorNumber());
-		// AutoIdentification , mrOrMs, jobTitle are not found
 		jsonObject.put("name", obj.getName());
 		jsonObject.put("comments", obj.getMemo());
 		jsonObject.put("email", obj.getEmail());
 		jsonObject.put("phone", obj.getPhoneNo());
-		// MobilePhone and homePhone is not found
 		jsonObject.put("fax", obj.getFaxNo());
 		JSONObject jsonAddress = new JSONObject();
 		for (Address primaryAddress : obj.getAddress()) {
@@ -62,7 +59,6 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		jsonObject.put("companyName", obj.getCompany().getTradingName());
 		jsonObject.put("payeeSince", obj.getPayeeSince());
 		jsonObject.put("webAddress", obj.getWebPageAddress());
-		// altEmail and altPhone are not found
 		JSONArray jsonContacts = new JSONArray();
 		for (Contact contact : obj.getContacts()) {
 			JSONObject jsonContact = new JSONObject();
@@ -79,12 +75,9 @@ public class VendorMigrator implements IMigrator<Vendor> {
 			jsonObject.put("paymentTerm",
 					context.get("PaymentTerms", paymentTerms.getID()));
 		}
-		// emailPreference is not found
-		// printOnCheckAs is not found
-		// sendTransactionViaEmail is not found
-		// sendTransactionViaPrint is not found
-		// sendTransactionViaFax is not found
-		jsonObject.put("currency", obj.getCurrency());
+		if (obj.getCurrency() != null) {
+			jsonObject.put("currency", obj.getCurrency().getName());
+		}
 		jsonObject.put("currencyFactor", obj.getCurrencyFactor());
 		Account account = obj.getAccount();
 		if (account != null) {
@@ -97,7 +90,6 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		jsonObject.put("bankBranch", obj.getBankBranch());
 		jsonObject.put("serviceTaxRegistrationNo",
 				obj.getServiceTaxRegistrationNo());
-		// taxRegistrationNumber is not found
 		jsonObject.put("taxId", obj.getTaxId());
 		TAXCode taxCode = obj.getTAXCode();
 		if (taxCode != null) {
@@ -105,7 +97,7 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		}
 		jsonObject.put(
 				"paymentMethod",
-				context.getPickListContext().get("AccountType",
+				context.getPickListContext().get("PaymentMethod",
 						obj.getPaymentMethod()));
 		jsonObject.put("tDSApplicable", obj.isTdsApplicable());
 		ShippingMethod shippingMethod = obj.getShippingMethod();
@@ -115,16 +107,13 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		}
 		jsonObject.put("primaryContact",
 				context.get("Contact", obj.getPrimaryContact().getID()));
-		// shipTo and billTo are not found
 		jsonObject.put("vATRegistrationNumber", obj.getVATRegistrationNumber());
 		TAXItem taxItem = obj.getTAXItem();
 		if (taxItem != null) {
 			jsonObject.put("taxItem", context.get("TAXItem", taxItem.getID()));
 		}
-		// modeOfTransport is not found
 		jsonObject.put("openingBalance", obj.getOpeningBalance());
-		// journalEntry is not found
-
+		jsonObject.put("balance", obj.getBalance());
 		return jsonObject;
 	}
 
