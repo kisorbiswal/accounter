@@ -32,9 +32,8 @@ public class CashSaleMigrator extends TransactionMigrator<CashSales> {
 			jsonAddress.put("zipOrPostalCode",
 					billingAddress.getZipOrPostalCode());
 			jsonAddress.put("country", billingAddress.getCountryOrRegion());
-			jsonObject.put("billingAddress", jsonAddress);
+			jsonObject.put("billTo", jsonAddress);
 		}
-
 		Address shipingTo = obj.getShippingAdress();
 		if (shipingTo != null) {
 			JSONObject jsonShipTo = new JSONObject();
@@ -66,6 +65,18 @@ public class CashSaleMigrator extends TransactionMigrator<CashSales> {
 					context.get("ShippingMethod", shippingMethod.getID()));
 		}
 		jsonObject.put("deliveryDate", obj.getDeliverydate().getAsDateObject());
+		// super (CustomerTransaction field)
+		if (obj.getContact() != null) {
+			jsonObject.put("contact",
+					context.get("Contact", obj.getContact().getID()));
+		}
+		jsonObject.put("payee",
+				context.get("Customer", obj.getCustomer().getID()));
+		jsonObject.put(
+				"paymentMethod",
+				context.getPickListContext().get("PaymentMethod",
+						obj.getPaymentMethod()));
+		jsonObject.put("chequeNumber", obj.getCheckNumber());
 		return jsonObject;
 	}
 }
