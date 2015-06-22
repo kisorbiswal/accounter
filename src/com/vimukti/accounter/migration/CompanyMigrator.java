@@ -103,7 +103,7 @@ public class CompanyMigrator {
 
 	public CompanyMigrator(Company company) {
 		this.company = company;
-		this.client = new HttpClient();
+		client = new HttpClient();
 	}
 
 	public void migrate() throws HttpException, IOException, JSONException {
@@ -385,13 +385,14 @@ public class CompanyMigrator {
 	private PickListTypeContext getPicklistObjects() throws HttpException,
 			IOException, JSONException {
 		String[] picklists = new String[] { "AccountBaseType", "AccountType",
-				"ActivityStatus", "BankAccountType", "CashFlowCategory", 
-				"ClassTrackingType", "DayOfWeek","DepreciationFor", 
-				"DepreciationMethod", "DepreciationStatus", "DiscountInTransactions",
-				"EmailPreference", "FixedAssetStatus", "Gender", "IntervelType",
-				"MaritalStatus", "Month", "PaymentMethod", "PaymentStatus",
-				"PriorityType", "RecuringType", "RecurrenceInstance",
-				"RelationshipType", "TaxItemInTransactions", "TransactionItemType",
+				"ActivityStatus", "BankAccountType", "CashFlowCategory",
+				"ClassTrackingType", "DayOfWeek", "DepreciationFor",
+				"DepreciationMethod", "DepreciationStatus",
+				"DiscountInTransactions", "EmailPreference",
+				"FixedAssetStatus", "Gender", "IntervelType", "MaritalStatus",
+				"Month", "PaymentMethod", "PaymentStatus", "PriorityType",
+				"RecuringType", "RecurrenceInstance", "RelationshipType",
+				"TaxItemInTransactions", "TransactionItemType",
 				"TransactionStatus", "TransactionType", "InventoryScheme",
 				"InvoiceStatus", "ItemType", "ProjectStatus", "QuotationType",
 				"SalesOrderStatus", "AttendanceProductionType",
@@ -405,14 +406,10 @@ public class CompanyMigrator {
 				"TransportationMode", "DeductorMastersStatus", "DeductorType",
 				"DepreciationPeriods", "FormType", "MinistryDeptName",
 				"NatureOfPayment", "RetutnType", "TAXAccountType",
-<<<<<<< Updated upstream
-				"TaxAdjustmentType", "TaxType","BillStatus","AccounterItemType",
-				"DiscountInTransactions", "PurchaseOrderStatus" };
-=======
-				"TaxAdjustmentType", "BillStatus", "DiscountInTransactions",
+				"TaxAdjustmentType", "TaxType", "BillStatus",
+				"AccounterItemType", "DiscountInTransactions",
 				"PurchaseOrderStatus" };
 		PickListTypeContext typeContext = new PickListTypeContext();
->>>>>>> Stashed changes
 		for (String identity : picklists) {
 			get(identity, typeContext);
 		}
@@ -489,7 +486,8 @@ public class CompanyMigrator {
 
 	private void signup(User user) throws HttpException, IOException,
 			JSONException {
-		HttpMethod executeMethod = new PostMethod(ECGINE_URL + SIGNUP_CREATE_ORG);
+		HttpMethod executeMethod = new PostMethod(ECGINE_URL
+				+ SIGNUP_CREATE_ORG);
 		Client accClient = user.getClient();
 		HttpMethodParams params = new HttpMethodParams();
 		params.setParameter(EMAIL, accClient.getEmailId());
