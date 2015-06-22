@@ -41,7 +41,7 @@ public class SalesPersonMigrator implements IMigrator<SalesPerson> {
 			jSONAddress.put("stateOrProvince", address.getStateOrProvinence());
 			jSONAddress.put("zipOrPostalCode", address.getZipOrPostalCode());
 			jSONAddress.put("country", address.getCountryOrRegion());
-			jsonObject.put("Addres", jSONAddress);
+			jsonObject.put("address", jSONAddress);
 		}
 
 		return jsonObject;
