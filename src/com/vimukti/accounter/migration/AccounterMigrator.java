@@ -1,6 +1,7 @@
 package com.vimukti.accounter.migration;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +21,14 @@ public class AccounterMigrator {
 	public void migrate() throws IOException {
 		try {
 			Session session = HibernateUtil.openSession();
-			Query query = session.createSQLQuery("SELECT id from company ");
-			List<Long> ids = query.list();
+			Query query = session
+					.createSQLQuery("SELECT id from company order by id ");
+			List<BigInteger> ids = query.list();
 			List<String> emails = new ArrayList<String>();
 			PickListTypeContext typeContext = new PickListTypeContext();
-			for (Long id : ids) {
-				Company company = (Company) session.load(Company.class, id);
+			for (BigInteger id : ids) {
+				Company company = (Company) session.load(Company.class,
+						Long.valueOf(id.longValue()));
 				CompanyMigrator migrator = new CompanyMigrator(company);
 				migrator.migrate(emails, typeContext);
 			}

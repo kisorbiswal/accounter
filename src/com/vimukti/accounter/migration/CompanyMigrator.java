@@ -28,6 +28,7 @@ import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Budget;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.Currency;
@@ -85,13 +86,11 @@ public class CompanyMigrator {
 	private static final String FIRST_NAME = "firstName";
 	private static final String LAST_NAME = "lastName";
 	private static final String EMAIL = "email";
-	private static final String PHONE_NUMBER = "phoneNumber";
 	private static final String COMPANY_NAME = "companyName";
-	private static final String PASSWORD = "password";
-	private static final String CONFIRM_PASSWORD = "confirmPassword";
 	private static final String USER_NAME = "userName";
+	private static final String COUNTRY = "country";
 	private static final String PASS_WORD = "password";
-	private static final String SIGN_UP = "/api/signup";
+	private static final String SIGN_UP = "/go/accountersignup";
 	private static final String LOG_IN = "/api/login";
 	private static final String AUTHORIZATION_KEY = "authorization-barre";
 
@@ -111,7 +110,7 @@ public class CompanyMigrator {
 		log.info("***Migrating Company Id: " + company.getId());
 		// Organization
 		User user = company.getCreatedBy();
-		createOrganization(company.getCreatedBy());
+		signup(company.getCreatedBy());
 		// / login
 		loginKey = login(user.getClient().getEmailId(), user.getClient()
 				.getPassword());
@@ -470,6 +469,7 @@ public class CompanyMigrator {
 		HttpMethodParams params = new HttpMethodParams();
 		params.setParameter(USER_NAME, userName);
 		params.setParameter(PASS_WORD, password);
+		executeMethod.setParams(params);
 		int statusCode = client.executeMethod(executeMethod);
 		if (statusCode != HttpStatus.SC_OK) {
 			throw new RuntimeException(HttpStatus.getStatusText(statusCode));
@@ -479,9 +479,22 @@ public class CompanyMigrator {
 		return responseResult.getString(API_KEY);
 	}
 
-	private String createOrganization(User user) throws HttpException,
-			IOException, JSONException {
-		// TODO
-		return null;
+	private void signup(User user) throws HttpException, IOException,
+			JSONException {
+		HttpMethod executeMethod = new PostMethod(ECGINE_URL + SIGN_UP);
+		Client accClient = user.getClient();
+		HttpMethodParams params = new HttpMethodParams();
+		params.setParameter(EMAIL, accClient.getEmailId());
+		params.setParameter(FIRST_NAME, accClient.getFirstName());
+		params.setParameter(LAST_NAME, accClient.getLastName());
+		params.setParameter(COUNTRY, accClient.getCountry());
+		params.setParameter(COMPANY_NAME, user.getCompany().getTradingName());
+		params.setParameter(PASS_WORD, "password");
+		executeMethod.setParams(params);
+		int statusCode = client.executeMethod(executeMethod);
+		if (statusCode != HttpStatus.SC_OK) {
+			throw new RuntimeException(HttpStatus.getStatusText(statusCode));
+		}
+		log.info("***Signup Sucessfully with " + accClient.getEmailId());
 	}
 }
