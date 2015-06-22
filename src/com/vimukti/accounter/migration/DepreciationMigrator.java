@@ -9,15 +9,16 @@ public class DepreciationMigrator implements IMigrator<Depreciation> {
 	public JSONObject migrate(Depreciation depreciation, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		int status = depreciation.getStatus();
-		String statausValue="Approve";
-		if(status==1){
-			statausValue="Rollback";
-		}
-		jsonObject.put("status", statausValue);
-		jsonObject.put("depreciateFrom", depreciation.getDepreciateFrom());
-		jsonObject.put("depreciateTo", depreciation.getDepreciateTo());
-		jsonObject.put("fixedAsset", depreciation.getFixedAsset());
+		CommonFieldsMigrator.migrateCommonFields(depreciation, jsonObject);
+		jsonObject.put("status", PicklistUtilMigrator
+				.depreciationStatusIdentity(depreciation.getStatus()));
+		jsonObject.put("depreciateFrom", depreciation.getDepreciateFrom()
+				.getAsDateObject());
+		jsonObject.put("depreciateTo", depreciation.getDepreciateTo()
+				.getAsDateObject());
+		jsonObject
+				.put("fixedAsset", context.get("FixexAsset", depreciation
+						.getFixedAsset().getID()));
 		// List<FixedAsset> fixedAssets = depreciation.getFixedAssets();
 		// JSONArray array = new JSONArray();
 		// for (FixedAsset fixedAsset : fixedAssets) {
@@ -27,10 +28,11 @@ public class DepreciationMigrator implements IMigrator<Depreciation> {
 		// array.put(jsonObject1);
 		// }
 		// jsonObject.put("fixedAssets", array);
-		//TODO
-		jsonObject.put("depreciationFor", depreciation.getDepreciationFor());
-		jsonObject.put("RollBackDepreciationDate",
-				depreciation.getRollBackDepreciationDate());
+		// TODO
+		jsonObject.put("depreciationFor", PicklistUtilMigrator
+				.depreciationForIdentity(depreciation.getDepreciationFor()));
+		jsonObject.put("RollBackDepreciationDate", depreciation
+				.getRollBackDepreciationDate().getAsDateObject());
 		return jsonObject;
 	}
 }

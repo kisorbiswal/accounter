@@ -11,10 +11,9 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 	public JSONObject migrate(FixedAsset obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put(
-				"status",
-				context.getPickListContext().get("FixedAssetStatus",
-						getStatus(obj.getStatus())));
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		jsonObject.put("status",
+				PicklistUtilMigrator.getFixedAssetStatusIdentifier(obj.getStatus()));
 		jsonObject.put("name", obj.getName());
 		jsonObject.put("description", obj.getDescription());
 		jsonObject.put("assetNumber", obj.getAssetNumber());
@@ -24,16 +23,8 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 		jsonObject.put("purchasePrice", obj.getPurchasePrice());
 		jsonObject.put("assetType", obj.getAssetType());
 		jsonObject.put("depreciationRate", obj.getDepreciationRate());
-
-		int depreciationMethod = obj.getDepreciationMethod();
-		String depreciationString = "ReducingBalance";
-		if (depreciationMethod == 1) {
-			depreciationString = "StraightLine";
-		}
-		jsonObject.put(
-				"depreciationMethod",
-				context.getPickListContext().get("DepreciationMethod",
-						depreciationString));
+		jsonObject.put("depreciationMethod", PicklistUtilMigrator
+				.depreciationMethodIdentity(obj.getDepreciationMethod()));
 
 		Account accumulatedDepreciationAccount = obj
 				.getAccumulatedDepreciationAccount();
@@ -75,36 +66,4 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 		// journalEntry is not found
 		return jsonObject;
 	}
-
-	private String getStatus(int i) {
-		switch (i) {
-		case 0:
-			return "Pending";
-		case 1:
-			return "Register";
-		case 2:
-			return "Sell";
-		case 3:
-			return "Dispose";
-		case 4:
-			return "PartialDisposed";
-		default:
-			return "Pending";
-		}
-	}
-	// FixedAssetStatus Pending{
-	// name : 'Pending'
-	// }
-	// FixedAssetStatus Register{
-	// name : 'Register'
-	// }
-	// FixedAssetStatus Sell{
-	// name : 'Sell'
-	// }
-	// FixedAssetStatus Dispose{
-	// name : 'Dispose'
-	// }
-	// FixedAssetStatus PartialDisposed{
-	// name : 'Partial Disposed'
-	// }
 }
