@@ -23,6 +23,7 @@ public class CustomerMigrator implements IMigrator<Customer> {
 	public JSONObject migrate(Customer obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
 		PriceLevel priceLevel = obj.getPriceLevel();
 		SalesPerson salesPerson = obj.getSalesPerson();
 		CustomerGroup customerGroup = obj.getCustomerGroup();
@@ -33,10 +34,6 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		if (salesPerson != null) {
 			jsonObject.put("salesPerson",
 					context.get("SalesPerson", salesPerson.getID()));
-		}
-		if (customerGroup != null) {
-			jsonObject.put("customerGroup",
-					context.get("CustomerGroup", customerGroup.getID()));
 		}
 		jsonObject.put("customerGroup",
 				context.get("CustomerGroup", customerGroup.getID()));
@@ -92,7 +89,7 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		// sendTransactionViaEmail is not found
 		// sendTransactionViaPrint is not found
 		// sendTransactionViaFax is not found
-		jsonObject.put("currency", obj.getCurrency());
+		jsonObject.put("currency", obj.getCurrency().getFormalName());
 		jsonObject.put("currencyFactor", obj.getCurrencyFactor());
 		Account account = obj.getAccount();
 		if (account != null) {
@@ -110,10 +107,8 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		if (taxCode != null) {
 			jsonObject.put("taxCode", context.get("TaxCode", taxCode.getID()));
 		}
-		jsonObject.put(
-				"paymentMethod",
-				context.getPickListContext().get("AccountType",
-						obj.getPaymentMethod()));
+		jsonObject.put("paymentMethod", obj.getPaymentMethod());
+		jsonObject.put("paymentTerm",context.get("PaymentTerm", obj.getPaymentTerm().getID()));
 		ShippingMethod shippingMethod = obj.getShippingMethod();
 		if (shippingMethod != null) {
 			jsonObject.put("preferredShippingMethod",

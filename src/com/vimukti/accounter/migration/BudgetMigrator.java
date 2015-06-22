@@ -22,8 +22,9 @@ public class BudgetMigrator implements IMigrator<Budget> {
 		JSONArray array = new JSONArray();
 		for (BudgetItem budgetItem : budgetItems) {
 			JSONObject jsonObject1 = new JSONObject();
-			jsonObject1.put("account",
-					context.get("Account", budgetItem.getAccount().getID()));
+			jsonObject1
+					.put("account", context.get("Account", context.get(
+							"BudgetItem", budgetItem.getAccount().getID())));
 			jsonObject1.put("january", budgetItem.getJanuaryAmount());
 			jsonObject1.put("february", budgetItem.getFebruaryAmount());
 			jsonObject1.put("march", budgetItem.getMarchAmount());
