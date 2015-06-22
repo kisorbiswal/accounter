@@ -1,5 +1,7 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -55,5 +57,10 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 		jsonObj.put("deliveryDate", obj.getDeliveryDate());
 		// project and quoteStatus not found estimate
 		return jsonObj;
+	}
+	
+	@Override
+	public void addRestrictions(Criteria criteria){
+		criteria.add(Restrictions.eq("estimateType", Estimate.QUOTES));
 	}
 }

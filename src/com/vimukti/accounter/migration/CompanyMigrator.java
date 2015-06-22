@@ -15,6 +15,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.json.JSONArray;
@@ -403,11 +404,13 @@ public class CompanyMigrator {
 			IOException {
 		List<Long> ids = new ArrayList<Long>();
 		Session session = HibernateUtil.getCurrentSession();
-		JSONArray accountsJSON = new JSONArray();
-		List<T> accounts = session.createCriteria(clazz, "obj")
+		JSONArray objectArray = new JSONArray();
+		Criteria criteria = session.createCriteria(clazz, "obj");
+		migrator.addRestrictions(criteria);
+		List<T> objects = criteria
 				.add(Restrictions.eq("company", company.getId())).list();
-		for (T obj : accounts) {
-			accountsJSON.put(migrator.migrate(obj, context));
+		for (T obj : objects) {
+			objectArray.put(migrator.migrate(obj, context));
 			ids.add(obj.getID());
 		}
 		// Send Request TO REST API
@@ -415,7 +418,7 @@ public class CompanyMigrator {
 		PostMethod post = new PostMethod(ECGINE_URL + ECGINE_REST + identity);
 		post.addRequestHeader(AUTHORIZATION_KEY, loginKey);
 		StringRequestEntity requestEntity = new StringRequestEntity(
-				accountsJSON.toString(), "application/json", "UTF-8");
+				objectArray.toString(), "application/json", "UTF-8");
 		post.setRequestEntity(requestEntity);
 		int statusCode = client.executeMethod(post);
 		if (statusCode != HttpStatus.SC_OK) {

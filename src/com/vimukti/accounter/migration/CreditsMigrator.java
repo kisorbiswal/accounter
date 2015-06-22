@@ -1,5 +1,8 @@
 package com.vimukti.accounter.migration;
 
+import org.apache.xmlbeans.impl.xb.xsdschema.RestrictionDocument.Restriction;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,5 +29,10 @@ public class CreditsMigrator extends TransactionMigrator<Estimate> {
 				context.get("Customer", obj.getCustomer().getID()));
 
 		return jsonObj;
+	}
+	
+	@Override
+	public void addRestrictions(Criteria criteria){
+		criteria.add(Restrictions.eq("estimateType", Estimate.CREDITS));
 	}
 }

@@ -1,5 +1,7 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,5 +17,9 @@ public class ChargesMigrator extends TransactionMigrator<Estimate> {
 		jsonObj.put("remarks", obj.getMemo());
 		return jsonObj;
 	}
-
+	
+	@Override
+	public void addRestrictions(Criteria criteria){
+		criteria.add(Restrictions.eq("estimateType", Estimate.CHARGES));
+	}
 }

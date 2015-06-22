@@ -1,5 +1,7 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,25 +13,25 @@ import com.vimukti.accounter.core.SalesOrder;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
 
-public class SalesOrderMigrator extends TransactionMigrator<SalesOrder> {
+public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
 	@Override
-	public JSONObject migrate(SalesOrder obj, MigratorContext context)
+	public JSONObject migrate(Estimate estimate, MigratorContext context)
 			throws JSONException {
-		JSONObject jsonObj = super.migrate(obj, context);
+		JSONObject jsonObj = super.migrate(estimate, context);
 		jsonObj.put("payee",
-				context.get("BusinessRelationship", obj.getCustomer().getID()));
-		Contact contact = obj.getContact();
+				context.get("BusinessRelationship", estimate.getCustomer().getID()));
+		Contact contact = estimate.getContact();
 		if (contact != null) {
 			jsonObj.put("contanct", context.get("Contanct", contact.getID()));
 		}
-		Estimate estimate = obj.getEstimate();
+//		Estimate estimate = obj.getEstimate();
 		if (estimate != null) {
 			jsonObj.put("quotation",
 					context.get("SalesQuotation", estimate.getID()));
 		}
-		jsonObj.put("phone", obj.getPhone());
+		jsonObj.put("phone", estimate.getPhone());
 		JSONObject jsonShippingAddr = new JSONObject();
-		Address shipingAddr = obj.getShippingAdress();
+		Address shipingAddr = estimate.getShippingAdress();
 		jsonShippingAddr.put("street", shipingAddr.getStreet());
 		jsonShippingAddr.put("city", shipingAddr.getCity());
 		jsonShippingAddr.put("stateOrProvince",
@@ -40,7 +42,7 @@ public class SalesOrderMigrator extends TransactionMigrator<SalesOrder> {
 		jsonObj.put("shipTo", jsonShippingAddr);
 
 		JSONObject jsonBillingAddr = new JSONObject();
-		Address billingAddr = obj.getBillingAddress();
+		Address billingAddr = estimate.getBillingAddress();
 		jsonBillingAddr.put("street", billingAddr.getStreet());
 		jsonBillingAddr.put("city", billingAddr.getCity());
 		jsonBillingAddr.put("stateOrProvince",
@@ -49,26 +51,31 @@ public class SalesOrderMigrator extends TransactionMigrator<SalesOrder> {
 				.put("zipOrPostalCode", billingAddr.getZipOrPostalCode());
 		jsonBillingAddr.put("country", billingAddr.getCountryOrRegion());
 		jsonObj.put("billTo", jsonBillingAddr);
-		jsonObj.put("customerReference", obj.getReference());
+		jsonObj.put("customerReference", estimate.getReference());
 
-		PaymentTerms paymentTerm = obj.getPaymentTerm();
+		PaymentTerms paymentTerm = estimate.getPaymentTerm();
 		if (paymentTerm != null) {
 			jsonObj.put("paymentTerm",
 					context.get("PaymentTerm", paymentTerm.getID()));
 		}
-		ShippingMethod shippingMethod = obj.getShippingMethod();
+		ShippingMethod shippingMethod = estimate.getShippingMethod();
 		if (shippingMethod != null) {
 			jsonObj.put("shippingMethod",
 					context.get("ShippingMethod", shippingMethod.getID()));
 		}
-		ShippingTerms shippingTerm = obj.getShippingTerm();
+		ShippingTerms shippingTerm = estimate.getShippingTerm();
 		if (shippingTerm != null) {
 			jsonObj.put("shippingTerm",
 					context.get("ShippingTerm", shippingTerm.getID()));
 		}
-		jsonObj.put("deliveryDate", obj.getDueDate());
-		jsonObj.put("remarks", obj.getMemo());
+		jsonObj.put("deliveryDate", estimate.getDueDate());
+		jsonObj.put("remarks", estimate.getMemo());
 		//salesOrderStatus not found in SaleOrder.java
 		return jsonObj;
+	}
+	
+	@Override
+	public void addRestrictions(Criteria criteria){
+		criteria.add(Restrictions.eq("estimateType", Estimate.SALES_ORDER));
 	}
 }
