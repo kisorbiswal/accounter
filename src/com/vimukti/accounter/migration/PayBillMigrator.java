@@ -41,7 +41,7 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 
 		TAXItem tdsTaxItem = obj.getTdsTaxItem();
 		if (tdsTaxItem != null) {
-			jsonObject.put("tDS", context.get("TaxItem", tdsTaxItem.getID()));
+			jsonObject.put("tDS", context.get("TAXItem", tdsTaxItem.getID()));
 		}
 		jsonObject.put("filterByBillDueOnOrBefore", obj.getBillDueOnOrBefore()
 				.getAsDateObject());
@@ -63,10 +63,8 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 		Long chequeNumber = null;
 		try {
 			chequeNumber = Long.valueOf(obj.getCheckNumber());
-		} catch (NumberFormatException nfe) {
-		}
-		if (chequeNumber != null) {
 			jsonObject.put("chequeNumber", chequeNumber);
+		} catch (Exception e) {
 		}
 		return jsonObject;
 	}

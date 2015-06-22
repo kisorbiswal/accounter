@@ -24,7 +24,11 @@ public class CustomerPrepayementMigrator implements
 
 		jsonObject.put("date", obj.getDate().getAsDateObject());
 		jsonObject.put("notes", obj.getMemo());
-		jsonObject.put("chequeNumber", obj.getCheckNumber());
+		try {
+			Long chequeNumber = Long.valueOf(obj.getCheckNumber());
+			jsonObject.put("chequeNumber", chequeNumber);
+		} catch (Exception e) {
+		}
 		jsonObject.put("amount", obj.getTotal());
 
 		jsonObject.put("depositIn",
