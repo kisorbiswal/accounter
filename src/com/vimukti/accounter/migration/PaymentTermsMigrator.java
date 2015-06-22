@@ -11,6 +11,7 @@ public class PaymentTermsMigrator implements IMigrator<PaymentTerms> {
 	public JSONObject migrate(PaymentTerms obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
 		jsonObject.put("name", obj.getName());
 		jsonObject.put("description", obj.getDescription());
 		jsonObject.put("netDue", obj.getDue());

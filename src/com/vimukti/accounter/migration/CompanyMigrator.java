@@ -370,15 +370,15 @@ public class CompanyMigrator {
 	private void getPicklistObjects(PickListTypeContext typeContext)
 			throws HttpException, IOException, JSONException {
 		String[] picklists = new String[] { "AccountBaseType", "AccountType",
-				"CashFlowCategory", "ClassTrackingType", "DayOfWeek",
-				"DepreciationFor", "DepreciationMethod", "DepreciationStatus",
-				"DiscountInTransactions", "EmailPreference",
-				"FixedAssetStatus", "Gender", "IntervelType", "Month",
-				"PaymentMethod", "PaymentStatus", "PriorityType",
-				"RecuringType", "RecurrenceInstance", "RelationshipType",
-				"TaxItemInTransactions", "TransactionStatus",
-				"TransactionType", "InventoryScheme", "InvoiceStatus",
-				"ItemType", "ProjectStatus", "QuotationType",
+				"ActivityStatus", "BankAccountType", "CashFlowCategory", 
+				"ClassTrackingType", "DayOfWeek","DepreciationFor", 
+				"DepreciationMethod", "DepreciationStatus", "DiscountInTransactions",
+				"EmailPreference", "FixedAssetStatus", "Gender", "IntervelType",
+				"MaritalStatus", "Month", "PaymentMethod", "PaymentStatus",
+				"PriorityType", "RecuringType", "RecurrenceInstance",
+				"RelationshipType", "TaxItemInTransactions", "TransactionItemType",
+				"TransactionStatus", "TransactionType", "InventoryScheme",
+				"InvoiceStatus", "ItemType", "ProjectStatus", "QuotationType",
 				"SalesOrderStatus", "AttendanceProductionType",
 				"AttendanceProductionTypePeriod", "CalculationType",
 				"ComputationSlabType", "EmployeeAttendanceManagementItemType",
@@ -390,8 +390,8 @@ public class CompanyMigrator {
 				"TransportationMode", "DeductorMastersStatus", "DeductorType",
 				"DepreciationPeriods", "FormType", "MinistryDeptName",
 				"NatureOfPayment", "RetutnType", "TAXAccountType",
-				"TaxAdjustmentType", "BillStatus", "DiscountInTransactions",
-				"PurchaseOrderStatus" };
+				"TaxAdjustmentType", "TaxType","BillStatus","AccounterItemType",
+				"DiscountInTransactions", "PurchaseOrderStatus" };
 		for (String identity : picklists) {
 			get(identity, typeContext);
 		}
