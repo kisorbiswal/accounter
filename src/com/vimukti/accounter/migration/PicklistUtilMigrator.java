@@ -90,4 +90,18 @@ public class PicklistUtilMigrator {
 		}
 		return null;
 	}
+
+	static String getItemTypeIdentifier(int i) {
+		switch (i) {
+		case 1:
+			return "ServiceItem";
+		case 2:
+			return "NonInventory";
+		case 3:
+			return "InventoryPart";
+		case 4:
+			return "InventoryAssembly";
+		}
+		return null;
+	}
 }
