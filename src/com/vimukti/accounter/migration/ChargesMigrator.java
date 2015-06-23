@@ -15,11 +15,13 @@ public class ChargesMigrator extends TransactionMigrator<Estimate> {
 		jsonObj.put("customer",
 				context.get("Customer", obj.getCustomer().getID()));
 		jsonObj.put("remarks", obj.getMemo());
+		jsonObj.put("transactionType",
+				context.getPickListContext().get("TransactionType", "Charge"));
 		return jsonObj;
 	}
-	
+
 	@Override
-	public void addRestrictions(Criteria criteria){
+	public void addRestrictions(Criteria criteria) {
 		criteria.add(Restrictions.eq("estimateType", Estimate.CHARGES));
 	}
 }

@@ -74,7 +74,16 @@ public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
 		jsonObj.put("deliveryDate", estimate.getDeliveryDate()
 				.getAsDateObject());
 		jsonObj.put("remarks", estimate.getMemo());
-		// salesOrderStatus not found in SaleOrder.java
+		jsonObj.put(
+				"transactionType",
+				context.getPickListContext().get("TransactionType",
+						"SalesOrder"));
+		if (estimate.getStatus() == Estimate.STATUS_REJECTED) {
+			jsonObj.put(
+					"salesOrderStatus",
+					context.getPickListContext().get("SalesOrderStatus",
+							"Cancelled"));
+		}
 		return jsonObj;
 	}
 

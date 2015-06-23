@@ -59,7 +59,17 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 					context.get("PaymentTerm", paymentTerm.getID()));
 		}
 		jsonObj.put("deliveryDate", obj.getDeliveryDate());
-		// project and quoteStatus not found estimate
+		jsonObj.put(
+				"transactionType",
+				context.getPickListContext().get("TransactionType",
+						"SalesQuotation"));
+		if (obj.getStatus() == Estimate.STATUS_REJECTED) {
+			jsonObj.put(
+					"quoteStatus",
+					context.getPickListContext().get("QuotationStatus",
+							"Rejected"));
+		}
+
 		return jsonObj;
 	}
 

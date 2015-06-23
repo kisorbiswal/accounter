@@ -18,6 +18,7 @@ public class CreditsMigrator extends TransactionMigrator<Estimate> {
 					context.get("Contact", obj.getContact().getID()));
 		}
 		jsonObj.put("payee", context.get("Customer", obj.getCustomer().getID()));
+		jsonObj.put("transactionType",context.getPickListContext().get("TransactionType","Credit"));
 		return jsonObj;
 	}
 	

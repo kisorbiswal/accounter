@@ -44,8 +44,11 @@ public class JournalEntryMigrator implements IMigrator<JournalEntry> {
 		jsonObject.put("notes", entry.getMemo());
 		jsonObject.put(
 				"transactionType",
-				context.getPickListContext().get("TransactionType",
-						Utility.getTransactionName(entry.getType())));
+				context.getPickListContext().get(
+						"TransactionType",
+						PicklistUtilMigrator
+								.getTransactionTypeIdentifier(Utility
+										.getTransactionName(entry.getType()))));
 		Job job = entry.getJob();
 		if (job != null) {
 			jsonObject.put("project", context.get("Job", job.getID()));

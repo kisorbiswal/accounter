@@ -49,8 +49,11 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		transaction.put("notes", obj.getMemo());
 		transaction.put(
 				"transactionType",
-				context.getPickListContext().get("TransactionType",
-						Utility.getTransactionName(obj.getType())));
+				context.getPickListContext().get(
+						"TransactionType",
+						PicklistUtilMigrator
+								.getTransactionTypeIdentifier(Utility
+										.getTransactionName(obj.getType()))));
 		Job job = obj.getJob();
 		if (job != null) {
 			transaction.put("project", context.get("Job", job.getID()));
