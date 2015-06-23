@@ -21,7 +21,7 @@ public class PurchaseOrderMigrator extends TransactionMigrator<PurchaseOrder> {
 		jsonObject.put("phone", obj.getPhone());
 		jsonObject.put("toBeEmailed", obj.isToBeEmailed());
 		jsonObject.put("toBePrinted", obj.isToBePrinted());
-		jsonObject.put("deliveryDate", obj.getDeliveryDate().getAsDateObject());
+		jsonObject.put("deliveryDate", obj.getDeliveryDate().getAsDateObject().getTime());
 		jsonObject.put("payee", context.get("Vendor", obj.getVendor().getID()));
 		Contact contact = obj.getContact();
 		if (contact != null) {

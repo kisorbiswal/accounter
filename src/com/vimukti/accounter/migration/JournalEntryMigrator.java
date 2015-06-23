@@ -21,7 +21,7 @@ public class JournalEntryMigrator implements IMigrator<JournalEntry> {
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(entry, jsonObject, context);
-		jsonObject.put("date", entry.getDate().getAsDateObject());
+		jsonObject.put("date", entry.getDate().getAsDateObject().getTime());
 		jsonObject.put("number", entry.getNumber());
 		AccounterClass accounterClass = entry.getAccounterClass();
 		if (accounterClass != null) {

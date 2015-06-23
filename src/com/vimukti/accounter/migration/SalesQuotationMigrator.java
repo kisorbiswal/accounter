@@ -20,7 +20,7 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 				context.get("BusinessRelationship", obj.getCustomer().getID()));
 		FinanceDate expirationDate = obj.getExpirationDate();
 		if (expirationDate != null) {
-			jsonObj.put("expirationDate", expirationDate.getAsDateObject());
+			jsonObj.put("expirationDate", expirationDate.getAsDateObject().getTime());
 		}
 		Contact contact = obj.getContact();
 		if (contact != null) {

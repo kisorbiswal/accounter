@@ -15,8 +15,7 @@ public class ChargesMigrator extends TransactionMigrator<Estimate> {
 		jsonObj.put("customer",
 				context.get("Customer", obj.getCustomer().getID()));
 		jsonObj.put("remarks", obj.getMemo());
-		jsonObj.put("transactionType",
-				context.getPickListContext().get("TransactionType", "Charge"));
+		jsonObj.put("transactionType", "Charge");
 		return jsonObj;
 	}
 

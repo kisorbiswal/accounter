@@ -95,7 +95,7 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		if (account != null) {
 			jsonObject.put("account", context.get("Account", account.getID()));
 		}
-		jsonObject.put("since", obj.getPayeeSince().getAsDateObject());
+		jsonObject.put("since", obj.getPayeeSince().getAsDateObject().getTime());
 		jsonObject.put("creditLimit", obj.getCreditLimit());
 		jsonObject.put("bankName", obj.getBankName());
 		jsonObject.put("bankAccountNumber", obj.getBankAccountNo());

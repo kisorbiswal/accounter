@@ -19,7 +19,7 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 		jsonObject.put("assetNumber", obj.getAssetNumber());
 		jsonObject.put("assetAccount",
 				context.get("Account", obj.getAssetAccount().getID()));
-		jsonObject.put("purchaseDate", obj.getPurchaseDate().getAsDateObject());
+		jsonObject.put("purchaseDate", obj.getPurchaseDate().getAsDateObject().getTime());
 		jsonObject.put("purchasePrice", obj.getPurchasePrice());
 		jsonObject.put("assetType", obj.getAssetType());
 		jsonObject.put("depreciationRate", obj.getDepreciationRate());
@@ -37,7 +37,7 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 		jsonObject.put("accumulatedDepreciationAmount",
 				obj.getAccumulatedDepreciationAmount());
 		jsonObject.put("soldOrDisposedDate", obj.getSoldOrDisposedDate()
-				.getAsDateObject());
+				.getAsDateObject().getTime());
 		Account accountForSale = obj.getAccountForSale();
 		if (accountForSale != null) {
 			jsonObject.put("accountForSale",
@@ -46,7 +46,7 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 		jsonObject.put("salePrice", obj.getSalePrice());
 		// noDepreciation is not found
 		jsonObject.put("depreciationTillDate", obj.getDepreciationTillDate()
-				.getAsDateObject());
+				.getAsDateObject().getTime());
 		jsonObject.put("notes", obj.getNotes());
 		Account lossOrGainOnDisposalAccount = obj
 				.getLossOrGainOnDisposalAccount();

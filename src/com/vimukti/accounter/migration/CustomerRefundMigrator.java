@@ -33,7 +33,7 @@ public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> 
 		}
 		jsonObj.put("checkNumber", checkNumber);
 
-		jsonObj.put("date", obj.getDate().getAsDateObject());
+		jsonObj.put("date", obj.getDate().getAsDateObject().getTime());
 		return jsonObj;
 	}
 }

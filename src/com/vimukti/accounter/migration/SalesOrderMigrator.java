@@ -72,7 +72,7 @@ public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
 					context.get("ShippingTerm", shippingTerm.getID()));
 		}
 		jsonObj.put("deliveryDate", estimate.getDeliveryDate()
-				.getAsDateObject());
+				.getAsDateObject().getTime());
 		jsonObj.put("remarks", estimate.getMemo());
 		jsonObj.put(
 				"transactionType",

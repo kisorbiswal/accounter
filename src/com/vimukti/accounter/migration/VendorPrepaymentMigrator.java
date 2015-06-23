@@ -30,7 +30,7 @@ public class VendorPrepaymentMigrator extends
 
 		// BillPayment
 		jsonObject.put("payee", context.get("Vendor", obj.getVendor().getID()));
-		jsonObject.put("date", obj.getDate().getAsDateObject());
+		jsonObject.put("date", obj.getDate().getAsDateObject().getTime());
 		jsonObject.put("paymentMethod", PicklistUtilMigrator
 				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
 		// billPaymentAmount not found

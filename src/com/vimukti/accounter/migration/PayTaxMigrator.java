@@ -18,7 +18,7 @@ public class PayTaxMigrator extends TransactionMigrator<PayTAX> {
 		jsonObject.put("payFrom",
 				context.get("Account", obj.getPayFrom().getID()));
 		jsonObject.put("filterbyTAXreturnenddate", obj
-				.getReturnsDueOnOrBefore().getAsDateObject());
+				.getReturnsDueOnOrBefore().getAsDateObject().getTime());
 		TAXAgency taxAgency = obj.getTaxAgency();
 		if (taxAgency != null) {
 			jsonObject.put("taxAgency",
@@ -34,7 +34,7 @@ public class PayTaxMigrator extends TransactionMigrator<PayTAX> {
 			transactionJson.put("taxDue", transactionPayTAX.getTaxDue());
 			transactionJson.put("payment", transactionPayTAX.getAmountToPay());
 			transactionJson.put("filedDate", transactionPayTAX.getFiledDate()
-					.getAsDateObject());
+					.getAsDateObject().getTime());
 			// fileTax not found
 			array.put(transactionJson);
 		}

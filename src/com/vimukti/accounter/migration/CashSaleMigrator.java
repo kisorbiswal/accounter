@@ -64,7 +64,8 @@ public class CashSaleMigrator extends TransactionMigrator<CashSales> {
 			jsonObject.put("shippingMethod",
 					context.get("ShippingMethod", shippingMethod.getID()));
 		}
-		jsonObject.put("deliveryDate", obj.getDeliverydate().getAsDateObject());
+		jsonObject.put("deliveryDate", obj.getDeliverydate().getAsDateObject()
+				.getTime());
 		// super (CustomerTransaction field)
 		if (obj.getContact() != null) {
 			jsonObject.put("contact",

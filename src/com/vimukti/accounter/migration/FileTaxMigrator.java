@@ -21,7 +21,7 @@ public class FileTaxMigrator extends TransactionMigrator<TAXReturn> {
 			jsonObject.put("taxAgency",
 					context.get("TaxAgency", taxAgency.getID()));
 		}
-		jsonObject.put("fromDate", obj.getPeriodStartDate().getAsDateObject());
+		jsonObject.put("fromDate", obj.getPeriodStartDate().getAsDateObject().getTime());
 		jsonObject.put("to", obj.getPeriodEndDate().getAsDateObject());
 		List<TAXReturnEntry> taxReturnEntries = obj.getTaxReturnEntries();
 		JSONArray array = new JSONArray();
