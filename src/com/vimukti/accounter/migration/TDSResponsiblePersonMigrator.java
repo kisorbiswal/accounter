@@ -4,8 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.TDSResponsiblePerson;
-import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class TDSResponsiblePersonMigrator implements
 		IMigrator<TDSResponsiblePerson> {
@@ -44,10 +42,10 @@ public class TDSResponsiblePersonMigrator implements
 	}
 
 	public String getReturnTypeString(int returnType) {
-		AccounterMessages messages = Global.get().messages();
 		if (returnType == 1) {
-			return messages.electronic();
+			return "Electronic";
+		} else {
+			return "Digital";
 		}
-		return messages.digital();
 	}
 }

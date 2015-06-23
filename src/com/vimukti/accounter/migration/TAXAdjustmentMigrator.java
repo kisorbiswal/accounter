@@ -23,23 +23,19 @@ public class TAXAdjustmentMigrator extends TransactionMigrator<TAXAdjustment> {
 		if (taxItem != null) {
 			jsonObject.put("taxItem", context.get("TaxItem", taxItem.getID()));
 		}
-		String type = "SalesType";
-		if (obj.getType() == 1) {
-			type = "PurchaseType";
-		}
-		jsonObject.put("type",
-				context.getPickListContext().get("TAXAccountType", type));
+		jsonObject.put(
+				"type",
+				context.getPickListContext().get("TAXAccountType",
+						obj.isSales() ? "SalesType" : "PurchaseType"));
 
 		jsonObject.put("adjustmentAccount",
 				context.get("Account", obj.getAdjustmentAccount().getID()));
-		String adjustmentType = "IncreaseTAXline";
-		if (obj.getTransactionCategory() == 1) {
-			adjustmentType = "DecreaseTAXline";
-		}
 		jsonObject.put(
 				"adjustmentType",
-				context.getPickListContext().get("TAXAdjustmentType",
-						adjustmentType));
+				context.getPickListContext().get(
+						"TAXAdjustmentType",
+						obj.getIncreaseVATLine() ? "IncreaseTAXline"
+								: "DecreaseTAXline"));
 
 		jsonObject.put("amount", obj.getTransactionCategory());
 		return jsonObject;
