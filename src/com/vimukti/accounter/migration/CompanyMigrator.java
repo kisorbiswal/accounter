@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
@@ -19,6 +20,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
@@ -135,7 +137,7 @@ public class CompanyMigrator {
 		// Users Migration
 		// migrateUsers(emails, context);
 
-		context.setPickListContext(getPicklistObjects());
+		// context.setPickListContext(getPicklistObjects());
 		// Measurements
 		Map<Long, Long> migratedObjects = migrateObjects("Measurement",
 				Measurement.class, new MeasurementMigrator(), context);
@@ -480,8 +482,8 @@ public class CompanyMigrator {
 		JSONArray objectArray = new JSONArray();
 		Criteria criteria = session.createCriteria(clazz, "obj");
 		migrator.addRestrictions(criteria);
-		List<T> objects = criteria.add(
-				Restrictions.eq("company", company.getId())).list();
+		List<T> objects = criteria.add(Restrictions.eq("company", company))
+				.list();
 		for (T obj : objects) {
 			objectArray.put(migrator.migrate(obj, context));
 			ids.add(obj.getID());
@@ -490,9 +492,8 @@ public class CompanyMigrator {
 		Map<Long, Long> newAndOldIds = new HashMap<Long, Long>();
 		HttpPost post = new HttpPost(ECGINE_URL + ECGINE_REST + identity);
 		addAuthenticationParameters(post, this.apiKey);
-		// TODO StringRequestEntity requestEntity = new StringRequestEntity(
-		// objectArray.toString(), "application/json", "UTF-8");
-		// TODO post.setEntity(new UrlEncodedFormEntity(requestEntity));
+		post.setHeader("Content-type", "application/json");
+		post.setEntity(new StringEntity(objectArray.toString()));
 		HttpResponse response = client.execute(post);
 		StatusLine status = response.getStatusLine();
 		if (status.getStatusCode() != HttpStatus.SC_OK) {

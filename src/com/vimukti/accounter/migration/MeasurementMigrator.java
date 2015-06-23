@@ -25,7 +25,6 @@ public class MeasurementMigrator implements IMigrator<Measurement> {
 		JSONArray units = new JSONArray();
 		for (Unit unit : obj.getUnits()) {
 			JSONObject unitObject = new JSONObject();
-			unitObject.put("id", unit.getID());
 			unitObject.put("name", unit.getType());
 			unitObject.put("factor", unit.getFactor());
 			units.put(unit);
