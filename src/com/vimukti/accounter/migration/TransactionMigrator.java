@@ -47,15 +47,10 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		}
 		transaction.put("currencyFactor", obj.getCurrencyFactor());
 		transaction.put("notes", obj.getMemo());
-		transaction.put("isAutomaticTransaction", obj.isAutomaticTransaction());
 		transaction.put(
 				"transactionType",
 				context.getPickListContext().get("TransactionType",
 						Utility.getTransactionName(obj.getType())));
-		transaction.put(
-				"status",
-				context.getPickListContext().get("TransactionStatus",
-						Utility.getStatus(obj.getType(), obj.getStatus())));
 		Job job = obj.getJob();
 		if (job != null) {
 			transaction.put("project", context.get("Job", job.getID()));
