@@ -23,6 +23,7 @@ public class EmployeeMigrator implements IMigrator<Employee> {
 	public JSONObject migrate(Employee obj, MigratorContext context)
 			throws JSONException {
 		JSONObject employee = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(obj, employee);
 		employee.put("pANorEIN", obj.getPANno());
 		EmployeeGroup group = obj.getGroup();
 		if (group != null) {

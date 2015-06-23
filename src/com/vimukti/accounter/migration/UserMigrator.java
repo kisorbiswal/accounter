@@ -10,6 +10,8 @@ public class UserMigrator implements IMigrator<User> {
 	@Override
 	public JSONObject migrate(User obj, MigratorContext context)
 			throws JSONException {
+		JSONObject jsonObject = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
 		// TODO Auto-generated method stub
 		return null;
 	}
