@@ -1,8 +1,13 @@
 package com.vimukti.accounter.migration;
 
-import java.util.Collection;
-
 import com.vimukti.accounter.core.AccounterServerConstants;
+import com.vimukti.accounter.core.AttendancePayHead;
+import com.vimukti.accounter.core.ComputionPayHead;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
+import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class PicklistUtilMigrator {
 	static String depreciationForIdentity(int type) {
@@ -373,6 +378,80 @@ public class PicklistUtilMigrator {
 			return "Firm";
 		case "Branch / Division of Company":
 			return "BranchDivisionofCompany";
+		}
+		return null;
+	}
+
+	static String getCalculationPeriod(int calculationPeriod) {
+		switch (calculationPeriod) {
+		case ClientPayHead.CALCULATION_PERIOD_DAYS:
+			return "Days";
+
+		case ClientPayHead.CALCULATION_PERIOD_MONTHS:
+			return "Months";
+
+		case ClientPayHead.CALCULATION_PERIOD_WEEKS:
+			return "Weeks";
+
+		default:
+			return null;
+		}
+	}
+
+	static String getPerdayCalculationBasis(int perDayCalculationBasis) {
+		switch (perDayCalculationBasis) {
+		case ClientAttendancePayHead.PER_DAY_CALCULATION_AS_PER_CALANDAR_PERIOD:
+			return "AsPerCalendarPeriod";
+
+		case ClientAttendancePayHead.PER_DAY_CALCULATION_30_DAYS:
+			return "Days30";
+
+		case ClientAttendancePayHead.PER_DAY_CALCULATION_USER_DEFINED_CALANDAR:
+			return "UserDefinedCalendar";
+
+		default:
+			return null;
+		}
+	}
+
+	static String getComputationType(int computationType) {
+		AccounterMessages messages = Accounter.getMessages();
+		switch (computationType) {
+		case ComputionPayHead.COMPUTATE_ON_SUBTOTAL:
+			return "OnSubTotal";
+
+		case ComputionPayHead.COMPUTATE_ON_DEDUCTION_TOTAL:
+			return "OnDeductionTotal";
+
+		case ComputionPayHead.COMPUTATE_ON_EARNING_TOTAL:
+			return "OnEarningTotal";
+
+		case ComputionPayHead.COMPUTATE_ON_SPECIFIED_FORMULA:
+			return "OnSpecifiedFormula";
+
+		default:
+			break;
+		}
+		return null;
+	}
+
+	static String getAttendanceType(int attendanceType) {
+		AccounterMessages messages = Global.get().messages();
+		switch (attendanceType) {
+		case AttendancePayHead.ATTENDANCE_ON_PAYHEAD:
+			return messages.otherPayhead();
+
+		case AttendancePayHead.ATTENDANCE_ON_EARNING_TOTAL:
+			return messages.onEarningTotal();
+
+		case AttendancePayHead.ATTENDANCE_ON_SUBTOTAL:
+			return messages.onSubTotal();
+
+		case AttendancePayHead.ATTENDANCE_ON_RATE:
+			return messages.rate();
+
+		default:
+			break;
 		}
 		return null;
 	}

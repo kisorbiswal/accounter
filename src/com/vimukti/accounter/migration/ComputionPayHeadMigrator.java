@@ -4,13 +4,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.PayHead;
+import com.vimukti.accounter.core.ComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 
-public class PayHeadMigrator implements IMigrator<PayHead> {
+public class ComputionPayHeadMigrator implements IMigrator<ComputionPayHead> {
 
 	@Override
-	public JSONObject migrate(PayHead obj, MigratorContext context)
+	public JSONObject migrate(ComputionPayHead obj, MigratorContext context)
 			throws JSONException {
 		JSONObject payHead = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, payHead, context);
@@ -32,14 +32,17 @@ public class PayHeadMigrator implements IMigrator<PayHead> {
 			payHead.put("statutoryLiabilityAccount",
 					context.get("Account", liabilityAccount.getID()));
 		}
-		payHead.put("isFromTimeSheet", false);
+		payHead.put("calculationPeriod", PicklistUtilMigrator
+				.getCalculationPeriod(obj.getCalculationPeriod()));
+		payHead.put("perDayCalculationBasis", PicklistUtilMigrator
+				.getPerdayCalculationBasis(obj.getCalculationPeriod()));
+		payHead.put("computeOn", PicklistUtilMigrator.getComputationType(obj
+				.getComputationType()));
 		// TODO PayHead.obj has
-		// isFromTimeSheet,formulaItems,lastComputedValuer,otherPayHead,
-		// earningDeductionOn
-		// ,calculationPeriod,attendanceLeaveWithPay,productionType,
-		// perDayCalculationBasis,userDefinedCalendar,computeOn,computationSlabs
+		// isFromTimeSheet,formulaItems,lastComputedValue,otherPayHead,
+		// ,attendanceLeaveWithPay,
+		// userDefinedCalendar,computationSlabs
 		// not in PayHead.java
 		return payHead;
 	}
-
 }

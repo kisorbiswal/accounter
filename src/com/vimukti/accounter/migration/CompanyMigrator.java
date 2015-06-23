@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
@@ -33,12 +32,14 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterClass;
+import com.vimukti.accounter.core.AttendancePayHead;
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Budget;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.ComputionPayHead;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.Customer;
@@ -51,6 +52,7 @@ import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.EmployeeGroup;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.FlatRatePayHead;
 import com.vimukti.accounter.core.InventoryAssembly;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Item;
@@ -61,7 +63,6 @@ import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.PayBill;
-import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.core.PayStructure;
 import com.vimukti.accounter.core.PayTAX;
 import com.vimukti.accounter.core.PaymentTerms;
@@ -84,6 +85,7 @@ import com.vimukti.accounter.core.TDSDeductorMasters;
 import com.vimukti.accounter.core.TDSResponsiblePerson;
 import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.core.UserDefinedPayHead;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorCreditMemo;
 import com.vimukti.accounter.core.VendorGroup;
@@ -344,8 +346,17 @@ public class CompanyMigrator {
 				new DepreciationMigrator(), context);
 		context.put("WriteCheck", migratedObjects);
 		// PayHead
-		migratedObjects = migrateObjects("PayHead", PayHead.class,
-				new PayHeadMigrator(), context);
+		migratedObjects = migrateObjects("PayHead", AttendancePayHead.class,
+				new AttendancePayHeadMigrator(), context);
+		context.put("PayHead", migratedObjects);
+		migratedObjects = migrateObjects("PayHead", ComputionPayHead.class,
+				new ComputionPayHeadMigrator(), context);
+		context.put("PayHead", migratedObjects);
+		migratedObjects = migrateObjects("PayHead", FlatRatePayHead.class,
+				new FlatRatePayHeadMigrator(), context);
+		context.put("PayHead", migratedObjects);
+		migratedObjects = migrateObjects("PayHead", UserDefinedPayHead.class,
+				new UserDefinedPayHeadMigrator(), context);
 		context.put("PayHead", migratedObjects);
 		// EmployeeGroup
 		migratedObjects = migrateObjects("EmployeeGroup", EmployeeGroup.class,
@@ -428,23 +439,22 @@ public class CompanyMigrator {
 				"DepreciationFor", "DepreciationMethod", "DepreciationStatus",
 				"DiscountInTransactions", "EmailPreference",
 				"FixedAssetStatus", "Gender", "IntervelType", "MaritalStatus",
-				"Month", "PaymentMethod", "PaymentStatus", "PriorityType",
-				"RecuringType", "RecurrenceInstance", "RelationshipType",
+				"Month", "PaymentMethod", "PaymentStatus", "RecuringType",
+				"RecurrenceInstance", "RelationshipType",
 				"TaxItemInTransactions", "TransactionItemType",
 				"TransactionStatus", "TransactionType", "InventoryScheme",
 				"InvoiceStatus", "ItemType", "ProjectStatus", "QuotationType",
 				"SalesOrderStatus", "AttendanceProductionType",
 				"AttendanceProductionTypePeriod", "CalculationType",
 				"ComputationSlabType", "EmployeeAttendanceManagementItemType",
-				"NamePrefix", "PayeeType", "PayEmployeeType",
-				"PayHeadCalculationPeriod", "PayHeadCalculationType",
-				"PayHeadComputeOn", "PayHeadEarningOrDeductionOn",
-				"PayHeadFormulaFunctionType", "PayHeadPerDayCalculationBasis",
-				"PayHeadType", "PayRunType", "PayStructureType", "SlabType",
-				"TransportationMode", "DeductorMastersStatus", "DeductorType",
-				"DepreciationPeriods", "FormType", "MinistryDeptName",
-				"NatureOfPayment", "RetutnType", "TAXAccountType",
-				"TaxAdjustmentType", "TaxType", "BillStatus",
+				"NamePrefix", "PayEmployeeType", "PayHeadCalculationPeriod",
+				"PayHeadCalculationType", "PayHeadComputeOn",
+				"PayHeadEarningOrDeductionOn", "PayHeadFormulaFunctionType",
+				"PayHeadPerDayCalculationBasis", "PayHeadType", "PayRunType",
+				"PayStructureType", "SlabType", "TransportationMode",
+				"DeductorMastersStatus", "DeductorType", "FormType",
+				"MinistryDeptName", "NatureOfPayment", "RetutnType",
+				"TAXAccountType", "TaxAdjustmentType", "TaxType", "BillStatus",
 				"AccounterItemType", "DiscountInTransactions",
 				"PurchaseOrderStatus", "JournalEntryItemType",
 				"QuotationStatus" };

@@ -2,6 +2,7 @@ package com.vimukti.accounter.migration;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Utility;
 
@@ -11,10 +12,14 @@ public class BankAccountMigrator implements IMigrator<BankAccount> {
 	public JSONObject migrate(BankAccount bankAccount, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(bankAccount, jsonObject, context);
+		CommonFieldsMigrator.migrateCommonFields(bankAccount, jsonObject,
+				context);
 		jsonObject.put("bankName", bankAccount.getBank().getName());
-		jsonObject.put("bankAccountType",
-				Utility.getBankAccountType(bankAccount.getBankAccountType()));
+		String bankAccountType = getBankAccountTypeIdentity(Utility
+				.getBankAccountType(bankAccount.getBankAccountType()));
+		if (bankAccountType != null) {
+			jsonObject.put("bankAccountType", bankAccountType);
+		}
 		jsonObject.put("bankAccountNumber", bankAccount.getBankAccountNumber());
 		jsonObject.put("number", bankAccount.getNumber());
 		jsonObject.put("name", bankAccount.getName());
@@ -36,5 +41,15 @@ public class BankAccountMigrator implements IMigrator<BankAccount> {
 		jsonObject.put("currencyFactor", bankAccount.getCurrencyFactor());
 		jsonObject.put("isIncrease", bankAccount.isIncrease());
 		return jsonObject;
+	}
+
+	String getBankAccountTypeIdentity(String name) {
+		switch (name) {
+		case "None":
+			return null;
+		case "Money Market":
+			return "MoneyMarket";
+		}
+		return name;
 	}
 }
