@@ -9,6 +9,7 @@ import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 
 public class PurchaseOrderMigrator extends TransactionMigrator<PurchaseOrder> {
 
@@ -64,6 +65,10 @@ public class PurchaseOrderMigrator extends TransactionMigrator<PurchaseOrder> {
 		if (shippingTerms != null) {
 			jsonObject.put("shippingTerm",
 					context.get("ShippingTerm", shippingTerms.getID()));
+		}
+		if (obj.getStatus() == ClientTransaction.STATUS_CANCELLED) {
+			jsonObject.put("purchaseOrderstatus", context.getPickListContext()
+					.get("PurchaseOrderStatus", "Cancelled"));
 		}
 		return jsonObject;
 	}
