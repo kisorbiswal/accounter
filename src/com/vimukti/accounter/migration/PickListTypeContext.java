@@ -11,8 +11,8 @@ public class PickListTypeContext {
 		return picklistObjs.isEmpty();
 	}
 
-	public void put(String indentity, String instanceIdentity, Long id) {
-		picklistObjs.put(indentity + instanceIdentity, id);
+	public void put(String identity, String instanceIdentity, Long id) {
+		picklistObjs.put(identity + instanceIdentity, id);
 	}
 
 	public Long get(String objName, String value) {

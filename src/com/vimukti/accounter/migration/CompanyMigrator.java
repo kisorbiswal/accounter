@@ -2,6 +2,7 @@ package com.vimukti.accounter.migration;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,11 +11,13 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
@@ -100,14 +103,15 @@ public class CompanyMigrator {
 	private static final String PASS_WORD = "password";
 	private static final String SIGNUP_CREATE_ORG = "/go/accountersignup/";
 	private static final String LOG_IN = "/api/login";
-	private static final String AUTHORIZATION_KEY = "authorization-barre";
+	private static final String AUTH_HEADER_NAME = "Authorization";
+	private static final String BEARER = "Bearer";
 
 	private static Logger log = Logger.getLogger(CompanyMigrator.class);
 
 	private Company company;
 
 	private HttpClient client;
-	private String loginKey;
+	private String apiKey;
 	private String password;
 
 	public CompanyMigrator(Company company, String password) {
@@ -124,9 +128,9 @@ public class CompanyMigrator {
 		context.setCompany(company);
 		// Organization
 		User user = company.getCreatedBy();
-		signup(company.getCreatedBy());
+		// signup(company.getCreatedBy());
 		// / login
-		loginKey = login(user.getClient().getEmailId(), this.password);
+		apiKey = login(user.getClient().getEmailId(), this.password);
 
 		// Users Migration
 		// migrateUsers(emails, context);
@@ -450,8 +454,8 @@ public class CompanyMigrator {
 
 	private void get(String identity, PickListTypeContext typeContext)
 			throws HttpException, IOException, JSONException {
-		HttpPost request = new HttpPost(ECGINE_URL + ECGINE_REST + identity);
-		request.addHeader(AUTHORIZATION_KEY, loginKey);
+		HttpGet request = new HttpGet(ECGINE_URL + ECGINE_REST);
+		addAuthenticationParameters(request, this.apiKey);
 		HttpResponse response = client.execute(request);
 		StatusLine status = response.getStatusLine();
 		if (status.getStatusCode() != HttpStatus.SC_OK) {
@@ -485,7 +489,7 @@ public class CompanyMigrator {
 		// Send Request TO REST API
 		Map<Long, Long> newAndOldIds = new HashMap<Long, Long>();
 		HttpPost post = new HttpPost(ECGINE_URL + ECGINE_REST + identity);
-		post.addHeader(AUTHORIZATION_KEY, loginKey);
+		addAuthenticationParameters(post, this.apiKey);
 		// TODO StringRequestEntity requestEntity = new StringRequestEntity(
 		// objectArray.toString(), "application/json", "UTF-8");
 		// TODO post.setEntity(new UrlEncodedFormEntity(requestEntity));
@@ -546,5 +550,12 @@ public class CompanyMigrator {
 			throw new RuntimeException(status.toString());
 		}
 		log.info("***Signup Sucessfully with " + accClient.getEmailId());
+	}
+
+	private void addAuthenticationParameters(HttpRequest executeMethod,
+			String apiKey) {
+		String encodedKey = Base64.getEncoder().encodeToString(
+				apiKey.getBytes());
+		executeMethod.addHeader(AUTH_HEADER_NAME, BEARER + " " + encodedKey);
 	}
 }
