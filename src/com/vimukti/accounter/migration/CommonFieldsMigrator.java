@@ -7,10 +7,10 @@ import com.vimukti.accounter.core.CreatableObject;
 
 public class CommonFieldsMigrator {
 
-	public static void migrateCommonFields(CreatableObject obj, JSONObject json)
-			throws JSONException {
-		json.put("createdBy", obj.getCreatedBy());
-		json.put("lastModifiedBy", obj.getLastModifier());
+	public static void migrateCommonFields(CreatableObject obj,
+			JSONObject json, MigratorContext context) throws JSONException {
+		json.put("createdBy", context.getAdmin());
+		json.put("lastModifiedBy", context.getAdmin());
 		json.put("createdDate", obj.getCreatedDate());
 		json.put("lastModifiedDate", obj.getLastModifiedDate());
 	}

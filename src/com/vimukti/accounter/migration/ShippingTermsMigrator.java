@@ -11,7 +11,7 @@ public class ShippingTermsMigrator implements IMigrator<ShippingTerms> {
 	public JSONObject migrate(ShippingTerms obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("name", obj.getName());
 		jsonObject.put("description", obj.getDescription());
 		return jsonObject;

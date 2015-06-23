@@ -11,7 +11,7 @@ public class AccounterClassMigrator implements IMigrator<AccounterClass> {
 	public JSONObject migrate(AccounterClass obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("name", obj.getclassName());
 		jsonObject.put("description", obj.getPath());
 		AccounterClass parent = obj.getParent();

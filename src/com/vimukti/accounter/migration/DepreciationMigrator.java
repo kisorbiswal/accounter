@@ -9,7 +9,7 @@ public class DepreciationMigrator implements IMigrator<Depreciation> {
 	public JSONObject migrate(Depreciation depreciation, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(depreciation, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(depreciation, jsonObject, context);
 		jsonObject.put(
 				"status",
 				context.getPickListContext().get(

@@ -11,7 +11,7 @@ public class TAXCodeMigrator implements IMigrator<TAXCode> {
 	public JSONObject migrate(TAXCode taxcode, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(taxcode, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(taxcode, jsonObject, context);
 		jsonObject.put("name", taxcode.getName());
 		jsonObject.put("isTaxable", taxcode.isTaxable());
 		jsonObject.put("taxItemOrGroupForSales",

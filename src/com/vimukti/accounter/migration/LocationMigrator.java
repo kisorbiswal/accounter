@@ -11,7 +11,7 @@ public class LocationMigrator implements IMigrator<Location> {
 	public JSONObject migrate(Location obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("name", obj.getName());
 		return jsonObject;
 	}

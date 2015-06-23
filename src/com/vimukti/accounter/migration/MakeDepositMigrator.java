@@ -18,7 +18,7 @@ public class MakeDepositMigrator extends TransactionMigrator<MakeDeposit> {
 	public JSONObject migrate(MakeDeposit obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObj = super.migrate(obj, context);
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObj);
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObj, context);
 		Account depositTo = obj.getDepositTo();
 		if (depositTo != null) {
 			jsonObj.put("depositTo", context.get("Account", depositTo.getID()));

@@ -11,7 +11,7 @@ public class TaxMigrator<T extends TAXItemGroup> implements IMigrator<T> {
 	public JSONObject migrate(T obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("name", obj.getName());
 		jsonObject.put("isInactive", !obj.isActive());
 		jsonObject.put("isTaxGroup", false);

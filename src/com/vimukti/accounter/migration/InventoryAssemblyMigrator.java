@@ -19,7 +19,7 @@ public class InventoryAssemblyMigrator implements IMigrator<InventoryAssembly> {
 	public JSONObject migrate(InventoryAssembly item, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(item, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(item, jsonObject, context);
 		jsonObject.put("name", item.getName());
 		jsonObject.put("isSubItemOf", item.isSubItemOf());
 		jsonObject.put("subItemOf",

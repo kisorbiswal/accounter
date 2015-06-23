@@ -23,7 +23,7 @@ public class CustomerMigrator implements IMigrator<Customer> {
 	public JSONObject migrate(Customer obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		PriceLevel priceLevel = obj.getPriceLevel();
 		SalesPerson salesPerson = obj.getSalesPerson();
 		CustomerGroup customerGroup = obj.getCustomerGroup();

@@ -11,7 +11,7 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 	public JSONObject migrate(FixedAsset obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("status", PicklistUtilMigrator
 				.getFixedAssetStatusIdentifier(obj.getStatus()));
 		jsonObject.put("name", obj.getName());

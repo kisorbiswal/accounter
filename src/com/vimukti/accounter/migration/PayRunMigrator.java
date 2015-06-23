@@ -21,7 +21,7 @@ public class PayRunMigrator implements IMigrator<PayRun> {
 	public JSONObject migrate(PayRun obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("date", obj.getDate().getAsDateObject());
 		jsonObject.put("number", obj.getNumber());
 		Currency currency = obj.getCurrency();

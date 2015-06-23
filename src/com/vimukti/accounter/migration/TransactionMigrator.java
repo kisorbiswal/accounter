@@ -25,7 +25,7 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 	public JSONObject migrate(T obj, MigratorContext context)
 			throws JSONException {
 		JSONObject transaction = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, transaction);
+		CommonFieldsMigrator.migrateCommonFields(obj, transaction, context);
 		transaction.put("date", obj.getDate().getAsDateObject());
 		transaction.put("number", obj.getNumber());
 		AccounterClass accounterClass = obj.getAccounterClass();

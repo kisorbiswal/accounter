@@ -38,4 +38,12 @@ public class MigratorContext {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
+
+	public void setAdmin(String user, long userId) {
+		ids.put(user, userId);
+	}
+
+	public Long getAdmin() {
+		return ids.get("Admin");
+	}
 }

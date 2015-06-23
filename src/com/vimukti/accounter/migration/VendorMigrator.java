@@ -20,7 +20,7 @@ public class VendorMigrator implements IMigrator<Vendor> {
 	public JSONObject migrate(Vendor obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		VendorGroup vendorGroup = obj.getVendorGroup();
 		if (vendorGroup != null) {
 			jsonObject.put("vendorGroup",

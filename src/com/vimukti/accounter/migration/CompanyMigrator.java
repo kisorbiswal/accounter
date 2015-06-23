@@ -130,7 +130,8 @@ public class CompanyMigrator {
 		context.setCompany(company);
 		// Organization
 		User user = company.getCreatedBy();
-		// signup(company.getCreatedBy());
+		long adminId = signup(user);
+		context.setAdmin("Admin", adminId);
 		// / login
 		apiKey = login(user.getClient().getEmailId(), this.password);
 
@@ -532,7 +533,7 @@ public class CompanyMigrator {
 
 	}
 
-	private void signup(User user) throws HttpException, IOException,
+	private long signup(User user) throws HttpException, IOException,
 			JSONException {
 		HttpPost post = new HttpPost(ECGINE_URL + SIGNUP_CREATE_ORG);
 		Client accClient = user.getClient();
@@ -551,6 +552,8 @@ public class CompanyMigrator {
 			throw new RuntimeException(status.toString());
 		}
 		log.info("***Signup Sucessfully with " + accClient.getEmailId());
+		// TODO
+		return 0L;
 	}
 
 	private void addAuthenticationParameters(HttpRequest executeMethod,

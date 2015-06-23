@@ -13,7 +13,8 @@ public class AccountMigrator implements IMigrator<Account> {
 		JSONObject jsonObject = null;
 		try {
 			jsonObject = new JSONObject();
-			CommonFieldsMigrator.migrateCommonFields(account, jsonObject);
+			CommonFieldsMigrator.migrateCommonFields(account, jsonObject,
+					context);
 			jsonObject.put("number", account.getNumber());
 			jsonObject.put("name", account.getName());
 			jsonObject.put("asOf", account.getAsOf());

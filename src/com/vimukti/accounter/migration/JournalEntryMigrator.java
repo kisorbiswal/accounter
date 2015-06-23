@@ -20,7 +20,7 @@ public class JournalEntryMigrator implements IMigrator<JournalEntry> {
 	public JSONObject migrate(JournalEntry entry, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(entry, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(entry, jsonObject, context);
 		jsonObject.put("date", entry.getDate().getAsDateObject());
 		jsonObject.put("number", entry.getNumber());
 		AccounterClass accounterClass = entry.getAccounterClass();
@@ -53,7 +53,6 @@ public class JournalEntryMigrator implements IMigrator<JournalEntry> {
 		if (job != null) {
 			jsonObject.put("project", context.get("Job", job.getID()));
 		}
-		CommonFieldsMigrator.migrateCommonFields(entry, jsonObject);
 		jsonObject.put("payee", context.get("BusinessRelationship", entry
 				.getInvolvedPayee().getID()));
 		for (TransactionItem item : entry.getTransactionItems()) {

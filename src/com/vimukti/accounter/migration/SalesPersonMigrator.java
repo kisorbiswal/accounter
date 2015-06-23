@@ -12,7 +12,7 @@ public class SalesPersonMigrator implements IMigrator<SalesPerson> {
 	public JSONObject migrate(SalesPerson salesPerson, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(salesPerson, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(salesPerson, jsonObject, context);
 		jsonObject.put("name", salesPerson.getName());
 		jsonObject.put("fileAs", salesPerson.getFileAs());
 		jsonObject.put("jobTitle", salesPerson.getJobTitle());

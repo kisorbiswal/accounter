@@ -11,7 +11,7 @@ public class BankAccountMigrator implements IMigrator<BankAccount> {
 	public JSONObject migrate(BankAccount bankAccount, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(bankAccount, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(bankAccount, jsonObject, context);
 		jsonObject.put("bankName", bankAccount.getBank().getName());
 		jsonObject.put(
 				"bankAccountType",

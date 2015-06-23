@@ -14,7 +14,7 @@ public class PayStructureMigrator implements IMigrator<PayStructure> {
 	public JSONObject migrate(PayStructure obj, MigratorContext context)
 			throws JSONException {
 		JSONObject payStructure = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, payStructure);
+		CommonFieldsMigrator.migrateCommonFields(obj, payStructure, context);
 
 		if (obj.getEmployee() != null) {
 			payStructure.put("type", "Employee");
