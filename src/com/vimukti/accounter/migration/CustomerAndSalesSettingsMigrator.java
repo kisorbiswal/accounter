@@ -17,7 +17,7 @@ public class CustomerAndSalesSettingsMigrator implements
 				"itemType",
 				context.getPickListContext().get(
 						"ItemType",
-						getItemTypeString(obj.isSellServices(),
+						itemTypeByIdentity(obj.isSellServices(),
 								obj.isSellProducts())));
 		customerAndSalesSetting.put("inventoryTracking",
 				obj.isInventoryEnabled());
@@ -52,13 +52,13 @@ public class CustomerAndSalesSettingsMigrator implements
 		}
 	}
 
-	private String getItemTypeString(Boolean service, Boolean product) {
+	private String itemTypeByIdentity(Boolean service, Boolean product) {
 		if (service && !product) {
-			return "Sales";
+			return "ServicesOnly";
 		}
 		if (product && !service) {
-			return "Product";
+			return "ProductsOnly";
 		}
-		return "BothsalesAndProduct";
+		return "BothServicesAndProducts";
 	}
 }
