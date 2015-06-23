@@ -120,15 +120,12 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		}
 		jsonObject.put("primaryContact",
 				context.get("Contact", obj.getPrimaryContact().getID()));
-		// shipTo and billTo are not found
 		jsonObject.put("vATRegistrationNumber", obj.getVATRegistrationNumber());
 		TAXItem taxItem = obj.getTAXItem();
 		if (taxItem != null) {
 			jsonObject.put("taxItem", context.get("TAXItem", taxItem.getID()));
 		}
-		// modeOfTransport is not found
 		jsonObject.put("openingBalance", obj.getOpeningBalance());
-		// journalEntry is not found
 
 		return jsonObject;
 	}
