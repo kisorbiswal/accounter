@@ -1,5 +1,8 @@
 package com.vimukti.accounter.migration;
 
+import com.vimukti.accounter.core.AccounterServerConstants;
+import com.vimukti.accounter.core.Transaction;
+
 public class PicklistUtilMigrator {
 	static String depreciationForIdentity(int type) {
 		switch (type) {
@@ -222,5 +225,97 @@ public class PicklistUtilMigrator {
 		}
 		return name;
 
+	}
+
+	static String getTransactionTypeIdentifier(String displayName) {
+		String identifier = "";
+
+		switch (displayName) {
+		case AccounterServerConstants.TYPE_CASH_SALES:
+			identifier = "CashSale";
+			break;
+		case AccounterServerConstants.TYPE_CASH_PURCHASE:
+			identifier = "CashPurchase";
+			break;
+		case AccounterServerConstants.TYPE_CREDIT_CARD_CHARGE:
+			identifier = "PurchaseExpense";
+			break;
+		case AccounterServerConstants.TYPE_CUSTOMER_CREDIT_MEMO:
+			identifier = "CreditMemo";
+			break;
+		case AccounterServerConstants.TYPE_CUSTOMER_REFUNDS:
+			identifier = "CustomerRefund";
+			break;
+		case AccounterServerConstants.TYPE_CUSTOMER_PRE_PAYMENT:
+			identifier = "CustomerPrepayment";
+			break;
+		case AccounterServerConstants.TYPE_ENTER_BILL:
+			identifier = "EnterBill";
+			break;
+		case AccounterServerConstants.TYPE_ESTIMATE:
+			identifier = "SalesQuotation";
+			break;
+		case AccounterServerConstants.TYPE_INVOICE:
+			identifier = "Invoice";
+			break;
+		case AccounterServerConstants.TYPE_MAKE_DEPOSIT:
+			identifier = "MakeDeposit";
+			break;
+		case AccounterServerConstants.TYPE_PAY_BILL:
+			identifier = "PayBill";
+			break;
+		case AccounterServerConstants.TYPE_VENDOR_PAYMENT:
+			identifier = "VendorPrepayment";
+			break;
+		case AccounterServerConstants.TYPE_RECEIVE_PAYMENT:
+			identifier = "ReceivePayment";
+			break;
+		case AccounterServerConstants.TYPE_TRANSFER_FUND:
+			identifier = "TransferFund";
+			break;
+		case AccounterServerConstants.TYPE_VENDOR_CREDIT_MEMO:
+			identifier = "DebitNote";
+			break;
+		case AccounterServerConstants.TYPE_WRITE_CHECK:
+			identifier = "WriteCheck";
+			break;
+		case AccounterServerConstants.TYPE_JOURNAL_ENTRY:
+			identifier = "JournalEntry";
+			break;
+		case AccounterServerConstants.TYPE_PAY_TAX:
+			identifier = "PayTax";
+			break;
+		case AccounterServerConstants.TYPE_VAT_RETURN:
+			identifier = "FileTax";
+			break;
+		case AccounterServerConstants.TYPE_RECEIVE_VAT:
+			identifier = "TaxRefund";
+			break;
+		case AccounterServerConstants.TYPE_VAT_ADJUSTMENT:
+			identifier = "TAXAdjustment";
+			break;
+		case AccounterServerConstants.TYPE_PURCHASE_ORDER:
+			identifier = "PurchaseOrder";
+			break;
+		case AccounterServerConstants.TYPE_CASH_EXPENSE:
+			identifier = "PurchaseExpense";
+			break;
+		case AccounterServerConstants.TYPE_CREDIT_CARD_EXPENSE:
+			identifier = "PurchaseExpense";
+			break;
+		case AccounterServerConstants.TYPE_STOCK_ADJUSTMENT:
+			identifier = "StockAdujustment";
+			break;
+		case AccounterServerConstants.TYPE_TDS_CHALLAN:
+			identifier = "Tdschallan";
+			break;
+		case AccounterServerConstants.TYPE_PAY_RUN:
+			identifier = "PayRun";
+			break;
+		case AccounterServerConstants.TYPE_PAY_EMPLOYEE:
+			identifier = "PayEmployee";
+			break;
+		}
+		return identifier;
 	}
 }
