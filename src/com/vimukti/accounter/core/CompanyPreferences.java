@@ -862,6 +862,10 @@ public class CompanyPreferences implements IAccounterServerCore {
 		set(ENABLE_MULTI_CURRENCY, value);
 	}
 
+	public boolean isEnabledMultiCurrency() {
+		return get(ENABLE_MULTI_CURRENCY);
+	}
+
 	public boolean isSalesPersonEnabled() {
 		return get(SALES_PERSON_ENABLE);
 	}

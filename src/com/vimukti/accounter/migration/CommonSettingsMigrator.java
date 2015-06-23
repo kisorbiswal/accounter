@@ -21,7 +21,7 @@ public class CommonSettingsMigrator implements IMigrator<CompanyPreferences> {
 				context.getPickListContext().get(
 						"TaxItemInTransactions",
 						obj.isTaxPerDetailLine() ? "OnePerDetailLine"
-								: "OnePerTransaction" ));
+								: "OnePerTransaction"));
 		commonSettings.put("enableTrackingTaxPaid", obj.isTrackPaidTax());
 		commonSettings.put("enableTDS", obj.isTDSEnabled());
 		commonSettings.put("useBillable",
@@ -30,10 +30,15 @@ public class CommonSettingsMigrator implements IMigrator<CompanyPreferences> {
 				obj.isProductandSerivesTrackingByCustomerEnabled());
 		commonSettings.put("currency",
 				context.get("Currency", obj.getPrimaryCurrency().getID()));
-		commonSettings.put("firstMonthOfYourFinancialYear",
-				obj.getFiscalYearFirstMonth());
+		commonSettings.put("multipleCurrency", obj.isEnabledMultiCurrency());
+		// commonSettings.put("tIN", obj.isEnabledMultiCurrency());
+		// commonSettings.put("tAN", obj.isEnabledMultiCurrency());
+		// commonSettings.put("pAN", obj.isEnabledMultiCurrency());
 		commonSettings.put("depreciationStartDate", obj
 				.getDepreciationStartDate().getAsDateObject());
+		commonSettings.put("companyName", obj.getTradingName());
+		// commonSettings.put("companyHasLegalName", false);
+		commonSettings.put("legalName", obj.getLegalName());
 		Address tradingAddress = obj.getTradingAddress();
 		JSONObject jsonAddress = new JSONObject();
 		jsonAddress.put("street", tradingAddress.getStreet());
@@ -45,9 +50,17 @@ public class CommonSettingsMigrator implements IMigrator<CompanyPreferences> {
 		commonSettings.put("tradingAddress", jsonAddress);
 		commonSettings.put("companyHasRegisteredAddress",
 				obj.isShowRegisteredAddress());
-		// registeredAddress is not found
+		// commonSettings.put("registeredAddress", jsonAddress);
 		commonSettings.put("defaultTaxCode",
 				context.get("TaxCode", obj.getDefaultTaxCode().getID()));
+		//commonSettings.put("accountReceivable", context.get("Account", 10));
+		//commonSettings.put("accountPayable", context.get("Account", 10));
+		//commonSettings.put("centralSalesTaxPayable", context.get("Account", 10));
+		//commonSettings.put("salariesPayable", context.get("Account", 10));
+		//commonSettings.put("taxFiled", context.get("Account", 10));
+		//commonSettings.put("openingBalances", context.get("Account", 10));
+		//commonSettings.put("exchangeLossorGain", context.get("Account", 10));
+		//commonSettings.put("accountingCurrencies", "");
 		return commonSettings;
 	}
 
