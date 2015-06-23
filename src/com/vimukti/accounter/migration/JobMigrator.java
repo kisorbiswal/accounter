@@ -11,13 +11,14 @@ public class JobMigrator implements IMigrator<Job> {
 	public JSONObject migrate(Job obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("name", obj.getJobName());
 		jsonObject.put("startDate", obj.getStartDate().getAsDateObject());
 		jsonObject.put("endDate", obj.getEndDate().getAsDateObject());
 		jsonObject.put("customer",
 				context.get("Customer", obj.getCustomer().getID()));
-		jsonObject.put("status", obj.getJobStatus());
+		jsonObject.put("status", PicklistUtilMigrator
+				.getProjectStatusIdentity(obj.getJobStatus()));
 		return jsonObject;
 	}
 }

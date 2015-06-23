@@ -1,7 +1,8 @@
 package com.vimukti.accounter.migration;
 
+import java.util.Collection;
+
 import com.vimukti.accounter.core.AccounterServerConstants;
-import com.vimukti.accounter.core.Transaction;
 
 public class PicklistUtilMigrator {
 	static String depreciationForIdentity(int type) {
@@ -318,4 +319,62 @@ public class PicklistUtilMigrator {
 		}
 		return identifier;
 	}
+
+	public static String getProjectStatusIdentity(String status) {
+
+		switch (status) {
+		case "None":
+			return null;
+		case "Pending":
+			return "Pending";
+		case "Awarded":
+			return "Awarded";
+		case "In Progress":
+			return "InProgress";
+		case "Closed":
+			return "Closed";
+		case "Not Awarded":
+			return "NotAwarded";
+		}
+		return "";
+	}
+
+	public static String getDeductorTypeIndentity(String deductorType) {
+		switch (deductorType) {
+		case "Central Government":
+			return "CentralGovernment";
+		case "State Government":
+			return "StateGovernment";
+		case "Statutory body (Central Govt.)":
+			return "CentralGovtStatutoryBody";
+		case "Statutory body (State Govt.)":
+			return "StateGovtStatutoryBody";
+		case "Autonomous body (Central Govt.)":
+			return "CentralGovtAutonomousBody";
+		case "Autonomous body (State Govt.)":
+			return "StateGovtAutonomousBody";
+		case "Local Authority (Central Govt.)":
+			return "CentralGovtLocalAuthority";
+		case "Local Authority (State Govt.)":
+			return "StateGovtLocalAuthority";
+		case "Company":
+			return "Company";
+		case "Association of Person (AOP)":
+			return "AssociationofPerson";
+		case "Association of Person (Trust)":
+			return "AssociationofPersonTrust";
+		case "Artificial Juridical Person":
+			return "ArtificialJuridicalPerson";
+		case "Body of Individuals":
+			return "BodyofIndividuals";
+		case "Individual/HUF":
+			return "IndividualHUF";
+		case "Firm":
+			return "Firm";
+		case "Branch / Division of Company":
+			return "BranchDivisionofCompany";
+		}
+		return null;
+	}
+
 }
