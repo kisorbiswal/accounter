@@ -2,6 +2,7 @@ package com.vimukti.accounter.migration;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.CustomerPrePayment;
 
@@ -11,6 +12,7 @@ public class CustomerPrepaymentMigrator implements
 	public JSONObject migrate(CustomerPrePayment obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
 		jsonObject.put("project", context.get("Project", obj.getJob().getID()));
 		jsonObject.put("paymentMethod", PicklistUtilMigrator
 				.getPaymentMethodIdentifier(obj.getPaymentMethod()));

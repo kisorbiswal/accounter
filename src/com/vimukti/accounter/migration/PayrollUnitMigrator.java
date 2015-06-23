@@ -10,6 +10,7 @@ public class PayrollUnitMigrator implements IMigrator<PayrollUnit> {
 	public JSONObject migrate(PayrollUnit payrollunit, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(payrollunit, jsonObject);
 		jsonObject.put("symbol", payrollunit.getSymbol());
 		jsonObject.put("formalName", payrollunit.getFormalname());
 		jsonObject.put("numberOfDecimalPlaces",

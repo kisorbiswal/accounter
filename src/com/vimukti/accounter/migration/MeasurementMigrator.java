@@ -13,7 +13,7 @@ public class MeasurementMigrator implements IMigrator<Measurement> {
 	public JSONObject migrate(Measurement obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
 		Unit defaultUnit = null;
 		for (Unit unit : obj.getUnits()) {
 			if (unit.isDefault()) {

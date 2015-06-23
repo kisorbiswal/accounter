@@ -15,7 +15,7 @@ public class WarehouseTransferMigrator implements IMigrator<StockTransfer> {
 	public JSONObject migrate(StockTransfer obj, MigratorContext context)
 			throws JSONException {
 		JSONObject stockTransfer = new JSONObject();
-
+		CommonFieldsMigrator.migrateCommonFields(obj, stockTransfer);
 		stockTransfer.put("fromWareHouse",
 				context.get("Warehouse", obj.getFromWarehouse().getID()));
 		stockTransfer.put("to",

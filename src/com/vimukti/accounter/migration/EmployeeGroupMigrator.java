@@ -16,6 +16,7 @@ public class EmployeeGroupMigrator implements IMigrator<EmployeeGroup>{
 	public JSONObject migrate(EmployeeGroup obj, MigratorContext context)
 			throws JSONException {
 		JSONObject employeeGroup = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(obj, employeeGroup);
 		employeeGroup.put("name", obj.getName());
 		// setting payStructure of employeeGroup 
 		Session session = HibernateUtil.getCurrentSession();

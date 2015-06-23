@@ -18,6 +18,7 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 	public JSONObject migrate(TAXAgency obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
 		jsonObject.put("name", obj.getName());
 		// Setting Purchase Liability Account of company
 		jsonObject.put("purchaseLiabilityAccount", context.get("Account", obj

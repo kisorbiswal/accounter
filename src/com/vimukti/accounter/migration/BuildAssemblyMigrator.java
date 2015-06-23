@@ -15,6 +15,7 @@ public class BuildAssemblyMigrator implements IMigrator<BuildAssembly> {
 	public JSONObject migrate(BuildAssembly obj, MigratorContext context)
 			throws JSONException {
 		JSONObject buildAssembly = new JSONObject();
+		CommonFieldsMigrator.migrateCommonFields(obj, buildAssembly);
 		buildAssembly.put("inventoryAssembly", context.get("InventoryAssembly",
 				obj.getInventoryAssembly().getID()));
 		JSONArray array = new JSONArray();
