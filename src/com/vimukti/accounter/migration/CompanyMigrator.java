@@ -8,6 +8,8 @@ import java.util.Map;
 
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
@@ -88,15 +90,15 @@ import com.vimukti.accounter.utils.HibernateUtil;
 public class CompanyMigrator {
 	public static final String ECGINE_URL = "http://localhost:8080";
 	private static final String ECGINE_REST = "/api/v1/objects/";
-	private static final String API_KEY = "api-key";
+	private static final String API_KEY = "api_key";
 	private static final String FIRST_NAME = "firstName";
 	private static final String LAST_NAME = "lastName";
 	private static final String EMAIL = "email";
 	private static final String COMPANY_NAME = "company";
-	private static final String USER_NAME = "userName";
+	private static final String USER_NAME = "username";
 	private static final String COUNTRY = "country";
 	private static final String PASS_WORD = "password";
-	private static final String SIGNUP_CREATE_ORG = "/go/accountersignup/org";
+	private static final String SIGNUP_CREATE_ORG = "/go/accountersignup/";
 	private static final String LOG_IN = "/api/login";
 	private static final String AUTHORIZATION_KEY = "authorization-barre";
 
@@ -106,9 +108,11 @@ public class CompanyMigrator {
 
 	private HttpClient client;
 	private String loginKey;
+	private String password;
 
-	public CompanyMigrator(Company company) {
+	public CompanyMigrator(Company company, String password) {
 		this.company = company;
+		this.password = password;
 		this.client = HttpClientBuilder.create().build();
 	}
 
@@ -122,8 +126,7 @@ public class CompanyMigrator {
 		User user = company.getCreatedBy();
 		signup(company.getCreatedBy());
 		// / login
-		loginKey = login(user.getClient().getEmailId(), user.getClient()
-				.getPassword());
+		loginKey = login(user.getClient().getEmailId(), this.password);
 
 		// Users Migration
 		// migrateUsers(emails, context);
@@ -501,18 +504,27 @@ public class CompanyMigrator {
 
 	private String login(String userName, String password)
 			throws JSONException, IOException {
+
 		HttpPost post = new HttpPost(ECGINE_URL + LOG_IN);
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair(USER_NAME, userName));
-		params.add(new BasicNameValuePair(PASS_WORD, password));
-		post.setEntity(new UrlEncodedFormEntity(params));
+		List<NameValuePair> postParameters = new ArrayList<>();
+		postParameters.add(new BasicNameValuePair(USER_NAME, userName));
+		postParameters.add(new BasicNameValuePair(PASS_WORD, password));
+		post.setEntity(new UrlEncodedFormEntity(postParameters));
+
 		HttpResponse response = client.execute(post);
+
 		StatusLine status = response.getStatusLine();
 		if (status.getStatusCode() != HttpStatus.SC_OK) {
 			throw new RuntimeException(status.toString());
 		}
-		JSONObject responseResult = new JSONObject(response.getEntity());
+
+		HttpEntity entity = response.getEntity();
+		String responseContent = IOUtils.toString(entity.getContent());
+
+		JSONObject responseResult = new JSONObject(responseContent);
+		log.info("Login success for: " + userName);
 		return responseResult.getString(API_KEY);
+
 	}
 
 	private void signup(User user) throws HttpException, IOException,
@@ -526,7 +538,7 @@ public class CompanyMigrator {
 		params.add(new BasicNameValuePair(COUNTRY, accClient.getCountry()));
 		params.add(new BasicNameValuePair(COMPANY_NAME, user.getCompany()
 				.getTradingName()));
-		params.add(new BasicNameValuePair(PASS_WORD, "password"));
+		params.add(new BasicNameValuePair(PASS_WORD, this.password));
 		post.setEntity(new UrlEncodedFormEntity(params));
 		HttpResponse response = client.execute(post);
 		StatusLine status = response.getStatusLine();

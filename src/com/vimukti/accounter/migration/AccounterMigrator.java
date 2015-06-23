@@ -28,7 +28,8 @@ public class AccounterMigrator {
 			for (BigInteger id : ids) {
 				Company company = (Company) session.load(Company.class,
 						Long.valueOf(id.longValue()));
-				CompanyMigrator migrator = new CompanyMigrator(company);
+				CompanyMigrator migrator = new CompanyMigrator(company,
+						"password");
 				migrator.migrate();
 			}
 			session.close();
