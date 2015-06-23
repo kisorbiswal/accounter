@@ -40,7 +40,7 @@ public class PayStructureMigrator implements IMigrator<PayStructure> {
 					.getPayHead().getID()));
 			inJson.put("rate", payStructureItem.getRate());
 			inJson.put("effectiveFrom", payStructureItem.getEffectiveFrom()
-					.getAsDateObject());
+					.getAsDateObject().getTime());
 			payStructureItemJsons.put(inJson);
 			// calculationPeriod, payHeadType and computedOn are Computation
 			// fields

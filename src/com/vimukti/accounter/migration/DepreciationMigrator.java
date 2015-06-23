@@ -9,13 +9,14 @@ public class DepreciationMigrator implements IMigrator<Depreciation> {
 	public JSONObject migrate(Depreciation depreciation, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(depreciation, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(depreciation, jsonObject,
+				context);
 		jsonObject.put("status", PicklistUtilMigrator
 				.depreciationStatusIdentity(depreciation.getStatus()));
 		jsonObject.put("depreciateFrom", depreciation.getDepreciateFrom()
-				.getAsDateObject());
+				.getAsDateObject().getTime());
 		jsonObject.put("depreciateTo", depreciation.getDepreciateTo()
-				.getAsDateObject());
+				.getAsDateObject().getTime());
 		jsonObject
 				.put("fixedAsset", context.get("FixexAsset", depreciation
 						.getFixedAsset().getID()));

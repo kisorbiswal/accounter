@@ -88,7 +88,8 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		if (account != null) {
 			jsonObject.put("account", context.get("Account", account.getID()));
 		}
-		jsonObject.put("since", obj.getPayeeSince().getAsDateObject());
+		jsonObject
+				.put("since", obj.getPayeeSince().getAsDateObject().getTime());
 		jsonObject.put("bankName", obj.getBankName());
 		jsonObject.put("bankAccountNumber", obj.getBankAccountNo());
 		jsonObject.put("bankBranch", obj.getBankBranch());

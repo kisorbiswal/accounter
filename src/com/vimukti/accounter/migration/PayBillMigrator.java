@@ -44,7 +44,7 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 			jsonObject.put("tDS", context.get("TAXItem", tdsTaxItem.getID()));
 		}
 		jsonObject.put("filterByBillDueOnOrBefore", obj.getBillDueOnOrBefore()
-				.getAsDateObject());
+				.getAsDateObject().getTime());
 		Vendor vendor = obj.getVendor();
 		if (vendor != null) {
 			jsonObject.put("payee", context.get("Vendor", vendor.getID()));

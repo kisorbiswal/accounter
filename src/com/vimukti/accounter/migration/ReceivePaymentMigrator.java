@@ -14,7 +14,8 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 	public JSONObject migrate(ReceivePayment obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObj = super.migrate(obj, context);
-		jsonObj.put("depositIn", obj.getDepositIn());
+		jsonObj.put("depositIn",
+				context.get("Account", obj.getDepositIn().getID()));
 		jsonObj.put("amountReceived", obj.getAmount());
 		jsonObj.put("tDSAmount", obj.getTdsTotal());
 		List<TransactionReceivePayment> transactionReceivePayment = obj
@@ -22,7 +23,8 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 		JSONArray array = new JSONArray();
 		for (TransactionReceivePayment item : transactionReceivePayment) {
 			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("dueDate", item.getDueDate().getAsDateObject().getTime());
+			jsonObject.put("dueDate", item.getDueDate().getAsDateObject()
+					.getTime());
 			jsonObject.put("invoice",
 					context.get("Invoice", item.getInvoice().getID()));
 			jsonObject.put("invoiceAmount", item.getInvoiceAmount());
@@ -33,7 +35,7 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 			jsonWritOffObject.put("writeoffAccount",
 					context.get("Account", item.getWriteOffAccount().getID()));
 			jsonWritOffObject.put("amount", item.getWriteOff());
-			jsonObject.put("WriteOff", jsonWritOffObject);
+			jsonObject.put("writeOff", jsonWritOffObject);
 			// applyCredites not found
 			// TODO
 			array.put(jsonObject);
@@ -46,8 +48,11 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
 		jsonObj.put("unusedCredits", obj.getUnUsedCredits());
 		jsonObj.put("unusedPayments", obj.getUnUsedPayments());
-		// Checknumber field not available in .obj file
-		// jsonObj.put("checkNumber", obj.getCheckNumber());
+		try {
+			Long chequeNumber = Long.valueOf(obj.getCheckNumber());
+			jsonObj.put("chequeNumber", chequeNumber);
+		} catch (Exception e) {
+		}
 		return jsonObj;
 	}
 }
