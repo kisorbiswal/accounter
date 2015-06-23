@@ -33,7 +33,7 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		// jsonObject.put("offsetSalesTaxFromPurchaseTax", null);
 		jsonObject.put("isInactive", !obj.isActive());
 		jsonObject.put("lastFileTaxDate", obj.getLastTAXReturnDate()
-				.getAsDateObject());
+				.getAsDateObject().getTime());
 		// Setting object PaymentTerm
 		jsonObject.put("paymentTerm",
 				context.get("PaymentTerm", obj.getPaymentTerm().getID()));

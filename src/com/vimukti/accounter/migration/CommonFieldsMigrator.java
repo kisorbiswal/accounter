@@ -11,7 +11,7 @@ public class CommonFieldsMigrator {
 			JSONObject json, MigratorContext context) throws JSONException {
 		json.put("createdBy", context.getAdmin());
 		json.put("lastModifiedBy", context.getAdmin());
-		json.put("createdDate", obj.getCreatedDate());
-		json.put("lastModifiedDate", obj.getLastModifiedDate());
+		json.put("createdDate", obj.getCreatedDate().getTime());
+		json.put("lastModifiedDate", obj.getLastModifiedDate().getTime());
 	}
 }

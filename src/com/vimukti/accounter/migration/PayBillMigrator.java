@@ -26,7 +26,7 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 			JSONObject jsonObj = new JSONObject();
 			FinanceDate dueDate = tBill.getDueDate();
 			if (dueDate != null) {
-				jsonObj.put("dueDate", dueDate.getAsDateObject());
+				jsonObj.put("dueDate", dueDate.getAsDateObject().getTime());
 			}
 			EnterBill enterBill = tBill.getEnterBill();
 			if (enterBill != null) {

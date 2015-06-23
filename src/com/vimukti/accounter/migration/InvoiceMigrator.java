@@ -19,7 +19,7 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 			throws JSONException {
 		JSONObject jsonObject = super.migrate(obj, context);
 
-		jsonObject.put("dueDate", obj.getDueDate().getAsDateObject());
+		jsonObject.put("dueDate", obj.getDueDate().getAsDateObject().getTime());
 		jsonObject.put("phone", obj.getPhone());
 
 		JSONObject billingAdressJson = new JSONObject();
@@ -56,7 +56,8 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 			jsonObject.put("shippingMethod",
 					context.get("shippingMethod", shippingMethod.getID()));
 		}
-		jsonObject.put("deliveryDate", obj.getDeliverydate().getAsDateObject());
+		jsonObject.put("deliveryDate", obj.getDeliverydate().getAsDateObject()
+				.getTime());
 
 		{
 			List<Estimate> estimates = obj.getEstimates();

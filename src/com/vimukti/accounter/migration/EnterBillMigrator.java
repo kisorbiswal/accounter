@@ -20,7 +20,7 @@ public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 		JSONObject enterBill = super.migrate(obj, context);
 		enterBill.put("payee", context.get("Vendor", obj.getVendor().getID()));
 		enterBill.put("isReconciled", "");
-		enterBill.put("dueDate", obj.getDueDate().getAsDateObject());
+		enterBill.put("dueDate", obj.getDueDate().getAsDateObject().getTime());
 		enterBill.put("phone", obj.getPhone());
 		Address vendorAddress = obj.getVendorAddress();
 		if (vendorAddress != null) {
@@ -39,7 +39,8 @@ public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 			enterBill.put("paymentTerm",
 					context.get("PaymentTerm", paymentTerm.getID()));
 		}
-		enterBill.put("deliveryDate", obj.getDeliveryDate().getAsDateObject());
+		enterBill.put("deliveryDate", obj.getDeliveryDate().getAsDateObject()
+				.getTime());
 		Contact contact = obj.getContact();
 		if (contact != null) {
 			enterBill.put("contact", context.get("Contact", contact.getID()));

@@ -32,7 +32,7 @@ public class DepreciationMigrator implements IMigrator<Depreciation> {
 		jsonObject.put("depreciationFor", PicklistUtilMigrator
 				.depreciationForIdentity(depreciation.getDepreciationFor()));
 		jsonObject.put("RollBackDepreciationDate", depreciation
-				.getRollBackDepreciationDate().getAsDateObject());
+				.getRollBackDepreciationDate().getAsDateObject().getTime());
 		return jsonObject;
 	}
 }

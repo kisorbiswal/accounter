@@ -12,20 +12,21 @@ public class SalesPersonMigrator implements IMigrator<SalesPerson> {
 	public JSONObject migrate(SalesPerson salesPerson, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(salesPerson, jsonObject, context);
+		CommonFieldsMigrator.migrateCommonFields(salesPerson, jsonObject,
+				context);
 		jsonObject.put("name", salesPerson.getName());
 		jsonObject.put("fileAs", salesPerson.getFileAs());
 		jsonObject.put("jobTitle", salesPerson.getJobTitle());
 		jsonObject.put("gender", salesPerson.getGender());
 		jsonObject.put("dateOfBirth", salesPerson.getDateOfBirth()
-				.getAsDateObject());
+				.getAsDateObject().getTime());
 		jsonObject.put("dateOfHire", salesPerson.getDateOfHire()
-				.getAsDateObject());
+				.getAsDateObject().getTime());
 		jsonObject.put("dateOfLastReview", salesPerson
-				.getFinanceDateOfLastReview().getAsDateObject());
+				.getFinanceDateOfLastReview().getAsDateObject().getTime());
 		jsonObject.put("inActive", !salesPerson.isActive());
 		jsonObject.put("dateOfRelease", salesPerson.getDateOfRelease()
-				.getAsDateObject());
+				.getAsDateObject().getTime());
 		jsonObject.put("phoneNo", salesPerson.getPhoneNo());
 		jsonObject.put("email", salesPerson.getEmail());
 		jsonObject.put("webPageAddress", salesPerson.getWebPageAddress());

@@ -48,7 +48,7 @@ public class CashPurchaseMigrator extends TransactionMigrator<CashPurchase> {
 		cashPurchase.put("account",
 				context.get("Account", obj.getPayFrom().getID()));
 		cashPurchase.put("deliveryDate", obj.getDeliveryDate()
-				.getAsDateObject());
+				.getAsDateObject().getTime());
 
 		{
 			List<PurchaseOrder> purchaseOrders = obj.getPurchaseOrders();

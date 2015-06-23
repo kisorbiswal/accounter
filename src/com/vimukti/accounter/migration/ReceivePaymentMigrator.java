@@ -22,7 +22,7 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 		JSONArray array = new JSONArray();
 		for (TransactionReceivePayment item : transactionReceivePayment) {
 			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("dueDate", item.getDueDate().getAsDateObject());
+			jsonObject.put("dueDate", item.getDueDate().getAsDateObject().getTime());
 			jsonObject.put("invoice",
 					context.get("Invoice", item.getInvoice().getID()));
 			jsonObject.put("invoiceAmount", item.getInvoiceAmount());

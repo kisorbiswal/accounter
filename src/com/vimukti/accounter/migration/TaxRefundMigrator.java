@@ -19,7 +19,7 @@ public class TaxRefundMigrator extends TransactionMigrator<ReceiveVAT> {
 		jsonObject.put("depositIn",
 				context.get("Account", obj.getDepositIn().getID()));
 		jsonObject.put("filterbyTAXreturnendDate", obj
-				.getReturnsDueOnOrBefore().getAsDateObject());
+				.getReturnsDueOnOrBefore().getAsDateObject().getTime());
 		TAXAgency taxAgency = obj.getTaxAgency();
 		if (taxAgency != null) {
 			jsonObject.put("involvedPayee",

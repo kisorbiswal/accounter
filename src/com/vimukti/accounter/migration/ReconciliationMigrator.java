@@ -18,11 +18,11 @@ public class ReconciliationMigrator implements IMigrator<Reconciliation> {
 		jsonObject.put("account",
 				context.get("Account", reconciliation.getAccount().getID()));
 		jsonObject.put("startDate", reconciliation.getStartDate()
-				.getAsDateObject());
+				.getAsDateObject().getTime());
 		jsonObject
-				.put("endDate", reconciliation.getEndDate().getAsDateObject());
+				.put("endDate", reconciliation.getEndDate().getAsDateObject().getTime());
 		jsonObject.put("reconciliationDate", reconciliation
-				.getReconcilationDate().getAsDateObject());
+				.getReconcilationDate().getAsDateObject().getTime());
 		jsonObject.put("closingBalance", reconciliation.getClosingBalance());
 		Set<ReconciliationItem> items = reconciliation.getItems();
 		JSONArray array = new JSONArray();
@@ -30,7 +30,7 @@ public class ReconciliationMigrator implements IMigrator<Reconciliation> {
 			JSONObject jsonObject1 = new JSONObject();
 			jsonObject1.put("transactionNumber", item.getTransactionNo());
 			jsonObject1.put("transactionDate", item.getTransactionDate()
-					.getAsDateObject());
+					.getAsDateObject().getTime());
 			jsonObject1.put("memo", item.getTransctionMemo());
 			jsonObject1.put("amount", item.getAmount());
 			array.put(jsonObject1);

@@ -13,8 +13,9 @@ public class JobMigrator implements IMigrator<Job> {
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
 		jsonObject.put("name", obj.getJobName());
-		jsonObject.put("startDate", obj.getStartDate().getAsDateObject());
-		jsonObject.put("endDate", obj.getEndDate().getAsDateObject());
+		jsonObject.put("startDate", obj.getStartDate().getAsDateObject()
+				.getTime());
+		jsonObject.put("endDate", obj.getEndDate().getAsDateObject().getTime());
 		jsonObject.put("customer",
 				context.get("Customer", obj.getCustomer().getID()));
 		jsonObject.put("status", obj.getJobStatus());

@@ -22,7 +22,7 @@ public class PayRunMigrator implements IMigrator<PayRun> {
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
-		jsonObject.put("date", obj.getDate().getAsDateObject());
+		jsonObject.put("date", obj.getDate().getAsDateObject().getTime());
 		jsonObject.put("number", obj.getNumber());
 		Currency currency = obj.getCurrency();
 		if (currency != null) {
