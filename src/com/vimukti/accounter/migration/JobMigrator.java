@@ -17,10 +17,7 @@ public class JobMigrator implements IMigrator<Job> {
 		jsonObject.put("endDate", obj.getEndDate().getAsDateObject());
 		jsonObject.put("customer",
 				context.get("Customer", obj.getCustomer().getID()));
-		jsonObject.put(
-				"status",
-				context.getPickListContext().get("ProjectStatus",
-						obj.getJobStatus()));
+		jsonObject.put("status", obj.getJobStatus());
 		return jsonObject;
 	}
 }

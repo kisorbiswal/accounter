@@ -12,12 +12,8 @@ public class CustomerPrepaymentMigrator implements
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("project", context.get("Project", obj.getJob().getID()));
-		jsonObject.put(
-				"paymentMethod",
-				context.getPickListContext().get(
-						"PaymentMethod",
-						PicklistUtilMigrator.getPaymentMethodIdentifier(obj
-								.getPaymentMethod())));
+		jsonObject.put("paymentMethod", PicklistUtilMigrator
+				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
 		jsonObject.put("credit", context.get("CustomerCredit", obj
 				.getCreditsAndPayments().getID()));
 		try {

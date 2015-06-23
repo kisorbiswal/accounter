@@ -25,23 +25,15 @@ public class TDSDeductorMastersMigrator implements
 		jsonObject.put("telephoneNumber", obj.getTelephoneNumber());
 		jsonObject.put("faxNo", obj.getFaxNo());
 		jsonObject.put("emailID", obj.getEmailID());
-		jsonObject.put(
-				"deductorType",
-				context.getPickListContext().get("DeductorType",
-						obj.getDeductorType()));
+		jsonObject.put("deductorType", obj.getDeductorType());
 		jsonObject.put("govtState", obj.getGovtState());
 		jsonObject.put("paoCode", obj.getPaoCode());
 		jsonObject.put("paoRegistration", obj.getPaoRegistration());
 		jsonObject.put("ddoCode", obj.getDdoCode());
 		jsonObject.put("ddoRegistration", obj.getDdoRegistration());
-		jsonObject
-				.put("ministryDeptName",
-						context.getPickListContext().get(
-								"",
-								PicklistUtilMigrator
-										.getMinistryDeptNameIdentity(
-												"MinistryDeptName",
-												obj.getMinistryDeptName())));
+		jsonObject.put("ministryDeptName", PicklistUtilMigrator
+				.getMinistryDeptNameIdentity("MinistryDeptName",
+						obj.getMinistryDeptName()));
 		jsonObject.put("ministryDeptOtherName", obj.getMinistryDeptOtherName());
 		jsonObject.put("tanNumber", obj.getTanNumber());
 		jsonObject.put("panNumber", obj.getPanNumber());

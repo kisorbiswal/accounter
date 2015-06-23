@@ -23,26 +23,17 @@ public class AccountMigrator implements IMigrator<Account> {
 						context.get("Account", account.getParent().getID()));
 			}
 
-			jsonObject.put(
-					"type",
-					context.getPickListContext().get(
-							"AccountType",
-							PicklistUtilMigrator.getAccountTypeIdentity(account
-									.getType())));
-			jsonObject.put(
-					"currency",
-					context.getPickListContext().get("Currency",
-							account.getCurrency().getFormalName()));
+			jsonObject.put("type",
+
+			PicklistUtilMigrator.getAccountTypeIdentity(account.getType()));
+			jsonObject.put("currency", account.getCurrency().getFormalName());
 			jsonObject.put("inactive", !account.getIsActive());
 			jsonObject.put("description", account.getComment());
 			jsonObject.put("openingBalance", account.getOpeningBalance());
 			jsonObject.put("paypalEmail", account.getPaypalEmail());
-			jsonObject.put(
-					"cashFlowCategory",
-					context.getPickListContext().get(
-							"CashFlowCategory",
-							Utility.getCashFlowCategoryName(account
-									.getCashFlowCategory())));
+			jsonObject.put("cashFlowCategory",
+
+			Utility.getCashFlowCategoryName(account.getCashFlowCategory()));
 			jsonObject.put("currencyFactor", account.getCurrencyFactor());
 			jsonObject.put("isIncrease", account.isIncrease());
 		} catch (JSONException e) {

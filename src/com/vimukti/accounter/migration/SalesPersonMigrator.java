@@ -16,10 +16,7 @@ public class SalesPersonMigrator implements IMigrator<SalesPerson> {
 		jsonObject.put("name", salesPerson.getName());
 		jsonObject.put("fileAs", salesPerson.getFileAs());
 		jsonObject.put("jobTitle", salesPerson.getJobTitle());
-		jsonObject.put(
-				"gender",
-				context.getPickListContext().get("Gender",
-						salesPerson.getGender()));
+		jsonObject.put("gender", salesPerson.getGender());
 		jsonObject.put("dateOfBirth", salesPerson.getDateOfBirth()
 				.getAsDateObject());
 		jsonObject.put("dateOfHire", salesPerson.getDateOfHire()

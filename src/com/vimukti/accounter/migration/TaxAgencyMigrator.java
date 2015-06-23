@@ -28,10 +28,7 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		// Setting Filed Liability Account of Company
 		jsonObject.put("filedLiabilityAccount",
 				context.get("Account", obj.getFiledLiabilityAccount().getID()));
-		jsonObject.put(
-				"taxType",
-				context.getPickListContext().get("TaxType",
-						getTaxTypeString(obj.getTaxType())));
+		jsonObject.put("taxType", getTaxTypeString(obj.getTaxType()));
 		// This is Property not found
 		// jsonObject.put("offsetSalesTaxFromPurchaseTax", null);
 		jsonObject.put("isInactive", !obj.isActive());
@@ -101,10 +98,7 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		if (taxCode != null) {
 			jsonObject.put("taxCode", context.get("TaxCode", taxCode.getID()));
 		}
-		jsonObject.put(
-				"paymentMethod",
-				context.getPickListContext().get("PaymentMethod",
-						obj.getPaymentMethod()));
+		jsonObject.put("paymentMethod", obj.getPaymentMethod());
 		// shipTo and billTo are not found
 		jsonObject.put("vATRegistrationNumber", obj.getVATRegistrationNumber());
 		TAXItem taxItem = obj.getTAXItem();

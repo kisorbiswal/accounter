@@ -9,14 +9,9 @@ public class DepreciationMigrator implements IMigrator<Depreciation> {
 	public JSONObject migrate(Depreciation depreciation, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(depreciation, jsonObject, context);
-		jsonObject.put(
-				"status",
-				context.getPickListContext().get(
-						"DepreciationStatus",
-						PicklistUtilMigrator
-								.depreciationStatusIdentity(depreciation
-										.getStatus())));
+		CommonFieldsMigrator.migrateCommonFields(depreciation, jsonObject);
+		jsonObject.put("status", PicklistUtilMigrator
+				.depreciationStatusIdentity(depreciation.getStatus()));
 		jsonObject.put("depreciateFrom", depreciation.getDepreciateFrom()
 				.getAsDateObject());
 		jsonObject.put("depreciateTo", depreciation.getDepreciateTo()
@@ -34,13 +29,8 @@ public class DepreciationMigrator implements IMigrator<Depreciation> {
 		// }
 		// jsonObject.put("fixedAssets", array);
 		// TODO
-		jsonObject.put(
-				"depreciationFor",
-				context.getPickListContext().get(
-						"DepreciationFor",
-						PicklistUtilMigrator
-								.depreciationForIdentity(depreciation
-										.getDepreciationFor())));
+		jsonObject.put("depreciationFor", PicklistUtilMigrator
+				.depreciationForIdentity(depreciation.getDepreciationFor()));
 		jsonObject.put("RollBackDepreciationDate", depreciation
 				.getRollBackDepreciationDate().getAsDateObject());
 		return jsonObject;

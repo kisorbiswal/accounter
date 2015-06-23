@@ -27,8 +27,8 @@ public class CreditCardExpenseMigrator extends
 					context.get("Vendor", vendor.getID()));
 
 		}
-		creditCardChargeJSON.put("paymentMethod", context.getPickListContext()
-				.get("PaymentMethod", creditCardCharge.getPaymentMethod()));
+		creditCardChargeJSON.put("paymentMethod",
+				creditCardCharge.getPaymentMethod());
 		Long chequeNumber = null;
 		try {
 			chequeNumber = Long.valueOf(creditCardCharge.getCheckNumber());

@@ -39,12 +39,8 @@ public class PayTaxMigrator extends TransactionMigrator<PayTAX> {
 			array.put(transactionJson);
 		}
 		jsonObject.put("payTaxItems", array);
-		jsonObject.put(
-				"paymentMethod",
-				context.getPickListContext().get(
-						"PaymentMethod",
-						PicklistUtilMigrator.getPaymentMethodIdentifier(obj
-								.getPaymentMethod())));
+		jsonObject.put("paymentMethod", PicklistUtilMigrator
+				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
 		try {
 			Long chequeNumber = Long.valueOf(obj.getCheckNumber());
 			jsonObject.put("chequeNumber", chequeNumber);

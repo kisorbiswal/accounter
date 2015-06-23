@@ -54,12 +54,8 @@ public class MakeDepositMigrator extends TransactionMigrator<MakeDeposit> {
 			array.put(depositItemJson);
 		}
 		jsonObj.put("depositItems", array);
-		jsonObj.put(
-				"paymentMethod",
-				context.getPickListContext().get(
-						"PaymentMethod",
-						PicklistUtilMigrator.getPaymentMethodIdentifier(obj
-								.getPaymentMethod())));
+		jsonObj.put("paymentMethod", PicklistUtilMigrator
+				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
 		jsonObj.put("paymentStatus", "Issued");
 		return jsonObj;
 	}

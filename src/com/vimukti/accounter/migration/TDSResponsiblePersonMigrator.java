@@ -29,10 +29,7 @@ public class TDSResponsiblePersonMigrator implements
 		jsonObject.put("emailAddress", obj.getEmailAddress());
 		jsonObject.put("financialYear", obj.getFinancialYear());
 		jsonObject.put("assesmentYear", obj.getAssesmentYear());
-		jsonObject.put(
-				"retutnType",
-				context.getPickListContext().get("RetutnType",
-						getReturnTypeString(obj.getReturnType())));
+		jsonObject.put("retutnType", getReturnTypeString(obj.getReturnType()));
 		jsonObject.put("existingTDSassesses", obj.isExistingTDSassesse());
 		jsonObject.put("panNumber", obj.getPanNumber());
 		jsonObject.put("panRegistrationNumber", obj.getPanRegistrationNumber());

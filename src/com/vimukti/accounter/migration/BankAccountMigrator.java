@@ -13,12 +13,8 @@ public class BankAccountMigrator implements IMigrator<BankAccount> {
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(bankAccount, jsonObject, context);
 		jsonObject.put("bankName", bankAccount.getBank().getName());
-		jsonObject.put(
-				"bankAccountType",
-				context.getPickListContext().get(
-						"BankAccountType",
-						Utility.getBankAccountType(bankAccount
-								.getBankAccountType())));
+		jsonObject.put("bankAccountType",
+				Utility.getBankAccountType(bankAccount.getBankAccountType()));
 		jsonObject.put("bankAccountNumber", bankAccount.getBankAccountNumber());
 		jsonObject.put("number", bankAccount.getNumber());
 		jsonObject.put("name", bankAccount.getName());
@@ -28,26 +24,15 @@ public class BankAccountMigrator implements IMigrator<BankAccount> {
 					context.get("Account", bankAccount.getParent().getID()));
 		}
 
-		jsonObject.put(
-				"type",
-				context.getPickListContext().get(
-						"AccountType",
-						PicklistUtilMigrator.getAccountTypeIdentity(bankAccount
-								.getType())));
-		jsonObject.put(
-				"currency",
-				context.getPickListContext().get("Currency",
-						bankAccount.getCurrency().getFormalName()));
+		jsonObject.put("type", PicklistUtilMigrator
+				.getAccountTypeIdentity(bankAccount.getType()));
+		jsonObject.put("currency", bankAccount.getCurrency().getFormalName());
 		jsonObject.put("inactive", !bankAccount.getIsActive());
 		jsonObject.put("description", bankAccount.getComment());
 		jsonObject.put("openingBalance", bankAccount.getOpeningBalance());
 		jsonObject.put("paypalEmail", bankAccount.getPaypalEmail());
-		jsonObject.put(
-				"cashFlowCategory",
-				context.getPickListContext().get(
-						"CashFlowCategory",
-						Utility.getCashFlowCategoryName(bankAccount
-								.getCashFlowCategory())));
+		jsonObject.put("cashFlowCategory", Utility
+				.getCashFlowCategoryName(bankAccount.getCashFlowCategory()));
 		jsonObject.put("currencyFactor", bankAccount.getCurrencyFactor());
 		jsonObject.put("isIncrease", bankAccount.isIncrease());
 		return jsonObject;

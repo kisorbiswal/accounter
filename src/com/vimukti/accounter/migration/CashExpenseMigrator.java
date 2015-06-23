@@ -39,10 +39,7 @@ public class CashExpenseMigrator extends TransactionMigrator<CashPurchase> {
 			addressJSON.put("country", vendorAddress.getCountryOrRegion());
 			cashPurchase.put("billTo", vendorAddress);
 		}
-		cashPurchase.put(
-				"paymentMethod",
-				context.getPickListContext().get("PaymentMethod",
-						obj.getPaymentMethod()));
+		cashPurchase.put("paymentMethod", obj.getPaymentMethod());
 		cashPurchase.put("account",
 				context.get("Account", obj.getPayFrom().getID()));
 		cashPurchase.put("deliveryDate", obj.getDeliveryDate()

@@ -14,11 +14,12 @@ public class FeaturesMigrator implements IMigrator<CompanyPreferences> {
 		JSONObject features = new JSONObject();
 		features.put("enableLocationTracking", obj.isLocationTrackingEnabled());
 		features.put("enableClassTracking", obj.isClassTrackingEnabled());
-		features.put("classTrackingType", context.getPickListContext().get("ClassTrackingType",
-				obj.isClassPerDetailLine() ? "OnePerDetailLine" : "OnePerTransaction"));
+		features.put("classTrackingType",
+				obj.isClassPerDetailLine() ? "OnePerDetailLine"
+						: "OnePerTransaction");
 		features.put("enableShipping", obj.isDoProductShipMents());
 		features.put("projectTracking", obj.isJobTrackingEnabled());
-		//department , multipleCurrency and projectManagement are not found
+		// department , multipleCurrency and projectManagement are not found
 		return features;
 	}
 

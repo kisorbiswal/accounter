@@ -26,30 +26,21 @@ public class PayRunMigrator implements IMigrator<PayRun> {
 		jsonObject.put("number", obj.getNumber());
 		Currency currency = obj.getCurrency();
 		if (currency != null) {
-			jsonObject.put(
-					"currency",
-					context.getPickListContext().get("Currency",
-							currency.getFormalName()));
+			jsonObject.put("currency", currency.getFormalName());
 		}
 		jsonObject.put("currencyFactor", obj.getCurrencyFactor());
 		jsonObject.put("notes", obj.getMemo());
-		jsonObject.put(
-				"transactionType",
-				context.getPickListContext().get("TransactionType",
-						Utility.getTransactionName(obj.getType())));
+		jsonObject.put("transactionType",
+				Utility.getTransactionName(obj.getType()));
 		jsonObject.put("fromDate", obj.getPayPeriodStartDate());
 		jsonObject.put("toDate", obj.getPayPeriodEndDate());
 		if (obj.getEmployee() == null) {
-			jsonObject.put(
-					"type",
-					context.getPickListContext().get("PayRunType",
-							"EmployeeGroup"));
+			jsonObject.put("type", "EmployeeGroup");
 			jsonObject.put("employeeGroup", context.get("EmployeeGroup", obj
 					.getEmployeeGroup().getID()));
 
 		} else {
-			jsonObject.put("type",
-					context.getPickListContext().get("PayRunType", "Employee"));
+			jsonObject.put("type", "Employee");
 			jsonObject.put("employee",
 					context.get("Employee", obj.getEmployee().getID()));
 		}
@@ -61,12 +52,13 @@ public class PayRunMigrator implements IMigrator<PayRun> {
 			ami.put("Employee",
 					context.get("Employee", item.getEmployee().getID()));
 			JSONArray attItems = new JSONArray();
-			for (UserDefinedPayheadItem payHeadItem :item.getUserDefinedPayheads()) {
+			for (UserDefinedPayheadItem payHeadItem : item
+					.getUserDefinedPayheads()) {
 				JSONObject attendanceManagementItems = new JSONObject();
-				//TODO
-				//type
-				//payStrurctureItem
-				//number
+				// TODO
+				// type
+				// payStrurctureItem
+				// number
 				attendanceManagementItems.put("amount", payHeadItem.getValue());
 				attItems.put(attendanceManagementItems);
 			}
@@ -78,9 +70,10 @@ public class PayRunMigrator implements IMigrator<PayRun> {
 		obj.getAccountTransactionEntriesList();
 		for (AttendanceManagementItem item : obj.getAttendanceItems()) {
 			JSONObject payRunItem = new JSONObject();
-			payRunItem.put("Employee",context.get("Employee",item.getEmployee().getID()));
+			payRunItem.put("Employee",
+					context.get("Employee", item.getEmployee().getID()));
 			payRunItem.put("absentDays", item.getAbscentDays());
-			//TODO EmployeePayRunItems need to set
+			// TODO EmployeePayRunItems need to set
 			payRunItems.put(payRunItem);
 		}
 		jsonObject.put("payRunItems", payRunItems);

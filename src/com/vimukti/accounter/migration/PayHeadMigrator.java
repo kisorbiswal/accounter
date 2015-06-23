@@ -14,10 +14,7 @@ public class PayHeadMigrator implements IMigrator<PayHead> {
 			throws JSONException {
 		JSONObject payHead = new JSONObject();
 		payHead.put("name", obj.getName());
-		payHead.put(
-				"payHeadType",
-				context.getPickListContext().get("PayHeadType",
-						ClientPayHead.getPayHeadType(obj.getType())));
+		payHead.put("payHeadType", ClientPayHead.getPayHeadType(obj.getType()));
 		payHead.put("isAffectNetSalary", obj.isAffectNetSalary());
 		payHead.put("expenseAccount", obj.getAccount());
 		payHead.put("calculationType", obj.getCalculationType());

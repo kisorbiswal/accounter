@@ -13,24 +13,16 @@ public class CustomerAndSalesSettingsMigrator implements
 			throws JSONException {
 		JSONObject customerAndSalesSetting = new JSONObject();
 
-		customerAndSalesSetting.put(
-				"itemType",
-				context.getPickListContext().get(
-						"ItemType",
-						itemTypeByIdentity(obj.isSellServices(),
-								obj.isSellProducts())));
+		customerAndSalesSetting.put("itemType",
+				itemTypeByIdentity(obj.isSellServices(), obj.isSellProducts()));
 		customerAndSalesSetting.put("inventoryTracking",
 				obj.isInventoryEnabled());
 		customerAndSalesSetting.put("haveMultipleWarehouses",
 				obj.iswareHouseEnabled());
 		customerAndSalesSetting.put("enableInventoryUnits",
 				obj.isUnitsEnabled());
-		customerAndSalesSetting.put(
-				"inventoryScheme",
-				context.getPickListContext()
-						.get("InventoryScheme",
-								getInventorySchemeString(obj
-										.getActiveInventoryScheme())));
+		customerAndSalesSetting.put("inventoryScheme",
+				getInventorySchemeString(obj.getActiveInventoryScheme()));
 		customerAndSalesSetting.put("trackDiscount", obj.isTrackDiscounts());
 		customerAndSalesSetting.put("discountInTransactions", obj
 				.isDiscountPerDetailLine() ? "OnePerDetailLine"

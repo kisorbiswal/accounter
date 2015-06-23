@@ -15,10 +15,7 @@ public class TdsChallanMigrator extends TransactionMigrator<TDSChalanDetail> {
 	public JSONObject migrate(TDSChalanDetail obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = super.migrate(obj, context);
-		jsonObject.put(
-				"formType",
-				context.getPickListContext().get("FormType",
-						getFromTypeIdentity(obj.getFormType())));
+		jsonObject.put("formType", getFromTypeIdentity(obj.getFormType()));
 		jsonObject.put("challanSerialNo", obj.getChalanSerialNumber());
 		jsonObject.put("challanPeriod", obj.getChalanPeriod());
 		jsonObject.put("financialStartYear", obj.getCompany()
@@ -29,17 +26,10 @@ public class TdsChallanMigrator extends TransactionMigrator<TDSChalanDetail> {
 		jsonObject.put("assesmentEndYear", obj.getAssessmentYearEnd());
 		jsonObject.put("fromDate", obj.getFromDate().getAsDateObject());
 		jsonObject.put("toDate", obj.getToDate().getAsDateObject());
-		jsonObject.put(
-				"paymentMethod",
-				context.getPickListContext().get(
-						"PaymentMethod",
-						PicklistUtilMigrator.getPaymentMethodIdentifier(obj
-								.getPaymentMethod())));
+		jsonObject.put("paymentMethod", PicklistUtilMigrator
+				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
 		jsonObject.put("isTdsDepositedByBookEntry", obj.getIsDeposited());
-		jsonObject.put(
-				"natureOfPayment",
-				context.getPickListContext().get("NatureOfPayment",
-						obj.getPaymentSection()));
+		jsonObject.put("natureOfPayment", obj.getPaymentSection());
 		jsonObject.put("chequeOrReferenceNo", obj.getCheckNumber());
 		jsonObject.put("dateOnTaxPaid", obj.getDateTaxPaid());
 		jsonObject.put("bankBSRCode", obj.getBankBsrCode());

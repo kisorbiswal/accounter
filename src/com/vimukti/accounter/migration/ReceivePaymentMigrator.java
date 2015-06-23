@@ -42,12 +42,8 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 		jsonObj.put("customerBalance", obj.getCustomerBalance());
 
 		// PaymentableTransaction
-		jsonObj.put(
-				"paymentMethod",
-				context.getPickListContext().get(
-						"PaymentMethod",
-						PicklistUtilMigrator.getPaymentMethodIdentifier(obj
-								.getPaymentMethod())));
+		jsonObj.put("paymentMethod", PicklistUtilMigrator
+				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
 		jsonObj.put("unusedCredits", obj.getUnUsedCredits());
 		jsonObj.put("unusedPayments", obj.getUnUsedPayments());
 		// Checknumber field not available in .obj file

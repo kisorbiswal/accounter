@@ -32,17 +32,11 @@ public class PayEmployeeMigrator extends TransactionMigrator<PayEmployee> {
 		}
 		Employee employee = obj.getEmployee();
 		if (employee != null) {
-			jsonObj.put(
-					"type",
-					context.getPickListContext().get("PayEmployeeType",
-							"Employee"));
+			jsonObj.put("type", "Employee");
 			jsonObj.put("employee",
 					context.get("Employee", obj.getEmployee().getID()));
 		} else {
-			jsonObj.put(
-					"type",
-					context.getPickListContext().get("EmployeeGroup",
-							"EmployeeGroup"));
+			jsonObj.put("type", "EmployeeGroup");
 			jsonObj.put("employeeGroup", context.get("EmployeeGroup", obj
 					.getEmployeeGroup().getID()));
 		}
