@@ -42,16 +42,10 @@ public class JournalEntryMigrator implements IMigrator<JournalEntry> {
 		}
 		jsonObject.put("currencyFactor", entry.getCurrencyFactor());
 		jsonObject.put("notes", entry.getMemo());
-		jsonObject
-				.put("isAutomaticTransaction", entry.isAutomaticTransaction());
 		jsonObject.put(
 				"transactionType",
 				context.getPickListContext().get("TransactionType",
 						Utility.getTransactionName(entry.getType())));
-		jsonObject.put(
-				"status",
-				context.getPickListContext().get("TransactionStatus",
-						Utility.getStatus(entry.getType(), entry.getStatus())));
 		Job job = entry.getJob();
 		if (job != null) {
 			jsonObject.put("project", context.get("Job", job.getID()));
