@@ -11,7 +11,7 @@ public class DebitNoteMigrator extends TransactionMigrator<VendorCreditMemo> {
 	public JSONObject migrate(VendorCreditMemo obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = super.migrate(obj, context);
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("phone", obj.getPhone());
 		jsonObject.put("payee", context.get("Vendor", obj.getVendor().getID()));
 		jsonObject.put("contact",

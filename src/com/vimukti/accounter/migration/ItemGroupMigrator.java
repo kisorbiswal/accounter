@@ -8,9 +8,10 @@ import com.vimukti.accounter.core.ItemGroup;
 public class ItemGroupMigrator implements IMigrator<ItemGroup> {
 
 	@Override
-	public JSONObject migrate(ItemGroup obj, MigratorContext context) throws JSONException {
+	public JSONObject migrate(ItemGroup obj, MigratorContext context)
+			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("name", obj.getName());
 		return jsonObject;
 	}

@@ -12,7 +12,7 @@ public class CustomerPrepaymentMigrator implements
 	public JSONObject migrate(CustomerPrePayment obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("project", context.get("Project", obj.getJob().getID()));
 		jsonObject.put("paymentMethod", PicklistUtilMigrator
 				.getPaymentMethodIdentifier(obj.getPaymentMethod()));

@@ -14,14 +14,15 @@ public class ReconciliationMigrator implements IMigrator<Reconciliation> {
 	public JSONObject migrate(Reconciliation reconciliation,
 			MigratorContext context) throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(reconciliation, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(reconciliation, jsonObject,
+				context);
 		jsonObject.put("name", reconciliation.getName());
 		jsonObject.put("account",
 				context.get("Account", reconciliation.getAccount().getID()));
 		jsonObject.put("startDate", reconciliation.getStartDate()
 				.getAsDateObject().getTime());
-		jsonObject
-				.put("endDate", reconciliation.getEndDate().getAsDateObject().getTime());
+		jsonObject.put("endDate", reconciliation.getEndDate().getAsDateObject()
+				.getTime());
 		jsonObject.put("reconciliationDate", reconciliation
 				.getReconcilationDate().getAsDateObject().getTime());
 		jsonObject.put("closingBalance", reconciliation.getClosingBalance());

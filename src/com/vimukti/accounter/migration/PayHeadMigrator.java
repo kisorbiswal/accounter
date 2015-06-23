@@ -13,7 +13,7 @@ public class PayHeadMigrator implements IMigrator<PayHead> {
 	public JSONObject migrate(PayHead obj, MigratorContext context)
 			throws JSONException {
 		JSONObject payHead = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, payHead);
+		CommonFieldsMigrator.migrateCommonFields(obj, payHead, context);
 		payHead.put("name", obj.getName());
 		payHead.put("payHeadType", ClientPayHead.getPayHeadType(obj.getType()));
 		payHead.put("isAffectNetSalary", obj.isAffectNetSalary());

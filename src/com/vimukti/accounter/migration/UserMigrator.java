@@ -11,7 +11,7 @@ public class UserMigrator implements IMigrator<User> {
 	public JSONObject migrate(User obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject);
+		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		// TODO Auto-generated method stub
 		return null;
 	}
