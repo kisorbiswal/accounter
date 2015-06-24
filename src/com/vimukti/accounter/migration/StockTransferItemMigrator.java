@@ -3,7 +3,6 @@ package com.vimukti.accounter.migration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.StockTransferItem;
 

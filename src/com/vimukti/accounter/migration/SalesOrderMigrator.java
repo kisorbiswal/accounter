@@ -74,16 +74,11 @@ public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
 		jsonObj.put("deliveryDate", estimate.getDeliveryDate()
 				.getAsDateObject().getTime());
 		jsonObj.put("remarks", estimate.getMemo());
-		jsonObj.put(
-				"transactionType",
-				context.getPickListContext().get("TransactionType",
-						"SalesOrder"));
+		jsonObj.put("transactionType", "SalesOrder");
 		if (estimate.getStatus() == Estimate.STATUS_REJECTED) {
-			jsonObj.put(
-					"salesOrderStatus",
-					context.getPickListContext().get("SalesOrderStatus",
-							"Cancelled"));
+			jsonObj.put("salesOrderStatus", "Cancelled");
 		}
+		jsonObj.put("customerOrderNumber", estimate.getCustomerOrderNumber());
 		return jsonObj;
 	}
 

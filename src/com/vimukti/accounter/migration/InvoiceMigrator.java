@@ -7,8 +7,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.Invoice;
+import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
 
@@ -24,25 +26,31 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 
 		JSONObject billingAdressJson = new JSONObject();
 		Address billingAddress = obj.getBillingAddress();
-		billingAdressJson.put("street", billingAddress.getStreet());
-		billingAdressJson.put("city", billingAddress.getCity());
-		billingAdressJson.put("stateOrProvince",
-				billingAddress.getStateOrProvinence());
-		billingAdressJson.put("zipOrPostalCode",
-				billingAddress.getZipOrPostalCode());
-		billingAdressJson.put("country", billingAddress.getCountryOrRegion());
-		jsonObject.put("billTo", billingAdressJson);
+		if (billingAddress != null) {
+			billingAdressJson.put("street", billingAddress.getStreet());
+			billingAdressJson.put("city", billingAddress.getCity());
+			billingAdressJson.put("stateOrProvince",
+					billingAddress.getStateOrProvinence());
+			billingAdressJson.put("zipOrPostalCode",
+					billingAddress.getZipOrPostalCode());
+			billingAdressJson.put("country",
+					billingAddress.getCountryOrRegion());
+			jsonObject.put("billTo", billingAdressJson);
+		}
 
 		JSONObject shippingAdressJson = new JSONObject();
 		Address shippingAddress = obj.getBillingAddress();
-		shippingAdressJson.put("street", shippingAddress.getStreet());
-		shippingAdressJson.put("city", shippingAddress.getCity());
-		shippingAdressJson.put("stateOrProvince",
-				shippingAddress.getStateOrProvinence());
-		shippingAdressJson.put("zipOrPostalCode",
-				shippingAddress.getZipOrPostalCode());
-		shippingAdressJson.put("country", shippingAddress.getCountryOrRegion());
-		jsonObject.put("shipTo", shippingAdressJson);
+		if (shippingAddress != null) {
+			shippingAdressJson.put("street", shippingAddress.getStreet());
+			shippingAdressJson.put("city", shippingAddress.getCity());
+			shippingAdressJson.put("stateOrProvince",
+					shippingAddress.getStateOrProvinence());
+			shippingAdressJson.put("zipOrPostalCode",
+					shippingAddress.getZipOrPostalCode());
+			shippingAdressJson.put("country",
+					shippingAddress.getCountryOrRegion());
+			jsonObject.put("shipTo", shippingAdressJson);
+		}
 
 		jsonObject.put("balanceDue", obj.getBalanceDue());
 		jsonObject.put("amountPaid", obj.getPayments());
@@ -71,6 +79,16 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 			jsonObject.put("salesOrders", array);
 		}
 
+		PaymentTerms paymentTerm = obj.getPaymentTerm();
+		if (paymentTerm != null) {
+			jsonObject.put("paymentTerm",
+					context.get("PaymentTerms", paymentTerm.getID()));
+		}
+		Contact contact = obj.getContact();
+		if (contact != null) {
+			jsonObject.put("contact", context.get("Contact", contact.getID()));
+
+		}
 		return jsonObject;
 	}
 }

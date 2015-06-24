@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.VendorPrePayment;
 
 public class VendorPrepaymentMigrator extends

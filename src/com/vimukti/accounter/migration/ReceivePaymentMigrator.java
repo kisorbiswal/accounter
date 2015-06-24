@@ -27,7 +27,6 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 					.getTime());
 			jsonObject.put("invoice",
 					context.get("Invoice", item.getInvoice().getID()));
-			jsonObject.put("invoiceAmount", item.getInvoiceAmount());
 			jsonObject.put("discountAccount",
 					context.get("Account", item.getDiscountAccount().getID()));
 
@@ -46,8 +45,6 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 		// PaymentableTransaction
 		jsonObj.put("paymentMethod", PicklistUtilMigrator
 				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
-		jsonObj.put("unusedCredits", obj.getUnUsedCredits());
-		jsonObj.put("unusedPayments", obj.getUnUsedPayments());
 		try {
 			Long chequeNumber = Long.valueOf(obj.getCheckNumber());
 			jsonObj.put("chequeNumber", chequeNumber);

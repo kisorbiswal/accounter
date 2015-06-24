@@ -1,5 +1,10 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Job;
@@ -8,11 +13,6 @@ import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Utility;
-
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class JournalEntryMigrator implements IMigrator<JournalEntry> {
 

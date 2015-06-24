@@ -185,7 +185,7 @@ public class CompanyMigrator {
 				new PayTaxMigrator(), context);
 		context.put("PayTAX", migratedObjects);
 		// paymentTerms
-		migratedObjects = migrateObjects("PaymentTerms", PaymentTerms.class,
+		migratedObjects = migrateObjects("PaymentTerm", PaymentTerms.class,
 				new PaymentTermsMigrator(), context);
 		context.put("PaymentTerms", migratedObjects);
 		// Customer Groups
