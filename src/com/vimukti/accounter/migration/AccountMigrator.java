@@ -24,8 +24,10 @@ public class AccountMigrator implements IMigrator<Account> {
 			jsonObject.put("subAccountOf",
 					context.get("Account", account.getParent().getID()));
 		}
-		jsonObject.put("type",
+		JSONObject accountTypeJSON = new JSONObject();
+		accountTypeJSON.put("identity",
 				PicklistUtilMigrator.getAccountTypeIdentity(account.getType()));
+		jsonObject.put("type", accountTypeJSON);
 		jsonObject.put("currency", account.getCurrency().getFormalName());
 		jsonObject.put("inactive", !account.getIsActive());
 		jsonObject.put("description", account.getComment());
