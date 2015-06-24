@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.CompanyPreferences;
-import com.vimukti.accounter.core.Utility;
 
 public class FeaturesMigrator implements IMigrator<CompanyPreferences> {
 

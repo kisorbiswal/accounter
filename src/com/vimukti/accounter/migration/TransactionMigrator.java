@@ -10,7 +10,6 @@ import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Job;
 import com.vimukti.accounter.core.Location;
-import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;

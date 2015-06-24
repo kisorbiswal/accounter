@@ -18,15 +18,10 @@ public class PayStructureMigrator implements IMigrator<PayStructure> {
 
 		if (obj.getEmployee() != null) {
 			payStructure.put("type", "Employee");
-		} else {
-			payStructure.put("type", "Employee Group");
-		}
-
-		if (obj.getEmployee() != null) {
 			payStructure.put("employee",
 					context.get("Employee", obj.getEmployee().getID()));
-		}
-		if (obj.getEmployeeGroup() != null) {
+		} else {
+			payStructure.put("type", "EmployeeGroup");
 			payStructure.put("employeeGroup", context.get("EmployeeGroup", obj
 					.getEmployeeGroup().getID()));
 		}
