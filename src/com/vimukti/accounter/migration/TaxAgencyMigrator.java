@@ -1,7 +1,5 @@
 package com.vimukti.accounter.migration;
 
-import java.util.Date;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -93,14 +91,16 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		// sendTransactionViaEmail is not found
 		// sendTransactionViaPrint is not found
 		// sendTransactionViaFax is not found
-		jsonObject.put("currency", obj.getCurrency());
+		jsonObject.put("currency", obj.getCurrency().getFormalName());
 		jsonObject.put("currencyFactor", obj.getCurrencyFactor());
 		Account account = obj.getAccount();
 		if (account != null) {
 			jsonObject.put("account", context.get("Account", account.getID()));
 		}
-		jsonObject
-				.put("since", obj.getPayeeSince().getAsDateObject().getTime());
+		FinanceDate payeeSince = obj.getPayeeSince();
+		if (payeeSince != null) {
+			jsonObject.put("since", payeeSince.getAsDateObject().getTime());
+		}
 		jsonObject.put("bankName", obj.getBankName());
 		jsonObject.put("bankAccountNumber", obj.getBankAccountNo());
 		jsonObject.put("bankBranch", obj.getBankBranch());

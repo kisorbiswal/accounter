@@ -15,7 +15,7 @@ public class SalesPersonMigrator implements IMigrator<SalesPerson> {
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(salesPerson, jsonObject,
 				context);
-		jsonObject.put("name", salesPerson.getName());
+		jsonObject.put("name", salesPerson.getFirstName());
 		jsonObject.put("fileAs", salesPerson.getFileAs());
 		jsonObject.put("jobTitle", salesPerson.getJobTitle());
 		jsonObject.put("gender", salesPerson.getGender());

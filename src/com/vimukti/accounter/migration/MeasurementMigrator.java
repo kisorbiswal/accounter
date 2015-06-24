@@ -20,8 +20,6 @@ public class MeasurementMigrator implements IMigrator<Measurement> {
 		JSONObject jsonObject = new JSONObject();
 		Map<String, List<Long>> childrenMap = context.getChildrenMap();
 		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
-
-		Long defaultUnitId = new Random().nextLong();
 		String key = "units-Unit";
 		List<Long> list = childrenMap.get(key);
 		if (list == null) {
@@ -33,14 +31,14 @@ public class MeasurementMigrator implements IMigrator<Measurement> {
 			JSONObject unitObject = new JSONObject();
 			unitObject.put("name", unit.getType());
 			unitObject.put("factor", unit.getFactor());
-			units.put(unit);
+			units.put(unitObject);
 			list.add(unit.getID());
-			
 			if (unit.isDefault()) {
-				jsonObject.put("defaultUnit", defaultUnitId);
+				unitObject.put("_localId", unit.getID());
+				jsonObject.put("defaultUnit", unit.getID());
 			}
 		}
-
+		jsonObject.put("identity", MigratorUtil.asIdentifier(obj.getName()));
 		jsonObject.put("units", units);
 		jsonObject.put("name", obj.getName());
 		return jsonObject;

@@ -15,9 +15,9 @@ public class PaymentTermsMigrator implements IMigrator<PaymentTerms> {
 		jsonObject.put("name", obj.getName());
 		jsonObject.put("description", obj.getDescription());
 		jsonObject.put("netDue", obj.getDue());
-		jsonObject.put("dueDays",obj.getDueDays());
-		jsonObject.put("discountPercentage",obj.getDiscountPercent());
-		jsonObject.put("ifPaidWithIn",obj.getIfPaidWithIn());
+		jsonObject.put("dueDays", obj.getDueDays());
+		jsonObject.put("discountPercentage", obj.getDiscountPercent());
+		jsonObject.put("ifPaidWithIn", obj.getIfPaidWithIn());
 		jsonObject.put("isDateDriven", obj.isDateDriven());
 		return jsonObject;
 	}
