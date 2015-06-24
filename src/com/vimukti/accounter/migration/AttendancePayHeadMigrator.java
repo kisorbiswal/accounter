@@ -18,7 +18,8 @@ public class AttendancePayHeadMigrator implements IMigrator<AttendancePayHead> {
 		payHead.put("payHeadType", ClientPayHead.getPayHeadType(obj.getType()));
 		payHead.put("isAffectNetSalary", obj.isAffectNetSalary());
 		payHead.put("expenseAccount", obj.getAccount());
-		payHead.put("calculationType", obj.getCalculationType());
+		payHead.put("calculationType", PicklistUtilMigrator
+				.getCalculationType(obj.getCalculationType()));
 		payHead.put("paySlipName", obj.getNameToAppearInPaySlip());
 		payHead.put("isDeduction", obj.isDeduction());
 		payHead.put("isEarning", obj.isEarning());
@@ -34,17 +35,24 @@ public class AttendancePayHeadMigrator implements IMigrator<AttendancePayHead> {
 		}
 		payHead.put("calculationPeriod", PicklistUtilMigrator
 				.getCalculationPeriod(obj.getCalculationPeriod()));
-		payHead.put("productionType", context.get("AttendanceOrProductionType",
-				obj.getProductionType().getID()));
+		if (PicklistUtilMigrator.getCalculationType(obj.getCalculationType())
+				.equals("OnProduction")) {
+			payHead.put("productionType", context.get(
+					"AttendanceOrProductionType", obj.getProductionType()
+							.getID()));
+		} else {
+			payHead.put("userDefinedCalendar", context.get(
+					"AttendanceOrProductionType", obj.getProductionType()
+							.getID()));
+		}
 		payHead.put("perDayCalculationBasis", PicklistUtilMigrator
 				.getPerdayCalculationBasis(obj.getCalculationPeriod()));
 		payHead.put("earningDeductionOn",
 				PicklistUtilMigrator.getAttendanceType(obj.getAttendanceType()));
+		payHead.put("otherPayHead", obj.getPayhead());
 		// TODO PayHead.obj has
-		// isFromTimeSheet,formulaItems,lastComputedValue,otherPayHead,
-		// ,attendanceLeaveWithPay,
-		// userDefinedCalendar,computationSlabs
-		// not in PayHead.java
+		// isFromTimeSheet,lastComputedValue,
+		// attendanceLeaveWithPay
 		return payHead;
 	}
 }
