@@ -1,9 +1,12 @@
 package com.vimukti.accounter.migration;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.ComputaionFormulaFunction;
+import com.vimukti.accounter.core.ComputationSlab;
 import com.vimukti.accounter.core.ComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 
@@ -18,7 +21,8 @@ public class ComputionPayHeadMigrator implements IMigrator<ComputionPayHead> {
 		payHead.put("payHeadType", ClientPayHead.getPayHeadType(obj.getType()));
 		payHead.put("isAffectNetSalary", obj.isAffectNetSalary());
 		payHead.put("expenseAccount", obj.getAccount());
-		payHead.put("calculationType", obj.getCalculationType());
+		payHead.put("calculationType", PicklistUtilMigrator
+				.getCalculationType(obj.getCalculationType()));
 		payHead.put("paySlipName", obj.getNameToAppearInPaySlip());
 		payHead.put("isDeduction", obj.isDeduction());
 		payHead.put("isEarning", obj.isEarning());
@@ -38,11 +42,32 @@ public class ComputionPayHeadMigrator implements IMigrator<ComputionPayHead> {
 				.getPerdayCalculationBasis(obj.getCalculationPeriod()));
 		payHead.put("computeOn", PicklistUtilMigrator.getComputationType(obj
 				.getComputationType()));
+		// altEmail and altPhone are not found
+		JSONArray jsonSlabs = new JSONArray();
+		for (ComputationSlab slab : obj.getSlabs()) {
+			JSONObject jsonSlab = new JSONObject();
+			jsonSlab.put("effectiveFrom", slab.getEffectiveFrom()
+					.getAsDateObject());
+			jsonSlab.put("fromAmount", slab.getFromAmount());
+			jsonSlab.put("amountUpto", slab.getToAmount());
+			jsonSlab.put("slabType", PicklistUtilMigrator
+					.getComputationSlabType(slab.getSlabType()));
+			jsonSlab.put("value", slab.getValue());
+			jsonSlabs.put(jsonSlab);
+		}
+		payHead.put("computationSlabs", jsonSlabs);
+		JSONArray jsonformulaItems = new JSONArray();
+		for (ComputaionFormulaFunction formulaItem : obj.getFormulaFunctions()) {
+			JSONObject jsonFormula = new JSONObject();
+			jsonFormula.put("functionType", PicklistUtilMigrator
+					.getPayHeadFormulaFunctionType(formulaItem
+							.getFunctionType()));
+			jsonformulaItems.put(jsonFormula);
+		}
+		payHead.put("formulaItems", jsonformulaItems);
 		// TODO PayHead.obj has
-		// isFromTimeSheet,formulaItems,lastComputedValue,otherPayHead,
-		// ,attendanceLeaveWithPay,
-		// userDefinedCalendar,computationSlabs
-		// not in PayHead.java
+		// isFromTimeSheet,lastComputedValue,
+		// attendanceLeaveWithPay
 		return payHead;
 	}
 }

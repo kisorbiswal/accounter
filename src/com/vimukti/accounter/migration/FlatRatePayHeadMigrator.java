@@ -18,7 +18,8 @@ public class FlatRatePayHeadMigrator implements IMigrator<FlatRatePayHead> {
 		payHead.put("payHeadType", ClientPayHead.getPayHeadType(obj.getType()));
 		payHead.put("isAffectNetSalary", obj.isAffectNetSalary());
 		payHead.put("expenseAccount", obj.getAccount());
-		payHead.put("calculationType", obj.getCalculationType());
+		payHead.put("calculationType", PicklistUtilMigrator
+				.getCalculationType(obj.getCalculationType()));
 		payHead.put("paySlipName", obj.getNameToAppearInPaySlip());
 		payHead.put("isDeduction", obj.isDeduction());
 		payHead.put("isEarning", obj.isEarning());
@@ -38,10 +39,8 @@ public class FlatRatePayHeadMigrator implements IMigrator<FlatRatePayHead> {
 				.getPerdayCalculationBasis(obj.getCalculationPeriod()));
 
 		// TODO PayHead.obj has
-		// isFromTimeSheet,formulaItems,lastComputedValue,otherPayHead,
-		// ,attendanceLeaveWithPay,
-		// userDefinedCalendar,computationSlabs
-		// not in PayHead.java
+		// isFromTimeSheet,lastComputedValue,
+		// attendanceLeaveWithPay,
 		return payHead;
 	}
 }

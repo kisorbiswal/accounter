@@ -475,4 +475,51 @@ public class PicklistUtilMigrator {
 		}
 		return "";
 	}
+
+	static String getCalculationType(int type) {
+		switch (type) {
+		case ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE:
+			return "OnAttendance";
+
+		case ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE:
+			return "AsComputedValue";
+
+		case ClientPayHead.CALCULATION_TYPE_FLAT_RATE:
+			return "FlatRate";
+
+		case ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION:
+			return "OnProduction";
+
+		case ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED:
+			return "UserDefined";
+
+		default:
+			return null;
+		}
+	}
+
+	static String getComputationSlabType(int type) {
+		switch (type) {
+		case 1:
+			return "Percentage";
+
+		case 2:
+			return "Value";
+		}
+		return null;
+	}
+
+	static String getPayHeadFormulaFunctionType(int type) {
+		switch (type) {
+		case 1:
+			return "AddPayHead";
+		case 2:
+			return "SubtractPayHead";
+		case 3:
+			return "DivideAttendance";
+		case 4:
+			return "MultiplyAttendance";
+		}
+		return null;
+	}
 }

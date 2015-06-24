@@ -34,10 +34,8 @@ public class UserDefinedPayHeadMigrator implements
 					context.get("Account", liabilityAccount.getID()));
 		}
 		// TODO PayHead.obj has
-		// isFromTimeSheet,formulaItems,lastComputedValue,otherPayHead,
+		// isFromTimeSheet,lastComputedValue,
 		// attendanceLeaveWithPay,
-		// userDefinedCalendar,computationSlabs
-		// not in PayHead.java
 		return payHead;
 	}
 }
