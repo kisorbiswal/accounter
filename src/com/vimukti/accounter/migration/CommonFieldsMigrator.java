@@ -1,5 +1,7 @@
 package com.vimukti.accounter.migration;
 
+import java.sql.Timestamp;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,7 +13,13 @@ public class CommonFieldsMigrator {
 			JSONObject json, MigratorContext context) throws JSONException {
 		json.put("createdBy", context.getAdmin());
 		json.put("lastModifiedBy", context.getAdmin());
-		json.put("createdDate", obj.getCreatedDate().getTime());
-		json.put("lastModifiedDate", obj.getLastModifiedDate().getTime());
+		Timestamp createdDate = obj.getCreatedDate();
+		if (createdDate != null) {
+			json.put("createdDate", createdDate.getTime());
+		}
+		Timestamp lastModifiedDate = obj.getLastModifiedDate();
+		if (lastModifiedDate != null) {
+			json.put("lastModifiedDate", obj.getLastModifiedDate().getTime());
+		}
 	}
 }

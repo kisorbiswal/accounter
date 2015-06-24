@@ -1,6 +1,7 @@
 package com.vimukti.accounter.migration;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
@@ -100,6 +101,7 @@ public class CompanyMigrator {
 	private static final String API_KEY = "api_key";
 	private static final String FIRST_NAME = "firstName";
 	private static final String LAST_NAME = "lastName";
+	public static final String USER_ID = "userid";
 	private static final String EMAIL = "email";
 	private static final String COMPANY_NAME = "company";
 	private static final String USER_NAME = "username";
@@ -496,8 +498,11 @@ public class CompanyMigrator {
 		List<T> objects = criteria.add(Restrictions.eq("company", company))
 				.list();
 		for (T obj : objects) {
-			objectArray.put(migrator.migrate(obj, context));
-			ids.add(obj.getID());
+			JSONObject migrate = migrator.migrate(obj, context);
+			if (migrate != null) {
+				objectArray.put(migrate);
+				ids.add(obj.getID());
+			}
 		}
 		// Send Request TO REST API
 		Map<Long, Long> newAndOldIds = new HashMap<Long, Long>();
@@ -510,7 +515,8 @@ public class CompanyMigrator {
 		if (status.getStatusCode() != HttpStatus.SC_OK) {
 			throw new RuntimeException(status.toString());
 		}
-		JSONArray array = new JSONArray(response.getEntity());
+		String content = IOUtils.toString(response.getEntity().getContent());
+		JSONArray array = new JSONArray(content);
 		for (int i = 0; i < array.length(); i++) {
 			JSONObject json = array.getJSONObject(i);
 			newAndOldIds.put(ids.get(i), json.getLong("id"));
@@ -562,8 +568,10 @@ public class CompanyMigrator {
 			throw new RuntimeException(status.toString());
 		}
 		log.info("***Signup Sucessfully with " + accClient.getEmailId());
-		// TODO
-		return 0L;
+		HttpEntity content = response.getEntity();
+		String responseContent = IOUtils.toString(content.getContent());
+		JSONObject responseResult = new JSONObject(responseContent);
+		return responseResult.getLong(USER_ID);
 	}
 
 	private void addAuthenticationParameters(HttpRequest executeMethod,

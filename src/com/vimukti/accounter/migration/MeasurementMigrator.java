@@ -27,11 +27,12 @@ public class MeasurementMigrator implements IMigrator<Measurement> {
 			JSONObject unitObject = new JSONObject();
 			unitObject.put("name", unit.getType());
 			unitObject.put("factor", unit.getFactor());
-			units.put(unit);
+			units.put(unitObject);
 		}
 
+		jsonObject.put("identity", obj.getName());
 		jsonObject.put("units", units);
-		jsonObject.put("defaultUnit", defaultUnit.getID());
+		// jsonObject.put("defaultUnit", defaultUnit.getID());
 		jsonObject.put("name", obj.getName());
 		return jsonObject;
 	}
