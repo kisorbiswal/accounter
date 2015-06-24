@@ -1,5 +1,7 @@
 package com.vimukti.accounter.migration;
 
+import java.util.Date;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,6 +9,8 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
@@ -33,11 +37,17 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		// This is Property not found
 		// jsonObject.put("offsetSalesTaxFromPurchaseTax", null);
 		jsonObject.put("isInactive", !obj.isActive());
-		jsonObject.put("lastFileTaxDate", obj.getLastTAXReturnDate()
-				.getAsDateObject().getTime());
+		FinanceDate asDateObject = obj.getLastTAXReturnDate();
+		if (asDateObject != null) {
+			jsonObject.put("lastFileTaxDate", asDateObject.getAsDateObject()
+					.getTime());
+		}
 		// Setting object PaymentTerm
-		jsonObject.put("paymentTerm",
-				context.get("PaymentTerm", obj.getPaymentTerm().getID()));
+		PaymentTerms paymentTerm = obj.getPaymentTerm();
+		if (paymentTerm != null) {
+			jsonObject.put("paymentTerm",
+					context.get("PaymentTerm", paymentTerm.getID()));
+		}
 		// RelationShip field
 		// identification is not found
 		// AutoIdentification , mrOrMs, jobTitle are not found

@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.SalesPerson;
 
 public class SalesPersonMigrator implements IMigrator<SalesPerson> {
@@ -18,19 +19,31 @@ public class SalesPersonMigrator implements IMigrator<SalesPerson> {
 		jsonObject.put("fileAs", salesPerson.getFileAs());
 		jsonObject.put("jobTitle", salesPerson.getJobTitle());
 		jsonObject.put("gender", salesPerson.getGender());
-		jsonObject.put("dateOfBirth", salesPerson.getDateOfBirth()
-				.getAsDateObject().getTime());
-		jsonObject.put("dateOfHire", salesPerson.getDateOfHire()
-				.getAsDateObject().getTime());
-		jsonObject.put("dateOfLastReview", salesPerson
-				.getFinanceDateOfLastReview().getAsDateObject().getTime());
+		FinanceDate dateOfBirth = salesPerson.getDateOfBirth();
+		if (dateOfBirth != null) {
+			jsonObject.put("dateOfBirth", dateOfBirth.getAsDateObject()
+					.getTime());
+		}
+		FinanceDate dateOfHire = salesPerson.getDateOfHire();
+		if (dateOfHire != null) {
+			jsonObject
+					.put("dateOfHire", dateOfHire.getAsDateObject().getTime());
+		}
+		FinanceDate financeDateOfLastReview = salesPerson
+				.getFinanceDateOfLastReview();
+		if (financeDateOfLastReview != null) {
+			jsonObject.put("dateOfLastReview", financeDateOfLastReview
+					.getAsDateObject().getTime());
+		}
 		jsonObject.put("inActive", !salesPerson.isActive());
-		jsonObject.put("dateOfRelease", salesPerson.getDateOfRelease()
-				.getAsDateObject().getTime());
+		FinanceDate dateOfRelease = salesPerson.getDateOfRelease();
+		if (dateOfRelease != null) {
+			jsonObject.put("dateOfRelease", dateOfRelease.getAsDateObject()
+					.getTime());
+		}
 		jsonObject.put("phoneNo", salesPerson.getPhoneNo());
 		jsonObject.put("email", salesPerson.getEmail());
 		jsonObject.put("webPageAddress", salesPerson.getWebPageAddress());
-
 		JSONObject jSONAddress = new JSONObject();
 		Address address = salesPerson.getAddress();
 		if (address != null) {
@@ -41,7 +54,6 @@ public class SalesPersonMigrator implements IMigrator<SalesPerson> {
 			jSONAddress.put("country", address.getCountryOrRegion());
 			jsonObject.put("address", jSONAddress);
 		}
-
 		return jsonObject;
 	}
 }

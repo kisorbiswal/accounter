@@ -138,7 +138,7 @@ public class CompanyMigrator {
 		// long adminId = signup(user);
 		context.setAdmin("Admin", adminId);
 		// / login
-		apiKey = login(user.getClient().getEmailId(), this.password);
+		apiKey = login("test1@vimukti.com", this.password);
 
 		// Users Migration
 		// migrateUsers(emails, context);
@@ -164,6 +164,38 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("Warehouse", Warehouse.class,
 				new WarehouseMigrator(), context);
 		context.put("Warehouse", migratedObjects);
+		// paymentTerms
+		migratedObjects = migrateObjects("PaymentTerm", PaymentTerms.class,
+				new PaymentTermsMigrator(), context);
+		context.put("PaymentTerms", migratedObjects);
+		// Customer Groups
+		migratedObjects = migrateObjects("CustomerGroup", CustomerGroup.class,
+				new CustomerGroupMigrator(), context);
+		context.put("CustomerGroup", migratedObjects);
+		// Shipping Methods
+		migratedObjects = migrateObjects("ShippingMethod",
+				ShippingMethod.class, new ShippingMethodMigrator(), context);
+		context.put("ShippingMethod", migratedObjects);
+		// Shipping Methods
+		migratedObjects = migrateObjects("ShippingTerms", ShippingTerms.class,
+				new ShippingTermsMigrator(), context);
+		context.put("ShippingTerms", migratedObjects);
+		// PriceLevels
+		migratedObjects = migrateObjects("PriceLevel", PriceLevel.class,
+				new PriceLevelMigrator(), context);
+		context.put("PriceLevel", migratedObjects);
+		// locations
+		migratedObjects = migrateObjects("Location", Location.class,
+				new LocationMigrator(), context);
+		context.put("Location", migratedObjects);
+		// AccounterClasses
+		migratedObjects = migrateObjects("AccountClass", AccounterClass.class,
+				new AccounterClassMigrator(), context);
+		context.put("AccounterClass", migratedObjects);
+		// Item groups
+		migratedObjects = migrateObjects("ItemGroup", ItemGroup.class,
+				new ItemGroupMigrator(), context);
+		context.put("ItemGroup", migratedObjects);
 		// taxAgencies
 		migratedObjects = migrateObjects("TaxAgency", TAXAgency.class,
 				new TaxAgencyMigrator(), context);
@@ -185,26 +217,6 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("PayTAX", PayTAX.class,
 				new PayTaxMigrator(), context);
 		context.put("PayTAX", migratedObjects);
-		// paymentTerms
-		migratedObjects = migrateObjects("PaymentTerm", PaymentTerms.class,
-				new PaymentTermsMigrator(), context);
-		context.put("PaymentTerms", migratedObjects);
-		// Customer Groups
-		migratedObjects = migrateObjects("CustomerGroup", CustomerGroup.class,
-				new CustomerGroupMigrator(), context);
-		context.put("CustomerGroup", migratedObjects);
-		// Shipping Methods
-		migratedObjects = migrateObjects("ShippingMethod",
-				ShippingMethod.class, new ShippingMethodMigrator(), context);
-		context.put("ShippingMethod", migratedObjects);
-		// Shipping Methods
-		migratedObjects = migrateObjects("ShippingTerms", ShippingTerms.class,
-				new ShippingTermsMigrator(), context);
-		context.put("ShippingTerms", migratedObjects);
-		// PriceLevels
-		migratedObjects = migrateObjects("PriceLevel", PriceLevel.class,
-				new PriceLevelMigrator(), context);
-		context.put("PriceLevel", migratedObjects);
 		// Customers
 		migratedObjects = migrateObjects("Customer", Customer.class,
 				new CustomerMigrator(), context);
@@ -218,14 +230,6 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("VendorGroup", VendorGroup.class,
 				new VendorGroupMigrator(), context);
 		context.put("VendorGroup", migratedObjects);
-		// locations
-		migratedObjects = migrateObjects("Location", Location.class,
-				new LocationMigrator(), context);
-		context.put("Location", migratedObjects);
-		// AccounterClasses
-		migratedObjects = migrateObjects("AccountClass", AccounterClass.class,
-				new AccounterClassMigrator(), context);
-		context.put("AccounterClass", migratedObjects);
 		// Jobs
 		migratedObjects = migrateObjects("Project", Job.class,
 				new JobMigrator(), context);
@@ -234,10 +238,6 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("JournalEntry", JournalEntry.class,
 				new JournalEntryMigrator(), context);
 		context.put("JournalEntry", migratedObjects);
-		// Item groups
-		migratedObjects = migrateObjects("ItemGroup", ItemGroup.class,
-				new ItemGroupMigrator(), context);
-		context.put("ItemGroup", migratedObjects);
 		// Items
 		migratedObjects = migrateObjects("ServiceItem", Item.class,
 				new ServiceItemMigrator(), context);
@@ -498,7 +498,7 @@ public class CompanyMigrator {
 		migrator.addRestrictions(criteria);
 		List<T> objects = criteria.add(Restrictions.eq("company", company))
 				.list();
-		//Map<fieldName-Identity,List<OldId>
+		// Map<fieldName-Identity,List<OldId>
 		Map<String, List<Long>> accounterMap = new HashMap<String, List<Long>>();
 		context.setChildrenMap(accounterMap);
 		for (T obj : objects) {
@@ -528,7 +528,7 @@ public class CompanyMigrator {
 			JSONObject jsonObject = json.getJSONObject("object");
 			createEcgineChildrenMap(ecgineMap, jsonObject);
 		}
-		putChildrenInContext(accounterMap, ecgineMap,context);
+		putChildrenInContext(accounterMap, ecgineMap, context);
 		return newAndOldIds;
 	}
 
@@ -538,15 +538,15 @@ public class CompanyMigrator {
 			String key = e.getKey();
 			List<Long> accList = e.getValue();
 			List<Long> ecgineList = ecgineMap.get(key);
-			String identity=key.substring(key.indexOf("-")+1);
-			context.put(identity, makeMap(accList,ecgineList));
+			String identity = key.substring(key.indexOf("-") + 1);
+			context.put(identity, makeMap(accList, ecgineList));
 		}
 
 	}
 
 	private Map<Long, Long> makeMap(List<Long> accList, List<Long> ecgineList) {
-		
-		Map<Long, Long> map=new HashMap<Long, Long>();
+
+		Map<Long, Long> map = new HashMap<Long, Long>();
 		for (int i = 0; i < accList.size(); i++) {
 			map.put(accList.get(i), ecgineList.get(i));
 		}

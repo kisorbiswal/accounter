@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.BankAccount;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Utility;
 
 public class BankAccountMigrator implements IMigrator<BankAccount> {
@@ -15,20 +16,22 @@ public class BankAccountMigrator implements IMigrator<BankAccount> {
 		CommonFieldsMigrator.migrateCommonFields(bankAccount, jsonObject,
 				context);
 		jsonObject.put("bankName", bankAccount.getBank().getName());
-		String bankAccountType = getBankAccountTypeIdentity(Utility
-				.getBankAccountType(bankAccount.getBankAccountType()));
+		String bankAccountType = getBankAccountTypeIdentity(bankAccount
+				.getBankAccountType());
 		if (bankAccountType != null) {
 			jsonObject.put("bankAccountType", bankAccountType);
 		}
 		jsonObject.put("bankAccountNumber", bankAccount.getBankAccountNumber());
 		jsonObject.put("number", bankAccount.getNumber());
 		jsonObject.put("name", bankAccount.getName());
-		jsonObject.put("asOf", bankAccount.getAsOf());
+		FinanceDate asOf = bankAccount.getAsOf();
+		if (asOf != null) {
+			jsonObject.put("asOf", asOf.getAsDateObject().getTime());
+		}
 		if (bankAccount.getParent() != null) {
 			jsonObject.put("subAccountOf",
 					context.get("Account", bankAccount.getParent().getID()));
 		}
-
 		jsonObject.put("type", PicklistUtilMigrator
 				.getAccountTypeIdentity(bankAccount.getType()));
 		jsonObject.put("currency", bankAccount.getCurrency().getFormalName());
@@ -43,13 +46,17 @@ public class BankAccountMigrator implements IMigrator<BankAccount> {
 		return jsonObject;
 	}
 
-	String getBankAccountTypeIdentity(String name) {
-		switch (name) {
-		case "None":
-			return null;
-		case "Money Market":
+	String getBankAccountTypeIdentity(int type) {
+		switch (type) {
+		case 0:
+			return "CurrentAccount";
+		case 1:
+			return "Checking";
+		case 2:
+			return "Savings";
+		case 3:
 			return "MoneyMarket";
 		}
-		return name;
+		return null;
 	}
 }
