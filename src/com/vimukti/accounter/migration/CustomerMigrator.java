@@ -78,6 +78,12 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		// altEmail and altPhone are not found
 		JSONArray jsonContacts = new JSONArray();
 		Map<String, List<Long>> childrenMap = context.getChildrenMap();
+		String key="contacts-Contact";
+		List<Long> list = childrenMap.get(key);
+		if(list==null){
+			list=new ArrayList<Long>();
+			childrenMap.put(key, list);
+		}
 		for (Contact contact : obj.getContacts()) {
 			JSONObject jsonContact = new JSONObject();
 			jsonContact.put("isPrimary", contact.isPrimary());
@@ -86,12 +92,6 @@ public class CustomerMigrator implements IMigrator<Customer> {
 			jsonContact.put("businessPhone", contact.getBusinessPhone());
 			jsonContact.put("email", contact.getEmail());
 			jsonContacts.put(jsonContact);
-			String key="contacts-Contact";
-			List<Long> list = childrenMap.get(key);
-			if(list==null){
-				list=new ArrayList<Long>();
-				childrenMap.put(key, list);
-			}
 			list.add(contact.getID());
 		}
 		jsonObject.put("contacts", jsonContacts);

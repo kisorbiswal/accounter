@@ -134,8 +134,7 @@ public class CompanyMigrator {
 		context.setCompany(company);
 		// Organization
 		User user = company.getCreatedBy();
-		long adminId = 8800387989507L;
-		// long adminId = signup(user);
+		long adminId = signup(user);
 		context.setAdmin("Admin", adminId);
 		// / login
 		apiKey = login("test1@vimukti.com", this.password);
