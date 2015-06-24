@@ -1,6 +1,7 @@
 package com.vimukti.accounter.migration;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -12,6 +13,8 @@ public class MigratorContext {
 
 	private PickListTypeContext pickListTypeContext;
 	private Company company;
+
+	private Map<String, List<Long>> childrenMap ;
 
 	public void put(String name, Map<Long, Long> migrateAccounts) {
 		for (Entry<Long, Long> oldId : migrateAccounts.entrySet()) {
@@ -45,5 +48,13 @@ public class MigratorContext {
 
 	public Long getAdmin() {
 		return ids.get("Admin");
+	}
+
+	public void setChildrenMap(Map<String, List<Long>> childrenMap) {
+		this.childrenMap =childrenMap;
+	}
+
+	public Map<String, List<Long>> getChildrenMap() {
+		return childrenMap;
 	}
 }

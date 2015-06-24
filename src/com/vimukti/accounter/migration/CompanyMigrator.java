@@ -1,12 +1,12 @@
 package com.vimukti.accounter.migration;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
@@ -101,7 +101,6 @@ public class CompanyMigrator {
 	private static final String API_KEY = "api_key";
 	private static final String FIRST_NAME = "firstName";
 	private static final String LAST_NAME = "lastName";
-	public static final String USER_ID = "userid";
 	private static final String EMAIL = "email";
 	private static final String COMPANY_NAME = "company";
 	private static final String USER_NAME = "username";
@@ -111,6 +110,7 @@ public class CompanyMigrator {
 	private static final String LOG_IN = "/api/login";
 	private static final String AUTH_HEADER_NAME = "Authorization";
 	private static final String BEARER = "Bearer";
+	public static final String USER_ID = "userid";
 
 	private static Logger log = Logger.getLogger(CompanyMigrator.class);
 
@@ -134,7 +134,8 @@ public class CompanyMigrator {
 		context.setCompany(company);
 		// Organization
 		User user = company.getCreatedBy();
-		long adminId = signup(user);
+		long adminId = 8800387989507L;
+		// long adminId = signup(user);
 		context.setAdmin("Admin", adminId);
 		// / login
 		apiKey = login(user.getClient().getEmailId(), this.password);
@@ -497,6 +498,9 @@ public class CompanyMigrator {
 		migrator.addRestrictions(criteria);
 		List<T> objects = criteria.add(Restrictions.eq("company", company))
 				.list();
+		//Map<fieldName-Identity,List<OldId>
+		Map<String, List<Long>> accounterMap = new HashMap<String, List<Long>>();
+		context.setChildrenMap(accounterMap);
 		for (T obj : objects) {
 			JSONObject migrate = migrator.migrate(obj, context);
 			if (migrate != null) {
@@ -517,11 +521,54 @@ public class CompanyMigrator {
 		}
 		String content = IOUtils.toString(response.getEntity().getContent());
 		JSONArray array = new JSONArray(content);
+		Map<String, List<Long>> ecgineMap = new HashMap<String, List<Long>>();
 		for (int i = 0; i < array.length(); i++) {
 			JSONObject json = array.getJSONObject(i);
 			newAndOldIds.put(ids.get(i), json.getLong("id"));
+			JSONObject jsonObject = json.getJSONObject("object");
+			createEcgineChildrenMap(ecgineMap, jsonObject);
 		}
+		putChildrenInContext(accounterMap, ecgineMap,context);
 		return newAndOldIds;
+	}
+
+	private void putChildrenInContext(Map<String, List<Long>> accounterMap,
+			Map<String, List<Long>> ecgineMap, MigratorContext context) {
+		for (Entry<String, List<Long>> e : accounterMap.entrySet()) {
+			String key = e.getKey();
+			List<Long> accList = e.getValue();
+			List<Long> ecgineList = ecgineMap.get(key);
+			String identity=key.substring(key.indexOf("-")+1);
+			context.put(identity, makeMap(accList,ecgineList));
+		}
+
+	}
+
+	private Map<Long, Long> makeMap(List<Long> accList, List<Long> ecgineList) {
+		
+		Map<Long, Long> map=new HashMap<Long, Long>();
+		for (int i = 0; i < accList.size(); i++) {
+			map.put(accList.get(i), ecgineList.get(i));
+		}
+		return map;
+	}
+
+	private void createEcgineChildrenMap(Map<String, List<Long>> ecgineMap,
+			JSONObject jsonObject) throws JSONException {
+		for (Entry<String, List<Long>> e : ecgineMap.entrySet()) {
+			String key = e.getKey();
+			List<Long> list = e.getValue();
+			if (list == null) {
+				list = new ArrayList<Long>();
+				ecgineMap.put(key, list);
+			}
+			String prop = key.substring(0, key.indexOf("-") - 1);
+			JSONArray array = jsonObject.getJSONArray(prop);
+			for (int i = 0; i < array.length(); i++) {
+				list.add(array.getLong(i));
+			}
+		}
+
 	}
 
 	private String login(String userName, String password)

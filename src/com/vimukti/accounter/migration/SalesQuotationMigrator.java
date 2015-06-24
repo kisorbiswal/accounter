@@ -20,7 +20,8 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 				context.get("BusinessRelationship", obj.getCustomer().getID()));
 		FinanceDate expirationDate = obj.getExpirationDate();
 		if (expirationDate != null) {
-			jsonObj.put("expirationDate", expirationDate.getAsDateObject().getTime());
+			jsonObj.put("expirationDate", expirationDate.getAsDateObject()
+					.getTime());
 		}
 		Contact contact = obj.getContact();
 		if (contact != null) {
@@ -53,23 +54,24 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 			jsonBillingAddr.put("country", billingAddr.getCountryOrRegion());
 			jsonObj.put("billTo", jsonBillingAddr);
 		}
+		if(obj.getJob()!=null){
+			jsonObj.put("project", context.get("Project", obj.getJob().getID()));
+		}
 		PaymentTerms paymentTerm = obj.getPaymentTerm();
 		if (paymentTerm != null) {
 			jsonObj.put("paymentTerm",
 					context.get("PaymentTerm", paymentTerm.getID()));
 		}
 		jsonObj.put("deliveryDate", obj.getDeliveryDate());
-		jsonObj.put(
-				"transactionType",
-				context.getPickListContext().get("TransactionType",
-						"SalesQuotation"));
+		jsonObj.put("transactionType", "SalesQuotation");
 		if (obj.getStatus() == Estimate.STATUS_REJECTED) {
 			jsonObj.put(
 					"quoteStatus",
 					context.getPickListContext().get("QuotationStatus",
 							"Rejected"));
 		}
-
+		jsonObj.put("quotationType", PicklistUtilMigrator
+				.getQuotationTypeIdentifier(obj.getEstimateType()));
 		return jsonObj;
 	}
 

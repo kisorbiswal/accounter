@@ -42,6 +42,8 @@ public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> 
 		jsonObj.put("account", context.get("Account", obj.getPayFrom().getID()));
 		jsonObj.put("toBePrinted", obj.getIsToBePrinted());
 		jsonObj.put("memo", obj.getMemo());
+		jsonObj.put("paymentStatus", PicklistUtilMigrator
+				.getPaymentStatusIdentifier(obj.getStatus()));
 		jsonObj.put("date", obj.getDate().getAsDateObject().getTime());
 		return jsonObj;
 	}

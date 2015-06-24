@@ -456,4 +456,23 @@ public class PicklistUtilMigrator {
 		return null;
 	}
 
+	public static String getPaymentStatusIdentifier(int status) {
+		switch (status) {
+		case 0:
+			return "Not Issued";
+		case 1:
+			return "Issued";
+		}
+		return "";
+	}
+
+	public static String getQuotationTypeIdentifier(int estimateType) {
+		switch (estimateType) {
+		case 1:
+			return "Quotation";
+		case 4:
+			return "BillableExpenses";
+		}
+		return "";
+	}
 }
