@@ -20,7 +20,9 @@ public class PayRunMigrator implements IMigrator<PayRun> {
 		jsonObject.put("number", obj.getNumber());
 		Currency currency = obj.getCurrency();
 		if (currency != null) {
-			jsonObject.put("currency", currency.getFormalName());
+			JSONObject currencyJSON = new JSONObject();
+			currencyJSON.put("identity", currency.getFormalName());
+			jsonObject.put("currency", currencyJSON);
 		}
 		jsonObject.put("currencyFactor", obj.getCurrencyFactor());
 		jsonObject.put("notes", obj.getMemo());

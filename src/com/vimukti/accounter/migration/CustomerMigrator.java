@@ -100,7 +100,9 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		// sendTransactionViaEmail is not found
 		// sendTransactionViaPrint is not found
 		// sendTransactionViaFax is not found
-		jsonObject.put("currency", obj.getCurrency().getFormalName());
+		JSONObject currencyJSON = new JSONObject();
+		currencyJSON.put("identity", obj.getCurrency().getFormalName());
+		jsonObject.put("currency", currencyJSON);
 		jsonObject.put("currencyFactor", obj.getCurrencyFactor());
 		Account account = obj.getAccount();
 		if (account != null) {

@@ -37,14 +37,17 @@ public class BankAccountMigrator implements IMigrator<BankAccount> {
 		accountTypeJSON.put("identity", PicklistUtilMigrator
 				.getAccountTypeIdentity(bankAccount.getType()));
 		jsonObject.put("type", accountTypeJSON);
-		jsonObject.put("currency", bankAccount.getCurrency().getFormalName());
+		JSONObject currencyJSON = new JSONObject();
+		currencyJSON.put("identity", bankAccount.getCurrency()
+				.getFormalName());
+		jsonObject.put("currency", currencyJSON);
+		jsonObject.put("currencyFactor", bankAccount.getCurrencyFactor());
 		jsonObject.put("inactive", !bankAccount.getIsActive());
 		jsonObject.put("description", bankAccount.getComment());
 		jsonObject.put("openingBalance", bankAccount.getOpeningBalance());
 		jsonObject.put("paypalEmail", bankAccount.getPaypalEmail());
 		jsonObject.put("cashFlowCategory", Utility
 				.getCashFlowCategoryName(bankAccount.getCashFlowCategory()));
-		jsonObject.put("currencyFactor", bankAccount.getCurrencyFactor());
 		jsonObject.put("isIncrease", bankAccount.isIncrease());
 		return jsonObject;
 	}

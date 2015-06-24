@@ -35,10 +35,9 @@ public class JournalEntryMigrator implements IMigrator<JournalEntry> {
 		}
 		Currency currency = entry.getCurrency();
 		if (currency != null) {
-			jsonObject.put(
-					"currency",
-					context.getPickListContext().get("Currency",
-							currency.getFormalName()));
+			JSONObject currencyJSON = new JSONObject();
+			currencyJSON.put("identity", currency.getFormalName());
+			jsonObject.put("currency", currencyJSON);
 		}
 		jsonObject.put("currencyFactor", entry.getCurrencyFactor());
 		jsonObject.put("notes", entry.getMemo());
