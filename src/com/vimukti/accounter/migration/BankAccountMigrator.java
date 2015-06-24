@@ -32,8 +32,11 @@ public class BankAccountMigrator implements IMigrator<BankAccount> {
 			jsonObject.put("subAccountOf",
 					context.get("Account", bankAccount.getParent().getID()));
 		}
-		jsonObject.put("type", PicklistUtilMigrator
+
+		JSONObject accountTypeJSON = new JSONObject();
+		accountTypeJSON.put("identity", PicklistUtilMigrator
 				.getAccountTypeIdentity(bankAccount.getType()));
+		jsonObject.put("type", accountTypeJSON);
 		jsonObject.put("currency", bankAccount.getCurrency().getFormalName());
 		jsonObject.put("inactive", !bankAccount.getIsActive());
 		jsonObject.put("description", bankAccount.getComment());

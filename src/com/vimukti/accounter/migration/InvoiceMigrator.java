@@ -52,8 +52,6 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 			jsonObject.put("shipTo", shippingAdressJson);
 		}
 
-		jsonObject.put("balanceDue", obj.getBalanceDue());
-		jsonObject.put("amountPaid", obj.getPayments());
 		ShippingTerms shippingTerm = obj.getShippingTerm();
 		if (shippingTerm != null) {
 			jsonObject.put("shippingTerm",
