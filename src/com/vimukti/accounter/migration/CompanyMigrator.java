@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterClass;
+import com.vimukti.accounter.core.AttendanceOrProductionType;
 import com.vimukti.accounter.core.AttendancePayHead;
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Budget;
@@ -347,6 +348,15 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("Depreciation", Depreciation.class,
 				new DepreciationMigrator(), context);
 		context.put("WriteCheck", migratedObjects);
+		// PayrollUnit
+		migratedObjects = migrateObjects("PayRollUnit", PayrollUnit.class,
+				new PayrollUnitMigrator(), context);
+		context.put("PayrollUnit", migratedObjects);
+		// AttendanceOrProductionType
+		migratedObjects = migrateObjects("AttendanceOrProductionType",
+				AttendanceOrProductionType.class,
+				new AttendanceOrProductionTypeMigrator(), context);
+		context.put("WriteCheck", migratedObjects);
 		// PayHead
 		migratedObjects = migrateObjects("PayHead", AttendancePayHead.class,
 				new AttendancePayHeadMigrator(), context);
@@ -372,10 +382,6 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("PayStructure", PayStructure.class,
 				new PayStructureMigrator(), context);
 		context.put("PayStructure", migratedObjects);
-		// PayrollUnit
-		migratedObjects = migrateObjects("PayRollUnit", PayrollUnit.class,
-				new PayrollUnitMigrator(), context);
-		context.put("PayrollUnit", migratedObjects);
 		// Reconciliation
 		migratedObjects = migrateObjects("Reconciliation",
 				Reconciliation.class, new ReconciliationMigrator(), context);
