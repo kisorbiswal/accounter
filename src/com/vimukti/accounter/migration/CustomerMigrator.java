@@ -148,10 +148,8 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		if (taxCode != null) {
 			jsonObject.put("taxCode", context.get("TaxCode", taxCode.getID()));
 		}
-		jsonObject.put(
-				"paymentMethod",
-				context.getPickListContext().get("PaymentMethod",
-						obj.getPaymentMethod()));
+		jsonObject.put("paymentMethod", PicklistUtilMigrator
+				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
 
 		PaymentTerms paymentTerm = obj.getPaymentTerm();
 		if (paymentTerm != null) {

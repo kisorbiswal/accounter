@@ -120,10 +120,8 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		if (taxCode != null) {
 			jsonObject.put("taxCode", context.get("TaxCode", taxCode.getID()));
 		}
-		jsonObject.put(
-				"paymentMethod",
-				context.getPickListContext().get("PaymentMethod",
-						obj.getPaymentMethod()));
+		jsonObject.put("paymentMethod", PicklistUtilMigrator
+				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
 
 		ShippingMethod shippingMethod = obj.getShippingMethod();
 		if (shippingMethod != null) {

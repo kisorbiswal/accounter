@@ -4,17 +4,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.AttendanceOrProductionType;
+import com.vimukti.accounter.core.PayrollUnit;
 
-public class AttendanceOrProductionTypeMigrator implements IMigrator<AttendanceOrProductionType> {
-	public JSONObject migrate(AttendanceOrProductionType obj, MigratorContext context)
-			throws JSONException {
+public class AttendanceOrProductionTypeMigrator implements
+		IMigrator<AttendanceOrProductionType> {
+	public JSONObject migrate(AttendanceOrProductionType obj,
+			MigratorContext context) throws JSONException {
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("name", obj.getName());
-		jsonObject.put("payRollUnit",context.get("PayrollUnit", obj.getUnit().getID()));
+		PayrollUnit unit = obj.getUnit();
+		if (unit != null) {
+			jsonObject.put("payRollUnit",
+					context.get("PayrollUnit", obj.getUnit().getID()));
+		}
 		jsonObject.put("attendanceProductionType",
 				getAttendanceProductionTypeString(obj.getType()));
-		//TO DO to add period property
+		// TO DO to add period property
 		return jsonObject;
 	}
 
@@ -22,7 +28,7 @@ public class AttendanceOrProductionTypeMigrator implements IMigrator<AttendanceO
 		switch (value) {
 		case 1:
 			return "ProductionType";
-		default :
+		default:
 			return "UserDefinedCalendar";
 		}
 	}
