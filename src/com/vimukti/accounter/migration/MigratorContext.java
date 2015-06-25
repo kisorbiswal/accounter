@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,9 @@ public class MigratorContext {
 	private PickListTypeContext pickListTypeContext;
 	private Company company;
 
-	private Map<String, List<Long>> childrenMap ;
+	private Map<String, List<Long>> childrenMap;
+
+	private int lastAccNumber = 1055;
 
 	public void put(String name, Map<Long, Long> migrateAccounts) {
 		for (Entry<Long, Long> oldId : migrateAccounts.entrySet()) {
@@ -51,10 +54,14 @@ public class MigratorContext {
 	}
 
 	public void setChildrenMap(Map<String, List<Long>> childrenMap) {
-		this.childrenMap =childrenMap;
+		this.childrenMap = childrenMap;
 	}
 
 	public Map<String, List<Long>> getChildrenMap() {
 		return childrenMap;
+	}
+
+	public int getNextAccountNumber() {
+		return ++lastAccNumber;
 	}
 }

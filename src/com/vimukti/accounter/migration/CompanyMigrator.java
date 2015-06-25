@@ -128,8 +128,8 @@ public class CompanyMigrator {
 	}
 
 	public void migrate() throws HttpException, IOException, JSONException {
-		log.info("***Migrating Company Id: " + company.getId());
-
+		log.info("***Migrating Company  :" + company.getTradingName()
+				+ " @@ID : " + company.getId());
 		// Create context
 		MigratorContext context = new MigratorContext();
 		context.setCompany(company);
@@ -160,7 +160,7 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("SalesPerson", SalesPerson.class,
 				new SalesPersonMigrator(), context);
 		context.put("SalesPerson", migratedObjects);
-		// Warehouse
+		// // Warehouse
 		migratedObjects = migrateObjects("Warehouse", Warehouse.class,
 				new WarehouseMigrator(), context);
 		context.put("Warehouse", migratedObjects);
@@ -212,7 +212,6 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("TaxCode", TAXCode.class,
 				new TAXCodeMigrator(), context);
 		context.put("TAXCode", migratedObjects);
-		context.put("Currency", migratedObjects);
 		// PayTAX
 		migratedObjects = migrateObjects("PayTAX", PayTAX.class,
 				new PayTaxMigrator(), context);
@@ -503,6 +502,9 @@ public class CompanyMigrator {
 		migrator.addRestrictions(criteria);
 		List<T> objects = criteria.add(Restrictions.eq("company", company))
 				.list();
+		if (objects.isEmpty()) {
+			return new HashMap<Long, Long>();
+		}
 		// Map<fieldName-Identity,List<OldId>
 		Map<String, List<Long>> accounterMap = new HashMap<String, List<Long>>();
 		context.setChildrenMap(accounterMap);
@@ -532,6 +534,8 @@ public class CompanyMigrator {
 			newAndOldIds.put(ids.get(i), json.getLong("id"));
 			JSONObject jsonObject = json.getJSONObject("object");
 			createEcgineChildrenMap(ecgineMap, jsonObject);
+			log.info("Migrated " + identity + "  Accounter ID :" + ids.get(i)
+					+ " Ecgine ID :" + json.getLong("id"));
 		}
 		putChildrenInContext(accounterMap, ecgineMap, context);
 		return newAndOldIds;
@@ -546,11 +550,9 @@ public class CompanyMigrator {
 			String identity = key.substring(key.indexOf("-") + 1);
 			context.put(identity, makeMap(accList, ecgineList));
 		}
-
 	}
 
 	private Map<Long, Long> makeMap(List<Long> accList, List<Long> ecgineList) {
-
 		Map<Long, Long> map = new HashMap<Long, Long>();
 		for (int i = 0; i < accList.size(); i++) {
 			map.put(accList.get(i), ecgineList.get(i));
@@ -573,7 +575,6 @@ public class CompanyMigrator {
 				list.add(array.getLong(i));
 			}
 		}
-
 	}
 
 	private String login(String userName, String password)
@@ -598,7 +599,6 @@ public class CompanyMigrator {
 		JSONObject responseResult = new JSONObject(responseContent);
 		log.info("Login success for: " + userName);
 		return responseResult.getString(API_KEY);
-
 	}
 
 	private long signup(User user) throws HttpException, IOException,
