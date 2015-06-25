@@ -21,6 +21,7 @@ public class VendorMigrator implements IMigrator<Vendor> {
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
+
 		VendorGroup vendorGroup = obj.getVendorGroup();
 		if (vendorGroup != null) {
 			jsonObject.put("vendorGroup",
@@ -40,25 +41,49 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		jsonObject.put("email", obj.getEmail());
 		jsonObject.put("phone", obj.getPhoneNo());
 		jsonObject.put("fax", obj.getFaxNo());
-		JSONObject jsonAddress = new JSONObject();
+		// Addresses
+		Address shipToAddress = null;
+		Address billToAddress = null;
 		for (Address primaryAddress : obj.getAddress()) {
-			if (primaryAddress.isSelected()) {
-				jsonAddress.put("street", primaryAddress.getStreet());
-				jsonAddress.put("city", primaryAddress.getCity());
-				jsonAddress.put("stateOrProvince",
-						primaryAddress.getStateOrProvinence());
-				jsonAddress.put("zipOrPostalCode",
-						primaryAddress.getZipOrPostalCode());
-				jsonAddress.put("country", primaryAddress.getCountryOrRegion());
+			if (primaryAddress.getType() == Address.TYPE_BILL_TO) {
+				billToAddress = primaryAddress;
+			}
+			if (primaryAddress.getType() == Address.TYPE_SHIP_TO) {
+				shipToAddress = primaryAddress;
 			}
 		}
-		jsonObject.put("address", jsonAddress);
+		// SHIP TO
+		if (shipToAddress != null) {
+			JSONObject selectedAddress = new JSONObject();
+			selectedAddress.put("street", shipToAddress.getStreet());
+			selectedAddress.put("city", shipToAddress.getCity());
+			selectedAddress.put("stateOrProvince",
+					shipToAddress.getStateOrProvinence());
+			selectedAddress.put("zipOrPostalCode",
+					shipToAddress.getZipOrPostalCode());
+			selectedAddress.put("country", shipToAddress.getCountryOrRegion());
+			jsonObject.put("shipTo", selectedAddress);
+		}
+		// BILL TO
+		if (billToAddress != null) {
+			JSONObject billTOaddr = new JSONObject();
+			billTOaddr.put("street", billToAddress.getStreet());
+			billTOaddr.put("city", billToAddress.getCity());
+			billTOaddr.put("stateOrProvince",
+					billToAddress.getStateOrProvinence());
+			billTOaddr.put("zipOrPostalCode",
+					billToAddress.getZipOrPostalCode());
+			billTOaddr.put("country", billToAddress.getCountryOrRegion());
+			jsonObject.put("billTo", billTOaddr);
+		}
 		jsonObject.put("inActive", !obj.isActive());
 
 		// BussinessRelationShip Fields
 		jsonObject.put("companyName", obj.getCompany().getTradingName());
-		jsonObject.put("payeeSince", obj.getPayeeSince());
+		jsonObject.put("payeeSince", obj.getPayeeSince().getAsDateObject()
+				.getTime());
 		jsonObject.put("webAddress", obj.getWebPageAddress());
+		// contacts
 		JSONArray jsonContacts = new JSONArray();
 		for (Contact contact : obj.getContacts()) {
 			JSONObject jsonContact = new JSONObject();
@@ -75,16 +100,15 @@ public class VendorMigrator implements IMigrator<Vendor> {
 			jsonObject.put("paymentTerm",
 					context.get("PaymentTerms", paymentTerms.getID()));
 		}
-		if (obj.getCurrency() != null) {
-			jsonObject.put("currency", obj.getCurrency().getName());
-		}
+		// currency
+		JSONObject currencyJSON = new JSONObject();
+		currencyJSON.put("identity", obj.getCurrency().getFormalName());
+		jsonObject.put("currency", currencyJSON);
 		jsonObject.put("currencyFactor", obj.getCurrencyFactor());
 		Account account = obj.getAccount();
 		if (account != null) {
 			jsonObject.put("account", context.get("Account", account.getID()));
 		}
-		jsonObject
-				.put("since", obj.getPayeeSince().getAsDateObject().getTime());
 		jsonObject.put("creditLimit", obj.getCreditLimit());
 		jsonObject.put("bankName", obj.getBankName());
 		jsonObject.put("bankAccountNumber", obj.getBankAccountNo());
@@ -96,16 +120,25 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		if (taxCode != null) {
 			jsonObject.put("taxCode", context.get("TaxCode", taxCode.getID()));
 		}
-		jsonObject.put("paymentMethod", obj.getPaymentMethod());
-		jsonObject.put("tDSApplicable", obj.isTdsApplicable());
+		jsonObject.put(
+				"paymentMethod",
+				context.getPickListContext().get("PaymentMethod",
+						obj.getPaymentMethod()));
+
 		ShippingMethod shippingMethod = obj.getShippingMethod();
 		if (shippingMethod != null) {
 			jsonObject.put("preferredShippingMethod",
 					context.get("ShippingMethod", shippingMethod.getID()));
 		}
-		jsonObject.put("primaryContact",
-				context.get("Contact", obj.getPrimaryContact().getID()));
+		Contact primaryContact = obj.getPrimaryContact();
+		if (primaryContact != null) {
+			jsonObject.put("primaryContact",
+					context.get("Contact", primaryContact.getID()));
+		}
 		jsonObject.put("vATRegistrationNumber", obj.getVATRegistrationNumber());
+
+		jsonObject.put("tDSApplicable", obj.isTdsApplicable());
+		// Tds Applicable is enble then only set taxItem
 		TAXItem taxItem = obj.getTAXItem();
 		if (taxItem != null) {
 			jsonObject.put("taxItem", context.get("TAXItem", taxItem.getID()));

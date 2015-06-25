@@ -3,7 +3,6 @@ package com.vimukti.accounter.migration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,11 +13,11 @@ import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerGroup;
+import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.TAXItem;
 
 public class CustomerMigrator implements IMigrator<Customer> {
 
@@ -38,9 +37,12 @@ public class CustomerMigrator implements IMigrator<Customer> {
 			jsonObject.put("salesPerson",
 					context.get("SalesPerson", salesPerson.getID()));
 		}
-		jsonObject.put("customerGroup",
-				context.get("CustomerGroup", customerGroup.getID()));
+		if (customerGroup != null) {
+			jsonObject.put("customerGroup",
+					context.get("CustomerGroup", customerGroup.getID()));
+		}
 		jsonObject.put("cSTNumber", obj.getCSTno());
+
 		jsonObject.put("taxPayerIdentificationNo", obj.getTINNumber());
 
 		// RelationShip field
@@ -52,36 +54,57 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		jsonObject.put("phone", obj.getPhoneNo());
 		// MobilePhone and homePhone is not found
 		jsonObject.put("fax", obj.getFaxNo());
-		JSONObject jsonAddress = new JSONObject();
-		Set<Address> address = obj.getAddress();
-		for (Address primaryAddress : address) {
-			if (primaryAddress.isSelected()) {
-				jsonAddress.put("street", primaryAddress.getStreet());
-				jsonAddress.put("city", primaryAddress.getCity());
-				jsonAddress.put("stateOrProvince",
-						primaryAddress.getStateOrProvinence());
-				jsonAddress.put("zipOrPostalCode",
-						primaryAddress.getZipOrPostalCode());
-				jsonAddress.put("country", primaryAddress.getCountryOrRegion());
+
+		// Addresses
+		Address shipToAddress = null;
+		Address billToAddress = null;
+		for (Address primaryAddress : obj.getAddress()) {
+			if (primaryAddress.getType() == Address.TYPE_BILL_TO) {
+				billToAddress = primaryAddress;
+			}
+			if (primaryAddress.getType() == Address.TYPE_SHIP_TO) {
+				shipToAddress = primaryAddress;
 			}
 		}
-		if (!address.isEmpty()) {
-			jsonObject.put("address", jsonAddress);
+		// SHIP TO
+		if (shipToAddress != null) {
+			JSONObject selectedAddress = new JSONObject();
+			selectedAddress.put("street", shipToAddress.getStreet());
+			selectedAddress.put("city", shipToAddress.getCity());
+			selectedAddress.put("stateOrProvince",
+					shipToAddress.getStateOrProvinence());
+			selectedAddress.put("zipOrPostalCode",
+					shipToAddress.getZipOrPostalCode());
+			selectedAddress.put("country", shipToAddress.getCountryOrRegion());
+			jsonObject.put("shipTo", selectedAddress);
+		}
+		// BILL TO
+		if (billToAddress != null) {
+			JSONObject billTOaddr = new JSONObject();
+			billTOaddr.put("street", billToAddress.getStreet());
+			billTOaddr.put("city", billToAddress.getCity());
+			billTOaddr.put("stateOrProvince",
+					billToAddress.getStateOrProvinence());
+			billTOaddr.put("zipOrPostalCode",
+					billToAddress.getZipOrPostalCode());
+			billTOaddr.put("country", billToAddress.getCountryOrRegion());
+			jsonObject.put("billTo", billTOaddr);
 		}
 		jsonObject.put("inActive", !obj.isActive());
 
 		// BussinessRelationShip Fields
 		jsonObject.put("companyName", obj.getCompany().getTradingName());
-		jsonObject.put("payeeSince", obj.getPayeeSince());
+		jsonObject.put("payeeSince", obj.getPayeeSince().getAsDateObject()
+				.getTime());
 		jsonObject.put("webAddress", obj.getWebPageAddress());
 
 		// altEmail and altPhone are not found
 		JSONArray jsonContacts = new JSONArray();
 		Map<String, List<Long>> childrenMap = context.getChildrenMap();
-		String key="contacts-Contact";
+		String key = "contacts-Contact";
 		List<Long> list = childrenMap.get(key);
-		if(list==null){
-			list=new ArrayList<Long>();
+		if (list == null) {
+			list = new ArrayList<Long>();
 			childrenMap.put(key, list);
 		}
 		for (Contact contact : obj.getContacts()) {
@@ -100,41 +123,54 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		// sendTransactionViaEmail is not found
 		// sendTransactionViaPrint is not found
 		// sendTransactionViaFax is not found
+
 		JSONObject currencyJSON = new JSONObject();
 		currencyJSON.put("identity", obj.getCurrency().getFormalName());
 		jsonObject.put("currency", currencyJSON);
 		jsonObject.put("currencyFactor", obj.getCurrencyFactor());
+
 		Account account = obj.getAccount();
 		if (account != null) {
 			jsonObject.put("account", context.get("Account", account.getID()));
 		}
-		jsonObject.put("since", obj.getPayeeSince().getAsDateObject().getTime());
+
+		jsonObject
+				.put("since", obj.getPayeeSince().getAsDateObject().getTime());
 		jsonObject.put("creditLimit", obj.getCreditLimit());
 		jsonObject.put("bankName", obj.getBankName());
 		jsonObject.put("bankAccountNumber", obj.getBankAccountNo());
 		jsonObject.put("bankBranch", obj.getBankBranch());
 		jsonObject.put("serviceTaxRegistrationNo",
 				obj.getServiceTaxRegistrationNo());
+
 		// taxRegistrationNumber is not found
 		TAXCode taxCode = obj.getTAXCode();
 		if (taxCode != null) {
 			jsonObject.put("taxCode", context.get("TaxCode", taxCode.getID()));
 		}
-		jsonObject.put("paymentMethod", obj.getPaymentMethod());
-		jsonObject.put("paymentTerm",
-				context.get("PaymentTerm", obj.getPaymentTerm().getID()));
+		jsonObject.put(
+				"paymentMethod",
+				context.getPickListContext().get("PaymentMethod",
+						obj.getPaymentMethod()));
+
+		PaymentTerms paymentTerm = obj.getPaymentTerm();
+		if (paymentTerm != null) {
+			jsonObject.put("paymentTerm",
+					context.get("PaymentTerm", paymentTerm.getID()));
+		}
+
 		ShippingMethod shippingMethod = obj.getShippingMethod();
 		if (shippingMethod != null) {
 			jsonObject.put("preferredShippingMethod",
 					context.get("ShippingMethod", shippingMethod.getID()));
 		}
-		jsonObject.put("primaryContact",
-				context.get("Contact", obj.getPrimaryContact().getID()));
-		jsonObject.put("vATRegistrationNumber", obj.getVATRegistrationNumber());
-		TAXItem taxItem = obj.getTAXItem();
-		if (taxItem != null) {
-			jsonObject.put("taxItem", context.get("TAXItem", taxItem.getID()));
+
+		Contact primaryContact = obj.getPrimaryContact();
+		if (primaryContact != null) {
+			jsonObject.put("primaryContact",
+					context.get("Contact", primaryContact.getID()));
 		}
+		jsonObject.put("vATRegistrationNumber", obj.getVATRegistrationNumber());
 		jsonObject.put("openingBalance", obj.getOpeningBalance());
 
 		return jsonObject;
