@@ -18,11 +18,11 @@ import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -143,7 +143,6 @@ public class CompanyMigrator {
 		// Users Migration
 		// migrateUsers(emails, context);
 
-		// context.setPickListContext(getPicklistObjects());
 		// Measurements
 		Map<Long, Long> migratedObjects = migrateObjects("Measurement",
 				Measurement.class, new MeasurementMigrator(), context);
@@ -199,23 +198,19 @@ public class CompanyMigrator {
 		// taxAgencies
 		migratedObjects = migrateObjects("TaxAgency", TAXAgency.class,
 				new TaxAgencyMigrator(), context);
-		context.put("TAXAgency", migratedObjects);
+		context.put("TaxAgency", migratedObjects);
 		// taxitems
 		migratedObjects = migrateObjects("TaxItem", TAXItem.class,
 				new TaxItemMigrator(), context);
-		context.put("TAXItem", migratedObjects);
+		context.put("TaxItem", migratedObjects);
 		// taxitems
 		migratedObjects = migrateObjects("TaxGroup", TAXGroup.class,
 				new TAXGroupMigrator(), context);
-		context.put("TAXGroup", migratedObjects);
+		context.put("TaxGroup", migratedObjects);
 		// taxCodes
 		migratedObjects = migrateObjects("TaxCode", TAXCode.class,
 				new TAXCodeMigrator(), context);
-		context.put("TAXCode", migratedObjects);
-		// PayTAX
-		migratedObjects = migrateObjects("PayTAX", PayTAX.class,
-				new PayTaxMigrator(), context);
-		context.put("PayTAX", migratedObjects);
+		context.put("TaxCode", migratedObjects);
 		// Customers
 		migratedObjects = migrateObjects("Customer", Customer.class,
 				new CustomerMigrator(), context);
@@ -346,7 +341,7 @@ public class CompanyMigrator {
 		// Depreciation
 		migratedObjects = migrateObjects("Depreciation", Depreciation.class,
 				new DepreciationMigrator(), context);
-		context.put("WriteCheck", migratedObjects);
+		context.put("Depreciation", migratedObjects);
 		// PayrollUnit
 		migratedObjects = migrateObjects("PayRollUnit", PayrollUnit.class,
 				new PayrollUnitMigrator(), context);
@@ -355,7 +350,7 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("AttendanceOrProductionType",
 				AttendanceOrProductionType.class,
 				new AttendanceOrProductionTypeMigrator(), context);
-		context.put("WriteCheck", migratedObjects);
+		context.put("AttendanceOrProductionType", migratedObjects);
 		// PayHead
 		migratedObjects = migrateObjects("PayHead", AttendancePayHead.class,
 				new AttendancePayHeadMigrator(), context);
@@ -403,6 +398,10 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("TdsChallan", TDSChalanDetail.class,
 				new TdsChallanMigrator(), context);
 		context.put("TdsChallan", migratedObjects);
+		// PayTAX
+		migratedObjects = migrateObjects("PayTAX", PayTAX.class,
+				new PayTaxMigrator(), context);
+		context.put("PayTAX", migratedObjects);
 		// TDSChalan
 		migratedObjects = migrateObjects("FileTax", TAXReturn.class,
 				new FileTaxMigrator(), context);
@@ -438,58 +437,6 @@ public class CompanyMigrator {
 		return migratedEmail;
 	}
 
-	private PickListTypeContext getPicklistObjects() throws HttpException,
-			IOException, JSONException {
-		String[] picklists = new String[] { "AccountBaseType", "AccountType",
-				"ActivityStatus", "BankAccountType", "CashFlowCategory",
-				"ClassTrackingType", "Currency", "DayOfWeek",
-				"DepreciationFor", "DepreciationMethod", "DepreciationStatus",
-				"DiscountInTransactions", "EmailPreference",
-				"FixedAssetStatus", "Gender", "IntervelType", "MaritalStatus",
-				"Month", "PaymentMethod", "PaymentStatus", "RecuringType",
-				"RecurrenceInstance", "RelationshipType",
-				"TaxItemInTransactions", "TransactionItemType",
-				"TransactionStatus", "TransactionType", "InventoryScheme",
-				"InvoiceStatus", "ItemType", "ProjectStatus", "QuotationType",
-				"SalesOrderStatus", "AttendanceProductionType",
-				"AttendanceProductionTypePeriod", "CalculationType",
-				"ComputationSlabType", "EmployeeAttendanceManagementItemType",
-				"NamePrefix", "PayEmployeeType", "PayHeadCalculationPeriod",
-				"PayHeadCalculationType", "PayHeadComputeOn",
-				"PayHeadEarningOrDeductionOn", "PayHeadFormulaFunctionType",
-				"PayHeadPerDayCalculationBasis", "PayHeadType", "PayRunType",
-				"PayStructureType", "SlabType", "TransportationMode",
-				"DeductorMastersStatus", "DeductorType", "FormType",
-				"MinistryDeptName", "NatureOfPayment", "RetutnType",
-				"TAXAccountType", "TaxAdjustmentType", "TaxType", "BillStatus",
-				"AccounterItemType", "DiscountInTransactions",
-				"PurchaseOrderStatus", "JournalEntryItemType",
-				"QuotationStatus" };
-		PickListTypeContext typeContext = new PickListTypeContext();
-		for (String identity : picklists) {
-			get(identity, typeContext);
-		}
-		return typeContext;
-	}
-
-	private void get(String identity, PickListTypeContext typeContext)
-			throws HttpException, IOException, JSONException {
-		HttpGet request = new HttpGet(ECGINE_URL + ECGINE_REST);
-		addAuthenticationParameters(request, this.apiKey);
-		HttpResponse response = client.execute(request);
-		StatusLine status = response.getStatusLine();
-		if (status.getStatusCode() != HttpStatus.SC_OK) {
-			throw new RuntimeException(status.toString());
-		}
-		JSONArray array = new JSONArray(response.getEntity());
-		for (int i = 0; i < array.length(); i++) {
-			JSONObject object = array.getJSONObject(i);
-			String instanceIdentity = object.getString("identity");
-			long instanceId = object.getLong("id");
-			typeContext.put(identity, instanceIdentity, instanceId);
-		}
-	}
-
 	@SuppressWarnings("unchecked")
 	private <T extends CreatableObject> Map<Long, Long> migrateObjects(
 			String identity, Class<T> clazz, IMigrator<T> migrator,
@@ -508,6 +455,7 @@ public class CompanyMigrator {
 		// Map<fieldName-Identity,List<OldId>
 		Map<String, List<Long>> accounterMap = new HashMap<String, List<Long>>();
 		context.setChildrenMap(accounterMap);
+
 		for (T obj : objects) {
 			JSONObject migrate = migrator.migrate(obj, context);
 			if (migrate != null) {
@@ -523,10 +471,15 @@ public class CompanyMigrator {
 		post.setEntity(new StringEntity(objectArray.toString()));
 		HttpResponse response = client.execute(post);
 		StatusLine status = response.getStatusLine();
+		HttpEntity entity = response.getEntity();
 		if (status.getStatusCode() != HttpStatus.SC_OK) {
-			throw new RuntimeException(status.toString());
+			if (entity != null) {
+				EntityUtils.consume(entity);
+			}
+			return newAndOldIds;
+			// throw new RuntimeException(status.toString());
 		}
-		String content = IOUtils.toString(response.getEntity().getContent());
+		String content = IOUtils.toString(entity.getContent());
 		JSONArray array = new JSONArray(content);
 		Map<String, List<Long>> ecgineMap = new HashMap<String, List<Long>>();
 		for (int i = 0; i < array.length(); i++) {

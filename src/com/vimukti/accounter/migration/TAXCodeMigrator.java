@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.TAXItemGroup;
 
 public class TAXCodeMigrator implements IMigrator<TAXCode> {
 
@@ -14,10 +15,17 @@ public class TAXCodeMigrator implements IMigrator<TAXCode> {
 		CommonFieldsMigrator.migrateCommonFields(taxcode, jsonObject, context);
 		jsonObject.put("name", taxcode.getName());
 		jsonObject.put("isTaxable", taxcode.isTaxable());
-		jsonObject.put("taxItemOrGroupForSales",
-				taxcode.getTAXItemGrpForSales());
-		jsonObject.put("taxItemOrGroupForPurchases",
-				taxcode.getTAXItemGrpForPurchases());
+		TAXItemGroup taxItemGrpForSales = taxcode.getTAXItemGrpForSales();
+		if (taxItemGrpForSales != null) {
+			jsonObject.put("taxItemOrGroupForSales", taxcode
+					.getTAXItemGrpForSales().getID());
+		}
+		TAXItemGroup taxItemGrpForPurchases = taxcode
+				.getTAXItemGrpForPurchases();
+		if (taxItemGrpForPurchases != null) {
+			jsonObject.put("taxItemOrGroupForPurchases",
+					taxItemGrpForPurchases.getID());
+		}
 		jsonObject.put("description", taxcode.getDescription());
 		jsonObject.put("isInactive", !taxcode.isActive());
 		return jsonObject;
