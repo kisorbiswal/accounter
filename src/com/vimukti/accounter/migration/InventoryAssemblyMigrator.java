@@ -8,11 +8,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.InventoryAssembly;
 import com.vimukti.accounter.core.InventoryAssemblyItem;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.ItemGroup;
+import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.Unit;
+import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.core.Warehouse;
 
 public class InventoryAssemblyMigrator implements IMigrator<InventoryAssembly> {
 	@Override
@@ -30,21 +35,37 @@ public class InventoryAssemblyMigrator implements IMigrator<InventoryAssembly> {
 		jsonObject.put("iSellThisService", item.isISellThisItem());
 		jsonObject.put("salesDescription", item.getSalesDescription());
 		jsonObject.put("salesPrice", item.getSalesPrice());
-		jsonObject.put("incomeAccount",
-				context.get("Account", item.getIncomeAccount().getID()));
+		Account incomeAccount = item.getIncomeAccount();
+		if (incomeAccount != null) {
+			JSONObject account = new JSONObject();
+			account.put("name", incomeAccount.getName());
+			jsonObject.put("incomeAccount", account);
+		}
 		jsonObject.put("isTaxable", item.isTaxable());
 		jsonObject.put("isCommissionItem", item.isCommissionItem());
 		jsonObject.put("standardCost", item.getStandardCost());
-		jsonObject.put("itemGroup",
-				context.get("ItemGroup", item.getItemGroup().getID()));
+		ItemGroup itemGroup = item.getItemGroup();
+		if (itemGroup != null) {
+			JSONObject jsonItem = new JSONObject();
+			jsonItem.put("itemGroup",
+					context.get("ItemGroup", itemGroup.getID()));
+		}
 		jsonObject.put("inActive", !item.isActive());
 		jsonObject.put("iBuyThisService", item.isIBuyThisItem());
 		jsonObject.put("purchaseDescription", item.getPurchaseDescription());
 		jsonObject.put("purchasePrice", item.getPurchasePrice());
-		jsonObject.put("expenseAccount",
-				context.get("Account", item.getExpenseAccount().getID()));
-		jsonObject.put("preferredVendor",
-				context.get("Vendor", item.getPreferredVendor().getID()));
+		Account expenseAccount = item.getExpenseAccount();
+		if (expenseAccount != null) {
+			JSONObject account = new JSONObject();
+			account.put("name", expenseAccount.getName());
+			jsonObject.put("expenseAccount", account);
+		}
+		Vendor preferredVendor = item.getPreferredVendor();
+		if (preferredVendor != null) {
+			jsonObject.put("preferredVendor",
+					context.get("Vendor", preferredVendor.getID()));
+		}
+
 		jsonObject.put("vendorServiceNumber", item.getVendorItemNumber());
 		jsonObject.put("itemType",
 				PicklistUtilMigrator.getItemTypeIdentifier(item.getType()));
@@ -58,12 +79,40 @@ public class InventoryAssemblyMigrator implements IMigrator<InventoryAssembly> {
 			}
 			jsonObject.put("onHandQuantity", quantityJSON);
 		}
-		jsonObject.put("assetAccount", item.getAssestsAccount());
-		jsonObject.put("reOrderPoint", item.getReorderPoint());
-		jsonObject.put("costOfGoodsSold", item.getExpenseAccount());
-		jsonObject.put("warehouse", item.getWarehouse());
-		jsonObject.put("measurement",
-				context.get("Measurement", item.getMeasurement().getID()));
+		Account assestsAccount = item.getAssestsAccount();
+		if (assestsAccount != null) {
+			JSONObject account = new JSONObject();
+			account.put("name", assestsAccount.getName());
+			jsonObject.put("assetAccount", account);
+		}
+
+		Quantity reorderPoint = item.getReorderPoint();
+		if (reorderPoint != null) {
+			JSONObject quantityJSON = new JSONObject();
+			quantityJSON.put("value", reorderPoint.getValue());
+			Unit unit = reorderPoint.getUnit();
+			if (unit != null) {
+				quantityJSON.put("unit", context.get("Unit", unit.getID()));
+			}
+			jsonObject.put("reOrderPoint", quantityJSON);
+		}
+		Account costOfGoodsSold = item.getExpenseAccount();
+		if (costOfGoodsSold != null) {
+			JSONObject account = new JSONObject();
+			account.put("name", costOfGoodsSold.getName());
+			jsonObject.put("costOfGoodsSold", account);
+		}
+		Warehouse warehouse = item.getWarehouse();
+		if (warehouse != null) {
+			jsonObject.put("warehouse",
+					context.get("Warehouse", warehouse.getID()));
+		}
+		Measurement measurement = item.getMeasurement();
+		if (measurement != null) {
+			jsonObject.put("measurement",
+					context.get("Measurement", measurement.getID()));
+		}
+
 		jsonObject.put("averageCost", item.getAverageCost());
 
 		Set<InventoryAssemblyItem> components = item.getComponents();

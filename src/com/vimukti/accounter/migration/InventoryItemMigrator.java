@@ -8,9 +8,11 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
+import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.core.Warehouse;
 
 public class InventoryItemMigrator implements IMigrator<Item> {
 	@Override
@@ -30,8 +32,9 @@ public class InventoryItemMigrator implements IMigrator<Item> {
 		jsonObject.put("salesPrice", item.getSalesPrice());
 		Account incomeAccount = item.getIncomeAccount();
 		if (incomeAccount != null) {
-			jsonObject.put("incomeAccount",
-					context.get("Account", incomeAccount.getID()));
+			JSONObject account = new JSONObject();
+			account.put("name", incomeAccount.getName());
+			jsonObject.put("incomeAccount", account);
 		}
 		jsonObject.put("isTaxable", item.isTaxable());
 		jsonObject.put("isCommissionItem", item.isCommissionItem());
@@ -47,8 +50,9 @@ public class InventoryItemMigrator implements IMigrator<Item> {
 		jsonObject.put("purchasePrice", item.getPurchasePrice());
 		Account expenseAccount = item.getExpenseAccount();
 		if (expenseAccount != null) {
-			jsonObject.put("expenseAccount",
-					context.get("Account", expenseAccount.getID()));
+			JSONObject account = new JSONObject();
+			account.put("name", expenseAccount.getName());
+			jsonObject.put("expenseAccount", account);
 		}
 		Vendor preferredVendor = item.getPreferredVendor();
 		if (preferredVendor != null) {
@@ -68,12 +72,39 @@ public class InventoryItemMigrator implements IMigrator<Item> {
 			}
 			jsonObject.put("onHandQuantity", quantityJSON);
 		}
-		jsonObject.put("assetAccount", item.getAssestsAccount());
-		jsonObject.put("reOrderPoint", item.getReorderPoint());
-		jsonObject.put("costOfGoodsSold", item.getExpenseAccount());
-		jsonObject.put("warehouse", item.getWarehouse());
-		jsonObject.put("measurement",
-				context.get("Measurement", item.getMeasurement().getID()));
+		// assertAccount
+		Account assestsAccount = item.getAssestsAccount();
+		if (assestsAccount != null) {
+			JSONObject acccount = new JSONObject();
+			acccount.put("name", assestsAccount.getName());
+			jsonObject.put("assetAccount", acccount);
+		}
+		Quantity reorderPoint = item.getReorderPoint();
+		if (reorderPoint != null) {
+			JSONObject quantityJSON = new JSONObject();
+			quantityJSON.put("value", reorderPoint.getValue());
+			Unit unit = reorderPoint.getUnit();
+			if (unit != null) {
+				quantityJSON.put("unit", context.get("Unit", unit.getID()));
+			}
+			jsonObject.put("quantityJSON", quantityJSON);
+		}
+		Account costOfGoodsSold = item.getExpenseAccount();
+		if (costOfGoodsSold != null) {
+			JSONObject account = new JSONObject();
+			account.put("name", costOfGoodsSold.getName());
+			jsonObject.put("costOfGoodsSold", account);
+		}
+		Warehouse warehouse = item.getWarehouse();
+		if (warehouse != null) {
+			jsonObject.put("warehouse", warehouse.getID());
+		}
+		Measurement measurement = item.getMeasurement();
+		if (measurement != null) {
+			jsonObject.put("measurement",
+					context.get("Measurement", measurement.getID()));
+		}
+
 		jsonObject.put("averageCost", item.getAverageCost());
 		return jsonObject;
 	}
