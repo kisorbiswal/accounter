@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ShippingMethod;
@@ -17,8 +18,11 @@ public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
 	public JSONObject migrate(Estimate estimate, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObj = super.migrate(estimate, context);
-		jsonObj.put("payee", context.get("BusinessRelationship", estimate
-				.getCustomer().getID()));
+		Customer customer = estimate.getCustomer();
+		if (customer != null) {
+			jsonObj.put("payee", context.get("Customer", customer.getID()));
+		}
+
 		Contact contact = estimate.getContact();
 		if (contact != null) {
 			jsonObj.put("contanct", context.get("Contanct", contact.getID()));
@@ -74,11 +78,10 @@ public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
 		jsonObj.put("deliveryDate", estimate.getDeliveryDate()
 				.getAsDateObject().getTime());
 		jsonObj.put("remarks", estimate.getMemo());
-		jsonObj.put("transactionType", "SalesOrder");
 		if (estimate.getStatus() == Estimate.STATUS_REJECTED) {
 			jsonObj.put("salesOrderStatus", "Cancelled");
 		}
-		jsonObj.put("customerOrderNumber", estimate.getCustomerOrderNumber());
+		jsonObj.put("customerOrderNo", estimate.getCustomerOrderNumber());
 		return jsonObj;
 	}
 

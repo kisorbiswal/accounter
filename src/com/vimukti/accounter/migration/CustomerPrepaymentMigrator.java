@@ -43,15 +43,16 @@ public class CustomerPrepaymentMigrator extends
 		jsonObject.put("amount", obj.getNetAmount());
 
 		// paymentMethod
-		jsonObject.put("paymentMethod", PicklistUtilMigrator
-				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
+		String paymentMethod = obj.getPaymentMethod();
+		if (paymentMethod != null) {
+			jsonObject.put("paymentMethod", PicklistUtilMigrator
+					.getPaymentMethodIdentifier(paymentMethod));
+		}
 		try {
 			jsonObject.put("chequeNumber", Long.valueOf(obj.getCheckNumber()));
 		} catch (Exception e) {
 			// Nothing to do
 		}
-		// notes
-		jsonObject.put("notes", obj.getMemo());
 		return jsonObject;
 	}
 }

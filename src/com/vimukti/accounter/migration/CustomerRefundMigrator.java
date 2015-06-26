@@ -3,9 +3,10 @@ package com.vimukti.accounter.migration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
-import com.vimukti.accounter.core.Job;
 
 public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> {
 	@Override
@@ -25,8 +26,12 @@ public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> 
 		}
 		jsonObj.put("amount", obj.getTotal());
 		// PaymentableTransaction
-		jsonObj.put("paymentMethod", PicklistUtilMigrator
-				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
+		String paymentMethod = obj.getPaymentMethod();
+		if (paymentMethod != null) {
+			jsonObj.put("paymentMethod", PicklistUtilMigrator
+					.getPaymentMethodIdentifier(paymentMethod));
+		}
+
 		Long checkNumber = 0L;
 		try {
 			checkNumber = Long.parseLong(obj.getCheckNumber());
@@ -34,14 +39,17 @@ public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> 
 			// Nothing to do
 		}
 		jsonObj.put("checkNumber", checkNumber);
-		Job job = obj.getJob();
-		if (job != null) {
-			jsonObj.put("project", context.get("Project", job.getID()));
+		Customer payTo = obj.getPayTo();
+		if (payTo != null) {
+			jsonObj.put("payee", context.get("Customer", payTo.getID()));
 		}
-		jsonObj.put("payee", context.get("Customer", obj.getPayTo().getID()));
-		jsonObj.put("account", context.get("Account", obj.getPayFrom().getID()));
+		Account payFrom = obj.getPayFrom();
+		if (payFrom != null) {
+			JSONObject account = new JSONObject();
+			account.put("name", payFrom.getName());
+			jsonObj.put("payFrom", account);
+		}
 		jsonObj.put("toBePrinted", obj.getIsToBePrinted());
-		jsonObj.put("memo", obj.getMemo());
 		jsonObj.put("paymentStatus", PicklistUtilMigrator
 				.getPaymentStatusIdentifier(obj.getStatus()));
 		jsonObj.put("date", obj.getDate().getAsDateObject().getTime());

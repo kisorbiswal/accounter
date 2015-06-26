@@ -3,6 +3,7 @@ package com.vimukti.accounter.migration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Job;
 
 public class JobMigrator implements IMigrator<Job> {
@@ -16,8 +17,11 @@ public class JobMigrator implements IMigrator<Job> {
 		jsonObject.put("startDate", obj.getStartDate().getAsDateObject()
 				.getTime());
 		jsonObject.put("endDate", obj.getEndDate().getAsDateObject().getTime());
-		jsonObject.put("customer",
-				context.get("Customer", obj.getCustomer().getID()));
+		Customer customer = obj.getCustomer();
+		if (customer != null) {
+			jsonObject.put("customer",
+					context.get("Customer", customer.getID()));
+		}
 		jsonObject.put("status", PicklistUtilMigrator
 				.getProjectStatusIdentity(obj.getJobStatus()));
 		return jsonObject;
