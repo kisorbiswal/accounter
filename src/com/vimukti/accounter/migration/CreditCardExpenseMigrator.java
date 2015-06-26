@@ -3,6 +3,7 @@ package com.vimukti.accounter.migration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.Vendor;
@@ -28,7 +29,10 @@ public class CreditCardExpenseMigrator extends
 
 		}
 		creditCardChargeJSON.put("paymentMethod",
-				creditCardCharge.getPaymentMethod());
+				PicklistUtilMigrator
+						.getPaymentMethodIdentifier(creditCardCharge
+								.getPaymentMethod()));
+
 		Long chequeNumber = null;
 		try {
 			chequeNumber = Long.valueOf(creditCardCharge.getCheckNumber());
@@ -36,8 +40,15 @@ public class CreditCardExpenseMigrator extends
 		} catch (Exception e) {
 		}
 		creditCardChargeJSON.put("memo", creditCardCharge.getMemo());
-		creditCardChargeJSON.put("account",
-				context.get("Account", creditCardCharge.getPayFrom().getID()));
+
+		// payFrom Account
+		Account payFrom = creditCardCharge.getPayFrom();
+		if (payFrom != null) {
+			JSONObject payFromJosn = new JSONObject();
+			payFromJosn.put("name", payFrom.getName());
+			creditCardChargeJSON.put("account", payFromJosn);
+		}
+
 		return creditCardChargeJSON;
 
 	}

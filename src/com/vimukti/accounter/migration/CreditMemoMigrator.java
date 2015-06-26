@@ -4,6 +4,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerCreditMemo;
 
 public class CreditMemoMigrator extends TransactionMigrator<CustomerCreditMemo> {
@@ -23,12 +25,15 @@ public class CreditMemoMigrator extends TransactionMigrator<CustomerCreditMemo> 
 			jsonAddress.put("country", billingAddress.getCountryOrRegion());
 			jsonObj.put("billTo", jsonAddress);
 		}
-		// invoice and credit is not found
-		if (obj.getContact() != null) {
-			jsonObj.put("contact",
-					context.get("Contact", obj.getContact().getID()));
+		Contact contact = obj.getContact();
+		if (contact != null) {
+			jsonObj.put("contact", context.get("Contact", contact.getID()));
 		}
-		jsonObj.put("payee", context.get("Customer", obj.getCustomer().getID()));
+		Customer customer = obj.getCustomer();
+		if (customer != null) {
+			jsonObj.put("payee", context.get("Customer", customer.getID()));
+		}
+
 		return jsonObj;
 	}
 }

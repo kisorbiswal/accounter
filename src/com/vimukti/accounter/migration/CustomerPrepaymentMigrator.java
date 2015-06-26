@@ -3,39 +3,55 @@ package com.vimukti.accounter.migration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerPrePayment;
 
-public class CustomerPrepaymentMigrator implements
-		IMigrator<CustomerPrePayment> {
+public class CustomerPrepaymentMigrator extends
+		TransactionMigrator<CustomerPrePayment> {
 	@Override
 	public JSONObject migrate(CustomerPrePayment obj, MigratorContext context)
 			throws JSONException {
-		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
-		jsonObject.put("project", context.get("Project", obj.getJob().getID()));
+		JSONObject jsonObject = super.migrate(obj, context);
+		// customer
+		Customer customer = obj.getCustomer();
+		if (customer != null) {
+			jsonObject.put("payee", context.get("Customer", customer.getID()));
+		}
+		// address
+		JSONObject adressJson = new JSONObject();
+		Address billingAddress = obj.getAddress();
+		if (billingAddress != null) {
+			adressJson.put("street", billingAddress.getStreet());
+			adressJson.put("city", billingAddress.getCity());
+			adressJson.put("stateOrProvince",
+					billingAddress.getStateOrProvinence());
+			adressJson.put("zipOrPostalCode",
+					billingAddress.getZipOrPostalCode());
+			adressJson.put("country", billingAddress.getCountryOrRegion());
+			jsonObject.put("address", adressJson);
+		}
+		// Account
+		Account depositIn = obj.getDepositIn();
+		if (depositIn != null) {
+			JSONObject account = new JSONObject();
+			account.put("name", depositIn.getName());
+			jsonObject.put("account", account);
+		}
+		// Amount
+		jsonObject.put("amount", obj.getNetAmount());
+
+		// paymentMethod
 		jsonObject.put("paymentMethod", PicklistUtilMigrator
 				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
-		jsonObject.put("credit", context.get("CustomerCredit", obj
-				.getCreditsAndPayments().getID()));
 		try {
 			jsonObject.put("chequeNumber", Long.valueOf(obj.getCheckNumber()));
 		} catch (Exception e) {
 			// Nothing to do
 		}
-		jsonObject.put("memo", obj.getMemo());
-		JSONObject adressJson = new JSONObject();
-		Address billingAddress = obj.getAddress();
-		adressJson.put("street", billingAddress.getStreet());
-		adressJson.put("city", billingAddress.getCity());
-		adressJson
-				.put("stateOrProvince", billingAddress.getStateOrProvinence());
-		adressJson.put("zipOrPostalCode", billingAddress.getZipOrPostalCode());
-		adressJson.put("country", billingAddress.getCountryOrRegion());
-		jsonObject.put("address", adressJson);
-		jsonObject.put("credit", context.get("CustomerCredit", obj
-				.getCreditsAndPayments().getID()));
-		jsonObject.put("amount", obj.getNetAmount());
+		// notes
+		jsonObject.put("notes", obj.getMemo());
 		return jsonObject;
 	}
 }
