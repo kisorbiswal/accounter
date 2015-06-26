@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.CashSales;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
@@ -18,8 +19,15 @@ public class CashSaleMigrator extends TransactionMigrator<CashSales> {
 	public JSONObject migrate(CashSales obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = super.migrate(obj, context);
+
+		// Account
 		Account depositIn = obj.getDepositIn();
-		jsonObject.put("depositIn", context.get("Account", depositIn.getID()));
+		if (depositIn != null) {
+			JSONObject account = new JSONObject();
+			account.put("name", depositIn.getName());
+			jsonObject.put("depositIn", account);
+		}
+
 		jsonObject.put("phone", obj.getPhone());
 
 		Address billingAddress = obj.getBillingAddress();
@@ -71,8 +79,11 @@ public class CashSaleMigrator extends TransactionMigrator<CashSales> {
 			jsonObject.put("contact",
 					context.get("Contact", obj.getContact().getID()));
 		}
-		jsonObject.put("payee",
-				context.get("Customer", obj.getCustomer().getID()));
+		Customer customer = obj.getCustomer();
+		if (customer != null) {
+			jsonObject.put("payee", context.get("Customer", customer.getID()));
+		}
+
 		jsonObject.put("paymentMethod", PicklistUtilMigrator
 				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
 		try {

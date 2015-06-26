@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.Contact;
@@ -45,8 +46,13 @@ public class CashPurchaseMigrator extends TransactionMigrator<CashPurchase> {
 		}
 		cashPurchase.put("paymentMethod", PicklistUtilMigrator
 				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
-		cashPurchase.put("account",
-				context.get("Account", obj.getPayFrom().getID()));
+		// Account
+		Account account = obj.getPayFrom();
+		if (account != null) {
+			JSONObject accountPayfrom = new JSONObject();
+			accountPayfrom.put("name", account.getName());
+			cashPurchase.put("account", accountPayfrom);
+		}
 		cashPurchase.put("deliveryDate", obj.getDeliveryDate()
 				.getAsDateObject().getTime());
 

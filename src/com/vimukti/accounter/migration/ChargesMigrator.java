@@ -5,6 +5,7 @@ import org.hibernate.criterion.Restrictions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Estimate;
 
 public class ChargesMigrator extends TransactionMigrator<Estimate> {
@@ -12,10 +13,11 @@ public class ChargesMigrator extends TransactionMigrator<Estimate> {
 	public JSONObject migrate(Estimate obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObj = super.migrate(obj, context);
-		jsonObj.put("customer",
-				context.get("Customer", obj.getCustomer().getID()));
+		Customer customer = obj.getCustomer();
+		if (customer != null) {
+			jsonObj.put("customer", context.get("Customer", customer.getID()));
+		}
 		jsonObj.put("remarks", obj.getMemo());
-		jsonObj.put("transactionType", "Charge");
 		return jsonObj;
 	}
 

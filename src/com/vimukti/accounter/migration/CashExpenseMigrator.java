@@ -5,6 +5,7 @@ import org.hibernate.criterion.Restrictions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.Contact;
@@ -40,8 +41,14 @@ public class CashExpenseMigrator extends TransactionMigrator<CashPurchase> {
 			cashPurchase.put("billTo", vendorAddress);
 		}
 		cashPurchase.put("paymentMethod", obj.getPaymentMethod());
-		cashPurchase.put("account",
-				context.get("Account", obj.getPayFrom().getID()));
+		// Account
+		Account payFrom = obj.getPayFrom();
+		if (payFrom != null) {
+			JSONObject payFromAccount = new JSONObject();
+			payFromAccount.put("name", payFrom.getName());
+			cashPurchase.put("account", payFromAccount);
+		}
+
 		cashPurchase.put("deliveryDate", obj.getDeliveryDate()
 				.getAsDateObject().getTime());
 		cashPurchase.put("memo", obj.getMemo());
