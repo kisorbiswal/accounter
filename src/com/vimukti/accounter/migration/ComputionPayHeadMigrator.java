@@ -26,23 +26,31 @@ public class ComputionPayHeadMigrator implements IMigrator<ComputionPayHead> {
 		payHead.put("paySlipName", obj.getNameToAppearInPaySlip());
 		payHead.put("isDeduction", obj.isDeduction());
 		payHead.put("isEarning", obj.isEarning());
+
+		// assert Account
 		Account assetAccount = obj.getAssetAccount();
 		if (assetAccount != null) {
-			payHead.put("assetAccount",
-					context.get("Account", assetAccount.getID()));
+			JSONObject accountJson = new JSONObject();
+			accountJson.put("name", assetAccount.getName());
+			payHead.put("assetAccount", accountJson);
 		}
+		// laibility Account
 		Account liabilityAccount = obj.getLiabilityAccount();
 		if (liabilityAccount != null) {
-			payHead.put("statutoryLiabilityAccount",
-					context.get("Account", liabilityAccount.getID()));
+			JSONObject accountJson = new JSONObject();
+			accountJson.put("name", liabilityAccount.getName());
+			payHead.put("statutoryLiabilityAccount", accountJson);
 		}
+
 		payHead.put("calculationPeriod", PicklistUtilMigrator
 				.getCalculationPeriod(obj.getCalculationPeriod()));
+
 		payHead.put("perDayCalculationBasis", PicklistUtilMigrator
 				.getPerdayCalculationBasis(obj.getCalculationPeriod()));
+
 		payHead.put("computeOn", PicklistUtilMigrator.getComputationType(obj
 				.getComputationType()));
-		// altEmail and altPhone are not found
+
 		JSONArray jsonSlabs = new JSONArray();
 		for (ComputationSlab slab : obj.getSlabs()) {
 			JSONObject jsonSlab = new JSONObject();
