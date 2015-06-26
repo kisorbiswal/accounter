@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
@@ -80,8 +81,11 @@ public class VendorMigrator implements IMigrator<Vendor> {
 
 		// BussinessRelationShip Fields
 		jsonObject.put("companyName", obj.getCompany().getTradingName());
-		jsonObject.put("payeeSince", obj.getPayeeSince().getAsDateObject()
-				.getTime());
+		FinanceDate payeeSince = obj.getPayeeSince();
+		if (payeeSince != null) {
+			jsonObject
+					.put("payeeSince", payeeSince.getAsDateObject().getTime());
+		}
 		jsonObject.put("webAddress", obj.getWebPageAddress());
 		// contacts
 		JSONArray jsonContacts = new JSONArray();

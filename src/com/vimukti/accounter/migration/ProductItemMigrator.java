@@ -5,9 +5,12 @@ import org.hibernate.criterion.Restrictions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.Unit;
+import com.vimukti.accounter.core.Vendor;
 
 public class ProductItemMigrator implements IMigrator<Item> {
 	@Override
@@ -17,26 +20,41 @@ public class ProductItemMigrator implements IMigrator<Item> {
 		CommonFieldsMigrator.migrateCommonFields(item, jsonObject, context);
 		jsonObject.put("name", item.getName());
 		jsonObject.put("isSubItemOf", item.isSubItemOf());
-		jsonObject.put("subItemOf",
-				context.get("Item", item.getParentItem().getID()));
+		Item parentItem = item.getParentItem();
+		if (parentItem != null) {
+			jsonObject
+					.put("subItemOf", context.get("Item", parentItem.getID()));
+		}
 		jsonObject.put("iSellThisService", item.isISellThisItem());
 		jsonObject.put("salesDescription", item.getSalesDescription());
 		jsonObject.put("salesPrice", item.getSalesPrice());
-		jsonObject.put("incomeAccount",
-				context.get("Account", item.getIncomeAccount().getID()));
+		Account incomeAccount = item.getIncomeAccount();
+		if (incomeAccount != null) {
+			jsonObject.put("incomeAccount",
+					context.get("Account", incomeAccount.getID()));
+		}
 		jsonObject.put("isTaxable", item.isTaxable());
 		jsonObject.put("isCommissionItem", item.isCommissionItem());
 		jsonObject.put("standardCost", item.getStandardCost());
-		jsonObject.put("itemGroup",
-				context.get("ItemGroup", item.getItemGroup().getID()));
+		ItemGroup itemGroup = item.getItemGroup();
+		if (itemGroup != null) {
+			jsonObject.put("itemGroup",
+					context.get("ItemGroup", itemGroup.getID()));
+		}
 		jsonObject.put("inActive", !item.isActive());
 		jsonObject.put("iBuyThisService", item.isIBuyThisItem());
 		jsonObject.put("purchaseDescription", item.getPurchaseDescription());
 		jsonObject.put("purchasePrice", item.getPurchasePrice());
-		jsonObject.put("expenseAccount",
-				context.get("Account", item.getExpenseAccount().getID()));
-		jsonObject.put("preferredVendor",
-				context.get("Vendor", item.getPreferredVendor().getID()));
+		Account expenseAccount = item.getExpenseAccount();
+		if (expenseAccount != null) {
+			jsonObject.put("expenseAccount",
+					context.get("Account", expenseAccount.getID()));
+		}
+		Vendor preferredVendor = item.getPreferredVendor();
+		if (preferredVendor != null) {
+			jsonObject.put("preferredVendor",
+					context.get("Vendor", preferredVendor.getID()));
+		}
 		jsonObject.put("vendorServiceNumber", item.getVendorItemNumber());
 		jsonObject.put("itemType",
 				PicklistUtilMigrator.getItemTypeIdentifier(item.getType()));
@@ -54,6 +72,6 @@ public class ProductItemMigrator implements IMigrator<Item> {
 	}
 
 	public void addRestrictions(Criteria criteria) {
-		criteria.add(Restrictions.eq("itemType", Item.TYPE_NON_INVENTORY_PART));
+		criteria.add(Restrictions.eq("type", Item.TYPE_NON_INVENTORY_PART));
 	}
 }

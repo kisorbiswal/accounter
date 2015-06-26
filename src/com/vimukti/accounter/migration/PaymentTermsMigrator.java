@@ -10,6 +10,9 @@ public class PaymentTermsMigrator implements IMigrator<PaymentTerms> {
 	@Override
 	public JSONObject migrate(PaymentTerms obj, MigratorContext context)
 			throws JSONException {
+		if (obj.getName().equals("Net Monthly")) {
+			return null;
+		}
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("name", obj.getName());

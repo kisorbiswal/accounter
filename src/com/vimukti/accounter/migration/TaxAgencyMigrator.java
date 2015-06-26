@@ -17,6 +17,10 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 	@Override
 	public JSONObject migrate(TAXAgency obj, MigratorContext context)
 			throws JSONException {
+		// Central Sales Tax Agency Creating Defaultly
+		if (obj.getName().equals("Central Sales Tax Agency")) {
+			return null;
+		}
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("name", obj.getName());
@@ -109,23 +113,30 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 			jsonContacts.put(jsonContact);
 		}
 		jsonObject.put("contacts", jsonContacts);
-		jsonObject.put("currency", obj.getCurrency().getFormalName());
+		// Currency
+		JSONObject currencyJson = new JSONObject();
+		currencyJson.put("identity", obj.getCurrency().getFormalName());
+		jsonObject.put("currency", currencyJson);
 		jsonObject.put("currencyFactor", obj.getCurrencyFactor());
+
 		return jsonObject;
 	}
 
 	private static String getTaxTypeString(int taxType) {
-		if (taxType == ClientTAXAgency.TAX_TYPE_SERVICETAX) {
+		if (taxType == TAXAgency.TAX_TYPE_SERVICETAX) {
 			return "SalesTax";
 		}
-		if (taxType == ClientTAXAgency.TAX_TYPE_VAT) {
-			return "VAT";
+		if (taxType == TAXAgency.TAX_TYPE_VAT) {
+			return "Vat";
 		}
-		if (taxType == ClientTAXAgency.TAX_TYPE_SALESTAX) {
+		if (taxType == TAXAgency.TAX_TYPE_SALESTAX) {
 			return "ServiceTax";
 		}
-		if (taxType == ClientTAXAgency.TAX_TYPE_OTHER) {
+		if (taxType == TAXAgency.TAX_TYPE_OTHER) {
 			return "Other";
+		}
+		if (taxType == TAXAgency.TAX_TYPE_TDS) {
+			return "Tds";
 		}
 		return null;
 	}

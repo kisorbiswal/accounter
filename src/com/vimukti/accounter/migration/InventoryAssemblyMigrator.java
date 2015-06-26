@@ -22,8 +22,11 @@ public class InventoryAssemblyMigrator implements IMigrator<InventoryAssembly> {
 		CommonFieldsMigrator.migrateCommonFields(item, jsonObject, context);
 		jsonObject.put("name", item.getName());
 		jsonObject.put("isSubItemOf", item.isSubItemOf());
-		jsonObject.put("subItemOf",
-				context.get("Item", item.getParentItem().getID()));
+		Item parentItem = item.getParentItem();
+		if (parentItem != null) {
+			jsonObject
+					.put("subItemOf", context.get("Item", parentItem.getID()));
+		}
 		jsonObject.put("iSellThisService", item.isISellThisItem());
 		jsonObject.put("salesDescription", item.getSalesDescription());
 		jsonObject.put("salesPrice", item.getSalesPrice());
@@ -53,7 +56,7 @@ public class InventoryAssemblyMigrator implements IMigrator<InventoryAssembly> {
 			if (unit != null) {
 				quantityJSON.put("unit", context.get("Unit", unit.getID()));
 			}
-			jsonObject.put("quantityItem", quantityJSON);
+			jsonObject.put("onHandQuantity", quantityJSON);
 		}
 		jsonObject.put("assetAccount", item.getAssestsAccount());
 		jsonObject.put("reOrderPoint", item.getReorderPoint());
@@ -87,6 +90,6 @@ public class InventoryAssemblyMigrator implements IMigrator<InventoryAssembly> {
 	}
 
 	public void addRestrictions(Criteria criteria) {
-		criteria.add(Restrictions.eq("itemType", Item.TYPE_INVENTORY_ASSEMBLY));
+		criteria.add(Restrictions.eq("type", Item.TYPE_INVENTORY_ASSEMBLY));
 	}
 }

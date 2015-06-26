@@ -78,6 +78,6 @@ public class AccountMigrator implements IMigrator<Account> {
 
 	@Override
 	public void addRestrictions(Criteria criteria) {
-		criteria.add(Restrictions.ne("type", 5));
+		criteria.add(Restrictions.ne("type", 2));
 	}
 }

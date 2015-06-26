@@ -475,6 +475,7 @@ public class CompanyMigrator {
 		if (status.getStatusCode() != HttpStatus.SC_OK) {
 			if (entity != null) {
 				EntityUtils.consume(entity);
+				System.out.println(IOUtils.toString(entity.getContent()));
 			}
 			return newAndOldIds;
 			// throw new RuntimeException(status.toString());
@@ -486,7 +487,7 @@ public class CompanyMigrator {
 			JSONObject json = array.getJSONObject(i);
 			newAndOldIds.put(ids.get(i), json.getLong("id"));
 			JSONObject jsonObject = json.getJSONObject("object");
-			createEcgineChildrenMap(ecgineMap, jsonObject);
+			createEcgineChildrenMap(accounterMap, ecgineMap, jsonObject);
 			log.info("Migrated " + identity + "  Accounter ID :" + ids.get(i)
 					+ " Ecgine ID :" + json.getLong("id"));
 		}
@@ -513,19 +514,21 @@ public class CompanyMigrator {
 		return map;
 	}
 
-	private void createEcgineChildrenMap(Map<String, List<Long>> ecgineMap,
-			JSONObject jsonObject) throws JSONException {
-		for (Entry<String, List<Long>> e : ecgineMap.entrySet()) {
+	private void createEcgineChildrenMap(Map<String, List<Long>> accounterMap,
+			Map<String, List<Long>> ecgineMap, JSONObject jsonObject)
+			throws JSONException {
+		for (Entry<String, List<Long>> e : accounterMap.entrySet()) {
 			String key = e.getKey();
-			List<Long> list = e.getValue();
+			List<Long> list = ecgineMap.get(key);
 			if (list == null) {
 				list = new ArrayList<Long>();
 				ecgineMap.put(key, list);
 			}
-			String prop = key.substring(0, key.indexOf("-") - 1);
-			JSONArray array = jsonObject.getJSONArray(prop);
-			for (int i = 0; i < array.length(); i++) {
-				list.add(array.getLong(i));
+			String prop = key.substring(0, key.indexOf("-"));
+			JSONObject obj = jsonObject.getJSONObject(prop);
+			JSONArray jsonArray = obj.getJSONArray("value");
+			for (int i = 0; i < jsonArray.length(); i++) {
+				list.add(jsonArray.getJSONObject(i).getLong("id"));
 			}
 		}
 	}

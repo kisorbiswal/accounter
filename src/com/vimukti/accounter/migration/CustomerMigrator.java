@@ -13,6 +13,7 @@ import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerGroup;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.SalesPerson;
@@ -94,8 +95,11 @@ public class CustomerMigrator implements IMigrator<Customer> {
 
 		// BussinessRelationShip Fields
 		jsonObject.put("companyName", obj.getCompany().getTradingName());
-		jsonObject.put("payeeSince", obj.getPayeeSince().getAsDateObject()
-				.getTime());
+		FinanceDate payeeSince = obj.getPayeeSince();
+		if (payeeSince != null) {
+			jsonObject
+					.put("payeeSince", payeeSince.getAsDateObject().getTime());
+		}
 		jsonObject.put("webAddress", obj.getWebPageAddress());
 
 		// altEmail and altPhone are not found
@@ -134,8 +138,6 @@ public class CustomerMigrator implements IMigrator<Customer> {
 			jsonObject.put("account", context.get("Account", account.getID()));
 		}
 
-		jsonObject
-				.put("since", obj.getPayeeSince().getAsDateObject().getTime());
 		jsonObject.put("creditLimit", obj.getCreditLimit());
 		jsonObject.put("bankName", obj.getBankName());
 		jsonObject.put("bankAccountNumber", obj.getBankAccountNo());
@@ -148,9 +150,11 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		if (taxCode != null) {
 			jsonObject.put("taxCode", context.get("TaxCode", taxCode.getID()));
 		}
-		jsonObject.put("paymentMethod", PicklistUtilMigrator
-				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
-
+		String paymentMethod = obj.getPaymentMethod();
+		if (paymentMethod != null) {
+			jsonObject.put("paymentMethod", PicklistUtilMigrator
+					.getPaymentMethodIdentifier(paymentMethod));
+		}
 		PaymentTerms paymentTerm = obj.getPaymentTerm();
 		if (paymentTerm != null) {
 			jsonObject.put("paymentTerm",
