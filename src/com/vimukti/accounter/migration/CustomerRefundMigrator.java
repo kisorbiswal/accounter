@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
 
 public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> {
@@ -14,9 +13,9 @@ public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> 
 			throws JSONException {
 		JSONObject jsonObj = super.migrate(obj, context);
 
-		JSONObject jsonAddr = new JSONObject();
 		Address addr = obj.getAddress();
 		if (addr != null) {
+			JSONObject jsonAddr = new JSONObject();
 			jsonAddr.put("street", addr.getStreet());
 			jsonAddr.put("city", addr.getCity());
 			jsonAddr.put("stateOrProvince", addr.getStateOrProvinence());
@@ -25,13 +24,13 @@ public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> 
 			jsonObj.put("address", jsonAddr);
 		}
 		jsonObj.put("amount", obj.getTotal());
-		// PaymentableTransaction
+		// paymentMethod
 		String paymentMethod = obj.getPaymentMethod();
 		if (paymentMethod != null) {
 			jsonObj.put("paymentMethod", PicklistUtilMigrator
 					.getPaymentMethodIdentifier(paymentMethod));
 		}
-
+		// Check Number
 		Long checkNumber = 0L;
 		try {
 			checkNumber = Long.parseLong(obj.getCheckNumber());
@@ -39,10 +38,9 @@ public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> 
 			// Nothing to do
 		}
 		jsonObj.put("checkNumber", checkNumber);
-		Customer payTo = obj.getPayTo();
-		if (payTo != null) {
-			jsonObj.put("payee", context.get("Customer", payTo.getID()));
-		}
+		// PayTo
+		jsonObj.put("payee", context.get("Customer", obj.getPayTo().getID()));
+		// Account
 		Account payFrom = obj.getPayFrom();
 		if (payFrom != null) {
 			JSONObject account = new JSONObject();
@@ -52,7 +50,6 @@ public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> 
 		jsonObj.put("toBePrinted", obj.getIsToBePrinted());
 		jsonObj.put("paymentStatus", PicklistUtilMigrator
 				.getPaymentStatusIdentifier(obj.getStatus()));
-		jsonObj.put("date", obj.getDate().getAsDateObject().getTime());
 		return jsonObj;
 	}
 }

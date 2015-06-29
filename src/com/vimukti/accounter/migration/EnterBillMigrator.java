@@ -18,29 +18,33 @@ public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 	public JSONObject migrate(EnterBill obj, MigratorContext context)
 			throws JSONException {
 		JSONObject enterBill = super.migrate(obj, context);
+		// payee
 		enterBill.put("payee", context.get("Vendor", obj.getVendor().getID()));
-		enterBill.put("isReconciled", "");
+		// dueDate
 		enterBill.put("dueDate", obj.getDueDate().getAsDateObject().getTime());
 		enterBill.put("phone", obj.getPhone());
-		Address vendorAddress = obj.getVendorAddress();
-		if (vendorAddress != null) {
-			JSONObject addressJSON = new JSONObject();
-			addressJSON.put("street", vendorAddress.getStreet());
-			addressJSON.put("city", vendorAddress.getCity());
-			addressJSON.put("stateOrProvince",
-					vendorAddress.getStateOrProvinence());
-			addressJSON.put("zipOrPostalCode",
-					vendorAddress.getZipOrPostalCode());
-			addressJSON.put("country", vendorAddress.getCountryOrRegion());
-			enterBill.put("billTo", vendorAddress);
+		// billTo
+		Address billTo = obj.getVendorAddress();
+		if (billTo != null) {
+			JSONObject billToJson = new JSONObject();
+			billToJson.put("street", billTo.getStreet());
+			billToJson.put("city", billTo.getCity());
+			billToJson.put("stateOrProvince", billTo.getStateOrProvinence());
+			billToJson.put("zipOrPostalCode", billTo.getZipOrPostalCode());
+			billToJson.put("country", billTo.getCountryOrRegion());
+			enterBill.put("billTo", billTo);
 		}
+		// PaymentTerm
 		PaymentTerms paymentTerm = obj.getPaymentTerm();
 		if (paymentTerm != null) {
-			enterBill.put("paymentTerm",
-					context.get("PaymentTerm", paymentTerm.getID()));
+			JSONObject paymentTermJson = new JSONObject();
+			paymentTermJson.put("name", paymentTerm.getName());
+			enterBill.put("paymentTerm", paymentTermJson);
 		}
+		// Delivery Date
 		enterBill.put("deliveryDate", obj.getDeliveryDate().getAsDateObject()
 				.getTime());
+		// Contact
 		Contact contact = obj.getContact();
 		if (contact != null) {
 			enterBill.put("contact", context.get("Contact", contact.getID()));
