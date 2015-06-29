@@ -202,11 +202,11 @@ public class CompanyMigrator {
 		// taxitems
 		migratedObjects = migrateObjects("TaxItem", TAXItem.class,
 				new TaxItemMigrator(), context);
-		context.put("TaxItem", migratedObjects);
+		context.put("Tax", migratedObjects);
 		// taxitems
 		migratedObjects = migrateObjects("TaxGroup", TAXGroup.class,
 				new TAXGroupMigrator(), context);
-		context.put("TaxGroup", migratedObjects);
+		context.put("Tax", migratedObjects);
 		// taxCodes
 		migratedObjects = migrateObjects("TaxCode", TAXCode.class,
 				new TAXCodeMigrator(), context);
@@ -475,7 +475,6 @@ public class CompanyMigrator {
 		if (status.getStatusCode() != HttpStatus.SC_OK) {
 			if (entity != null) {
 				EntityUtils.consume(entity);
-				System.out.println(IOUtils.toString(entity.getContent()));
 			}
 			return newAndOldIds;
 			// throw new RuntimeException(status.toString());

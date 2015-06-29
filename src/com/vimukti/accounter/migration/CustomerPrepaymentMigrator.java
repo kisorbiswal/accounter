@@ -20,9 +20,9 @@ public class CustomerPrepaymentMigrator extends
 			jsonObject.put("payee", context.get("Customer", customer.getID()));
 		}
 		// address
-		JSONObject adressJson = new JSONObject();
 		Address billingAddress = obj.getAddress();
 		if (billingAddress != null) {
+			JSONObject adressJson = new JSONObject();
 			adressJson.put("street", billingAddress.getStreet());
 			adressJson.put("city", billingAddress.getCity());
 			adressJson.put("stateOrProvince",
@@ -49,7 +49,10 @@ public class CustomerPrepaymentMigrator extends
 					.getPaymentMethodIdentifier(paymentMethod));
 		}
 		try {
-			jsonObject.put("chequeNumber", Long.valueOf(obj.getCheckNumber()));
+			String checkNumber = obj.getCheckNumber();
+			if (checkNumber != null) {
+				jsonObject.put("chequeNumber", Long.valueOf(checkNumber));
+			}
 		} catch (Exception e) {
 			// Nothing to do
 		}

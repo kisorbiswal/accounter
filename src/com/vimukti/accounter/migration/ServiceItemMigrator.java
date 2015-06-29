@@ -31,8 +31,9 @@ public class ServiceItemMigrator implements IMigrator<Item> {
 		jsonObject.put("salesPrice", item.getSalesPrice());
 		Account incomeAccount = item.getIncomeAccount();
 		if (incomeAccount != null) {
-			jsonObject.put("incomeAccount",
-					context.get("Account", incomeAccount.getID()));
+			JSONObject incomeAccountObj = new JSONObject();
+			incomeAccountObj.put("name", incomeAccount.getName());
+			jsonObject.put("incomeAccount", incomeAccountObj);
 		}
 		jsonObject.put("isTaxable", item.isTaxable());
 		jsonObject.put("isCommissionItem", item.isCommissionItem());
@@ -48,8 +49,9 @@ public class ServiceItemMigrator implements IMigrator<Item> {
 		jsonObject.put("purchasePrice", item.getPurchasePrice());
 		Account expenseAccount = item.getExpenseAccount();
 		if (expenseAccount != null) {
-			jsonObject.put("expenseAccount",
-					context.get("Account", expenseAccount.getID()));
+			JSONObject expenseAccountObj = new JSONObject();
+			expenseAccountObj.put("name", expenseAccount.getName());
+			jsonObject.put("expenseAccount", expenseAccountObj);
 		}
 		Vendor preferredVendor = item.getPreferredVendor();
 		if (preferredVendor != null) {
@@ -59,16 +61,6 @@ public class ServiceItemMigrator implements IMigrator<Item> {
 		jsonObject.put("vendorServiceNumber", item.getVendorItemNumber());
 		jsonObject.put("itemType",
 				PicklistUtilMigrator.getItemTypeIdentifier(item.getType()));
-		Quantity quantity = item.getOnhandQty();
-		if (quantity != null) {
-			JSONObject quantityJSON = new JSONObject();
-			quantityJSON.put("value", quantity.getValue());
-			Unit unit = quantity.getUnit();
-			if (unit != null) {
-				quantityJSON.put("unit", context.get("Unit", unit.getID()));
-			}
-			jsonObject.put("quantityItem", quantityJSON);
-		}
 		return jsonObject;
 	}
 

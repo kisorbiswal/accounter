@@ -9,13 +9,13 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Job;
+import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Unit;
-import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.Warehouse;
 
 public class TransactionMigrator<T extends Transaction> implements IMigrator<T> {
@@ -45,72 +45,66 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		}
 		transaction.put("currencyFactor", obj.getCurrencyFactor());
 		transaction.put("notes", obj.getMemo());
-		transaction.put(
-				"transactionType",
-				context.getPickListContext().get(
-						"TransactionType",
-						PicklistUtilMigrator
-								.getTransactionTypeIdentifier(Utility
-										.getTransactionName(obj.getType()))));
+		transaction.put("transactionType", PicklistUtilMigrator
+				.getTransactionTypeIdentifier(obj.getType()));
 		Job job = obj.getJob();
 		if (job != null) {
 			transaction.put("project", context.get("Job", job.getID()));
 		}
-
-		List<TransactionItem> transactionItems = obj.getTransactionItems();
-		JSONArray tItems = new JSONArray();
-		for (TransactionItem transactionItem : transactionItems) {
-			JSONObject tItem = new JSONObject();
-			if (transactionItem.getType() == TransactionItem.TYPE_ACCOUNT) {
-				tItem.put(
-						"type",
-						context.getPickListContext().get("TransactionItemType",
-								"Account"));
-				tItem.put("account", context.get("Account", transactionItem
-						.getItem().getID()));
-			} else {
-				tItem.put(
-						"type",
-						context.getPickListContext().get("TransactionItemType",
-								"Item"));
-				tItem.put("item",
-						context.get("Item", transactionItem.getItem().getID()));
-				{
-					Quantity quantity = transactionItem.getQuantity();
-					JSONObject quantityJSON = new JSONObject();
-					quantityJSON.put("value", quantity.getValue());
-					Unit unit = quantity.getUnit();
-					if (unit != null) {
-						quantityJSON.put("unit",
-								context.get("Unit", unit.getID()));
-					}
-					tItem.put("quantityItem", quantityJSON);
-				}
-			}
-
-			tItem.put("description", transactionItem.getDescription());
-			tItem.put("unitPrice", transactionItem.getUnitPrice());
-			AccounterClass classCategory = transactionItem.getAccounterClass();
-			if (classCategory != null) {
-				tItem.put("accountClass",
-						context.get("AccountClass", classCategory.getID()));
-			}
-			tItem.put("taxCode", context.get("TaxCode", transactionItem
-					.getTaxCode().getID()));
-			tItem.put("taxable", transactionItem.isTaxable());
-			tItem.put("discount", transactionItem.getDiscount());
-			Warehouse wareHouse = transactionItem.getWareHouse();
-			if (wareHouse != null) {
-				tItem.put("warehouse",
-						context.get("Warehouse", wareHouse.getID()));
-			}
-			tItems.put(tItem);
+		if (obj instanceof JournalEntry) {
+			return transaction;
 		}
+		List<TransactionItem> transactionItems = obj.getTransactionItems();
 		if (!transactionItems.isEmpty()) {
+			JSONArray tItems = new JSONArray();
+			for (TransactionItem transactionItem : transactionItems) {
+				JSONObject tItem = new JSONObject();
+				if (transactionItem.getType() == TransactionItem.TYPE_ACCOUNT) {
+					tItem.put("type", "Account");
+					tItem.put("account", context.get("Account", transactionItem
+							.getItem().getID()));
+				} else {
+					tItem.put("type", "Item");
+					tItem.put("item", context.get("Item", transactionItem
+							.getItem().getID()));
+					{
+						Quantity quantity = transactionItem.getQuantity();
+						JSONObject quantityJSON = new JSONObject();
+						quantityJSON.put("value", quantity.getValue());
+						Unit unit = quantity.getUnit();
+						if (unit != null) {
+							quantityJSON.put("unit",
+									context.get("Unit", unit.getID()));
+						}
+						tItem.put("quantityItem", quantityJSON);
+					}
+				}
+
+				tItem.put("description", transactionItem.getDescription());
+				tItem.put("unitPrice", transactionItem.getUnitPrice());
+				AccounterClass classCategory = transactionItem
+						.getAccounterClass();
+				if (classCategory != null) {
+					tItem.put("accountClass",
+							context.get("AccountClass", classCategory.getID()));
+				}
+				TAXCode itemTaxCode = transactionItem.getTaxCode();
+				if (itemTaxCode != null) {
+					tItem.put("taxCode",
+							context.get("TaxCode", itemTaxCode.getID()));
+				}
+				tItem.put("taxable", transactionItem.isTaxable());
+				tItem.put("discount", transactionItem.getDiscount());
+				Warehouse wareHouse = transactionItem.getWareHouse();
+				if (wareHouse != null) {
+					tItem.put("warehouse",
+							context.get("Warehouse", wareHouse.getID()));
+				}
+				tItems.put(tItem);
+			}
 			transaction.put("transactionItems", tItems);
 			transaction.put("amountIncludesTax", transactionItems.get(0)
 					.isAmountIncludeTAX());
-
 			boolean taxPerDetailLine = context.getCompany().getPreferences()
 					.isTaxPerDetailLine();
 			if (!taxPerDetailLine) {

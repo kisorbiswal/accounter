@@ -88,13 +88,7 @@ public class InventoryAssemblyMigrator implements IMigrator<InventoryAssembly> {
 
 		Quantity reorderPoint = item.getReorderPoint();
 		if (reorderPoint != null) {
-			JSONObject quantityJSON = new JSONObject();
-			quantityJSON.put("value", reorderPoint.getValue());
-			Unit unit = reorderPoint.getUnit();
-			if (unit != null) {
-				quantityJSON.put("unit", context.get("Unit", unit.getID()));
-			}
-			jsonObject.put("reOrderPoint", quantityJSON);
+			jsonObject.put("reOrderPoint", reorderPoint.getValue());
 		}
 		Account costOfGoodsSold = item.getExpenseAccount();
 		if (costOfGoodsSold != null) {

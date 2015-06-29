@@ -87,7 +87,7 @@ public class InventoryItemMigrator implements IMigrator<Item> {
 			if (unit != null) {
 				quantityJSON.put("unit", context.get("Unit", unit.getID()));
 			}
-			jsonObject.put("quantityJSON", quantityJSON);
+			jsonObject.put("onHandQuantity", quantityJSON);
 		}
 		Account costOfGoodsSold = item.getExpenseAccount();
 		if (costOfGoodsSold != null) {
@@ -104,7 +104,6 @@ public class InventoryItemMigrator implements IMigrator<Item> {
 			jsonObject.put("measurement",
 					context.get("Measurement", measurement.getID()));
 		}
-
 		jsonObject.put("averageCost", item.getAverageCost());
 		return jsonObject;
 	}

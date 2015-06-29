@@ -1,5 +1,7 @@
 package com.vimukti.accounter.migration;
 
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,10 +17,13 @@ public class TAXGroupMigrator extends TaxMigrator<TAXGroup> {
 		JSONObject jsonObject = super.migrate(obj, context);
 		jsonObject.put("isTaxGroup", true);
 		JSONArray taxItems = new JSONArray();
-		for (TAXItem item : obj.getTAXItems()) {
-			taxItems.put(context.get("TAXItem", item.getID()));
+		List<TAXItem> tItems = obj.getTAXItems();
+		if (!tItems.isEmpty()) {
+			for (TAXItem item : tItems) {
+				taxItems.put(context.get("Tax", item.getID()));
+			}
+			jsonObject.put("taxGroupItems", taxItems);
 		}
-		jsonObject.put("taxGroupItems", taxItems);
 		return jsonObject;
 	}
 }

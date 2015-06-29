@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,8 @@ public class MigratorContext {
 	private Map<String, List<Long>> childrenMap;
 
 	private int lastAccNumber = 1055;
+
+	private int taxagencyNumber = 1;
 
 	public void put(String name, Map<Long, Long> migrateAccounts) {
 		for (Entry<Long, Long> oldId : migrateAccounts.entrySet()) {
@@ -62,5 +65,9 @@ public class MigratorContext {
 
 	public int getNextAccountNumber() {
 		return ++lastAccNumber;
+	}
+
+	public int getnextTaxAgencyNumber() {
+		return ++taxagencyNumber;
 	}
 }
