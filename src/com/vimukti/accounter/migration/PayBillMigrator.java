@@ -19,6 +19,7 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 	public JSONObject migrate(PayBill obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = super.migrate(obj, context);
+
 		List<TransactionPayBill> transactionPayBill = obj
 				.getTransactionPayBill();
 		JSONArray array = new JSONArray();
@@ -33,8 +34,17 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 				jsonObj.put("bill", context.get("EnterBill", enterBill.getID()));
 			}
 			jsonObj.put("payment", tBill.getPayment());
-			// applyDebits not found in java file
-			// TODO
+
+			// discountAccount
+			JSONObject discountAccountJson = new JSONObject();
+			Account discountAccount = tBill.getDiscountAccount();
+			if (discountAccount != null) {
+				JSONObject account = new JSONObject();
+				account.put("name", discountAccount.getName());
+				discountAccountJson.put("discountAccount", account);
+			}
+			discountAccountJson.put("discountAmount", tBill.getCashDiscount());
+			jsonObj.put("discountAccount", discountAccountJson);
 			array.put(jsonObj);
 		}
 		jsonObject.put("paybillItems", array);
@@ -51,7 +61,9 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 		}
 		Account payFrom = obj.getPayFrom();
 		if (payFrom != null) {
-			jsonObject.put("account", context.get("Account", payFrom.getID()));
+			JSONObject account = new JSONObject();
+			account.put("name", payFrom.getName());
+			jsonObject.put("account", account);
 		}
 		jsonObject.put("paymentMethod", PicklistUtilMigrator
 				.getPaymentMethodIdentifier(obj.getPaymentMethod()));

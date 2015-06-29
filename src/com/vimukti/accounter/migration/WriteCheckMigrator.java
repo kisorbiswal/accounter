@@ -1,5 +1,7 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,5 +34,10 @@ public class WriteCheckMigrator extends TransactionMigrator<WriteCheck> {
 		jsonObj.put("notes", obj.getMemo());
 
 		return jsonObj;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		criteria.add(Restrictions.eq("payToType", WriteCheck.TYPE_VENDOR));
 	}
 }
