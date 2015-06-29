@@ -28,6 +28,7 @@ public class CashExpenseMigrator extends TransactionMigrator<CashPurchase> {
 			cashPurchase
 					.put("contact", context.get("Contact", contact.getID()));
 		}
+		// billTo
 		Address vendorAddress = obj.getVendorAddress();
 		if (vendorAddress != null) {
 			JSONObject addressJSON = new JSONObject();
@@ -40,7 +41,9 @@ public class CashExpenseMigrator extends TransactionMigrator<CashPurchase> {
 			addressJSON.put("country", vendorAddress.getCountryOrRegion());
 			cashPurchase.put("billTo", vendorAddress);
 		}
-		cashPurchase.put("paymentMethod", obj.getPaymentMethod());
+		// paymentMethod
+		cashPurchase.put("paymentMethod", PicklistUtilMigrator
+				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
 		// Account
 		Account payFrom = obj.getPayFrom();
 		if (payFrom != null) {
@@ -51,7 +54,6 @@ public class CashExpenseMigrator extends TransactionMigrator<CashPurchase> {
 
 		cashPurchase.put("deliveryDate", obj.getDeliveryDate()
 				.getAsDateObject().getTime());
-		cashPurchase.put("memo", obj.getMemo());
 		return cashPurchase;
 	}
 

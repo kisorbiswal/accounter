@@ -3,6 +3,7 @@ package com.vimukti.accounter.migration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.VendorPrePayment;
 
@@ -23,23 +24,26 @@ public class VendorPrepaymentMigrator extends
 			jsonAddr.put("country", addr.getCountryOrRegion());
 			jsonObject.put("address", jsonAddr);
 		}
-		jsonObject.put("payFrom",
-				context.get("Account", obj.getPayFrom().getID()));
+		// payFrom
+		Account payFrom = obj.getPayFrom();
+		if (payFrom != null) {
+			JSONObject account = new JSONObject();
+			account.put("name", payFrom.getName());
+			jsonObject.put("payFrom", payFrom);
+		}
+		// amount
 		jsonObject.put("amount", obj.getTotal());
-
-		// BillPayment
+		// payTo
 		jsonObject.put("payee", context.get("Vendor", obj.getVendor().getID()));
-		jsonObject.put("date", obj.getDate().getAsDateObject().getTime());
+		// Payment Method
 		jsonObject.put("paymentMethod", PicklistUtilMigrator
 				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
-		// billPaymentAmount not found
 		Long chequeNumber = null;
 		try {
 			chequeNumber = Long.valueOf(obj.getCheckNumber());
 			jsonObject.put("chequeNumber", chequeNumber);
 		} catch (Exception e) {
 		}
-		jsonObject.put("memo", obj.getMemo());
 		return jsonObject;
 	}
 }
