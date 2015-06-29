@@ -17,55 +17,60 @@ public class PurchaseOrderMigrator extends TransactionMigrator<PurchaseOrder> {
 	public JSONObject migrate(PurchaseOrder obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = super.migrate(obj, context);
-
+		// Phone
 		jsonObject.put("phone", obj.getPhone());
-		jsonObject.put("toBeEmailed", obj.isToBeEmailed());
-		jsonObject.put("toBePrinted", obj.isToBePrinted());
-		jsonObject.put("deliveryDate", obj.getDeliveryDate().getAsDateObject().getTime());
+		// DeliveryDate
+		jsonObject.put("deliveryDate", obj.getDeliveryDate().getAsDateObject()
+				.getTime());
+		// Payee
 		jsonObject.put("payee", context.get("Vendor", obj.getVendor().getID()));
+		// Contact
 		Contact contact = obj.getContact();
 		if (contact != null) {
 			jsonObject.put("contact", context.get("Contact", contact.getID()));
 		}
-		Address shippingAddress = obj.getShippingAddress();
-		if (shippingAddress != null) {
-			JSONObject addressJSON = new JSONObject();
-			addressJSON.put("street", shippingAddress.getStreet());
-			addressJSON.put("city", shippingAddress.getCity());
-			addressJSON.put("stateOrProvince",
-					shippingAddress.getStateOrProvinence());
-			addressJSON.put("zipOrPostalCode",
-					shippingAddress.getZipOrPostalCode());
-			addressJSON.put("country", shippingAddress.getCountryOrRegion());
-			jsonObject.put("billTo", shippingAddress);
+		// shipTo
+		Address shipTo = obj.getShippingAddress();
+		if (shipTo != null) {
+			JSONObject shipToJson = new JSONObject();
+			shipToJson.put("street", shipTo.getStreet());
+			shipToJson.put("city", shipTo.getCity());
+			shipToJson.put("stateOrProvince", shipTo.getStateOrProvinence());
+			shipToJson.put("zipOrPostalCode", shipTo.getZipOrPostalCode());
+			shipToJson.put("country", shipTo.getCountryOrRegion());
+			jsonObject.put("shipTo", shipTo);
 		}
-		Address vendorAddress = obj.getVendorAddress();
-		if (vendorAddress != null) {
-			JSONObject addressJSON = new JSONObject();
-			addressJSON.put("street", vendorAddress.getStreet());
-			addressJSON.put("city", vendorAddress.getCity());
-			addressJSON.put("stateOrProvince",
-					vendorAddress.getStateOrProvinence());
-			addressJSON.put("zipOrPostalCode",
-					vendorAddress.getZipOrPostalCode());
-			addressJSON.put("country", vendorAddress.getCountryOrRegion());
-			jsonObject.put("billTo", vendorAddress);
+		// BillTo
+		Address billTo = obj.getVendorAddress();
+		if (billTo != null) {
+			JSONObject billToJson = new JSONObject();
+			billToJson.put("street", billTo.getStreet());
+			billToJson.put("city", billTo.getCity());
+			billToJson.put("stateOrProvince", billTo.getStateOrProvinence());
+			billToJson.put("zipOrPostalCode", billTo.getZipOrPostalCode());
+			billToJson.put("country", billTo.getCountryOrRegion());
+			jsonObject.put("billTo", billTo);
 		}
+		// PaymentTerm
 		PaymentTerms paymentTerm = obj.getPaymentTerm();
 		if (paymentTerm != null) {
-			jsonObject.put("paymentTerm",
-					context.get("PaymentTerm", paymentTerm.getID()));
+			JSONObject paymentTermJson = new JSONObject();
+			paymentTermJson.put("name", paymentTerm.getName());
+			jsonObject.put("paymentTerm", paymentTermJson);
 		}
+		// shippingMethod
 		ShippingMethod shippingMethod = obj.getShippingMethod();
 		if (shippingMethod != null) {
 			jsonObject.put("shippingMethod",
 					context.get("ShippingMethod", shippingMethod.getID()));
 		}
+		// shippingTerms
 		ShippingTerms shippingTerms = obj.getShippingTerms();
 		if (shippingTerms != null) {
 			jsonObject.put("shippingTerm",
 					context.get("ShippingTerm", shippingTerms.getID()));
 		}
+
 		if (obj.getStatus() == ClientTransaction.STATUS_CANCELLED) {
 			jsonObject.put("purchaseOrderstatus", context.getPickListContext()
 					.get("PurchaseOrderStatus", "Cancelled"));
