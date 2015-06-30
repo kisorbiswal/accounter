@@ -39,7 +39,7 @@ public class CreditCardExpenseMigrator extends
 			creditCardChargeJSON.put("chequeNumber", chequeNumber);
 		} catch (Exception e) {
 		}
-		creditCardChargeJSON.put("memo", creditCardCharge.getMemo());
+		creditCardChargeJSON.put("notes", creditCardCharge.getMemo());
 
 		// payFrom Account
 		Account payFrom = creditCardCharge.getPayFrom();

@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.StockAdjustment;
 import com.vimukti.accounter.core.TransactionItem;
@@ -18,16 +20,27 @@ public class StockAdjustmentMigrator extends
 		JSONObject jsonObject = super.migrate(obj, context);
 		jsonObject.put("warehouse",
 				context.get("Warehouse", obj.getWareHouse().getID()));
-		jsonObject.put("adjustmentAccount",
-				context.get("Account", obj.getAdjustmentAccount().getID()));
+		Account adjustmentAccount = obj.getAdjustmentAccount();
+		if (adjustmentAccount != null) {
+			JSONObject account = new JSONObject();
+			account.put("name", adjustmentAccount.getName());
+			jsonObject.put("adjustmentAccount", account);
+		}
+
 		{
 			List<TransactionItem> transactionItems = obj.getTransactionItems();
 			JSONArray array = new JSONArray();
 			for (TransactionItem item : transactionItems) {
 				JSONObject jsonobjItem = new JSONObject();
-				jsonobjItem.put("item",
-						context.get("InventoryItem", item.getItem().getID()));
-				jsonobjItem.put("comment", item.getDescription());
+				Item inventoryItem = item.getItem();
+				if (inventoryItem != null) {
+					jsonobjItem
+							.put("item",
+									context.get("InventoryItem",
+											inventoryItem.getID()));
+				}
+
+				jsonobjItem.put("description", item.getDescription());
 				{
 					Quantity quantity = item.getQuantity();
 					JSONObject objectQty = new JSONObject();

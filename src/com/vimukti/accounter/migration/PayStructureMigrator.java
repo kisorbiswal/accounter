@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.core.PayStructure;
 import com.vimukti.accounter.core.PayStructureItem;
 
@@ -31,14 +32,14 @@ public class PayStructureMigrator implements IMigrator<PayStructure> {
 		JSONArray payStructureItemJsons = new JSONArray();
 		for (PayStructureItem payStructureItem : payStructureItems) {
 			JSONObject inJson = new JSONObject();
-			inJson.put("payHead", context.get("PayHead", payStructureItem
-					.getPayHead().getID()));
+			PayHead payHead = payStructureItem.getPayHead();
+			if (payHead != null) {
+				inJson.put("payHead", context.get("PayHead", payHead.getID()));
+			}
 			inJson.put("rate", payStructureItem.getRate());
 			inJson.put("effectiveFrom", payStructureItem.getEffectiveFrom()
 					.getAsDateObject().getTime());
 			payStructureItemJsons.put(inJson);
-			// calculationPeriod, payHeadType and computedOn are Computation
-			// fields
 		}
 		payStructure.put("payStructureItems", payStructureItemJsons);
 

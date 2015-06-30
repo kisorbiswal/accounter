@@ -9,12 +9,12 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.BuildAssembly;
 import com.vimukti.accounter.core.TransactionItem;
 
-public class BuildAssemblyMigrator implements IMigrator<BuildAssembly> {
+public class BuildAssemblyMigrator extends TransactionMigrator<BuildAssembly> {
 
 	@Override
 	public JSONObject migrate(BuildAssembly obj, MigratorContext context)
 			throws JSONException {
-		JSONObject buildAssembly = new JSONObject();
+		JSONObject buildAssembly = super.migrate(obj, context);
 		CommonFieldsMigrator.migrateCommonFields(obj, buildAssembly, context);
 		buildAssembly.put("inventoryAssembly", context.get("InventoryAssembly",
 				obj.getInventoryAssembly().getID()));

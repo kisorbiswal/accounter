@@ -37,6 +37,7 @@ import com.vimukti.accounter.core.AttendanceOrProductionType;
 import com.vimukti.accounter.core.AttendancePayHead;
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.Budget;
+import com.vimukti.accounter.core.BuildAssembly;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.Client;
@@ -249,6 +250,10 @@ public class CompanyMigrator {
 				InventoryAssembly.class, new InventoryAssemblyMigrator(),
 				context);
 		context.put("Item", migratedObjects);
+		// Build Assembly
+		migratedObjects = migrateObjects("BuildAssembly", BuildAssembly.class,
+				new BuildAssemblyMigrator(), context);
+		context.put("BuildAssembly", migratedObjects);
 		// SalesQuotation
 		migratedObjects = migrateObjects("SalesQuotation", Estimate.class,
 				new SalesQuotationMigrator(), context);
