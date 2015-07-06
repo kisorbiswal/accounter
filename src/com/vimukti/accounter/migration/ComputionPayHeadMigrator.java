@@ -20,7 +20,13 @@ public class ComputionPayHeadMigrator implements IMigrator<ComputionPayHead> {
 		payHead.put("name", obj.getName());
 		payHead.put("payHeadType", ClientPayHead.getPayHeadType(obj.getType()));
 		payHead.put("isAffectNetSalary", obj.isAffectNetSalary());
-		payHead.put("expenseAccount", obj.getAccount());
+
+		Account account = obj.getAccount();
+		if (account != null) {
+			JSONObject accountJson = new JSONObject();
+			accountJson.put("name", account.getName());
+			payHead.put("expenseAccount", accountJson);
+		}
 		payHead.put("calculationType", PicklistUtilMigrator
 				.getCalculationType(obj.getCalculationType()));
 		payHead.put("paySlipName", obj.getNameToAppearInPaySlip());
@@ -73,9 +79,6 @@ public class ComputionPayHeadMigrator implements IMigrator<ComputionPayHead> {
 			jsonformulaItems.put(jsonFormula);
 		}
 		payHead.put("formulaItems", jsonformulaItems);
-		// TODO PayHead.obj has
-		// isFromTimeSheet,lastComputedValue,
-		// attendanceLeaveWithPay
 		return payHead;
 	}
 }

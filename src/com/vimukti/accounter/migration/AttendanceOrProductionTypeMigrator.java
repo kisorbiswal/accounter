@@ -20,7 +20,9 @@ public class AttendanceOrProductionTypeMigrator implements
 		}
 		jsonObject.put("attendanceProductionType",
 				getAttendanceProductionTypeString(obj.getType()));
-		// TO DO to add period property
+		if (obj.getPeriodType() == AttendanceOrProductionType.TYPE_USER_DEFINED_CALENDAR) {
+			jsonObject.put("period", "Days");
+		}
 		return jsonObject;
 	}
 

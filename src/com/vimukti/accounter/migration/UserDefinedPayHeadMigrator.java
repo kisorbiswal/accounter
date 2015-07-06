@@ -18,24 +18,28 @@ public class UserDefinedPayHeadMigrator implements
 		payHead.put("name", obj.getName());
 		payHead.put("payHeadType", ClientPayHead.getPayHeadType(obj.getType()));
 		payHead.put("isAffectNetSalary", obj.isAffectNetSalary());
-		payHead.put("expenseAccount", obj.getAccount());
+		Account account = obj.getAccount();
+		if (account != null) {
+			JSONObject accountJson = new JSONObject();
+			accountJson.put("name", account.getName());
+			payHead.put("expenseAccount", accountJson);
+		}
 		payHead.put("calculationType", obj.getCalculationType());
 		payHead.put("paySlipName", obj.getNameToAppearInPaySlip());
 		payHead.put("isDeduction", obj.isDeduction());
 		payHead.put("isEarning", obj.isEarning());
 		Account assetAccount = obj.getAssetAccount();
 		if (assetAccount != null) {
-			payHead.put("assetAccount",
-					context.get("Account", assetAccount.getID()));
+			JSONObject assetJson = new JSONObject();
+			assetJson.put("name", assetAccount.getName());
+			payHead.put("assetAccount", assetJson);
 		}
 		Account liabilityAccount = obj.getLiabilityAccount();
 		if (liabilityAccount != null) {
-			payHead.put("statutoryLiabilityAccount",
-					context.get("Account", liabilityAccount.getID()));
+			JSONObject liabilityJson = new JSONObject();
+			liabilityJson.put("name", liabilityAccount.getName());
+			payHead.put("statutoryLiabilityAccount", liabilityJson);
 		}
-		// TODO PayHead.obj has
-		// isFromTimeSheet,lastComputedValue,
-		// attendanceLeaveWithPay,
 		return payHead;
 	}
 }

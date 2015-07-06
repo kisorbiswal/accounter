@@ -5,13 +5,11 @@ import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
-import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.EmployeeGroup;
 import com.vimukti.accounter.core.PayStructure;
@@ -24,12 +22,15 @@ public class EmployeeMigrator implements IMigrator<Employee> {
 			throws JSONException {
 		JSONObject employee = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, employee, context);
+		// PANorEIN
 		employee.put("pANorEIN", obj.getPANno());
+		// EmployeeGroup
 		EmployeeGroup group = obj.getGroup();
 		if (group != null) {
 			employee.put("employeeGroup",
 					context.get("EmployeeGroup", group.getID()));
 		}
+
 		employee.put("designation", obj.getDesignation());
 		employee.put("workingLocation", obj.getLocation());
 		Session session = HibernateUtil.getCurrentSession();
@@ -44,12 +45,10 @@ public class EmployeeMigrator implements IMigrator<Employee> {
 				context.get("PayStructure", uniqueResult.getID()));
 		// RelationShip field
 		employee.put("identification", obj.getNumber());
-		// AutoIdentification , mrOrMs, jobTitle are not found
 		employee.put("name", obj.getName());
 		employee.put("comments", obj.getMemo());
 		employee.put("email", obj.getEmail());
 		employee.put("phone", obj.getPhoneNo());
-		// MobilePhone and homePhone is not found
 		employee.put("fax", obj.getFaxNo());
 
 		JSONObject jsonAddress = new JSONObject();
@@ -69,38 +68,19 @@ public class EmployeeMigrator implements IMigrator<Employee> {
 			employee.put("address", jsonAddress);
 		}
 		employee.put("inActive", !obj.isActive());
-
-		// BussinessRelationShip Fields
-		employee.put("companyName", obj.getCompany().getTradingName());
-		employee.put("payeeSince", obj.getPayeeSince());
-		employee.put("webAddress", obj.getWebPageAddress());
-		// altEmail and altPhone are not found
-		JSONArray jsonContacts = new JSONArray();
-		for (Contact contact : obj.getContacts()) {
-			JSONObject jsonContact = new JSONObject();
-			jsonContact.put("isPrimary", contact.isPrimary());
-			jsonContact.put("contactName", contact.getName());
-			jsonContact.put("title", contact.getTitle());
-			jsonContact.put("businessPhone", contact.getBusinessPhone());
-			jsonContact.put("email", contact.getEmail());
-			jsonContacts.put(jsonContact);
-		}
-		employee.put("contacts", jsonContacts);
-		// emailPreference is not found
-		// printOnCheckAs is not found
-		// sendTransactionViaEmail is not found
-		// sendTransactionViaPrint is not found
-		// sendTransactionViaFax is not found
+		// account
 		Account account = obj.getAccount();
 		if (account != null) {
-			employee.put("account", context.get("Account", account.getID()));
+			JSONObject accountJson = new JSONObject();
+			accountJson.put("name", account.getName());
+			employee.put("account", accountJson);
 		}
-		employee.put("since", obj.getPayeeSince().getAsDateObject());
+		// bankName
 		employee.put("bankName", obj.getBankName());
+		// bankAccountNumber
 		employee.put("bankAccountNumber", obj.getBankAccountNo());
+		// bankBranch
 		employee.put("bankBranch", obj.getBankBranch());
-		// modeOfTransport is not found
-		// journalEntry is not found
 
 		return employee;
 	}

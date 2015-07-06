@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.PayEmployee;
 import com.vimukti.accounter.core.TransactionPayEmployee;
@@ -15,8 +16,12 @@ public class PayEmployeeMigrator extends TransactionMigrator<PayEmployee> {
 	public JSONObject migrate(PayEmployee obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObj = super.migrate(obj, context);
-		jsonObj.put("payFrom",
-				context.get("Account", obj.getPayAccount().getID()));
+		Account payAccount = obj.getPayAccount();
+		if (payAccount != null) {
+			JSONObject account = new JSONObject();
+			account.put("name", payAccount.getName());
+			jsonObj.put("payFrom", account);
+		}
 		{
 			List<TransactionPayEmployee> transactionPayEmployee = obj
 					.getTransactionPayEmployee();
@@ -25,7 +30,6 @@ public class PayEmployeeMigrator extends TransactionMigrator<PayEmployee> {
 				JSONObject jsonObject = new JSONObject();
 				jsonObj.put("payRun",
 						context.get("PayRun", item.getPayRun().getID()));
-				// TODO payment not found
 				array.put(jsonObject);
 			}
 			jsonObj.put("payEmployeeItems", array);
