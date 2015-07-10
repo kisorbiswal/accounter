@@ -62,7 +62,7 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 				if (transactionItem.getType() == TransactionItem.TYPE_ACCOUNT) {
 					tItem.put("type", "Account");
 					tItem.put("account", context.get("Account", transactionItem
-							.getItem().getID()));
+							.getAccount().getID()));
 				} else {
 					tItem.put("type", "Item");
 					tItem.put("item", context.get("Item", transactionItem

@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.FlatRatePayHead;
-import com.vimukti.accounter.web.client.core.ClientPayHead;
 
 public class FlatRatePayHeadMigrator implements IMigrator<FlatRatePayHead> {
 
@@ -15,7 +14,8 @@ public class FlatRatePayHeadMigrator implements IMigrator<FlatRatePayHead> {
 		JSONObject payHead = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, payHead, context);
 		payHead.put("name", obj.getName());
-		payHead.put("payHeadType", ClientPayHead.getPayHeadType(obj.getType()));
+		payHead.put("payHeadType",
+				PicklistUtilMigrator.getPayHeadType(obj.getType()));
 		payHead.put("isAffectNetSalary", obj.isAffectNetSalary());
 		Account account = obj.getAccount();
 		if (account != null) {

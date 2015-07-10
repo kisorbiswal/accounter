@@ -102,7 +102,7 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		PaymentTerms paymentTerms = obj.getPaymentTerms();
 		if (paymentTerms != null) {
 			jsonObject.put("paymentTerm",
-					context.get("PaymentTerms", paymentTerms.getID()));
+					context.get("PaymentTerm", paymentTerms.getID()));
 		}
 		// currency
 		JSONObject currencyJSON = new JSONObject();
@@ -124,9 +124,11 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		if (taxCode != null) {
 			jsonObject.put("taxCode", context.get("TaxCode", taxCode.getID()));
 		}
-		jsonObject.put("paymentMethod", PicklistUtilMigrator
-				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
-
+		String paymentMethod = obj.getPaymentMethod();
+		if (paymentMethod != null) {
+			jsonObject.put("paymentMethod", PicklistUtilMigrator
+					.getPaymentMethodIdentifier(paymentMethod));
+		}
 		ShippingMethod shippingMethod = obj.getShippingMethod();
 		if (shippingMethod != null) {
 			jsonObject.put("preferredShippingMethod",

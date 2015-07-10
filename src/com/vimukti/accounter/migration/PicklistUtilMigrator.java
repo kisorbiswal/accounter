@@ -4,11 +4,8 @@ import com.vimukti.accounter.core.AttendancePayHead;
 import com.vimukti.accounter.core.ComputionPayHead;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class PicklistUtilMigrator {
 	static String depreciationForIdentity(int type) {
@@ -416,7 +413,6 @@ public class PicklistUtilMigrator {
 	}
 
 	static String getComputationType(int computationType) {
-		AccounterMessages messages = Accounter.getMessages();
 		switch (computationType) {
 		case ComputionPayHead.COMPUTATE_ON_SUBTOTAL:
 			return "OnSubTotal";
@@ -429,27 +425,23 @@ public class PicklistUtilMigrator {
 
 		case ComputionPayHead.COMPUTATE_ON_SPECIFIED_FORMULA:
 			return "OnSpecifiedFormula";
-
-		default:
-			break;
 		}
 		return null;
 	}
 
 	static String getAttendanceType(int attendanceType) {
-		AccounterMessages messages = Global.get().messages();
 		switch (attendanceType) {
 		case AttendancePayHead.ATTENDANCE_ON_PAYHEAD:
-			return messages.otherPayhead();
+			return "OtherPayHead";
 
 		case AttendancePayHead.ATTENDANCE_ON_EARNING_TOTAL:
-			return messages.onEarningTotal();
+			return "OnEarningTotal";
 
 		case AttendancePayHead.ATTENDANCE_ON_SUBTOTAL:
-			return messages.onSubTotal();
+			return "OnSubTotal";
 
 		case AttendancePayHead.ATTENDANCE_ON_RATE:
-			return messages.rate();
+			return "Rate";
 
 		default:
 			break;
@@ -493,6 +485,37 @@ public class PicklistUtilMigrator {
 
 		case ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED:
 			return "UserDefined";
+
+		default:
+			return null;
+		}
+	}
+
+	public static String getPayHeadType(int type) {
+		switch (type) {
+		case ClientPayHead.TYPE_EARNINGS_FOR_EMPLOYEES:
+			return "EarningsforEmployees";
+
+		case ClientPayHead.TYPE_DEDUCTIONS_FOR_EMPLOYEES:
+			return "DeductionsforEmployees";
+
+		case ClientPayHead.TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS:
+			return "EmployeesStatutoryDeductions";
+
+		case ClientPayHead.TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS:
+			return "EmployeesStatutoryContributions";
+
+		case ClientPayHead.TYPE_EMPLOYEES_OTHER_CHARGES:
+			return "EmployeesOtherCharges";
+
+		case ClientPayHead.TYPE_BONUS:
+			return "Bonus";
+
+		case ClientPayHead.TYPE_LOANS_AND_ADVANCES:
+			return "LoansandAdvances";
+
+		case ClientPayHead.TYPE_REIMBURSEMENTS_TO_EMPLOYEES:
+			return "ReimbursementstoEmployees";
 
 		default:
 			return null;

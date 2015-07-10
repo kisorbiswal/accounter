@@ -10,7 +10,7 @@ import com.vimukti.accounter.core.EmployeeGroup;
 import com.vimukti.accounter.core.PayStructure;
 import com.vimukti.accounter.utils.HibernateUtil;
 
-public class EmployeeGroupMigrator implements IMigrator<EmployeeGroup>{
+public class EmployeeGroupMigrator implements IMigrator<EmployeeGroup> {
 
 	@Override
 	public JSONObject migrate(EmployeeGroup obj, MigratorContext context)
@@ -18,15 +18,17 @@ public class EmployeeGroupMigrator implements IMigrator<EmployeeGroup>{
 		JSONObject employeeGroup = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, employeeGroup, context);
 		employeeGroup.put("name", obj.getName());
-		// setting payStructure of employeeGroup 
+		// setting payStructure of employeeGroup
 		Session session = HibernateUtil.getCurrentSession();
 		Criteria createCriteria = session.createCriteria(PayStructure.class,
 				"obj");
-		createCriteria.add(Restrictions.eq("company", context.getCompany().getId()));
+		createCriteria.add(Restrictions.eq("company", context.getCompany()
+				.getId()));
 		createCriteria.add(Restrictions.eq("employeeGroup", obj.getID()));
 		PayStructure uniqueResult = (PayStructure) createCriteria
 				.uniqueResult();
-		employeeGroup.put("payStructure", context.get("PayStructure", uniqueResult.getID()));
+		employeeGroup.put("payStructure",
+				context.get("PayStructure", uniqueResult.getID()));
 		return employeeGroup;
-	} 
+	}
 }

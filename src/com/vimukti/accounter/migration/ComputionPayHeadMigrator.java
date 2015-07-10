@@ -8,7 +8,6 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.ComputaionFormulaFunction;
 import com.vimukti.accounter.core.ComputationSlab;
 import com.vimukti.accounter.core.ComputionPayHead;
-import com.vimukti.accounter.web.client.core.ClientPayHead;
 
 public class ComputionPayHeadMigrator implements IMigrator<ComputionPayHead> {
 
@@ -18,7 +17,8 @@ public class ComputionPayHeadMigrator implements IMigrator<ComputionPayHead> {
 		JSONObject payHead = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, payHead, context);
 		payHead.put("name", obj.getName());
-		payHead.put("payHeadType", ClientPayHead.getPayHeadType(obj.getType()));
+		payHead.put("payHeadType",
+				PicklistUtilMigrator.getPayHeadType(obj.getType()));
 		payHead.put("isAffectNetSalary", obj.isAffectNetSalary());
 
 		Account account = obj.getAccount();

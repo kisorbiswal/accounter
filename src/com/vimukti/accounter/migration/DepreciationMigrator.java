@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Depreciation;
+import com.vimukti.accounter.core.FinanceDate;
 
 public class DepreciationMigrator implements IMigrator<Depreciation> {
 	public JSONObject migrate(Depreciation depreciation, MigratorContext context)
@@ -32,8 +33,12 @@ public class DepreciationMigrator implements IMigrator<Depreciation> {
 		// TODO
 		jsonObject.put("depreciationFor", PicklistUtilMigrator
 				.depreciationForIdentity(depreciation.getDepreciationFor()));
-		jsonObject.put("RollBackDepreciationDate", depreciation
-				.getRollBackDepreciationDate().getAsDateObject().getTime());
+		FinanceDate rollBackDepreciationDate = depreciation
+				.getRollBackDepreciationDate();
+		if (rollBackDepreciationDate != null) {
+			jsonObject.put("RollBackDepreciationDate", rollBackDepreciationDate
+					.getAsDateObject().getTime());
+		}
 		return jsonObject;
 	}
 }

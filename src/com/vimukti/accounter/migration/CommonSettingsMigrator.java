@@ -34,8 +34,13 @@ public class CommonSettingsMigrator implements IMigrator<CompanyPreferences> {
 		commonSettings.put("depreciationStartDate", obj
 				.getDepreciationStartDate().getAsDateObject().getTime());
 		commonSettings.put("companyName", obj.getTradingName());
-		// commonSettings.put("companyHasLegalName", false);
-		commonSettings.put("legalName", obj.getLegalName());
+		String legalName = obj.getLegalName();
+		if (legalName != null) {
+			commonSettings.put("companyHasLegalName", true);
+			commonSettings.put("legalName", legalName);
+		} else {
+			commonSettings.put("companyHasLegalName", false);
+		}
 		Address tradingAddress = obj.getTradingAddress();
 		JSONObject jsonAddress = new JSONObject();
 		jsonAddress.put("street", tradingAddress.getStreet());
@@ -47,10 +52,9 @@ public class CommonSettingsMigrator implements IMigrator<CompanyPreferences> {
 		commonSettings.put("tradingAddress", jsonAddress);
 		commonSettings.put("companyHasRegisteredAddress",
 				obj.isShowRegisteredAddress());
-		// commonSettings.put("registeredAddress", jsonAddress);
 		commonSettings.put("defaultTaxCode",
 				context.get("TaxCode", obj.getDefaultTaxCode().getID()));
-		// commonSettings.put("accountReceivable", context.get("Account", 10));
+		// commonSettings.put("registeredAddress", jsonAddress);
 		// commonSettings.put("accountPayable", context.get("Account", 10));
 		// commonSettings.put("centralSalesTaxPayable", context.get("Account",
 		// 10));
