@@ -113,7 +113,6 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		}
 		for (Contact contact : obj.getContacts()) {
 			JSONObject jsonContact = new JSONObject();
-			jsonContact.put("isPrimary", contact.isPrimary());
 			jsonContact.put("contactName", contact.getName());
 			jsonContact.put("title", contact.getTitle());
 			jsonContact.put("businessPhone", contact.getBusinessPhone());

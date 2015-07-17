@@ -12,8 +12,7 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Utility;
 
-public class AccountMigrator implements IMigrator<Account> {
-
+public class DefaultAccountsMigrator implements IMigrator<Account> {
 	String[] names = new String[] { "Account Receivable", "Account Payable",
 			"Central Sales Tax Payable", "Sales Liability Account",
 			"Tax Filed", "Opening Balances", "Exchange Loss or Gain",
@@ -42,38 +41,40 @@ public class AccountMigrator implements IMigrator<Account> {
 			throws JSONException {
 		List<String> asList = Arrays.asList(names);
 		if (account.isDefault() || asList.contains(account.getName())) {
-			return null;
+
+			JSONObject jsonObject = new JSONObject();
+			CommonFieldsMigrator.migrateCommonFields(account, jsonObject,
+					context);
+			jsonObject.put("name", account.getName());
+			FinanceDate asOf = account.getAsOf();
+			if (asOf != null) {
+				jsonObject.put("asOf", asOf.getAsDateObject().getTime());
+			} else {
+				jsonObject.put("asOf", account.getCreatedDate().getTime());
+			}
+			if (account.getParent() != null) {
+				jsonObject.put("subAccountOf",
+						context.get("Account", account.getParent().getID()));
+			}
+			JSONObject accountTypeJSON = new JSONObject();
+			accountTypeJSON.put("identity", PicklistUtilMigrator
+					.getAccountTypeIdentity(account.getType()));
+			jsonObject.put("type", accountTypeJSON);
+			JSONObject currencyJson = new JSONObject();
+			currencyJson.put("identity", account.getCurrency().getFormalName());
+			jsonObject.put("currency", currencyJson);
+			jsonObject.put("number", context.getNextAccountNumber());
+			jsonObject.put("inactive", !account.getIsActive());
+			jsonObject.put("description", account.getComment());
+			jsonObject.put("openingBalance", 0.0);
+			jsonObject.put("payPalEmail", account.getPaypalEmail());
+			jsonObject.put("cashFlowCategory", Utility
+					.getCashFlowCategoryName(account.getCashFlowCategory()));
+			jsonObject.put("currencyFactor", account.getCurrencyFactor());
+			jsonObject.put("isIncrease", account.isIncrease());
+			return jsonObject;
 		}
-		JSONObject jsonObject = new JSONObject();
-		CommonFieldsMigrator.migrateCommonFields(account, jsonObject, context);
-		jsonObject.put("name", account.getName());
-		FinanceDate asOf = account.getAsOf();
-		if (asOf != null) {
-			jsonObject.put("asOf", asOf.getAsDateObject().getTime());
-		} else {
-			jsonObject.put("asOf", account.getCreatedDate().getTime());
-		}
-		if (account.getParent() != null) {
-			jsonObject.put("subAccountOf",
-					context.get("Account", account.getParent().getID()));
-		}
-		JSONObject accountTypeJSON = new JSONObject();
-		accountTypeJSON.put("identity",
-				PicklistUtilMigrator.getAccountTypeIdentity(account.getType()));
-		jsonObject.put("type", accountTypeJSON);
-		JSONObject currencyJson = new JSONObject();
-		currencyJson.put("identity", account.getCurrency().getFormalName());
-		jsonObject.put("currency", currencyJson);
-		jsonObject.put("number", context.getNextAccountNumber());
-		jsonObject.put("inactive", !account.getIsActive());
-		jsonObject.put("description", account.getComment());
-		jsonObject.put("openingBalance", account.getOpeningBalance());
-		jsonObject.put("payPalEmail", account.getPaypalEmail());
-		jsonObject.put("cashFlowCategory",
-				Utility.getCashFlowCategoryName(account.getCashFlowCategory()));
-		jsonObject.put("currencyFactor", account.getCurrencyFactor());
-		jsonObject.put("isIncrease", account.isIncrease());
-		return jsonObject;
+		return null;
 	}
 
 	@Override

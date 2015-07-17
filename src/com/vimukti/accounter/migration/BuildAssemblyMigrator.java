@@ -22,8 +22,8 @@ public class BuildAssemblyMigrator extends TransactionMigrator<BuildAssembly> {
 		List<TransactionItem> transactionItems = obj.getTransactionItems();
 		for (TransactionItem transactionItem : transactionItems) {
 			JSONObject object = new JSONObject();
-			object.put("item", context.get("InventoryAssemblyItem",
-					transactionItem.getItem().getID()));
+			object.put("item",
+					context.get("Item", transactionItem.getItem().getID()));
 			object.put("description", transactionItem.getDescription());
 			array.put(object);
 		}

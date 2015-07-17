@@ -1,6 +1,5 @@
 package com.vimukti.accounter.migration;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ public class AccounterMigrator {
 	protected Logger log = Logger.getLogger(getClass());
 
 	@SuppressWarnings("unchecked")
-	public void migrate() throws IOException {
+	public void migrate() throws Exception {
 		try {
 			Session session = HibernateUtil.openSession();
 			Query query = session
@@ -28,8 +27,7 @@ public class AccounterMigrator {
 			for (BigInteger id : ids) {
 				Company company = (Company) session.load(Company.class,
 						Long.valueOf(id.longValue()));
-				CompanyMigrator migrator = new CompanyMigrator(company,
-						"password");
+				CompanyMigrator migrator = new CompanyMigrator(company);
 				migrator.migrate();
 			}
 			session.close();

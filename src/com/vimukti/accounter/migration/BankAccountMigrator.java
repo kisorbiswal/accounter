@@ -1,5 +1,7 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -72,5 +74,10 @@ public class BankAccountMigrator implements IMigrator<BankAccount> {
 			return "MoneyMarket";
 		}
 		return null;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		criteria.add(Restrictions.eq("type", 2));
 	}
 }

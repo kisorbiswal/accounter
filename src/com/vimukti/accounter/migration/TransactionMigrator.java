@@ -69,14 +69,11 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 							.getItem().getID()));
 					{
 						Quantity quantity = transactionItem.getQuantity();
-						JSONObject quantityJSON = new JSONObject();
-						quantityJSON.put("value", quantity.getValue());
 						Unit unit = quantity.getUnit();
 						if (unit != null) {
-							quantityJSON.put("unit",
-									context.get("Unit", unit.getID()));
+							tItem.put("unit", context.get("Unit", unit.getID()));
 						}
-						tItem.put("quantityItem", quantityJSON);
+						tItem.put("quantity", quantity.getValue());
 					}
 				}
 

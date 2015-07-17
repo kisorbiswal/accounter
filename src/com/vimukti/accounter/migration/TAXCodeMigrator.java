@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXItemGroup;
 
 public class TAXCodeMigrator implements IMigrator<TAXCode> {
@@ -19,12 +18,12 @@ public class TAXCodeMigrator implements IMigrator<TAXCode> {
 		// Sales Tax
 		TAXItemGroup taxItemGrpForSales = taxcode.getTAXItemGrpForSales();
 		if (taxItemGrpForSales != null) {
-			jsonObject
-					.put("taxItemOrGroupForSales", context.get("Tax", taxcode
-							.getTAXItemGrpForSales().getID()));
+			jsonObject.put("taxItemOrGroupForSales",
+					context.get("Tax", taxItemGrpForSales.getID()));
 		}
 		// Purchase Tax
-		TAXItemGroup taxItemGrpForPurchases = taxcode.getTAXItemGrpForSales();
+		TAXItemGroup taxItemGrpForPurchases = taxcode
+				.getTAXItemGrpForPurchases();
 		if (taxItemGrpForPurchases != null) {
 			jsonObject.put("taxItemOrGroupForPurchases",
 					context.get("Tax", taxItemGrpForPurchases.getID()));

@@ -10,17 +10,12 @@ import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 
 public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 
 	@Override
 	public JSONObject migrate(TAXAgency obj, MigratorContext context)
 			throws JSONException {
-		// Central Sales Tax Agency Creating Defaultly
-		if (obj.getName().equals("Central Sales Tax Agency")) {
-			return null;
-		}
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("name", obj.getName());
@@ -37,26 +32,20 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		// Setting Purchase Liability Account of company
 		Account purchaseLiabilityAccount = obj.getPurchaseLiabilityAccount();
 		if (purchaseLiabilityAccount != null) {
-			JSONObject purchaseLiabilityAccJSON = new JSONObject();
-			purchaseLiabilityAccJSON.put("name",
-					purchaseLiabilityAccount.getName());
-			jsonObject
-					.put("purchaseLiabilityAccount", purchaseLiabilityAccJSON);
+			jsonObject.put("purchaseLiabilityAccount",
+					context.get("Account", purchaseLiabilityAccount.getID()));
 		}
 		// Setting Sales Liability Account of Company
 		Account salesLiabilityAccount = obj.getSalesLiabilityAccount();
 		if (salesLiabilityAccount != null) {
-			JSONObject salesLiabilityAccJSON = new JSONObject();
-			salesLiabilityAccJSON.put("name", salesLiabilityAccount.getName());
-			jsonObject.put("salesLiabilityAccount", salesLiabilityAccJSON);
+			jsonObject.put("salesLiabilityAccount",
+					context.get("Account", salesLiabilityAccount.getID()));
 		}
 		// Setting Filed Liability Account of Company
 		Account filedLiabilityAccount = obj.getFiledLiabilityAccount();
 		if (filedLiabilityAccount != null) {
-			JSONObject filedLiabilityAccountJSON = new JSONObject();
-			filedLiabilityAccountJSON.put("name",
-					filedLiabilityAccount.getName());
-			jsonObject.put("filedLiabilityAccount", filedLiabilityAccountJSON);
+			jsonObject.put("filedLiabilityAccount",
+					context.get("Account", filedLiabilityAccount.getID()));
 		}
 		FinanceDate asDateObject = obj.getLastTAXReturnDate();
 		if (asDateObject != null) {

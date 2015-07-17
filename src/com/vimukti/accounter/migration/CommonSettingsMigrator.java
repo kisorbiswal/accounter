@@ -1,10 +1,14 @@
 package com.vimukti.accounter.migration;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.TAXCode;
 
 public class CommonSettingsMigrator implements IMigrator<CompanyPreferences> {
 
@@ -25,9 +29,8 @@ public class CommonSettingsMigrator implements IMigrator<CompanyPreferences> {
 				obj.isBillableExpsesEnbldForProductandServices());
 		commonSettings.put("productAndServicesTrackingByCustomer",
 				obj.isProductandSerivesTrackingByCustomerEnabled());
-		commonSettings.put("currency",
-				context.get("Currency", obj.getPrimaryCurrency().getID()));
-		commonSettings.put("multipleCurrency", obj.isEnabledMultiCurrency());
+		boolean enabledMultiCurrency = obj.isEnabledMultiCurrency();
+		commonSettings.put("multipleCurrency", enabledMultiCurrency);
 		// commonSettings.put("tIN", obj.isEnabledMultiCurrency());
 		// commonSettings.put("tAN", obj.isEnabledMultiCurrency());
 		// commonSettings.put("pAN", obj.isEnabledMultiCurrency());
@@ -52,17 +55,34 @@ public class CommonSettingsMigrator implements IMigrator<CompanyPreferences> {
 		commonSettings.put("tradingAddress", jsonAddress);
 		commonSettings.put("companyHasRegisteredAddress",
 				obj.isShowRegisteredAddress());
-		commonSettings.put("defaultTaxCode",
-				context.get("TaxCode", obj.getDefaultTaxCode().getID()));
+		Company company = context.getCompany();
+		TAXCode defaultTaxCode = obj.getDefaultTaxCode();
+		if (defaultTaxCode != null) {
+			commonSettings.put("defaultTaxCode",
+					context.get("TaxCode", defaultTaxCode.getID()));
+		}
 		// commonSettings.put("registeredAddress", jsonAddress);
-		// commonSettings.put("accountPayable", context.get("Account", 10));
-		// commonSettings.put("centralSalesTaxPayable", context.get("Account",
-		// 10));
-		// commonSettings.put("salariesPayable", context.get("Account", 10));
-		// commonSettings.put("taxFiled", context.get("Account", 10));
-		// commonSettings.put("openingBalances", context.get("Account", 10));
-		// commonSettings.put("exchangeLossorGain", context.get("Account", 10));
-		// commonSettings.put("accountingCurrencies", "");
+		commonSettings.put("accountPayable", context.get("Account", company
+				.getAccountsPayableAccount().getID()));
+		// commonSettings.put("centralSalesTaxPayable",);
+		commonSettings.put("salariesPayable", context.get("Account", company
+				.getSalariesPayableAccount().getID()));
+		commonSettings.put("taxFiled", context.get("Account", company
+				.getTAXFiledLiabilityAccount().getID()));
+		commonSettings.put("openingBalances", context.get("Account", company
+				.getOpeningBalancesAccount().getID()));
+		commonSettings.put("exchangeLossorGain", context.get("Account", company
+				.getExchangeLossOrGainAccount().getID()));
+
+		if (enabledMultiCurrency) {
+			JSONArray currencies = new JSONArray();
+			for (Currency currency : company.getCurrencies()) {
+				JSONObject currencyJson = new JSONObject();
+				currencyJson.put("identity", currency.getFormalName());
+				currencies.put(currencyJson);
+			}
+			commonSettings.put("accountingCurrencies", currencies);
+		}
 		return commonSettings;
 	}
 

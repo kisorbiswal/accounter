@@ -3,10 +3,14 @@ package com.vimukti.accounter.migration;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
@@ -42,8 +46,8 @@ import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.ComputionPayHead;
-import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerCreditMemo;
@@ -51,11 +55,10 @@ import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.Depreciation;
-import com.vimukti.accounter.core.Employee;
-import com.vimukti.accounter.core.EmployeeGroup;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FlatRatePayHead;
+import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.InventoryAssembly;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Item;
@@ -66,7 +69,6 @@ import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.PayBill;
-import com.vimukti.accounter.core.PayStructure;
 import com.vimukti.accounter.core.PayTAX;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PayrollUnit;
@@ -100,7 +102,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 public class CompanyMigrator {
 	public static final String ECGINE_URL = "http://localhost:8080";
 	private static final String ECGINE_REST = "/api/v1/objects/";
-	private static final String API_KEY = "api_key";
+	private static final String API_KEY = "apikey";
 	private static final String FIRST_NAME = "firstName";
 	private static final String LAST_NAME = "lastName";
 	private static final String EMAIL = "email";
@@ -113,6 +115,14 @@ public class CompanyMigrator {
 	private static final String AUTH_HEADER_NAME = "Authorization";
 	private static final String BEARER = "Bearer";
 	public static final String USER_ID = "userid";
+	public static final String ECGINE_REST_PACKAGE_INSTALL = "/api/v1/package/install";
+	private static final String PKG_NAME = "pkgName";
+	private static final String PKG_VERSION = "pkgVersion";
+	private static final long DELAY_BETWEEN_TASKS = 10 * 1000;
+	private static final String ECGINE_REST_JOB_STATUS = "/api/v1/job/status";
+	private static final String JOBID = "jobId";
+	public static final String ORGANIZATION_ID = "orgid";
+	private MigratorContext context;
 
 	private static Logger log = Logger.getLogger(CompanyMigrator.class);
 
@@ -120,33 +130,42 @@ public class CompanyMigrator {
 
 	private HttpClient client;
 	private String apiKey;
-	private String password;
+	private Map<String, JSONObject> inactiveObjects = new HashMap<String, JSONObject>();
 
-	public CompanyMigrator(Company company, String password) {
+	public CompanyMigrator(Company company) {
 		this.company = company;
-		this.password = password;
 		this.client = HttpClientBuilder.create().build();
 	}
 
-	public void migrate() throws HttpException, IOException, JSONException {
+	public void migrate() throws Exception {
 		log.info("***Migrating Company  :" + company.getTradingName()
 				+ " @@ID : " + company.getId());
 		// Create context
-		MigratorContext context = new MigratorContext();
+		context = new MigratorContext();
 		context.setCompany(company);
 		// Organization
 		User user = company.getCreatedBy();
-		long adminId = signup(user);
-		context.setAdmin("Admin", adminId);
-		// / login
-		apiKey = login("test1@vimukti.com", this.password);
-
+		JSONObject json = signup(user);
+		context.setAdmin("Admin", json.getLong(USER_ID));
 		// Users Migration
 		// migrateUsers(emails, context);
+		apiKey = json.getString(API_KEY);
+		installPackage("accounter", "accounter10");
 
+	}
+
+	void migrateAllObjects() throws HttpException, JSONException, IOException {
+		// DefaultAccounts
+		Map<Long, Long> migratedObjects = migrateObjects("Account",
+				Account.class, new DefaultAccountsMigrator(), context);
+		context.put("Account", migratedObjects);
+		// CommonSettings
+		migratedObjects = migrateObjects("CommonSettings",
+				CompanyPreferences.class, new CommonSettingsMigrator(), context);
+		context.put("CommonSettings", migratedObjects);
 		// Measurements
-		Map<Long, Long> migratedObjects = migrateObjects("Measurement",
-				Measurement.class, new MeasurementMigrator(), context);
+		migratedObjects = migrateObjects("Measurement", Measurement.class,
+				new MeasurementMigrator(), context);
 		context.put("Measurement", migratedObjects);
 		// Accounts
 		migratedObjects = migrateObjects("Account", Account.class,
@@ -156,11 +175,7 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("BankAccount", BankAccount.class,
 				new BankAccountMigrator(), context);
 		context.put("BankAccount", migratedObjects);
-		// salesPersons
-		migratedObjects = migrateObjects("SalesPerson", SalesPerson.class,
-				new SalesPersonMigrator(), context);
-		context.put("SalesPerson", migratedObjects);
-		// // Warehouse
+		// Warehouse
 		migratedObjects = migrateObjects("Warehouse", Warehouse.class,
 				new WarehouseMigrator(), context);
 		context.put("Warehouse", migratedObjects);
@@ -168,6 +183,20 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("PaymentTerm", PaymentTerms.class,
 				new PaymentTermsMigrator(), context);
 		context.put("PaymentTerms", migratedObjects);
+		// taxAgencies
+		migratedObjects = migrateObjects("TaxAgency", TAXAgency.class,
+				new TaxAgencyMigrator(), context);
+		context.put("TaxAgency", migratedObjects);
+
+		// CommonSettings
+		migratedObjects = migrateObjects("CommonSettings",
+				CompanyPreferences.class, new CommonSettingsMigrator(), context);
+		context.put("CommonSettings", migratedObjects);
+
+		// salesPersons
+		migratedObjects = migrateObjects("SalesPerson", SalesPerson.class,
+				new SalesPersonMigrator(), context);
+		context.put("SalesPerson", migratedObjects);
 		// Customer Groups
 		migratedObjects = migrateObjects("CustomerGroup", CustomerGroup.class,
 				new CustomerGroupMigrator(), context);
@@ -196,10 +225,6 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("ItemGroup", ItemGroup.class,
 				new ItemGroupMigrator(), context);
 		context.put("ItemGroup", migratedObjects);
-		// taxAgencies
-		migratedObjects = migrateObjects("TaxAgency", TAXAgency.class,
-				new TaxAgencyMigrator(), context);
-		context.put("TaxAgency", migratedObjects);
 		// taxitems
 		migratedObjects = migrateObjects("TaxItem", TAXItem.class,
 				new TaxItemMigrator(), context);
@@ -369,18 +394,19 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("PayHead", UserDefinedPayHead.class,
 				new UserDefinedPayHeadMigrator(), context);
 		context.put("PayHead", migratedObjects);
-		// EmployeeGroup
-		migratedObjects = migrateObjects("EmployeeGroup", EmployeeGroup.class,
-				new EmployeeGroupMigrator(), context);
-		context.put("EmployeeGroup", migratedObjects);
-		// Employee
-		migratedObjects = migrateObjects("Employee", Employee.class,
-				new EmployeeMigrator(), context);
-		context.put("Employee", migratedObjects);
-		// PayStructure
-		migratedObjects = migrateObjects("PayStructure", PayStructure.class,
-				new PayStructureMigrator(), context);
-		context.put("PayStructure", migratedObjects);
+		// // EmployeeGroup
+		// migratedObjects = migrateObjects("EmployeeGroup",
+		// EmployeeGroup.class,
+		// new EmployeeGroupMigrator(), context);
+		// context.put("EmployeeGroup", migratedObjects);
+		// // Employee
+		// migratedObjects = migrateObjects("Employee", Employee.class,
+		// new EmployeeMigrator(), context);
+		// context.put("Employee", migratedObjects);
+		// // PayStructure
+		// migratedObjects = migrateObjects("PayStructure", PayStructure.class,
+		// new PayStructureMigrator(), context);
+		// context.put("PayStructure", migratedObjects);
 		// Reconciliation
 		migratedObjects = migrateObjects("Reconciliation",
 				Reconciliation.class, new ReconciliationMigrator(), context);
@@ -411,7 +437,130 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("FileTax", TAXReturn.class,
 				new FileTaxMigrator(), context);
 		context.put("FileTax", migratedObjects);
+		// Updating all inactive objects
+		Set<String> keySet = inactiveObjects.keySet();
+		for (String key : keySet) {
+			setRequestToRestApi(key, context,
+					new JSONArray().put(inactiveObjects.get(key)), null);
+		}
+		HibernateUtil.getCurrentSession().close();
+	}
 
+	public void installPackage(String pkgName, String pkgVersion)
+			throws Exception {
+		// Creating HTTP request post method.
+
+		HttpPost post = new HttpPost(ECGINE_URL + ECGINE_REST_PACKAGE_INSTALL);
+
+		List<NameValuePair> postParameters = new ArrayList<>();
+		postParameters.add(new BasicNameValuePair(PKG_NAME, pkgName));
+		postParameters.add(new BasicNameValuePair(PKG_VERSION, pkgVersion));
+		post.setEntity(new UrlEncodedFormEntity(postParameters));
+
+		// Adding authentication parameters
+		addAuthenticationParameters(post);
+
+		// Executing method
+		HttpResponse response = client.execute(post);
+
+		StatusLine status = response.getStatusLine();
+
+		if (status.getStatusCode() != HttpStatus.SC_OK) {
+			throw new RuntimeException(status.toString());
+		}
+		HttpEntity entity = response.getEntity();
+		// Read Response
+		JSONObject jsonResult = new JSONObject(IOUtils.toString(entity
+				.getContent()));
+		showPolloingStatus(jsonResult.getLong("jobId"), "Install Package");
+		migrateAllObjects();
+	}
+
+	private void showPolloingStatus(long jobId, String note) {
+		Timer pollingTimer = new Timer();
+		JobPollingTask task = new JobPollingTask(jobId, note, pollingTimer);
+		pollingTimer.scheduleAtFixedRate(task, new Date(), DELAY_BETWEEN_TASKS);
+		try {
+			synchronized (pollingTimer) {
+				pollingTimer.wait();
+			}
+		} catch (InterruptedException e) {
+			log.error("Error while waiting to install accounter package", e);
+			throw new RuntimeException(e);
+		}
+	}
+
+	class JobPollingTask extends TimerTask {
+		private long jobId;
+		private String note;
+		private Timer pollingTimer;
+
+		public JobPollingTask(long jobId, String note, Timer pollingTimer) {
+			this.jobId = jobId;
+			this.note = note;
+			this.pollingTimer = pollingTimer;
+		}
+
+		@Override
+		public void run() {
+			try {
+				JSONObject jsonResult = showStatus(jobId);
+				String status = (String) jsonResult.get("status");
+				if (jsonResult.has("extStatus")) {
+					String extStatus = (String) jsonResult.get("extStatus");
+					log.info("Status of " + note + " - " + status + ";"
+							+ extStatus);
+				} else {
+					log.info("Status of " + note + " - " + status);
+				}
+				if ("Aborted".equals(status) || "Failed".equals(status)
+						|| "Completed".equals(status)) {
+					log.info("Job " + note + " Completed!!");
+					synchronized (pollingTimer) {
+						pollingTimer.notifyAll();
+					}
+					pollingTimer.cancel();
+				}
+			} catch (Exception e) {
+				log.error("Error while polling job status with jobId " + jobId,
+						e);
+			}
+		}
+	}
+
+	private JSONObject showStatus(long jobId) throws Exception {
+		// Creating HTTP request post method.
+		HttpPost post = new HttpPost(ECGINE_URL + ECGINE_REST_JOB_STATUS);
+
+		List<NameValuePair> postParameters = new ArrayList<>();
+		postParameters
+				.add(new BasicNameValuePair(JOBID, String.valueOf(jobId)));
+		post.setEntity(new UrlEncodedFormEntity(postParameters));
+
+		// Adding authentication parameters
+		addAuthenticationParameters(post);
+
+		// Executing method
+		HttpResponse response = client.execute(post);
+
+		StatusLine result = response.getStatusLine();
+
+		if (result.getStatusCode() != HttpStatus.SC_OK) {
+			throw new RuntimeException(result.toString());
+		}
+
+		HttpEntity entity = response.getEntity();
+		// Read Response
+		JSONObject jsonResult = new JSONObject(IOUtils.toString(entity
+				.getContent()));
+		return jsonResult;
+
+	}
+
+	private void addAuthenticationParameters(HttpRequest executeMethod) {
+		String encodedKey = Base64.getEncoder().encodeToString(
+				apiKey.getBytes());
+		executeMethod.addHeader(AUTH_HEADER_NAME, BEARER + " " + encodedKey);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -443,7 +592,7 @@ public class CompanyMigrator {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T extends CreatableObject> Map<Long, Long> migrateObjects(
+	private <T extends IAccounterServerCore> Map<Long, Long> migrateObjects(
 			String identity, Class<T> clazz, IMigrator<T> migrator,
 			MigratorContext context) throws JSONException, HttpException,
 			IOException {
@@ -452,15 +601,18 @@ public class CompanyMigrator {
 		JSONArray objectArray = new JSONArray();
 		Criteria criteria = session.createCriteria(clazz, "obj");
 		migrator.addRestrictions(criteria);
-		List<T> objects = criteria.add(Restrictions.eq("company", company))
-				.list();
+		List<T> objects = new ArrayList<T>();
+		if (clazz.equals(CompanyPreferences.class)) {
+			objects.add((T) company.getPreferences());
+		} else {
+			objects = criteria.add(Restrictions.eq("company", company)).list();
+		}
 		if (objects.isEmpty()) {
 			return new HashMap<Long, Long>();
 		}
 		// Map<fieldName-Identity,List<OldId>
 		Map<String, List<Long>> accounterMap = new HashMap<String, List<Long>>();
 		context.setChildrenMap(accounterMap);
-
 		for (T obj : objects) {
 			JSONObject migrate = migrator.migrate(obj, context);
 			if (migrate != null) {
@@ -469,9 +621,21 @@ public class CompanyMigrator {
 			}
 		}
 		// Send Request TO REST API
+		return setRequestToRestApi(identity, context, objectArray, ids);
+	}
+
+	// here if we are sending already inserted objects to update then ids should
+	// be null.Because those are old database id's. So no need to insert them in
+	// context again
+	private Map<Long, Long> setRequestToRestApi(String identity,
+			MigratorContext context, JSONArray objectArray, List<Long> ids)
+			throws JSONException, HttpException, IOException {
+		// Map<fieldName-Identity,List<OldId>
+		Map<String, List<Long>> accounterMap = new HashMap<String, List<Long>>();
+		context.setChildrenMap(accounterMap);
 		Map<Long, Long> newAndOldIds = new HashMap<Long, Long>();
 		HttpPost post = new HttpPost(ECGINE_URL + ECGINE_REST + identity);
-		addAuthenticationParameters(post, this.apiKey);
+		addAuthenticationParameters(post);
 		post.setHeader("Content-type", "application/json");
 		post.setEntity(new StringEntity(objectArray.toString()));
 		HttpResponse response = client.execute(post);
@@ -489,10 +653,33 @@ public class CompanyMigrator {
 		Map<String, List<Long>> ecgineMap = new HashMap<String, List<Long>>();
 		for (int i = 0; i < array.length(); i++) {
 			JSONObject json = array.getJSONObject(i);
-			newAndOldIds.put(ids.get(i), json.getLong("id"));
+			long id = json.getLong("id");
+
+			if (json.has("inactive") && json.getBoolean("inactive")) {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("id", id);
+				jsonObject.put("inactive", true);
+				inactiveObjects.put(identity, jsonObject);
+			}
+			if (json.has("inActive") && json.getBoolean("inActive")) {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("id", id);
+				jsonObject.put("inActive", true);
+				inactiveObjects.put(identity, jsonObject);
+			}
+			if (json.has("isInactive") && json.getBoolean("isInactive")) {
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("id", id);
+				jsonObject.put("isInactive", true);
+				inactiveObjects.put(identity, jsonObject);
+			}
+			if (ids != null) {
+				newAndOldIds.put(ids.get(i), id);
+			}
 			JSONObject jsonObject = json.getJSONObject("object");
 			createEcgineChildrenMap(accounterMap, ecgineMap, jsonObject);
-			log.info("Migrated " + identity + "  Accounter ID :" + ids.get(i)
+			log.info("Migrated " + identity
+					+ (ids != null ? "  Accounter ID :" + ids.get(i) : "")
 					+ " Ecgine ID :" + json.getLong("id"));
 		}
 		putChildrenInContext(accounterMap, ecgineMap, context);
@@ -561,7 +748,7 @@ public class CompanyMigrator {
 		return responseResult.getString(API_KEY);
 	}
 
-	private long signup(User user) throws HttpException, IOException,
+	private JSONObject signup(User user) throws HttpException, IOException,
 			JSONException {
 		HttpPost post = new HttpPost(ECGINE_URL + SIGNUP_CREATE_ORG);
 		Client accClient = user.getClient();
@@ -569,10 +756,10 @@ public class CompanyMigrator {
 		params.add(new BasicNameValuePair(EMAIL, accClient.getEmailId()));
 		params.add(new BasicNameValuePair(FIRST_NAME, accClient.getFirstName()));
 		params.add(new BasicNameValuePair(LAST_NAME, accClient.getLastName()));
-		params.add(new BasicNameValuePair(COUNTRY, accClient.getCountry()));
+		params.add(new BasicNameValuePair(COUNTRY, removeSpaces(accClient
+				.getCountry())));
 		params.add(new BasicNameValuePair(COMPANY_NAME, user.getCompany()
 				.getTradingName()));
-		params.add(new BasicNameValuePair(PASS_WORD, this.password));
 		post.setEntity(new UrlEncodedFormEntity(params));
 		HttpResponse response = client.execute(post);
 		StatusLine status = response.getStatusLine();
@@ -583,13 +770,10 @@ public class CompanyMigrator {
 		HttpEntity content = response.getEntity();
 		String responseContent = IOUtils.toString(content.getContent());
 		JSONObject responseResult = new JSONObject(responseContent);
-		return responseResult.getLong(USER_ID);
+		return responseResult;
 	}
 
-	private void addAuthenticationParameters(HttpRequest executeMethod,
-			String apiKey) {
-		String encodedKey = Base64.getEncoder().encodeToString(
-				apiKey.getBytes());
-		executeMethod.addHeader(AUTH_HEADER_NAME, BEARER + " " + encodedKey);
+	String removeSpaces(String country) {
+		return country.replace(" ", "");
 	}
 }
