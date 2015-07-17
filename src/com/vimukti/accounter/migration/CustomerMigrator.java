@@ -47,7 +47,7 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		jsonObject.put("taxPayerIdentificationNo", obj.getTINNumber());
 
 		// RelationShip field
-		jsonObject.put("identification", obj.getNumber());
+		jsonObject.put("identification", context.getnextRelationshipNumber());
 		// AutoIdentification , mrOrMs, jobTitle are not found
 		jsonObject.put("name", obj.getName());
 		jsonObject.put("comments", obj.getMemo());

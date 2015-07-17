@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.AttendanceOrProductionType;
 import com.vimukti.accounter.core.PayrollUnit;
+import com.vimukti.accounter.web.client.core.ClientPayHead;
 
 public class AttendanceOrProductionTypeMigrator implements
 		IMigrator<AttendanceOrProductionType> {
@@ -20,7 +21,7 @@ public class AttendanceOrProductionTypeMigrator implements
 		}
 		jsonObject.put("attendanceProductionType",
 				getAttendanceProductionTypeString(obj.getType()));
-		if (obj.getPeriodType() == AttendanceOrProductionType.TYPE_USER_DEFINED_CALENDAR) {
+		if (obj.getPeriodType() == ClientPayHead.CALCULATION_PERIOD_DAYS) {
 			jsonObject.put("period", "Days");
 		}
 		return jsonObject;

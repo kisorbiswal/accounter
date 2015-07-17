@@ -18,7 +18,7 @@ public class MigratorContext {
 
 	private int lastAccNumber = 1055;
 
-	private int taxagencyNumber = 1;
+	private int relationshipNumber = 1;
 
 	public void put(String name, Map<Long, Long> migrateAccounts) {
 		for (Entry<Long, Long> oldId : migrateAccounts.entrySet()) {
@@ -66,7 +66,7 @@ public class MigratorContext {
 		return ++lastAccNumber;
 	}
 
-	public int getnextTaxAgencyNumber() {
-		return ++taxagencyNumber;
+	public int getnextRelationshipNumber() {
+		return ++relationshipNumber;
 	}
 }
