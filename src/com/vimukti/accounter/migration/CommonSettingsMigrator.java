@@ -1,14 +1,11 @@
 package com.vimukti.accounter.migration;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
-import com.vimukti.accounter.core.Currency;
-import com.vimukti.accounter.core.TAXCode;
 
 public class CommonSettingsMigrator implements IMigrator<CompanyPreferences> {
 
@@ -56,11 +53,6 @@ public class CommonSettingsMigrator implements IMigrator<CompanyPreferences> {
 		commonSettings.put("companyHasRegisteredAddress",
 				obj.isShowRegisteredAddress());
 		Company company = context.getCompany();
-		TAXCode defaultTaxCode = obj.getDefaultTaxCode();
-		if (defaultTaxCode != null) {
-			commonSettings.put("defaultTaxCode",
-					context.get("TaxCode", defaultTaxCode.getID()));
-		}
 		// commonSettings.put("registeredAddress", jsonAddress);
 		commonSettings.put("accountPayable", context.get("Account", company
 				.getAccountsPayableAccount().getID()));
@@ -73,16 +65,6 @@ public class CommonSettingsMigrator implements IMigrator<CompanyPreferences> {
 				.getOpeningBalancesAccount().getID()));
 		commonSettings.put("exchangeLossorGain", context.get("Account", company
 				.getExchangeLossOrGainAccount().getID()));
-
-		if (enabledMultiCurrency) {
-			JSONArray currencies = new JSONArray();
-			for (Currency currency : company.getCurrencies()) {
-				JSONObject currencyJson = new JSONObject();
-				currencyJson.put("identity", currency.getFormalName());
-				currencies.put(currencyJson);
-			}
-			commonSettings.put("accountingCurrencies", currencies);
-		}
 		return commonSettings;
 	}
 

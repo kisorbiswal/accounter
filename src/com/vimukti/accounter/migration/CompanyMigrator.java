@@ -22,6 +22,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -104,6 +105,7 @@ public class CompanyMigrator {
 	private static final String ECGINE_REST = "/api/v1/objects/";
 	private static final String API_KEY = "apikey";
 	private static final String FIRST_NAME = "firstName";
+	public static final String API_BASE_URL = "/api/v1";
 	private static final String LAST_NAME = "lastName";
 	private static final String EMAIL = "email";
 	private static final String COMPANY_NAME = "company";
@@ -122,8 +124,11 @@ public class CompanyMigrator {
 	private static final String ECGINE_REST_JOB_STATUS = "/api/v1/job/status";
 	private static final String JOBID = "jobId";
 	public static final String ORGANIZATION_ID = "orgid";
+	public static final String ECGINE_LIST = "/lists/";
+	private static final String CURRENCY = "currency";
 	private MigratorContext context;
-
+	public static final long COMMON_SETTINGS_OLD_ID = 1;
+	public static final String COMMON_SETTINGS = "CommonSettings";
 	private static Logger log = Logger.getLogger(CompanyMigrator.class);
 
 	private Company company;
@@ -160,9 +165,14 @@ public class CompanyMigrator {
 				Account.class, new DefaultAccountsMigrator(), context);
 		context.put("Account", migratedObjects);
 		// CommonSettings
-		migratedObjects = migrateObjects("CommonSettings",
+		migratedObjects = migrateObjects(COMMON_SETTINGS,
 				CompanyPreferences.class, new CommonSettingsMigrator(), context);
-		context.put("CommonSettings", migratedObjects);
+		// MultiCurrencyMigrator
+		if (company.getPreferences().isEnabledMultiCurrency()) {
+			migratedObjects = migrateObjects(COMMON_SETTINGS,
+					CompanyPreferences.class,
+					new AccountingCurrenciesMigrator(), context);
+		}
 		// Measurements
 		migratedObjects = migrateObjects("Measurement", Measurement.class,
 				new MeasurementMigrator(), context);
@@ -188,10 +198,10 @@ public class CompanyMigrator {
 				new TaxAgencyMigrator(), context);
 		context.put("TaxAgency", migratedObjects);
 
-		// CommonSettings
-		migratedObjects = migrateObjects("CommonSettings",
-				CompanyPreferences.class, new CommonSettingsMigrator(), context);
-		context.put("CommonSettings", migratedObjects);
+		// CompanyDefatultTaxAgencyMigration
+		migratedObjects = migrateObjects(COMMON_SETTINGS,
+				CompanyPreferences.class,
+				new CompanyDefatultTaxAgencyMigrator(), context);
 
 		// salesPersons
 		migratedObjects = migrateObjects("SalesPerson", SalesPerson.class,
@@ -634,6 +644,35 @@ public class CompanyMigrator {
 		Map<String, List<Long>> accounterMap = new HashMap<String, List<Long>>();
 		context.setChildrenMap(accounterMap);
 		Map<Long, Long> newAndOldIds = new HashMap<Long, Long>();
+
+		if (identity.equals(COMMON_SETTINGS)
+				&& context.get(COMMON_SETTINGS, COMMON_SETTINGS_OLD_ID) == null) {
+			HttpGet get = new HttpGet(ECGINE_URL + API_BASE_URL + ECGINE_LIST
+					+ identity);
+			addAuthenticationParameters(get);
+			get.setHeader("Content-type", "application/json");
+			HttpResponse response = client.execute(get);
+			StatusLine status = response.getStatusLine();
+			HttpEntity entity = response.getEntity();
+			if (status.getStatusCode() != HttpStatus.SC_OK) {
+				if (entity != null) {
+					EntityUtils.consume(entity);
+				}
+				return newAndOldIds;
+				// throw new RuntimeException(status.toString());
+			}
+			String content = IOUtils.toString(entity.getContent());
+			JSONObject json = new JSONObject(content);
+			JSONObject jsonValue = (JSONObject) json.get("value");
+			long commonSettingsId = jsonValue.getLong("id");
+			HashMap<Long, Long> map = new HashMap<Long, Long>();
+			map.put(COMMON_SETTINGS_OLD_ID, commonSettingsId);
+			context.put(COMMON_SETTINGS, map);
+			JSONObject jsonObject = objectArray.getJSONObject(0);
+			jsonObject.put("id", commonSettingsId);
+			objectArray.remove(0);
+			objectArray.put(jsonObject);
+		}
 		HttpPost post = new HttpPost(ECGINE_URL + ECGINE_REST + identity);
 		addAuthenticationParameters(post);
 		post.setHeader("Content-type", "application/json");
@@ -641,9 +680,24 @@ public class CompanyMigrator {
 		HttpResponse response = client.execute(post);
 		StatusLine status = response.getStatusLine();
 		HttpEntity entity = response.getEntity();
+
 		if (status.getStatusCode() != HttpStatus.SC_OK) {
 			if (entity != null) {
-				EntityUtils.consume(entity);
+				String content = IOUtils.toString(entity.getContent());
+				try {
+					JSONArray array = new JSONArray(content);
+					for (int i = 0; i < array.length(); i++) {
+						JSONObject json = array.getJSONObject(i);
+						String error = json.getJSONArray("errors").toString();
+						if (!error.equals("[]")) {
+							log.info("\n" + "Found Errors In " + identity
+									+ "\n" + error);
+						}
+					}
+				} catch (Exception e) {
+					log.error("Some error Occurred in Server while saving"
+							+ identity);
+				}
 			}
 			return newAndOldIds;
 			// throw new RuntimeException(status.toString());
@@ -758,8 +812,11 @@ public class CompanyMigrator {
 		params.add(new BasicNameValuePair(LAST_NAME, accClient.getLastName()));
 		params.add(new BasicNameValuePair(COUNTRY, removeSpaces(accClient
 				.getCountry())));
-		params.add(new BasicNameValuePair(COMPANY_NAME, user.getCompany()
+		Company company2 = user.getCompany();
+		params.add(new BasicNameValuePair(COMPANY_NAME, company2
 				.getTradingName()));
+		params.add(new BasicNameValuePair(CURRENCY, company2
+				.getPrimaryCurrency().getFormalName()));
 		post.setEntity(new UrlEncodedFormEntity(params));
 		HttpResponse response = client.execute(post);
 		StatusLine status = response.getStatusLine();
