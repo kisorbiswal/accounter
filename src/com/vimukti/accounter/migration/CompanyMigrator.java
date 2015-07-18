@@ -128,7 +128,13 @@ public class CompanyMigrator {
 	private static final String CURRENCY = "currency";
 	private MigratorContext context;
 	public static final long COMMON_SETTINGS_OLD_ID = 1;
+	public static final long FEATURES_OLD_ID = 2;
+	public static final long CUSTOMER_AND_SALES_SETTINGS_OLD_ID = 3;
 	public static final String COMMON_SETTINGS = "CommonSettings";
+	public static final String FEATURES = "Features";
+	public static final String CUSTOMER_AND_SALES_SETTINGS = "CustomerAndSalesSettings";
+	public static final String NO_TAX_ITEM = "No Tax Item";
+	public static final long NO_TAX_ITEM_OLD_ID = 4;
 	private static Logger log = Logger.getLogger(CompanyMigrator.class);
 
 	private Company company;
@@ -198,11 +204,6 @@ public class CompanyMigrator {
 				new TaxAgencyMigrator(), context);
 		context.put("TaxAgency", migratedObjects);
 
-		// CompanyDefatultTaxAgencyMigration
-		migratedObjects = migrateObjects(COMMON_SETTINGS,
-				CompanyPreferences.class,
-				new CompanyDefatultTaxAgencyMigrator(), context);
-
 		// salesPersons
 		migratedObjects = migrateObjects("SalesPerson", SalesPerson.class,
 				new SalesPersonMigrator(), context);
@@ -239,7 +240,7 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("TaxItem", TAXItem.class,
 				new TaxItemMigrator(), context);
 		context.put("Tax", migratedObjects);
-		// taxitems
+		// TaxGroups
 		migratedObjects = migrateObjects("TaxGroup", TAXGroup.class,
 				new TAXGroupMigrator(), context);
 		context.put("Tax", migratedObjects);
@@ -247,6 +248,12 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("TaxCode", TAXCode.class,
 				new TAXCodeMigrator(), context);
 		context.put("TaxCode", migratedObjects);
+
+		// CompanyDefatultTaxCodeMigration
+		migratedObjects = migrateObjects(COMMON_SETTINGS,
+				CompanyPreferences.class, new CompanyDefatultTaxCodeMigrator(),
+				context);
+
 		// Customers
 		migratedObjects = migrateObjects("Customer", Customer.class,
 				new CustomerMigrator(), context);
@@ -691,11 +698,11 @@ public class CompanyMigrator {
 						String error = json.getJSONArray("errors").toString();
 						if (!error.equals("[]")) {
 							log.info("\n" + "Found Errors In " + identity
-									+ "\n" + error);
+									+ error);
 						}
 					}
 				} catch (Exception e) {
-					log.error("Some error Occurred in Server while saving"
+					log.error("Some error Occurred in Server while saving "
 							+ identity);
 				}
 			}

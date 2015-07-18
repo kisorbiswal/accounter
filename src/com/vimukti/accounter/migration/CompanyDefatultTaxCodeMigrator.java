@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.TAXCode;
 
-public class CompanyDefatultTaxAgencyMigrator implements
+public class CompanyDefatultTaxCodeMigrator implements
 		IMigrator<CompanyPreferences> {
 	@Override
 	public JSONObject migrate(CompanyPreferences obj, MigratorContext context)

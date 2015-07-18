@@ -18,8 +18,6 @@ public class MigratorContext {
 
 	private int lastAccNumber = 1055;
 
-	private int relationshipNumber = 1;
-
 	public void put(String name, Map<Long, Long> migrateAccounts) {
 		for (Entry<Long, Long> oldId : migrateAccounts.entrySet()) {
 			ids.put(name + oldId.getKey(), oldId.getValue());
@@ -64,9 +62,5 @@ public class MigratorContext {
 
 	public int getNextAccountNumber() {
 		return ++lastAccNumber;
-	}
-
-	public int getnextRelationshipNumber() {
-		return ++relationshipNumber;
 	}
 }

@@ -35,7 +35,6 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		}
 
 		// RelationShip field
-		jsonObject.put("identification", context.getnextRelationshipNumber());
 		jsonObject.put("name", obj.getName());
 		jsonObject.put("comments", obj.getMemo());
 		jsonObject.put("email", obj.getEmail());

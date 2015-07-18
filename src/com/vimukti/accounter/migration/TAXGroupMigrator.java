@@ -23,6 +23,8 @@ public class TAXGroupMigrator extends TaxMigrator<TAXGroup> {
 				taxItems.put(context.get("Tax", item.getID()));
 			}
 			jsonObject.put("taxGroupItems", taxItems);
+		} else {
+			return null;
 		}
 		return jsonObject;
 	}
