@@ -1,13 +1,10 @@
 package com.vimukti.accounter.migration;
 
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.BuildAssembly;
-import com.vimukti.accounter.core.TransactionItem;
 
 public class BuildAssemblyMigrator extends TransactionMigrator<BuildAssembly> {
 
@@ -16,18 +13,13 @@ public class BuildAssemblyMigrator extends TransactionMigrator<BuildAssembly> {
 			throws JSONException {
 		JSONObject buildAssembly = super.migrate(obj, context);
 		CommonFieldsMigrator.migrateCommonFields(obj, buildAssembly, context);
-		buildAssembly.put("inventoryAssembly", context.get("InventoryAssembly",
-				obj.getInventoryAssembly().getID()));
-		JSONArray array = new JSONArray();
-		List<TransactionItem> transactionItems = obj.getTransactionItems();
-		for (TransactionItem transactionItem : transactionItems) {
-			JSONObject object = new JSONObject();
-			object.put("item",
-					context.get("Item", transactionItem.getItem().getID()));
-			object.put("description", transactionItem.getDescription());
-			array.put(object);
+		buildAssembly.put("inventoryAssembly",
+				context.get("Item", obj.getInventoryAssembly().getID()));
+		JSONArray items = buildAssembly.getJSONArray("transactionItems");
+		if (items != null) {
+			buildAssembly.remove("transactionItems");
+			buildAssembly.put("assemblyItems", items);
 		}
-		buildAssembly.put("assemblyItems", array);
 		buildAssembly.put("quantitytoBuild", obj.getQuantityToBuild());
 		return buildAssembly;
 	}

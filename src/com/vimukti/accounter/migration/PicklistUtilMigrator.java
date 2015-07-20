@@ -47,9 +47,9 @@ public class PicklistUtilMigrator {
 		case 3:
 			return "AccountReceivable";
 		case 4:
-			return "InventoryAsset";
-		case 5:
 			return "OtherCurrentAsset";
+		case 5:
+			return "InventoryAsset";
 		case 6:
 			return "FixedAsset";
 		case 7:
