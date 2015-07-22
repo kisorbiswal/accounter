@@ -133,8 +133,6 @@ public class CompanyMigrator {
 	public static final String COMMON_SETTINGS = "CommonSettings";
 	public static final String FEATURES = "Features";
 	public static final String CUSTOMER_AND_SALES_SETTINGS = "CustomerAndSalesSettings";
-	public static final String NO_TAX_ITEM = "No Tax Item";
-	public static final long NO_TAX_ITEM_OLD_ID = 4;
 	private static Logger log = Logger.getLogger(CompanyMigrator.class);
 
 	private Company company;
