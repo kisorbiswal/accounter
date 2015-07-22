@@ -1,10 +1,11 @@
 package com.vimukti.accounter.migration;
 
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Depreciation;
-import com.vimukti.accounter.core.FinanceDate;
 
 public class DepreciationMigrator implements IMigrator<Depreciation> {
 	public JSONObject migrate(Depreciation depreciation, MigratorContext context)
@@ -21,24 +22,12 @@ public class DepreciationMigrator implements IMigrator<Depreciation> {
 		jsonObject
 				.put("fixedAsset", context.get("FixexAsset", depreciation
 						.getFixedAsset().getID()));
-		// List<FixedAsset> fixedAssets = depreciation.getFixedAssets();
-		// JSONArray array = new JSONArray();
-		// for (FixedAsset fixedAsset : fixedAssets) {
-		// JSONObject jsonObject1 = new JSONObject();
-		// jsonObject1.put("fixedAsset",
-		// context.get("FixedAsset", fixedAsset.getID()));
-		// array.put(jsonObject1);
-		// }
-		// jsonObject.put("fixedAssets", array);
-		// TODO
 		jsonObject.put("depreciationFor", PicklistUtilMigrator
 				.depreciationForIdentity(depreciation.getDepreciationFor()));
-		FinanceDate rollBackDepreciationDate = depreciation
-				.getRollBackDepreciationDate();
-		if (rollBackDepreciationDate != null) {
-			jsonObject.put("RollBackDepreciationDate", rollBackDepreciationDate
-					.getAsDateObject().getTime());
-		}
+		// FinanceDate rollBackDepreciationDate = depreciation
+		// .getRollBackDepreciationDate().getAsDateObject();
+		// TODO above value all ways null because it is not saving in database
+		jsonObject.put("RollBackDepreciationDate", new Date());
 		return jsonObject;
 	}
 }

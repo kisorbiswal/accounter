@@ -3,6 +3,7 @@ package com.vimukti.accounter.migration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.TDSDeductorMasters;
 
 public class TDSDeductorMastersMigrator implements
@@ -22,8 +23,9 @@ public class TDSDeductorMastersMigrator implements
 		jsonObject.put("state", obj.getState());
 		jsonObject.put("pinCode", obj.getPinCode());
 		jsonObject.put("addressdChanged", obj.isAddressdChanged());
-		jsonObject.put("telephoneNumber", obj.getTelephoneNumber());
-		jsonObject.put("faxNo", obj.getFaxNo());
+		jsonObject.put("telephoneNumber",
+				String.valueOf(obj.getTelephoneNumber()));
+		jsonObject.put("faxNo", String.valueOf(obj.getFaxNo()));
 		jsonObject.put("emailID", obj.getEmailID());
 		jsonObject.put("deductorType", PicklistUtilMigrator
 				.getDeductorTypeIndentity(obj.getDeductorType()));
@@ -40,7 +42,18 @@ public class TDSDeductorMastersMigrator implements
 		jsonObject.put("stdCode", obj.getStdCode());
 		jsonObject.put("isAddressSameForResopsiblePerson",
 				obj.isAddressSameForResopsiblePerson());
-		jsonObject.put("taxOfficeAddress", obj.getTaxOfficeAddress());
+		Address taxOfficeAdd = obj.getTaxOfficeAddress();
+		if (taxOfficeAdd != null) {
+			JSONObject taxOfficeAddess = new JSONObject();
+			taxOfficeAddess.put("street", taxOfficeAdd.getStreet());
+			taxOfficeAddess.put("city", taxOfficeAdd.getCity());
+			taxOfficeAddess.put("stateOrProvince",
+					taxOfficeAdd.getStateOrProvinence());
+			taxOfficeAddess.put("zipOrPostalCode",
+					taxOfficeAdd.getZipOrPostalCode());
+			taxOfficeAddess.put("country", taxOfficeAdd.getCountryOrRegion());
+			jsonObject.put("taxOfficeAddress", taxOfficeAddess);
+		}
 		// obj.getStatus() return 'Government' or 'Other'
 		jsonObject.put("status", obj.getStatus());
 

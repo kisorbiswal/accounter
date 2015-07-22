@@ -25,15 +25,14 @@ public class CreditMemoMigrator extends TransactionMigrator<CustomerCreditMemo> 
 			jsonAddress.put("country", billingAddress.getCountryOrRegion());
 			jsonObj.put("billTo", jsonAddress);
 		}
-		Contact contact = obj.getContact();
-		if (contact != null) {
-			jsonObj.put("contact", context.get("Contact", contact.getID()));
-		}
 		Customer customer = obj.getCustomer();
 		if (customer != null) {
 			jsonObj.put("payee", context.get("Customer", customer.getID()));
 		}
-
+		Contact contact = obj.getContact();
+		if (contact != null) {
+			jsonObj.put("contact", context.get("Contact", contact.getID()));
+		}
 		return jsonObj;
 	}
 }

@@ -23,9 +23,8 @@ public class ComputionPayHeadMigrator implements IMigrator<ComputionPayHead> {
 
 		Account account = obj.getAccount();
 		if (account != null) {
-			JSONObject accountJson = new JSONObject();
-			accountJson.put("name", account.getName());
-			payHead.put("expenseAccount", accountJson);
+			payHead.put("expenseAccount",
+					context.get("Account", account.getID()));
 		}
 		payHead.put("calculationType", PicklistUtilMigrator
 				.getCalculationType(obj.getCalculationType()));
@@ -36,16 +35,14 @@ public class ComputionPayHeadMigrator implements IMigrator<ComputionPayHead> {
 		// assert Account
 		Account assetAccount = obj.getAssetAccount();
 		if (assetAccount != null) {
-			JSONObject accountJson = new JSONObject();
-			accountJson.put("name", assetAccount.getName());
-			payHead.put("assetAccount", accountJson);
+			payHead.put("assetAccount",
+					context.get("Account", assetAccount.getID()));
 		}
 		// laibility Account
 		Account liabilityAccount = obj.getLiabilityAccount();
 		if (liabilityAccount != null) {
-			JSONObject accountJson = new JSONObject();
-			accountJson.put("name", liabilityAccount.getName());
-			payHead.put("statutoryLiabilityAccount", accountJson);
+			payHead.put("statutoryLiabilityAccount",
+					context.get("Account", liabilityAccount.getID()));
 		}
 
 		payHead.put("calculationPeriod", PicklistUtilMigrator
@@ -61,7 +58,7 @@ public class ComputionPayHeadMigrator implements IMigrator<ComputionPayHead> {
 		for (ComputationSlab slab : obj.getSlabs()) {
 			JSONObject jsonSlab = new JSONObject();
 			jsonSlab.put("effectiveFrom", slab.getEffectiveFrom()
-					.getAsDateObject());
+					.getAsDateObject().getTime());
 			jsonSlab.put("fromAmount", slab.getFromAmount());
 			jsonSlab.put("amountUpto", slab.getToAmount());
 			jsonSlab.put("slabType", PicklistUtilMigrator

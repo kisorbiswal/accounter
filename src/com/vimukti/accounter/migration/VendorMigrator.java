@@ -23,6 +23,7 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		VendorGroup vendorGroup = obj.getVendorGroup();
+		jsonObject.put("identification", obj.getVendorNumber());
 		if (vendorGroup != null) {
 			jsonObject.put("vendorGroup",
 					context.get("VendorGroup", vendorGroup.getID()));
@@ -31,7 +32,7 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		TAXItem taxItem2 = obj.getTAXItem();
 		if (taxItem2 != null) {
 			jsonObject.put("vendorTDSCode",
-					context.get("TaxtItem", taxItem2.getID()));
+					context.get("Tax", taxItem2.getID()));
 		}
 
 		// RelationShip field

@@ -19,9 +19,8 @@ public class AttendancePayHeadMigrator implements IMigrator<AttendancePayHead> {
 		payHead.put("isAffectNetSalary", obj.isAffectNetSalary());
 		Account expenseAccount = obj.getAccount();
 		if (expenseAccount != null) {
-			JSONObject account = new JSONObject();
-			account.put("name", expenseAccount.getName());
-			payHead.put("expenseAccount", account);
+			payHead.put("expenseAccount",
+					context.get("Account", expenseAccount.getID()));
 		}
 		payHead.put("calculationType", PicklistUtilMigrator
 				.getCalculationType(obj.getCalculationType()));
@@ -30,15 +29,13 @@ public class AttendancePayHeadMigrator implements IMigrator<AttendancePayHead> {
 		payHead.put("isEarning", obj.isEarning());
 		Account assetAccount = obj.getAssetAccount();
 		if (assetAccount != null) {
-			JSONObject account = new JSONObject();
-			account.put("name", assetAccount.getName());
-			payHead.put("assetAccount", account);
+			payHead.put("assetAccount",
+					context.get("Account", assetAccount.getID()));
 		}
 		Account liabilityAccount = obj.getLiabilityAccount();
 		if (liabilityAccount != null) {
-			JSONObject account = new JSONObject();
-			account.put("name", liabilityAccount.getName());
-			payHead.put("statutoryLiabilityAccount", account);
+			payHead.put("statutoryLiabilityAccount",
+					context.get("Account", liabilityAccount.getID()));
 		}
 		payHead.put("calculationPeriod", PicklistUtilMigrator
 				.getCalculationPeriod(obj.getCalculationPeriod()));

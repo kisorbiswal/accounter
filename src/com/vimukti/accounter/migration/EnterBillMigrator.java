@@ -37,9 +37,8 @@ public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 		// PaymentTerm
 		PaymentTerms paymentTerm = obj.getPaymentTerm();
 		if (paymentTerm != null) {
-			JSONObject paymentTermJson = new JSONObject();
-			paymentTermJson.put("name", paymentTerm.getName());
-			enterBill.put("paymentTerm", paymentTermJson);
+			enterBill.put("paymentTerm",
+					context.get("PaymentTerm", paymentTerm.getID()));
 		}
 		// Delivery Date
 		enterBill.put("deliveryDate", obj.getDeliveryDate().getAsDateObject()
@@ -52,13 +51,21 @@ public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 		{
 			Set<Estimate> estimates = obj.getEstimates();
 			JSONArray array = new JSONArray();
-			for (Estimate estimate : estimates) {
-				JSONObject quoteJson = new JSONObject();
-				quoteJson.put("salesQuotation",
-						context.get("SalesQuotation", estimate.getID()));
-				array.put(quoteJson);
+			if (!estimates.isEmpty()) {
+				for (Estimate estimate : estimates) {
+					if (estimate.getEstimateType() == 1) {
+						JSONObject quoteJson = new JSONObject();
+						quoteJson
+								.put("id",
+										context.get("SalesQuotation",
+												estimate.getID()));
+						array.put(quoteJson);
+					}
+				}
+				if (array.length() > 0) {
+					enterBill.put("salesQuotations", array);
+				}
 			}
-			enterBill.put("salesQuotations", array);
 		}
 		return enterBill;
 	}

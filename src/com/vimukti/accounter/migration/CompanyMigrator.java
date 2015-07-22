@@ -190,7 +190,7 @@ public class CompanyMigrator {
 		// BankAccount
 		migratedObjects = migrateObjects("BankAccount", BankAccount.class,
 				new BankAccountMigrator(), context);
-		context.put("BankAccount", migratedObjects);
+		context.put("Account", migratedObjects);
 		// Warehouse
 		migratedObjects = migrateObjects("Warehouse", Warehouse.class,
 				new WarehouseMigrator(), context);
@@ -283,6 +283,13 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("ProductItem", Item.class,
 				new ProductItemMigrator(), context);
 		context.put("Item", migratedObjects);
+		// CustomerAndSalesSettingsMigrator
+		migratedObjects = migrateObjects(CUSTOMER_AND_SALES_SETTINGS,
+				CompanyPreferences.class,
+				new CustomerAndSalesSettingsMigrator(), context);
+		// FeaturesMigrator
+		migratedObjects = migrateObjects(FEATURES, CompanyPreferences.class,
+				new FeaturesMigrator(), context);
 		// Items
 		migratedObjects = migrateObjects("InventoryItem", Item.class,
 				new InventoryItemMigrator(), context);
@@ -675,6 +682,61 @@ public class CompanyMigrator {
 			HashMap<Long, Long> map = new HashMap<Long, Long>();
 			map.put(COMMON_SETTINGS_OLD_ID, commonSettingsId);
 			context.put(COMMON_SETTINGS, map);
+			JSONObject jsonObject = objectArray.getJSONObject(0);
+			jsonObject.put("id", commonSettingsId);
+			objectArray.remove(0);
+			objectArray.put(jsonObject);
+		} else if (identity.equals(CUSTOMER_AND_SALES_SETTINGS)
+				&& context.get(CUSTOMER_AND_SALES_SETTINGS,
+						CUSTOMER_AND_SALES_SETTINGS_OLD_ID) == null) {
+			HttpGet get = new HttpGet(ECGINE_URL + API_BASE_URL + ECGINE_LIST
+					+ identity);
+			addAuthenticationParameters(get);
+			get.setHeader("Content-type", "application/json");
+			HttpResponse response = client.execute(get);
+			StatusLine status = response.getStatusLine();
+			HttpEntity entity = response.getEntity();
+			if (status.getStatusCode() != HttpStatus.SC_OK) {
+				if (entity != null) {
+					EntityUtils.consume(entity);
+				}
+				return newAndOldIds;
+				// throw new RuntimeException(status.toString());
+			}
+			String content = IOUtils.toString(entity.getContent());
+			JSONObject json = new JSONObject(content);
+			JSONObject jsonValue = (JSONObject) json.get("value");
+			long commonSettingsId = jsonValue.getLong("id");
+			HashMap<Long, Long> map = new HashMap<Long, Long>();
+			map.put(CUSTOMER_AND_SALES_SETTINGS_OLD_ID, commonSettingsId);
+			context.put(CUSTOMER_AND_SALES_SETTINGS, map);
+			JSONObject jsonObject = objectArray.getJSONObject(0);
+			jsonObject.put("id", commonSettingsId);
+			objectArray.remove(0);
+			objectArray.put(jsonObject);
+		} else if (identity.equals(FEATURES)
+				&& context.get(FEATURES, FEATURES_OLD_ID) == null) {
+			HttpGet get = new HttpGet(ECGINE_URL + API_BASE_URL + ECGINE_LIST
+					+ identity);
+			addAuthenticationParameters(get);
+			get.setHeader("Content-type", "application/json");
+			HttpResponse response = client.execute(get);
+			StatusLine status = response.getStatusLine();
+			HttpEntity entity = response.getEntity();
+			if (status.getStatusCode() != HttpStatus.SC_OK) {
+				if (entity != null) {
+					EntityUtils.consume(entity);
+				}
+				return newAndOldIds;
+				// throw new RuntimeException(status.toString());
+			}
+			String content = IOUtils.toString(entity.getContent());
+			JSONObject json = new JSONObject(content);
+			JSONObject jsonValue = (JSONObject) json.get("value");
+			long commonSettingsId = jsonValue.getLong("id");
+			HashMap<Long, Long> map = new HashMap<Long, Long>();
+			map.put(FEATURES_OLD_ID, commonSettingsId);
+			context.put(FEATURES, map);
 			JSONObject jsonObject = objectArray.getJSONObject(0);
 			jsonObject.put("id", commonSettingsId);
 			objectArray.remove(0);

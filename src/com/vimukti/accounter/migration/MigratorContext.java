@@ -17,6 +17,7 @@ public class MigratorContext {
 	private Map<String, List<Long>> childrenMap = new HashMap<String, List<Long>>();
 
 	private int lastAccNumber = 1055;
+	private int taxAgencyNo = 1;
 
 	public void put(String name, Map<Long, Long> migrateAccounts) {
 		for (Entry<Long, Long> oldId : migrateAccounts.entrySet()) {
@@ -62,5 +63,9 @@ public class MigratorContext {
 
 	public int getNextAccountNumber() {
 		return ++lastAccNumber;
+	}
+
+	public String getNextTaxAgencyNumber() {
+		return String.valueOf(taxAgencyNo++);
 	}
 }

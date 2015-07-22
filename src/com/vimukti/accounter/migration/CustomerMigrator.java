@@ -30,6 +30,7 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		PriceLevel priceLevel = obj.getPriceLevel();
 		SalesPerson salesPerson = obj.getSalesPerson();
 		CustomerGroup customerGroup = obj.getCustomerGroup();
+		jsonObject.put("identification", obj.getNumber());
 		if (priceLevel != null) {
 			jsonObject.put("priceLevel",
 					context.get("PriceLevel", priceLevel.getID()));

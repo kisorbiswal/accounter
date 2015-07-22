@@ -16,8 +16,7 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 	public JSONObject migrate(Estimate obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObj = super.migrate(obj, context);
-		jsonObj.put("payee",
-				context.get("BusinessRelationship", obj.getCustomer().getID()));
+		jsonObj.put("payee", context.get("Customer", obj.getCustomer().getID()));
 		FinanceDate expirationDate = obj.getExpirationDate();
 		if (expirationDate != null) {
 			jsonObj.put("expirationDate", expirationDate.getAsDateObject()
@@ -54,15 +53,13 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 			jsonBillingAddr.put("country", billingAddr.getCountryOrRegion());
 			jsonObj.put("billTo", jsonBillingAddr);
 		}
-		if(obj.getJob()!=null){
-			jsonObj.put("project", context.get("Project", obj.getJob().getID()));
-		}
 		PaymentTerms paymentTerm = obj.getPaymentTerm();
 		if (paymentTerm != null) {
 			jsonObj.put("paymentTerm",
 					context.get("PaymentTerm", paymentTerm.getID()));
 		}
-		jsonObj.put("deliveryDate", obj.getDeliveryDate());
+		jsonObj.put("deliveryDate", obj.getDeliveryDate().getAsDateObject()
+				.getTime());
 		jsonObj.put("transactionType", "SalesQuotation");
 		if (obj.getStatus() == Estimate.STATUS_REJECTED) {
 			jsonObj.put(

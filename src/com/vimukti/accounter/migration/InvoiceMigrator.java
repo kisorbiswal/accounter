@@ -20,7 +20,8 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 	public JSONObject migrate(Invoice obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = super.migrate(obj, context);
-
+		jsonObject.put("payee",
+				context.get("Customer", obj.getCustomer().getID()));
 		// DueDate
 		jsonObject.put("dueDate", obj.getDueDate().getAsDateObject().getTime());
 
@@ -59,7 +60,7 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 		ShippingMethod shippingMethod = obj.getShippingMethod();
 		if (shippingMethod != null) {
 			jsonObject.put("shippingMethod",
-					context.get("shippingMethod", shippingMethod.getID()));
+					context.get("ShippingMethod", shippingMethod.getID()));
 		}
 
 		// delivery Date
@@ -71,20 +72,23 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 		if (estimates != null) {
 			JSONArray array = new JSONArray();
 			for (Estimate estimate : estimates) {
-				JSONObject quoteJson = new JSONObject();
-				quoteJson.put("salesQuotation",
-						context.get("SalesQuotation", estimate.getID()));
-				array.put(quoteJson);
+				if (estimate.getEstimateType() == 6) {
+					JSONObject quoteJson = new JSONObject();
+					quoteJson.put("id",
+							context.get("SalesOrder", estimate.getID()));
+					array.put(quoteJson);
+				}
 			}
-			jsonObject.put("salesOrders", array);
+			if (array.length() > 0) {
+				jsonObject.put("salesOrders", array);
+			}
 		}
 
 		// Setting object PaymentTerm
 		PaymentTerms paymentTerm = obj.getPaymentTerm();
 		if (paymentTerm != null) {
-			JSONObject paymentTermJSON = new JSONObject();
-			paymentTermJSON.put("name", paymentTerm.getName());
-			jsonObject.put("paymentTerm", paymentTermJSON);
+			jsonObject.put("paymentTerm",
+					context.get("PaymentTerm", paymentTerm.getID()));
 		}
 
 		// Contact

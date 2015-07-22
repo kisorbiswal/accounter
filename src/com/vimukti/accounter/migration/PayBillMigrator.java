@@ -39,9 +39,8 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 			Account discountAccount = tBill.getDiscountAccount();
 			if (discountAccount != null) {
 				JSONObject discountAccountJson = new JSONObject();
-				JSONObject account = new JSONObject();
-				account.put("name", discountAccount.getName());
-				discountAccountJson.put("discountAccount", account);
+				discountAccountJson.put("discountAccount",
+						context.get("Account", discountAccount.getID()));
 				discountAccountJson.put("discountAmount",
 						tBill.getCashDiscount());
 				jsonObj.put("discountAccount", discountAccountJson);
@@ -53,7 +52,7 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 
 		TAXItem tdsTaxItem = obj.getTdsTaxItem();
 		if (tdsTaxItem != null) {
-			jsonObject.put("tDS", context.get("TAXItem", tdsTaxItem.getID()));
+			jsonObject.put("tDS", context.get("Tax", tdsTaxItem.getID()));
 		}
 		jsonObject.put("filterByBillDueOnOrBefore", obj.getBillDueOnOrBefore()
 				.getAsDateObject().getTime());
@@ -63,9 +62,7 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 		}
 		Account payFrom = obj.getPayFrom();
 		if (payFrom != null) {
-			JSONObject account = new JSONObject();
-			account.put("name", payFrom.getName());
-			jsonObject.put("account", account);
+			jsonObject.put("account", context.get("Account", payFrom.getID()));
 		}
 		jsonObject.put("paymentMethod", PicklistUtilMigrator
 				.getPaymentMethodIdentifier(obj.getPaymentMethod()));

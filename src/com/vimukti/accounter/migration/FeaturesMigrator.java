@@ -18,7 +18,7 @@ public class FeaturesMigrator implements IMigrator<CompanyPreferences> {
 						: "OnePerTransaction");
 		features.put("enableShipping", obj.isDoProductShipMents());
 		features.put("projectTracking", obj.isJobTrackingEnabled());
-		// department , multipleCurrency and projectManagement are not found
+		// department and projectManagement are not found
 		return features;
 	}
 

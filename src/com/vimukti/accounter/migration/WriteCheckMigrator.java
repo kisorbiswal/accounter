@@ -19,9 +19,7 @@ public class WriteCheckMigrator extends TransactionMigrator<WriteCheck> {
 		}
 		Account bankAccount = obj.getBankAccount();
 		if (bankAccount != null) {
-			JSONObject account = new JSONObject();
-			account.put("name", bankAccount.getName());
-			jsonObj.put("account", account);
+			jsonObj.put("account", context.get("Account", bankAccount.getID()));
 		}
 		jsonObj.put("inFavourOf", obj.getInFavourOf());
 		jsonObj.put("amount", obj.getAmount());

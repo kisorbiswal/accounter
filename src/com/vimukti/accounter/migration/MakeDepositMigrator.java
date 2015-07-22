@@ -28,7 +28,6 @@ public class MakeDepositMigrator extends TransactionMigrator<MakeDeposit> {
 			account.put("name", depositTo.getName());
 			jsonObj.put("depositTo", account);
 		}
-
 		List<TransactionDepositItem> transactionDepositItems = obj
 				.getTransactionDepositItems();
 		JSONArray array = new JSONArray();
@@ -36,16 +35,19 @@ public class MakeDepositMigrator extends TransactionMigrator<MakeDeposit> {
 			JSONObject depositItemJson = new JSONObject();
 			Payee receivedFrom = item.getReceivedFrom();
 			if (receivedFrom != null) {
-				depositItemJson.put(
-						"receivedFrom",
-						context.get("BusinessRelationship",
-								receivedFrom.getID()));
+				long payeeId = 0;
+				if (context.get("Customer", receivedFrom.getID()) != null) {
+					payeeId = context.get("Customer", receivedFrom.getID());
+				}
+				if (context.get("Vendor", receivedFrom.getID()) != null) {
+					payeeId = context.get("Vendor", receivedFrom.getID());
+				}
+				depositItemJson.put("payee", payeeId);
 			}
 			Account account = item.getAccount();
 			if (account != null) {
-				JSONObject accountJson = new JSONObject();
-				accountJson.put("name", account.getName());
-				depositItemJson.put("depositFrom", accountJson);
+				depositItemJson.put("depositFrom",
+						context.get("Account", account.getID()));
 			}
 			depositItemJson.put("description", item.getDescription());
 			depositItemJson.put("amount", item.getTotal());
@@ -63,7 +65,6 @@ public class MakeDepositMigrator extends TransactionMigrator<MakeDeposit> {
 			if (job != null) {
 				depositItemJson.put("project", context.get("Job", job.getID()));
 			}
-			depositItemJson.put("isBillable", item.isBillable());
 			array.put(depositItemJson);
 		}
 		jsonObj.put("depositItems", array);
@@ -71,6 +72,8 @@ public class MakeDepositMigrator extends TransactionMigrator<MakeDeposit> {
 		if (paymentMethod != null) {
 			jsonObj.put("paymentMethod", PicklistUtilMigrator
 					.getPaymentMethodIdentifier(paymentMethod));
+		} else {
+			jsonObj.put("paymentMethod", "Cash");
 		}
 		return jsonObj;
 	}

@@ -16,12 +16,11 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 			throws JSONException {
 
 		JSONObject jsonObj = super.migrate(obj, context);
+		jsonObj.put("payee", context.get("Customer", obj.getCustomer().getID()));
 		// Deposit In Account
 		Account depositIn = obj.getDepositIn();
 		if (depositIn != null) {
-			JSONObject account = new JSONObject();
-			account.put("name", depositIn.getName());
-			jsonObj.put("depositIn", account);
+			jsonObj.put("depositIn", context.get("Account", depositIn.getID()));
 		}
 		// Amount Received
 		jsonObj.put("amountReceived", obj.getAmount());
@@ -39,20 +38,18 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 					context.get("Invoice", item.getInvoice().getID()));
 			Account account = item.getDiscountAccount();
 			if (account != null) {
-				JSONObject itemAccont = new JSONObject();
-				itemAccont.put("name", account.getName());
-				jsonObject.put("discountAccount", account);
+				jsonObject.put("discountAccount",
+						context.get("Account", account.getID()));
 			}
 
 			JSONObject jsonWritOffObject = new JSONObject();
 			Account writeOffAccount = item.getWriteOffAccount();
 			if (writeOffAccount != null) {
-				JSONObject writeOfAccount = new JSONObject();
-				writeOfAccount.put("name", writeOffAccount.getName());
-				jsonWritOffObject.put("writeoffAccount", writeOfAccount);
+				jsonWritOffObject.put("writeoffAccount",
+						context.get("Account", writeOffAccount.getID()));
+				jsonWritOffObject.put("amount", item.getWriteOff());
+				jsonObject.put("writeOff", jsonWritOffObject);
 			}
-			jsonWritOffObject.put("amount", item.getWriteOff());
-			jsonObject.put("writeOff", jsonWritOffObject);
 			array.put(jsonObject);
 		}
 		jsonObj.put("paymentItems", array);

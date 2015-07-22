@@ -19,6 +19,7 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("name", obj.getName());
+		jsonObject.put("identification", context.getNextTaxAgencyNumber());
 		jsonObject.put("inActive", !obj.isActive());
 		// Setting object PaymentTerm
 		PaymentTerms paymentTerm = obj.getPaymentTerm();

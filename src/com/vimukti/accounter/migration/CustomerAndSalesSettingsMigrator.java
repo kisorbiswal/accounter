@@ -25,8 +25,8 @@ public class CustomerAndSalesSettingsMigrator implements
 				getInventorySchemeString(obj.getActiveInventoryScheme()));
 		customerAndSalesSetting.put("trackDiscount", obj.isTrackDiscounts());
 		customerAndSalesSetting.put("discountInTransactions", obj
-				.isDiscountPerDetailLine() ? "OnePerDetailLine"
-				: "OnePerTransaction");
+				.isDiscountPerDetailLine() ? "OnePerdetailLine"
+				: "OnePertransaction");
 		// DiscountAccount is not found
 		customerAndSalesSetting.put("useDelayedCharges",
 				obj.isDelayedchargesEnabled());

@@ -16,7 +16,6 @@ public class ReconciliationMigrator implements IMigrator<Reconciliation> {
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(reconciliation, jsonObject,
 				context);
-		jsonObject.put("name", reconciliation.getName());
 		jsonObject.put("account",
 				context.get("Account", reconciliation.getAccount().getID()));
 		jsonObject.put("startDate", reconciliation.getStartDate()

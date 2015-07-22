@@ -49,9 +49,8 @@ public class CashPurchaseMigrator extends TransactionMigrator<CashPurchase> {
 		// Account
 		Account account = obj.getPayFrom();
 		if (account != null) {
-			JSONObject accountPayfrom = new JSONObject();
-			accountPayfrom.put("name", account.getName());
-			cashPurchase.put("account", accountPayfrom);
+			cashPurchase
+					.put("account", context.get("Account", account.getID()));
 		}
 		cashPurchase.put("deliveryDate", obj.getDeliveryDate()
 				.getAsDateObject().getTime());
