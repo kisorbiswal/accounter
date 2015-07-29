@@ -39,8 +39,13 @@ public class PayTaxMigrator extends TransactionMigrator<PayTAX> {
 			array.put(transactionJson);
 		}
 		jsonObject.put("payTaxItems", array);
-		jsonObject.put("paymentMethod", PicklistUtilMigrator
-				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
+		String paymentMethod = obj.getPaymentMethod();
+		if (paymentMethod != null) {
+			jsonObject.put("paymentMethod", PicklistUtilMigrator
+					.getPaymentMethodIdentifier(paymentMethod));
+		} else {
+			jsonObject.put("paymentMethod", "Cash");
+		}
 		try {
 			Long chequeNumber = Long.valueOf(obj.getCheckNumber());
 			jsonObject.put("chequeNumber", chequeNumber);

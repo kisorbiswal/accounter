@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FixedAsset;
 
 public class FixedAssetMigrator implements IMigrator<FixedAsset> {
@@ -19,7 +20,8 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 		jsonObject.put("assetNumber", obj.getAssetNumber());
 		jsonObject.put("assetAccount",
 				context.get("Account", obj.getAssetAccount().getID()));
-		jsonObject.put("purchaseDate", obj.getPurchaseDate().getAsDateObject().getTime());
+		jsonObject.put("purchaseDate", obj.getPurchaseDate().getAsDateObject()
+				.getTime());
 		jsonObject.put("purchasePrice", obj.getPurchasePrice());
 		jsonObject.put("assetType", obj.getAssetType());
 		jsonObject.put("depreciationRate", obj.getDepreciationRate());
@@ -36,8 +38,11 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 		}
 		jsonObject.put("accumulatedDepreciationAmount",
 				obj.getAccumulatedDepreciationAmount());
-		jsonObject.put("soldOrDisposedDate", obj.getSoldOrDisposedDate()
-				.getAsDateObject().getTime());
+		FinanceDate soldOrDisposedDate = obj.getSoldOrDisposedDate();
+		if (soldOrDisposedDate != null) {
+			jsonObject.put("soldOrDisposedDate", soldOrDisposedDate
+					.getAsDateObject().getTime());
+		}
 		Account accountForSale = obj.getAccountForSale();
 		if (accountForSale != null) {
 			jsonObject.put("accountForSale",
@@ -45,8 +50,11 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 		}
 		jsonObject.put("salePrice", obj.getSalePrice());
 		// noDepreciation is not found
-		jsonObject.put("depreciationTillDate", obj.getDepreciationTillDate()
-				.getAsDateObject().getTime());
+		FinanceDate depreciationTillDate = obj.getDepreciationTillDate();
+		if (depreciationTillDate != null) {
+			jsonObject.put("depreciationTillDate", depreciationTillDate
+					.getAsDateObject().getTime());
+		}
 		jsonObject.put("notes", obj.getNotes());
 		Account lossOrGainOnDisposalAccount = obj
 				.getLossOrGainOnDisposalAccount();

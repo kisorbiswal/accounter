@@ -24,10 +24,16 @@ public class TdsChallanMigrator extends TransactionMigrator<TDSChalanDetail> {
 				.getFirstMonthOfFiscalYear() + 12);
 		jsonObject.put("assesmentStartYear", obj.getAssesmentYearStart());
 		jsonObject.put("assesmentEndYear", obj.getAssessmentYearEnd());
-		jsonObject.put("fromDate", obj.getFromDate().getAsDateObject().getTime());
+		jsonObject.put("fromDate", obj.getFromDate().getAsDateObject()
+				.getTime());
 		jsonObject.put("toDate", obj.getToDate().getAsDateObject().getTime());
-		jsonObject.put("paymentMethod", PicklistUtilMigrator
-				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
+		String paymentMethod = obj.getPaymentMethod();
+		if (paymentMethod != null) {
+			jsonObject.put("paymentMethod", PicklistUtilMigrator
+					.getPaymentMethodIdentifier(paymentMethod));
+		} else {
+			jsonObject.put("paymentMethod", "Cash");
+		}
 		jsonObject.put("isTdsDepositedByBookEntry", obj.getIsDeposited());
 		jsonObject.put("natureOfPayment", obj.getPaymentSection());
 		jsonObject.put("chequeOrReferenceNo", obj.getCheckNumber());

@@ -113,13 +113,13 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 	}
 
 	private static String getTaxTypeString(int taxType) {
-		if (taxType == TAXAgency.TAX_TYPE_SERVICETAX) {
+		if (taxType == TAXAgency.TAX_TYPE_SALESTAX) {
 			return "SalesTax";
 		}
 		if (taxType == TAXAgency.TAX_TYPE_VAT) {
 			return "Vat";
 		}
-		if (taxType == TAXAgency.TAX_TYPE_SALESTAX) {
+		if (taxType == TAXAgency.TAX_TYPE_SERVICETAX) {
 			return "ServiceTax";
 		}
 		if (taxType == TAXAgency.TAX_TYPE_OTHER) {

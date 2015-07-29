@@ -12,7 +12,7 @@ public class TaxItemMigrator extends TaxMigrator<TAXItem> {
 	public JSONObject migrate(TAXItem obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = super.migrate(obj, context);
-		jsonObject.put("rate", obj.getTaxRate());
+		jsonObject.put("rate", obj.getTaxRate() / 100);
 		TAXAgency taxAgency = obj.getTaxAgency();
 		if (taxAgency != null) {
 			JSONObject agency = new JSONObject();

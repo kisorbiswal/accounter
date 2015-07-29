@@ -58,6 +58,7 @@ import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.Depreciation;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.FlatRatePayHead;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.InventoryAssembly;
@@ -313,10 +314,10 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("Credit", Estimate.class,
 				new CreditsMigrator(), context);
 		context.put("Credit", migratedObjects);
-		// Charges
-		migratedObjects = migrateObjects("Charge", Estimate.class,
-				new ChargesMigrator(), context);
-		context.put("Charge", migratedObjects);
+		// // Charges this is not using in new accounter
+		// migratedObjects = migrateObjects("Charge", Estimate.class,
+		// new ChargesMigrator(), context);
+		// context.put("Charge", migratedObjects);
 		// Invoice
 		migratedObjects = migrateObjects("Invoice", Invoice.class,
 				new InvoiceMigrator(), context);
@@ -390,6 +391,10 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("Budget", Budget.class,
 				new BudgetMigrator(), context);
 		context.put("WriteCheck", migratedObjects);
+		// FixedAsset
+		migratedObjects = migrateObjects("FixedAsset", FixedAsset.class,
+				new FixedAssetMigrator(), context);
+		context.put("FixedAsset", migratedObjects);
 		// Depreciation
 		migratedObjects = migrateObjects("Depreciation", Depreciation.class,
 				new DepreciationMigrator(), context);
@@ -779,19 +784,19 @@ public class CompanyMigrator {
 			if (json.has("inactive") && json.getBoolean("inactive")) {
 				JSONObject jsonObject = new JSONObject();
 				jsonObject.put("id", id);
-				jsonObject.put("inactive", true);
+				jsonObject.put("inactive", false);
 				inactiveObjects.put(identity, jsonObject);
 			}
 			if (json.has("inActive") && json.getBoolean("inActive")) {
 				JSONObject jsonObject = new JSONObject();
 				jsonObject.put("id", id);
-				jsonObject.put("inActive", true);
+				jsonObject.put("inActive", false);
 				inactiveObjects.put(identity, jsonObject);
 			}
 			if (json.has("isInactive") && json.getBoolean("isInactive")) {
 				JSONObject jsonObject = new JSONObject();
 				jsonObject.put("id", id);
-				jsonObject.put("isInactive", true);
+				jsonObject.put("isInactive", false);
 				inactiveObjects.put(identity, jsonObject);
 			}
 			if (ids != null) {

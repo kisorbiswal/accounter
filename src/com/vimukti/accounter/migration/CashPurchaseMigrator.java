@@ -44,8 +44,13 @@ public class CashPurchaseMigrator extends TransactionMigrator<CashPurchase> {
 			addressJSON.put("country", vendorAddress.getCountryOrRegion());
 			cashPurchase.put("billTo", vendorAddress);
 		}
-		cashPurchase.put("paymentMethod", PicklistUtilMigrator
-				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
+		String paymentMethod = obj.getPaymentMethod();
+		if (paymentMethod != null) {
+			cashPurchase.put("paymentMethod", PicklistUtilMigrator
+					.getPaymentMethodIdentifier(paymentMethod));
+		} else {
+			cashPurchase.put("paymentMethod", "Cash");
+		}
 		// Account
 		Account account = obj.getPayFrom();
 		if (account != null) {

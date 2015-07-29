@@ -2,6 +2,7 @@ package com.vimukti.accounter.migration;
 
 import com.vimukti.accounter.core.AttendancePayHead;
 import com.vimukti.accounter.core.ComputionPayHead;
+import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
@@ -231,7 +232,7 @@ public class PicklistUtilMigrator {
 
 	}
 
-	static String getTransactionTypeIdentifier(int displayName) {
+	static String getTransactionTypeIdentifier(int displayName, int innerType) {
 		String identifier = "";
 
 		switch (displayName) {
@@ -257,7 +258,13 @@ public class PicklistUtilMigrator {
 			identifier = "EnterBill";
 			break;
 		case Transaction.TYPE_ESTIMATE:
-			identifier = "SalesQuotation";
+			if (Estimate.QUOTES == innerType) {
+				identifier = "SalesQuotation";
+			} else if (Estimate.SALES_ORDER == innerType) {
+				identifier = "SalesOrder";
+			} else if (Estimate.CREDITS == innerType) {
+				identifier = "Credit";
+			}
 			break;
 		case Transaction.TYPE_INVOICE:
 			identifier = "Invoice";

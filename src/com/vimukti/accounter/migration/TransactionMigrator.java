@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.Job;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.Location;
@@ -45,8 +46,12 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		}
 		transaction.put("currencyFactor", obj.getCurrencyFactor());
 		transaction.put("notes", obj.getMemo());
+		int type = obj.getType();
 		transaction.put("transactionType", PicklistUtilMigrator
-				.getTransactionTypeIdentifier(obj.getType()));
+				.getTransactionTypeIdentifier(
+						type,
+						type == Transaction.TYPE_ESTIMATE ? ((Estimate) obj)
+								.getEstimateType() : 0));
 		Job job = obj.getJob();
 		if (job != null) {
 			transaction.put("project", context.get("Job", job.getID()));
@@ -91,7 +96,10 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 							context.get("TaxCode", itemTaxCode.getID()));
 				}
 				tItem.put("taxable", transactionItem.isTaxable());
-				tItem.put("discount", transactionItem.getDiscount());
+				double discount = transactionItem.getDiscount();
+				if (discount != 0) {
+					tItem.put("discount", discount / 100);
+				}
 				Warehouse wareHouse = transactionItem.getWareHouse();
 				if (wareHouse != null) {
 					tItem.put("warehouse",
@@ -114,9 +122,9 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 			boolean discountPerDetailLine = context.getCompany()
 					.getPreferences().isDiscountPerDetailLine();
 			if (!discountPerDetailLine) {
-				Double discount = transactionItems.get(0).getDiscount();
-				if (discount != null) {
-					transaction.put("discount", discount);
+				double discount = transactionItems.get(0).getDiscount();
+				if (discount != 0) {
+					transaction.put("discount", discount / 100);
 				}
 			}
 		}

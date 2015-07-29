@@ -28,10 +28,13 @@ public class CreditCardExpenseMigrator extends
 					context.get("Vendor", vendor.getID()));
 
 		}
-		creditCardChargeJSON.put("paymentMethod",
-				PicklistUtilMigrator
-						.getPaymentMethodIdentifier(creditCardCharge
-								.getPaymentMethod()));
+		String paymentMethod = creditCardCharge.getPaymentMethod();
+		if (paymentMethod != null) {
+			creditCardChargeJSON.put("paymentMethod", PicklistUtilMigrator
+					.getPaymentMethodIdentifier(paymentMethod));
+		} else {
+			creditCardChargeJSON.put("paymentMethod", "Cash");
+		}
 
 		Long chequeNumber = null;
 		try {

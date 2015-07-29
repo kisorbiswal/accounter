@@ -47,6 +47,8 @@ public class CustomerPrepaymentMigrator extends
 		if (paymentMethod != null) {
 			jsonObject.put("paymentMethod", PicklistUtilMigrator
 					.getPaymentMethodIdentifier(paymentMethod));
+		} else {
+			jsonObject.put("paymentMethod", "Cash");
 		}
 		try {
 			String checkNumber = obj.getCheckNumber();

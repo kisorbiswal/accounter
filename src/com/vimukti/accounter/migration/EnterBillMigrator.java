@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import java.util.List;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -11,6 +12,7 @@ import com.vimukti.accounter.core.Contact;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.PurchaseOrder;
 
 public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 
@@ -65,6 +67,19 @@ public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 				if (array.length() > 0) {
 					enterBill.put("salesQuotations", array);
 				}
+			}
+		}
+		List<PurchaseOrder> purchaseOrders = obj.getPurchaseOrders();
+		JSONArray ordersArray = new JSONArray();
+		if (!purchaseOrders.isEmpty()) {
+			for (PurchaseOrder order : purchaseOrders) {
+				JSONObject orderJson = new JSONObject();
+				orderJson
+						.put("id", context.get("PurchaseOrder", order.getID()));
+				ordersArray.put(orderJson);
+			}
+			if (ordersArray.length() > 0) {
+				enterBill.put("purchaseOrders", ordersArray);
 			}
 		}
 		return enterBill;

@@ -127,6 +127,8 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		if (paymentMethod != null) {
 			jsonObject.put("paymentMethod", PicklistUtilMigrator
 					.getPaymentMethodIdentifier(paymentMethod));
+		} else {
+			jsonObject.put("paymentMethod", "Cash");
 		}
 		ShippingMethod shippingMethod = obj.getShippingMethod();
 		if (shippingMethod != null) {

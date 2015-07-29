@@ -36,8 +36,13 @@ public class VendorPrepaymentMigrator extends
 		// payTo
 		jsonObject.put("payee", context.get("Vendor", obj.getVendor().getID()));
 		// Payment Method
-		jsonObject.put("paymentMethod", PicklistUtilMigrator
-				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
+		String paymentMethod = obj.getPaymentMethod();
+		if (paymentMethod != null) {
+			jsonObject.put("paymentMethod", PicklistUtilMigrator
+					.getPaymentMethodIdentifier(paymentMethod));
+		} else {
+			jsonObject.put("paymentMethod", "Cash");
+		}
 		Long chequeNumber = null;
 		try {
 			chequeNumber = Long.valueOf(obj.getCheckNumber());

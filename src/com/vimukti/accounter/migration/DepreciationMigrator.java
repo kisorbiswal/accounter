@@ -20,7 +20,7 @@ public class DepreciationMigrator implements IMigrator<Depreciation> {
 		jsonObject.put("depreciateTo", depreciation.getDepreciateTo()
 				.getAsDateObject().getTime());
 		jsonObject
-				.put("fixedAsset", context.get("FixexAsset", depreciation
+				.put("fixedAsset", context.get("FixedAsset", depreciation
 						.getFixedAsset().getID()));
 		jsonObject.put("depreciationFor", PicklistUtilMigrator
 				.depreciationForIdentity(depreciation.getDepreciationFor()));

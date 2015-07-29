@@ -151,6 +151,8 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		if (paymentMethod != null) {
 			jsonObject.put("paymentMethod", PicklistUtilMigrator
 					.getPaymentMethodIdentifier(paymentMethod));
+		} else {
+			jsonObject.put("paymentMethod", "Cash");
 		}
 		PaymentTerms paymentTerm = obj.getPaymentTerm();
 		if (paymentTerm != null) {

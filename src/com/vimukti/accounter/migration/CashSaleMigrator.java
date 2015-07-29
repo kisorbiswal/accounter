@@ -23,9 +23,8 @@ public class CashSaleMigrator extends TransactionMigrator<CashSales> {
 		// Account
 		Account depositIn = obj.getDepositIn();
 		if (depositIn != null) {
-			JSONObject account = new JSONObject();
-			account.put("name", depositIn.getName());
-			jsonObject.put("depositIn", account);
+			jsonObject.put("depositIn",
+					context.get("Account", depositIn.getID()));
 		}
 
 		jsonObject.put("phone", obj.getPhone());
@@ -84,8 +83,13 @@ public class CashSaleMigrator extends TransactionMigrator<CashSales> {
 			jsonObject.put("payee", context.get("Customer", customer.getID()));
 		}
 
-		jsonObject.put("paymentMethod", PicklistUtilMigrator
-				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
+		String paymentMethod = obj.getPaymentMethod();
+		if (paymentMethod != null) {
+			jsonObject.put("paymentMethod", PicklistUtilMigrator
+					.getPaymentMethodIdentifier(paymentMethod));
+		} else {
+			jsonObject.put("paymentMethod", "Cash");
+		}
 		try {
 			jsonObject
 					.put("chequeNumber", Long.parseLong(obj.getCheckNumber()));

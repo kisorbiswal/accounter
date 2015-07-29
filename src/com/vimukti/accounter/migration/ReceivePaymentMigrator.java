@@ -55,8 +55,13 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 		jsonObj.put("paymentItems", array);
 
 		// PaymentableTransaction
-		jsonObj.put("paymentMethod", PicklistUtilMigrator
-				.getPaymentMethodIdentifier(obj.getPaymentMethod()));
+		String paymentMethod = obj.getPaymentMethod();
+		if (paymentMethod != null) {
+			jsonObj.put("paymentMethod", PicklistUtilMigrator
+					.getPaymentMethodIdentifier(paymentMethod));
+		} else {
+			jsonObj.put("paymentMethod", "Cash");
+		}
 		try {
 			Long chequeNumber = Long.valueOf(obj.getCheckNumber());
 			jsonObj.put("chequeNumber", chequeNumber);

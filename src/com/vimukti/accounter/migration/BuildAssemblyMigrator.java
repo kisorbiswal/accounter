@@ -39,7 +39,7 @@ public class BuildAssemblyMigrator extends TransactionMigrator<BuildAssembly> {
 		buildAssembly.put("currencyFactor", obj.getCurrencyFactor());
 		buildAssembly.put("notes", obj.getMemo());
 		buildAssembly.put("transactionType", PicklistUtilMigrator
-				.getTransactionTypeIdentifier(obj.getType()));
+				.getTransactionTypeIdentifier(obj.getType(), 0));
 		Job job = obj.getJob();
 		if (job != null) {
 			buildAssembly.put("project", context.get("Job", job.getID()));
