@@ -1,5 +1,8 @@
 package com.vimukti.accounter.migration;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.Criteria;
@@ -99,9 +102,15 @@ public class InventoryAssemblyMigrator implements IMigrator<InventoryAssembly> {
 		}
 
 		jsonObject.put("averageCost", item.getAverageCost());
-
-		Set<InventoryAssemblyItem> components = item.getComponents();
 		JSONArray array = new JSONArray();
+		Map<String, List<Long>> childrenMap = context.getChildrenMap();
+		String key = "assemblyItems-InventoryAssemblyItem";
+		List<Long> list = childrenMap.get(key);
+		if (list == null) {
+			list = new ArrayList<Long>();
+			childrenMap.put(key, list);
+		}
+		Set<InventoryAssemblyItem> components = item.getComponents();
 		for (InventoryAssemblyItem obj : components) {
 			JSONObject jsonitem = new JSONObject();
 			Item inventoryItem = obj.getInventoryItem();
@@ -109,8 +118,10 @@ public class InventoryAssemblyMigrator implements IMigrator<InventoryAssembly> {
 				jsonitem.put("item", context.get("Item", inventoryItem.getID()));
 			}
 			jsonitem.put("description", obj.getDiscription());
+			list.add(obj.getID());
 			array.put(jsonitem);
 		}
+
 		jsonObject.put("assemblyItems", array);
 		return jsonObject;
 	}

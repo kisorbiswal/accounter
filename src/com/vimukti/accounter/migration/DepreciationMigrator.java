@@ -27,7 +27,7 @@ public class DepreciationMigrator implements IMigrator<Depreciation> {
 		// FinanceDate rollBackDepreciationDate = depreciation
 		// .getRollBackDepreciationDate().getAsDateObject();
 		// TODO above value all ways null because it is not saving in database
-		jsonObject.put("RollBackDepreciationDate", new Date());
+		jsonObject.put("rollBackDepreciationDate", new Date().getTime());
 		return jsonObject;
 	}
 }

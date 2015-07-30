@@ -13,9 +13,7 @@ public class MigratorContext {
 
 	private PickListTypeContext pickListTypeContext;
 	private Company company;
-
-	private Map<String, List<Long>> childrenMap = new HashMap<String, List<Long>>();
-
+	private Map<String, List<Long>> childrenMap;
 	private int lastAccNumber = 1055;
 	private int taxAgencyNo = 1;
 

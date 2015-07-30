@@ -17,7 +17,6 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 				.getFixedAssetStatusIdentifier(obj.getStatus()));
 		jsonObject.put("name", obj.getName());
 		jsonObject.put("description", obj.getDescription());
-		jsonObject.put("assetNumber", obj.getAssetNumber());
 		jsonObject.put("assetAccount",
 				context.get("Account", obj.getAssetAccount().getID()));
 		jsonObject.put("purchaseDate", obj.getPurchaseDate().getAsDateObject()

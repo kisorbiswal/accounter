@@ -45,7 +45,7 @@ public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> 
 		// Account
 		Account payFrom = obj.getPayFrom();
 		if (payFrom != null) {
-			jsonObj.put("payFrom", context.get("Account", payFrom.getID()));
+			jsonObj.put("account", context.get("Account", payFrom.getID()));
 		}
 		jsonObj.put("toBePrinted", obj.getIsToBePrinted());
 		jsonObj.put("paymentStatus", PicklistUtilMigrator

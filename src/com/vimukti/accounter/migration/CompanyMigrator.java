@@ -41,7 +41,6 @@ import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.AttendanceOrProductionType;
 import com.vimukti.accounter.core.AttendancePayHead;
 import com.vimukti.accounter.core.BankAccount;
-import com.vimukti.accounter.core.Budget;
 import com.vimukti.accounter.core.BuildAssembly;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
@@ -388,9 +387,9 @@ public class CompanyMigrator {
 				new WriteCheckMigrator(), context);
 		context.put("WriteCheck", migratedObjects);
 		// Budget
-		migratedObjects = migrateObjects("Budget", Budget.class,
-				new BudgetMigrator(), context);
-		context.put("WriteCheck", migratedObjects);
+		// migratedObjects = migrateObjects("Budget", Budget.class,
+		// new BudgetMigrator(), context);
+		// context.put("WriteCheck", migratedObjects);
 		// FixedAsset
 		migratedObjects = migrateObjects("FixedAsset", FixedAsset.class,
 				new FixedAssetMigrator(), context);
@@ -657,93 +656,28 @@ public class CompanyMigrator {
 	private Map<Long, Long> setRequestToRestApi(String identity,
 			MigratorContext context, JSONArray objectArray, List<Long> ids)
 			throws JSONException, HttpException, IOException {
-		// Map<fieldName-Identity,List<OldId>
-		Map<String, List<Long>> accounterMap = new HashMap<String, List<Long>>();
-		context.setChildrenMap(accounterMap);
-		Map<Long, Long> newAndOldIds = new HashMap<Long, Long>();
 
+		Map<Long, Long> newAndOldIds = new HashMap<Long, Long>();
+		// Setting SingleTon id's
 		if (identity.equals(COMMON_SETTINGS)
 				&& context.get(COMMON_SETTINGS, COMMON_SETTINGS_OLD_ID) == null) {
-			HttpGet get = new HttpGet(ECGINE_URL + API_BASE_URL + ECGINE_LIST
-					+ identity);
-			addAuthenticationParameters(get);
-			get.setHeader("Content-type", "application/json");
-			HttpResponse response = client.execute(get);
-			StatusLine status = response.getStatusLine();
-			HttpEntity entity = response.getEntity();
-			if (status.getStatusCode() != HttpStatus.SC_OK) {
-				if (entity != null) {
-					EntityUtils.consume(entity);
-				}
+			if (!setSingleTonId(identity, newAndOldIds, objectArray,
+					COMMON_SETTINGS_OLD_ID)) {
 				return newAndOldIds;
-				// throw new RuntimeException(status.toString());
 			}
-			String content = IOUtils.toString(entity.getContent());
-			JSONObject json = new JSONObject(content);
-			JSONObject jsonValue = (JSONObject) json.get("value");
-			long commonSettingsId = jsonValue.getLong("id");
-			HashMap<Long, Long> map = new HashMap<Long, Long>();
-			map.put(COMMON_SETTINGS_OLD_ID, commonSettingsId);
-			context.put(COMMON_SETTINGS, map);
-			JSONObject jsonObject = objectArray.getJSONObject(0);
-			jsonObject.put("id", commonSettingsId);
-			objectArray.remove(0);
-			objectArray.put(jsonObject);
 		} else if (identity.equals(CUSTOMER_AND_SALES_SETTINGS)
 				&& context.get(CUSTOMER_AND_SALES_SETTINGS,
 						CUSTOMER_AND_SALES_SETTINGS_OLD_ID) == null) {
-			HttpGet get = new HttpGet(ECGINE_URL + API_BASE_URL + ECGINE_LIST
-					+ identity);
-			addAuthenticationParameters(get);
-			get.setHeader("Content-type", "application/json");
-			HttpResponse response = client.execute(get);
-			StatusLine status = response.getStatusLine();
-			HttpEntity entity = response.getEntity();
-			if (status.getStatusCode() != HttpStatus.SC_OK) {
-				if (entity != null) {
-					EntityUtils.consume(entity);
-				}
+			if (!setSingleTonId(identity, newAndOldIds, objectArray,
+					CUSTOMER_AND_SALES_SETTINGS_OLD_ID)) {
 				return newAndOldIds;
-				// throw new RuntimeException(status.toString());
 			}
-			String content = IOUtils.toString(entity.getContent());
-			JSONObject json = new JSONObject(content);
-			JSONObject jsonValue = (JSONObject) json.get("value");
-			long commonSettingsId = jsonValue.getLong("id");
-			HashMap<Long, Long> map = new HashMap<Long, Long>();
-			map.put(CUSTOMER_AND_SALES_SETTINGS_OLD_ID, commonSettingsId);
-			context.put(CUSTOMER_AND_SALES_SETTINGS, map);
-			JSONObject jsonObject = objectArray.getJSONObject(0);
-			jsonObject.put("id", commonSettingsId);
-			objectArray.remove(0);
-			objectArray.put(jsonObject);
 		} else if (identity.equals(FEATURES)
 				&& context.get(FEATURES, FEATURES_OLD_ID) == null) {
-			HttpGet get = new HttpGet(ECGINE_URL + API_BASE_URL + ECGINE_LIST
-					+ identity);
-			addAuthenticationParameters(get);
-			get.setHeader("Content-type", "application/json");
-			HttpResponse response = client.execute(get);
-			StatusLine status = response.getStatusLine();
-			HttpEntity entity = response.getEntity();
-			if (status.getStatusCode() != HttpStatus.SC_OK) {
-				if (entity != null) {
-					EntityUtils.consume(entity);
-				}
+			if (!setSingleTonId(identity, newAndOldIds, objectArray,
+					FEATURES_OLD_ID)) {
 				return newAndOldIds;
-				// throw new RuntimeException(status.toString());
 			}
-			String content = IOUtils.toString(entity.getContent());
-			JSONObject json = new JSONObject(content);
-			JSONObject jsonValue = (JSONObject) json.get("value");
-			long commonSettingsId = jsonValue.getLong("id");
-			HashMap<Long, Long> map = new HashMap<Long, Long>();
-			map.put(FEATURES_OLD_ID, commonSettingsId);
-			context.put(FEATURES, map);
-			JSONObject jsonObject = objectArray.getJSONObject(0);
-			jsonObject.put("id", commonSettingsId);
-			objectArray.remove(0);
-			objectArray.put(jsonObject);
 		}
 		HttpPost post = new HttpPost(ECGINE_URL + ECGINE_REST + identity);
 		addAuthenticationParameters(post);
@@ -777,6 +711,7 @@ public class CompanyMigrator {
 		String content = IOUtils.toString(entity.getContent());
 		JSONArray array = new JSONArray(content);
 		Map<String, List<Long>> ecgineMap = new HashMap<String, List<Long>>();
+		Map<String, List<Long>> accounterMap = context.getChildrenMap();
 		for (int i = 0; i < array.length(); i++) {
 			JSONObject json = array.getJSONObject(i);
 			long id = json.getLong("id");
@@ -803,6 +738,7 @@ public class CompanyMigrator {
 				newAndOldIds.put(ids.get(i), id);
 			}
 			JSONObject jsonObject = json.getJSONObject("object");
+
 			createEcgineChildrenMap(accounterMap, ecgineMap, jsonObject);
 			log.info("Migrated " + identity
 					+ (ids != null ? "  Accounter ID :" + ids.get(i) : "")
@@ -810,6 +746,40 @@ public class CompanyMigrator {
 		}
 		putChildrenInContext(accounterMap, ecgineMap, context);
 		return newAndOldIds;
+	}
+
+	private boolean setSingleTonId(String identity,
+			Map<Long, Long> newAndOldIds, JSONArray objectArray, long oldId) {
+		HttpGet get = new HttpGet(ECGINE_URL + API_BASE_URL + ECGINE_LIST
+				+ identity);
+		addAuthenticationParameters(get);
+		get.setHeader("Content-type", "application/json");
+		try {
+			HttpResponse response = client.execute(get);
+			StatusLine status = response.getStatusLine();
+			HttpEntity entity = response.getEntity();
+			if (status.getStatusCode() != HttpStatus.SC_OK) {
+				if (entity != null) {
+					EntityUtils.consume(entity);
+				}
+				return false;
+			}
+			String content = IOUtils.toString(entity.getContent());
+			JSONObject json = new JSONObject(content);
+			JSONObject jsonValue = (JSONObject) json.get("value");
+			long singleTonId = jsonValue.getLong("id");
+			HashMap<Long, Long> map = new HashMap<Long, Long>();
+			map.put(oldId, singleTonId);
+			context.put(identity, map);
+			JSONObject jsonObject = objectArray.getJSONObject(0);
+			jsonObject.put("id", singleTonId);
+			objectArray.remove(0);
+			objectArray.put(jsonObject);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	private void putChildrenInContext(Map<String, List<Long>> accounterMap,

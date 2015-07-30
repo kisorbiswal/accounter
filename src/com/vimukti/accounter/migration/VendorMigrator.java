@@ -1,5 +1,9 @@
 package com.vimukti.accounter.migration;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,8 +90,15 @@ public class VendorMigrator implements IMigrator<Vendor> {
 					.put("payeeSince", payeeSince.getAsDateObject().getTime());
 		}
 		jsonObject.put("webAddress", obj.getWebPageAddress());
-		// contacts
 		JSONArray jsonContacts = new JSONArray();
+		Map<String, List<Long>> childrenMap = context.getChildrenMap();
+		String key = "contacts-Contact";
+		List<Long> list = childrenMap.get(key);
+		if (list == null) {
+			list = new ArrayList<Long>();
+			childrenMap.put(key, list);
+		}
+		// contacts
 		for (Contact contact : obj.getContacts()) {
 			JSONObject jsonContact = new JSONObject();
 			jsonContact.put("isPrimary", contact.isPrimary());
@@ -96,6 +107,7 @@ public class VendorMigrator implements IMigrator<Vendor> {
 			jsonContact.put("businessPhone", contact.getBusinessPhone());
 			jsonContact.put("email", contact.getEmail());
 			jsonContacts.put(jsonContact);
+			list.add(contact.getID());
 		}
 		jsonObject.put("contacts", jsonContacts);
 		PaymentTerms paymentTerms = obj.getPaymentTerms();
