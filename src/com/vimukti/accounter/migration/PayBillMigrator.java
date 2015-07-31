@@ -38,14 +38,11 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 			// discountAccount
 			Account discountAccount = tBill.getDiscountAccount();
 			if (discountAccount != null) {
-				JSONObject discountAccountJson = new JSONObject();
-				discountAccountJson.put("discountAccount",
+				jsonObj.put("discountAccount",
 						context.get("Account", discountAccount.getID()));
-				discountAccountJson.put("discountAmount",
-						tBill.getCashDiscount());
-				jsonObj.put("discountAccount", discountAccountJson);
+				jsonObj.put("discountAmount", tBill.getCashDiscount());
 			}
-
+			jsonObject.put("debitAmount", tBill.getAppliedCredits());
 			array.put(jsonObj);
 		}
 		jsonObject.put("paybillItems", array);

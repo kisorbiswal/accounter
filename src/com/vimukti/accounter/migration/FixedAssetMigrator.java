@@ -23,7 +23,7 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 				.getTime());
 		jsonObject.put("purchasePrice", obj.getPurchasePrice());
 		jsonObject.put("assetType", obj.getAssetType());
-		jsonObject.put("depreciationRate", obj.getDepreciationRate());
+		jsonObject.put("depreciationRate", obj.getDepreciationRate() / 100);
 		jsonObject.put("depreciationMethod", PicklistUtilMigrator
 				.depreciationMethodIdentity(obj.getDepreciationMethod()));
 

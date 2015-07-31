@@ -83,6 +83,7 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		jsonObject.put("inActive", !obj.isActive());
 
 		// BussinessRelationShip Fields
+		jsonObject.put("tDSApplicable", obj.isTdsApplicable());
 		jsonObject.put("companyName", obj.getCompany().getTradingName());
 		FinanceDate payeeSince = obj.getPayeeSince();
 		if (payeeSince != null) {

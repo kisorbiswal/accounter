@@ -694,15 +694,26 @@ public class CompanyMigrator {
 					JSONArray array = new JSONArray(content);
 					for (int i = 0; i < array.length(); i++) {
 						JSONObject json = array.getJSONObject(i);
-						String error = json.getJSONArray("errors").toString();
-						if (!error.equals("[]")) {
-							log.info("\n" + "Found Errors In " + identity
-									+ error);
+						boolean success = json.getBoolean("success");
+						Long id = json.getLong("id");
+						if (success) {
+							Long oldId = ids.get(i);
+							newAndOldIds.put(oldId, id);
+							log.info("Migrated "
+									+ identity
+									+ (ids != null ? "  Accounter ID :" + oldId
+											: "") + " Ecgine ID :" + id);
+						} else {
+							String error = json.getJSONArray("errors")
+									.toString();
+							if (!error.equals("[]")) {
+								log.info("\n" + "Found Errors In " + identity
+										+ error);
+							}
 						}
 					}
 				} catch (Exception e) {
-					log.error("Some error Occurred in Server while saving "
-							+ identity);
+					log.error(identity + " All Objects failed :");
 				}
 			}
 			return newAndOldIds;

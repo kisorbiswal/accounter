@@ -92,6 +92,7 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		jsonObject.put("inActive", !obj.isActive());
 
 		// BussinessRelationShip Fields
+		jsonObject.put("tDSApplicable", obj.isWillDeductTDS());
 		jsonObject.put("companyName", obj.getCompany().getTradingName());
 		FinanceDate payeeSince = obj.getPayeeSince();
 		if (payeeSince != null) {

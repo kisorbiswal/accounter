@@ -40,16 +40,17 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 			if (account != null) {
 				jsonObject.put("discountAccount",
 						context.get("Account", account.getID()));
+				jsonObject.put("discountAmount", item.getCashDiscount());
 			}
 
-			JSONObject jsonWritOffObject = new JSONObject();
 			Account writeOffAccount = item.getWriteOffAccount();
 			if (writeOffAccount != null) {
-				jsonWritOffObject.put("writeoffAccount",
+				jsonObject.put("writeoffAccount",
 						context.get("Account", writeOffAccount.getID()));
-				jsonWritOffObject.put("amount", item.getWriteOff());
-				jsonObject.put("writeOff", jsonWritOffObject);
+				jsonObject.put("amount", item.getWriteOff());
+
 			}
+			jsonObject.put("creditAmount", item.getAppliedCredits());
 			array.put(jsonObject);
 		}
 		jsonObj.put("paymentItems", array);
