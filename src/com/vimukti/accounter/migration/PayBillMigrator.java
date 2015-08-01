@@ -42,10 +42,13 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 						context.get("Account", discountAccount.getID()));
 				jsonObj.put("discountAmount", tBill.getCashDiscount());
 			}
-			jsonObject.put("debitAmount", tBill.getAppliedCredits());
+			double appliedCredits = tBill.getAppliedCredits();
+			if (appliedCredits != 0) {
+				jsonObject.put("debitAmount", appliedCredits);
+			}
 			array.put(jsonObj);
 		}
-		jsonObject.put("paybillItems", array);
+		jsonObject.put("payBillItems", array);
 
 		TAXItem tdsTaxItem = obj.getTdsTaxItem();
 		if (tdsTaxItem != null) {

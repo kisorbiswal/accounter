@@ -19,6 +19,9 @@ public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 	@Override
 	public JSONObject migrate(EnterBill obj, MigratorContext context)
 			throws JSONException {
+		if (obj.getTotal() == 0) {
+			return null;
+		}
 		JSONObject enterBill = super.migrate(obj, context);
 		// payee
 		enterBill.put("payee", context.get("Vendor", obj.getVendor().getID()));

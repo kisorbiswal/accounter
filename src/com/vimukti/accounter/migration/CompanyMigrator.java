@@ -695,8 +695,8 @@ public class CompanyMigrator {
 					for (int i = 0; i < array.length(); i++) {
 						JSONObject json = array.getJSONObject(i);
 						boolean success = json.getBoolean("success");
-						Long id = json.getLong("id");
 						if (success) {
+							Long id = json.getLong("id");
 							Long oldId = ids.get(i);
 							newAndOldIds.put(oldId, id);
 							log.info("Migrated "
@@ -704,16 +704,19 @@ public class CompanyMigrator {
 									+ (ids != null ? "  Accounter ID :" + oldId
 											: "") + " Ecgine ID :" + id);
 						} else {
-							String error = json.getJSONArray("errors")
-									.toString();
-							if (!error.equals("[]")) {
-								log.info("\n" + "Found Errors In " + identity
-										+ error);
+							if (json.has("errors")) {
+								String error = json.getJSONArray("errors")
+										.toString();
+								if (!error.equals("[]")) {
+									log.info("\n" + "Found Errors In "
+											+ identity + error);
+								}
 							}
 						}
 					}
 				} catch (Exception e) {
-					log.error(identity + " All Objects failed :");
+					log.error("Error Occurred in server while saving "
+							+ identity);
 				}
 			}
 			return newAndOldIds;

@@ -39,7 +39,7 @@ public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> 
 		} catch (Exception e) {
 			// Nothing to do
 		}
-		jsonObj.put("checkNumber", checkNumber);
+		jsonObj.put("chequeNumber", checkNumber);
 		// PayTo
 		jsonObj.put("payee", context.get("Customer", obj.getPayTo().getID()));
 		// Account

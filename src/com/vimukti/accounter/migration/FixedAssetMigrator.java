@@ -47,7 +47,7 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 			jsonObject.put("accountForSale",
 					context.get("Account", accountForSale.getID()));
 		}
-		jsonObject.put("salePrice", obj.getSalePrice());
+		jsonObject.put("salesPrice", obj.getSalePrice());
 		// noDepreciation is not found
 		FinanceDate depreciationTillDate = obj.getDepreciationTillDate();
 		if (depreciationTillDate != null) {

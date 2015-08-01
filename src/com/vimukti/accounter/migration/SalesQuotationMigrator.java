@@ -24,7 +24,7 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 		}
 		Contact contact = obj.getContact();
 		if (contact != null) {
-			jsonObj.put("contanct", context.get("Contact", contact.getID()));
+			jsonObj.put("contact", context.get("Contact", contact.getID()));
 		}
 		jsonObj.put("phone", obj.getPhone());
 
