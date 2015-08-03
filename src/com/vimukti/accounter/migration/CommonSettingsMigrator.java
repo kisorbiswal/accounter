@@ -3,6 +3,7 @@ package com.vimukti.accounter.migration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
@@ -57,8 +58,11 @@ public class CommonSettingsMigrator implements IMigrator<CompanyPreferences> {
 		commonSettings.put("accountPayable", context.get("Account", company
 				.getAccountsPayableAccount().getID()));
 		// commonSettings.put("centralSalesTaxPayable",);
-		commonSettings.put("salariesPayable", context.get("Account", company
-				.getSalariesPayableAccount().getID()));
+		Account salariesPayableAccount = company.getSalariesPayableAccount();
+		if (salariesPayableAccount != null) {
+			commonSettings.put("salariesPayable",
+					context.get("Account", salariesPayableAccount.getID()));
+		}
 		commonSettings.put("taxFiled", context.get("Account", company
 				.getTAXFiledLiabilityAccount().getID()));
 		commonSettings.put("openingBalances", context.get("Account", company

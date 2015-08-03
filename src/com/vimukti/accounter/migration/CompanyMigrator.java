@@ -463,13 +463,21 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("FileTax", TAXReturn.class,
 				new FileTaxMigrator(), context);
 		context.put("FileTax", migratedObjects);
+		migratedObjects = migrateObjects("PermissionSet", User.class,
+				new PermissionSetMigrator(), context);
+		context.put("PermissionSet", migratedObjects);
+		migratedObjects = migrateObjects("Profile", User.class,
+				new ProfileMigrator(), context);
+		context.put("Profile", migratedObjects);
+		migratedObjects = migrateObjects("User", User.class,
+				new UserMigrator(), context);
+		context.put("User", migratedObjects);
 		// Updating all inactive objects
 		Set<String> keySet = inactiveObjects.keySet();
 		for (String key : keySet) {
 			setRequestToRestApi(key, context,
 					new JSONArray().put(inactiveObjects.get(key)), null);
 		}
-		HibernateUtil.getCurrentSession().close();
 	}
 
 	public void installPackage(String pkgName, String pkgVersion)
