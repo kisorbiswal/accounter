@@ -55,6 +55,8 @@ import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.Depreciation;
+import com.vimukti.accounter.core.Employee;
+import com.vimukti.accounter.core.EmployeeGroup;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FixedAsset;
@@ -70,6 +72,7 @@ import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.PayBill;
+import com.vimukti.accounter.core.PayStructure;
 import com.vimukti.accounter.core.PayTAX;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PayrollUnit;
@@ -170,7 +173,8 @@ public class CompanyMigrator {
 		context.put("Account", migratedObjects);
 		// CommonSettings
 		migratedObjects = migrateObjects(COMMON_SETTINGS,
-				CompanyPreferences.class, new CommonSettingsMigrator(), context);
+				CompanyPreferences.class, new DefaultCommonSettingsMigrator(),
+				context);
 		// MultiCurrencyMigrator
 		if (company.getPreferences().isEnabledMultiCurrency()) {
 			migratedObjects = migrateObjects(COMMON_SETTINGS,
@@ -284,10 +288,10 @@ public class CompanyMigrator {
 		// CustomerAndSalesSettingsMigrator
 		migratedObjects = migrateObjects(CUSTOMER_AND_SALES_SETTINGS,
 				CompanyPreferences.class,
-				new CustomerAndSalesSettingsMigrator(), context);
+				new DefaultCustomerAndSalesSettingsMigrator(), context);
 		// FeaturesMigrator
 		migratedObjects = migrateObjects(FEATURES, CompanyPreferences.class,
-				new FeaturesMigrator(), context);
+				new DefaultFeaturesMigrator(), context);
 		// Items
 		migratedObjects = migrateObjects("InventoryItem", Item.class,
 				new InventoryItemMigrator(), context);
@@ -315,7 +319,7 @@ public class CompanyMigrator {
 		context.put("Credit", migratedObjects);
 		// // Charges this is not using in new accounter
 		// migratedObjects = migrateObjects("Charge", Estimate.class,
-		// new ChargesMigrator(), context);
+		// new ChargesMigrator(), context,null);
 		// context.put("Charge", migratedObjects);
 		// Invoice
 		migratedObjects = migrateObjects("Invoice", Invoice.class,
@@ -388,7 +392,7 @@ public class CompanyMigrator {
 		context.put("WriteCheck", migratedObjects);
 		// Budget
 		// migratedObjects = migrateObjects("Budget", Budget.class,
-		// new BudgetMigrator(), context);
+		// new BudgetMigrator(), context,null);
 		// context.put("WriteCheck", migratedObjects);
 		// FixedAsset
 		migratedObjects = migrateObjects("FixedAsset", FixedAsset.class,
@@ -420,19 +424,22 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("PayHead", UserDefinedPayHead.class,
 				new UserDefinedPayHeadMigrator(), context);
 		context.put("PayHead", migratedObjects);
-		// // EmployeeGroup
-		// migratedObjects = migrateObjects("EmployeeGroup",
-		// EmployeeGroup.class,
-		// new EmployeeGroupMigrator(), context);
-		// context.put("EmployeeGroup", migratedObjects);
-		// // Employee
-		// migratedObjects = migrateObjects("Employee", Employee.class,
-		// new EmployeeMigrator(), context);
-		// context.put("Employee", migratedObjects);
-		// // PayStructure
-		// migratedObjects = migrateObjects("PayStructure", PayStructure.class,
-		// new PayStructureMigrator(), context);
-		// context.put("PayStructure", migratedObjects);
+		// EmployeeGroup
+		migratedObjects = migrateObjects("EmployeeGroup", EmployeeGroup.class,
+				new EmployeeGroupMigrator(), context);
+		context.put("EmployeeGroup", migratedObjects);
+		// Employee
+		migratedObjects = migrateObjects("Employee", Employee.class,
+				new EmployeeMigrator(), context);
+		context.put("Employee", migratedObjects);
+		// PayStructure
+		migratedObjects = migrateObjects("PayStructure", PayStructure.class,
+				new PayStructureMigrator(), context);
+		context.put("PayStructure", migratedObjects);
+		// // PayRunMigrator
+		// migratedObjects = migrateObjects("PayRun", PayRun.class,
+		// new PayRunMigrator(), context,null);
+		// context.put("PayRun", migratedObjects);
 		// Reconciliation
 		migratedObjects = migrateObjects("Reconciliation",
 				Reconciliation.class, new ReconciliationMigrator(), context);
@@ -478,6 +485,16 @@ public class CompanyMigrator {
 			setRequestToRestApi(key, context,
 					new JSONArray().put(inactiveObjects.get(key)), null);
 		}
+		// CommonSettings
+		migratedObjects = migrateObjects(COMMON_SETTINGS,
+				CompanyPreferences.class, new CommonSettingsMigrator(), context);
+		// CustomerAndSalesSettingsMigrator
+		migratedObjects = migrateObjects(CUSTOMER_AND_SALES_SETTINGS,
+				CompanyPreferences.class,
+				new CustomerAndSalesSettingsMigrator(), context);
+		// FeaturesMigrator
+		migratedObjects = migrateObjects(FEATURES, CompanyPreferences.class,
+				new FeaturesMigrator(), context);
 	}
 
 	public void installPackage(String pkgName, String pkgVersion)
@@ -595,34 +612,6 @@ public class CompanyMigrator {
 		String encodedKey = Base64.getEncoder().encodeToString(
 				apiKey.getBytes());
 		executeMethod.addHeader(AUTH_HEADER_NAME, BEARER + " " + encodedKey);
-	}
-
-	@SuppressWarnings("unchecked")
-	private void migrateUsers(List<String> migratedEmails,
-			MigratorContext context) throws HttpException, JSONException,
-			IOException {
-		Session session = HibernateUtil.getCurrentSession();
-		List<User> users = session.createCriteria(User.class, "user")
-				.add(Restrictions.eq("company", company.getId())).list();
-		for (User user : users) {
-			String emailId = user.getClient().getEmailId();
-			if (migratedEmails.contains(emailId)) {
-				emailId = migrateEmail(1, emailId, migratedEmails);
-			}
-			migratedEmails.add(emailId);
-			Map<Long, Long> migrateObjects = migrateObjects("User", User.class,
-					new UserMigrator(), context);
-			context.put("User", migrateObjects);
-		}
-	}
-
-	private String migrateEmail(int count, String emailId,
-			List<String> migratedEmails) {
-		String migratedEmail = emailId + count;
-		if (migratedEmails.contains(migratedEmail)) {
-			return migrateEmail(++count, migratedEmail, migratedEmails);
-		}
-		return migratedEmail;
 	}
 
 	@SuppressWarnings("unchecked")

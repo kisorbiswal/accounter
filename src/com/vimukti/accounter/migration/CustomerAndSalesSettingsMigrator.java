@@ -30,10 +30,12 @@ public class CustomerAndSalesSettingsMigrator implements
 		// DiscountAccount is not found
 		customerAndSalesSetting.put("useDelayedCharges",
 				obj.isDelayedchargesEnabled());
+		customerAndSalesSetting.put("enablePriceLevel",
+				obj.isPricingLevelsEnabled());
 		return customerAndSalesSetting;
 	}
 
-	private String getInventorySchemeString(int value) {
+	public static String getInventorySchemeString(int value) {
 		switch (value) {
 		case 1:
 			return "FirstInFirstOut";
@@ -44,7 +46,7 @@ public class CustomerAndSalesSettingsMigrator implements
 		}
 	}
 
-	private String itemTypeByIdentity(Boolean service, Boolean product) {
+	public static String itemTypeByIdentity(Boolean service, Boolean product) {
 		if (service && !product) {
 			return "ServicesOnly";
 		}

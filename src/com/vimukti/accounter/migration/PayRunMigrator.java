@@ -28,8 +28,10 @@ public class PayRunMigrator implements IMigrator<PayRun> {
 		jsonObject.put("notes", obj.getMemo());
 		jsonObject.put("transactionType",
 				Utility.getTransactionName(obj.getType()));
-		jsonObject.put("fromDate", obj.getPayPeriodStartDate());
-		jsonObject.put("toDate", obj.getPayPeriodEndDate());
+		jsonObject.put("fromDate", obj.getPayPeriodStartDate()
+				.getAsDateObject().getTime());
+		jsonObject.put("toDate", obj.getPayPeriodEndDate().getAsDateObject()
+				.getTime());
 		if (obj.getEmployee() == null) {
 			jsonObject.put("type", "EmployeeGroup");
 			jsonObject.put("employeeGroup", context.get("EmployeeGroup", obj

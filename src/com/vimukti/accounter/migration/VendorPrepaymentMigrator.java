@@ -27,9 +27,7 @@ public class VendorPrepaymentMigrator extends
 		// payFrom
 		Account payFrom = obj.getPayFrom();
 		if (payFrom != null) {
-			JSONObject account = new JSONObject();
-			account.put("name", payFrom.getName());
-			jsonObject.put("payFrom", payFrom);
+			jsonObject.put("payFrom", context.get("Account", payFrom.getID()));
 		}
 		// amount
 		jsonObject.put("amount", obj.getTotal());

@@ -2,18 +2,12 @@ package com.vimukti.accounter.migration;
 
 import java.util.Set;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.EmployeeGroup;
-import com.vimukti.accounter.core.PayStructure;
-import com.vimukti.accounter.utils.HibernateUtil;
 
 public class EmployeeMigrator implements IMigrator<Employee> {
 
@@ -33,16 +27,6 @@ public class EmployeeMigrator implements IMigrator<Employee> {
 
 		employee.put("designation", obj.getDesignation());
 		employee.put("workingLocation", obj.getLocation());
-		Session session = HibernateUtil.getCurrentSession();
-		Criteria createCriteria = session.createCriteria(PayStructure.class,
-				"obj");
-		createCriteria.add(Restrictions.eq("company", context.getCompany()
-				.getId()));
-		createCriteria.add(Restrictions.eq("employee", obj.getID()));
-		PayStructure uniqueResult = (PayStructure) createCriteria
-				.uniqueResult();
-		employee.put("payStructure",
-				context.get("PayStructure", uniqueResult.getID()));
 		// RelationShip field
 		employee.put("identification", obj.getNumber());
 		employee.put("name", obj.getName());
@@ -68,13 +52,6 @@ public class EmployeeMigrator implements IMigrator<Employee> {
 			employee.put("address", jsonAddress);
 		}
 		employee.put("inActive", !obj.isActive());
-		// account
-		Account account = obj.getAccount();
-		if (account != null) {
-			JSONObject accountJson = new JSONObject();
-			accountJson.put("name", account.getName());
-			employee.put("account", accountJson);
-		}
 		// bankName
 		employee.put("bankName", obj.getBankName());
 		// bankAccountNumber
