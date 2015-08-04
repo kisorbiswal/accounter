@@ -72,6 +72,7 @@ public class CashPurchaseMigrator extends TransactionMigrator<CashPurchase> {
 			cashPurchase.put("purchaseOrders", array);
 		}
 		cashPurchase.put("notes", obj.getMemo());
+		super.setJSONObj(cashPurchase);
 		return cashPurchase;
 	}
 

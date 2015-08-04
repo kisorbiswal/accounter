@@ -85,6 +85,7 @@ public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 				enterBill.put("purchaseOrders", ordersArray);
 			}
 		}
+		super.setJSONObj(enterBill);
 		return enterBill;
 	}
 }

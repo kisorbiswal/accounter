@@ -82,6 +82,7 @@ public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
 			jsonObj.put("salesOrderStatus", "Cancelled");
 		}
 		jsonObj.put("customerOrderNo", estimate.getCustomerOrderNumber());
+		super.setJSONObj(jsonObj);
 		return jsonObj;
 	}
 

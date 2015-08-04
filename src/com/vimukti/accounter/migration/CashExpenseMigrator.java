@@ -56,6 +56,7 @@ public class CashExpenseMigrator extends TransactionMigrator<CashPurchase> {
 			payFromAccount.put("name", payFrom.getName());
 			cashPurchase.put("account", payFromAccount);
 		}
+		super.setJSONObj(cashPurchase);
 		return cashPurchase;
 	}
 

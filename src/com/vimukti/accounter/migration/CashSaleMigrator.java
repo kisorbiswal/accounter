@@ -96,6 +96,7 @@ public class CashSaleMigrator extends TransactionMigrator<CashSales> {
 		} catch (NumberFormatException nfe) {
 
 		}
+		super.setJSONObj(jsonObject);
 		return jsonObject;
 	}
 }

@@ -21,7 +21,7 @@ public class AccounterMigrator {
 		try {
 			Session session = HibernateUtil.openSession();
 			Query query = session
-					.createSQLQuery("SELECT id from company order by id ");
+					.createSQLQuery("SELECT id from company where id =8660 order by id ");
 			List<BigInteger> ids = query.list();
 			List<String> emails = new ArrayList<String>();
 			for (BigInteger id : ids) {

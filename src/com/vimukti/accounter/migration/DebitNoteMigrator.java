@@ -20,7 +20,7 @@ public class DebitNoteMigrator extends TransactionMigrator<VendorCreditMemo> {
 		if (contact != null) {
 			jsonObject.put("contact", context.get("Contact", contact.getID()));
 		}
-
+		super.setJSONObj(jsonObject);
 		return jsonObject;
 	}
 }

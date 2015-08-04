@@ -51,7 +51,7 @@ public class CreditCardExpenseMigrator extends
 			payFromJosn.put("name", payFrom.getName());
 			creditCardChargeJSON.put("account", payFromJosn);
 		}
-
+		super.setJSONObj(creditCardChargeJSON);
 		return creditCardChargeJSON;
 
 	}

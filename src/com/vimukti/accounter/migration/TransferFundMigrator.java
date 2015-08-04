@@ -26,6 +26,7 @@ public class TransferFundMigrator extends TransactionMigrator<TransferFund> {
 			account.put("name", depositIn.getName());
 			jsonObj.put("transferTo", account);
 		}
+		super.setJSONObj(jsonObj);
 		return jsonObj;
 	}
 }

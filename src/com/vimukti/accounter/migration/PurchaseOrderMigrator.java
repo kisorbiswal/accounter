@@ -75,6 +75,7 @@ public class PurchaseOrderMigrator extends TransactionMigrator<PurchaseOrder> {
 			jsonObject.put("purchaseOrderstatus", context.getPickListContext()
 					.get("PurchaseOrderStatus", "Cancelled"));
 		}
+		super.setJSONObj(jsonObject);
 		return jsonObject;
 	}
 }

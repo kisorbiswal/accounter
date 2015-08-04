@@ -75,6 +75,7 @@ public class MakeDepositMigrator extends TransactionMigrator<MakeDeposit> {
 		} else {
 			jsonObj.put("paymentMethod", "Cash");
 		}
+		super.setJSONObj(jsonObj);
 		return jsonObj;
 	}
 }

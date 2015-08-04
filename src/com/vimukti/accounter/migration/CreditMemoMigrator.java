@@ -33,6 +33,7 @@ public class CreditMemoMigrator extends TransactionMigrator<CustomerCreditMemo> 
 		if (contact != null) {
 			jsonObj.put("contact", context.get("Contact", contact.getID()));
 		}
+		super.setJSONObj(jsonObj);
 		return jsonObj;
 	}
 }

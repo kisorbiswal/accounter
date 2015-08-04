@@ -16,6 +16,7 @@ public class MigratorContext {
 	private Map<String, List<Long>> childrenMap;
 	private int lastAccNumber = 1055;
 	private int taxAgencyNo = 1;
+	private TransactionMigrationContext currentTrasMigrationContext;
 
 	public void put(String name, Map<Long, Long> migrateAccounts) {
 		for (Entry<Long, Long> oldId : migrateAccounts.entrySet()) {
@@ -65,5 +66,14 @@ public class MigratorContext {
 
 	public String getNextTaxAgencyNumber() {
 		return String.valueOf(taxAgencyNo++);
+	}
+
+	public TransactionMigrationContext getCurrentTrasMigrationContext() {
+		return currentTrasMigrationContext;
+	}
+
+	public void setCurrentTrasMigrationContext(
+			TransactionMigrationContext currentTrasMigrationContext) {
+		this.currentTrasMigrationContext = currentTrasMigrationContext;
 	}
 }

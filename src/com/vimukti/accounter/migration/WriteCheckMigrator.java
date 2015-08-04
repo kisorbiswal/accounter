@@ -30,7 +30,7 @@ public class WriteCheckMigrator extends TransactionMigrator<WriteCheck> {
 		} catch (NumberFormatException nfe) {
 		}
 		jsonObj.put("notes", obj.getMemo());
-
+		super.setJSONObj(jsonObj);
 		return jsonObj;
 	}
 

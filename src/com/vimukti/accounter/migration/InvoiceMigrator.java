@@ -97,6 +97,7 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 			jsonObject.put("contact", context.get("Contact", contact.getID()));
 
 		}
+		super.setJSONObj(jsonObject);
 		return jsonObject;
 	}
 }

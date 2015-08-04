@@ -50,6 +50,7 @@ public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> 
 		jsonObj.put("toBePrinted", obj.getIsToBePrinted());
 		jsonObj.put("paymentStatus", PicklistUtilMigrator
 				.getPaymentStatusIdentifier(obj.getStatus()));
+		super.setJSONObj(jsonObj);
 		return jsonObj;
 	}
 }

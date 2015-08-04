@@ -22,6 +22,7 @@ public class CreditsMigrator extends TransactionMigrator<Estimate> {
 		if (customer != null) {
 			jsonObj.put("payee", context.get("Customer", customer.getID()));
 		}
+		super.setJSONObj(jsonObj);
 		return jsonObj;
 	}
 

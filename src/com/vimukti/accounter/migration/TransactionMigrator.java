@@ -20,10 +20,41 @@ import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Warehouse;
 
 public class TransactionMigrator<T extends Transaction> implements IMigrator<T> {
+	boolean enableTaxCode = false;
+	boolean enableDiscount = false;
+	boolean taxCodeOnePerTransaction = false;
+	boolean discountOnePerTransaction = false;
+	TransactionMigrationContext currentTrasMigrationContext;
 
 	@Override
 	public JSONObject migrate(T obj, MigratorContext context)
 			throws JSONException {
+		currentTrasMigrationContext = context.getCurrentTrasMigrationContext();
+		boolean checkTransactionType = (currentTrasMigrationContext != null);
+
+		TAXCode taxCodeObj = null;
+		Double discountAmount = null;
+		List<TransactionItem> transactionItems = obj.getTransactionItems();
+		if (!transactionItems.isEmpty()) {
+			enableTaxCode = transactionItems.stream().anyMatch(
+					i -> i.getTaxCode() != null);
+			enableTaxCode = transactionItems.stream().anyMatch(
+					i -> i.getDiscount() != 0 && i.getDiscount() != null);
+			TAXCode taxCode = transactionItems.stream().findFirst().get()
+					.getTaxCode();
+			taxCodeObj = taxCode;
+			Double discount = transactionItems.stream().findFirst().get()
+					.getDiscount();
+			discountAmount = discount;
+
+			taxCodeOnePerTransaction = transactionItems.stream().allMatch(
+					i -> i.getTaxCode() == taxCode);
+			discountOnePerTransaction = transactionItems.stream().allMatch(
+					i -> i.getDiscount().equals(discount));
+		}
+		if (checkTransactionType) {
+
+		}
 		JSONObject transaction = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, transaction, context);
 		transaction.put("date", obj.getDate().getAsDateObject().getTime());
@@ -59,7 +90,6 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		if (obj instanceof JournalEntry) {
 			return transaction;
 		}
-		List<TransactionItem> transactionItems = obj.getTransactionItems();
 		if (!transactionItems.isEmpty()) {
 			JSONArray tItems = new JSONArray();
 			for (TransactionItem transactionItem : transactionItems) {
@@ -96,9 +126,9 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 							context.get("TaxCode", itemTaxCode.getID()));
 				}
 				tItem.put("taxable", transactionItem.isTaxable());
-				double discount = transactionItem.getDiscount();
-				if (discount != 0) {
-					tItem.put("discount", discount / 100);
+				double itemDiscount = transactionItem.getDiscount();
+				if (itemDiscount != 0) {
+					tItem.put("discount", itemDiscount / 100);
 				}
 				Warehouse wareHouse = transactionItem.getWareHouse();
 				if (wareHouse != null) {
@@ -110,24 +140,63 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 			transaction.put("transactionItems", tItems);
 			transaction.put("amountIncludesTax", transactionItems.get(0)
 					.isAmountIncludeTAX());
-			boolean taxPerDetailLine = context.getCompany().getPreferences()
-					.isTaxPerDetailLine();
-			if (!taxPerDetailLine) {
-				TAXCode taxCode = transactionItems.get(0).getTaxCode();
-				if (taxCode != null) {
+			if (enableTaxCode && taxCodeOnePerTransaction) {
+				if (taxCodeObj != null) {
 					transaction.put("taxCode",
-							context.get("TaxCode", taxCode.getID()));
+							context.get("TaxCode", taxCodeObj.getID()));
 				}
 			}
-			boolean discountPerDetailLine = context.getCompany()
-					.getPreferences().isDiscountPerDetailLine();
-			if (!discountPerDetailLine) {
-				double discount = transactionItems.get(0).getDiscount();
-				if (discount != 0) {
-					transaction.put("discount", discount / 100);
+			if (enableDiscount && discountOnePerTransaction) {
+				if (discountAmount != 0) {
+					transaction.put("discount",
+							discountAmount.doubleValue() / 100);
 				}
 			}
 		}
 		return transaction;
+	}
+
+	protected void setJSONObj(JSONObject jsonObj) {
+		if (enableDiscount) {
+			if (enableTaxCode) {
+				if (taxCodeOnePerTransaction && discountOnePerTransaction) {
+					currentTrasMigrationContext
+							.addwDiscountOPTAndWTaxOPT(jsonObj);
+				} else if (taxCodeOnePerTransaction
+						&& !discountOnePerTransaction) {
+					currentTrasMigrationContext
+							.addwDiscountOPDLAndWTaxOPT(jsonObj);
+				} else if (!taxCodeOnePerTransaction
+						&& discountOnePerTransaction) {
+					currentTrasMigrationContext
+							.addwDiscountOPTAndWTaxOPDL(jsonObj);
+				} else if (!taxCodeOnePerTransaction
+						&& !discountOnePerTransaction) {
+					currentTrasMigrationContext
+							.addwDiscountOPDLAndWTaxOPDL(jsonObj);
+				}
+			} else {
+				if (discountOnePerTransaction) {
+					currentTrasMigrationContext
+							.addwDiscountOPTAndWOTax(jsonObj);
+				} else if (!discountOnePerTransaction) {
+					currentTrasMigrationContext
+							.addwDiscountOPDLAndWOTax(jsonObj);
+				}
+			}
+		} else if (!enableDiscount) {
+			if (enableTaxCode) {
+				if (taxCodeOnePerTransaction) {
+					currentTrasMigrationContext
+							.addwODiscountAndWTaxOPT(jsonObj);
+				} else if (!taxCodeOnePerTransaction) {
+					currentTrasMigrationContext
+							.addwODiscountAndWTaxOPDL(jsonObj);
+				}
+			} else {
+				currentTrasMigrationContext.addwODiscountAndWOTax(jsonObj);
+			}
+
+		}
 	}
 }

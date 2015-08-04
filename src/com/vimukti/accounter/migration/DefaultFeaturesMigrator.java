@@ -10,8 +10,15 @@ public class DefaultFeaturesMigrator implements IMigrator<CompanyPreferences> {
 	@Override
 	public JSONObject migrate(CompanyPreferences obj, MigratorContext context)
 			throws JSONException {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject features = new JSONObject();
+		features.put("enableLocationTracking", true);
+		features.put("enableClassTracking", true);
+		// features.put("classTrackingType",
+		// obj.isClassPerDetailLine() ? "OnePerDetailLine"
+		// : "OnePerTransaction");
+		features.put("enableShipping", obj.isDoProductShipMents());
+		features.put("projectTracking", obj.isJobTrackingEnabled());
+		return features;
 	}
 
 }

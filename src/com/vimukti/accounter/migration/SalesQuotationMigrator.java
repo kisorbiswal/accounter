@@ -69,6 +69,7 @@ public class SalesQuotationMigrator extends TransactionMigrator<Estimate> {
 		}
 		jsonObj.put("quotationType", PicklistUtilMigrator
 				.getQuotationTypeIdentifier(obj.getEstimateType()));
+		super.setJSONObj(jsonObj);
 		return jsonObj;
 	}
 

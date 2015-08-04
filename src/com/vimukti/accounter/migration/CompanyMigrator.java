@@ -2,6 +2,7 @@ package com.vimukti.accounter.migration;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -326,8 +327,28 @@ public class CompanyMigrator {
 				new InvoiceMigrator(), context);
 		context.put("Invoice", migratedObjects);
 		// ReceivePayment
-		migratedObjects = migrateObjects("ReceivePayment",
-				ReceivePayment.class, new ReceivePaymentMigrator(), context);
+		boolean tdsApplicable = context.getCompany().getCountry()
+				.equals("India");
+		if (tdsApplicable) {
+			// tds ReceivePayments
+			migratedObjects = migrateReceivePaymentOrPayBill(context,
+					"ReceivePayment", ReceivePayment.class,
+					new ReceivePaymentMigrator(), true);
+			Map<Long, Long> allObjects = new HashMap<Long, Long>();
+			allObjects.putAll(migratedObjects);
+			// non tds ReceivePayments
+			migratedObjects = migrateReceivePaymentOrPayBill(context,
+					"ReceivePayment", ReceivePayment.class,
+					new ReceivePaymentMigrator(), false);
+			allObjects.putAll(migratedObjects);
+			context.put("ReceivePayment", allObjects);
+			migrateVendorOrCustomer(context, "Customer", Customer.class,
+					new CustomerTdsEnableMigrator(true));
+		} else {
+			migratedObjects = migrateObjects("ReceivePayment",
+					ReceivePayment.class, new ReceivePaymentMigrator(), context);
+			context.put("ReceivePayment", migratedObjects);
+		}
 		context.put("ReceivePayment", migratedObjects);
 		// CashSale
 		migratedObjects = migrateObjects("CashSale", CashSales.class,
@@ -371,9 +392,22 @@ public class CompanyMigrator {
 				new DebitNoteMigrator(), context);
 		context.put("DebitNote", migratedObjects);
 		// PayBill
-		migratedObjects = migrateObjects("PayBill", PayBill.class,
-				new PayBillMigrator(), context);
-		context.put("PayBill", migratedObjects);
+		if (tdsApplicable) {
+			migratedObjects = migrateReceivePaymentOrPayBill(context,
+					"PayBill", PayBill.class, new PayBillMigrator(), true);
+			Map<Long, Long> allObjects = new HashMap<Long, Long>();
+			allObjects.putAll(migratedObjects);
+			migratedObjects = migrateReceivePaymentOrPayBill(context,
+					"PayBill", PayBill.class, new PayBillMigrator(), false);
+			allObjects.putAll(migratedObjects);
+			context.put("PayBill", allObjects);
+			migrateVendorOrCustomer(context, "Vendor", Vendor.class,
+					new VendorTdsEnableMigrator(true));
+		} else {
+			migratedObjects = migrateObjects("PayBill", PayBill.class,
+					new PayBillMigrator(), context);
+			context.put("PayBill", migratedObjects);
+		}
 		// CustomerRefund
 		migratedObjects = migrateObjects("CustomerRefund",
 				CustomerRefund.class, new CustomerRefundMigrator(), context);
@@ -466,7 +500,7 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("PayTAX", PayTAX.class,
 				new PayTaxMigrator(), context);
 		context.put("PayTAX", migratedObjects);
-		// TDSChalan
+		// FileTax
 		migratedObjects = migrateObjects("FileTax", TAXReturn.class,
 				new FileTaxMigrator(), context);
 		context.put("FileTax", migratedObjects);
@@ -608,6 +642,84 @@ public class CompanyMigrator {
 
 	}
 
+	private <T extends IAccounterServerCore> Map<Long, Long> migrateVendorOrCustomer(
+			MigratorContext context, String identity, Class clazz,
+			IMigrator<T> migrator) throws JSONException, HttpException,
+			IOException {
+		List<Long> ids = new ArrayList<Long>();
+		Session session = HibernateUtil.getCurrentSession();
+		JSONArray objectArray1 = new JSONArray();
+		Criteria criteria = session.createCriteria(clazz, "obj");
+		migrator.addRestrictions(criteria);
+		List<T> objects = new ArrayList<T>();
+		objects = criteria.add(Restrictions.eq("company", company)).list();
+		if (objects.isEmpty()) {
+			return new HashMap<Long, Long>();
+		}
+		// Map<fieldName-Identity,List<OldId>
+		Map<String, List<Long>> accounterMap = new HashMap<String, List<Long>>();
+		context.setChildrenMap(accounterMap);
+		for (T obj : objects) {
+			JSONObject migrate = migrator.migrate(obj, context);
+			if (migrate != null) {
+				objectArray1.put(migrate);
+				ids.add(obj.getID());
+			}
+		}
+		// Send Request TO REST API
+		return setRequestToRestApi(identity, context, objectArray1, ids);
+	}
+
+	private <T extends IAccounterServerCore> Map<Long, Long> migrateReceivePaymentOrPayBill(
+			MigratorContext context, String identity, Class clazz,
+			IMigrator<T> migrator, boolean enableTds) throws JSONException,
+			HttpException, IOException {
+		boolean isReceivePayment = identity.equals("ReceivePayment");
+		List<Long> companyIds = new ArrayList<Long>();
+		companyIds.add(context.getCompany().getID());
+		if (enableTds) {
+			if (isReceivePayment) {
+				migrateVendorOrCustomer(context, identity, Customer.class,
+						new CustomerTdsEnableMigrator(false));
+			} else {
+				migrateVendorOrCustomer(context, identity, Vendor.class,
+						new VendorTdsEnableMigrator(false));
+			}
+			JSONArray commonSettingsTaxMigrationJSON = getCommonSettingsTaxAndTdsMigrationJSON(
+					true, "OnePerDetailLine", enableTds);
+			setRequestToRestApi(COMMON_SETTINGS, context,
+					commonSettingsTaxMigrationJSON, companyIds);
+		}
+		List<Long> ids = new ArrayList<Long>();
+		Session session = HibernateUtil.getCurrentSession();
+		JSONArray objectArray1 = new JSONArray();
+		Criteria criteria = session.createCriteria(clazz, "obj");
+		migrator.addRestrictions(criteria);
+		List<T> objects = new ArrayList<T>();
+		if (enableTds) {
+			objects = criteria.add(Restrictions.eq("company", company))
+					.add(Restrictions.ne("tdsTotal", 0D)).list();
+		} else {
+			objects = criteria.add(Restrictions.eq("company", company))
+					.add(Restrictions.eq("tdsTotal", 0D)).list();
+		}
+		if (objects.isEmpty()) {
+			return new HashMap<Long, Long>();
+		}
+		// Map<fieldName-Identity,List<OldId>
+		Map<String, List<Long>> accounterMap = new HashMap<String, List<Long>>();
+		context.setChildrenMap(accounterMap);
+		for (T obj : objects) {
+			JSONObject migrate = migrator.migrate(obj, context);
+			if (migrate != null) {
+				objectArray1.put(migrate);
+				ids.add(obj.getID());
+			}
+		}
+		// Send Request TO REST API
+		return setRequestToRestApi(identity, context, objectArray1, ids);
+	}
+
 	private void addAuthenticationParameters(HttpRequest executeMethod) {
 		String encodedKey = Base64.getEncoder().encodeToString(
 				apiKey.getBytes());
@@ -630,12 +742,26 @@ public class CompanyMigrator {
 		} else {
 			objects = criteria.add(Restrictions.eq("company", company)).list();
 		}
+
 		if (objects.isEmpty()) {
 			return new HashMap<Long, Long>();
 		}
+
 		// Map<fieldName-Identity,List<OldId>
 		Map<String, List<Long>> accounterMap = new HashMap<String, List<Long>>();
 		context.setChildrenMap(accounterMap);
+		String[] transactions = { "BuildAssembly", "CashExpense",
+				"CashPurchase", "CashSale", "Charges", "CreditCardExpense",
+				"CreditMemo", "Credit", "CustomerRefund", "DebitNote",
+				"EnterBill", "FileTax", "Invoice", "MakeDeposit",
+				"PayEmployee", "PayTax", "PurchaseOrder", "SalesOrder",
+				"SalesQuotation", "StockAdjustment", "TAXAdjustment",
+				"TaxRefund", "TdsChallan", "TransferFund", "WriteCheck" };
+		boolean contains = Arrays.asList(transactions).contains(identity);
+		if (contains) {
+			context.setCurrentTrasMigrationContext(new TransactionMigrationContext(
+					identity));
+		}
 		for (T obj : objects) {
 			JSONObject migrate = migrator.migrate(obj, context);
 			if (migrate != null) {
@@ -643,8 +769,196 @@ public class CompanyMigrator {
 				ids.add(obj.getID());
 			}
 		}
-		// Send Request TO REST API
-		return setRequestToRestApi(identity, context, objectArray, ids);
+		if (contains) {
+			return migrateTransactionObject(ids, identity);
+		} else {
+			// Send Request TO REST API
+			return setRequestToRestApi(identity, context, objectArray, ids);
+		}
+	}
+
+	private Map<Long, Long> migrateTransactionObject(List<Long> ids,
+			String identity) throws HttpException, JSONException, IOException {
+		TransactionMigrationContext currentTrasMigrationContext = context
+				.getCurrentTrasMigrationContext();
+		List<Long> companyIds = new ArrayList<Long>();
+		companyIds.add(context.getCompany().getID());
+		Map<Long, Long> idsMap = new HashMap<Long, Long>();
+		if (currentTrasMigrationContext.haswDiscountOPTAndWTaxOPT()) {
+			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
+					"OnePerTransaction");
+			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
+					companyIds);
+			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
+					true, "OnePertransaction");
+			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
+					customerAndSalesSettings, companyIds);
+			idsMap.putAll(setRequestToRestApi(identity, context,
+					currentTrasMigrationContext.getwDiscountOPTAndWTaxOPT(),
+					ids));
+		}
+
+		if (currentTrasMigrationContext.haswDiscountOPTAndWTaxOPDL()) {
+			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
+					"OnePerDetailLine");
+			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
+					companyIds);
+			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
+					true, "OnePertransaction");
+			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
+					customerAndSalesSettings, companyIds);
+			idsMap.putAll(setRequestToRestApi(identity, context,
+					currentTrasMigrationContext.getwDiscountOPTAndWTaxOPDL(),
+					ids));
+		}
+
+		if (currentTrasMigrationContext.haswDiscountOPTAndWOTax()) {
+			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(false,
+					"");
+			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
+					companyIds);
+			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
+					true, "OnePertransaction");
+			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
+					customerAndSalesSettings, companyIds);
+			idsMap.putAll(setRequestToRestApi(identity, context,
+					currentTrasMigrationContext.getwDiscountOPTAndWOTax(), ids));
+		}
+
+		if (currentTrasMigrationContext.haswDiscountOPDLAndWTaxOPT()) {
+			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
+					"OnePerTransaction");
+			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
+					companyIds);
+			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
+					true, "OnePerdetailLine");
+			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
+					customerAndSalesSettings, companyIds);
+			idsMap.putAll(setRequestToRestApi(identity, context,
+					currentTrasMigrationContext.getwDiscountOPDLAndWTaxOPT(),
+					ids));
+		}
+
+		if (currentTrasMigrationContext.haswDiscountOPDLAndWTaxOPDL()) {
+			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
+					"OnePerDetailLine");
+			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
+					companyIds);
+			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
+					true, "OnePerdetailLine");
+			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
+					customerAndSalesSettings, companyIds);
+			idsMap.putAll(setRequestToRestApi(identity, context,
+					currentTrasMigrationContext.getwDiscountOPDLAndWTaxOPDL(),
+					ids));
+		}
+
+		if (currentTrasMigrationContext.haswDiscountOPDLAndWOTax()) {
+			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(false,
+					"");
+			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
+					companyIds);
+			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
+					true, "OnePerdetailLine");
+			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
+					customerAndSalesSettings, companyIds);
+			idsMap.putAll(setRequestToRestApi(identity, context,
+					currentTrasMigrationContext.getwDiscountOPDLAndWOTax(), ids));
+		}
+
+		if (currentTrasMigrationContext.haswODiscountAndWTaxOPT()) {
+			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
+					"OnePerTransaction");
+			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
+					companyIds);
+			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
+					false, "");
+			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
+					customerAndSalesSettings, companyIds);
+			idsMap.putAll(setRequestToRestApi(identity, context,
+					currentTrasMigrationContext.getwODiscountAndWTaxOPT(), ids));
+		}
+
+		if (currentTrasMigrationContext.haswODiscountAndWTaxOPDL()) {
+			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
+					"OnePerDetailLine");
+			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
+					companyIds);
+			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
+					false, "");
+			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
+					customerAndSalesSettings, companyIds);
+			idsMap.putAll(setRequestToRestApi(identity, context,
+					currentTrasMigrationContext.getwODiscountAndWTaxOPDL(), ids));
+		}
+
+		if (currentTrasMigrationContext.haswODiscountAndWOTax()) {
+			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(false,
+					"");
+			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
+					companyIds);
+			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
+					false, "");
+			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
+					customerAndSalesSettings, companyIds);
+			idsMap.putAll(setRequestToRestApi(identity, context,
+					currentTrasMigrationContext.getwODiscountAndWOTax(), ids));
+		}
+		return idsMap;
+	}
+
+	private JSONArray getCommonSettingsTaxAndTdsMigrationJSON(
+			boolean enableTaxCode, String taxItemInTransactions,
+			boolean enabletds) {
+		JSONObject commonSettings = new JSONObject();
+		try {
+			commonSettings.put("id",
+					context.get(COMMON_SETTINGS, COMMON_SETTINGS_OLD_ID));
+			commonSettings.put("chargeOrTrackTax", enableTaxCode);
+			if (enableTaxCode) {
+				commonSettings.put("taxItemInTransactions",
+						taxItemInTransactions);
+			}
+			commonSettings.put("enableTDS", enabletds);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return new JSONArray().put(commonSettings);
+	}
+
+	private JSONArray getCommonSettingsTaxMigrationJSON(boolean enableTaxCode,
+			String taxItemInTransactions) {
+		JSONObject commonSettings = new JSONObject();
+		try {
+			commonSettings.put("id",
+					context.get(COMMON_SETTINGS, COMMON_SETTINGS_OLD_ID));
+			commonSettings.put("chargeOrTrackTax", enableTaxCode);
+			if (enableTaxCode) {
+				commonSettings.put("taxItemInTransactions",
+						taxItemInTransactions);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return new JSONArray().put(commonSettings);
+	}
+
+	private JSONArray getCustomerAndSalesDiscountMigrationJSON(
+			boolean enableDiscount, String discountInTransactions) {
+		JSONObject customerAndSalesSettins = new JSONObject();
+		try {
+			customerAndSalesSettins.put("id", context.get(
+					CUSTOMER_AND_SALES_SETTINGS,
+					CUSTOMER_AND_SALES_SETTINGS_OLD_ID));
+			customerAndSalesSettins.put("trackDiscount", enableDiscount);
+			if (enableDiscount) {
+				customerAndSalesSettins.put("discountInTransactions",
+						discountInTransactions);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return new JSONArray().put(customerAndSalesSettins);
 	}
 
 	// here if we are sending already inserted objects to update then ids should
