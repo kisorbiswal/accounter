@@ -149,7 +149,6 @@ public class QuotePdfGeneration extends TransactionPDFGeneration {
 				TransactionItem item = (TransactionItem) iterator.next();
 
 				String description = forNullValue(item.getDescription());
-				description = description.replaceAll("\n", "<br/>");
 
 				StringBuffer data = new StringBuffer();
 				Quantity quantity = item.getQuantity();

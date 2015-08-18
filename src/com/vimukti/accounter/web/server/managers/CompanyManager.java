@@ -342,12 +342,27 @@ public class CompanyManager extends Manager {
 			session.update(cmp);
 
 			if (oldInventoryScheme != newInventoryScheme) {
+				Query countQ = session.getNamedQuery(
+						"getAllInventoryTransactionsCount").setLong("cid",
+						cmp.getId());
+				Long count = Long.valueOf(countQ.uniqueResult().toString());
+				if (count != null && count > ItemUtils.MAX_INVENTORY_TXS) {
+					throw new AccounterException(
+							AccounterException.ERROR_CANT_EDIT,
+							"Cannot change inventory scheme. Too many inventory transactions");
+				}
 				ItemUtils.remapAllInventory(cmp);
 			}
 
 			transaction.commit();
 			ChangeTracker.put(cmp.toClientCompany());
 			return cmp.getID();
+		} catch (AccounterException e) {
+			transaction.rollback();
+			if (e.getErrorCode() != 0) {
+				throw e;
+			}
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			transaction.rollback();

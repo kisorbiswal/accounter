@@ -15,6 +15,7 @@ import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.upload.AttachmentFileServer;
 import com.vimukti.accounter.mobile.ConsoleChatServer;
 import com.vimukti.accounter.setup.server.DatabaseManager;
+import com.vimukti.accounter.web.server.InventoryRemappingService;
 import com.vimukti.accounter.web.server.RecurringTool;
 
 public class ServicesStartUpListener implements ServletContextListener {
@@ -22,6 +23,7 @@ public class ServicesStartUpListener implements ServletContextListener {
 	private ExecutorService attachement;
 	private ExecutorService consoleChat;
 	private ScheduledExecutorService recurring;
+	private ScheduledExecutorService inventoryMapping;
 
 	// private ScheduledExecutorService subsciption;
 
@@ -57,6 +59,10 @@ public class ServicesStartUpListener implements ServletContextListener {
 			recurring.scheduleAtFixedRate(new RecurringTool(), 0, 1,
 					TimeUnit.HOURS);
 
+			inventoryMapping = Executors.newSingleThreadScheduledExecutor();
+			inventoryMapping.scheduleAtFixedRate(new InventoryRemappingService(),
+					0, 1, TimeUnit.HOURS);
+
 			// if (ServerConfiguration.isStopSchduleMails()) {
 			// subsciption = Executors.newSingleThreadScheduledExecutor();
 			// subsciption.scheduleAtFixedRate(new SubscriptionTool(), 0, 1,
@@ -84,6 +90,9 @@ public class ServicesStartUpListener implements ServletContextListener {
 		}
 		if (recurring != null) {
 			recurring.shutdownNow();
+		}
+		if (inventoryMapping != null) {
+			inventoryMapping.shutdownNow();
 		}
 		// if (subsciption != null) {
 		// subsciption.shutdownNow();
