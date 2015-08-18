@@ -23,6 +23,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ItemUtils {
 
+	public static final int MAX_INVENTORY_TXS = 1000;
+
 	/**
 	 * Given items should be inventoryItems
 	 * 

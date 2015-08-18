@@ -314,7 +314,7 @@ public class FinanceTool {
 				Transaction tt = (Transaction) serverObject;
 				try {
 					List<Item> inventory = tt.getInventoryUsed();
-					ItemUtils.remapSalesPurchases(inventory);
+					InventoryRemappingService.sheduleRemap(inventory);
 					int type = tt.getType();
 					if (type == Transaction.TYPE_ENTER_BILL
 							|| type == Transaction.TYPE_CASH_PURCHASE
@@ -596,7 +596,7 @@ public class FinanceTool {
 				Transaction tt = (Transaction) serverObject;
 				try {
 					List<Item> inventory = tt.getInventoryUsed();
-					ItemUtils.remapSalesPurchases(inventory);
+					InventoryRemappingService.sheduleRemap(inventory);
 					int type = tt.getType();
 					if (type == Transaction.TYPE_ENTER_BILL
 							|| type == Transaction.TYPE_CASH_PURCHASE
@@ -785,7 +785,7 @@ public class FinanceTool {
 				try {
 
 					List<Item> inventory = tt.getInventoryUsed();
-					ItemUtils.remapSalesPurchases(inventory);
+					InventoryRemappingService.sheduleRemap(inventory);
 					int type = tt.getType();
 					if (type == Transaction.TYPE_ENTER_BILL
 							|| type == Transaction.TYPE_CASH_PURCHASE
@@ -2490,13 +2490,12 @@ public class FinanceTool {
 				session.getNamedQuery("update.merge.inventoryHistory.old.tonew")
 						.setLong("fromID", fromClientItem.getID())
 						.setLong("toID", toClientItem.getID()).executeUpdate();
-				ItemUtils.remapSalesPurchases(to);
 
 				session.getNamedQuery(
 						"update.merge.inventoryAssembly.old.tonew")
 						.setLong("fromID", fromClientItem.getID())
 						.setLong("toID", toClientItem.getID()).executeUpdate();
-				ItemUtils.remapSalesPurchases(to);
+				InventoryRemappingService.sheduleRemap(to);
 
 			}
 

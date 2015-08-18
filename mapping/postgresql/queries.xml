@@ -2460,4 +2460,28 @@
 	    <query-param name="companyId" type="long"/>
 	    from com.vimukti.accounter.core.Item item where item.type in (2,4) and item.company.id= :companyId
 	</query>
+	
+	<sql-query name="getInventoryRemapTasks">
+		SELECT ITEM_ID, USER_ID, LID FROM INVENTORY_REMAP_TASK TAB1 
+			LEFT JOIN (SELECT MAX(ID) AS LID FROM INVENTORY_REMAP_TASK GROUP BY ITEM_ID) AS TAB ON TAB.LID = TAB1.ID
+	</sql-query>
+	
+	<sql-query name="deleteInventoryRemapTask">
+		<query-param name="latestId" type="long" />
+		<query-param name="itemId" type="long" />
+		 <![CDATA[
+		DELETE FROM INVENTORY_REMAP_TASK WHERE ITEM_ID = :itemId AND ID <= :latestId
+		]]>
+	</sql-query>
+	
+	<sql-query name="getAllInventoryTransactionsCount">
+		<query-param name="cid" type="long" />
+		 <![CDATA[
+		SELECT COUNT(TID) FROM (SELECT T.ID  AS TID FROM TRANSACTION T 
+			LEFT JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID=T.ID 
+			LEFT JOIN ITEM I ON I.ID=TI.ITEM_ID 
+				WHERE T.COMPANY_ID=:cid AND I.TYPE IN (2,4) GROUP BY T.ID) AS TAB
+				]]>
+	</sql-query>
+	
 </hibernate-mapping>

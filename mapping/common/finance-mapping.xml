@@ -2413,4 +2413,18 @@
 		<property name="currencyCode" column="CURRENCYCODE" />
 
 	</class>
+	<class name="InventoryRemapTask" table="INVENTORY_REMAP_TASK">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
+		</many-to-one>
+		<many-to-one name="item" column="ITEM_ID" class="Item"
+			not-null="true">
+		</many-to-one>
+		<many-to-one name="user" column="USER_ID" class="User"
+			not-null="true">
+		</many-to-one>
+	</class>
 </hibernate-mapping>
