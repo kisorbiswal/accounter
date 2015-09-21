@@ -116,7 +116,7 @@ public class CustomerListView extends BaseListView<PayeeList> implements
 	@Override
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				isActive, start, length, this);
+				isActive, start, length, false, this);
 	}
 
 	@Override

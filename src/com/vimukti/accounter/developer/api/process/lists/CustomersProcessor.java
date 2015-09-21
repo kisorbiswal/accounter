@@ -17,7 +17,7 @@ public class CustomersProcessor extends ListProcessor {
 
 		List<? extends IAccounterCore> resultList = null;
 		resultList = service.getPayeeList(ClientPayee.TYPE_CUSTOMER, isActive,
-				start, length);
+				start, length, false);
 		sendResult(resultList);
 	}
 

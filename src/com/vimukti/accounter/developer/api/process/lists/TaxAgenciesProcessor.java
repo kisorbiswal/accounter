@@ -17,7 +17,7 @@ public class TaxAgenciesProcessor extends ListProcessor {
 
 		List<? extends IAccounterCore> resultList = null;
 		resultList = service.getPayeeList(ClientPayee.TYPE_TAX_AGENCY,
-				isActive, start, length);
+				isActive, start, length, false);
 		sendResult(resultList);
 	}
 

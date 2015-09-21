@@ -1412,10 +1412,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public PaginationList<PayeeList> getPayeeList(int transactionCategory,
-			boolean isActive, int strat, int length) throws AccounterException {
+			boolean isActive, int strat, int length, boolean isPayeeCenter)
+			throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		return tool != null ? tool.getPayeeList(transactionCategory, isActive,
-				strat, length, getCompanyId()) : null;
+				strat, length, getCompanyId(), isPayeeCenter) : null;
 	}
 
 	@Override

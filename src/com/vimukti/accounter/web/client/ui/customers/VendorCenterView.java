@@ -190,7 +190,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 
 	private void initVendorListGrid() {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
-				isActiveAccounts, 0, -1,
+				isActiveAccounts, 0, -1, true,
 				new AsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override

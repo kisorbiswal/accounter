@@ -306,11 +306,12 @@ public interface IAccounterHomeViewService extends RemoteService {
 			throws AccounterException;
 
 	PaginationList<PayeeList> getPayeeList(int transactionCategory,
-			boolean isActive, int strat, int length) throws AccounterException;
+			boolean isActive, int strat, int length, boolean isPayeeCenter)
+			throws AccounterException;
 
 	public PaginationList<InvoicesList> getInvoiceList(long fromDate,
-			long toDate, int type, int viewType, int start, int length);
 
+			long toDate, int type, int viewType, int start, int length);
 	public String getCustomerNumber();
 
 	public String getVendorNumber();

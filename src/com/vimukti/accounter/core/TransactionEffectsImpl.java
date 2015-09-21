@@ -338,7 +338,7 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 		for (AccountTransaction at : newATs) {
 			total += (at.getAccount().isIncrease() ? -1 : 1) * at.getAmount();
 		}
-		if (!DecimalUtil.isEquals(total, 0.00D)) {
+		if (total >= 0.01) {
 			log.error("### Company '" + transaction.getCompany().getID()
 					+ "' Trail Balance is not Equal !!");
 			log.error("New ATs : " + newATs);

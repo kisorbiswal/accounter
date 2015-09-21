@@ -24,7 +24,8 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.grids.CustomerListGrid;
 
-public class CustomerSectionHomeView extends BaseHomeView implements IPortletPage {
+public class CustomerSectionHomeView extends BaseHomeView implements
+		IPortletPage {
 
 	ArrayList<String> addablePortletList = new ArrayList<String>();
 	private CustomerSectionHomeView customerHomeView = null;
@@ -56,7 +57,7 @@ public class CustomerSectionHomeView extends BaseHomeView implements IPortletPag
 	public void init() {
 		super.init();
 		createControl();
-		//setSize("100%", "100%");
+		// setSize("100%", "100%");
 
 	}
 
@@ -194,7 +195,7 @@ public class CustomerSectionHomeView extends BaseHomeView implements IPortletPag
 	@Override
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				isActiveAccounts, start, length,
+				isActiveAccounts, start, length, false,
 				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override
@@ -254,14 +255,14 @@ public class CustomerSectionHomeView extends BaseHomeView implements IPortletPag
 
 	@Override
 	public void fitToSize(int height, int width) {
-//		this.payeeGrid.setHeight((height - 130) + "px");
+		// this.payeeGrid.setHeight((height - 130) + "px");
 
 	}
 
 	public void setPrevoiusOutput(Object preObject) {
 
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				true, 0, 0,
+				true, 0, 0, false,
 				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override

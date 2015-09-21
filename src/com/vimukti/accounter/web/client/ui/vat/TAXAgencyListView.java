@@ -136,7 +136,7 @@ public class TAXAgencyListView extends BaseListView<PayeeList> implements
 	@Override
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_TAX_AGENCY,
-				isActive, start, length, this);
+				isActive, start, length, false, this);
 	}
 
 	@Override

@@ -17,7 +17,7 @@ public class VendorsProcessor extends ListProcessor {
 
 		List<? extends IAccounterCore> resultList = null;
 		resultList = service.getPayeeList(ClientPayee.TYPE_VENDOR, isActive,
-				start, length);
+				start, length, false);
 		sendResult(resultList);
 	}
 

@@ -448,7 +448,7 @@ public class CustomerCenterView<T> extends
 
 	private void initCustomersListGrid() {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				isActiveAccounts, 0, -1,
+				isActiveAccounts, 0, -1, true,
 				new AsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override

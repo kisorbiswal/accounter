@@ -3951,6 +3951,31 @@
 
 	</sql-query>
 
+	<sql-query name="getPayeesForCenters">
+		<query-param name="companyId" type="long" />
+		<query-param name="isActive" type="boolean" />
+		<query-param name="payee_type" type="int" />
+		<return-scalar column="IS_ACTIVE" type="boolean" />
+		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
+		<return-scalar column="ID" type="long" />
+		<return-scalar column="BALANCE" type="double" />
+		<return-scalar column="PAYEE_CURRENCY" type="long" />
+		<return-scalar column="ACCOUNTER_TYPE" type="int" />
+			<![CDATA[
+				SELECT P.is_active AS IS_ACTIVE,
+				       P.NAME      AS CUSTOMER_NAME,
+				       P.id        AS ID,
+				       P.balance   AS BALANCE,
+				       P.currency  AS PAYEE_CURRENCY,
+				       P.TYPE      AS ACCOUNTER_TYPE
+				FROM   payee P
+				WHERE  P.company_id = :companyId
+				       AND P.type = :payee_type
+				       AND P.is_active = :isActive
+				ORDER  BY P.NAME 
+			]]>
+	</sql-query>
+
 	<sql-query name="getCustomersList">
 		<query-param name="companyId" type="long" />
 		<query-param name="isActive" type="boolean" />
@@ -12568,10 +12593,12 @@
 		SELECT Coalesce(Max(CASE
 		WHEN I.path IS NULL
 		OR I.path = '' THEN 0
-		ELSE Cast(I.path AS INTEGER)
+		ELSE
+		Cast(I.path AS INTEGER)
 		END), 0) AS MAX_PATH
 		FROM item I
-		WHERE I.parent_id IS NULL
+		WHERE
+		I.parent_id IS NULL
 		AND I.id != :itemId
 	</sql-query>
 
@@ -12591,7 +12618,8 @@
 		OR AC.path = '' THEN 0
 		ELSE Cast(AC.path AS INTEGER)
 		END), 0) AS MAX_PATH
-		FROM accounter_class AC
+		FROM accounter_class
+		AC
 		WHERE AC.parent_id IS NULL
 		AND AC.id != :classId
 	</sql-query>

@@ -1821,6 +1821,61 @@ public class FinanceTool {
 				.setParameter("companyId", companyId).executeUpdate();
 	}
 
+	/**
+	 * 
+	 * 
+	 * 
+	 * P.is_active AS IS_ACTIVE, P.NAME AS CUSTOMER_NAME, P.id AS ID, P.balance
+	 * AS BALANCE, CASE WHEN t.currency_factor IS NULL THEN 1 ELSE
+	 * t.currency_factor END AS TRANSACTION_CURRENCY_FACTOR, P.currency AS
+	 * PAYEE_CURRENCY
+	 */
+	public PaginationList<PayeeList> getPayeeList(int category,
+			boolean isActive, int start, int length, long companyId,
+			boolean isPayeeCenter) throws AccounterException {
+		if (isPayeeCenter) {
+			Session session = HibernateUtil.getCurrentSession();
+			PaginationList<PayeeList> queryResult = new PaginationList<PayeeList>();
+			int total = 0;
+			Query query = session.getNamedQuery("getPayeesForCenters")
+					.setParameter("companyId", companyId)
+					.setParameter("isActive", isActive)
+					.setParameter("payee_type", category);
+			List list = query.list();
+			if (list != null && !list.isEmpty()) {
+				Iterator iterator = list.iterator();
+				while ((iterator).hasNext()) {
+					Object[] object = (Object[]) iterator.next();
+					PayeeList payeeList = new PayeeList();
+					payeeList.setActive((object[0] == null ? false
+							: ((Boolean) object[0]).booleanValue()));
+					payeeList.setPayeeName((String) object[1]);
+					payeeList.setID((Long) object[2]);
+					payeeList.setBalance((Double) object[3]);
+					payeeList.setCurrecny((Long) object[4]);
+					payeeList.setType((Integer) object[5]);
+					queryResult.add(payeeList);
+				}
+			}
+			total = queryResult.size();
+			PaginationList<PayeeList> result = new PaginationList<PayeeList>();
+			if (length < 0) {
+				result.addAll(queryResult);
+			} else {
+				int toIndex = start + length;
+				if (toIndex > queryResult.size()) {
+					toIndex = queryResult.size();
+				}
+				result.addAll(queryResult.subList(start, toIndex));
+			}
+			result.setTotalCount(total);
+			result.setStart(start);
+			return result;
+		} else {
+			return getPayeeList(category, isActive, start, length, companyId);
+		}
+	}
+
 	public PaginationList<PayeeList> getPayeeList(int category,
 			boolean isActive, int start, int length, long companyId)
 			throws AccounterException {
