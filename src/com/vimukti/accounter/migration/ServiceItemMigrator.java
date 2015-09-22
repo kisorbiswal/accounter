@@ -8,8 +8,6 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
-import com.vimukti.accounter.core.Quantity;
-import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Vendor;
 
 public class ServiceItemMigrator implements IMigrator<Item> {

@@ -55,10 +55,14 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		if (checkTransactionType) {
 
 		}
+		
 		JSONObject transaction = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, transaction, context);
 		transaction.put("date", obj.getDate().getAsDateObject().getTime());
 		transaction.put("number", obj.getNumber());
+		if (obj.isDraft()) {
+			transaction.put("objStatus", "Draft");
+		}
 		AccounterClass accounterClass = obj.getAccounterClass();
 		if (accounterClass != null) {
 			transaction.put("accountClass",

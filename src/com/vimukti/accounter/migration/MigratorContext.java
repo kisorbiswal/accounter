@@ -24,6 +24,10 @@ public class MigratorContext {
 		}
 	}
 
+	public void put(String name, Long oldId, Long newID) {
+		ids.put(name + oldId, newID);
+	}
+
 	public Long get(String name, long id) {
 		return ids.get(name + id);
 	}

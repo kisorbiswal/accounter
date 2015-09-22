@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.Customer;
 
 public class CustomerTdsEnableMigrator implements IMigrator<Customer> {
+
 	boolean isResetTds;
 
 	public CustomerTdsEnableMigrator(boolean enableTds) {
@@ -16,7 +17,6 @@ public class CustomerTdsEnableMigrator implements IMigrator<Customer> {
 	public JSONObject migrate(Customer obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-
 		jsonObject.put("id", context.get("Customer", obj.getID()));
 		if (isResetTds) {
 			jsonObject.put("tDSApplicable", obj.isWillDeductTDS());

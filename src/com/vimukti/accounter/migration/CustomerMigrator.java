@@ -22,6 +22,7 @@ import com.vimukti.accounter.core.TAXCode;
 
 public class CustomerMigrator implements IMigrator<Customer> {
 
+	@SuppressWarnings("null")
 	@Override
 	public JSONObject migrate(Customer obj, MigratorContext context)
 			throws JSONException {
@@ -111,8 +112,12 @@ public class CustomerMigrator implements IMigrator<Customer> {
 			childrenMap.put(key, list);
 		}
 		for (Contact contact : obj.getContacts()) {
+			String contactName = contact.getName();
+			if (contactName == null || contactName.equals("")) {
+				continue;
+			}
 			JSONObject jsonContact = new JSONObject();
-			jsonContact.put("contactName", contact.getName());
+			jsonContact.put("contactName", contactName);
 			jsonContact.put("title", contact.getTitle());
 			jsonContact.put("businessPhone", contact.getBusinessPhone());
 			jsonContact.put("email", contact.getEmail());

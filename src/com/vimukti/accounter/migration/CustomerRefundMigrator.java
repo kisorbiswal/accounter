@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
 
 public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> {
@@ -12,7 +13,6 @@ public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> 
 	public JSONObject migrate(CustomerRefund obj, MigratorContext context)
 			throws JSONException {
 		JSONObject jsonObj = super.migrate(obj, context);
-
 		Address addr = obj.getAddress();
 		if (addr != null) {
 			JSONObject jsonAddr = new JSONObject();
@@ -41,7 +41,10 @@ public class CustomerRefundMigrator extends TransactionMigrator<CustomerRefund> 
 		}
 		jsonObj.put("chequeNumber", checkNumber);
 		// PayTo
-		jsonObj.put("payee", context.get("Customer", obj.getPayTo().getID()));
+		Customer payTo = obj.getPayTo();
+		if (payTo != null) {
+			jsonObj.put("payee", context.get("Customer", payTo.getID()));
+		}
 		// Account
 		Account payFrom = obj.getPayFrom();
 		if (payFrom != null) {

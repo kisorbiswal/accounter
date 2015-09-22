@@ -101,9 +101,12 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		}
 		// contacts
 		for (Contact contact : obj.getContacts()) {
+			String contactName = contact.getName();
+			if (contactName == null || contactName.equals("")) {
+				continue;
+			}
 			JSONObject jsonContact = new JSONObject();
-			jsonContact.put("isPrimary", contact.isPrimary());
-			jsonContact.put("contactName", contact.getName());
+			jsonContact.put("contactName", contactName);
 			jsonContact.put("title", contact.getTitle());
 			jsonContact.put("businessPhone", contact.getBusinessPhone());
 			jsonContact.put("email", contact.getEmail());

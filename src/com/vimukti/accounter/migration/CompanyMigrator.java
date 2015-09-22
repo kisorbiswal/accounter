@@ -74,13 +74,11 @@ import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PayStructure;
-import com.vimukti.accounter.core.PayTAX;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PayrollUnit;
 import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.ReceivePayment;
-import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
@@ -89,10 +87,10 @@ import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TAXItem;
-import com.vimukti.accounter.core.TAXReturn;
 import com.vimukti.accounter.core.TDSChalanDetail;
 import com.vimukti.accounter.core.TDSDeductorMasters;
 import com.vimukti.accounter.core.TDSResponsiblePerson;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserDefinedPayHead;
@@ -107,7 +105,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 public class CompanyMigrator {
 	public static final String ECGINE_URL = "http://localhost:8080";
 	private static final String ECGINE_REST = "/api/v1/objects/";
-	private static final String API_KEY = "apikey";
+	private static final String API_KEY = "api_key";
 	private static final String FIRST_NAME = "firstName";
 	public static final String API_BASE_URL = "/api/v1";
 	private static final String LAST_NAME = "lastName";
@@ -163,7 +161,7 @@ public class CompanyMigrator {
 		// Users Migration
 		// migrateUsers(emails, context);
 		apiKey = json.getString(API_KEY);
-		installPackage("accounter", "accounter10");
+		migrateAllObjects();
 
 	}
 
@@ -206,7 +204,6 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("TaxAgency", TAXAgency.class,
 				new TaxAgencyMigrator(), context);
 		context.put("TaxAgency", migratedObjects);
-
 		// salesPersons
 		migratedObjects = migrateObjects("SalesPerson", SalesPerson.class,
 				new SalesPersonMigrator(), context);
@@ -251,25 +248,14 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("TaxCode", TAXCode.class,
 				new TAXCodeMigrator(), context);
 		context.put("TaxCode", migratedObjects);
-
 		// CompanyDefatultTaxCodeMigration
 		migratedObjects = migrateObjects(COMMON_SETTINGS,
 				CompanyPreferences.class, new CompanyDefatultTaxCodeMigrator(),
 				context);
-
 		// Customers
 		migratedObjects = migrateObjects("Customer", Customer.class,
 				new CustomerMigrator(), context);
 		context.put("Customer", migratedObjects);
-		// CustomerPrepayment
-		migratedObjects = migrateObjects("CustomerPrepayment",
-				CustomerPrePayment.class, new CustomerPrepaymentMigrator(),
-				context);
-		context.put("CustomerPrepayment", migratedObjects);
-		// Vendor Groups
-		migratedObjects = migrateObjects("VendorGroup", VendorGroup.class,
-				new VendorGroupMigrator(), context);
-		context.put("VendorGroup", migratedObjects);
 		// Jobs
 		migratedObjects = migrateObjects("Project", Job.class,
 				new JobMigrator(), context);
@@ -318,32 +304,44 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("Credit", Estimate.class,
 				new CreditsMigrator(), context);
 		context.put("Credit", migratedObjects);
-		// // Charges this is not using in new accounter
-		// migratedObjects = migrateObjects("Charge", Estimate.class,
-		// new ChargesMigrator(), context,null);
-		// context.put("Charge", migratedObjects);
 		// Invoice
 		migratedObjects = migrateObjects("Invoice", Invoice.class,
 				new InvoiceMigrator(), context);
 		context.put("Invoice", migratedObjects);
+		// CustomerPrepayment
+		migratedObjects = migrateObjects("CustomerPrepayment",
+				CustomerPrePayment.class, new CustomerPrepaymentMigrator(),
+				context);
+		context.put("CustomerPrepayment", migratedObjects);
+		// CustomerCreditMemo
+		migratedObjects = migrateObjects("CreditMemo",
+				CustomerCreditMemo.class, new CreditMemoMigrator(), context);
+		context.put("CreditMemo", migratedObjects);
 		// ReceivePayment
 		boolean tdsApplicable = context.getCompany().getCountry()
 				.equals("India");
 		if (tdsApplicable) {
-			// tds ReceivePayments
+
+			Map<Long, Long> allReceivePaymentOLDandNEWIDs = new HashMap<Long, Long>();
+
+			// Migrating Only TDS ReceivePayments
 			migratedObjects = migrateReceivePaymentOrPayBill(context,
 					"ReceivePayment", ReceivePayment.class,
 					new ReceivePaymentMigrator(), true);
-			Map<Long, Long> allObjects = new HashMap<Long, Long>();
-			allObjects.putAll(migratedObjects);
-			// non tds ReceivePayments
+			allReceivePaymentOLDandNEWIDs.putAll(migratedObjects);
+
+			// Migrating Only non TDS ReceivePayments
 			migratedObjects = migrateReceivePaymentOrPayBill(context,
 					"ReceivePayment", ReceivePayment.class,
 					new ReceivePaymentMigrator(), false);
-			allObjects.putAll(migratedObjects);
-			context.put("ReceivePayment", allObjects);
+			allReceivePaymentOLDandNEWIDs.putAll(migratedObjects);
+
+			context.put("ReceivePayment", allReceivePaymentOLDandNEWIDs);
+
+			// put Back to Present State
 			migrateVendorOrCustomer(context, "Customer", Customer.class,
 					new CustomerTdsEnableMigrator(true));
+
 		} else {
 			migratedObjects = migrateObjects("ReceivePayment",
 					ReceivePayment.class, new ReceivePaymentMigrator(), context);
@@ -354,18 +352,15 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("CashSale", CashSales.class,
 				new CashSaleMigrator(), context);
 		context.put("CashSale", migratedObjects);
-		// CustomerCreditMemo
-		migratedObjects = migrateObjects("CreditMemo",
-				CustomerCreditMemo.class, new CreditMemoMigrator(), context);
-		context.put("CreditMemo", migratedObjects);
 		// Vendor
 		migratedObjects = migrateObjects("Vendor", Vendor.class,
 				new VendorMigrator(), context);
 		context.put("Vendor", migratedObjects);
-		// VendorPrepayment
-		migratedObjects = migrateObjects("VendorPrepayment",
-				VendorPrePayment.class, new VendorPrepaymentMigrator(), context);
-		context.put("VendorPrepayment", migratedObjects);
+		// Vendor Groups
+		migratedObjects = migrateObjects("VendorGroup", VendorGroup.class,
+				new VendorGroupMigrator(), context);
+		context.put("VendorGroup", migratedObjects);
+
 		// PurchaseOrder
 		migratedObjects = migrateObjects("PurchaseOrder", PurchaseOrder.class,
 				new PurchaseOrderMigrator(), context);
@@ -387,20 +382,30 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("EnterBill", EnterBill.class,
 				new EnterBillMigrator(), context);
 		context.put("EnterBill", migratedObjects);
+		// VendorPrepayment
+		migratedObjects = migrateObjects("VendorPrepayment",
+				VendorPrePayment.class, new VendorPrepaymentMigrator(), context);
+		context.put("VendorPrepayment", migratedObjects);
 		// DebitNote
 		migratedObjects = migrateObjects("DebitNote", VendorCreditMemo.class,
 				new DebitNoteMigrator(), context);
 		context.put("DebitNote", migratedObjects);
 		// PayBill
 		if (tdsApplicable) {
+
+			// Migrating Only TDS Pay Bills
 			migratedObjects = migrateReceivePaymentOrPayBill(context,
 					"PayBill", PayBill.class, new PayBillMigrator(), true);
 			Map<Long, Long> allObjects = new HashMap<Long, Long>();
 			allObjects.putAll(migratedObjects);
+
+			// Migrating Only NON TDS Pay Bills
 			migratedObjects = migrateReceivePaymentOrPayBill(context,
 					"PayBill", PayBill.class, new PayBillMigrator(), false);
 			allObjects.putAll(migratedObjects);
 			context.put("PayBill", allObjects);
+
+			// put Back to Present State
 			migrateVendorOrCustomer(context, "Vendor", Vendor.class,
 					new VendorTdsEnableMigrator(true));
 		} else {
@@ -488,22 +493,22 @@ public class CompanyMigrator {
 				TDSResponsiblePerson.class, new TDSResponsiblePersonMigrator(),
 				context);
 		context.put("TDSResponsiblePerson", migratedObjects);
-		// TaxRefund
-		migratedObjects = migrateObjects("TaxRefund", ReceiveVAT.class,
-				new TaxRefundMigrator(), context);
-		context.put("TaxRefund", migratedObjects);
 		// TDSChalan
 		migratedObjects = migrateObjects("TdsChallan", TDSChalanDetail.class,
 				new TdsChallanMigrator(), context);
 		context.put("TdsChallan", migratedObjects);
-		// PayTAX
-		migratedObjects = migrateObjects("PayTAX", PayTAX.class,
-				new PayTaxMigrator(), context);
-		context.put("PayTAX", migratedObjects);
-		// FileTax
-		migratedObjects = migrateObjects("FileTax", TAXReturn.class,
-				new FileTaxMigrator(), context);
-		context.put("FileTax", migratedObjects);
+		// // FileTax
+		// migratedObjects = migrateObjects("FileTax", TAXReturn.class,
+		// new FileTaxMigrator(), context);
+		// context.put("FileTax", migratedObjects);
+		// // PayTAX
+		// migratedObjects = migrateObjects("PayTAX", PayTAX.class,
+		// new PayTaxMigrator(), context);
+		// context.put("PayTAX", migratedObjects);
+		// // TaxRefund
+		// migratedObjects = migrateObjects("TaxRefund", ReceiveVAT.class,
+		// new TaxRefundMigrator(), context);
+		// context.put("TaxRefund", migratedObjects);
 		migratedObjects = migrateObjects("PermissionSet", User.class,
 				new PermissionSetMigrator(), context);
 		context.put("PermissionSet", migratedObjects);
@@ -517,7 +522,7 @@ public class CompanyMigrator {
 		Set<String> keySet = inactiveObjects.keySet();
 		for (String key : keySet) {
 			setRequestToRestApi(key, context,
-					new JSONArray().put(inactiveObjects.get(key)), null);
+					new JSONArray().put(inactiveObjects.get(key)), null, null);
 		}
 		// CommonSettings
 		migratedObjects = migrateObjects(COMMON_SETTINGS,
@@ -642,6 +647,7 @@ public class CompanyMigrator {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T extends IAccounterServerCore> Map<Long, Long> migrateVendorOrCustomer(
 			MigratorContext context, String identity, Class clazz,
 			IMigrator<T> migrator) throws JSONException, HttpException,
@@ -667,17 +673,18 @@ public class CompanyMigrator {
 			}
 		}
 		// Send Request TO REST API
-		return setRequestToRestApi(identity, context, objectArray1, ids);
+		return setRequestToRestApi(identity, context, objectArray1, ids, null);
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T extends IAccounterServerCore> Map<Long, Long> migrateReceivePaymentOrPayBill(
 			MigratorContext context, String identity, Class clazz,
-			IMigrator<T> migrator, boolean enableTds) throws JSONException,
-			HttpException, IOException {
+			IMigrator<T> migrator, boolean isMigrateTDSTxnOnly)
+			throws JSONException, HttpException, IOException {
 		boolean isReceivePayment = identity.equals("ReceivePayment");
 		List<Long> companyIds = new ArrayList<Long>();
 		companyIds.add(context.getCompany().getID());
-		if (enableTds) {
+		if (isMigrateTDSTxnOnly) {
 			if (isReceivePayment) {
 				migrateVendorOrCustomer(context, identity, Customer.class,
 						new CustomerTdsEnableMigrator(false));
@@ -686,17 +693,19 @@ public class CompanyMigrator {
 						new VendorTdsEnableMigrator(false));
 			}
 			JSONArray commonSettingsTaxMigrationJSON = getCommonSettingsTaxAndTdsMigrationJSON(
-					true, "OnePerDetailLine", enableTds);
+					true, "OnePerDetailLine", isMigrateTDSTxnOnly);
 			setRequestToRestApi(COMMON_SETTINGS, context,
-					commonSettingsTaxMigrationJSON, companyIds);
+					commonSettingsTaxMigrationJSON, companyIds, null);
 		}
+		// Accounter Live Receive Payment and PayBill Ids
 		List<Long> ids = new ArrayList<Long>();
+		// get Receive Payments or Pay Bills
 		Session session = HibernateUtil.getCurrentSession();
 		JSONArray objectArray1 = new JSONArray();
 		Criteria criteria = session.createCriteria(clazz, "obj");
 		migrator.addRestrictions(criteria);
 		List<T> objects = new ArrayList<T>();
-		if (enableTds) {
+		if (isMigrateTDSTxnOnly) {
 			objects = criteria.add(Restrictions.eq("company", company))
 					.add(Restrictions.ne("tdsTotal", 0D)).list();
 		} else {
@@ -717,7 +726,7 @@ public class CompanyMigrator {
 			}
 		}
 		// Send Request TO REST API
-		return setRequestToRestApi(identity, context, objectArray1, ids);
+		return setRequestToRestApi(identity, context, objectArray1, ids, null);
 	}
 
 	private void addAuthenticationParameters(HttpRequest executeMethod) {
@@ -732,6 +741,8 @@ public class CompanyMigrator {
 			MigratorContext context) throws JSONException, HttpException,
 			IOException {
 		List<Long> ids = new ArrayList<Long>();
+		// Customer Credit And Vendor Debit Accounter Live Id's
+		List<Long> applyCreditIds = new ArrayList<Long>();
 		Session session = HibernateUtil.getCurrentSession();
 		JSONArray objectArray = new JSONArray();
 		Criteria criteria = session.createCriteria(clazz, "obj");
@@ -767,13 +778,22 @@ public class CompanyMigrator {
 			if (migrate != null) {
 				objectArray.put(migrate);
 				ids.add(obj.getID());
+				// Adding Customer Credit And Vendor Debit Id's to Context
+				if (obj instanceof CustomerPrePayment
+						|| obj instanceof CustomerCreditMemo
+						|| obj instanceof VendorPrePayment
+						|| obj instanceof VendorCreditMemo) {
+					Transaction txn = (Transaction) obj;
+					applyCreditIds.add(txn.getCreditsAndPayments().getID());
+				}
 			}
 		}
 		if (contains) {
 			return migrateTransactionObject(ids, identity);
 		} else {
 			// Send Request TO REST API
-			return setRequestToRestApi(identity, context, objectArray, ids);
+			return setRequestToRestApi(identity, context, objectArray, ids,
+					applyCreditIds);
 		}
 	}
 
@@ -788,121 +808,126 @@ public class CompanyMigrator {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
 					"OnePerTransaction");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds);
+					companyIds, null);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					true, "OnePertransaction");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds);
+					customerAndSalesSettings, companyIds, null);
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPTAndWTaxOPT(),
-					ids));
+					ids, null));
 		}
 
 		if (currentTrasMigrationContext.haswDiscountOPTAndWTaxOPDL()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
 					"OnePerDetailLine");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds);
+					companyIds, null);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					true, "OnePertransaction");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds);
+					customerAndSalesSettings, companyIds, null);
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPTAndWTaxOPDL(),
-					ids));
+					ids, null));
 		}
 
 		if (currentTrasMigrationContext.haswDiscountOPTAndWOTax()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(false,
 					"");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds);
+					companyIds, null);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					true, "OnePertransaction");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds);
+					customerAndSalesSettings, companyIds, null);
 			idsMap.putAll(setRequestToRestApi(identity, context,
-					currentTrasMigrationContext.getwDiscountOPTAndWOTax(), ids));
+					currentTrasMigrationContext.getwDiscountOPTAndWOTax(), ids,
+					null));
 		}
 
 		if (currentTrasMigrationContext.haswDiscountOPDLAndWTaxOPT()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
 					"OnePerTransaction");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds);
+					companyIds, null);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					true, "OnePerdetailLine");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds);
+					customerAndSalesSettings, companyIds, null);
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPDLAndWTaxOPT(),
-					ids));
+					ids, null));
 		}
 
 		if (currentTrasMigrationContext.haswDiscountOPDLAndWTaxOPDL()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
 					"OnePerDetailLine");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds);
+					companyIds, null);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					true, "OnePerdetailLine");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds);
+					customerAndSalesSettings, companyIds, null);
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPDLAndWTaxOPDL(),
-					ids));
+					ids, null));
 		}
 
 		if (currentTrasMigrationContext.haswDiscountOPDLAndWOTax()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(false,
 					"");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds);
+					companyIds, null);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					true, "OnePerdetailLine");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds);
+					customerAndSalesSettings, companyIds, null);
 			idsMap.putAll(setRequestToRestApi(identity, context,
-					currentTrasMigrationContext.getwDiscountOPDLAndWOTax(), ids));
+					currentTrasMigrationContext.getwDiscountOPDLAndWOTax(),
+					ids, null));
 		}
 
 		if (currentTrasMigrationContext.haswODiscountAndWTaxOPT()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
 					"OnePerTransaction");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds);
+					companyIds, null);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					false, "");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds);
+					customerAndSalesSettings, companyIds, null);
 			idsMap.putAll(setRequestToRestApi(identity, context,
-					currentTrasMigrationContext.getwODiscountAndWTaxOPT(), ids));
+					currentTrasMigrationContext.getwODiscountAndWTaxOPT(), ids,
+					null));
 		}
 
 		if (currentTrasMigrationContext.haswODiscountAndWTaxOPDL()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
 					"OnePerDetailLine");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds);
+					companyIds, null);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					false, "");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds);
+					customerAndSalesSettings, companyIds, null);
 			idsMap.putAll(setRequestToRestApi(identity, context,
-					currentTrasMigrationContext.getwODiscountAndWTaxOPDL(), ids));
+					currentTrasMigrationContext.getwODiscountAndWTaxOPDL(),
+					ids, null));
 		}
 
 		if (currentTrasMigrationContext.haswODiscountAndWOTax()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(false,
 					"");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds);
+					companyIds, null);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					false, "");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds);
+					customerAndSalesSettings, companyIds, null);
 			idsMap.putAll(setRequestToRestApi(identity, context,
-					currentTrasMigrationContext.getwODiscountAndWOTax(), ids));
+					currentTrasMigrationContext.getwODiscountAndWOTax(), ids,
+					null));
 		}
 		return idsMap;
 	}
@@ -965,8 +990,9 @@ public class CompanyMigrator {
 	// be null.Because those are old database id's. So no need to insert them in
 	// context again
 	private Map<Long, Long> setRequestToRestApi(String identity,
-			MigratorContext context, JSONArray objectArray, List<Long> ids)
-			throws JSONException, HttpException, IOException {
+			MigratorContext context, JSONArray objectArray, List<Long> ids,
+			List<Long> customerCreditIds) throws JSONException, HttpException,
+			IOException {
 
 		Map<Long, Long> newAndOldIds = new HashMap<Long, Long>();
 		// Setting SingleTon id's
@@ -1010,6 +1036,8 @@ public class CompanyMigrator {
 							Long id = json.getLong("id");
 							Long oldId = ids.get(i);
 							newAndOldIds.put(oldId, id);
+							addCustomerAndVendorCreditsToContext(json,
+									customerCreditIds, i, context);
 							log.info("Migrated "
 									+ identity
 									+ (ids != null ? "  Accounter ID :" + oldId
@@ -1040,7 +1068,6 @@ public class CompanyMigrator {
 		for (int i = 0; i < array.length(); i++) {
 			JSONObject json = array.getJSONObject(i);
 			long id = json.getLong("id");
-
 			if (json.has("inactive") && json.getBoolean("inactive")) {
 				JSONObject jsonObject = new JSONObject();
 				jsonObject.put("id", id);
@@ -1063,7 +1090,8 @@ public class CompanyMigrator {
 				newAndOldIds.put(ids.get(i), id);
 			}
 			JSONObject jsonObject = json.getJSONObject("object");
-
+			addCustomerAndVendorCreditsToContext(jsonObject, customerCreditIds,
+					i, context);
 			createEcgineChildrenMap(accounterMap, ecgineMap, jsonObject);
 			log.info("Migrated " + identity
 					+ (ids != null ? "  Accounter ID :" + ids.get(i) : "")
@@ -1071,6 +1099,32 @@ public class CompanyMigrator {
 		}
 		putChildrenInContext(accounterMap, ecgineMap, context);
 		return newAndOldIds;
+	}
+
+	/**
+	 * Adding Customer Credit And Vendor Debit Id's to Context
+	 * 
+	 * @param jsonObject
+	 * @param customerCreditIds
+	 * @param index
+	 * @param context
+	 * @throws JSONException
+	 */
+	private void addCustomerAndVendorCreditsToContext(JSONObject jsonObject,
+			List<Long> customerCreditIds, int index, MigratorContext context)
+			throws JSONException {
+		if (jsonObject.has("credit")) {
+			JSONObject creditObject = jsonObject.getJSONObject("credit");
+			long customerCreditId = creditObject.getLong("id");
+			context.put("CustomerCredit", customerCreditIds.get(index),
+					customerCreditId);
+		}
+		if (jsonObject.has("debit")) {
+			JSONObject debitObject = jsonObject.getJSONObject("debit");
+			long vendorDebitId = debitObject.getLong("id");
+			context.put("VendorDebit", customerCreditIds.get(index),
+					vendorDebitId);
+		}
 	}
 
 	private boolean setSingleTonId(String identity,
@@ -1137,8 +1191,7 @@ public class CompanyMigrator {
 				ecgineMap.put(key, list);
 			}
 			String prop = key.substring(0, key.indexOf("-"));
-			JSONObject obj = jsonObject.getJSONObject(prop);
-			JSONArray jsonArray = obj.getJSONArray("value");
+			JSONArray jsonArray = jsonObject.getJSONArray(prop);
 			for (int i = 0; i < jsonArray.length(); i++) {
 				list.add(jsonArray.getJSONObject(i).getLong("id"));
 			}
@@ -1177,8 +1230,7 @@ public class CompanyMigrator {
 		params.add(new BasicNameValuePair(EMAIL, accClient.getEmailId()));
 		params.add(new BasicNameValuePair(FIRST_NAME, accClient.getFirstName()));
 		params.add(new BasicNameValuePair(LAST_NAME, accClient.getLastName()));
-		params.add(new BasicNameValuePair(COUNTRY, removeSpaces(accClient
-				.getCountry())));
+		params.add(new BasicNameValuePair(COUNTRY, accClient.getCountry()));
 		Company company2 = user.getCompany();
 		params.add(new BasicNameValuePair(COMPANY_NAME, company2
 				.getTradingName()));

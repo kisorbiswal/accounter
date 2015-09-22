@@ -15,33 +15,17 @@ import com.vimukti.accounter.core.Utility;
 public class AccountMigrator implements IMigrator<Account> {
 
 	String[] names = new String[] { "Account Receivable", "Account Payable",
-			"Central Sales Tax Payable", "Sales Liability Account",
-			"Tax Filed", "Opening Balances", "Exchange Loss or Gain",
-			"Salaris Payable", "Inventory Assets", "Pending Item Receipts",
-			"Rounding", "TDS Tax Payable", "Service Tax Payable",
-			"Retained Earnings", "Owner a Share Capital",
-			"Opening Balance Offset", "Ordinary Shares",
-			"P&L Brought Forward/YTD", "Dividends", "Capitation Fees",
-			"Fee for Service Income", "Nonmedical Income", "Refunds",
-			"Discounts Given", "Other Cash Income", "Cash Discount taken",
-			"Ask my Accountant", "Advertising & Promotion",
-			"Automobile Expense", "Bank Service Charges",
-			"Computer & Internet Expenses", "Continuing Education",
-			"Depreciation Expenses", "Insurance expense", "Interest Expense",
-			"Janitorial Expenses", "Laboratory Fees", "Meals & Entertainment",
-			"Medical Records & Supplies", "Office Supplies",
-			"Professoinal Fees", "Reference Materials", "Rent Expenses",
-			"Saloon Supplies", " Linens", " Laundry", "Repairs & Maintenance",
-			"Salaries and Wages", "Small Medical Equipment",
-			"Telephone Expenses", "Travel Expenses", "Uniform",
-			"Utilities Expenses", "Other Cash Expense", "Deferred Tax",
-			"TDS Deducted by Others", "Vaccinnes & Medicines" };
+			"Central Sales Tax Payable", "Tax Filed", "Opening Balances",
+			"Exchange Loss or Gain", "Salaries Payable", "Inventory Assets",
+			"TDS Tax Payable", "Service Tax Payable", "Cost Of Goods Sold" };
 
 	@Override
 	public JSONObject migrate(Account account, MigratorContext context)
 			throws JSONException {
 		List<String> asList = Arrays.asList(names);
-		if (account.isDefault() || asList.contains(account.getName())) {
+		if (account.isDefault() || asList.contains(account.getName())
+				|| account.getName().equals("Debtors")
+				|| account.getName().equals("Creditors")) {
 			return null;
 		}
 		JSONObject jsonObject = new JSONObject();

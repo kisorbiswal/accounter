@@ -19,7 +19,6 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		JSONObject jsonObject = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("name", obj.getName());
-		jsonObject.put("identification", context.getNextTaxAgencyNumber());
 		jsonObject.put("inActive", !obj.isActive());
 		// Setting object PaymentTerm
 		PaymentTerms paymentTerm = obj.getPaymentTerm();
@@ -94,9 +93,12 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		// Contacts
 		JSONArray jsonContacts = new JSONArray();
 		for (Contact contact : obj.getContacts()) {
+			String contactName = contact.getName();
+			if (contactName == null || contactName.equals("")) {
+				continue;
+			}
 			JSONObject jsonContact = new JSONObject();
-			jsonContact.put("isPrimary", contact.isPrimary());
-			jsonContact.put("contactName", contact.getName());
+			jsonContact.put("contactName", contactName);
 			jsonContact.put("title", contact.getTitle());
 			jsonContact.put("businessPhone", contact.getBusinessPhone());
 			jsonContact.put("email", contact.getEmail());

@@ -8,9 +8,9 @@ import org.json.JSONObject;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.EnterBill;
-import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.TAXItem;
+import com.vimukti.accounter.core.TransactionCreditsAndPayments;
 import com.vimukti.accounter.core.TransactionPayBill;
 import com.vimukti.accounter.core.Vendor;
 
@@ -18,67 +18,75 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 	@Override
 	public JSONObject migrate(PayBill obj, MigratorContext context)
 			throws JSONException {
-		JSONObject jsonObject = super.migrate(obj, context);
-
+		JSONObject payBill = super.migrate(obj, context);
 		List<TransactionPayBill> transactionPayBill = obj
 				.getTransactionPayBill();
-		JSONArray array = new JSONArray();
-		for (TransactionPayBill tBill : transactionPayBill) {
-			JSONObject jsonObj = new JSONObject();
-			FinanceDate dueDate = tBill.getDueDate();
-			if (dueDate != null) {
-				jsonObj.put("dueDate", dueDate.getAsDateObject().getTime());
+		{
+			JSONArray payBillItems = new JSONArray();
+			for (TransactionPayBill tBill : transactionPayBill) {
+				JSONObject payBillItem = new JSONObject();
+				EnterBill enterBill = tBill.getEnterBill();
+				if (enterBill != null) {
+					payBillItem.put("bill",
+							context.get("EnterBill", enterBill.getID()));
+				} else {
+					return null;
+				}
+				payBillItem.put("payment", tBill.getPayment());
+				// discountAccount
+				Account discountAccount = tBill.getDiscountAccount();
+				if (discountAccount != null) {
+					payBillItem.put("discountAccount",
+							context.get("Account", discountAccount.getID()));
+					payBillItem.put("discountAmount", tBill.getCashDiscount());
+				}
+				// Apply Debits
+				{
+					JSONObject applyDebit = new JSONObject();
+					JSONArray applyDebitItems = new JSONArray();
+					for (TransactionCreditsAndPayments ac : tBill
+							.getTransactionCreditsAndPayments()) {
+						JSONObject applyDebitItem = new JSONObject();
+						applyDebitItem.put("credit", context.get("debitNote",
+								ac.getCreditsAndPayments().getID()));
+						applyDebitItem.put("amountToUse", ac.getAmountToUse());
+						applyDebitItems.put(applyDebitItem);
+					}
+					payBillItem.put("applyDebits", applyDebit);
+				}
+				payBillItems.put(payBillItem);
 			}
-			EnterBill enterBill = tBill.getEnterBill();
-			if (enterBill != null) {
-				jsonObj.put("bill", context.get("EnterBill", enterBill.getID()));
-			}
-			jsonObj.put("payment", tBill.getPayment());
-
-			// discountAccount
-			Account discountAccount = tBill.getDiscountAccount();
-			if (discountAccount != null) {
-				jsonObj.put("discountAccount",
-						context.get("Account", discountAccount.getID()));
-				jsonObj.put("discountAmount", tBill.getCashDiscount());
-			}
-			double appliedCredits = tBill.getAppliedCredits();
-			if (appliedCredits != 0) {
-				jsonObject.put("debitAmount", appliedCredits);
-			}
-			array.put(jsonObj);
+			payBill.put("payBillItems", payBillItems);
 		}
-		jsonObject.put("payBillItems", array);
-
 		TAXItem tdsTaxItem = obj.getTdsTaxItem();
 		if (tdsTaxItem != null) {
-			jsonObject.put("tDS", context.get("Tax", tdsTaxItem.getID()));
+			payBill.put("tDS", context.get("Tax", tdsTaxItem.getID()));
 		}
-		jsonObject.put("tDSAmount", obj.getTdsTotal());
-		jsonObject.put("filterByBillDueOnOrBefore", obj.getBillDueOnOrBefore()
+		payBill.put("tDSAmount", obj.getTdsTotal());
+		payBill.put("filterByBillDueOnOrBefore", obj.getBillDueOnOrBefore()
 				.getAsDateObject().getTime());
 		Vendor vendor = obj.getVendor();
 		if (vendor != null) {
-			jsonObject.put("payee", context.get("Vendor", vendor.getID()));
+			payBill.put("payee", context.get("Vendor", vendor.getID()));
 		}
 		Account payFrom = obj.getPayFrom();
 		if (payFrom != null) {
-			jsonObject.put("account", context.get("Account", payFrom.getID()));
+			payBill.put("account", context.get("Account", payFrom.getID()));
 		}
 		String paymentMethod = obj.getPaymentMethod();
 		if (paymentMethod != null) {
-			jsonObject.put("paymentMethod", PicklistUtilMigrator
+			payBill.put("paymentMethod", PicklistUtilMigrator
 					.getPaymentMethodIdentifier(paymentMethod));
 		} else {
-			jsonObject.put("paymentMethod", "Cash");
+			payBill.put("paymentMethod", "Cash");
 		}
-		jsonObject.put("toBePrinted", obj.isToBePrinted());
+		payBill.put("toBePrinted", obj.isToBePrinted());
 		Long chequeNumber = null;
 		try {
 			chequeNumber = Long.valueOf(obj.getCheckNumber());
-			jsonObject.put("chequeNumber", chequeNumber);
+			payBill.put("chequeNumber", chequeNumber);
 		} catch (Exception e) {
 		}
-		return jsonObject;
+		return payBill;
 	}
 }

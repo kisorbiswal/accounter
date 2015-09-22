@@ -3,6 +3,7 @@ package com.vimukti.accounter.migration;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
@@ -10,6 +11,7 @@ import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class AccounterMigrator {
@@ -20,6 +22,7 @@ public class AccounterMigrator {
 	public void migrate() throws Exception {
 		try {
 			Session session = HibernateUtil.openSession();
+			ServerLocal.set(Locale.ENGLISH);
 			Query query = session
 					.createSQLQuery("SELECT id from company where id =8660 order by id ");
 			List<BigInteger> ids = query.list();

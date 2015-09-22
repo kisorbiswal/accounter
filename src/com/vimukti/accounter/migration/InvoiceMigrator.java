@@ -24,7 +24,6 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 				context.get("Customer", obj.getCustomer().getID()));
 		// DueDate
 		jsonObject.put("dueDate", obj.getDueDate().getAsDateObject().getTime());
-
 		// BillTo
 		Address billTo = obj.getBillingAddress();
 		if (billTo != null) {

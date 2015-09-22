@@ -26,14 +26,15 @@ public class FileTaxMigrator extends TransactionMigrator<TAXReturn> {
 		jsonObject
 				.put("to", obj.getPeriodEndDate().getAsDateObject().getTime());
 		List<TAXReturnEntry> taxReturnEntries = obj.getTaxReturnEntries();
-		JSONArray array = new JSONArray();
+		JSONArray fileTaxItems = new JSONArray();
 		for (TAXReturnEntry taxReturnEntry : taxReturnEntries) {
 			JSONObject transactionJson = new JSONObject();
 			// TODO TaxRateCalculation Object is not there in account
 			// FileTaxItem Completely depends on that.
-			array.put(transactionJson);
+			// transactionJson.put("taxRateCalculation", taxReturnEntry.get)
+			fileTaxItems.put(transactionJson);
 		}
-		jsonObject.put("taxItems", array);
+		jsonObject.put("taxItems", fileTaxItems);
 		return jsonObject;
 	}
 }
