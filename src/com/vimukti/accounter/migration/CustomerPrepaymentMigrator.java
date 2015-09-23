@@ -40,7 +40,7 @@ public class CustomerPrepaymentMigrator extends
 			jsonObject.put("account", account);
 		}
 		// Amount
-		jsonObject.put("amount", obj.getNetAmount());
+		jsonObject.put("amount", obj.getTotal());
 
 		// paymentMethod
 		String paymentMethod = obj.getPaymentMethod();

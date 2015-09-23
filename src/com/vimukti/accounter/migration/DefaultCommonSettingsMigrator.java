@@ -3,6 +3,7 @@ package com.vimukti.accounter.migration;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -74,6 +75,10 @@ public class DefaultCommonSettingsMigrator implements
 				.getExchangeLossOrGainAccount().getID()));
 		commonSettings.put("costOfGoodsSold",
 				context.get("Account", company.getCostOfGoodsSold().getID()));
+		// Dummy Enble for TAx AGENCY MIGRATION
+		commonSettings.put("chargeOrTrackTax", true);
+		commonSettings.put("taxItemInTransactions", "OnePerTransaction");
+		commonSettings.put("enableTrackingTaxPaid", true);
 		return commonSettings;
 	}
 

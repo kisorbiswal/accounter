@@ -52,6 +52,7 @@ public class PayBillMigrator extends TransactionMigrator<PayBill> {
 						applyDebitItem.put("amountToUse", ac.getAmountToUse());
 						applyDebitItems.put(applyDebitItem);
 					}
+					applyDebit.put("debitItems", applyDebitItems);
 					payBillItem.put("applyDebits", applyDebit);
 				}
 				payBillItems.put(payBillItem);

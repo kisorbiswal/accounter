@@ -71,6 +71,7 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 						applyCreditItem.put("amountToUse", ac.getAmountToUse());
 						applyCreditItems.put(applyCreditItem);
 					}
+					applyCredit.put("creditItems", applyCreditItems);
 					receivePayment.put("applyCredits", applyCredit);
 				}
 				receivePaymentItem.put("payment", item.getPayment());

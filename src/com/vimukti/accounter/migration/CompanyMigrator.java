@@ -347,7 +347,6 @@ public class CompanyMigrator {
 					ReceivePayment.class, new ReceivePaymentMigrator(), context);
 			context.put("ReceivePayment", migratedObjects);
 		}
-		context.put("ReceivePayment", migratedObjects);
 		// CashSale
 		migratedObjects = migrateObjects("CashSale", CashSales.class,
 				new CashSaleMigrator(), context);
@@ -789,7 +788,7 @@ public class CompanyMigrator {
 			}
 		}
 		if (contains) {
-			return migrateTransactionObject(ids, identity);
+			return migrateTransactionObject(ids, identity, applyCreditIds);
 		} else {
 			// Send Request TO REST API
 			return setRequestToRestApi(identity, context, objectArray, ids,
@@ -798,7 +797,8 @@ public class CompanyMigrator {
 	}
 
 	private Map<Long, Long> migrateTransactionObject(List<Long> ids,
-			String identity) throws HttpException, JSONException, IOException {
+			String identity, List<Long> applyCreditIds) throws HttpException,
+			JSONException, IOException {
 		TransactionMigrationContext currentTrasMigrationContext = context
 				.getCurrentTrasMigrationContext();
 		List<Long> companyIds = new ArrayList<Long>();
@@ -808,126 +808,126 @@ public class CompanyMigrator {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
 					"OnePerTransaction");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds, null);
+					companyIds, applyCreditIds);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					true, "OnePertransaction");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds, null);
+					customerAndSalesSettings, companyIds, applyCreditIds);
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPTAndWTaxOPT(),
-					ids, null));
+					ids, applyCreditIds));
 		}
 
 		if (currentTrasMigrationContext.haswDiscountOPTAndWTaxOPDL()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
 					"OnePerDetailLine");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds, null);
+					companyIds, applyCreditIds);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					true, "OnePertransaction");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds, null);
+					customerAndSalesSettings, companyIds, applyCreditIds);
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPTAndWTaxOPDL(),
-					ids, null));
+					ids, applyCreditIds));
 		}
 
 		if (currentTrasMigrationContext.haswDiscountOPTAndWOTax()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(false,
 					"");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds, null);
+					companyIds, applyCreditIds);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					true, "OnePertransaction");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds, null);
+					customerAndSalesSettings, companyIds, applyCreditIds);
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPTAndWOTax(), ids,
-					null));
+					applyCreditIds));
 		}
 
 		if (currentTrasMigrationContext.haswDiscountOPDLAndWTaxOPT()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
 					"OnePerTransaction");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds, null);
+					companyIds, applyCreditIds);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					true, "OnePerdetailLine");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds, null);
+					customerAndSalesSettings, companyIds, applyCreditIds);
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPDLAndWTaxOPT(),
-					ids, null));
+					ids, applyCreditIds));
 		}
 
 		if (currentTrasMigrationContext.haswDiscountOPDLAndWTaxOPDL()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
 					"OnePerDetailLine");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds, null);
+					companyIds, applyCreditIds);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					true, "OnePerdetailLine");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds, null);
+					customerAndSalesSettings, companyIds, applyCreditIds);
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPDLAndWTaxOPDL(),
-					ids, null));
+					ids, applyCreditIds));
 		}
 
 		if (currentTrasMigrationContext.haswDiscountOPDLAndWOTax()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(false,
 					"");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds, null);
+					companyIds, applyCreditIds);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					true, "OnePerdetailLine");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds, null);
+					customerAndSalesSettings, companyIds, applyCreditIds);
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPDLAndWOTax(),
-					ids, null));
+					ids, applyCreditIds));
 		}
 
 		if (currentTrasMigrationContext.haswODiscountAndWTaxOPT()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
 					"OnePerTransaction");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds, null);
+					companyIds, applyCreditIds);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					false, "");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds, null);
+					customerAndSalesSettings, companyIds, applyCreditIds);
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwODiscountAndWTaxOPT(), ids,
-					null));
+					applyCreditIds));
 		}
 
 		if (currentTrasMigrationContext.haswODiscountAndWTaxOPDL()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(true,
 					"OnePerDetailLine");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds, null);
+					companyIds, applyCreditIds);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					false, "");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds, null);
+					customerAndSalesSettings, companyIds, applyCreditIds);
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwODiscountAndWTaxOPDL(),
-					ids, null));
+					ids, applyCreditIds));
 		}
 
 		if (currentTrasMigrationContext.haswODiscountAndWOTax()) {
 			JSONArray commonSettings = getCommonSettingsTaxMigrationJSON(false,
 					"");
 			setRequestToRestApi(COMMON_SETTINGS, context, commonSettings,
-					companyIds, null);
+					companyIds, applyCreditIds);
 			JSONArray customerAndSalesSettings = getCustomerAndSalesDiscountMigrationJSON(
 					false, "");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
-					customerAndSalesSettings, companyIds, null);
+					customerAndSalesSettings, companyIds, applyCreditIds);
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwODiscountAndWOTax(), ids,
-					null));
+					applyCreditIds));
 		}
 		return idsMap;
 	}
@@ -961,6 +961,7 @@ public class CompanyMigrator {
 			if (enableTaxCode) {
 				commonSettings.put("taxItemInTransactions",
 						taxItemInTransactions);
+				commonSettings.put("enableTrackingTaxPaid", true);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -1093,9 +1094,18 @@ public class CompanyMigrator {
 			addCustomerAndVendorCreditsToContext(jsonObject, customerCreditIds,
 					i, context);
 			createEcgineChildrenMap(accounterMap, ecgineMap, jsonObject);
-			log.info("Migrated " + identity
-					+ (ids != null ? "  Accounter ID :" + ids.get(i) : "")
-					+ " Ecgine ID :" + json.getLong("id"));
+			// Printing Errors
+			if (json.has("errors")) {
+				String error = json.getJSONArray("errors").toString();
+				if (!error.equals("[]")) {
+					log.info("\n" + "Found Errors In " + identity + error);
+				} else {
+					log.info("Migrated "
+							+ identity
+							+ (ids != null ? "  Accounter ID :" + ids.get(i)
+									: "") + " Ecgine ID :" + json.getLong("id"));
+				}
+			}
 		}
 		putChildrenInContext(accounterMap, ecgineMap, context);
 		return newAndOldIds;
