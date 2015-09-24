@@ -685,10 +685,10 @@ public class CompanyMigrator {
 		companyIds.add(context.getCompany().getID());
 		if (isMigrateTDSTxnOnly) {
 			if (isReceivePayment) {
-				migrateVendorOrCustomer(context, identity, Customer.class,
+				migrateVendorOrCustomer(context, "Customer", Customer.class,
 						new CustomerTdsEnableMigrator(false));
 			} else {
-				migrateVendorOrCustomer(context, identity, Vendor.class,
+				migrateVendorOrCustomer(context, "Vendor", Vendor.class,
 						new VendorTdsEnableMigrator(false));
 			}
 			JSONArray commonSettingsTaxMigrationJSON = getCommonSettingsTaxAndTdsMigrationJSON(

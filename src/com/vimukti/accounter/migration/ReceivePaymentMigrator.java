@@ -72,7 +72,7 @@ public class ReceivePaymentMigrator extends TransactionMigrator<ReceivePayment> 
 						applyCreditItems.put(applyCreditItem);
 					}
 					applyCredit.put("creditItems", applyCreditItems);
-					receivePayment.put("applyCredits", applyCredit);
+					receivePaymentItem.put("applyCredits", applyCredit);
 				}
 				receivePaymentItem.put("payment", item.getPayment());
 				receivePaymentItems.put(receivePaymentItem);
