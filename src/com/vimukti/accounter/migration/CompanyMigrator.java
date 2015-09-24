@@ -298,6 +298,10 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("SalesQuotation", Estimate.class,
 				new SalesQuotationMigrator(), context);
 		context.put("SalesQuotation", migratedObjects);
+		// Charges Migrating to SalesQuotations
+		migratedObjects = migrateObjects("SalesQuotation", Estimate.class,
+				new ChargeMigrator(), context);
+		context.put("SalesQuotation", migratedObjects);
 		// SalesOrder
 		migratedObjects = migrateObjects("SalesOrder", Estimate.class,
 				new SalesOrderMigrator(), context);
