@@ -42,6 +42,7 @@ import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.AttendanceOrProductionType;
 import com.vimukti.accounter.core.AttendancePayHead;
 import com.vimukti.accounter.core.BankAccount;
+import com.vimukti.accounter.core.Budget;
 import com.vimukti.accounter.core.BuildAssembly;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
@@ -73,6 +74,7 @@ import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.PayBill;
+import com.vimukti.accounter.core.PayRun;
 import com.vimukti.accounter.core.PayStructure;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PayrollUnit;
@@ -474,10 +476,10 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("PayStructure", PayStructure.class,
 				new PayStructureMigrator(), context);
 		context.put("PayStructure", migratedObjects);
-		// // PayRunMigrator
-		// migratedObjects = migrateObjects("PayRun", PayRun.class,
-		// new PayRunMigrator(), context,null);
-		// context.put("PayRun", migratedObjects);
+		// PayRunMigrator
+		migratedObjects = migrateObjects("PayRun", PayRun.class,
+				new PayRunMigrator(), context);
+		context.put("PayRun", migratedObjects);
 		// Reconciliation
 		migratedObjects = migrateObjects("Reconciliation",
 				Reconciliation.class, new ReconciliationMigrator(), context);

@@ -1,6 +1,8 @@
 package com.vimukti.accounter.migration;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +32,13 @@ public class PayStructureMigrator implements IMigrator<PayStructure> {
 		// Setting oneMany PayStructureItems of PayStructure
 		List<PayStructureItem> payStructureItems = obj.getItems();
 		JSONArray payStructureItemJsons = new JSONArray();
+		Map<String, List<Long>> childrenMap = context.getChildrenMap();
+		String key = "payStructureItems-PayStructureItem";
+		List<Long> list = childrenMap.get(key);
+		if (list == null) {
+			list = new ArrayList<Long>();
+			childrenMap.put(key, list);
+		}
 		for (PayStructureItem payStructureItem : payStructureItems) {
 			JSONObject inJson = new JSONObject();
 			PayHead payHead = payStructureItem.getPayHead();
@@ -40,6 +49,7 @@ public class PayStructureMigrator implements IMigrator<PayStructure> {
 			inJson.put("effectiveFrom", payStructureItem.getEffectiveFrom()
 					.getAsDateObject().getTime());
 			payStructureItemJsons.put(inJson);
+			list.add(payStructureItem.getID());
 		}
 		payStructure.put("payStructureItems", payStructureItemJsons);
 
