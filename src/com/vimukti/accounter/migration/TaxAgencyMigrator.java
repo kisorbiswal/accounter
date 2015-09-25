@@ -20,6 +20,14 @@ public class TaxAgencyMigrator implements IMigrator<TAXAgency> {
 		CommonFieldsMigrator.migrateCommonFields(obj, jsonObject, context);
 		jsonObject.put("name", obj.getName());
 		jsonObject.put("inActive", !obj.isActive());
+		// TAX AGENCY SNICE
+		FinanceDate payeeSince = obj.getPayeeSince();
+		if (payeeSince != null) {
+			jsonObject
+					.put("payeeSince", payeeSince.getAsDateObject().getTime());
+		} else {
+			jsonObject.put("payeeSince", obj.getCreatedDate().getTime());
+		}
 		// Setting object PaymentTerm
 		PaymentTerms paymentTerm = obj.getPaymentTerm();
 		if (paymentTerm != null) {
