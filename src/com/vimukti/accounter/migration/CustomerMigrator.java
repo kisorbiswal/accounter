@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +97,11 @@ public class CustomerMigrator implements IMigrator<Customer> {
 		jsonObject.put("tDSApplicable", obj.isWillDeductTDS());
 		jsonObject.put("companyName", obj.getCompany().getTradingName());
 		FinanceDate payeeSince = obj.getPayeeSince();
+		if (payeeSince == null) {
+			Timestamp createdDate = obj.getCreatedDate();
+			payeeSince = new FinanceDate(createdDate.getYear(),
+					createdDate.getMonth(), createdDate.getDate());
+		}
 		if (payeeSince != null) {
 			jsonObject
 					.put("payeeSince", payeeSince.getAsDateObject().getTime());

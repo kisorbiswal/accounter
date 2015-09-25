@@ -1,6 +1,7 @@
 package com.vimukti.accounter.migration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		if (obj instanceof Invoice) {
 			invoice = (Invoice) obj;
 		}
-		// Migrating childrens of SalesOrder,SalesQuotation,Credit
+		// Migrating childrens of SalesOrder,SalesQuotation,Credit,Charge
 		String key = null;
 		Map<String, List<Long>> childrenMap = context.getChildrenMap();
 		if (obj instanceof SalesOrder) {
@@ -46,16 +47,19 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		if (obj instanceof Estimate) {
 			Estimate estimate = (Estimate) obj;
 			int estimateType = estimate.getEstimateType();
-			if (estimateType == 1 || estimateType == 4) {
+			if (estimateType == Estimate.QUOTES
+					|| estimateType == Estimate.CHARGES) {
 				key = "transactionItems-SalesQuotationItem";
-			} else if (estimateType == 2) {
+			} else if (estimateType == Estimate.CREDITS) {
 				key = "transactionItems-CreditItem";
 			}
 		}
 		List<Long> list = childrenMap.get(key);
 		if (list == null) {
 			list = new ArrayList<Long>();
-			childrenMap.put(key, list);
+			if (key != null) {
+				childrenMap.put(key, list);
+			}
 		}
 		currentTrasMigrationContext = context.getCurrentTrasMigrationContext();
 		boolean checkTransactionType = (currentTrasMigrationContext != null);
@@ -218,32 +222,38 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		return transaction;
 	}
 
-	protected void setJSONObj(JSONObject jsonObj) {
+	protected String setJSONObj(JSONObject jsonObj) {
 		if (enableDiscount) {
 			if (enableTaxCode) {
 				if (taxCodeOnePerTransaction && discountOnePerTransaction) {
 					currentTrasMigrationContext
 							.addwDiscountOPTAndWTaxOPT(jsonObj);
+					return "wDiscountOPTAndWTaxOPT";
 				} else if (taxCodeOnePerTransaction
 						&& !discountOnePerTransaction) {
 					currentTrasMigrationContext
 							.addwDiscountOPDLAndWTaxOPT(jsonObj);
+					return "wDiscountOPDLAndWTaxOPT";
 				} else if (!taxCodeOnePerTransaction
 						&& discountOnePerTransaction) {
 					currentTrasMigrationContext
 							.addwDiscountOPTAndWTaxOPDL(jsonObj);
+					return "wDiscountOPTAndWTaxOPDL";
 				} else if (!taxCodeOnePerTransaction
 						&& !discountOnePerTransaction) {
 					currentTrasMigrationContext
 							.addwDiscountOPDLAndWTaxOPDL(jsonObj);
+					return "wDiscountOPDLAndWTaxOPDL";
 				}
 			} else {
 				if (discountOnePerTransaction) {
 					currentTrasMigrationContext
 							.addwDiscountOPTAndWOTax(jsonObj);
+					return "wDiscountOPTAndWOTax";
 				} else if (!discountOnePerTransaction) {
 					currentTrasMigrationContext
 							.addwDiscountOPDLAndWOTax(jsonObj);
+					return "wDiscountOPDLAndWOTax";
 				}
 			}
 		} else if (!enableDiscount) {
@@ -251,14 +261,43 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 				if (taxCodeOnePerTransaction) {
 					currentTrasMigrationContext
 							.addwODiscountAndWTaxOPT(jsonObj);
+					return "wODiscountAndWTaxOPT";
 				} else if (!taxCodeOnePerTransaction) {
 					currentTrasMigrationContext
 							.addwODiscountAndWTaxOPDL(jsonObj);
+					return "wODiscountAndWTaxOPDL";
 				}
 			} else {
 				currentTrasMigrationContext.addwODiscountAndWOTax(jsonObj);
+				return "wODiscountAndWOTax";
 			}
+		}
+		return null;
+	}
 
+	// Using to migrate Children of SalesQuotation,SalesOrder,Credit
+	// BasedOn CompanySettings we split Transactions into sub lists like
+	// with tax,without discount etc. So for these childrens also we are
+	// splitting
+	protected void addChildrenBasedOnType(String type, List<Long> list,
+			String key) {
+		Map<String, Map<String, List<Long>>> childrensMap = currentTrasMigrationContext
+				.getChildrensMap();
+		Map<String, List<Long>> map = childrensMap.get(key);
+		if (map == null) {
+			map = new HashMap<String, List<Long>>();
+			childrensMap.put(key, map);
+		}
+		List<Long> oldList = null;
+		if (map.containsKey(type)) {
+			oldList = map.get(type);
+		}
+		if (oldList == null || oldList.isEmpty()) {
+			oldList = list;
+			map.put(type, oldList);
+		} else {
+			oldList.addAll(list);
+			map.put(type, oldList);
 		}
 	}
 }

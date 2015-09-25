@@ -1,5 +1,9 @@
 package com.vimukti.accounter.migration;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,6 +24,9 @@ public class TransactionMigrationContext {
 	private JSONArray wODiscountAndWTaxOPT = new JSONArray();
 	private JSONArray wODiscountAndWTaxOPDL = new JSONArray();
 	private JSONArray wODiscountAndWOTax = new JSONArray();
+	// BasedOn CompanySettings we split Transactions into sub lists like
+	// with tax,without discount etc. These childrens we are maintaining here
+	private Map<String, Map<String, List<Long>>> childrensMap = new HashMap<String, Map<String, List<Long>>>();
 
 	public TransactionMigrationContext(String identity) {
 		this.identity = identity;
@@ -137,5 +144,14 @@ public class TransactionMigrationContext {
 
 	public boolean haswODiscountAndWOTax() {
 		return getwODiscountAndWOTax().length() != 0;
+	}
+
+	public Map<String, Map<String, List<Long>>> getChildrensMap() {
+		return childrensMap;
+	}
+
+	public void setChildrensMap(
+			Map<String, Map<String, List<Long>>> childrensMap) {
+		this.childrensMap = childrensMap;
 	}
 }

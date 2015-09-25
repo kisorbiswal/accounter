@@ -17,6 +17,9 @@ public class MigratorContext {
 	private int lastAccNumber = 1055;
 	private int taxAgencyNo = 1;
 	private TransactionMigrationContext currentTrasMigrationContext;
+	// CompanySetting type for present transactions
+	// (with tax,without discount etc)
+	private String companySettingsType;
 
 	public void put(String name, Map<Long, Long> migrateAccounts) {
 		for (Entry<Long, Long> oldId : migrateAccounts.entrySet()) {
@@ -80,4 +83,13 @@ public class MigratorContext {
 			TransactionMigrationContext currentTrasMigrationContext) {
 		this.currentTrasMigrationContext = currentTrasMigrationContext;
 	}
+
+	public String getCompanySettingsType() {
+		return companySettingsType;
+	}
+
+	public void setCompanySettingsType(String companySettingsType) {
+		this.companySettingsType = companySettingsType;
+	}
+
 }

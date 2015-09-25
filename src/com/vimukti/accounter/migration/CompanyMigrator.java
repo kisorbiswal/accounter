@@ -823,6 +823,7 @@ public class CompanyMigrator {
 					true, "OnePertransaction");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
 					customerAndSalesSettings, companyIds, applyCreditIds);
+			context.setCompanySettingsType("wDiscountOPTAndWTaxOPT");
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPTAndWTaxOPT(),
 					ids, applyCreditIds));
@@ -837,6 +838,7 @@ public class CompanyMigrator {
 					true, "OnePertransaction");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
 					customerAndSalesSettings, companyIds, applyCreditIds);
+			context.setCompanySettingsType("wDiscountOPTAndWTaxOPDL");
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPTAndWTaxOPDL(),
 					ids, applyCreditIds));
@@ -851,6 +853,7 @@ public class CompanyMigrator {
 					true, "OnePertransaction");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
 					customerAndSalesSettings, companyIds, applyCreditIds);
+			context.setCompanySettingsType("wDiscountOPTAndWOTax");
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPTAndWOTax(), ids,
 					applyCreditIds));
@@ -865,6 +868,7 @@ public class CompanyMigrator {
 					true, "OnePerdetailLine");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
 					customerAndSalesSettings, companyIds, applyCreditIds);
+			context.setCompanySettingsType("wDiscountOPDLAndWTaxOPT");
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPDLAndWTaxOPT(),
 					ids, applyCreditIds));
@@ -879,6 +883,7 @@ public class CompanyMigrator {
 					true, "OnePerdetailLine");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
 					customerAndSalesSettings, companyIds, applyCreditIds);
+			context.setCompanySettingsType("wDiscountOPDLAndWTaxOPDL");
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPDLAndWTaxOPDL(),
 					ids, applyCreditIds));
@@ -893,6 +898,7 @@ public class CompanyMigrator {
 					true, "OnePerdetailLine");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
 					customerAndSalesSettings, companyIds, applyCreditIds);
+			context.setCompanySettingsType("wDiscountOPDLAndWOTax");
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwDiscountOPDLAndWOTax(),
 					ids, applyCreditIds));
@@ -907,6 +913,7 @@ public class CompanyMigrator {
 					false, "");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
 					customerAndSalesSettings, companyIds, applyCreditIds);
+			context.setCompanySettingsType("wODiscountAndWTaxOPT");
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwODiscountAndWTaxOPT(), ids,
 					applyCreditIds));
@@ -921,6 +928,7 @@ public class CompanyMigrator {
 					false, "");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
 					customerAndSalesSettings, companyIds, applyCreditIds);
+			context.setCompanySettingsType("wODiscountAndWTaxOPDL");
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwODiscountAndWTaxOPDL(),
 					ids, applyCreditIds));
@@ -935,6 +943,7 @@ public class CompanyMigrator {
 					false, "");
 			setRequestToRestApi(CUSTOMER_AND_SALES_SETTINGS, context,
 					customerAndSalesSettings, companyIds, applyCreditIds);
+			context.setCompanySettingsType("wODiscountAndWOTax");
 			idsMap.putAll(setRequestToRestApi(identity, context,
 					currentTrasMigrationContext.getwODiscountAndWOTax(), ids,
 					applyCreditIds));
@@ -1076,6 +1085,13 @@ public class CompanyMigrator {
 		JSONArray array = new JSONArray(content);
 		Map<String, List<Long>> ecgineMap = new HashMap<String, List<Long>>();
 		Map<String, List<Long>> accounterMap = context.getChildrenMap();
+		boolean isSeperateChildren = identity.equals("SalesQuotation")
+				|| identity.equals("SalesOrder") || identity.equals("Credit");
+		Map<String, List<Long>> seperateChildAccounterMap = null;
+		if (isSeperateChildren) {
+			seperateChildAccounterMap = getSeperateChildAccounterMap(context,
+					identity);
+		}
 		for (int i = 0; i < array.length(); i++) {
 			JSONObject json = array.getJSONObject(i);
 			long id = json.getLong("id");
@@ -1103,7 +1119,12 @@ public class CompanyMigrator {
 			JSONObject jsonObject = json.getJSONObject("object");
 			addCustomerAndVendorCreditsToContext(jsonObject, customerCreditIds,
 					i, context);
-			createEcgineChildrenMap(accounterMap, ecgineMap, jsonObject);
+			if (isSeperateChildren) {
+				createEcgineChildrenMap(seperateChildAccounterMap, ecgineMap,
+						jsonObject);
+			} else {
+				createEcgineChildrenMap(accounterMap, ecgineMap, jsonObject);
+			}
 			// Printing Errors
 			if (json.has("errors")) {
 				String error = json.getJSONArray("errors").toString();
@@ -1117,8 +1138,27 @@ public class CompanyMigrator {
 				}
 			}
 		}
-		putChildrenInContext(accounterMap, ecgineMap, context);
+		if (isSeperateChildren) {
+			putChildrenInContext(seperateChildAccounterMap, ecgineMap, context);
+		} else {
+			putChildrenInContext(accounterMap, ecgineMap, context);
+		}
 		return newAndOldIds;
+	}
+
+	// This will return TransactionItemIds(why these are seperate is
+	// transactions devided based on companySettings means with tax,with out
+	// tax,with discount,without discount etc
+	private Map<String, List<Long>> getSeperateChildAccounterMap(
+			MigratorContext context2, String identity) {
+		Map<String, Map<String, List<Long>>> childrensMap = context
+				.getCurrentTrasMigrationContext().getChildrensMap();
+		String key = "transactionItems-" + identity + "Item";
+		List<Long> list = childrensMap.get(key).get(
+				context.getCompanySettingsType());
+		Map<String, List<Long>> seperateChildAccounterMap = new HashMap<String, List<Long>>();
+		seperateChildAccounterMap.put(key, list);
+		return seperateChildAccounterMap;
 	}
 
 	/**

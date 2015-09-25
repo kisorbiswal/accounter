@@ -1,5 +1,7 @@
 package com.vimukti.accounter.migration;
 
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.json.JSONException;
@@ -82,7 +84,14 @@ public class SalesOrderMigrator extends TransactionMigrator<Estimate> {
 			jsonObj.put("salesOrderStatus", "Cancelled");
 		}
 		jsonObj.put("customerOrderNo", estimate.getCustomerOrderNumber());
-		super.setJSONObj(jsonObj);
+		String type = super.setJSONObj(jsonObj);
+		// BasedOn CompanySettings we split Transactions into sub lists like
+		// with tax,without discount etc. So for these childrens also we are
+		// splitting
+		String childKey = "transactionItems-SalesOrderItem";
+		List<Long> list = context.getChildrenMap().get(childKey);
+		super.addChildrenBasedOnType(type, list, childKey);
+		context.getChildrenMap().remove(childKey);
 		return jsonObj;
 	}
 
