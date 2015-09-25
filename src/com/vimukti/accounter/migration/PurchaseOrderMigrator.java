@@ -1,5 +1,7 @@
 package com.vimukti.accounter.migration;
 
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,7 +77,14 @@ public class PurchaseOrderMigrator extends TransactionMigrator<PurchaseOrder> {
 			jsonObject.put("purchaseOrderstatus", context.getPickListContext()
 					.get("PurchaseOrderStatus", "Cancelled"));
 		}
-		super.setJSONObj(jsonObject);
+		String type = super.setJSONObj(jsonObject);
+		// BasedOn CompanySettings we split Transactions into sub lists like
+		// with tax,without discount etc. So for these childrens also we are
+		// splitting
+		String childKey = "transactionItems-PurchaseOrderItem";
+		List<Long> list = context.getChildrenMap().get(childKey);
+		super.addChildrenBasedOnType(type, list, childKey);
+		context.getChildrenMap().remove(childKey);
 		return jsonObject;
 	}
 }

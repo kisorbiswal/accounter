@@ -1086,7 +1086,8 @@ public class CompanyMigrator {
 		Map<String, List<Long>> ecgineMap = new HashMap<String, List<Long>>();
 		Map<String, List<Long>> accounterMap = context.getChildrenMap();
 		boolean isSeperateChildren = identity.equals("SalesQuotation")
-				|| identity.equals("SalesOrder") || identity.equals("Credit");
+				|| identity.equals("SalesOrder") || identity.equals("Credit")
+				|| identity.equals("PurchaseOrder");
 		Map<String, List<Long>> seperateChildAccounterMap = null;
 		if (isSeperateChildren) {
 			seperateChildAccounterMap = getSeperateChildAccounterMap(context,

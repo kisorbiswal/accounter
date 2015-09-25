@@ -10,12 +10,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.AccounterClass;
+import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Job;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.Location;
+import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.SalesOrder;
 import com.vimukti.accounter.core.TAXCode;
@@ -35,14 +38,25 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 	public JSONObject migrate(T obj, MigratorContext context)
 			throws JSONException {
 		Invoice invoice = null;
+		EnterBill enterBill = null;
+		CashPurchase cashPurchase = null;
 		if (obj instanceof Invoice) {
 			invoice = (Invoice) obj;
+		}
+		if (obj instanceof EnterBill) {
+			enterBill = (EnterBill) obj;
+		}
+		if (obj instanceof CashPurchase) {
+			cashPurchase = (CashPurchase) obj;
 		}
 		// Migrating childrens of SalesOrder,SalesQuotation,Credit,Charge
 		String key = null;
 		Map<String, List<Long>> childrenMap = context.getChildrenMap();
 		if (obj instanceof SalesOrder) {
 			key = "transactionItems-SalesOrderItem";
+		}
+		if (obj instanceof PurchaseOrder) {
+			key = "transactionItems-PurchaseOrderItem";
 		}
 		if (obj instanceof Estimate) {
 			Estimate estimate = (Estimate) obj;
@@ -176,12 +190,13 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 					// context
 					list.add(transactionItem.getID());
 				}
+				TransactionItem referringTransactionItem = transactionItem
+						.getReferringTransactionItem();
+				boolean isReferenceTransactionItem = transactionItem.getType() == TransactionItem.TYPE_ITEM
+						&& referringTransactionItem != null;
 				// InvoiceItem migration
-				if (invoice != null
-						&& transactionItem.getType() == 1
-						&& transactionItem.getReferringTransactionItem() != null) {
-					long id = transactionItem.getReferringTransactionItem()
-							.getID();
+				if (invoice != null && isReferenceTransactionItem) {
+					long id = referringTransactionItem.getID();
 					// Setting SalesOrderItem,CreditItem,SalesQuotationItem in
 					// InvoiceItem
 					Long newId = context.get("SalesOrderItem", id);
@@ -199,6 +214,16 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 						if (newId != null) {
 							tItem.put("salesQuotationItem", newId);
 						}
+					}
+				}
+				// EnterBillItem or CashPurchaseItem Migration
+				if ((enterBill != null || cashPurchase != null)
+						&& isReferenceTransactionItem) {
+					long id = referringTransactionItem.getID();
+					// Setting PurchaseOrderItem in CashPurchaseItem
+					Long newId = context.get("PurchaseOrderItem", id);
+					if (newId != null) {
+						tItem.put("purchaseOrderItem", newId);
 					}
 				}
 				tItems.put(tItem);
