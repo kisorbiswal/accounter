@@ -1,6 +1,8 @@
 package com.vimukti.accounter.migration;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,10 +11,12 @@ import org.json.JSONObject;
 import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Job;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.Quantity;
+import com.vimukti.accounter.core.SalesOrder;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
@@ -29,6 +33,30 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 	@Override
 	public JSONObject migrate(T obj, MigratorContext context)
 			throws JSONException {
+		Invoice invoice = null;
+		if (obj instanceof Invoice) {
+			invoice = (Invoice) obj;
+		}
+		// Migrating childrens of SalesOrder,SalesQuotation,Credit
+		String key = null;
+		Map<String, List<Long>> childrenMap = context.getChildrenMap();
+		if (obj instanceof SalesOrder) {
+			key = "transactionItems-SalesOrderItem";
+		}
+		if (obj instanceof Estimate) {
+			Estimate estimate = (Estimate) obj;
+			int estimateType = estimate.getEstimateType();
+			if (estimateType == 1 || estimateType == 4) {
+				key = "transactionItems-SalesQuotationItem";
+			} else if (estimateType == 2) {
+				key = "transactionItems-CreditItem";
+			}
+		}
+		List<Long> list = childrenMap.get(key);
+		if (list == null) {
+			list = new ArrayList<Long>();
+			childrenMap.put(key, list);
+		}
 		currentTrasMigrationContext = context.getCurrentTrasMigrationContext();
 		boolean checkTransactionType = (currentTrasMigrationContext != null);
 
@@ -55,7 +83,7 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		if (checkTransactionType) {
 
 		}
-		
+
 		JSONObject transaction = new JSONObject();
 		CommonFieldsMigrator.migrateCommonFields(obj, transaction, context);
 		transaction.put("date", obj.getDate().getAsDateObject().getTime());
@@ -138,6 +166,36 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 				if (wareHouse != null) {
 					tItem.put("warehouse",
 							context.get("Warehouse", wareHouse.getID()));
+				}
+				if (key != null) {
+					// Setting children of SalesOrder,SalesQuotation,Credit to
+					// context
+					list.add(transactionItem.getID());
+				}
+				// InvoiceItem migration
+				if (invoice != null
+						&& transactionItem.getType() == 1
+						&& transactionItem.getReferringTransactionItem() != null) {
+					long id = transactionItem.getReferringTransactionItem()
+							.getID();
+					// Setting SalesOrderItem,CreditItem,SalesQuotationItem in
+					// InvoiceItem
+					Long newId = context.get("SalesOrderItem", id);
+					if (newId != null) {
+						tItem.put("salesOrderItem", newId);
+					}
+					if (newId == null) {
+						newId = context.get("CreditItem", id);
+						if (newId != null) {
+							tItem.put("creditItem", newId);
+						}
+					}
+					if (newId == null) {
+						newId = context.get("SalesQuotationItem", id);
+						if (newId != null) {
+							tItem.put("salesQuotationItem", newId);
+						}
+					}
 				}
 				tItems.put(tItem);
 			}

@@ -66,12 +66,12 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 		jsonObject.put("deliveryDate", obj.getDeliverydate().getAsDateObject()
 				.getTime());
 
-		// Sales Quotations
+		// Sales Orders
 		List<Estimate> estimates = obj.getEstimates();
 		if (estimates != null) {
 			JSONArray array = new JSONArray();
 			for (Estimate estimate : estimates) {
-				if (estimate.getEstimateType() == 6) {
+				if (estimate.getEstimateType() == Estimate.SALES_ORDER) {
 					JSONObject quoteJson = new JSONObject();
 					quoteJson.put("id",
 							context.get("SalesOrder", estimate.getID()));
@@ -82,6 +82,37 @@ public class InvoiceMigrator extends TransactionMigrator<Invoice> {
 				jsonObject.put("salesOrders", array);
 			}
 		}
+		// Credits
+		if (estimates != null) {
+			JSONArray array = new JSONArray();
+			for (Estimate estimate : estimates) {
+				if (estimate.getEstimateType() == Estimate.CREDITS) {
+					JSONObject quoteJson = new JSONObject();
+					quoteJson
+							.put("id", context.get("Credit", estimate.getID()));
+					array.put(quoteJson);
+				}
+			}
+			if (array.length() > 0) {
+				jsonObject.put("credits", array);
+			}
+		}
+		// Sales Quotations
+		if (estimates != null) {
+			JSONArray array = new JSONArray();
+			for (Estimate estimate : estimates) {
+				if (estimate.getEstimateType() == Estimate.QUOTES) {
+					JSONObject quoteJson = new JSONObject();
+					quoteJson.put("id",
+							context.get("SalesQuotation", estimate.getID()));
+					array.put(quoteJson);
+				}
+			}
+			if (array.length() > 0) {
+				jsonObject.put("quotations", array);
+			}
+		}
+		// Billable Expenses not migrating
 
 		// Setting object PaymentTerm
 		PaymentTerms paymentTerm = obj.getPaymentTerm();

@@ -310,6 +310,25 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("Credit", Estimate.class,
 				new CreditsMigrator(), context);
 		context.put("Credit", migratedObjects);
+		// Vendor
+		migratedObjects = migrateObjects("Vendor", Vendor.class,
+				new VendorMigrator(), context);
+		context.put("Vendor", migratedObjects);
+		// Vendor Groups
+		migratedObjects = migrateObjects("VendorGroup", VendorGroup.class,
+				new VendorGroupMigrator(), context);
+		context.put("VendorGroup", migratedObjects);
+
+		// PurchaseOrder
+		migratedObjects = migrateObjects("PurchaseOrder", PurchaseOrder.class,
+				new PurchaseOrderMigrator(), context);
+		context.put("PurchaseOrder", migratedObjects);
+
+		// EnterBill
+		migratedObjects = migrateObjects("EnterBill", EnterBill.class,
+				new EnterBillMigrator(), context);
+		context.put("EnterBill", migratedObjects);
+
 		// Invoice
 		migratedObjects = migrateObjects("Invoice", Invoice.class,
 				new InvoiceMigrator(), context);
@@ -357,19 +376,7 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("CashSale", CashSales.class,
 				new CashSaleMigrator(), context);
 		context.put("CashSale", migratedObjects);
-		// Vendor
-		migratedObjects = migrateObjects("Vendor", Vendor.class,
-				new VendorMigrator(), context);
-		context.put("Vendor", migratedObjects);
-		// Vendor Groups
-		migratedObjects = migrateObjects("VendorGroup", VendorGroup.class,
-				new VendorGroupMigrator(), context);
-		context.put("VendorGroup", migratedObjects);
 
-		// PurchaseOrder
-		migratedObjects = migrateObjects("PurchaseOrder", PurchaseOrder.class,
-				new PurchaseOrderMigrator(), context);
-		context.put("PurchaseOrder", migratedObjects);
 		// CashPurchase
 		migratedObjects = migrateObjects("CashPurchase", CashPurchase.class,
 				new CashPurchaseMigrator(), context);
@@ -383,10 +390,7 @@ public class CompanyMigrator {
 		migratedObjects = migrateObjects("PurchaseExpense", CashPurchase.class,
 				new CashExpenseMigrator(), context);
 		context.put("PurchaseExpense", migratedObjects);
-		// EnterBill
-		migratedObjects = migrateObjects("EnterBill", EnterBill.class,
-				new EnterBillMigrator(), context);
-		context.put("EnterBill", migratedObjects);
+
 		// VendorPrepayment
 		migratedObjects = migrateObjects("VendorPrepayment",
 				VendorPrePayment.class, new VendorPrepaymentMigrator(), context);
