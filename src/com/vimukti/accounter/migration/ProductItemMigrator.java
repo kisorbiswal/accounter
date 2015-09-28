@@ -22,6 +22,8 @@ public class ProductItemMigrator implements IMigrator<Item> {
 		if (parentItem != null) {
 			jsonObject
 					.put("subItemOf", context.get("Item", parentItem.getID()));
+		} else {
+			jsonObject.put("isSubItemOf", false);
 		}
 		jsonObject.put("iSellThisService", item.isISellThisItem());
 		jsonObject.put("salesDescription", item.getSalesDescription());

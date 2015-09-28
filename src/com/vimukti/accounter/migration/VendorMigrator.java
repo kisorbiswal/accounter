@@ -116,6 +116,11 @@ public class VendorMigrator implements IMigrator<Vendor> {
 			jsonContact.put("title", contact.getTitle());
 			jsonContact.put("businessPhone", contact.getBusinessPhone());
 			jsonContact.put("email", contact.getEmail());
+			if (contact.isPrimary()) {
+				long contactNo = context.getNextContactNo();
+				jsonContact.put("_localId", contactNo);
+				jsonObject.put("primaryContact", contactNo);
+			}
 			jsonContacts.put(jsonContact);
 			list.add(contact.getID());
 		}
@@ -156,11 +161,6 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		if (shippingMethod != null) {
 			jsonObject.put("preferredShippingMethod",
 					context.get("ShippingMethod", shippingMethod.getID()));
-		}
-		Contact primaryContact = obj.getPrimaryContact();
-		if (primaryContact != null) {
-			jsonObject.put("primaryContact",
-					context.get("Contact", primaryContact.getID()));
 		}
 		jsonObject.put("vATRegistrationNumber", obj.getVATRegistrationNumber());
 

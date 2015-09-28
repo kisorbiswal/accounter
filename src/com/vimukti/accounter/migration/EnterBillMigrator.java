@@ -37,7 +37,7 @@ public class EnterBillMigrator extends TransactionMigrator<EnterBill> {
 			billToJson.put("stateOrProvince", billTo.getStateOrProvinence());
 			billToJson.put("zipOrPostalCode", billTo.getZipOrPostalCode());
 			billToJson.put("country", billTo.getCountryOrRegion());
-			enterBill.put("billTo", billTo);
+			enterBill.put("billTo", billToJson);
 		}
 		// PaymentTerm
 		PaymentTerms paymentTerm = obj.getPaymentTerm();

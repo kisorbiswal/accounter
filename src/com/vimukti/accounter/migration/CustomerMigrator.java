@@ -127,6 +127,11 @@ public class CustomerMigrator implements IMigrator<Customer> {
 			jsonContact.put("title", contact.getTitle());
 			jsonContact.put("businessPhone", contact.getBusinessPhone());
 			jsonContact.put("email", contact.getEmail());
+			if (contact.isPrimary()) {
+				long contactNo = context.getNextContactNo();
+				jsonContact.put("_localId", contactNo);
+				jsonObject.put("primaryContact", contactNo);
+			}
 			jsonContacts.put(jsonContact);
 			list.add(contact.getID());
 		}
@@ -178,11 +183,6 @@ public class CustomerMigrator implements IMigrator<Customer> {
 					context.get("ShippingMethod", shippingMethod.getID()));
 		}
 
-		Contact primaryContact = obj.getPrimaryContact();
-		if (primaryContact != null) {
-			jsonObject.put("primaryContact",
-					context.get("Contact", primaryContact.getID()));
-		}
 		jsonObject.put("vATRegistrationNumber", obj.getVATRegistrationNumber());
 		jsonObject.put("openingBalance", obj.getOpeningBalance());
 

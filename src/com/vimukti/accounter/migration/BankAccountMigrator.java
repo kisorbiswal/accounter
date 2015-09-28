@@ -65,6 +65,7 @@ public class BankAccountMigrator implements IMigrator<BankAccount> {
 	String getBankAccountTypeIdentity(int type) {
 		switch (type) {
 		case 0:
+		case 4:
 			return "CurrentAccount";
 		case 1:
 			return "Checking";

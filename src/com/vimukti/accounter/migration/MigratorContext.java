@@ -20,6 +20,7 @@ public class MigratorContext {
 	// CompanySetting type for present transactions
 	// (with tax,without discount etc)
 	private String companySettingsType;
+	private long contactNo = 1L;
 
 	public void put(String name, Map<Long, Long> migrateAccounts) {
 		for (Entry<Long, Long> oldId : migrateAccounts.entrySet()) {
@@ -90,6 +91,10 @@ public class MigratorContext {
 
 	public void setCompanySettingsType(String companySettingsType) {
 		this.companySettingsType = companySettingsType;
+	}
+
+	public long getNextContactNo() {
+		return contactNo++;
 	}
 
 }
