@@ -17,7 +17,7 @@ public class DefaultSessionManager implements SessionManager {
 	@Override
 	public HttpURLConnection openConnection(URL url) throws Exception {
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.addRequestProperty("emailId", "***REMOVED***");
+		connection.addRequestProperty("emailId", "email@example.com");
 		cookieManager.setCookies(connection);
 		return connection;
 	}

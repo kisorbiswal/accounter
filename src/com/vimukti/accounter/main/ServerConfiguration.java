@@ -480,11 +480,11 @@ public class ServerConfiguration {
 	}
 
 	public static String getLicenseKeystorePWD() {
-		return "***REMOVED***";
+		return "liceseStorePassword";
 	}
 
 	public static String getLicenseAlias() {
-		return "vimukti";
+		return "licenseAlias";
 	}
 
 	public static boolean isSetupCompleted() {

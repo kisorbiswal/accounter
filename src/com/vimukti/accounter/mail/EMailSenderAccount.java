@@ -9,7 +9,7 @@ public class EMailSenderAccount implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String senderEmailID = "***REMOVED***";
+	private String senderEmailID = "email@example.com";
 
 	private String senderPassword = "";
 	private String outGoingMailServer = "localhost";

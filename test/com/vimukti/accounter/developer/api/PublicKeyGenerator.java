@@ -46,10 +46,10 @@ public class PublicKeyGenerator {
 				ServerConfiguration.getConfig() + File.separator
 						+ "license.keystore");
 		KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
-		String password = "***REMOVED***";
+		String password = "liceseStorePassword";
 		keystore.load(is, password.toCharArray());
-		PrivateKeyEntry entry = (PrivateKeyEntry) keystore.getEntry("vimukti",
-				new PasswordProtection(ServerConfiguration
+		PrivateKeyEntry entry = (PrivateKeyEntry) keystore.getEntry(
+				"licenseAlias", new PasswordProtection(ServerConfiguration
 						.getLicenseKeystorePWD().toCharArray()));
 		Key key = entry.getPrivateKey();
 		System.out.println((PrivateKey) key);

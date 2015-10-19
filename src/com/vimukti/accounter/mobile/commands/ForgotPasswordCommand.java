@@ -80,8 +80,7 @@ public class ForgotPasswordCommand extends AbstractCommand {
 		Client client = getContext().getIOSession().getClient();
 		String emailId = get(EMAIL).getValue();
 		client.setEmailId(emailId.toLowerCase());
-		String password = "***REMOVED***";
-		password = SecureUtils.createNumberID(10);
+		String password = SecureUtils.createNumberID(10);
 		sendPasswordMail(password, emailId);
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
 				+ Client.PASSWORD_HASH_STRING + password));

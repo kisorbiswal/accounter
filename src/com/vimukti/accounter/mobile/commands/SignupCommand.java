@@ -209,7 +209,7 @@ public class SignupCommand extends AbstractCommand {
 		client.setFullName(Global.get().messages()
 				.fullName(firstName, lastName));
 
-		String password = "***REMOVED***";
+		String password = null;
 		if (context.getNetworkType() == AccounterChatServer.NETWORK_TYPE_MOBILE) {
 			password = get(PASSOWRD).getValue();
 			context.setLast(RequirementType.STRING, emailId);

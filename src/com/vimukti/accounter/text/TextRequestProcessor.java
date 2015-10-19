@@ -337,15 +337,15 @@ public class TextRequestProcessor {
 
 	private EMailSenderAccount sampleSendeAccount() {
 		EMailSenderAccount sender = new EMailSenderAccount();
-		sender.setOutGoingMailServer("smtp.gmail.com");
+		sender.setOutGoingMailServer("smtp.host.com");
 		sender.setPortNumber(587);
 		sender.setProtocol("smtp");
 		sender.setEnableTls(true);
 		sender.setSslAutheticationRequired(true);
 		sender.setSmtpAuthentication(true);
-		sender.setSenderEmailID("***REMOVED***");
-		sender.setAccountName("Accounter Support");
-		sender.setSenderPassword("vimukti***REMOVED***");
+		sender.setSenderEmailID("email@example.com");
+		sender.setAccountName("Account Name");
+		sender.setSenderPassword("password");
 		return sender;
 	}
 }

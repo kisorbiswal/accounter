@@ -275,7 +275,7 @@ public class EU {
 		FileInputStream is = new FileInputStream(
 				ServerConfiguration.getConfig() + File.separator + ".keystore");
 		KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
-		String password = "***REMOVED***";
+		String password = null;
 		keystore.load(is, password.toCharArray());
 		Key key = keystore.getKey(ServerConfiguration.getCertificateAlias(),
 				keyStorePassword.toCharArray());
@@ -289,7 +289,7 @@ public class EU {
 		FileInputStream is = new FileInputStream(
 				ServerConfiguration.getConfig() + File.separator + ".keystore");
 		KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
-		String password = "***REMOVED***";
+		String password = "publicKeyPassword";
 		keystore.load(is, password.toCharArray());
 		java.security.cert.Certificate cert = keystore
 				.getCertificate(ServerConfiguration.getCertificateAlias());
