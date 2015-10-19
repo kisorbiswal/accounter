@@ -8,8 +8,6 @@ public interface IMigrator<T> {
 
 	JSONObject migrate(T obj, MigratorContext context) throws JSONException;
 
-	default void addRestrictions(Criteria criteria){
-		
-	}
+	void addRestrictions(Criteria criteria);
 
 }

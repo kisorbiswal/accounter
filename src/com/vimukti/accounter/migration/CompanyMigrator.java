@@ -3,7 +3,6 @@ package com.vimukti.accounter.migration;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,12 +36,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.gwt.user.server.Base64Utils;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.AttendanceOrProductionType;
 import com.vimukti.accounter.core.AttendancePayHead;
 import com.vimukti.accounter.core.BankAccount;
-import com.vimukti.accounter.core.Budget;
 import com.vimukti.accounter.core.BuildAssembly;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
@@ -551,7 +550,7 @@ public class CompanyMigrator {
 
 		HttpPost post = new HttpPost(ECGINE_URL + ECGINE_REST_PACKAGE_INSTALL);
 
-		List<NameValuePair> postParameters = new ArrayList<>();
+		List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 		postParameters.add(new BasicNameValuePair(PKG_NAME, pkgName));
 		postParameters.add(new BasicNameValuePair(PKG_VERSION, pkgVersion));
 		post.setEntity(new UrlEncodedFormEntity(postParameters));
@@ -631,7 +630,7 @@ public class CompanyMigrator {
 		// Creating HTTP request post method.
 		HttpPost post = new HttpPost(ECGINE_URL + ECGINE_REST_JOB_STATUS);
 
-		List<NameValuePair> postParameters = new ArrayList<>();
+		List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 		postParameters
 				.add(new BasicNameValuePair(JOBID, String.valueOf(jobId)));
 		post.setEntity(new UrlEncodedFormEntity(postParameters));
@@ -739,8 +738,7 @@ public class CompanyMigrator {
 	}
 
 	private void addAuthenticationParameters(HttpRequest executeMethod) {
-		String encodedKey = Base64.getEncoder().encodeToString(
-				apiKey.getBytes());
+		String encodedKey = Base64Utils.toBase64(apiKey.getBytes());
 		executeMethod.addHeader(AUTH_HEADER_NAME, BEARER + " " + encodedKey);
 	}
 
@@ -1213,7 +1211,6 @@ public class CompanyMigrator {
 			context.put(identity, map);
 			JSONObject jsonObject = objectArray.getJSONObject(0);
 			jsonObject.put("id", singleTonId);
-			objectArray.remove(0);
 			objectArray.put(jsonObject);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1263,7 +1260,7 @@ public class CompanyMigrator {
 			throws JSONException, IOException {
 
 		HttpPost post = new HttpPost(ECGINE_URL + LOG_IN);
-		List<NameValuePair> postParameters = new ArrayList<>();
+		List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 		postParameters.add(new BasicNameValuePair(USER_NAME, userName));
 		postParameters.add(new BasicNameValuePair(PASS_WORD, password));
 		post.setEntity(new UrlEncodedFormEntity(postParameters));

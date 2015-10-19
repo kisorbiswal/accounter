@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,5 +67,11 @@ public class PermissionSetMigrator implements IMigrator<User> {
 		}
 		permissionSet.put("permissions", permissionArray);
 		return permissionSet;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 }

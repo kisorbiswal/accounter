@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,5 +15,11 @@ public class EmployeeGroupMigrator implements IMigrator<EmployeeGroup> {
 		CommonFieldsMigrator.migrateCommonFields(obj, employeeGroup, context);
 		employeeGroup.put("name", obj.getName());
 		return employeeGroup;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 }

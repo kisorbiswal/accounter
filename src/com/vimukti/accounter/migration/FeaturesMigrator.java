@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,6 +21,12 @@ public class FeaturesMigrator implements IMigrator<CompanyPreferences> {
 		features.put("projectTracking", obj.isJobTrackingEnabled());
 		// department and projectManagement are not found
 		return features;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

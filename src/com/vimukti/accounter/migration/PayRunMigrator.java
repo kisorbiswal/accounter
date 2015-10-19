@@ -1,10 +1,8 @@
 package com.vimukti.accounter.migration;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -14,16 +12,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vimukti.accounter.core.AttendanceManagementItem;
-import com.vimukti.accounter.core.AttendanceOrProductionItem;
-import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.EmployeePaymentDetails;
-import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.core.PayRun;
 import com.vimukti.accounter.core.PayStructure;
 import com.vimukti.accounter.core.PayStructureItem;
-import com.vimukti.accounter.core.UserDefinedPayheadItem;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -105,15 +99,18 @@ public class PayRunMigrator implements IMigrator<PayRun> {
 					.add(Restrictions.eq("company", context.getCompany()))
 					.add(Restrictions.eq("employee", item.getEmployee()))
 					.list();
-			List<PayStructureItem> items = objects
-					.stream()
-					.map(i -> i
-							.getItems()
-							.stream()
-							.filter(j -> j.getEffectiveFrom().before(
-									obj.getPayPeriodStartDate()))
-							.collect(Collectors.toList()))
-					.flatMap(l -> l.stream()).collect(Collectors.toList());
+			List<PayStructureItem> items = new ArrayList<PayStructureItem>();
+			for (PayStructure payStructure : objects) {
+				List<PayStructureItem> payStructureItemList = payStructure
+						.getItems();
+				for (PayStructureItem payStructureItem : payStructureItemList) {
+					if (payStructureItem.getEffectiveFrom().before(
+							obj.getPayPeriodStartDate())) {
+						items.add(payStructureItem);
+					}
+				}
+			}
+
 			if (!items.isEmpty()) {
 				JSONArray empPayRunItems = new JSONArray();
 				for (PayStructureItem payStructureItem : items) {
@@ -133,7 +130,19 @@ public class PayRunMigrator implements IMigrator<PayRun> {
 
 	private AttendanceManagementItem getAttendanceManagementItemByEmp(
 			PayRun obj, Employee emp) {
-		return obj.getAttendanceItems().stream()
-				.filter(i -> i.getEmployee().equals(emp)).findFirst().get();
+		AttendanceManagementItem attendanceManagementItem = null;
+		for (AttendanceManagementItem ami : obj.getAttendanceItems()) {
+			if (ami.getEmployee().equals(emp)) {
+				attendanceManagementItem = ami;
+				break;
+			}
+		}
+		return attendanceManagementItem;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+
 	}
 }

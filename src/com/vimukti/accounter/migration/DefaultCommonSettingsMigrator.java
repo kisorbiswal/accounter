@@ -3,6 +3,7 @@ package com.vimukti.accounter.migration;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.hibernate.Criteria;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -97,5 +98,11 @@ public class DefaultCommonSettingsMigrator implements
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+
 	}
 }

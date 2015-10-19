@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,5 +21,11 @@ public class PaymentTermsMigrator implements IMigrator<PaymentTerms> {
 		jsonObject.put("ifPaidWithIn", obj.getIfPaidWithIn());
 		jsonObject.put("isDateDriven", obj.isDateDriven());
 		return jsonObject;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+
 	}
 }

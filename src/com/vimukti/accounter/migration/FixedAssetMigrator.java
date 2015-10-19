@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -97,5 +98,11 @@ public class FixedAssetMigrator implements IMigrator<FixedAsset> {
 		// rollBackDepreciationAmount is not found
 		// journalEntry is not found
 		return jsonObject;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 }

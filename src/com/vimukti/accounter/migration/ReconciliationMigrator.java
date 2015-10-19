@@ -2,6 +2,7 @@ package com.vimukti.accounter.migration;
 
 import java.util.Set;
 
+import org.hibernate.Criteria;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,5 +42,11 @@ public class ReconciliationMigrator implements IMigrator<Reconciliation> {
 		jsonObject.put("reconciliationItems", array);
 		// TODO clearedAmount,difference are not available in java file
 		return jsonObject;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+
 	}
 }

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,5 +16,11 @@ public class ShippingMethodMigrator implements IMigrator<ShippingMethod> {
 		jsonObject.put("name", obj.getName());
 		jsonObject.put("description", obj.getDescription());
 		return jsonObject;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 }

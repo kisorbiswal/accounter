@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,5 +43,11 @@ public class FlatRatePayHeadMigrator implements IMigrator<FlatRatePayHead> {
 		payHead.put("perDayCalculationBasis", PicklistUtilMigrator
 				.getPerdayCalculationBasis(obj.getCalculationPeriod()));
 		return payHead;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 }

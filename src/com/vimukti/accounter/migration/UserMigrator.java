@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,5 +24,11 @@ public class UserMigrator implements IMigrator<User> {
 		userJson.put("email", accClient.getEmailId());
 		userJson.put("profile", context.get("Profile", obj.getID()));
 		return userJson;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 }

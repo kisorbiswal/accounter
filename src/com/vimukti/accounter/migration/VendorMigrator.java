@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -172,6 +173,12 @@ public class VendorMigrator implements IMigrator<Vendor> {
 		}
 		jsonObject.put("openingBalance", obj.getOpeningBalance());
 		return jsonObject;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

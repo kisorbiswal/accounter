@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,5 +30,11 @@ public class VendorTdsEnableMigrator implements IMigrator<Vendor> {
 					context.get("Tax", taxItem2.getID()));
 		}
 		return jsonObject;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 }

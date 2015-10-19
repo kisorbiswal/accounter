@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,5 +42,11 @@ public class UserDefinedPayHeadMigrator implements
 					context.get("Account", liabilityAccount.getID()));
 		}
 		return payHead;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+
 	}
 }

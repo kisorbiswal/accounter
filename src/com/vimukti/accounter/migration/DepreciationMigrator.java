@@ -2,28 +2,20 @@ package com.vimukti.accounter.migration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Depreciation;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FixedAsset;
-import com.vimukti.accounter.core.PayHead;
-import com.vimukti.accounter.core.PayStructure;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class DepreciationMigrator implements IMigrator<Depreciation> {
@@ -106,5 +98,11 @@ public class DepreciationMigrator implements IMigrator<Depreciation> {
 		return new FinanceDate(convertedDate.getYear(),
 				convertedDate.getMonth(),
 				c.getActualMaximum(Calendar.DAY_OF_MONTH));
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 }

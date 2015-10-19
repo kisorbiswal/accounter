@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,21 +83,28 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 		Double discountAmount = null;
 		List<TransactionItem> transactionItems = obj.getTransactionItems();
 		if (!transactionItems.isEmpty()) {
-			enableTaxCode = transactionItems.stream().anyMatch(
-					i -> i.getTaxCode() != null);
-			enableTaxCode = transactionItems.stream().anyMatch(
-					i -> i.getDiscount() != 0 && i.getDiscount() != null);
-			TAXCode taxCode = transactionItems.stream().findFirst().get()
-					.getTaxCode();
+			for (TransactionItem transactionItem : transactionItems) {
+				if (transactionItem.getTaxCode() != null) {
+					enableTaxCode = true;
+				}
+				if (transactionItem.getDiscount() != 0
+						&& transactionItem.getDiscount() != null) {
+					enableDiscount = true;
+				}
+			}
+			TransactionItem transactionItem = transactionItems.get(0);
+			TAXCode taxCode = transactionItem.getTaxCode();
 			taxCodeObj = taxCode;
-			Double discount = transactionItems.stream().findFirst().get()
-					.getDiscount();
+			Double discount = transactionItem.getDiscount();
 			discountAmount = discount;
-
-			taxCodeOnePerTransaction = transactionItems.stream().allMatch(
-					i -> i.getTaxCode() == taxCode);
-			discountOnePerTransaction = transactionItems.stream().allMatch(
-					i -> i.getDiscount().equals(discount));
+			for (TransactionItem ti : transactionItems) {
+				if (ti.getTaxCode() == taxCode) {
+					taxCodeOnePerTransaction = true;
+				}
+				if (ti.getDiscount().equals(discount)) {
+					discountOnePerTransaction = true;
+				}
+			}
 		}
 		if (checkTransactionType) {
 
@@ -324,5 +332,11 @@ public class TransactionMigrator<T extends Transaction> implements IMigrator<T> 
 			oldList.addAll(list);
 			map.put(type, oldList);
 		}
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+
 	}
 }

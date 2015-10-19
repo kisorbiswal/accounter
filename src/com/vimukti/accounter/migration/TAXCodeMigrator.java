@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -61,5 +62,11 @@ public class TAXCodeMigrator implements IMigrator<TAXCode> {
 		jsonObject.put("description", taxcode.getDescription());
 		jsonObject.put("isInactive", !taxcode.isActive());
 		return jsonObject;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 }

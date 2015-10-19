@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,6 +20,12 @@ public class DefaultFeaturesMigrator implements IMigrator<CompanyPreferences> {
 		features.put("enableShipping", obj.isDoProductShipMents());
 		features.put("projectTracking", obj.isJobTrackingEnabled());
 		return features;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

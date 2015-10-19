@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,5 +78,11 @@ public class ComputionPayHeadMigrator implements IMigrator<ComputionPayHead> {
 		}
 		payHead.put("formulaItems", jsonformulaItems);
 		return payHead;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 }

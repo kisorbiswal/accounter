@@ -2,6 +2,7 @@ package com.vimukti.accounter.migration;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,5 +48,11 @@ public class BudgetMigrator implements IMigrator<Budget> {
 		jsonObject.put("budgetItems", array);
 
 		return jsonObject;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+
 	}
 }

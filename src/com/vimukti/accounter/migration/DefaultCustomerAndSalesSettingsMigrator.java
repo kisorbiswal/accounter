@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,6 +27,12 @@ public class DefaultCustomerAndSalesSettingsMigrator implements
 		customerAndSalesSetting.put("useDelayedCharges", true);
 		customerAndSalesSetting.put("enablePriceLevel", true);
 		return customerAndSalesSetting;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

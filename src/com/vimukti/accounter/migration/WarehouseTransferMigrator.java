@@ -2,6 +2,7 @@ package com.vimukti.accounter.migration;
 
 import java.util.Set;
 
+import org.hibernate.Criteria;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,5 +42,11 @@ public class WarehouseTransferMigrator implements IMigrator<StockTransfer> {
 		}
 		stockTransfer.put("warehouseTransferItems", itemsArray);
 		return stockTransfer;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 }

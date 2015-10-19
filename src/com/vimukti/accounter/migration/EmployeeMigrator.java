@@ -2,6 +2,7 @@ package com.vimukti.accounter.migration;
 
 import java.util.Set;
 
+import org.hibernate.Criteria;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -60,5 +61,11 @@ public class EmployeeMigrator implements IMigrator<Employee> {
 		employee.put("bankBranch", obj.getBankBranch());
 
 		return employee;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+
 	}
 }

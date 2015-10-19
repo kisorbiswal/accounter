@@ -1,5 +1,6 @@
 package com.vimukti.accounter.migration;
 
+import org.hibernate.Criteria;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,5 +59,11 @@ public class AttendancePayHeadMigrator implements IMigrator<AttendancePayHead> {
 		// isFromTimeSheet,lastComputedValue,
 		// attendanceLeaveWithPay
 		return payHead;
+	}
+
+	@Override
+	public void addRestrictions(Criteria criteria) {
+		// TODO Auto-generated method stub
+		
 	}
 }
