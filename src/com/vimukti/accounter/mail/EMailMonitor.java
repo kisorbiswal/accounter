@@ -30,8 +30,8 @@ public class EMailMonitor extends Thread {
 			// store.connect("imap.gmail.com",
 			// ServerConfiguration.getUploadAttachmentEmailId(),
 			// ServerConfiguration.getUploadAttachmentPassword());
-			store.connect("imap.gmail.com", "***REMOVED***",
-					"***REMOVED***");
+			store.connect("imap.gmail.com", "test@test.com",
+					"test");
 			IMAPFolder inbox = (IMAPFolder) store.getFolder("Inbox");
 			inbox.addMessageCountListener(new MessageCountListener() {
 
