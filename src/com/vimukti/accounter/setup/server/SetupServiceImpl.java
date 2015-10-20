@@ -372,7 +372,7 @@ public class SetupServiceImpl extends RemoteServiceServlet implements
 		client.setUsers(new HashSet<User>());
 		String passwordWithHash = HexUtil.bytesToHex(Security
 				.makeHash(accountDetails.getEmailId()
-						+ Client.PASSWORD_HASH_STRING
+						+ ServerConfiguration.getPassWordHashString()
 						+ accountDetails.getPassword()));
 
 		client.setPassword(passwordWithHash);

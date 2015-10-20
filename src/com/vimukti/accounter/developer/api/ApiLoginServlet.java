@@ -19,6 +19,7 @@ import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.developer.api.core.ApiResult;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
@@ -38,8 +39,10 @@ public class ApiLoginServlet extends ApiBaseServlet {
 			sendFail(req, resp, "Password parameter must present");
 		}
 		String emailId = (String) req.getAttribute("emailId");
-		String passwordWord = HexUtil.bytesToHex(Security.makeHash(emailId
-				+ Client.PASSWORD_HASH_STRING + password.trim()));
+		String passwordWord = HexUtil
+				.bytesToHex(Security.makeHash(emailId
+						+ ServerConfiguration.getPassWordHashString()
+						+ password.trim()));
 		Client client = getClient(emailId, passwordWord);
 		if (client == null) {
 			sendFail(req, resp, "Wrong password");

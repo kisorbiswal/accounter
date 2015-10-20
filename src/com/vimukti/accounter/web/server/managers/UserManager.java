@@ -28,6 +28,7 @@ import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
@@ -300,10 +301,12 @@ public class UserManager extends Manager {
 			tx = session.beginTransaction();
 			String hasedOldPassword = oldPassword.equals("") ? "" : HexUtil
 					.bytesToHex(Security.makeHash(emailId
-							+ Client.PASSWORD_HASH_STRING + oldPassword));
+							+ ServerConfiguration.getPassWordHashString()
+							+ oldPassword));
 
 			String newHashPassword = HexUtil.bytesToHex(Security
-					.makeHash(emailId + Client.PASSWORD_HASH_STRING
+					.makeHash(emailId
+							+ ServerConfiguration.getPassWordHashString()
 							+ newPassword));
 
 			Query query = session.getNamedQuery("getEmailIdFromClient")
@@ -400,7 +403,8 @@ public class UserManager extends Manager {
 			invitedClient.setCreatedDate(new FinanceDate());
 
 			invitedClient.setPassword(HexUtil.bytesToHex(Security
-					.makeHash(emailId + Client.PASSWORD_HASH_STRING
+					.makeHash(emailId
+							+ ServerConfiguration.getPassWordHashString()
 							+ randomString)));
 			invitedClient.setPasswordRecoveryKey(EU
 					.encryptPassword(randomString));

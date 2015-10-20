@@ -21,6 +21,7 @@ import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -146,7 +147,8 @@ public class DeleteCompanyServlet extends BaseServlet {
 			}
 
 			String passwordWord = HexUtil.bytesToHex(Security.makeHash(email
-					+ Client.PASSWORD_HASH_STRING + password.trim()));
+					+ ServerConfiguration.getPassWordHashString()
+					+ password.trim()));
 			String passwordHash2 = HexUtil.bytesToHex(Security.makeHash(email
 					+ password.trim()));
 			if (!passwordWord.equals(client.getPassword())

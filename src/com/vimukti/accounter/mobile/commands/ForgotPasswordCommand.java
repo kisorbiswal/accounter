@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -83,7 +84,7 @@ public class ForgotPasswordCommand extends AbstractCommand {
 		String password = SecureUtils.createNumberID(10);
 		sendPasswordMail(password, emailId);
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
-				+ Client.PASSWORD_HASH_STRING + password));
+				+ ServerConfiguration.getPassWordHashString() + password));
 		client.setPassword(passwordWithHash);
 		client.setPasswordRecoveryKey(EU.encryptPassword(password));
 

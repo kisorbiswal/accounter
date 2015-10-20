@@ -68,6 +68,7 @@ public class ServerConfiguration {
 	private static boolean isRunningScript;
 	private static long welcomeMailDelayTime;
 	private static String mobileKeyStore;
+	private static String passWordHashString;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -183,7 +184,7 @@ public class ServerConfiguration {
 
 			sessionDbUrl = prop.getProperty("sessionDbUrl", null);
 			paypalIdentityId = prop.getProperty("paypalIdentityId", null);
-
+			passWordHashString = prop.getProperty("passwordHasString", null);
 			chatUsername = prop.getProperty("chatUsername", null);
 			chatpassword = prop.getProperty("chatPassword", null);
 			enableConsoleChatServer = prop.getProperty(
@@ -551,4 +552,7 @@ public class ServerConfiguration {
 		return isStopSchduleMails;
 	}
 
+	public static String getPassWordHashString() {
+		return passWordHashString;
+	}
 }

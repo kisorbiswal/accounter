@@ -21,6 +21,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.News;
 import com.vimukti.accounter.core.RememberMeKey;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
@@ -155,8 +156,10 @@ public class NewLoginServlet extends BaseServlet {
 			return null;
 		}
 		emailId = emailId.trim();
-		String passwordWord = HexUtil.bytesToHex(Security.makeHash(emailId
-				+ Client.PASSWORD_HASH_STRING + password.trim()));
+		String passwordWord = HexUtil
+				.bytesToHex(Security.makeHash(emailId
+						+ ServerConfiguration.getPassWordHashString()
+						+ password.trim()));
 
 		Session session = HibernateUtil.getCurrentSession();
 		try {

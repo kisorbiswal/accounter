@@ -475,8 +475,10 @@ public class AccounterWindowsHomeServiceImpl extends
 			return null;
 		}
 		emailId = emailId.trim();
-		String passwordWord = HexUtil.bytesToHex(Security.makeHash(emailId
-				+ Client.PASSWORD_HASH_STRING + password.trim()));
+		String passwordWord = HexUtil
+				.bytesToHex(Security.makeHash(emailId
+						+ ServerConfiguration.getPassWordHashString()
+						+ password.trim()));
 
 		Session session = HibernateUtil.getCurrentSession();
 		try {

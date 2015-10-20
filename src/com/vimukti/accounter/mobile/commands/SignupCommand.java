@@ -15,6 +15,7 @@ import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.InputType;
@@ -217,7 +218,7 @@ public class SignupCommand extends AbstractCommand {
 			password = SecureUtils.createNumberID(10);
 		}
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
-				+ Client.PASSWORD_HASH_STRING + password));
+				+ ServerConfiguration.getPassWordHashString() + password));
 		client.setPassword(passwordWithHash);
 		client.setPasswordRecoveryKey(EU.encryptPassword(password));
 

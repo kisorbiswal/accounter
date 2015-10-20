@@ -296,7 +296,8 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 					.toLowerCase() + string));
 			String passwordWithWord = HexUtil.bytesToHex(Security
 					.makeHash(userName.toLowerCase()
-							+ Client.PASSWORD_HASH_STRING + string));
+							+ ServerConfiguration.getPassWordHashString()
+							+ string));
 			if (client.getPassword().equals(password)) {
 				client.setPassword(passwordWithWord);
 				client.setPasswordRecoveryKey(EU.encryptPassword(string));

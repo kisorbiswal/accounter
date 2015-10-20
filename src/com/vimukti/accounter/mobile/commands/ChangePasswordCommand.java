@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.EU;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -60,7 +61,8 @@ public class ChangePasswordCommand extends AbstractCommand {
 						.makeHash(client.getEmailId() + value));
 				String passwordWithWord = HexUtil.bytesToHex(Security
 						.makeHash(client.getEmailId()
-								+ Client.PASSWORD_HASH_STRING + value));
+								+ ServerConfiguration.getPassWordHashString()
+								+ value));
 				if (!client.getPassword().equals(passwordWithHash)
 						&& !client.getPassword().equals(passwordWithWord)) {
 					addFirstMessage(getMessages().youHaveEnteredWrongPassword());
@@ -80,7 +82,8 @@ public class ChangePasswordCommand extends AbstractCommand {
 						.makeHash(client.getEmailId() + value));
 				String passwordWithWord = HexUtil.bytesToHex(Security
 						.makeHash(client.getEmailId()
-								+ Client.PASSWORD_HASH_STRING + value));
+								+ ServerConfiguration.getPassWordHashString()
+								+ value));
 				if (client.getPassword().equals(passwordWithHash)
 						|| client.getPassword().equals(passwordWithWord)) {
 					addFirstMessage(getMessages()
@@ -115,10 +118,12 @@ public class ChangePasswordCommand extends AbstractCommand {
 		Session hibernateSession = context.getHibernateSession();
 		Transaction beginTransaction = hibernateSession.beginTransaction();
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(client
-				.getEmailId() + Client.PASSWORD_HASH_STRING + pass1));
+				.getEmailId()
+				+ ServerConfiguration.getPassWordHashString()
+				+ pass1));
 		client.setPassword(passwordWithHash);
 		client.setPasswordRecoveryKey(EU.encryptPassword(pass1));
-		
+
 		hibernateSession.saveOrUpdate(client);
 		beginTransaction.commit();
 		markDone();
